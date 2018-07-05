@@ -5,4 +5,5 @@ setuptools.setup(
     version="0.0.1",
     description="Python utilities for HeartSpeed",
     packages=setuptools.find_packages(),
+    package_data={'': ['*.json']},
 )

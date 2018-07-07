@@ -7,3 +7,6 @@
     
 #     assert ": BaseCard" in gen.class_str
 #     assert 'name("Flame Lance")' in gen.class_str
+
+def test(): # Placeholder until we get a unit test.
+    assert 1

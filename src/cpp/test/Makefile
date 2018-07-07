@@ -14,9 +14,6 @@
 # Remember to tweak this if you move this file.
 GTEST_DIR = googletest
 
-# Where to find user code.
-USER_DIR = ../cards
-
 # Flags passed to the preprocessor.
 # Set Google Test's header directory as a system directory, such that
 # the compiler doesn't generate warnings in Google Test headers.
@@ -24,6 +21,7 @@ CPPFLAGS += -isystem $(GTEST_DIR)/include
 
 # Flags passed to the C++ compiler.
 CXXFLAGS += -std=c++17 -g -Wall -Wextra -pthread
+
 # GTEST has a warning: I don't want it in the build, so I removed the -Wextra flag...
 CXXFLAGS_GTEST += -std=c++17 -g -Wall -pthread
 
@@ -45,10 +43,10 @@ UNIT_TEST_DEPS := $(UNIT_TEST_FILES:_test.cpp=.o)
 # $(info $$UNIT_TEST_DEPS is [${UNIT_TEST_DEPS}]) # DEBUG
 
 UNIT_TEST_TARGETS := $(UNIT_TEST_FILES:_test.cpp=_test.o)
-UNIT_TEST_TARGETS := $(notdir ${UNIT_TEST_TARGETS})
 # $(info $$UNIT_TEST_TARGETS is [${UNIT_TEST_TARGETS}]) # DEBUG
 
-all : $(UNIT_TEST_TARGETS)
+
+all : $(TESTS)
 
 clean :
 	rm -f $(TESTS) gtest.a gtest_main.a *.o
@@ -77,15 +75,20 @@ gtest.a : gtest-all.o
 gtest_main.a : gtest-all.o gtest_main.o
 	$(AR) $(ARFLAGS) $@ $^
 
-# Builds a sample test.  A test should link with either gtest.a or
+# A test should link with either gtest.a or
 # gtest_main.a, depending on whether it defines its own main()
 # function.
 
-%_test.o: $(USER_DIR)/%_test.cpp $(USER_DIR)/%.hpp $(GTEST_HEADERS)
+%_test.o: %_test.cpp %.hpp $(GTEST_HEADERS)
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $<
 
+# This rule is a bit complex, and it's not autoroping in the deps of the target. Improve it if you can!
 unittest: $(UNIT_TEST_DEPS) $(UNIT_TEST_TARGETS) gtest_main.a
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $(UNIT_TEST_DEPS) $(notdir ${UNIT_TEST_TARGETS}) gtest_main.a -o $@
 
 test: unittest
+	./unittest
+
+# Update this if you add another test bin
+test_all: unittest
 	./unittest

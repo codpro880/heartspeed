@@ -6,4 +6,4 @@ FlameLance.o: FlameLance.cpp FlameLance.hpp
 all: FlameLance.o
 
 clean:
-	rm FlameLance.o
+	rm -f *.o

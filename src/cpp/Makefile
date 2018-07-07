@@ -6,6 +6,9 @@ cards:
 test: cards
 	cd test; $(MAKE) test
 
+test_all: cards
+	cd test; $(MAKE) test
+
 all: cards
 
 clean:

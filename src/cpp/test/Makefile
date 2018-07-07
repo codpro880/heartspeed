@@ -29,7 +29,7 @@ CXXFLAGS_GTEST += -std=c++17 -g -Wall -pthread
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.
-TESTS = flame_lance_unittest
+TESTS = unittest
 
 # All Google Test headers.  Usually you shouldn't change this
 # definition.
@@ -38,7 +38,17 @@ GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
 
 # House-keeping build targets.
 
-all : $(TESTS)
+UNIT_TEST_FILES = $(shell find .. -name '*_test.cpp')
+# $(info $$UNIT_TEST_FILES is [${UNIT_TEST_FILES}]) # DEBUG
+
+UNIT_TEST_DEPS := $(UNIT_TEST_FILES:_test.cpp=.o)
+# $(info $$UNIT_TEST_DEPS is [${UNIT_TEST_DEPS}]) # DEBUG
+
+UNIT_TEST_TARGETS := $(UNIT_TEST_FILES:_test.cpp=_test.o)
+UNIT_TEST_TARGETS := $(notdir ${UNIT_TEST_TARGETS})
+# $(info $$UNIT_TEST_TARGETS is [${UNIT_TEST_TARGETS}]) # DEBUG
+
+all : $(UNIT_TEST_TARGETS)
 
 clean :
 	rm -f $(TESTS) gtest.a gtest_main.a *.o
@@ -71,11 +81,11 @@ gtest_main.a : gtest-all.o gtest_main.o
 # gtest_main.a, depending on whether it defines its own main()
 # function.
 
-FlameLance_test.o: $(USER_DIR)/FlameLance_test.cpp $(USER_DIR)/FlameLance.hpp $(GTEST_HEADERS)
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $(USER_DIR)/FlameLance_test.cpp
+%_test.o: $(USER_DIR)/%_test.cpp $(USER_DIR)/%.hpp $(GTEST_HEADERS)
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -c $<
 
-flame_lance_unittest: $(USER_DIR)/FlameLance.o FlameLance_test.o gtest_main.a
+unittest: $(UNIT_TEST_DEPS) $(UNIT_TEST_TARGETS) gtest_main.a
 	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $^ -o $@
 
-test: flame_lance_unittest
-	./flame_lance_unittest
+test: unittest
+	./unittest

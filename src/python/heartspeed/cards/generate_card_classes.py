@@ -52,20 +52,23 @@ class CardFactoryGenerator:
     def _gen_switch_statement(self):
         # TODO: Get rid of copy/pasta
         result = []
-        if_template = '\tif (name == "{0}") {{\n\t\treturn BaseCard("{0}", {1}, "{2}", "{3}");\n\t}}'
+        template = '(name == "{0}") {{\n\t\treturn BaseCard("{0}", {1}, "{2}", "{3}", "{4}");\n\t}}'
+        if_template = '\tif ' + template
         name = self.cards_json[0]["name"].replace(" ", "")
         cost = self.cards_json[0]["cost"]
         id = self.cards_json[0]["id"]
         text = self.cards_json[0]["text"]
-        result.append(if_template.format(name, cost, id, text))
+        cls = self.cards_json[0]["cardClass"]
+        result.append(if_template.format(name, cost, id, text, cls))
         
         for card_json in self.cards_json[1:]:
-            elif_template = '\n\telse if (name == "{0}") {{\n\t\treturn BaseCard("{0}", {1}, "{2}", "{3}");\n\t}}'
+            elif_template = '\n\telse if ' + template
             name = "" if "name" not in card_json.keys() else card_json["name"].replace(" ", "").replace("\"", "")
             cost = -1 if "cost" not in card_json.keys() else card_json["cost"]
             id = card_json["id"].replace("\"", "")
             text = "" if "text" not in card_json.keys() else card_json["text"].replace("\n", "").replace("\"", "")
-            result.append(elif_template.format(name, cost, id, text))
+            cls = "" if "cardClass" not in card_json.keys() else card_json["cardClass"]
+            result.append(elif_template.format(name, cost, id, text, cls))
 
         return "".join(result)
 

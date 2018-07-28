@@ -10,12 +10,18 @@
 
 class Deck {
 public:
-    Deck(std::vector<BaseCard*> cards) : cards(cards), hsclass("") {}
-    BaseCard* get_top_card();
+    Deck(std::vector<BaseCard> cards) : cards(cards), hsclass("") {}
+    BaseCard get_top_card();
     std::string get_class();
 private:
-    std::vector<BaseCard*> cards;
+    std::vector<BaseCard> cards;
     std::string hsclass;
+};
+
+class DeckFactory {
+public:
+    DeckFactory() {}
+    Deck get_deck(std::string name, bool shuffle=true);
 };
 
 // class Player {

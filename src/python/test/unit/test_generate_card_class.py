@@ -19,10 +19,6 @@ def test_generate_card_class():
     with open(expected_cpp_fname, 'r') as f:
         text = f.read()
         assert 'if (name == "FlameLance")' in text
-        assert """BaseCard("FlameLance", 5, "AT_001", "Deal $8 damage to a minion.")""" in text
         assert 'else if (name == "Effigy")' in text
-        assert """BaseCard("Effigy", 3, "AT_002", "<b>Secret:</b> When a friendly minion dies, summon a random minion with the same Cost.")""" in text
-
-
 
     os.remove(expected_cpp_fname)

@@ -5,7 +5,7 @@
 
 #include "../cards/BaseCard.hpp"
 #include "../cards/CardFactory.hpp"
-#include "game.hpp"
+#include "deck.hpp"
 
 BaseCard Deck::get_top_card() {
     auto result = cards.back();

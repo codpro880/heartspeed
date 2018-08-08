@@ -1,5 +1,6 @@
 # About
 Heartspeed is a Hearthstone simulator written in C++ (for speed). Ultimate goal is to use this simulator to train a bot using reenforcement learning: so simulations need to happen fast.
+It's currently under construction: not officially released.
 
 # Building
 You can simply type "make" in order to build. However, I recommend building with the test rule, i.e. "make test". This will run the unit tests for the project.

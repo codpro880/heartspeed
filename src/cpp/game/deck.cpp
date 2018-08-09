@@ -13,24 +13,25 @@ BaseCard Deck::get_top_card() {
     return result;
 }
 
-std::string Deck::get_class() {
-    if (hsclass == "") {
-	for (auto card : cards) {
-	    if (card.get_class() != "NEUTRAL") {
-		hsclass = card.get_class();
-		return hsclass;
-	    }
-	}
-	hsclass = "NO CLASS";
-	return hsclass;
-    }
-    else {
-	return hsclass;
-    }
-}
+// std::string Deck::get_class() {
+//     if (hsclass == "") {
+// 	for (auto card : cards) {
+// 	    if (card.get_class() != "NEUTRAL") {
+// 		hsclass = card.get_class();
+// 		return hsclass;
+// 	    }
+// 	}
+// 	hsclass = "NO CLASS";
+// 	return hsclass;
+//     }
+//     else {
+// 	return hsclass;
+//     }
+// }
 
 Deck DeckFactory::get_deck(std::string name, bool shuffle) {
     std::vector<std::string> card_names;
+    std::string hsclass;
     if (name == "Mage") {
 	card_names = {"ArcaneMissiles", "ArcaneMissiles",
 		      "ArcaneExplosion", "ArcaneExplosion",
@@ -47,6 +48,7 @@ Deck DeckFactory::get_deck(std::string name, bool shuffle) {
 		      "Sen'jinShieldmasta", "Sen'jinShieldmasta",
 		      "Nightblade", "Nightblade",
 		      "BoulderfistOgre", "BoulderfistOgre"};
+	hsclass = "MAGE";
     }
 
     CardFactory factory = CardFactory();
@@ -59,5 +61,5 @@ Deck DeckFactory::get_deck(std::string name, bool shuffle) {
 	std::mt19937 g(rd());
 	std::shuffle(cards.begin(), cards.end(), g);
     }
-    return Deck(cards);
+    return Deck(cards, hsclass);
 }

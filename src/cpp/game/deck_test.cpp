@@ -1,7 +1,8 @@
+#include <iostream>
 #include <string>
 #include <vector>
 
-#include "game.hpp"
+#include "deck.hpp"
 
 //#include "../cards/CardFactory.hpp"
 #include "../test/googletest/include/gtest/gtest.h"
@@ -27,6 +28,8 @@ TEST(Deck, CanBeShuffled) {
     auto deck = df.get_deck("Mage");
 
     EXPECT_EQ(deck.get_class(), "MAGE");
+
+    std::cout << deck.get_top_card().get_name() << std::endl;
 
 //     auto card = deck.get_top_card();
 //     EXPECT_EQ(card.get_name(), "BoulderfistOgre");

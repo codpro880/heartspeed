@@ -10,9 +10,10 @@
 
 class Deck {
 public:
-    Deck(std::vector<BaseCard> cards) : cards(cards), hsclass("") {}
+    Deck(std::vector<BaseCard> cards, std::string hsclass) : cards(cards), hsclass(hsclass) {}
     BaseCard get_top_card();
-    std::string get_class();
+    std::string get_class() const { return hsclass; }
+    std::vector<BaseCard> mulligan(std::vector<BaseCard> put_back);
 private:
     std::vector<BaseCard> cards;
     std::string hsclass;

@@ -11,6 +11,7 @@ class JsonCardGenerator:
 
     def get_cards_from_web(self, write_to_disk=False):
         """ Rope in the live data, it is updated occassionally """
+        import pdb; pdb.set_trace()
         get_req = requests.get(self.card_api)
         card_json = json.loads(get_req.text)
         if write_to_disk:
@@ -18,8 +19,10 @@ class JsonCardGenerator:
                 f.write(get_req.text)
         yield from card_json
 
-    def get_cards_from_disk(self):
+    def get_cards_from_disk(self, update=False):
         """ Make sure we have some stable set we can draw from """
+        if update:
+            self.get_cards_from_web(write_to_disk=True)
         with open(self.card_json_filename, 'rb') as f:
             card_json = json.loads(f.read())
         yield from card_json
@@ -54,6 +57,7 @@ class CardFactoryGenerator:
         result = []
         template = '(name == "{0}") {{\n\t\treturn BaseCard("{0}", {1}, "{2}", "{3}", "{4}");\n\t}}'
         if_template = '\tif ' + template
+        import pdb; pdb.set_trace()
         name = self.cards_json[0]["name"].replace(" ", "")
         cost = self.cards_json[0]["cost"]
         id = self.cards_json[0]["id"]
@@ -73,6 +77,8 @@ class CardFactoryGenerator:
         return "".join(result)
 
 if __name__ == "__main__":
-    cards = JsonCardGenerator().get_cards_from_disk()
+    import pdb; pdb.set_trace()
+    # cards = JsonCardGenerator().get_cards_from_disk(update=True)
+    cards = JsonCardGenerator().get_cards_from_web(write_to_disk=True)
     gen = CardFactoryGenerator(list(cards))
     gen.generate_class_file()    

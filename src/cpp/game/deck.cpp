@@ -3,8 +3,8 @@
 #include <string>
 #include <vector>
 
-#include "../cards/BaseCard.hpp"
-#include "../cards/CardFactory.hpp"
+#include "../cards/standard/BaseCard.hpp"
+#include "../cards/standard/CardFactory.hpp"
 #include "deck.hpp"
 
 BaseCard Deck::get_top_card() {

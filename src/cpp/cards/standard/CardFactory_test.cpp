@@ -1,7 +1,7 @@
 /** Random spot checks for the card factory. Not all of the cases are tested. **/
 
 #include "CardFactory.hpp"
-#include "../test/googletest/include/gtest/gtest.h"
+#include "../../test/googletest/include/gtest/gtest.h"
 
 TEST(CardFactory, CanGenerateFlameLance) {
     auto f = CardFactory();

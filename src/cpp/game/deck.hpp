@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-#include "../cards/BaseCard.hpp"
+#include "../cards/standard/BaseCard.hpp"
 
 class Deck {
 public:

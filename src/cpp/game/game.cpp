@@ -1,6 +1,6 @@
 #include <vector>
 
-#include "../cards/CardFactory.hpp"
+#include "../cards/standard/CardFactory.hpp"
 #include "game.hpp"
 
 void Game::start_game() {

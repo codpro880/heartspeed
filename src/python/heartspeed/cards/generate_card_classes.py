@@ -127,7 +127,7 @@ class BgCardFactoryGenerator:
         # Do first, then rest
 #         bg_card = bg_cards[0]
 #         bg_card = set_defaults(bg_card)
-        template = '(name == "{5}") {{\n\t\treturn BgBaseCard({0}, "{1}", {2}, {3}, "{4}", "{5}", "{6}", "{7}", {8}, "{9}", "{10}");\n\t}}'
+        template = '(name == "{5}") {{\n\t\treturn BgBaseCard({0}, "{1}", {2}, {3}, "{4}", "{5}", "{6}", "{7}", "{8}", {9}, "{10}", "{11}");\n\t}}'
 #         if_template = '\tif ' + template
 #         result.append(if_template.format(bg_card['attack'],
 #                                          bg_card['cardClass'],
@@ -141,25 +141,26 @@ class BgCardFactoryGenerator:
 #                                          bg_card['text'],
 #                                          bg_card['type']))
         first = True
-        import pdb; pdb.set_trace()
         for bg_card in bg_cards:
             if first:
                 tplate = '\tif ' + template
-            else:
                 first = False
+            else:
                 tplate = '\n\telse if ' + template
             bg_card = set_defaults(bg_card)
-            tplate.format(bg_card['attack'],
-                           bg_card['cardClass'],
-                           bg_card['health'],
-                           bg_card['id'],
-                           bg_card['name'],
-                           bg_card['mechanics'],
-                           bg_card['race'],
-                           bg_card['rarity'],
-                           bg_card['techLevel'],
-                           bg_card['text'],
-                           bg_card['type'])
+            switch = tplate.format(bg_card['attack'],
+                                   bg_card['cardClass'],
+                                   bg_card['cost'],
+                                   bg_card['health'],
+                                   bg_card['id'],
+                                   bg_card['name'],
+                                   bg_card['mechanics'],
+                                   bg_card['race'],
+                                   bg_card['rarity'],
+                                   bg_card['techLevel'],
+                                   bg_card['text'].replace('\n', ' ').replace('"', '\\"'),
+                                   bg_card['type'])
+            result.append(switch)
 
         return "".join(result)
 

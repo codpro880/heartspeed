@@ -14,9 +14,10 @@ TEST(BgCardFactory, CanGenerateGoldrinn) {
     EXPECT_EQ(goldrinn.get_tech_level(), 5);
 }
 
-// TEST(CardFactory, CanGenRamWrangler) {
-//     auto f = CardFactory();
-//     auto ram_wrangler = f.get_card("RamWrangler");
-//     EXPECT_EQ(ram_wrangler.get_name(), "RamWrangler");
-//     EXPECT_EQ(ram_wrangler.get_class(), "HUNTER");
-// }
+TEST(BgCardFactory, CanGenerateParrot) {
+    auto f = BgCardFactory();
+    auto parrot = f.get_card("Monstrous Macaw");
+    EXPECT_EQ(parrot.get_name(), "Monstrous Macaw");
+    EXPECT_EQ(parrot.get_race(), "BEAST");
+    EXPECT_EQ(parrot.get_tech_level(), 3);
+}

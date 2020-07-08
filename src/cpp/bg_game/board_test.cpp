@@ -18,10 +18,17 @@ TEST(Board, CanCalculateDamageOneCard) {
     EXPECT_EQ(board.calculate_damage(), 5);
 }
 
-// TEST(Board, CanCalculateDamageWithFullBoard) {
-//     auto f = BgCardFactory();
-//     auto goldrinn = f.get_card("Alleycat");
-//     std::vector<BgBaseCard> cards{ goldrinn };
-//     auto board = Board(cards);
-//     EXPECT_EQ(board.calculate_damage(), 5);
-// }
+TEST(Board, CanCalculateDamageWithFullBoard) {
+    auto f = BgCardFactory();
+    auto goldrinn = f.get_card("Alleycat");
+    std::vector<BgBaseCard> cards{
+	f.get_card("Alleycat"), // Tier 1
+	    f.get_card("Imprisoner"), // Tier 2
+	    f.get_card("Houndmaster"), // Tier 3
+	    f.get_card("Goldgrubber"), // Tier 4
+	    f.get_card("Mal'Ganis"), // Tier 5
+	    f.get_card("Foe Reaper 4000"), // Tier 6
+	};
+    auto board = Board(cards);
+    EXPECT_EQ(board.calculate_damage(), 1+2+3+4+5+6);
+}

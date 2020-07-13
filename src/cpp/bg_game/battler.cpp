@@ -3,7 +3,7 @@
 #include <stdexcept>
 
 BattleResult Battler::sim_battle() {
-    return sim_battle(p1->board, p2->board);
+    return sim_battle(p1->get_board(), p2->get_board());
 }
 
 BattleResult Battler::sim_battle(Board* b1, Board* b2) {

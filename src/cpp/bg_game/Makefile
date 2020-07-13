@@ -6,7 +6,7 @@ OBJ_TARGETS = $(CARD_CPP_FILES:.cpp=.o)
 # $(info $$CARD_CPP_FILES is [${CARD_CPP_FILES}]) # DEBUG
 
 %.o: %.cpp %.hpp
-	clang -std=c++17 $< -c
+	clang -std=c++17 -mmacosx-version-min=10.10 $< -c
 
 all: $(OBJ_TARGETS)
 

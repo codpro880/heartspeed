@@ -1,6 +1,7 @@
 /* Battler takes two players and simulates the result of the battle */
 #pragma once
 
+#include <memory>
 #include <string>
 #include <vector>
 
@@ -14,9 +15,10 @@ struct BattleResult {
 // Takes two players. Simulates one attack. Two new players -> recursively battle
 class Battler {
 public:
-    Battler(Player* player1, Player* player2) : player1(player1), player2(player2) {}
+    Battler(Player* p1, Player* p2) : p1(p1), p2(p2) {}
     BattleResult sim_battle();
 private:
     BattleResult sim_battle(Board* b1, Board* b2);
-    Player* player1, player2;
-}
+    Player* p1;
+    Player* p2;
+};

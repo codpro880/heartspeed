@@ -10,6 +10,7 @@ class Board {
 public:
     Board(std::vector<BgBaseCard> cards) : cards(cards) {}
     int calculate_damage();
+    bool empty() { return cards.empty(); }
 private:
     std::vector<BgBaseCard> cards;
 };

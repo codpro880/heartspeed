@@ -4,12 +4,13 @@
 #include <string>
 #include <vector>
 
-#include "../cards/BaseCard.hpp"
+#include "../cards/bgs/BgBaseCard.hpp"
 
 class Board {
 public:
-    Board(std::vector<BaseCard> cards) : cards(cards) {}
+    Board(std::vector<BgBaseCard> cards) : cards(cards) {}
     int calculate_damage();
+    bool empty() { return cards.empty(); }
 private:
-    std::vector<BaseCard> cards;
-}
+    std::vector<BgBaseCard> cards;
+};

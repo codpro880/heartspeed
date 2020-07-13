@@ -39,6 +39,9 @@ public:
     int get_tech_level() { return tech_level; }
     std::string get_text() { return text; }
     std::string get_type() { return type; }
+
+    void set_attack(int att) { attack = att; }
+    void set_health(int hth) { health = hth; }
 private:
     int attack;
     std::string card_class;

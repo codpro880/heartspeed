@@ -1324,6 +1324,9 @@ BgBaseCard BgCardFactory::get_card(std::string name) {
 	else if (name == "Loot!") {
 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_143e", "Loot!", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
 	}
+	else if (name == "Foe Reaper 4000") {  // TODO: Fix this, added manually...
+		return BgBaseCard(6, "NEUTRAL", -1, 9, "Unknown", "Foe Reaper 4000", "", "MECHANICAL", "LEGENDARY", 6, "Also damages the minions next to whomever it attacks.", "MINION");
+	}
 	else {
 		throw std::runtime_error("No card has name " + name);
 	}

@@ -1,34 +1,113 @@
 #include "battler.hpp"
 
+#include <stdlib.h>
+#include <cstdlib>
 #include <stdexcept>
+
+#include <iostream>
 
 BattleResult Battler::sim_battle() {
     return sim_battle(p1->get_board(), p2->get_board());
 }
 
 BattleResult Battler::sim_battle(Board* b1, Board* b2) {
+    BattleResult res = BattleResult();
     if (b1->empty() && b2->empty()) {
-	auto res = BattleResult();
+	res.who_won = "draw";
+	res.damage_taken = 0;
+    }
+    else if (b1->empty()) {
+	res.who_won = "p2";
+	auto player = Player(b2);
+	res.damage_taken = player.calculate_damage();
+    }
+    else if (b2->empty()) {
+	res.who_won = "p1";
+	auto player = Player(b1);
+	res.damage_taken = player.calculate_damage();
+    }
+    else {
+	auto first_player = decide_who_goes_first(b1, b2);
+	if (first_player == "p1") {
+	    res = battle(b1, b2);
+	}
+	else {
+	    res = battle(b2, b1);
+	}
+    }
+    return res;
+}
+
+BattleResult Battler::battle(Board* b1, Board* b2, int minion_num) {
+    // TODO: Need names here...
+    // base case
+    BattleResult res = BattleResult();
+    if (b1->empty() && b2->empty()) {
 	res.who_won = "draw";
 	res.damage_taken = 0;
 	return res;
     }
     else if (b1->empty()) {
-	auto res = BattleResult();
 	res.who_won = "p2";
 	auto player = Player(b2);
 	res.damage_taken = player.calculate_damage();
 	return res;
     }
     else if (b2->empty()) {
-	auto res = BattleResult();
 	res.who_won = "p1";
 	auto player = Player(b1);
 	res.damage_taken = player.calculate_damage();
 	return res;
     }
+    
+    
+    // b1 always goes first here
+    int attacker_pos;
+    if (minion_num % 2 == 0) {
+	attacker_pos = (minion_num/2) % b1->length();
+    }
     else {
-	// Not impl error
-	std::logic_error("Not yet impl...");
+	attacker_pos = (minion_num/2 - 1) % b2->length();
+    }
+    auto attacker = (*b1)[attacker_pos];
+    auto defender_pos = rand() % b2->length();
+    auto defender = (*b2)[defender_pos];
+    // TODO: Deal w/ deathrattle/poison/divine-shield
+    auto rem_attacker_health = attacker.get_health() - defender.get_attack();
+    auto rem_defender_health = defender.get_health() - attacker.get_attack();
+    
+
+    if (rem_attacker_health > 0) {
+	// new attacker missing some health
+    }
+    else {
+	// It died
+	b1->remove(attacker_pos);
+    }
+    if (rem_defender_health > 0) {
+	//new defender missing some health
+    }
+    else {
+	// It died
+	b2->remove(defender_pos);
+    }
+    return battle(b2, b1, minion_num + 1);
+}
+
+std::string Battler::decide_who_goes_first(Board* b1, Board* b2) {
+    if (b1->length() > b2->length()) {
+	return "p1";
+    }
+    else if (b1->length() < b2->length()) {
+	return "p2";
+    }
+    else {
+	auto rng = rand() / RAND_MAX;
+	if (rng > .5) {
+	    return "p1";
+	}
+	else {
+	    return "p2";
+	}
     }
 }

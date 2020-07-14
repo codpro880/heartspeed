@@ -10,7 +10,11 @@ class Board {
 public:
     Board(std::vector<BgBaseCard> cards) : cards(cards) {}
     int calculate_damage();
-    bool empty() { return cards.empty(); }
+    auto empty() { return cards.empty(); }
+    auto length() { return cards.size(); }
+    BgBaseCard operator[](const int& i) { return cards[i]; }
+    auto remove(const int& i) { cards.erase(cards.begin() + i); }
 private:
     std::vector<BgBaseCard> cards;
+    
 };

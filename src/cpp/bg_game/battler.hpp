@@ -19,6 +19,8 @@ public:
     BattleResult sim_battle();
 private:
     BattleResult sim_battle(Board* b1, Board* b2);
+    std::string decide_who_goes_first(Board* b1, Board* b2);
+    BattleResult battle(Board* b1, Board* b2, int minion_num=0);
     Player* p1;
     Player* p2;
 };

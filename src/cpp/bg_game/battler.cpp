@@ -46,8 +46,8 @@ BattleResult Battler::battle(Player* p1,
     auto b1 = p1->get_board();
     auto b2 = p2->get_board();
     std::cout << "Boards: " << std::endl;
-    std::cout << *b1 << std::endl;
-    std::cout << *b2 << std::endl;
+    std::cout << (*b1) << std::endl;
+    std::cout << (*b2) << std::endl;
     BattleResult res = BattleResult();
     if (b1->empty() && b2->empty()) {
 	res.who_won = "draw";

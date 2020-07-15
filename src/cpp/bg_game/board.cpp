@@ -11,12 +11,11 @@ int Board::calculate_damage() {
     return res;
 }
 
-std::ostream& operator<<(std::ostream& os, const Board& board) {
-    os << "card" << std::endl;
+std::ostream& operator<<(std::ostream& os, Board& board) {
+    auto cards = board.get_cards();
+    for (auto c : cards) {
+    	os << "(" << c.get_attack() << "/" << c.get_health() << ") ";
+    }
+    os << std::endl;
     return os;
-    // for (auto c : board.get_cards()) {
-    // 	os << "(" << c.get_attack() << "/" << c.get_health() << ") ";
-    // }
-    // os << "\n";
-    // return os;
 }

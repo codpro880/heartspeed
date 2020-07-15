@@ -15,9 +15,9 @@ public:
     auto empty() { return cards.empty(); }
     auto length() { return cards.size(); }
     BgBaseCard operator[](const int& i) { return cards[i]; }
-    friend std::ostream& operator<<(std::ostream& os, const Board& board);
+    friend std::ostream& operator<<(std::ostream& os, Board& board);
     auto remove(const int& i) { cards.erase(cards.begin() + i); }
-    std::vector<BgBaseCard> get_cards() { return cards;  } // TODO: Make this an iterator
+    std::vector<BgBaseCard> const get_cards() { return cards;  } // TODO: Make this an iterator
 private:
     std::vector<BgBaseCard> cards;
     

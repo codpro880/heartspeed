@@ -14,8 +14,8 @@ TEST(Battler, CalculatesWinWhenOppEmptyBoard) {
     //auto board1 = std::unique_ptr<Board(p1_cards)>;
     std::unique_ptr<Board> board1(new Board(p1_cards));
     std::unique_ptr<Board> board2(new Board(p2_cards));    
-    std::unique_ptr<Player> p1(new Player(board1.get()));
-    std::unique_ptr<Player> p2(new Player(board2.get()));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "HookTusk"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Pyramad"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "p1");
@@ -29,8 +29,8 @@ TEST(Battler, CanCalculateDrawWithEmptyBoards) {
     //auto board1 = std::unique_ptr<Board(p1_cards)>;
     std::unique_ptr<Board> board1(new Board(p1_cards));
     std::unique_ptr<Board> board2(new Board(p2_cards));    
-    std::unique_ptr<Player> p1(new Player(board1.get()));
-    std::unique_ptr<Player> p2(new Player(board2.get()));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "HookTusk"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Pyramad"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -46,8 +46,8 @@ TEST(Battler, CanCalculateDrawWithCardsThatImmediatelyDieToEachOther) {
     std::vector<BgBaseCard> p2_cards { tidecaller1, tidecaller2, tidecaller3 };
     std::unique_ptr<Board> board1(new Board(p1_cards));
     std::unique_ptr<Board> board2(new Board(p2_cards));    
-    std::unique_ptr<Player> p1(new Player(board1.get()));
-    std::unique_ptr<Player> p2(new Player(board2.get()));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "HookTusk"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Pyramad"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");

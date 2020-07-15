@@ -14,6 +14,7 @@ public:
     int calculate_damage() { return tech_level + board->calculate_damage(); }
     void inc_tech_level() { tech_level += 1; }
     Board* get_board() { return board; }
+    std::string get_name() { return name; }
 private:
     Board* board;
     std::string name;

@@ -11,14 +11,13 @@ TEST(Battler, CalculatesWinWhenOppEmptyBoard) {
     auto tidecaller = f.get_card("Murloc Tidecaller"); // No battlecry
     std::vector<BgBaseCard> p1_cards { tidecaller };
     std::vector<BgBaseCard> p2_cards;
-    //auto board1 = std::unique_ptr<Board(p1_cards)>;
     std::unique_ptr<Board> board1(new Board(p1_cards));
     std::unique_ptr<Board> board2(new Board(p2_cards));    
     std::unique_ptr<Player> p1(new Player(board1.get(), "HookTusk"));
     std::unique_ptr<Player> p2(new Player(board2.get(), "Pyramad"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
-    EXPECT_EQ(res.who_won, "p1");
+    EXPECT_EQ(res.who_won, "HookTusk");
     EXPECT_EQ(res.damage_taken, 2);
 }
 

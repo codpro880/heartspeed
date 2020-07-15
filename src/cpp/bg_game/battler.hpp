@@ -18,9 +18,9 @@ public:
     Battler(Player* p1, Player* p2) : p1(p1), p2(p2) {}
     BattleResult sim_battle();
 private:
-    BattleResult sim_battle(Board* b1, Board* b2);
+    BattleResult sim_battle(Player* p1, Player* p2);
     std::string decide_who_goes_first(Board* b1, Board* b2);
-    BattleResult battle(Board* b1, Board* b2, int minion_num=0);
+    BattleResult battle(Player* p1, Player* p2, int minion_num=0);
     Player* p1;
     Player* p2;
 };

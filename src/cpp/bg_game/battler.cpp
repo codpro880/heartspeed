@@ -7,40 +7,41 @@
 #include <iostream>
 
 BattleResult Battler::sim_battle() {
-    return sim_battle(p1->get_board(), p2->get_board());
+    return sim_battle(p1, p2);
 }
 
-BattleResult Battler::sim_battle(Board* b1, Board* b2) {
+BattleResult Battler::sim_battle(Player* p1, Player* p2) {
+    auto b1 = p1->get_board();
+    auto b2 = p2->get_board();
     BattleResult res = BattleResult();
     if (b1->empty() && b2->empty()) {
 	res.who_won = "draw";
 	res.damage_taken = 0;
     }
     else if (b1->empty()) {
-	res.who_won = "p2";
-	auto player = Player(b2);
-	res.damage_taken = player.calculate_damage();
+	res.who_won = p2->get_name();
+	res.damage_taken = p2->calculate_damage();
     }
     else if (b2->empty()) {
-	res.who_won = "p1";
-	auto player = Player(b1);
-	res.damage_taken = player.calculate_damage();
+	res.who_won = p1->get_name();
+	res.damage_taken = p1->calculate_damage();
     }
     else {
 	auto first_player = decide_who_goes_first(b1, b2);
 	if (first_player == "p1") {
-	    res = battle(b1, b2);
+	    res = battle(p1, p2);
 	}
 	else {
-	    res = battle(b2, b1);
+	    res = battle(p2, p1);
 	}
     }
     return res;
 }
 
-BattleResult Battler::battle(Board* b1, Board* b2, int minion_num) {
-    // TODO: Need names here...
+BattleResult Battler::battle(Player* p1, Player* p2, int minion_num) {
     // base case
+    auto b1 = p1->get_board();
+    auto b2 = p2->get_board();
     BattleResult res = BattleResult();
     if (b1->empty() && b2->empty()) {
 	res.who_won = "draw";
@@ -48,15 +49,13 @@ BattleResult Battler::battle(Board* b1, Board* b2, int minion_num) {
 	return res;
     }
     else if (b1->empty()) {
-	res.who_won = "p2";
-	auto player = Player(b2);
-	res.damage_taken = player.calculate_damage();
+	res.who_won = p2->get_name();
+	res.damage_taken = p2->calculate_damage();
 	return res;
     }
     else if (b2->empty()) {
-	res.who_won = "p1";
-	auto player = Player(b1);
-	res.damage_taken = player.calculate_damage();
+	res.who_won = p1->get_name();
+	res.damage_taken = p1->calculate_damage();
 	return res;
     }
     
@@ -91,7 +90,7 @@ BattleResult Battler::battle(Board* b1, Board* b2, int minion_num) {
 	// It died
 	b2->remove(defender_pos);
     }
-    return battle(b2, b1, minion_num + 1);
+    return battle(p2, p1, minion_num + 1);
 }
 
 std::string Battler::decide_who_goes_first(Board* b1, Board* b2) {

@@ -38,10 +38,16 @@ BattleResult Battler::sim_battle(Player* p1, Player* p2) {
     return res;
 }
 
-BattleResult Battler::battle(Player* p1, Player* p2, int minion_num) {
+BattleResult Battler::battle(Player* p1,
+			     Player* p2,
+			     int p1_counter,
+			     int p2_counter) {
     // base case
     auto b1 = p1->get_board();
     auto b2 = p2->get_board();
+    std::cout << "Boards: " << std::endl;
+    std::cout << *b1 << std::endl;
+    std::cout << *b2 << std::endl;
     BattleResult res = BattleResult();
     if (b1->empty() && b2->empty()) {
 	res.who_won = "draw";
@@ -61,13 +67,17 @@ BattleResult Battler::battle(Player* p1, Player* p2, int minion_num) {
     
     
     // b1 always goes first here
-    int attacker_pos;
-    if (minion_num % 2 == 0) {
-	attacker_pos = (minion_num/2) % b1->length();
+    if (p1_counter >= b1->length()) {
+	p1_counter = 0;
     }
-    else {
-	attacker_pos = (minion_num/2 - 1) % b2->length();
-    }
+    int attacker_pos = p1_counter;
+
+    // if (minion_num % 2 == 0) {
+    // 	attacker_pos = (minion_num/2) % b1->length();
+    // }
+    // else {
+    // 	attacker_pos = (minion_num/2 - 1) % b2->length();
+    // }
     auto attacker = (*b1)[attacker_pos];
     auto defender_pos = rand() % b2->length();
     auto defender = (*b2)[defender_pos];
@@ -90,7 +100,7 @@ BattleResult Battler::battle(Player* p1, Player* p2, int minion_num) {
 	// It died
 	b2->remove(defender_pos);
     }
-    return battle(p2, p1, minion_num + 1);
+    return battle(p2, p1, p2_counter+1, p1_counter+1);
 }
 
 std::string Battler::decide_who_goes_first(Board* b1, Board* b2) {

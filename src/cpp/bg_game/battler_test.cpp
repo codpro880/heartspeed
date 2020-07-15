@@ -52,3 +52,22 @@ TEST(Battler, CanCalculateDrawWithCardsThatImmediatelyDieToEachOther) {
     EXPECT_EQ(res.who_won, "draw");
     EXPECT_EQ(res.damage_taken, 0);
 }
+
+TEST(Battler, WinsIfWinIs100PercentGuaranteed) {
+    auto f = BgCardFactory();
+    auto tidecaller1 = f.get_card("Murloc Tidehunter"); // No battlecry
+    auto tidecaller2 = f.get_card("Murloc Tidehunter"); // No battlecry
+    auto tidecaller3 = f.get_card("Murloc Tidehunter"); // No battlecry
+    auto gambler1 = f.get_card("Freedealing Gambler");
+    auto gambler2 = f.get_card("Freedealing Gambler");
+    std::vector<BgBaseCard> p1_cards { tidecaller1, tidecaller2, tidecaller3 };
+    std::vector<BgBaseCard> p2_cards { gambler1, gambler2 };
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));    
+    std::unique_ptr<Player> p1(new Player(board1.get(), "HookTusk"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Pyramad"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Pyramad");
+    EXPECT_EQ(res.damage_taken, 1+3); // One gambler will always live
+}

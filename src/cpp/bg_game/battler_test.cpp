@@ -60,6 +60,10 @@ TEST(Battler, WinsIfWinIs100PercentGuaranteed) {
     auto tidecaller3 = f.get_card("Murloc Tidehunter"); // No battlecry
     auto gambler1 = f.get_card("Freedealing Gambler");
     auto gambler2 = f.get_card("Freedealing Gambler");
+    gambler1.set_health(6);
+    gambler1.set_attack(6);
+    gambler2.set_health(6);
+    gambler2.set_attack(6);
     std::vector<BgBaseCard> p1_cards { tidecaller1, tidecaller2, tidecaller3 };
     std::vector<BgBaseCard> p2_cards { gambler1, gambler2 };
     std::unique_ptr<Board> board1(new Board(p1_cards));
@@ -69,5 +73,6 @@ TEST(Battler, WinsIfWinIs100PercentGuaranteed) {
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Pyramad");
-    EXPECT_EQ(res.damage_taken, 1+3); // One gambler will always live
+    // One gambler will always live, and it's a tier 2 card
+    EXPECT_EQ(res.damage_taken, 1+2); 
 }

@@ -1,17 +1,24 @@
-.PHONY: cards game test test_all all clean
+.PHONY: bg_game cards game test test_all all clean
+
+all: bg_game cards game
+
+bg_game:
+	cd bg_game; $(MAKE)
 
 cards:
 	cd cards; $(MAKE)
 
-test: cards game
+game:
+	cd game; $(MAKE)
+
+test: cards game bg_game
 	cd test; $(MAKE) $@
 
-test_all: cards game
+test_all: cards game bg_game
 	cd test; $(MAKE) $@
-
-all: cards game
 
 clean:
 	cd cards; $(MAKE) clean
 	cd game; $(MAKE) clean
+	cd bg_game; $(MAKE) clean
 	cd test; $(MAKE) clean

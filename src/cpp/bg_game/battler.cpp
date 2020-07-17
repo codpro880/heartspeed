@@ -86,8 +86,12 @@ BattleResult Battler::battle(Player* p1,
     auto rem_defender_health = defender.get_health() - attacker.get_attack();
     
 
-    if (rem_attacker_health > 0) {
-	// new attacker missing some health
+    if (rem_attacker_health > 0) {	
+	attacker.set_health(rem_attacker_health);
+	std::cout << "Attacker: " << attacker << std::endl;
+	b1->set_card(attacker_pos, attacker);
+	std::cout << "New b1: " << (*b1) << std::endl;
+	// auto new_attacker = BgBaseCard(attacker, rem_attacker_health);
     }
     else {
 	// It died
@@ -95,11 +99,21 @@ BattleResult Battler::battle(Player* p1,
     }
     if (rem_defender_health > 0) {
 	//new defender missing some health
+	defender.set_health(rem_defender_health);
+	std::cout << "Defender: " << defender << std::endl;
+	b2->set_card(defender_pos, defender);
+	// (*b2)[defender_pos] = defender;
+	std::cout << "New b2: " << (*b2) << std::endl;
     }
     else {
 	// It died
 	b2->remove(defender_pos);
     }
+
+    p1->set_board(b1);
+    p2->set_board(b2);
+    std::cout << "P1: " << (*p1) << std::endl;
+    std::cout << "P2: " << (*p2) << std::endl;
     return battle(p2, p1, p2_counter+1, p1_counter+1);
 }
 

@@ -14,6 +14,8 @@ public:
     int calculate_damage() { return tech_level + board->calculate_damage(); }
     void inc_tech_level() { tech_level += 1; }
     Board* get_board() { return board; }
+    void set_board(Board* b) { board = b; }
+    friend std::ostream& operator<<(std::ostream& os, Player& p);
     std::string get_name() { return name; }
 private:
     Board* board;

@@ -39,7 +39,9 @@ GTEST_HEADERS = $(GTEST_DIR)/include/gtest/*.h \
 UNIT_TEST_FILES = $(shell find .. -name '*_test.cpp')
 # $(info $$UNIT_TEST_FILES is [${UNIT_TEST_FILES}]) # DEBUG
 
-UNIT_TEST_DEPS := $(UNIT_TEST_FILES:_test.cpp=.o)
+
+UNIT_TEST_DEPS = $(shell find .. -name '*.o' ! -name '*_test.o')
+# UNIT_TEST_DEPS := $(UNIT_TEST_FILES:_test.cpp=.o)
 # $(info $$UNIT_TEST_DEPS is [${UNIT_TEST_DEPS}]) # DEBUG
 
 UNIT_TEST_TARGETS := $(UNIT_TEST_FILES:_test.cpp=_test.o)

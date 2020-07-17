@@ -1,5 +1,6 @@
 #pragma once
 
+#include <iostream>
 #include <string>
 
 class BgBaseCard {
@@ -27,6 +28,18 @@ public:
 				 tech_level(tech_level),
 				 text(text),
 				 type(type) {}
+    // BgBaseCard(BgBaseCard c, new_health) : attack(c.attack),
+    // 				 card_class(c.card_class),
+    // 				 cost(c.cost),
+    // 				 health(new_health),
+    // 				 id(c.id),
+    // 				 mechanics(c.mechanics),
+    // 				 name(c.name),
+    // 				 race(c.race),
+    // 				 rarity(c.rarity),
+    // 				 tech_level(c.tech_level),
+    // 				 text(c.text),
+    // 				 type(type) {}
     int get_attack() { return attack; }
     std::string get_card_class() { return card_class; }
     int get_cost() { return cost; }
@@ -38,10 +51,12 @@ public:
     std::string get_rarity() { return rarity; }
     int get_tech_level() { return tech_level; }
     std::string get_text() { return text; }
-    std::string get_type() { return type; }
+    std::string get_type() { return type; }    
 
     void set_attack(int att) { attack = att; }
     void set_health(int hth) { health = hth; }
+
+    friend std::ostream& operator<<(std::ostream& os, BgBaseCard& card);
 private:
     int attack;
     std::string card_class;

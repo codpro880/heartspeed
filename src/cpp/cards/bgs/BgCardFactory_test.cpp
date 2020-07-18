@@ -11,7 +11,7 @@ TEST(BgCardFactory, CanGenerateGoldrinn) {
     EXPECT_EQ(goldrinn.get_attack(), 4);
     EXPECT_EQ(goldrinn.get_mechanics(), "['DEATHRATTLE']");
     EXPECT_EQ(goldrinn.get_race(), "BEAST");
-    EXPECT_EQ(goldrinn.get_tech_level(), 5);
+    EXPECT_EQ(goldrinn.get_tech_level(), 6);
 }
 
 TEST(BgCardFactory, CanGenerateParrot) {

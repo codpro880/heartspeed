@@ -4,8 +4,15 @@
 
 #include "BgBaseCard.hpp"
 
-class BgCardFactory {
+// This factory is for auto generated cards
+class BgBaseCardFactory {
 public:
-    BgCardFactory(){}
+    virtual BgBaseCard get_card(std::string name);
+};
+
+// This factory is for hand generated cards
+class BgCardFactory : public BgBaseCardFactory {
+public:
     BgBaseCard get_card(std::string name);
+    
 };

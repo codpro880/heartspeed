@@ -102,7 +102,6 @@ class BgCardFactoryGenerator:
         # TODO: Get rid of copy/pasta
         result = []
         bg_cards = [c for c in self.cards_json if c['set'] == 'BATTLEGROUNDS']
-        import pdb; pdb.set_trace()
 
         def set_defaults(bg_card):
             if 'attack' not in bg_card:
@@ -123,7 +122,8 @@ class BgCardFactoryGenerator:
                 bg_card['text'] = ''
             if 'type' not in bg_card:
                 bg_card['type'] = ''
-                
+
+            # Not really what this func should be doing, but a convenient place to put it
             if 'BaconUps' in bg_card['id']:
                 bg_card['name'] = bg_card['name'] + ' (Golden)'
                 

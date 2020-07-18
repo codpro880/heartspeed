@@ -102,6 +102,7 @@ class BgCardFactoryGenerator:
         # TODO: Get rid of copy/pasta
         result = []
         bg_cards = [c for c in self.cards_json if c['set'] == 'BATTLEGROUNDS']
+        import pdb; pdb.set_trace()
 
         def set_defaults(bg_card):
             if 'attack' not in bg_card:
@@ -122,24 +123,13 @@ class BgCardFactoryGenerator:
                 bg_card['text'] = ''
             if 'type' not in bg_card:
                 bg_card['type'] = ''
+                
+            if 'BaconUps' in bg_card['id']:
+                bg_card['name'] = bg_card['name'] + ' (Golden)'
+                
             return bg_card
         
-        # Do first, then rest
-#         bg_card = bg_cards[0]
-#         bg_card = set_defaults(bg_card)
         template = '(name == "{5}") {{\n\t\treturn BgBaseCard({0}, "{1}", {2}, {3}, "{4}", "{5}", "{6}", "{7}", "{8}", {9}, "{10}", "{11}");\n\t}}'
-#         if_template = '\tif ' + template
-#         result.append(if_template.format(bg_card['attack'],
-#                                          bg_card['cardClass'],
-#                                          bg_card['health'],
-#                                          bg_card['id'],
-#                                          bg_card['name'],
-#                                          bg_card['mechanics'],
-#                                          bg_card['race'],
-#                                          bg_card['rarity'],
-#                                          bg_card['techLevel'],
-#                                          bg_card['text'],
-#                                          bg_card['type']))
         first = True
         for bg_card in bg_cards:
             if first:

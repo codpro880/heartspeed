@@ -21,7 +21,7 @@ public:
 				 cost(cost),
 				 health(health),
 				 id(id),
-				 //is_poison(mechanics.find("POISON") != std::string::npos),
+				 is_poison(mechanics.find("POISON") != std::string::npos),
 				 mechanics(mechanics),
 				 name(name),
 				 race(race),
@@ -43,8 +43,8 @@ public:
     // 				 text(c.text),
     // 				 type(type) {}
     
-    // int get_attack() { return is_poison ? 999999 : attack; } // Poison is like 'infinite' attack
-    int get_attack() { return attack; }
+    int get_attack() { return is_poison ? 999999 : attack; } // Poison is like 'infinite' attack
+    // int get_attack() { return attack; }
     std::string get_card_class() { return card_class; }
     int get_cost() { return cost; }
     int get_health() { return health; }
@@ -59,7 +59,7 @@ public:
 
     void set_attack(int att) { attack = att; }
     void set_health(int hth) { health = hth; }
-    //void set_poison() { is_poison = true; }
+    void set_poison() { is_poison = true; }
 
     friend std::ostream& operator<<(std::ostream& os, BgBaseCard& card);
 private:
@@ -68,7 +68,7 @@ private:
     int cost;
     int health;
     std::string id;
-    //bool is_poison;
+    bool is_poison;
     std::string mechanics;
     std::string name;
     std::string race;

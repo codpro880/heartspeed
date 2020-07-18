@@ -72,12 +72,6 @@ BattleResult Battler::battle(Player* p1,
     }
     int attacker_pos = p1_counter;
 
-    // if (minion_num % 2 == 0) {
-    // 	attacker_pos = (minion_num/2) % b1->length();
-    // }
-    // else {
-    // 	attacker_pos = (minion_num/2 - 1) % b2->length();
-    // }
     auto attacker = (*b1)[attacker_pos];
     auto defender_pos = rand() % b2->length();
     auto defender = (*b2)[defender_pos];
@@ -88,10 +82,7 @@ BattleResult Battler::battle(Player* p1,
 
     if (rem_attacker_health > 0) {	
 	attacker.set_health(rem_attacker_health);
-	std::cout << "Attacker: " << attacker << std::endl;
 	b1->set_card(attacker_pos, attacker);
-	std::cout << "New b1: " << (*b1) << std::endl;
-	// auto new_attacker = BgBaseCard(attacker, rem_attacker_health);
     }
     else {
 	// It died
@@ -100,10 +91,7 @@ BattleResult Battler::battle(Player* p1,
     if (rem_defender_health > 0) {
 	//new defender missing some health
 	defender.set_health(rem_defender_health);
-	std::cout << "Defender: " << defender << std::endl;
 	b2->set_card(defender_pos, defender);
-	// (*b2)[defender_pos] = defender;
-	std::cout << "New b2: " << (*b2) << std::endl;
     }
     else {
 	// It died

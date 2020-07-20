@@ -4,7 +4,6 @@
 #include "../test/googletest/include/gtest/gtest.h"
 
 TEST(Board, CanCalculateDamageEmptyBoard) {
-    auto f = BgCardFactory();
     std::vector<BgBaseCard> cards;
     auto board = Board(cards);
     EXPECT_EQ(board.calculate_damage(), 0);

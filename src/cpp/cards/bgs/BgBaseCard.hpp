@@ -65,7 +65,7 @@ public:
     void set_poison() { is_poison = true; }
     void set_divine_shield() { has_divine_shield = true; }
 
-    void take_damage(int damage) { health -= damage; }
+    void take_damage(int damage);
 
     friend std::ostream& operator<<(std::ostream& os, BgBaseCard& card);
 private:

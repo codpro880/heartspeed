@@ -75,11 +75,7 @@ BattleResult Battler::battle(Player* p1,
     auto attacker = (*b1)[attacker_pos];
     auto defender_pos = rand() % b2->length();
     auto defender = (*b2)[defender_pos];
-    // TODO: Deal w/ deathrattle/divine-shield
-    // Poison cards have inf attack
-
-    //auto rem_attacker_health = attacker.get_health() - defender.get_attack();
-    //auto rem_defender_health = defender.get_health() - attacker.get_attack();
+    // TODO: Deal w/ deathrattle
     attacker.take_damage(defender.get_attack());
     defender.take_damage(attacker.get_attack());
 
@@ -95,24 +91,6 @@ BattleResult Battler::battle(Player* p1,
     else {
 	b2->set_card(defender_pos, defender);
     }
-
-    // if (rem_attacker_health > 0) {	
-    // 	attacker.set_health(rem_attacker_health);
-    // 	b1->set_card(attacker_pos, attacker);
-    // }
-    // else {
-    // 	// It died
-    // 	b1->remove(attacker_pos);
-    // }
-    // if (rem_defender_health > 0) {
-    // 	//new defender missing some health
-    // 	defender.set_health(rem_defender_health);
-    // 	b2->set_card(defender_pos, defender);
-    // }
-    // else {
-    // 	// It died
-    // 	b2->remove(defender_pos);
-    // }
 
     p1->set_board(b1);
     p2->set_board(b2);

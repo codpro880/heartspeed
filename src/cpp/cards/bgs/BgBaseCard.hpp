@@ -19,9 +19,10 @@ public:
 	     std::string type) : attack(attack),
 				 card_class(card_class),
 				 cost(cost),
+				 has_divine_shield(false),
 				 health(health),
 				 id(id),
-				 is_poison(mechanics.find("POISON") != std::string::npos),
+				 is_poison(false),
 				 mechanics(mechanics),
 				 name(name),
 				 race(race),
@@ -55,17 +56,23 @@ public:
     std::string get_rarity() { return rarity; }
     int get_tech_level() { return tech_level; }
     std::string get_text() { return text; }
-    std::string get_type() { return type; }    
+    std::string get_type() { return type; }
+
+    bool is_dead() { if (health < 0) return true; else return false;; }
 
     void set_attack(int att) { attack = att; }
     void set_health(int hth) { health = hth; }
     void set_poison() { is_poison = true; }
+    void set_divine_shield() { has_divine_shield = true; }
+
+    void take_damage(int damage) { health -= damage; }
 
     friend std::ostream& operator<<(std::ostream& os, BgBaseCard& card);
 private:
     int attack;
     std::string card_class;
     int cost;
+    bool has_divine_shield;
     int health;
     std::string id;
     bool is_poison;

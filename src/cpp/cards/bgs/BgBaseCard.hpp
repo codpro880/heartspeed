@@ -9,7 +9,7 @@ public:
 	       std::string card_class,
 	       int cost,
 	       int health,
-	       std::string id,
+	       //std::string id,
 	       std::string name,
 	       std::string mechanics,
 	       std::string race,
@@ -21,7 +21,7 @@ public:
 				   cost(cost),
 				   has_divine_shield(false),
 				   health(health),
-				   id(id),
+				   //id(id),
 				   is_poison(false),
 				   mechanics(mechanics),
 				   name(name),
@@ -49,7 +49,7 @@ public:
     std::string get_card_class() { return card_class; }
     int get_cost() { return cost; }
     int get_health() { return health; }
-    std::string get_id() { return id; }
+    // std::string get_id() { return id; }
     std::string get_mechanics() { return mechanics; }
     std::string get_name() { return name; }
     std::string get_race() { return race; }
@@ -74,7 +74,7 @@ private:
     int cost;
     bool has_divine_shield;
     int health;
-    std::string id;
+    //std::string id;
     bool is_poison;
     std::string mechanics;
     std::string name;

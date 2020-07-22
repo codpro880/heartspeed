@@ -7,17 +7,12 @@ These are the cards that weren't automatically roped in and should be generated 
 #include "BgBaseCard.hpp"
 #include "BgCardFactory.hpp"
 BgBaseCard BgCardFactory::get_card(std::string name) {
-    try {
-	return _get_card(name);
+    auto card_found_it = cards.find(name);
+    if (card_found_it == cards.end())  {
+	throw std::runtime_error("No card has name " + name);
     }
-    catch (std::runtime_error&) {
-	auto card_found_it = cards.find(name);
-	if (card_found_it == cards.end())  {
-	    throw std::runtime_error("No card has name " + name);
-	}
-	else {
-	    return card_found_it->second;
-	}
+    else {
+	return card_found_it->second;
     }
 }
 
@@ -1287,11 +1282,8 @@ BgBaseCard BgCardFactory::_get_card(std::string name) {
 	else if (name == "Deck Swabbie (Golden)") {
 		return BgBaseCard(4, "NEUTRAL", 3, 4, "TB_BaconUps_126", "Deck Swabbie (Golden)", "['BATTLECRY']", "PIRATE", "", 1, "<b>Battlecry:</b> Reduce the cost of upgrading Bob's Tavern by (2).", "MINION");
 	}
-	else if (name == "Freedealing Gambler (Golden)") {
-		return BgBaseCard(6, "NEUTRAL", 3, 6, "TB_BaconUps_127", "Freedealing Gambler (Golden)", "", "PIRATE", "", 2, "This minion sells for 6 Gold.", "MINION");
-	}
 	else if (name == "Arcane Cannon (Golden)") {
-		return BgBaseCard(4, "NEUTRAL", 3, 4, "TB_BaconUps_128", "Arcane Cannon (Golden)", "['CANT_ATTACK', 'TRIGGER_VISUAL']", "", "", 2, "[x]Can't attack. After an adjacent minion attacks, deal 2 damage to    an enemy minion twice.", "MINION");
+		return BgBaseCard(4, "NEUTRAL", 3, 4, "TB_BaconUps_128", "Arcane Cannon (Golden)", "['CANT_ATTACK', 'TRIGGER_VISUAL']", "", "", 2, "[x]Can't attack. After an adjacent minion attacks, deal 2 damage to an enemy minion twice.", "MINION");
 	}
 	else if (name == "Goldgrubber (Golden)") {
 		return BgBaseCard(4, "NEUTRAL", 5, 4, "TB_BaconUps_130", "Goldgrubber (Golden)", "['TRIGGER_VISUAL']", "PIRATE", "", 4, "At the end of your turn, gain +4/+4 for each friendly Golden minion.", "MINION");
@@ -1359,9 +1351,9 @@ BgBaseCard BgCardFactory::_get_card(std::string name) {
 	else if (name == "Salty Looter (Golden)") {
 		return BgBaseCard(6, "ROGUE", 4, 6, "TB_BaconUps_143", "Salty Looter (Golden)", "['TRIGGER_VISUAL']", "PIRATE", "", 3, "Whenever you play a Pirate, gain +2/+2.", "MINION");
 	}
-	else if (name == "Loot! (Golden)") {
-		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_143e", "Loot! (Golden)", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
-	}
+	// else if (name == "Loot! (Golden)") {
+	// 	return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_143e", "Loot! (Golden)", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
+	// }
 	else {
 		throw std::runtime_error("No card has name " + name);
 	}
@@ -1370,11 +1362,49 @@ BgBaseCard BgCardFactory::_get_card(std::string name) {
 
 
 void BgCardFactory::init_cards() {
+    cards.emplace("Alleycat (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "TB_BaconUps_093", "Alleycat (Golden)",
+						  "['BATTLECRY']", "BEAST", "COMMON", 1,
+						  "<b>Battlecry:</b> Summon a 2/2 Cat.", "MINION"));
+    cards.emplace("Deflect-o-Bot", BgBaseCard(3, "NEUTRAL", 4, 2, "BGS_071", "Deflect-o-Bot",
+					      "['TRIGGER_VISUAL']", "MECHANICAL", "", 3,
+					      "[x]<b>Divine Shield</b> Whenever you summon a Mech during combat, gain +1 Attack and <b>Divine Shield</b>.", "MINION"));
+    cards.emplace("Freedealing Gambler (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "TB_BaconUps_127", "Freedealing Gambler (Golden)",
+							     "", "PIRATE", "", 2,
+							     "This minion sells for 6 Gold.", "MINION"));
     cards.emplace("Foe Reaper 4000", BgBaseCard(6, "NEUTRAL", 8, 9, "NoID", "Foe Reaper 4000",
-						"['CLEAVE']", "MECHANICAL", "LEGENDARY", 6, "", "Minion"));
+						"['CLEAVE']", "MECHANICAL", "LEGENDARY", 6,
+						"", "Minion"));
+    cards.emplace("Goldgrubber (Golden)", BgBaseCard(4, "NEUTRAL", 5, 4, "TB_BaconUps_130", "Goldgrubber (Golden)",
+						     "['TRIGGER_VISUAL']", "PIRATE", "", 4,
+						     "At the end of your turn, gain +4/+4 for each friendly Golden minion.", "MINION"));
+    cards.emplace("Goldrinn, the Great Wolf", BgBaseCard(4, "NEUTRAL", 8, 4, "BGS_018", "Goldrinn, the Great Wolf",
+							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6,
+							 "<b>Deathrattle:</b> Give your Beasts +4/+4.", "MINION"));
+    cards.emplace("Houndmaster (Golden)", BgBaseCard(8, "HUNTER", 4, 6, "TB_BaconUps_068", "Houndmaster (Golden)",
+						     "['BATTLECRY']", "", "FREE", 3,
+						     "<b>Battlecry:</b> Give a friendly Beast +4/+4 and <b>Taunt</b>.", "MINION"));
+    cards.emplace("Imprisoner (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "TB_BaconUps_113", "Imprisoner (Golden)",
+						    "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2,
+						    "<b>Taunt</b> <b>Deathrattle:</b> Summon a 2/2 Imp.", "MINION"));
+
+    cards.emplace("Mal'Ganis (Golden)", BgBaseCard(18, "WARLOCK", 9, 14, "TB_BaconUps_060", "Mal'Ganis (Golden)",
+						   "['AURA']", "DEMON", "LEGENDARY", 5,
+						   "Your other Demons have +4/+4. Your hero is <b>Immune</b>.", "MINION"));
+    cards.emplace("Monstrous Macaw" ,BgBaseCard(3, "NEUTRAL", 3, 2, "BGS_078", "Monstrous Macaw",
+						"['TRIGGER_VISUAL']", "BEAST", "", 3,
+						"[x]After this attacks, trigger a random friendly minion's <b>Deathrattle</b>.", "MINION"));
+    cards.emplace("Murloc Tidecaller (Golden)", BgBaseCard(2, "NEUTRAL", 1, 4, "TB_BaconUps_011",
+							   "Murloc Tidecaller (Golden)", "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1,
+							   "Whenever you summon a Murloc, gain +2 Attack.", "MINION"));
+    cards.emplace("Murloc Tidehunter (Golden)", BgBaseCard(4, "NEUTRAL", 2, 2, "TB_BaconUps_003", "Murloc Tidehunter (Golden)",
+							   "['BATTLECRY']", "MURLOC", "FREE", 1,
+							   "<b>Battlecry:</b> Summon a 2/2 Murloc Scout.", "MINION"));
     cards.emplace("Nathrezim Overseer", BgBaseCard(2, "NEUTRAL", 3, 3, "BGS_001", "Nathrezim Overseer",
 						   "['BATTLECRY']", "DEMON", "RARE", 2,
 						   "<b>Battlecry:</b> Give a friendly Demon +2/+2.", "MINION"));
+    cards.emplace("Salty Looter (Golden)", BgBaseCard(6, "ROGUE", 4, 6, "TB_BaconUps_143", "Salty Looter (Golden)",
+						      "['TRIGGER_VISUAL']", "PIRATE", "", 3,
+						      "Whenever you play a Pirate, gain +2/+2.", "MINION"));
     cards.emplace("Soul Juggler", BgBaseCard(3, "WARLOCK", 3, 3, "BGS_002", "Soul Juggler",
 					     "['TRIGGER_VISUAL']", "", "", 3,
 					     "After a friendly Demon dies, deal 3 damage to a random enemy minion.", "MINION"));

@@ -11,6 +11,5 @@ public:
     BgBaseCard get_card(std::string name);
 private:
     void init_cards();
-    // BgBaseCard _get_card(std::string name);
     std::unordered_map<std::string, BgBaseCard> cards;
 };

@@ -9,26 +9,22 @@ public:
 	       std::string card_class,
 	       int cost,
 	       int health,
-	       //std::string id,
 	       std::string name,
 	       std::string mechanics,
 	       std::string race,
 	       std::string rarity,
 	       int tech_level,
-	       std::string text,
 	       std::string type) : attack(attack),
 				   card_class(card_class),
 				   cost(cost),
 				   has_divine_shield(false),
 				   health(health),
-				   //id(id),
 				   is_poison(false),
 				   mechanics(mechanics),
 				   name(name),
 				   race(race),
 				   rarity(rarity),
 				   tech_level(tech_level),
-				   text(text),
 				   type(type) {}
     
     // BgBaseCard(BgBaseCard c, new_health) : attack(c.attack),
@@ -45,17 +41,14 @@ public:
     // 				 type(type) {}
     
     int get_attack() { return is_poison ? 999999 : attack; } // Poison is like 'infinite' attack
-    // int get_attack() { return attack; }
     std::string get_card_class() { return card_class; }
     int get_cost() { return cost; }
     int get_health() { return health; }
-    // std::string get_id() { return id; }
     std::string get_mechanics() { return mechanics; }
     std::string get_name() { return name; }
     std::string get_race() { return race; }
     std::string get_rarity() { return rarity; }
     int get_tech_level() { return tech_level; }
-    std::string get_text() { return text; }
     std::string get_type() { return type; }
 
     bool is_dead() { if (health < 0) return true; else return false;; }
@@ -74,13 +67,11 @@ private:
     int cost;
     bool has_divine_shield;
     int health;
-    //std::string id;
     bool is_poison;
     std::string mechanics;
     std::string name;
     std::string race;
     std::string rarity;
     int tech_level;
-    std::string text;
     std::string type;
 };

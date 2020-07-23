@@ -1364,53 +1364,60 @@ BgBaseCard BgCardFactory::get_card(std::string name) {
 void BgCardFactory::init_cards() {
     cards.emplace("Alleycat (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Alleycat (Golden)",
 						  "['BATTLECRY']", "BEAST", "COMMON", 1,
-						  "<b>Battlecry:</b> Summon a 2/2 Cat.", "MINION"));
+						  "MINION"));
     
     cards.emplace("Deflect-o-Bot", BgBaseCard(3, "NEUTRAL", 4, 2, "Deflect-o-Bot",
 					      "['TRIGGER_VISUAL']", "MECHANICAL", "", 3,
-					      "[x]<b>Divine Shield</b> Whenever you summon a Mech during combat, gain +1 Attack and <b>Divine Shield</b>.", "MINION"));
+					      "MINION"));
+    
     cards.emplace("Freedealing Gambler (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Freedealing Gambler (Golden)",
 							     "", "PIRATE", "", 2,
-							     "This minion sells for 6 Gold.", "MINION"));
+							     "MINION"));
     cards.emplace("Foe Reaper 4000", BgBaseCard(6, "NEUTRAL", 8, 9, "Foe Reaper 4000",
 						"['CLEAVE']", "MECHANICAL", "LEGENDARY", 6,
-						"", "Minion"));
+						"Minion"));
+    
     cards.emplace("Goldgrubber (Golden)", BgBaseCard(4, "NEUTRAL", 5, 4, "Goldgrubber (Golden)",
 						     "['TRIGGER_VISUAL']", "PIRATE", "", 4,
-						     "At the end of your turn, gain +4/+4 for each friendly Golden minion.", "MINION"));
+						     "MINION"));
     cards.emplace("Goldrinn, the Great Wolf", BgBaseCard(4, "NEUTRAL", 8, 4, "Goldrinn, the Great Wolf",
 							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6,
-							 "<b>Deathrattle:</b> Give your Beasts +4/+4.", "MINION"));
+							 "MINION"));
+    
     cards.emplace("Houndmaster (Golden)", BgBaseCard(8, "HUNTER", 4, 6, "Houndmaster (Golden)",
 						     "['BATTLECRY']", "", "FREE", 3,
-						     "<b>Battlecry:</b> Give a friendly Beast +4/+4 and <b>Taunt</b>.", "MINION"));
+						     "MINION"));
+    
     cards.emplace("Imprisoner (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Imprisoner (Golden)",
 						    "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2,
-						    "<b>Taunt</b> <b>Deathrattle:</b> Summon a 2/2 Imp.", "MINION"));
+						    "MINION"));
 
     cards.emplace("Mal'Ganis (Golden)", BgBaseCard(18, "WARLOCK", 9, 14, "Mal'Ganis (Golden)",
 						   "['AURA']", "DEMON", "LEGENDARY", 5,
-						   "Your other Demons have +4/+4. Your hero is <b>Immune</b>.", "MINION"));
+						   "MINION"));
     cards.emplace("Monstrous Macaw" ,BgBaseCard(3, "NEUTRAL", 3, 2, "Monstrous Macaw",
 						"['TRIGGER_VISUAL']", "BEAST", "", 3,
-						"[x]After this attacks, trigger a random friendly minion's <b>Deathrattle</b>.", "MINION"));
+						"MINION"));
     cards.emplace("Murloc Tidecaller (Golden)", BgBaseCard(2, "NEUTRAL", 1, 4,
 							   "Murloc Tidecaller (Golden)", "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1,
-							   "Whenever you summon a Murloc, gain +2 Attack.", "MINION"));
+							   "MINION"));
     cards.emplace("Murloc Tidehunter (Golden)", BgBaseCard(4, "NEUTRAL", 2, 2, "Murloc Tidehunter (Golden)",
 							   "['BATTLECRY']", "MURLOC", "FREE", 1,
-							   "<b>Battlecry:</b> Summon a 2/2 Murloc Scout.", "MINION"));
+							   "MINION"));
+    
     cards.emplace("Nathrezim Overseer", BgBaseCard(2, "NEUTRAL", 3, 3, "Nathrezim Overseer",
 						   "['BATTLECRY']", "DEMON", "RARE", 2,
-						   "<b>Battlecry:</b> Give a friendly Demon +2/+2.", "MINION"));
+						   "MINION"));
+    
     cards.emplace("Salty Looter (Golden)", BgBaseCard(6, "ROGUE", 4, 6, "Salty Looter (Golden)",
 						      "['TRIGGER_VISUAL']", "PIRATE", "", 3,
-						      "Whenever you play a Pirate, gain +2/+2.", "MINION"));
+						      "MINION"));
     cards.emplace("Soul Juggler", BgBaseCard(3, "WARLOCK", 3, 3, "Soul Juggler",
 					     "['TRIGGER_VISUAL']", "", "", 3,
-					     "After a friendly Demon dies, deal 3 damage to a random enemy minion.", "MINION"));
+					     "MINION"));
+
     cards.emplace("Wrath Weaver", BgBaseCard(1, "NEUTRAL", 1, 1, "Wrath Weaver",
 					     "['TRIGGER_VISUAL']", "", "COMMON", 1,
-					     "After you play a Demon, deal 1 damage to your hero and gain +2/+2.", "MINION"));
+					     "MINION"));
 
 }

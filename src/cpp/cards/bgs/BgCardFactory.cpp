@@ -6,6 +6,7 @@ These are the cards that weren't automatically roped in and should be generated 
 
 #include "BgBaseCard.hpp"
 #include "BgCardFactory.hpp"
+
 BgBaseCard BgCardFactory::get_card(std::string name) {
     auto card_found_it = cards.find(name);
     if (card_found_it == cards.end())  {
@@ -18,29 +19,7 @@ BgBaseCard BgCardFactory::get_card(std::string name) {
 
 
 
-
 // // 		return 
-// // 	}
-// // 	else if (name == "Piloted Shredder") {
-// // 		return BgBaseCard(4, "NEUTRAL", 4, 3, "BGS_023", "Piloted Shredder", "['DEATHRATTLE']", "MECHANICAL", "COMMON", 3, "<b>Deathrattle:</b> Summon a random 2-Cost minion.", "MINION");
-// // 	}
-// // 	else if (name == "Piloted Sky Golem") {
-// // 		return BgBaseCard(6, "NEUTRAL", 6, 4, "BGS_024", "Piloted Sky Golem", "['DEATHRATTLE']", "MECHANICAL", "EPIC", 4, "<b>Deathrattle:</b> Summon a random 4-Cost minion.", "MINION");
-// // 	}
-// // 	else if (name == "Mounted Raptor") {
-// // 		return BgBaseCard(3, "DRUID", 3, 2, "BGS_025", "Mounted Raptor", "['DEATHRATTLE']", "BEAST", "COMMON", 2, "<b>Deathrattle:</b> Summon a random 1-Cost minion.", "MINION");
-// // 	}
-// // 	else if (name == "Micro Machine") {
-// // 		return BgBaseCard(1, "NEUTRAL", 2, 2, "BGS_027", "Micro Machine", "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "At the start of each turn, gain +1 Attack.", "MINION");
-// // 	}
-// // 	else if (name == "Pogo-Hopper") {
-// // 		return BgBaseCard(1, "ROGUE", 1, 1, "BGS_028", "Pogo-Hopper", "['BATTLECRY']", "MECHANICAL", "RARE", 2, "[x]<b>Battlecry:</b> Gain +2/+2 for each other Pogo-Hopper you played this game.", "MINION");
-// // 	}
-// // 	else if (name == "PogoCounterEnchantment") {
-// // 		return BgBaseCard(-1, "ROGUE", -1, -1, "BGS_028pe", "PogoCounterEnchantment", "", "", "", -1, "Counts the number of Pogo-Hoppers played.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Shifter Zerus") {
-// // 		return BgBaseCard(1, "NEUTRAL", 1, 1, "BGS_029", "Shifter Zerus", "", "", "LEGENDARY", 3, "Each turn this is in your hand, transform it into a random minion.", "MINION");
 // // 	}
 // // 	else if (name == "Shifting") {
 // // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_029e", "Shifting", "", "", "", -1, "Transforming into random minions.", "ENCHANTMENT");
@@ -1293,7 +1272,6 @@ BgBaseCard BgCardFactory::get_card(std::string name) {
 // 	else {
 // 		throw std::runtime_error("No card has name " + name);
 // 	}
-
 // }
 
 
@@ -1344,6 +1322,8 @@ void BgCardFactory::init_cards() {
 						   "MINION"));
     cards.emplace("Mama Bear", BgBaseCard(5, "NEUTRAL", 8, 5, "Mama Bear",
 					  "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "MINION"));
+    cards.emplace("Micro Machine", BgBaseCard(1, "NEUTRAL", 2, 2, "Micro Machine",
+					      "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
     cards.emplace("Monstrous Macaw" ,BgBaseCard(3, "NEUTRAL", 3, 2, "Monstrous Macaw",
 						"['TRIGGER_VISUAL']", "BEAST", "", 3,
 						"MINION"));
@@ -1357,6 +1337,10 @@ void BgCardFactory::init_cards() {
     cards.emplace("Nathrezim Overseer", BgBaseCard(2, "NEUTRAL", 3, 3, "Nathrezim Overseer",
 						   "['BATTLECRY']", "DEMON", "RARE", 2, "MINION"));
 
+    cards.emplace("Piloted Shredder", BgBaseCard(4, "NEUTRAL", 4, 3, "Piloted Shredder",
+	                                         "['DEATHRATTLE']", "MECHANICAL", "COMMON", 3, "MINION"));
+    cards.emplace("Pogo-Hopper", BgBaseCard(1, "ROGUE", 1, 1, "Pogo-Hopper",
+					    "['BATTLECRY']", "MECHANICAL", "RARE", 2, "MINION"));
     cards.emplace("Primalfin Lookout", BgBaseCard(3, "NEUTRAL", 3, 2, "Primalfin Lookout",
 						  "['BATTLECRY', 'DISCOVER']", "MURLOC", "COMMON", 5, "MINION"));
 
@@ -1366,8 +1350,10 @@ void BgCardFactory::init_cards() {
     cards.emplace("Salty Looter (Golden)", BgBaseCard(6, "ROGUE", 4, 6, "Salty Looter (Golden)",
 						      "['TRIGGER_VISUAL']", "PIRATE", "", 3,
 						      "MINION"));
+    cards.emplace("Shifter Zerus", BgBaseCard(1, "NEUTRAL", 1, 1, "Shifter Zerus",
+					      "", "", "LEGENDARY", 3, "MINION"));
     cards.emplace("Sneed's Old Shredder", BgBaseCard(5, "NEUTRAL", 8, 7,"Sneed's Old Shredder",
-	"['DEATHRATTLE']", "MECHANICAL", "LEGENDARY", 5, "MINION"));
+						     "['DEATHRATTLE']", "MECHANICAL", "LEGENDARY", 5, "MINION"));
 
     cards.emplace("Soul Juggler", BgBaseCard(3, "WARLOCK", 3, 3, "Soul Juggler",
 					     "['TRIGGER_VISUAL']", "", "", 3, "MINION"));
@@ -1375,6 +1361,7 @@ void BgCardFactory::init_cards() {
 
     cards.emplace("Wrath Weaver", BgBaseCard(1, "NEUTRAL", 1, 1, "Wrath Weaver",
 					     "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION"));
-									    
-									    
+
+    cards.emplace("Zapp Slywick", BgBaseCard(7, "NEUTRAL", 8, 10, "Zapp Slywick",
+					     "", "", "", 6, "MINION"));
 }

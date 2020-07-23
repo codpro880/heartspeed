@@ -16,74 +16,10 @@ BgBaseCard BgCardFactory::get_card(std::string name) {
     }
 }
 
-// // BgBaseCard BgCardFactory::_get_card(std::string name) {
-// //     if (name == "blah") {
-// //     }
-// // 	// if (name == "Nathrezim Overseer") {
-// // 	// 	return BgBaseCard(2, "NEUTRAL", 3, 3, "BGS_001", "Nathrezim Overseer", "['BATTLECRY']", "DEMON", "RARE", 2, "<b>Battlecry:</b> Give a friendly Demon +2/+2.", "MINION");
-// // 	// }
-// // 	// else if (name == "Impish") {
-// // 	// 	return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_001e", "Impish", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
-// // 	// }
-// // 	// else if (name == "Soul Juggler") {
-// // 	// 	return BgBaseCard(3, "WARLOCK", 3, 3, "BGS_002", "Soul Juggler", "['TRIGGER_VISUAL']", "", "", 3, "After a friendly Demon dies, deal 3 damage to a random enemy minion.", "MINION");
-// // 	// }
-// // 	else if (name == "Wrath Weaver") {
-// // 		return BgBaseCard(1, "NEUTRAL", 1, 1, "BGS_004", "Wrath Weaver", "['TRIGGER_VISUAL']", "", "COMMON", 1, "After you play a Demon, deal 1 damage to your hero and gain +2/+2.", "MINION");
-// // 	}
-// // 	else if (name == "Wrath Woven") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_004e", "Wrath Woven", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Sneed's Old Shredder") {
-// // 		return BgBaseCard(5, "NEUTRAL", 8, 7, "BGS_006", "Sneed's Old Shredder", "['DEATHRATTLE']", "MECHANICAL", "LEGENDARY", 5, "<b>Deathrattle:</b> Summon a random <b>Legendary</b> minion.", "MINION");
-// // 	}
-// // 	else if (name == "Ghastcoiler") {
-// // 		return BgBaseCard(7, "PRIEST", 6, 7, "BGS_008", "Ghastcoiler", "['DEATHRATTLE']", "BEAST", "", 6, "<b>Deathrattle:</b> Summon 2 random <b>Deathrattle</b> minions.", "MINION");
-// // 	}
-// // 	else if (name == "Lightfang Enforcer") {
-// // 		return BgBaseCard(2, "NEUTRAL", 6, 2, "BGS_009", "Lightfang Enforcer", "['TRIGGER_VISUAL']", "", "EPIC", 5, "[x]At the end of your turn, give a friendly minion of each minion type +2/+1.", "MINION");
-// // 	}
-// // 	else if (name == "Blessed") {
-// // 		return BgBaseCard(-1, "ROGUE", -1, -1, "BGS_009e", "Blessed", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Annihilan Battlemaster") {
-// // 		return BgBaseCard(3, "NEUTRAL", 8, 1, "BGS_010", "Annihilan Battlemaster", "['BATTLECRY']", "DEMON", "EPIC", 5, "<b>Battlecry:</b> Gain +1 Health for each damage your hero has taken.", "MINION");
-// // 	}
-// // 	else if (name == "Monstrous") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_010e", "Monstrous", "", "", "", -1, "Health increased.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Kangor's Apprentice") {
-// // 		return BgBaseCard(3, "NEUTRAL", 9, 6, "BGS_012", "Kangor's Apprentice", "['DEATHRATTLE']", "", "EPIC", 6, "<b>Deathrattle</b>: Summon the first 2 friendly Mechs that died this combat.", "MINION");
-// // 	}
-// // 	else if (name == "Imprisoner") {
-// // 		return BgBaseCard(3, "NEUTRAL", 3, 3, "BGS_014", "Imprisoner", "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "<b>Taunt</b> <b>Deathrattle:</b> Summon a 1/1 Imp.", "MINION");
-// // 	}
-// // 	else if (name == "Pack Leader") {
-// // 		return BgBaseCard(3, "NEUTRAL", 3, 3, "BGS_017", "Pack Leader", "['TRIGGER_VISUAL']", "", "RARE", 3, "Whenever you summon a Beast, give it +3 Attack.", "MINION");
-// // 	}
-// // 	else if (name == "Feral Calling") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_017e", "Feral Calling", "", "", "", -1, "+3 Attack.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Goldrinn, the Great Wolf") {
-// // 		return BgBaseCard(4, "NEUTRAL", 8, 4, "BGS_018", "Goldrinn, the Great Wolf", "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "<b>Deathrattle:</b> Give your Beasts +4/+4.", "MINION");
-// // 	}
-// // 	else if (name == "Soul of the Beast") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_018e", "Soul of the Beast", "", "", "", -1, "+4/+4.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Red Whelp") {
-// // 		return BgBaseCard(1, "NEUTRAL", 1, 2, "BGS_019", "Red Whelp", "['TRIGGER_VISUAL']", "DRAGON", "", 1, "[x]<b>Start of Combat:</b> Deal 1 damage per friendly Dragon to one random enemy minion.", "MINION");
-// // 	}
-// // 	else if (name == "Primalfin Lookout") {
-// // 		return BgBaseCard(3, "NEUTRAL", 3, 2, "BGS_020", "Primalfin Lookout", "['BATTLECRY', 'DISCOVER']", "MURLOC", "COMMON", 5, "<b>Battlecry:</b> If you control another Murloc, <b>Discover</b> a Murloc.", "MINION");
-// // 	}
-// // 	else if (name == "Mama Bear") {
-// // 		return BgBaseCard(5, "NEUTRAL", 8, 5, "BGS_021", "Mama Bear", "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "Whenever you summon a Beast, give it +5/+5.", "MINION");
-// // 	}
-// // 	else if (name == "Rampage") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_021e", "Rampage", "", "", "", -1, "+5/+5.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Zapp Slywick") {
-// // 		return BgBaseCard(7, "NEUTRAL", 8, 10, "BGS_022", "Zapp Slywick", "", "", "", 6, "[x]<b>Windfury</b> This minion always attacks the enemy minion with the lowest Attack.", "MINION");
+
+
+
+// // 		return 
 // // 	}
 // // 	else if (name == "Piloted Shredder") {
 // // 		return BgBaseCard(4, "NEUTRAL", 4, 3, "BGS_023", "Piloted Shredder", "['DEATHRATTLE']", "MECHANICAL", "COMMON", 3, "<b>Deathrattle:</b> Summon a random 2-Cost minion.", "MINION");
@@ -1363,8 +1299,9 @@ BgBaseCard BgCardFactory::get_card(std::string name) {
 
 void BgCardFactory::init_cards() {
     cards.emplace("Alleycat (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Alleycat (Golden)",
-						  "['BATTLECRY']", "BEAST", "COMMON", 1,
-						  "MINION"));
+						  "['BATTLECRY']", "BEAST", "COMMON", 1, "MINION"));						  
+    cards.emplace("Annihilan Battlemaster", BgBaseCard(3, "NEUTRAL", 8, 1, "Annihilan Battlemaster",
+						       "['BATTLECRY']", "DEMON", "EPIC", 5, "MINION"));
     
     cards.emplace("Deflect-o-Bot", BgBaseCard(3, "NEUTRAL", 4, 2, "Deflect-o-Bot",
 					      "['TRIGGER_VISUAL']", "MECHANICAL", "", 3,
@@ -1374,27 +1311,39 @@ void BgCardFactory::init_cards() {
 							     "", "PIRATE", "", 2,
 							     "MINION"));
     cards.emplace("Foe Reaper 4000", BgBaseCard(6, "NEUTRAL", 8, 9, "Foe Reaper 4000",
-						"['CLEAVE']", "MECHANICAL", "LEGENDARY", 6,
-						"Minion"));
+						"['CLEAVE']", "MECHANICAL", "LEGENDARY", 6, "Minion"));
+						
     
+    cards.emplace("Ghastcoiler", BgBaseCard(7, "PRIEST", 6, 7, "Ghastcoiler",
+					    "['DEATHRATTLE']", "BEAST", "", 6, "MINION"));
     cards.emplace("Goldgrubber (Golden)", BgBaseCard(4, "NEUTRAL", 5, 4, "Goldgrubber (Golden)",
 						     "['TRIGGER_VISUAL']", "PIRATE", "", 4,
 						     "MINION"));
     cards.emplace("Goldrinn, the Great Wolf", BgBaseCard(4, "NEUTRAL", 8, 4, "Goldrinn, the Great Wolf",
 							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6,
 							 "MINION"));
+
     
     cards.emplace("Houndmaster (Golden)", BgBaseCard(8, "HUNTER", 4, 6, "Houndmaster (Golden)",
 						     "['BATTLECRY']", "", "FREE", 3,
 						     "MINION"));
-    
-    cards.emplace("Imprisoner (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Imprisoner (Golden)",
-						    "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2,
-						    "MINION"));
 
+    cards.emplace("Imprisoner", BgBaseCard(3, "NEUTRAL", 3, 3, "Imprisoner",
+					   "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "MINION"));
+    cards.emplace("Imprisoner (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Imprisoner (Golden)",
+						    "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "MINION"));
+
+    cards.emplace("Kangor's Apprentice", BgBaseCard(3, "NEUTRAL", 9, 6, "Kangor's Apprentice",
+						    "['DEATHRATTLE']", "", "EPIC", 6, "MINION"));
+
+    cards.emplace("Lightfang Enforcer", BgBaseCard(2, "NEUTRAL", 6, 2, "Lightfang Enforcer",
+						   "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION"));
+    
     cards.emplace("Mal'Ganis (Golden)", BgBaseCard(18, "WARLOCK", 9, 14, "Mal'Ganis (Golden)",
 						   "['AURA']", "DEMON", "LEGENDARY", 5,
 						   "MINION"));
+    cards.emplace("Mama Bear", BgBaseCard(5, "NEUTRAL", 8, 5, "Mama Bear",
+					  "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "MINION"));
     cards.emplace("Monstrous Macaw" ,BgBaseCard(3, "NEUTRAL", 3, 2, "Monstrous Macaw",
 						"['TRIGGER_VISUAL']", "BEAST", "", 3,
 						"MINION"));
@@ -1406,18 +1355,26 @@ void BgCardFactory::init_cards() {
 							   "MINION"));
     
     cards.emplace("Nathrezim Overseer", BgBaseCard(2, "NEUTRAL", 3, 3, "Nathrezim Overseer",
-						   "['BATTLECRY']", "DEMON", "RARE", 2,
-						   "MINION"));
+						   "['BATTLECRY']", "DEMON", "RARE", 2, "MINION"));
+
+    cards.emplace("Primalfin Lookout", BgBaseCard(3, "NEUTRAL", 3, 2, "Primalfin Lookout",
+						  "['BATTLECRY', 'DISCOVER']", "MURLOC", "COMMON", 5, "MINION"));
+
+    cards.emplace("Red Whelp", BgBaseCard(1, "NEUTRAL", 1, 2, "Red Whelp",
+					  "['TRIGGER_VISUAL']", "DRAGON", "", 1, "MINION"));
     
     cards.emplace("Salty Looter (Golden)", BgBaseCard(6, "ROGUE", 4, 6, "Salty Looter (Golden)",
 						      "['TRIGGER_VISUAL']", "PIRATE", "", 3,
 						      "MINION"));
+    cards.emplace("Sneed's Old Shredder", BgBaseCard(5, "NEUTRAL", 8, 7,"Sneed's Old Shredder",
+	"['DEATHRATTLE']", "MECHANICAL", "LEGENDARY", 5, "MINION"));
+
     cards.emplace("Soul Juggler", BgBaseCard(3, "WARLOCK", 3, 3, "Soul Juggler",
-					     "['TRIGGER_VISUAL']", "", "", 3,
-					     "MINION"));
+					     "['TRIGGER_VISUAL']", "", "", 3, "MINION"));
+					     
 
     cards.emplace("Wrath Weaver", BgBaseCard(1, "NEUTRAL", 1, 1, "Wrath Weaver",
-					     "['TRIGGER_VISUAL']", "", "COMMON", 1,
-					     "MINION"));
-
+					     "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION"));
+									    
+									    
 }

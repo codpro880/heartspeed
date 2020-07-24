@@ -18,1261 +18,180 @@ BgBaseCard BgCardFactory::get_card(std::string name) {
 }
 
 
-
-// // 		return 
-// // 	}
-// // 	else if (name == "Shifting") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_029e", "Shifting", "", "", "", -1, "Transforming into random minions.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "King Bagurgle") {
-// // 		return BgBaseCard(6, "NEUTRAL", 6, 3, "BGS_030", "King Bagurgle", "['BATTLECRY', 'DEATHRATTLE']", "MURLOC", "LEGENDARY", 5, "<b>Battlecry and Deathrattle:</b> Give your other Murlocs +2/+2.", "MINION");
-// // 	}
-// // 	else if (name == "Bagurgled") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_030e", "Bagurgled", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Gentle Megasaur") {
-// // 		return BgBaseCard(5, "NEUTRAL", 4, 4, "BGS_031", "Gentle Megasaur", "['BATTLECRY']", "BEAST", "EPIC", 6, "<b>Battlecry:</b> <b>Adapt</b> your Murlocs.", "MINION");
-// // 	}
-// // 	else if (name == "Herald of Flame") {
-// // 		return BgBaseCard(5, "WARRIOR", 5, 6, "BGS_032", "Herald of Flame", "['OVERKILL']", "DRAGON", "", 4, "<b>Overkill:</b> Deal 3 damage to the left-most enemy minion.", "MINION");
-// // 	}
-// // 	else if (name == "Hangry Dragon") {
-// // 		return BgBaseCard(4, "NEUTRAL", 5, 4, "BGS_033", "Hangry Dragon", "['TRIGGER_VISUAL']", "DRAGON", "", 3, "[x]At the start of your turn, gain +2/+2 if you won the last combat.", "MINION");
-// // 	}
-// // 	else if (name == "Well Fed") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_033e1", "Well Fed", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Bronze Warden") {
-// // 		return BgBaseCard(2, "NEUTRAL", 4, 1, "BGS_034", "Bronze Warden", "['DIVINE_SHIELD', 'REBORN']", "DRAGON", "", 3, "<b>Divine Shield</b> <b>Reborn</b>", "MINION");
-// // 	}
-// // 	else if (name == "Waxrider Togwaggle") {
 // // 		return BgBaseCard(1, "NEUTRAL", 3, 2, "BGS_035", "Waxrider Togwaggle", "['TRIGGER_VISUAL']", "", "", 2, "Whenever a friendly Dragon kills an enemy, gain +2/+2.", "MINION");
-// // 	}
-// // 	else if (name == "Dragon Wax") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_035e", "Dragon Wax", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Razorgore, the Untamed") {
 // // 		return BgBaseCard(2, "NEUTRAL", 8, 4, "BGS_036", "Razorgore, the Untamed", "['TRIGGER_VISUAL']", "DRAGON", "", 5, "At the end of your turn, gain +1/+1 for each Dragon you have.", "MINION");
-// // 	}
-// // 	else if (name == "Dragonlust") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_036e", "Dragonlust", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Steward of Time") {
 // // 		return BgBaseCard(3, "NEUTRAL", 4, 4, "BGS_037", "Steward of Time", "", "DRAGON", "", 2, "When you sell this minion, give all minions in Bob's Tavern +1/+1.", "MINION");
-// // 	}
-// // 	else if (name == "Time Dilation") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_037e", "Time Dilation", "", "", "", -1, "+1/+1.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Twilight Emissary") {
 // // 		return BgBaseCard(4, "NEUTRAL", 6, 4, "BGS_038", "Twilight Emissary", "['BATTLECRY', 'TAUNT']", "DRAGON", "", 3, "<b>Taunt</b> <b>Battlecry:</b> Give a friendly Dragon +2/+2.", "MINION");
-// // 	}
-// // 	else if (name == "Twilight Embrace") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_038e", "Twilight Embrace", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Dragonspawn Lieutenant") {
 // // 		return BgBaseCard(2, "NEUTRAL", 2, 3, "BGS_039", "Dragonspawn Lieutenant", "['TAUNT']", "DRAGON", "", 1, "<b>Taunt</b>", "MINION");
-// // 	}
-// // 	else if (name == "Nadina the Red") {
 // // 		return BgBaseCard(7, "NEUTRAL", 6, 4, "BGS_040", "Nadina the Red", "['DEATHRATTLE']", "", "", 6, "<b>Deathrattle:</b> Give your Dragons <b>Divine Shield</b>.", "MINION");
-// // 	}
-// // 	else if (name == "Kalecgos, Arcane Aspect") {
 // // 		return BgBaseCard(4, "NEUTRAL", 8, 12, "BGS_041", "Kalecgos, Arcane Aspect", "['TRIGGER_VISUAL']", "DRAGON", "", 6, "After you play a minion with <b>Battlecry</b>, give your Dragons +1/+1.", "MINION");
-// // 	}
-// // 	else if (name == "Arcane Aspect") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_041e", "Arcane Aspect", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Murozond") {
 // // 		return BgBaseCard(5, "NEUTRAL", 7, 5, "BGS_043", "Murozond", "['BATTLECRY']", "DRAGON", "", 5, "[x]<b>Battlecry:</b> Add a minion from your last opponent's warband to your hand.", "MINION");
-// // 	}
-// // 	else if (name == "Imp Mama") {
 // // 		return BgBaseCard(6, "WARLOCK", 8, 10, "BGS_044", "Imp Mama", "['TRIGGER_VISUAL']", "DEMON", "", 6, "[x]Whenever this minion takes damage, summon a random Demon and give it <b>Taunt</b>.", "MINION");
-// // 	}
-// // 	else if (name == "Protect Mama!") {
-// // 		return BgBaseCard(-1, "WARLOCK", -1, -1, "BGS_044e", "Protect Mama!", "", "", "", -1, "<b>Taunt</b>", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Glyph Guardian") {
 // // 		return BgBaseCard(2, "MAGE", 3, 4, "BGS_045", "Glyph Guardian", "['TRIGGER_VISUAL']", "DRAGON", "", 2, "Whenever this attacks, double its Attack.", "MINION");
-// // 	}
-// // 	else if (name == "Cold Breath") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_045e", "Cold Breath", "", "", "", -1, "Multiplying Attack.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Nat Pagle, Extreme Angler") {
 // // 		return BgBaseCard(8, "NEUTRAL", 7, 5, "BGS_046", "Nat Pagle, Extreme Angler", "", "PIRATE", "", 5, "<b>Overkill:</b> Summon a 0/2 Treasure Chest.", "MINION");
-// // 	}
-// // 	else if (name == "Treasure Chest") {
 // // 		return BgBaseCard(0, "NEUTRAL", 2, 2, "BGS_046t", "Treasure Chest", "", "", "", 1, "<b>Deathrattle:</b> Summon a random Golden minion.", "MINION");
-// // 	}
-// // 	else if (name == "Dread Admiral Eliza") {
 // // 		return BgBaseCard(6, "NEUTRAL", 6, 7, "BGS_047", "Dread Admiral Eliza", "['TRIGGER_VISUAL']", "PIRATE", "", 6, "Whenever a friendly Pirate attacks, give all friendly minions +1/+1.", "MINION");
-// // 	}
-// // 	else if (name == "Yaharr!!") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_047e", "Yaharr!!", "", "", "", -1, "+1/+1.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Southsea Strongarm") {
 // // 		return BgBaseCard(5, "NEUTRAL", 5, 4, "BGS_048", "Southsea Strongarm", "", "PIRATE", "", 4, "<b>Battlecry:</b> Give a friendly Pirate +1/+1 for each Pirate you bought this turn.", "MINION");
-// // 	}
-// // 	else if (name == "Pirate Tattoos") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_048e", "Pirate Tattoos", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Freedealing Gambler") {
 // // 		return BgBaseCard(3, "NEUTRAL", 3, 3, "BGS_049", "Freedealing Gambler", "", "PIRATE", "", 2, "This minion sells for 3 Gold.", "MINION");
-// // 	}
-// // 	else if (name == "Bloodsail Cannoneer") {
 // // 		return BgBaseCard(4, "NEUTRAL", 4, 2, "BGS_053", "Bloodsail Cannoneer", "", "PIRATE", "", 3, "<b>Battlecry</b>: Give your other Pirates +3 Attack.", "MINION");
-// // 	}
-// // 	else if (name == "Pirate Life!") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_053e", "Pirate Life!", "", "", "", -1, "+3 Attack.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Deck Swabbie") {
 // // 		return BgBaseCard(2, "NEUTRAL", 3, 2, "BGS_055", "Deck Swabbie", "['BATTLECRY']", "PIRATE", "", 1, "<b>Battlecry:</b> Reduce the cost of upgrading Bob's Tavern by (1).", "MINION");
-// // 	}
-// // 	else if (name == "Ripsnarl Captain") {
 // // 		return BgBaseCard(3, "NEUTRAL", 4, 4, "BGS_056", "Ripsnarl Captain", "['TRIGGER_VISUAL']", "PIRATE", "", 4, "Whenever another friendly Pirate attacks, give it +2/+2.", "MINION");
-// // 	}
-// // 	else if (name == "Snarled") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_056e", "Snarled", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Master Demonologist") {
 // // 		return BgBaseCard(4, "NEUTRAL", 7, 6, "BGS_059", "Master Demonologist", "['TRIGGER_VISUAL']", "DEMON", "", -1, "Whenever you summon a Demon, gain +1/+1.", "MINION");
-// // 	}
-// // 	else if (name == "Demonic Fury") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_059e", "Demonic Fury", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Yo-Ho-Ogre") {
 // // 		return BgBaseCard(2, "NEUTRAL", 6, 8, "BGS_060", "Yo-Ho-Ogre", "['TRIGGER_VISUAL']", "PIRATE", "", 3, "[x]<b>Taunt</b> After this minion survives being attacked, attack immediately.", "MINION");
-// // 	}
-// // 	else if (name == "Scallywag") {
 // // 		return BgBaseCard(2, "NEUTRAL", 1, 1, "BGS_061", "Scallywag", "['DEATHRATTLE']", "PIRATE", "", 1, "<b>Deathrattle:</b> Summon a 1/1 Pirate. It attacks immediately.", "MINION");
-// // 	}
-// // 	else if (name == "Sky Pirate") {
 // // 		return BgBaseCard(1, "ROGUE", 1, 1, "BGS_061t", "Sky Pirate", "", "PIRATE", "", 1, "", "MINION");
-// // 	}
-// // 	else if (name == "Goldgrubber") {
 // // 		return BgBaseCard(2, "NEUTRAL", 5, 2, "BGS_066", "Goldgrubber", "['TRIGGER_VISUAL']", "PIRATE", "", 4, "At the end of your turn, gain +2/+2 for each friendly Golden minion.", "MINION");
-// // 	}
-// // 	else if (name == "Gold Grubbing") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_066e", "Gold Grubbing", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Drakonid Enforcer") {
 // // 		return BgBaseCard(3, "NEUTRAL", 6, 6, "BGS_067", "Drakonid Enforcer", "['TRIGGER_VISUAL']", "DRAGON", "", 4, "After a friendly minion loses <b>Divine Shield</b>, gain +2/+2.", "MINION");
-// // 	}
-// // 	else if (name == "Divinity") {
-// // 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_067e", "Divinity", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// // 	}
-// // 	else if (name == "Holy Mackerel") {
 // // 		return BgBaseCard(8, "PALADIN", 8, 4, "BGS_068", "Holy Mackerel", "['TRIGGER_VISUAL']", "MURLOC", "", 6, "[x]After another friendly minion loses <b>Divine Shield</b>, gain <b>Divine Shield</b>.", "MINION");
-// // 	}
-// 	else if (name == "Amalgadon") {
 // 		return BgBaseCard(6, "NEUTRAL", 8, 6, "BGS_069", "Amalgadon", "['BATTLECRY']", "ALL", "", 6, "[x]<b>Battlecry:</b> For each different minion type you have, <b>Adapt</b> randomly.", "MINION");
-// 	}
-// 	else if (name == "Deflect-o-Bot") {
 // 		return BgBaseCard(3, "NEUTRAL", 4, 2, "BGS_071", "Deflect-o-Bot", "['TRIGGER_VISUAL']", "MECHANICAL", "", 3, "[x]<b>Divine Shield</b> Whenever you summon a Mech during combat, gain +1 Attack and <b>Divine Shield</b>.", "MINION");
-// 	}
-// 	else if (name == "Deflect-o-Shield") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_071e", "Deflect-o-Shield", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Cap'n Hoggarr") {
 // 		return BgBaseCard(6, "NEUTRAL", 6, 6, "BGS_072", "Cap'n Hoggarr", "['TRIGGER_VISUAL']", "PIRATE", "", 5, "After you buy a Pirate, gain 1 Gold this turn only.", "MINION");
-// 	}
-// 	else if (name == "Rabid Saurolisk") {
 // 		return BgBaseCard(3, "HUNTER", 3, 2, "BGS_075", "Rabid Saurolisk", "['TRIGGER_VISUAL']", "BEAST", "", 2, "After you play a minion with <b>Deathrattle</b>, gain +1/+1.", "MINION");
-// 	}
-// 	else if (name == "Rabid") {
-// 		return BgBaseCard(-1, "HUNTER", -1, -1, "BGS_075e", "Rabid", "", "", "", -1, "+1/+1.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Arcane Cannon") {
 // 		return BgBaseCard(2, "NEUTRAL", 3, 2, "BGS_077", "Arcane Cannon", "['CANT_ATTACK', 'TRIGGER_VISUAL']", "", "", 2, "[x]Can't attack. After an adjacent minion attacks, deal 2 damage to an enemy minion.", "MINION");
-// 	}
-// 	else if (name == "Monstrous Macaw") {
 // 		return BgBaseCard(3, "NEUTRAL", 3, 2, "BGS_078", "Monstrous Macaw", "['TRIGGER_VISUAL']", "BEAST", "", 3, "[x]After this attacks, trigger a random friendly minion's <b>Deathrattle</b>.", "MINION");
-// 	}
-// 	else if (name == "The Tide Razor") {
 // 		return BgBaseCard(6, "NEUTRAL", 7, 4, "BGS_079", "The Tide Razor", "['DEATHRATTLE']", "", "", 6, "<b>Deathrattle</b>: Summon 3 random Pirates.", "MINION");
-// 	}
-// 	else if (name == "Seabreaker Goliath") {
 // 		return BgBaseCard(6, "NEUTRAL", 7, 7, "BGS_080", "Seabreaker Goliath", "['OVERKILL']", "PIRATE", "", 5, "<b>Windfury</b> <b>Overkill:</b> Give your other Pirates +2/+2.", "MINION");
-// 	}
-// 	else if (name == "Broken Seas") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_080e", "Broken Seas", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Salty Looter") {
 // 		return BgBaseCard(3, "ROGUE", 4, 3, "BGS_081", "Salty Looter", "['TRIGGER_VISUAL']", "PIRATE", "", 3, "Whenever you play a Pirate, gain +1/+1.", "MINION");
-// 	}
-// 	else if (name == "Loot!") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "BGS_081e", "Loot!", "", "", "", -1, "+1/+1.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Venomstrike Trap") {
 // 		return BgBaseCard(-1, "HUNTER", 2, -1, "TB_Bacon_Secrets_01", "Venomstrike Trap", "['SECRET']", "", "RARE", -1, "<b>Secret:</b> When one of your minions is attacked, summon a 2/3 <b>Poisonous</b> Cobra.", "SPELL");
-// 	}
-// 	else if (name == "Snake Trap") {
 // 		return BgBaseCard(-1, "HUNTER", 2, -1, "TB_Bacon_Secrets_02", "Snake Trap", "['SECRET']", "", "EPIC", -1, "<b>Secret:</b> When one of your minions is attacked, summon three 1/1 Snakes.", "SPELL");
-// 	}
-// 	else if (name == "Splitting Image") {
 // 		return BgBaseCard(-1, "MAGE", 3, -1, "TB_Bacon_Secrets_04", "Splitting Image", "['SECRET']", "", "EPIC", -1, "<b>Secret:</b> When one of your minions is attacked, summon a copy of it.", "SPELL");
-// 	}
-// 	else if (name == "Effigy") {
 // 		return BgBaseCard(-1, "MAGE", 3, -1, "TB_Bacon_Secrets_05", "Effigy", "['SECRET']", "", "RARE", -1, "<b>Secret:</b> When a friendly minion dies, summon a random minion with the same Cost.", "SPELL");
-// 	}
-// 	else if (name == "Autodefense Matrix") {
 // 		return BgBaseCard(-1, "PALADIN", 1, -1, "TB_Bacon_Secrets_07", "Autodefense Matrix", "['SECRET']", "", "COMMON", -1, "<b>Secret:</b> When one of your minions is attacked, give it <b>Divine Shield</b>.", "SPELL");
-// 	}
-// 	else if (name == "Avenge") {
 // 		return BgBaseCard(-1, "PALADIN", 1, -1, "TB_Bacon_Secrets_08", "Avenge", "['SECRET']", "", "COMMON", -1, "<b>Secret:</b> When one of your minions dies, give a random friendly minion +3/+2.", "SPELL");
-// 	}
-// 	else if (name == "Redemption") {
 // 		return BgBaseCard(-1, "PALADIN", 1, -1, "TB_Bacon_Secrets_10", "Redemption", "['SECRET']", "", "COMMON", -1, "<b>Secret:</b> When a friendly minion dies, return it to life with 1 Health.", "SPELL");
-// 	}
-// 	else if (name == "Hand of Salvation") {
 // 		return BgBaseCard(-1, "PALADIN", 1, -1, "TB_Bacon_Secrets_11", "Hand of Salvation", "['SECRET']", "", "FREE", -1, "<b>Secret:</b> When your second minion dies in a turn, return it to life.", "SPELL");
-// 	}
-// 	else if (name == "Ice Block") {
 // 		return BgBaseCard(-1, "MAGE", 3, -1, "TB_Bacon_Secrets_12", "Ice Block", "['SECRET']", "", "EPIC", -1, "<b>Secret:</b> When your hero takes fatal damage, prevent it and become <b>Immune</b> this turn.", "SPELL");
-// 	}
-// 	else if (name == "BaconShop1PlayerEnchant") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_1P_PlayerE", "BaconShop1PlayerEnchant", "", "", "", -1, "", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Refresh") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_1p_Reroll_Button", "Refresh", "", "", "", -1, "Fill Bob's Tavern with new minions.", "GAME_MODE_BUTTON");
-// 	}
-// 	else if (name == "3ofKindCheckPlayerEnchant") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_3ofKindChecke", "3ofKindCheckPlayerEnchant", "", "", "", -1, "", "ENCHANTMENT");
-// 	}
-// 	else if (name == "BaconShop8PlayerEnchant") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_8P_PlayerE", "BaconShop8PlayerEnchant", "", "", "", -1, "", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Refresh") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_8p_Reroll_Button", "Refresh", "", "", "", -1, "Fill Bob's Tavern with new minions.", "GAME_MODE_BUTTON");
-// 	}
-// 	else if (name == "Drag To Buy") {
-// 		return BgBaseCard(-1, "NEUTRAL", 3, -1, "TB_BaconShop_DragBuy", "Drag To Buy", "", "", "", -1, "", "MOVE_MINION_HOVER_TARGET");
-// 	}
-// 	else if (name == "Drag To Sell") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_DragSell", "Drag To Sell", "", "", "", -1, "", "MOVE_MINION_HOVER_TARGET");
-// 	}
-// 	else if (name == "Edwin VanCleef") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_01", "Edwin VanCleef", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Galakrond") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_02", "Galakrond", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Illidan Stormrage") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_08", "Illidan Stormrage", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Trade Prince Gallywix") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_10", "Trade Prince Gallywix", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Ragnaros the Firelord") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_11", "Ragnaros the Firelord", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "The Rat King") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_12", "The Rat King", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Queen Wagtoggle") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_14", "Queen Wagtoggle", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "George the Fallen") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_15", "George the Fallen", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "A. F. Kay") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_16", "A. F. Kay", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Millificent Manastorm") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_17", "Millificent Manastorm", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Patches the Pirate") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_18", "Patches the Pirate", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Giantfin") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_19", "Giantfin", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Professor Putricide") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_20", "Professor Putricide", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "The Great Akazamzarak") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_21", "The Great Akazamzarak", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "The Lich King") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_22", "The Lich King", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Shudderwock") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_23", "Shudderwock", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Lich Baz'hial") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_25", "Lich Baz'hial", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Sindragosa") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_27", "Sindragosa", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Infinite Toki") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_28", "Infinite Toki", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Nefarian") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_30", "Nefarian", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Bartendotron") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_31", "Bartendotron", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "The Curator") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_33", "The Curator", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Patchwerk") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 50, "TB_BaconShop_HERO_34", "Patchwerk", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Yogg-Saron, Hope's End") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_35", "Yogg-Saron, Hope's End", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Dancin' Deryl") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_36", "Dancin' Deryl", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Lord Jaraxxus") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_37", "Lord Jaraxxus", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "King Mukla") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_38", "King Mukla", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Pyramad") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_39", "Pyramad", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Sir Finley Mrrgglton") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_40", "Sir Finley Mrrgglton", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Reno Jackson") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_41", "Reno Jackson", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Elise Starseeker") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_42", "Elise Starseeker", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Dinotamer Brann") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_43", "Dinotamer Brann", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Sylvanas Windrunner") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_44", "Sylvanas Windrunner", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Arch-Villain Rafaam") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_45", "Arch-Villain Rafaam", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Tirion Fordring") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_47", "Tirion Fordring", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Millhouse Manastorm") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_49", "Millhouse Manastorm", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Tess Greymane") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_50", "Tess Greymane", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Deathwing") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_52", "Deathwing", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Ysera") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_53", "Ysera", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Fungalmancer Flurgl") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_55", "Fungalmancer Flurgl", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Alexstrasza") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_56", "Alexstrasza", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Nozdormu") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_57", "Nozdormu", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Malygos") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_58", "Malygos", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Aranna Starseeker") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_59", "Aranna Starseeker", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Aranna, Unleashed") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_59t", "Aranna, Unleashed", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Kael'thas Sunstrider") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_60", "Kael'thas Sunstrider", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Lady Vashj") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_61", "Lady Vashj", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Maiev Shadowsong") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_62", "Maiev Shadowsong", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Captain Eudora") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_64", "Captain Eudora", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Captain Hooktusk") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_67", "Captain Hooktusk", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Skycap'n Kragg") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_68", "Skycap'n Kragg", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Kel'Thuzad") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 0, "TB_BaconShop_HERO_KelThuzad", "Kel'Thuzad", "['CANT_BE_DESTROYED']", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "BaconPHhero") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 40, "TB_BaconShop_HERO_PH", "BaconPHhero", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Sharpen Blades") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_001", "Sharpen Blades", "", "", "", -1, "[x]<b>Hero Power</b> Give a minion +1/+1 for each minion you've bought this turn.", "HERO_POWER");
-// 	}
-// 	else if (name == "Sharpened Blades") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_001e", "Sharpened Blades", "", "", "", -1, "Increased Stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Smart Savings") {
-// 		return BgBaseCard(-1, "ROGUE", 1, -1, "TB_BaconShop_HP_008", "Smart Savings", "", "", "", -1, "[x]<b>Hero Power</b> Add a Gold Coin to your hand.", "HERO_POWER");
-// 	}
-// 	else if (name == "Gold Coin") {
 // 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_008a", "Gold Coin", "", "", "RARE", -1, "Gain 1 Gold this turn only.", "SPELL");
-// 	}
-// 	else if (name == "Skilled Bartender") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_009", "Skilled Bartender", "", "", "", -1, "[x]<b>Passive Hero Power</b> Reduce the Cost of Tavern Tiers by (1).", "HERO_POWER");
-// 	}
-// 	else if (name == "Boon of Light") {
-// 		return BgBaseCard(-1, "NEUTRAL", 3, -1, "TB_BaconShop_HP_010", "Boon of Light", "", "", "", -1, "<b>Hero Power</b> Give a friendly minion <b>Divine Shield</b>.", "HERO_POWER");
-// 	}
-// 	else if (name == "Galakrond's Greed") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_011", "Galakrond's Greed", "", "", "", -1, "[x]<b>Hero Power</b> Replace a minion in Bob's Tavern with a minion from a higher Tavern Tier.", "HERO_POWER");
-// 	}
-// 	else if (name == "Stay Frosty") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_014", "Stay Frosty", "['TRIGGER_VISUAL']", "", "", -1, "[x]<b>Passive Hero Power</b> At the end of your turn, <b>Frozen</b> minions get +1/+1.", "HERO_POWER");
-// 	}
-// 	else if (name == "Frosty") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_014e", "Frosty", "", "", "", -1, "+1/+1.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Tinker") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_015", "Tinker", "", "", "", -1, "[x]<b>Passive Hero Power</b> Mechs in Bob's Tavern have +1/+1.", "HERO_POWER");
-// 	}
-// 	else if (name == "Tinkered") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_015e", "Tinkered", "", "", "", -1, "+1/+1.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Murloc King") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_017", "Murloc King", "", "", "", -1, "[x]<b>Hero Power</b> At the start of next combat, give your minions \"<b>Deathrattle:</b>  Summon a 1/1 Murloc.\"", "HERO_POWER");
-// 	}
-// 	else if (name == "Murloc King") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_017e", "Murloc King", "", "", "", -1, "<b>Deathrattle:</b> Summon a 1/1 Murloc.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Rage Potion") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_018", "Rage Potion", "", "", "", -1, "[x]<b>Hero Power</b> Give a friendly minion +10 Attack for the next combat only.", "HERO_POWER");
-// 	}
-// 	else if (name == "Rage Potion") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_018e2", "Rage Potion", "", "", "", -1, "+10 Attack.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "DIE, INSECTS!") {
-// 		return BgBaseCard(-1, "NEUTRAL", 2, -1, "TB_BaconShop_HP_019", "DIE, INSECTS!", "", "", "", -1, "[x]<b>Hero Power</b> <b>Start of Combat:</b> Deal 8 damage to two   random enemy minions.", "HERO_POWER");
-// 	}
-// 	else if (name == "Prestidigitation") {
-// 		return BgBaseCard(-1, "NEUTRAL", 2, -1, "TB_BaconShop_HP_020", "Prestidigitation", "", "", "", -1, "<b>Hero Power</b> <b>Discover</b> a <b>Secret</b>. Put it into the battlefield.", "HERO_POWER");
-// 	}
-// 	else if (name == "Burbling") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_022", "Burbling", "", "", "", -1, "[x]<b>Hero Power</b> Your next <b>Battlecry</b> this turn triggers twice.", "HERO_POWER");
-// 	}
-// 	else if (name == "Double Next Battlecry") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_022e", "Double Next Battlecry", "", "", "", -1, "<b>Hero Power</b> Your next <b>Battlecry</b> this turn triggers twice.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Reborn Rites") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_024", "Reborn Rites", "", "", "", -1, "[x]<b>Hero Power</b> Give a friendly minion <b>Reborn</b> for the next combat only.", "HERO_POWER");
-// 	}
-// 	else if (name == "Reborn Rite") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_024e2", "Reborn Rite", "", "", "", -1, "<b>Reborn</b>", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Fire the Cannons!") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_027", "Fire the Cannons!", "", "", "", -1, "[x]<b>Hero Power</b> <b>Start of Combat:</b> Deal 4 damage to two   random enemy minions.", "HERO_POWER");
-// 	}
-// 	else if (name == "Temporal Tavern") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_028", "Temporal Tavern", "", "", "", -1, "[x]<b>Hero Power</b> <b>Refresh</b> Bob's Tavern. Include a minion from a higher Tavern Tier.", "HERO_POWER");
-// 	}
-// 	else if (name == "Menagerist") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_033", "Menagerist", "", "", "", -1, "[x]<b>Passive Hero Power</b> Start the game with a 1/1 Amalgam with all minion types.", "HERO_POWER");
-// 	}
-// 	else if (name == "Amalgam") {
-// 		return BgBaseCard(1, "NEUTRAL", 2, 1, "TB_BaconShop_HP_033t", "Amalgam", "", "ALL", "", 1, "[x]<i>This is an Elemental, Mech, Demon, Murloc, Dragon, Beast, Pirate and Totem.</i>", "MINION");
-// 	}
-// 	else if (name == "All Patched Up") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_035", "All Patched Up", "", "", "", -1, "[x]<b>Passive Hero Power</b> Start with 50 Health  instead of 40.", "HERO_POWER");
-// 	}
-// 	else if (name == "Bloodfury") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_036", "Bloodfury", "", "", "", -1, "[x]<b>Hero Power</b> Give your Demons +1/+1.", "HERO_POWER");
-// 	}
-// 	else if (name == "Demonic Draught") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_036e2", "Demonic Draught", "", "", "", -1, "+1/+1.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Wax Warband") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_037a", "Wax Warband", "", "", "", -1, "[x]<b>Hero Power</b> Give a friendly minion of each minion type +2 Attack.", "HERO_POWER");
-// 	}
-// 	else if (name == "Waxed") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_037te", "Waxed", "", "", "", -1, "Increased Attack.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Bananarama") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_038", "Bananarama", "", "", "", -1, "[x]<b>Hero Power</b> Get 2 Bananas. At the end of your turn,  give everyone else one.", "HERO_POWER");
-// 	}
-// 	else if (name == "Banana Watcher") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_038e", "Banana Watcher", "", "", "", -1, "", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Wild Banana") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_038t", "Wild Banana", "", "", "", -1, "Give a friendly Beast +1/+1.", "SPELL");
-// 	}
-// 	else if (name == "Wild Banana") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_038te", "Wild Banana", "", "", "", -1, "Has +1/+1.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Puzzle Box") {
-// 		return BgBaseCard(-1, "NEUTRAL", 2, -1, "TB_BaconShop_HP_039", "Puzzle Box", "", "", "", -1, "[x]<b>Hero Power</b> Add a random minion in Bob's Tavern to your hand. Give it +1/+1.", "HERO_POWER");
-// 	}
-// 	else if (name == "Puzzled") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_039e", "Puzzled", "", "", "", -1, "+1/+1.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Brick by Brick") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_040", "Brick by Brick", "", "", "", -1, "<b>Hero Power</b> Give a random friendly minion +4 Health.", "HERO_POWER");
-// 	}
-// 	else if (name == "Built Up") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_040e", "Built Up", "", "", "", -1, "+4 Health.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "A Tale of Kings") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_041", "A Tale of Kings", "", "", "", -1, "[x]<b>Passive Hero Power</b> Whenever you buy a minion of a specific type, give it +1/+2. Swaps type each turn.", "HERO_POWER");
-// 	}
-// 	else if (name == "King of Beasts") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_041a", "King of Beasts", "['TRIGGER_VISUAL']", "", "", -1, "[x]<b>Passive Hero Power</b> Whenever you buy a <b>Beast</b>, give it +1/+2. Swaps type each turn.", "HERO_POWER");
-// 	}
-// 	else if (name == "King of Mechs") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_041b", "King of Mechs", "['TRIGGER_VISUAL']", "", "", -1, "[x]<b>Passive Hero Power</b> Whenever you buy a <b>Mech</b>, give it +1/+2. Swaps type each turn.", "HERO_POWER");
-// 	}
-// 	else if (name == "King of Murlocs") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_041c", "King of Murlocs", "['TRIGGER_VISUAL']", "", "", -1, "[x]<b>Passive Hero Power</b> Whenever you buy a <b>Murloc</b>, give it +1/+2. Swaps type each turn.", "HERO_POWER");
-// 	}
-// 	else if (name == "King of Demons") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_041d", "King of Demons", "['TRIGGER_VISUAL']", "", "", -1, "[x]<b>Passive Hero Power</b> Whenever you buy a <b>Demon</b>, give it +1/+2. Swaps type each turn.", "HERO_POWER");
-// 	}
-// 	else if (name == "Rat Follower") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_041e", "Rat Follower", "", "", "", -1, "Has +1/+2.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "King of Dragons") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_041f", "King of Dragons", "['TRIGGER_VISUAL']", "", "", -1, "[x]<b>Passive Hero Power</b> Whenever you buy a <b>Dragon</b>, give it +1/+2. Swaps type each turn.", "HERO_POWER");
-// 	}
-// 	else if (name == "King of Pirates") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_041g", "King of Pirates", "['TRIGGER_VISUAL']", "", "", -1, "[x]<b>Passive Hero Power</b> Whenever you buy a <b>Pirate</b>, give it +1/+2. Swaps type each turn.", "HERO_POWER");
-// 	}
-// 	else if (name == "Hat Trick") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_042", "Hat Trick", "['TRIGGER_VISUAL']", "", "", -1, "[x]<b>Passive Hero Power</b> After you sell a minion, randomly give a minion in    Bob's Tavern +1/+1 twice. ", "HERO_POWER");
-// 	}
-// 	else if (name == "Hat") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_042e", "Hat", "", "", "", -1, "+1/+1.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Nefarious Fire") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_043", "Nefarious Fire", "", "", "", -1, "[x]<b>Hero Power</b> <b>Start of Combat:</b> Deal 1 damage to all enemy minions.", "HERO_POWER");
-// 	}
-// 	else if (name == "Procrastinate") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_044", "Procrastinate", "['TRIGGER_VISUAL']", "", "", -1, "[x]<b>Passive Hero Power</b> Skip your first two turns. Start with two minions from Tavern Tier 3.", "HERO_POWER");
-// 	}
-// 	else if (name == "Powered Up!") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_045e", "Powered Up!", "", "", "", -1, "Increased Stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Gonna Be Rich!") {
-// 		return BgBaseCard(-1, "NEUTRAL", 2, -1, "TB_BaconShop_HP_046", "Gonna Be Rich!", "", "", "", -1, "[x]<b>Hero Power</b> Make a friendly minion Golden. <i>(Once per game.)</i>", "HERO_POWER");
-// 	}
-// 	else if (name == "Lead Explorer") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_047", "Lead Explorer", "['TRIGGER_VISUAL']", "", "", -1, "[x]<b>Passive Hero Power</b> When you upgrade  Bob's Tavern get a 'Recruitment Map'.", "HERO_POWER");
-// 	}
-// 	else if (name == "Recruitment Map") {
-// 		return BgBaseCard(-1, "NEUTRAL", 3, -1, "TB_BaconShop_HP_047t", "Recruitment Map", "", "", "", -1, "<b>Discover</b> a minion from <b>Tavern Tier", "SPELL");
-// 	}
-// 	else if (name == "Battle Brand") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_048", "Battle Brand", "", "", "", -1, "[x]<b>Hero Power</b> Refresh Bob's Tavern   with <b>Battlecry</b> minions.", "HERO_POWER");
-// 	}
-// 	else if (name == "Battle Branded") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_048e", "Battle Branded", "", "", "", -1, "Increased Stats", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Graveyard Shift") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_049", "Graveyard Shift", "", "", "", -1, "[x]<b>Hero Power</b> Take $2 damage and add a Gold Coin to your hand.", "HERO_POWER");
-// 	}
-// 	else if (name == "Banshee's Blessing") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_050", "Banshee's Blessing", "", "", "", -1, "[x]<b>Hero Power</b> Remove a friendly minion. Give adjacent minions +1/+1.", "HERO_POWER");
-// 	}
-// 	else if (name == "Banshee Blessing") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_050e", "Banshee Blessing", "", "", "", -1, "Increased Stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Honorable Warband") {
-// 		return BgBaseCard(-1, "NEUTRAL", 2, -1, "TB_BaconShop_HP_051", "Honorable Warband", "", "", "", -1, "[x]<b>Hero Power</b> Give your minions with no minion type +1/+1.", "HERO_POWER");
-// 	}
-// 	else if (name == "Honorable") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_051e", "Honorable", "", "", "", -1, "+1/+1.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Arcane Alteration") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_052", "Arcane Alteration", "", "", "", -1, "[x]<b>Hero Power</b> Replace a minion with a random one of the same Tavern Tier.", "HERO_POWER");
-// 	}
-// 	else if (name == "I'll Take That!") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_053", "I'll Take That!", "", "", "", -1, "[x]<b>Hero Power</b> Next combat, add a plain copy of the first minion you kill to your hand.", "HERO_POWER");
-// 	}
-// 	else if (name == "Manastorm") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_054", "Manastorm", "", "", "", -1, "<b>Passive Hero Power</b> Minions cost 2 Gold <b>Refresh</b> costs 2 Gold.  Tavern Tiers cost (1) more.", "HERO_POWER");
-// 	}
-// 	else if (name == "Manastormed") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_Baconshop_HP_054e", "Manastormed", "['ENCHANTMENT_INVISIBLE']", "", "", -1, "Costs (1) less.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Cost 1 more") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_Baconshop_HP_054e2", "Cost 1 more", "['ENCHANTMENT_INVISIBLE']", "", "", -1, "Costs (1) more.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Gone Fishing") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_056", "Gone Fishing", "['TRIGGER_VISUAL']", "", "", -1, "[x]<b>Passive Hero Power</b> After you sell a Murloc, add a random Murloc to Bob's Tavern.", "HERO_POWER");
-// 	}
-// 	else if (name == "Adventure!") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_057", "Adventure!", "['TRIGGER_VISUAL']", "", "", -1, "[x]<b>Passive Hero Power</b> At the start of the game, <b>Discover</b> a Hero Power.", "HERO_POWER");
-// 	}
-// 	else if (name == "ALL Will Burn!") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_061", "ALL Will Burn!", "['AURA']", "", "", -1, "[x]<b>Passive Hero Power</b> ALL minions have +2 Attack.", "HERO_POWER");
-// 	}
-// 	else if (name == "ALL Will Burn!") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_061e", "ALL Will Burn!", "", "", "", -1, "+2 Attack.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Dream Portal") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_062", "Dream Portal", "['TRIGGER_VISUAL']", "", "", -1, "[x]<b>Passive Hero Power</b> At the start of your turn, add a Dragon to Bob's Tavern.", "HERO_POWER");
-// 	}
-// 	else if (name == "Clairvoyance") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_063", "Clairvoyance", "", "", "", -1, "[x]<b>Passive Hero Power</b> Your first <b>Refresh</b> each turn costs (0).", "HERO_POWER");
-// 	}
-// 	else if (name == "Queen of Dragons") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_064", "Queen of Dragons", "['DISCOVER', 'TRIGGER_VISUAL']", "", "", -1, "[x]<b>Passive Hero Power</b> After you upgrade Bob's Tavern to Tavern Tier 5, <b>Discover</b> two Dragons.", "HERO_POWER");
-// 	}
-// 	else if (name == "Demon Hunter Training") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_065", "Demon Hunter Training", "", "", "", -1, "[x]<b>Passive Hero Power</b> After you <b>Refresh</b> 5 times, Bob always has 7 minions. <i>(5 left!)</i>", "HERO_POWER");
-// 	}
-// 	else if (name == "Aranna Watcher") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_065pe", "Aranna Watcher", "", "", "", -1, "", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Spectral Sight") {
-// 		return BgBaseCard(-1, "DEMONHUNTER", 0, -1, "TB_BaconShop_HP_065t2", "Spectral Sight", "", "", "", -1, "[x]<b>Passive Hero Power</b> Bob's Tavern refreshes with 7 minions.", "HERO_POWER");
-// 	}
-// 	else if (name == "Verdant Spheres") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_066", "Verdant Spheres", "", "", "", -1, "[x]<b>Passive Hero Power</b> Every third minion you buy gains +2/+2.", "HERO_POWER");
-// 	}
-// 	else if (name == "Verdant!") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_066e", "Verdant!", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Evolving Electricity") {
-// 		return BgBaseCard(-1, "SHAMAN", 0, -1, "TB_BaconShop_HP_067", "Evolving Electricity", "['TRIGGER_VISUAL']", "", "", -1, "[x]<b>Passive Hero Power</b> After you upgrade Bob's Tavern, replace his minions    with ones of a higher Tier.", "HERO_POWER");
-// 	}
-// 	else if (name == "Imprison") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_068", "Imprison", "", "", "", -1, "[x]<b>Hero Power</b> Make a minion in Bob's Tavern <b>Dormant</b>. After 2   turns, get it with +1/+1.", "HERO_POWER");
-// 	}
-// 	else if (name == "Imprisoned") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_068e", "Imprisoned", "['TRIGGER_VISUAL']", "", "", -1, "<b>Dormant</b>. Awaken in 2 turns.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Awakened") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_068e2", "Awakened", "", "", "", -1, "+1/+1.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "ImprisonedWatcher") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconShop_HP_068pe", "ImprisonedWatcher", "['TRIGGER_VISUAL']", "", "", -1, "", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Wingmen") {
-// 		return BgBaseCard(-1, "DEMONHUNTER", 0, -1, "TB_BaconShop_HP_069", "Wingmen", "['TRIGGER_VISUAL']", "", "", -1, "[x]<b>Passive Hero Power</b> <b>Start of Combat:</b> Your left and right-most minions attack immediately.", "HERO_POWER");
-// 	}
-// 	else if (name == "Wingmen") {
-// 		return BgBaseCard(-1, "DEMONHUNTER", -1, -1, "TB_BaconShop_HP_069e", "Wingmen", "", "", "", -1, "", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Pirate Parrrrty!") {
-// 		return BgBaseCard(-1, "NEUTRAL", 4, -1, "TB_BaconShop_HP_072", "Pirate Parrrrty!", "", "", "", -1, "[x]<b>Hero Power</b> Get a Pirate. After you buy a Pirate, your next Hero Power costs (1) less.", "HERO_POWER");
-// 	}
-// 	else if (name == "Buried Treasure") {
-// 		return BgBaseCard(-1, "NEUTRAL", 1, -1, "TB_BaconShop_HP_074", "Buried Treasure", "", "", "", -1, "[x]<b>Hero Power</b>  Dig for a Golden minion! <i>(4 Digs left.)</i>", "HERO_POWER");
-// 	}
-// 	else if (name == "Trash for Treasure") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_075", "Trash for Treasure", "", "", "", -1, "[x]<b>Hero Power</b> Remove a friendly minion. Get a random one from a Tavern Tier lower.", "HERO_POWER");
-// 	}
-// 	else if (name == "Piggy Bank") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_076", "Piggy Bank", "", "", "", -1, "[x]<b>Hero Power</b> Gain 1 Gold this turn. Increases each turn. <i>(Once per game.)</i>", "HERO_POWER");
-// 	}
-// 	else if (name == "Bob's Burgles") {
-// 		return BgBaseCard(-1, "ROGUE", 1, -1, "TB_BaconShop_HP_077", "Bob's Burgles", "", "", "", -1, "[x]<b>Hero Power</b> Refresh Bob's Tavern with minions from your last opponent's warband.", "HERO_POWER");
-// 	}
-// 	else if (name == "Triple Reward") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_Triples_01", "Triple Reward", "", "", "", -1, "<b>Discover</b> a minion from <b>Tavern Tier", "SPELL");
-// 	}
-// 	else if (name == "Costs 0") {
-// 		return BgBaseCard(-1, "DRUID", -1, -1, "TB_BaconShopBadsongE", "Costs 0", "['ENCHANTMENT_INVISIBLE']", "", "", -1, "Costs (0).", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Bob's Tavern") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, 60, "TB_BaconShopBob", "Bob's Tavern", "", "", "", -1, "", "HERO");
-// 	}
-// 	else if (name == "Freeze") {
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShopLockAll_Button", "Freeze", "", "", "", -1, "<b>Freeze</b> / <b>Unfreeze</b> the minions in Bob's Tavern.", "GAME_MODE_BUTTON");
-// 	}
-// 	else if (name == "Tavern Tier 2") {
-// 		return BgBaseCard(-1, "NEUTRAL", 5, -1, "TB_BaconShopTechUp02_Button", "Tavern Tier 2", "", "", "", -1, "Bob sells higher tier minions when you <b>Refresh</b>.", "GAME_MODE_BUTTON");
-// 	}
-// 	else if (name == "Tavern Tier 3") {
-// 		return BgBaseCard(-1, "NEUTRAL", 7, -1, "TB_BaconShopTechUp03_Button", "Tavern Tier 3", "", "", "", -1, "Bob sells higher tier minions when you <b>Refresh</b>.", "GAME_MODE_BUTTON");
-// 	}
-// 	else if (name == "Tavern Tier 4") {
-// 		return BgBaseCard(-1, "NEUTRAL", 8, -1, "TB_BaconShopTechUp04_Button", "Tavern Tier 4", "", "", "", -1, "Bob sells higher tier minions when you <b>Refresh</b>.", "GAME_MODE_BUTTON");
-// 	}
-// 	else if (name == "Tavern Tier 5") {
-// 		return BgBaseCard(-1, "NEUTRAL", 9, -1, "TB_BaconShopTechUp05_Button", "Tavern Tier 5", "", "", "", -1, "Bob sells higher tier minions when you <b>Refresh</b>.", "GAME_MODE_BUTTON");
-// 	}
-// 	else if (name == "Tavern Tier 6") {
-// 		return BgBaseCard(-1, "NEUTRAL", 10, -1, "TB_BaconShopTechUp06_Button", "Tavern Tier 6", "", "", "", -1, "Bob sells higher tier minions when you <b>Refresh</b>.", "GAME_MODE_BUTTON");
-// 	}
-// 	else if (name == "Mecharoo (Golden)") {
+
+
+
+
 // 		return BgBaseCard(2, "NEUTRAL", 1, 2, "TB_BaconUps_002", "Mecharoo (Golden)", "['DEATHRATTLE']", "MECHANICAL", "COMMON", 1, "<b>Deathrattle:</b> Summon a 2/2 Jo-E Bot.", "MINION");
-// 	}
-// 	else if (name == "Jo-E Bot (Golden)") {
 // 		return BgBaseCard(2, "NEUTRAL", 1, 2, "TB_BaconUps_002t", "Jo-E Bot (Golden)", "", "MECHANICAL", "", 1, "", "MINION");
-// 	}
-// 	else if (name == "Murloc Tidehunter (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 2, 2, "TB_BaconUps_003", "Murloc Tidehunter (Golden)", "['BATTLECRY']", "MURLOC", "FREE", 1, "<b>Battlecry:</b> Summon a 2/2 Murloc Scout.", "MINION");
-// 	}
-// 	else if (name == "Murloc Scout (Golden)") {
 // 		return BgBaseCard(2, "NEUTRAL", 1, 2, "TB_BaconUps_003t", "Murloc Scout (Golden)", "", "MURLOC", "COMMON", 1, "", "MINION");
-// 	}
-// 	else if (name == "Kindly Grandmother (Golden)") {
 // 		return BgBaseCard(2, "HUNTER", 2, 2, "TB_BaconUps_004", "Kindly Grandmother (Golden)", "['DEATHRATTLE']", "BEAST", "COMMON", 2, "<b>Deathrattle:</b> Summon a 6/4 Big Bad Wolf.", "MINION");
-// 	}
-// 	else if (name == "Big Bad Wolf (Golden)") {
 // 		return BgBaseCard(6, "HUNTER", 2, 4, "TB_BaconUps_004t", "Big Bad Wolf (Golden)", "", "BEAST", "", 1, "", "MINION");
-// 	}
-// 	else if (name == "Harvest Golem (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 3, 6, "TB_BaconUps_006", "Harvest Golem (Golden)", "['DEATHRATTLE']", "MECHANICAL", "COMMON", 2, "<b>Deathrattle:</b> Summon a 4/2 Damaged Golem.", "MINION");
-// 	}
-// 	else if (name == "Damaged Golem (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 1, 2, "TB_BaconUps_006t", "Damaged Golem (Golden)", "", "MECHANICAL", "", 1, "", "MINION");
-// 	}
-// 	else if (name == "Murloc Warleader (Golden)") {
 // 		return BgBaseCard(6, "NEUTRAL", 3, 6, "TB_BaconUps_008", "Murloc Warleader (Golden)", "['AURA']", "MURLOC", "EPIC", 2, "Your other Murlocs have +4 Attack.", "MINION");
-// 	}
-// 	else if (name == "Mrgglaargl! (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_008e", "Mrgglaargl! (Golden)", "", "", "", -1, "+4 Attack from Murloc Warleader.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Defender of Argus (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 4, 6, "TB_BaconUps_009", "Defender of Argus (Golden)", "['BATTLECRY']", "", "RARE", 4, "<b>Battlecry:</b> Give adjacent minions +2/+2 and <b>Taunt</b>.", "MINION");
-// 	}
-// 	else if (name == "Hand of Argus (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_009e", "Hand of Argus (Golden)", "", "", "", -1, "+2/+2 and <b>Taunt</b>.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Murloc Tidecaller (Golden)") {
 // 		return BgBaseCard(2, "NEUTRAL", 1, 4, "TB_BaconUps_011", "Murloc Tidecaller (Golden)", "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "Whenever you summon a Murloc, gain +2 Attack.", "MINION");
-// 	}
-// 	else if (name == "Blarghghl (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_011e", "Blarghghl (Golden)", "", "", "", -1, "Increased Attack.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Selfless Hero (Golden)") {
 // 		return BgBaseCard(4, "PALADIN", 1, 2, "TB_BaconUps_014", "Selfless Hero (Golden)", "['DEATHRATTLE']", "", "RARE", 1, "<b>Deathrattle:</b> Give 2 random friendly minions <b>Divine Shield</b>.", "MINION");
-// 	}
-// 	else if (name == "Mounted Raptor (Golden)") {
 // 		return BgBaseCard(6, "DRUID", 3, 4, "TB_BaconUps_019", "Mounted Raptor (Golden)", "['DEATHRATTLE']", "BEAST", "COMMON", 2, "<b>Deathrattle:</b> Summon two random 1-Cost minions.", "MINION");
-// 	}
-// 	else if (name == "Spawn of N'Zoth (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 3, 4, "TB_BaconUps_025", "Spawn of N'Zoth (Golden)", "['DEATHRATTLE']", "", "COMMON", 2, "<b>Deathrattle:</b> Give your minions +2/+2.", "MINION");
-// 	}
-// 	else if (name == "Slimed (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_025e", "Slimed (Golden)", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Infested Wolf (Golden)") {
 // 		return BgBaseCard(6, "HUNTER", 4, 6, "TB_BaconUps_026", "Infested Wolf (Golden)", "['DEATHRATTLE']", "BEAST", "RARE", 3, "<b>Deathrattle:</b> Summon two 2/2 Spiders.", "MINION");
-// 	}
-// 	else if (name == "Spider (Golden)") {
 // 		return BgBaseCard(2, "HUNTER", 1, 2, "TB_BaconUps_026t", "Spider (Golden)", "", "BEAST", "", 1, "", "MINION");
-// 	}
-// 	else if (name == "Rat Pack (Golden)") {
 // 		return BgBaseCard(4, "HUNTER", 3, 4, "TB_BaconUps_027", "Rat Pack (Golden)", "['DEATHRATTLE']", "BEAST", "EPIC", 2, "[x]<b>Deathrattle:</b> Summon a number of 2/2 Rats equal  to this minion's Attack.", "MINION");
-// 	}
-// 	else if (name == "Rat (Golden)") {
 // 		return BgBaseCard(2, "HUNTER", 1, 2, "TB_BaconUps_027t", "Rat (Golden)", "", "BEAST", "", 1, "", "MINION");
-// 	}
-// 	else if (name == "Kaboom Bot (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 3, 4, "TB_BaconUps_028", "Kaboom Bot (Golden)", "['DEATHRATTLE']", "MECHANICAL", "COMMON", 2, "<b>Deathrattle:</b> Deal 4 damage to a random enemy minion twice.", "MINION");
-// 	}
-// 	else if (name == "Imp Gang Boss (Golden)") {
 // 		return BgBaseCard(4, "WARLOCK", 3, 8, "TB_BaconUps_030", "Imp Gang Boss (Golden)", "['TRIGGER_VISUAL']", "DEMON", "COMMON", 3, "Whenever this minion takes damage, summon a 2/2 Imp.", "MINION");
-// 	}
-// 	else if (name == "Imp (Golden)") {
 // 		return BgBaseCard(2, "WARLOCK", 1, 2, "TB_BaconUps_030t", "Imp (Golden)", "", "DEMON", "", 1, "", "MINION");
-// 	}
-// 	else if (name == "Tortollan Shellraiser (Golden)") {
 // 		return BgBaseCard(4, "PRIEST", 4, 12, "TB_BaconUps_031", "Tortollan Shellraiser (Golden)", "['DEATHRATTLE', 'TAUNT']", "", "COMMON", 3, "[x]<b>Taunt</b> <b>Deathrattle:</b> Give a random  friendly minion +2/+2.", "MINION");
-// 	}
-// 	else if (name == "Shellshield (Golden)") {
-// 		return BgBaseCard(-1, "PRIEST", -1, -1, "TB_BaconUps_031e", "Shellshield (Golden)", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Replicating Menace (Golden)") {
 // 		return BgBaseCard(6, "NEUTRAL", 4, 2, "TB_BaconUps_032", "Replicating Menace (Golden)", "['DEATHRATTLE', 'MODULAR']", "MECHANICAL", "RARE", 3, "<b>Magnetic</b> <b>Deathrattle:</b> Summon three 2/2 Microbots.", "MINION");
-// 	}
-// 	else if (name == "Replicating Menace (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_032e", "Replicating Menace (Golden)", "['MODULAR']", "", "", -1, "<b>Deathrattle:</b> Summon three 2/2 Microbots.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Microbot (Golden)") {
 // 		return BgBaseCard(2, "NEUTRAL", 1, 2, "TB_BaconUps_032t", "Microbot (Golden)", "", "MECHANICAL", "", 1, "", "MINION");
-// 	}
-// 	else if (name == "Festeroot Hulk (Golden)") {
 // 		return BgBaseCard(4, "WARRIOR", 5, 14, "TB_BaconUps_033", "Festeroot Hulk (Golden)", "['TRIGGER_VISUAL']", "", "RARE", 4, "After a friendly minion attacks, gain +2 Attack.", "MINION");
-// 	}
-// 	else if (name == "Grown (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_033e", "Grown (Golden)", "", "", "", -1, "Increased Attack.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Khadgar (Golden)") {
 // 		return BgBaseCard(4, "MAGE", 2, 4, "TB_BaconUps_034", "Khadgar (Golden)", "['TRIGGER_VISUAL']", "", "LEGENDARY", 3, "Your cards that summon minions summon three times as many.", "MINION");
-// 	}
-// 	else if (name == "Piloted Shredder (Golden)") {
 // 		return BgBaseCard(8, "NEUTRAL", 4, 6, "TB_BaconUps_035", "Piloted Shredder (Golden)", "['DEATHRATTLE']", "MECHANICAL", "COMMON", 3, "<b>Deathrattle:</b> Summon two random 2-Cost minions.", "MINION");
-// 	}
-// 	else if (name == "Old Murk-Eye (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 4, 8, "TB_BaconUps_036", "Old Murk-Eye (Golden)", "['CHARGE']", "MURLOC", "LEGENDARY", 2, "<b>Charge</b>. Has +2 Attack for each other Murloc on the battlefield.", "MINION");
-// 	}
-// 	else if (name == "Crowd Favorite (Golden)") {
 // 		return BgBaseCard(8, "NEUTRAL", 4, 8, "TB_BaconUps_037", "Crowd Favorite (Golden)", "['TRIGGER_VISUAL']", "", "EPIC", 3, "Whenever you play a card with <b>Battlecry</b>, gain +2/+2.", "MINION");
-// 	}
-// 	else if (name == "Huge Ego (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_037e", "Huge Ego (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Phalanx Commander (Golden)") {
 // 		return BgBaseCard(8, "NEUTRAL", 5, 10, "TB_BaconUps_038", "Phalanx Commander (Golden)", "['AURA']", "", "COMMON", 3, "Your <b>Taunt</b> minions have +4 Attack.", "MINION");
-// 	}
-// 	else if (name == "Commanded (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_038e", "Commanded (Golden)", "", "", "", -1, "Phalanx Commander is granting this +4 Attack.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Mechano-Egg (Golden)") {
 // 		return BgBaseCard(0, "PALADIN", 5, 10, "TB_BaconUps_039", "Mechano-Egg (Golden)", "['DEATHRATTLE']", "MECHANICAL", "COMMON", 4, "<b>Deathrattle:</b> Summon a 16/16 Robosaur.", "MINION");
-// 	}
-// 	else if (name == "Robosaur (Golden)") {
 // 		return BgBaseCard(16, "PALADIN", 8, 16, "TB_BaconUps_039t", "Robosaur (Golden)", "", "MECHANICAL", "", 1, "", "MINION");
-// 	}
-// 	else if (name == "Safeguard (Golden)") {
 // 		return BgBaseCard(8, "NEUTRAL", 6, 10, "TB_BaconUps_040", "Safeguard (Golden)", "['DEATHRATTLE', 'TAUNT']", "MECHANICAL", "COMMON", 4, "[x]<b>Taunt</b> <b>Deathrattle:</b> Summon a 0/10 Vault Safe with <b>Taunt</b>.", "MINION");
-// 	}
-// 	else if (name == "Vault Safe (Golden)") {
 // 		return BgBaseCard(0, "NEUTRAL", 2, 10, "TB_BaconUps_040t", "Vault Safe (Golden)", "['TAUNT']", "MECHANICAL", "", 1, "<b>Taunt</b>", "MINION");
-// 	}
-// 	else if (name == "Security Rover (Golden)") {
 // 		return BgBaseCard(4, "WARRIOR", 6, 12, "TB_BaconUps_041", "Security Rover (Golden)", "['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 4, "[x]Whenever this minion takes damage, summon a 4/6 Mech with <b>Taunt</b>.", "MINION");
-// 	}
-// 	else if (name == "Guard Bot (Golden)") {
 // 		return BgBaseCard(4, "WARRIOR", 2, 6, "TB_BaconUps_041t", "Guard Bot (Golden)", "['TAUNT']", "MECHANICAL", "", 1, "<b>Taunt</b>", "MINION");
-// 	}
-// 	else if (name == "The Beast (Golden)") {
 // 		return BgBaseCard(18, "NEUTRAL", 6, 14, "TB_BaconUps_042", "The Beast (Golden)", "['DEATHRATTLE']", "BEAST", "LEGENDARY", 3, "<b>Deathrattle:</b> Summon a 3/3 Finkle Einhorn for your opponent.", "MINION");
-// 	}
-// 	else if (name == "Scavenging Hyena (Golden)") {
 // 		return BgBaseCard(4, "HUNTER", 2, 4, "TB_BaconUps_043", "Scavenging Hyena (Golden)", "['TRIGGER_VISUAL']", "BEAST", "COMMON", 1, "Whenever a friendly Beast dies, gain +4/+2.", "MINION");
-// 	}
-// 	else if (name == "Well Fed (Golden)") {
-// 		return BgBaseCard(-1, "HUNTER", -1, -1, "TB_BaconUps_043e", "Well Fed (Golden)", "", "", "", -1, "Increased Attack and Health.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Iron Sensei (Golden)") {
 // 		return BgBaseCard(4, "ROGUE", 3, 4, "TB_BaconUps_044", "Iron Sensei (Golden)", "['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 4, "At the end of your turn, give another friendly Mech +4/+4.", "MINION");
-// 	}
-// 	else if (name == "Ironed Out (Golden)") {
-// 		return BgBaseCard(-1, "ROGUE", -1, -1, "TB_BaconUps_044e", "Ironed Out (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Brann Bronzebeard (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 3, 8, "TB_BaconUps_045", "Brann Bronzebeard (Golden)", "['AURA']", "", "LEGENDARY", 5, "Your <b>Battlecries</b> trigger three times.", "MINION");
-// 	}
-// 	else if (name == "Bronzebeard Battlecry (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_045e", "Bronzebeard Battlecry (Golden)", "", "", "", -1, "Your <b>Battlecries</b> trigger three times.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Junkbot (Golden)") {
 // 		return BgBaseCard(2, "NEUTRAL", 5, 10, "TB_BaconUps_046", "Junkbot (Golden)", "['TRIGGER_VISUAL']", "MECHANICAL", "EPIC", 5, "Whenever a friendly Mech dies, gain +4/+4.", "MINION");
-// 	}
-// 	else if (name == "Junked Up (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_046e", "Junked Up (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Bolvar, Fireblood (Golden)") {
 // 		return BgBaseCard(2, "PALADIN", 5, 14, "TB_BaconUps_047", "Bolvar, Fireblood (Golden)", "['DIVINE_SHIELD', 'TRIGGER_VISUAL']", "", "LEGENDARY", 4, "<b>Divine Shield</b> After a friendly minion loses <b>Divine Shield</b>, gain +4 Attack.", "MINION");
-// 	}
-// 	else if (name == "Fading Light (Golden)") {
-// 		return BgBaseCard(-1, "PALADIN", -1, -1, "TB_BaconUps_047e", "Fading Light (Golden)", "", "", "", -1, "Increased Attack.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Savannah Highmane (Golden)") {
 // 		return BgBaseCard(12, "HUNTER", 6, 10, "TB_BaconUps_049", "Savannah Highmane (Golden)", "['DEATHRATTLE']", "BEAST", "RARE", 4, "<b>Deathrattle:</b> Summon two 4/4 Hyenas.", "MINION");
-// 	}
-// 	else if (name == "Hyena (Golden)") {
 // 		return BgBaseCard(4, "HUNTER", 2, 4, "TB_BaconUps_049t", "Hyena (Golden)", "", "BEAST", "", 1, "", "MINION");
-// 	}
-// 	else if (name == "Piloted Sky Golem (Golden)") {
 // 		return BgBaseCard(12, "NEUTRAL", 6, 8, "TB_BaconUps_050", "Piloted Sky Golem (Golden)", "['DEATHRATTLE']", "MECHANICAL", "EPIC", 4, "<b>Deathrattle:</b> Summon two random 4-Cost minions.", "MINION");
-// 	}
-// 	else if (name == "Ironhide Direhorn (Golden)") {
 // 		return BgBaseCard(14, "DRUID", 7, 14, "TB_BaconUps_051", "Ironhide Direhorn (Golden)", "['OVERKILL']", "BEAST", "COMMON", 5, "<b>Overkill:</b> Summon a 10/10 Ironhide Runt.", "MINION");
-// 	}
-// 	else if (name == "Ironhide Runt (Golden)") {
 // 		return BgBaseCard(10, "DRUID", 5, 10, "TB_BaconUps_051t", "Ironhide Runt (Golden)", "", "BEAST", "", 1, "", "MINION");
-// 	}
-// 	else if (name == "Sated Threshadon (Golden)") {
 // 		return BgBaseCard(10, "NEUTRAL", 7, 14, "TB_BaconUps_052", "Sated Threshadon (Golden)", "['DEATHRATTLE']", "BEAST", "COMMON", 5, "<b>Deathrattle:</b> Summon three 2/2 Murlocs.", "MINION");
-// 	}
-// 	else if (name == "Primalfin (Golden)") {
 // 		return BgBaseCard(2, "NEUTRAL", 1, 2, "TB_BaconUps_052t", "Primalfin (Golden)", "", "MURLOC", "", 1, "", "MINION");
-// 	}
-// 	else if (name == "Siegebreaker (Golden)") {
 // 		return BgBaseCard(10, "WARLOCK", 7, 16, "TB_BaconUps_053", "Siegebreaker (Golden)", "['AURA', 'TAUNT']", "DEMON", "RARE", 4, "<b>Taunt</b> Your other Demons have +2 Attack.", "MINION");
-// 	}
-// 	else if (name == "Siegebreaking (Golden)") {
-// 		return BgBaseCard(-1, "WARLOCK", -1, -1, "TB_BaconUps_053e", "Siegebreaking (Golden)", "", "", "", -1, "Siegebreaker is granting this minion +2 Attack.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Baron Rivendare (Golden)") {
 // 		return BgBaseCard(2, "NEUTRAL", 4, 14, "TB_BaconUps_055", "Baron Rivendare (Golden)", "['AURA']", "", "LEGENDARY", 5, "Your minions trigger their <b>Deathrattles</b> three times.", "MINION");
-// 	}
-// 	else if (name == "Rivendare Deathrattle") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_Baconups_055e", "Rivendare Deathrattle", "", "", "", -1, "Your minions trigger their <b>Deathrattles</b> three times.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Ghastcoiler (Golden)") {
 // 		return BgBaseCard(14, "PRIEST", 6, 14, "TB_BaconUps_057", "Ghastcoiler (Golden)", "['DEATHRATTLE']", "BEAST", "", 6, "<b>Deathrattle:</b> Summon 4 random <b>Deathrattle</b> minions.", "MINION");
-// 	}
-// 	else if (name == "The Boogeymonster (Golden)") {
 // 		return BgBaseCard(12, "NEUTRAL", 8, 14, "TB_BaconUps_058", "The Boogeymonster (Golden)", "['TRIGGER_VISUAL']", "", "LEGENDARY", 4, "Whenever this attacks and kills a minion, gain +4/+4.", "MINION");
-// 	}
-// 	else if (name == "Tasty! (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_058e", "Tasty! (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Voidlord (Golden)") {
 // 		return BgBaseCard(6, "WARLOCK", 9, 18, "TB_BaconUps_059", "Voidlord (Golden)", "['DEATHRATTLE', 'TAUNT']", "DEMON", "EPIC", 5, "[x]<b>Taunt</b>  <b>Deathrattle:</b> Summon three 2/6 Demons with <b>Taunt</b>.", "MINION");
-// 	}
-// 	else if (name == "Voidwalker (Golden)") {
 // 		return BgBaseCard(2, "WARLOCK", 1, 6, "TB_BaconUps_059t", "Voidwalker (Golden)", "['TAUNT']", "DEMON", "FREE", 1, "<b>Taunt</b>", "MINION");
-// 	}
-// 	else if (name == "Mal'Ganis (Golden)") {
 // 		return BgBaseCard(18, "WARLOCK", 9, 14, "TB_BaconUps_060", "Mal'Ganis (Golden)", "['AURA']", "DEMON", "LEGENDARY", 5, "Your other Demons have +4/+4. Your hero is <b>Immune</b>.", "MINION");
-// 	}
-// 	else if (name == "Grasp of Mal'Ganis (Golden)") {
-// 		return BgBaseCard(-1, "WARLOCK", -1, -1, "TB_BaconUps_060e", "Grasp of Mal'Ganis (Golden)", "", "", "", -1, "Mal'Ganis is granting +4/+4.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Rockpool Hunter (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 2, 6, "TB_BaconUps_061", "Rockpool Hunter (Golden)", "['BATTLECRY']", "MURLOC", "COMMON", 1, "<b>Battlecry:</b> Give a friendly Murloc +2/+2.", "MINION");
-// 	}
-// 	else if (name == "Trained (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_061e", "Trained (Golden)", "", "", "", -1, "+2/+2", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Nathrezim Overseer (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 3, 6, "TB_BaconUps_062", "Nathrezim Overseer (Golden)", "['BATTLECRY']", "DEMON", "RARE", 2, "<b>Battlecry:</b> Give a friendly Demon +4/+4.", "MINION");
-// 	}
-// 	else if (name == "Impish (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_062e", "Impish (Golden)", "", "", "", -1, "+4/+4.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Zoobot (Golden)") {
 // 		return BgBaseCard(6, "NEUTRAL", 3, 6, "TB_BaconUps_063", "Zoobot (Golden)", "['BATTLECRY']", "MECHANICAL", "COMMON", 2, "<b>Battlecry:</b> Give a random friendly Beast, Dragon, and Murloc +2/+2.", "MINION");
-// 	}
-// 	else if (name == "Well Fed (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_063e", "Well Fed (Golden)", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Coldlight Seer (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 3, 6, "TB_BaconUps_064", "Coldlight Seer (Golden)", "['BATTLECRY']", "MURLOC", "RARE", 3, "<b>Battlecry:</b> Give your other Murlocs +4 Health.", "MINION");
-// 	}
-// 	else if (name == "Mrghlglhal (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_064e", "Mrghlglhal (Golden)", "", "", "", -1, "+4 Health.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Metaltooth Leaper (Golden)") {
 // 		return BgBaseCard(6, "HUNTER", 3, 6, "TB_BaconUps_066", "Metaltooth Leaper (Golden)", "['BATTLECRY']", "MECHANICAL", "RARE", 2, "<b>Battlecry:</b> Give your other Mechs +4 Attack.", "MINION");
-// 	}
-// 	else if (name == "Metal Teeth (Golden)") {
-// 		return BgBaseCard(-1, "HUNTER", -1, -1, "TB_BaconUps_066e", "Metal Teeth (Golden)", "", "", "", -1, "+4 Attack.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Houndmaster (Golden)") {
 // 		return BgBaseCard(8, "HUNTER", 4, 6, "TB_BaconUps_068", "Houndmaster (Golden)", "['BATTLECRY']", "", "FREE", 3, "<b>Battlecry:</b> Give a friendly Beast +4/+4 and <b>Taunt</b>.", "MINION");
-// 	}
-// 	else if (name == "Master's Presence (Golden)") {
-// 		return BgBaseCard(-1, "HUNTER", -1, -1, "TB_BaconUps_068e", "Master's Presence (Golden)", "", "", "", -1, "+4/+4 and <b>Taunt</b>.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Screwjank Clunker (Golden)") {
 // 		return BgBaseCard(4, "WARRIOR", 4, 10, "TB_BaconUps_069", "Screwjank Clunker (Golden)", "['BATTLECRY']", "MECHANICAL", "RARE", 3, "<b>Battlecry:</b> Give a friendly Mech +4/+4.", "MINION");
-// 	}
-// 	else if (name == "Screwy Jank (Golden)") {
-// 		return BgBaseCard(-1, "WARRIOR", -1, -1, "TB_BaconUps_069e", "Screwy Jank (Golden)", "", "", "", -1, "+4/+4.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Crystalweaver (Golden)") {
 // 		return BgBaseCard(10, "WARLOCK", 4, 8, "TB_BaconUps_070", "Crystalweaver (Golden)", "['BATTLECRY']", "", "COMMON", 3, "<b>Battlecry:</b> Give your Demons +2/+2.", "MINION");
-// 	}
-// 	else if (name == "Serrated Shadows (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_070e", "Serrated Shadows (Golden)", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Strongshell Scavenger (Golden)") {
 // 		return BgBaseCard(4, "DRUID", 4, 6, "TB_BaconUps_072", "Strongshell Scavenger (Golden)", "['BATTLECRY']", "", "RARE", 5, "<b>Battlecry:</b> Give your <b>Taunt</b> minions +4/+4.", "MINION");
-// 	}
-// 	else if (name == "Strongshell (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_072e", "Strongshell (Golden)", "", "", "", -1, "+4/+4.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Menagerie Magician (Golden)") {
 // 		return BgBaseCard(8, "NEUTRAL", 5, 8, "TB_BaconUps_073", "Menagerie Magician (Golden)", "['BATTLECRY']", "", "COMMON", 4, "<b>Battlecry:</b> Give a random friendly Beast, Dragon, and Murloc +4/+4.", "MINION");
-// 	}
-// 	else if (name == "A Simple Trick (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_073e", "A Simple Trick (Golden)", "", "", "", -1, "+4/+4.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Virmen Sensei (Golden)") {
 // 		return BgBaseCard(8, "DRUID", 5, 10, "TB_BaconUps_074", "Virmen Sensei (Golden)", "['BATTLECRY']", "", "RARE", 4, "<b>Battlecry:</b> Give a friendly Beast +4/+4.", "MINION");
-// 	}
-// 	else if (name == "Get Big (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_074e", "Get Big (Golden)", "", "", "", -1, "+4/+4.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Soul Juggler (Golden)") {
 // 		return BgBaseCard(6, "WARLOCK", 3, 6, "TB_BaconUps_075", "Soul Juggler (Golden)", "['TRIGGER_VISUAL']", "", "", 3, "After a friendly Demon dies, deal 3 damage to a random enemy minion twice.", "MINION");
-// 	}
-// 	else if (name == "Pogo-Hopper (Golden)") {
 // 		return BgBaseCard(2, "ROGUE", 1, 2, "TB_BaconUps_077", "Pogo-Hopper (Golden)", "['BATTLECRY']", "MECHANICAL", "RARE", 2, "[x]<b>Battlecry:</b> Gain +4/+4 for each other Pogo-Hopper you played this game.", "MINION");
-// 	}
-// 	else if (name == "Kinetic Energy (Golden)") {
-// 		return BgBaseCard(-1, "ROGUE", -1, -1, "TB_BaconUps_077e", "Kinetic Energy (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Wrath Weaver (Golden)") {
 // 		return BgBaseCard(2, "NEUTRAL", 1, 2, "TB_BaconUps_079", "Wrath Weaver (Golden)", "['TRIGGER_VISUAL']", "", "COMMON", 1, "After you play a Demon, deal 1 damage to your hero and gain +4/+4.", "MINION");
-// 	}
-// 	else if (name == "Wrath Woven (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_079e", "Wrath Woven (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Sneed's Old Shredder (Golden)") {
 // 		return BgBaseCard(10, "NEUTRAL", 8, 14, "TB_BaconUps_080", "Sneed's Old Shredder (Golden)", "['DEATHRATTLE']", "MECHANICAL", "LEGENDARY", 5, "<b>Deathrattle:</b> Summon 2 random <b>Legendary</b> minions.", "MINION");
-// 	}
-// 	else if (name == "Lightfang Enforcer (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 6, 4, "TB_BaconUps_082", "Lightfang Enforcer (Golden)", "['TRIGGER_VISUAL']", "", "EPIC", 5, "[x]At the end of your turn, give a friendly minion of each minion type +4/+2.", "MINION");
-// 	}
-// 	else if (name == "Blessed (Golden)") {
-// 		return BgBaseCard(-1, "ROGUE", -1, -1, "TB_BaconUps_082e", "Blessed (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Annihilan Battlemaster (Golden)") {
 // 		return BgBaseCard(6, "NEUTRAL", 8, 2, "TB_BaconUps_083", "Annihilan Battlemaster (Golden)", "['BATTLECRY']", "DEMON", "EPIC", 5, "<b>Battlecry:</b> Gain +2 Health for each damage your hero has taken.", "MINION");
-// 	}
-// 	else if (name == "Gentle Megasaur (Golden)") {
 // 		return BgBaseCard(10, "NEUTRAL", 4, 8, "TB_BaconUps_084", "Gentle Megasaur (Golden)", "['BATTLECRY']", "BEAST", "EPIC", 6, "<b>Battlecry:</b> <b>Adapt</b> your Murlocs twice.", "MINION");
-// 	}
-// 	else if (name == "Goldrinn, the Great Wolf (Golden)") {
 // 		return BgBaseCard(8, "NEUTRAL", 8, 8, "TB_BaconUps_085", "Goldrinn, the Great Wolf (Golden)", "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "<b>Deathrattle:</b> Give your Beasts +8/+8.", "MINION");
-// 	}
-// 	else if (name == "Soul of the Beast (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_085e", "Soul of the Beast (Golden)", "", "", "", -1, "+8/+8.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Pack Leader (Golden)") {
 // 		return BgBaseCard(6, "NEUTRAL", 3, 6, "TB_BaconUps_086", "Pack Leader (Golden)", "['TRIGGER_VISUAL']", "", "RARE", 3, "Whenever you summon a Beast, give it +6 Attack.", "MINION");
-// 	}
-// 	else if (name == "Feral Calling (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_086e", "Feral Calling (Golden)", "", "", "", -1, "+6 Attack.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Kangor's Apprentice (Golden)") {
 // 		return BgBaseCard(6, "NEUTRAL", 9, 12, "TB_BaconUps_087", "Kangor's Apprentice (Golden)", "['DEATHRATTLE']", "", "EPIC", 6, "<b>Deathrattle</b>: Summon the first 4 friendly Mechs that died this combat.", "MINION");
-// 	}
-// 	else if (name == "Dire Wolf Alpha (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 2, 4, "TB_BaconUps_088", "Dire Wolf Alpha (Golden)", "['ADJACENT_BUFF', 'AURA']", "BEAST", "COMMON", 1, "Adjacent minions have +2 Attack.", "MINION");
-// 	}
-// 	else if (name == "Strength of the Pack (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_088e", "Strength of the Pack (Golden)", "", "", "", -1, "+2 Attack from {0}.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Primalfin Lookout (Golden)") {
 // 		return BgBaseCard(6, "NEUTRAL", 3, 4, "TB_BaconUps_089", "Primalfin Lookout (Golden)", "['BATTLECRY', 'DISCOVER']", "MURLOC", "COMMON", 5, "<b>Battlecry:</b> If you control another Murloc, <b>Discover</b> two Murlocs.", "MINION");
-// 	}
-// 	else if (name == "Mama Bear (Golden)") {
 // 		return BgBaseCard(10, "NEUTRAL", 8, 10, "TB_BaconUps_090", "Mama Bear (Golden)", "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "Whenever you summon a Beast, give it +10/+10.", "MINION");
-// 	}
-// 	else if (name == "Rampage (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_090e", "Rampage (Golden)", "", "", "", -1, "+10/+10.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Zapp Slywick (Golden)") {
 // 		return BgBaseCard(14, "NEUTRAL", 8, 20, "TB_BaconUps_091", "Zapp Slywick (Golden)", "['WINDFURY']", "", "", 6, "[x]<b>Mega-Windfury</b> This minion always attacks the enemy minion with the lowest Attack.", "MINION");
-// 	}
-// 	else if (name == "Alleycat (Golden)") {
 // 		return BgBaseCard(2, "HUNTER", 1, 2, "TB_BaconUps_093", "Alleycat (Golden)", "['BATTLECRY']", "BEAST", "COMMON", 1, "<b>Battlecry:</b> Summon a 2/2 Cat.", "MINION");
-// 	}
-// 	else if (name == "Tabbycat (Golden)") {
 // 		return BgBaseCard(2, "HUNTER", 1, 2, "TB_BaconUps_093t", "Tabbycat (Golden)", "", "BEAST", "", 1, "", "MINION");
-// 	}
-// 	else if (name == "Micro Machine (Golden)") {
 // 		return BgBaseCard(2, "NEUTRAL", 2, 4, "TB_BaconUps_094", "Micro Machine (Golden)", "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "At the start of each turn, gain +2 Attack.", "MINION");
-// 	}
-// 	else if (name == "Pistons (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_094e", "Pistons (Golden)", "", "", "", -1, "Increased Attack.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Shifter Zerus (Golden)") {
 // 		return BgBaseCard(2, "NEUTRAL", 1, 2, "TB_BaconUps_095", "Shifter Zerus (Golden)", "", "", "LEGENDARY", 3, "Each turn this is in your hand, transform it into a random minion.", "MINION");
-// 	}
-// 	else if (name == "Shifting (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_095e", "Shifting (Golden)", "", "", "", -1, "Transforming into random minions.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Annoy-o-Module (Golden)") {
 // 		return BgBaseCard(4, "PALADIN", 4, 8, "TB_BaconUps_099", "Annoy-o-Module (Golden)", "['DIVINE_SHIELD', 'MODULAR', 'TAUNT']", "MECHANICAL", "RARE", 4, "<b>Magnetic</b> <b>Divine Shield</b> <b>Taunt</b>", "MINION");
-// 	}
-// 	else if (name == "Annoy-o-Module (Golden)") {
-// 		return BgBaseCard(-1, "PALADIN", -1, -1, "TB_BaconUps_099e", "Annoy-o-Module (Golden)", "['MODULAR']", "", "", -1, "<b>Taunt</b>, <b>Divine Shield</b>.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "King Bagurgle (Golden)") {
 // 		return BgBaseCard(12, "NEUTRAL", 6, 6, "TB_BaconUps_100", "King Bagurgle (Golden)", "['BATTLECRY', 'DEATHRATTLE']", "MURLOC", "LEGENDARY", 5, "<b>Battlecry and Deathrattle:</b> Give your other Murlocs +4/+4.", "MINION");
-// 	}
-// 	else if (name == "Bagurgled (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_100e", "Bagurgled (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Floating Watcher (Golden)") {
 // 		return BgBaseCard(8, "WARLOCK", 5, 8, "TB_BaconUps_101", "Floating Watcher (Golden)", "['TRIGGER_VISUAL']", "DEMON", "COMMON", 4, "Whenever your hero takes damage on your turn, gain +4/+4.", "MINION");
-// 	}
-// 	else if (name == "Brow Furrow (Golden)") {
-// 		return BgBaseCard(-1, "WARLOCK", -1, -1, "TB_BaconUps_101e", "Brow Furrow (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Red Whelp (Golden)") {
 // 		return BgBaseCard(2, "NEUTRAL", 1, 4, "TB_BaconUps_102", "Red Whelp (Golden)", "['TRIGGER_VISUAL']", "DRAGON", "", 1, "[x]<b>Start of Combat:</b> Deal 1 damage per friendly Dragon to one random enemy minion twice.", "MINION");
-// 	}
-// 	else if (name == "Herald of Flame (Golden)") {
 // 		return BgBaseCard(10, "WARRIOR", 5, 12, "TB_BaconUps_103", "Herald of Flame (Golden)", "['OVERKILL']", "DRAGON", "", 4, "<b>Overkill:</b> Deal 6 damage to the left-most enemy minion.", "MINION");
-// 	}
-// 	else if (name == "Hangry Dragon (Golden)") {
 // 		return BgBaseCard(8, "NEUTRAL", 5, 8, "TB_BaconUps_104", "Hangry Dragon (Golden)", "['TRIGGER_VISUAL']", "DRAGON", "", 3, "[x]At the start of your turn, gain +4/+4 if you won the last combat.", "MINION");
-// 	}
-// 	else if (name == "Well Fed (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_104e", "Well Fed (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Waxrider Togwaggle (Golden)") {
 // 		return BgBaseCard(2, "NEUTRAL", 3, 4, "TB_BaconUps_105", "Waxrider Togwaggle (Golden)", "['TRIGGER_VISUAL']", "", "", 2, "Whenever a friendly Dragon kills an enemy, gain +4/+4.", "MINION");
-// 	}
-// 	else if (name == "Dragon Wax (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_105e", "Dragon Wax (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Razorgore, the Untamed (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 8, 8, "TB_BaconUps_106", "Razorgore, the Untamed (Golden)", "['TRIGGER_VISUAL']", "DRAGON", "", 5, "At the end of your turn, gain +2/+2 for each Dragon you have.", "MINION");
-// 	}
-// 	else if (name == "Dragonlust (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_106e", "Dragonlust (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Steward of Time (Golden)") {
 // 		return BgBaseCard(6, "NEUTRAL", 4, 8, "TB_BaconUps_107", "Steward of Time (Golden)", "", "DRAGON", "", 2, "When you sell this minion, give all minions in Bob's Tavern +2/+2.", "MINION");
-// 	}
-// 	else if (name == "Time Dilation (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_107e", "Time Dilation (Golden)", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Twilight Emissary (Golden)") {
 // 		return BgBaseCard(8, "NEUTRAL", 6, 8, "TB_BaconUps_108", "Twilight Emissary (Golden)", "['BATTLECRY', 'TAUNT']", "DRAGON", "", 3, "<b>Taunt</b> <b>Battlecry:</b> Give a friendly Dragon +4/+4.", "MINION");
-// 	}
-// 	else if (name == "Twilight Embrace (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_108e", "Twilight Embrace (Golden)", "", "", "", -1, "+4/+4.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Kalecgos, Arcane Aspect (Golden)") {
 // 		return BgBaseCard(8, "NEUTRAL", 8, 24, "TB_BaconUps_109", "Kalecgos, Arcane Aspect (Golden)", "['TRIGGER_VISUAL']", "DRAGON", "", 6, "After you play a minion with <b>Battlecry</b>, give your Dragons +2/+2.", "MINION");
-// 	}
-// 	else if (name == "Arcane Aspect (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_109e", "Arcane Aspect (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Murozond (Golden)") {
 // 		return BgBaseCard(10, "NEUTRAL", 7, 10, "TB_BaconUps_110", "Murozond (Golden)", "['BATTLECRY']", "DRAGON", "", 5, "[x]<b>Battlecry:</b> Add a minion from your last opponent's warband to your hand. Make it Golden!", "MINION");
-// 	}
-// 	else if (name == "Fiendish Servant (Golden)") {
 // 		return BgBaseCard(4, "WARLOCK", 1, 2, "TB_BaconUps_112", "Fiendish Servant (Golden)", "['DEATHRATTLE']", "DEMON", "COMMON", 1, "[x]<b>Deathrattle:</b> Give this minion's Attack to a random friendly minion twice.", "MINION");
-// 	}
-// 	else if (name == "Imprisoner (Golden)") {
 // 		return BgBaseCard(6, "NEUTRAL", 3, 6, "TB_BaconUps_113", "Imprisoner (Golden)", "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "<b>Taunt</b> <b>Deathrattle:</b> Summon a 2/2 Imp.", "MINION");
-// 	}
-// 	else if (name == "Glyph Guardian (Golden)") {
 // 		return BgBaseCard(4, "MAGE", 3, 8, "TB_BaconUps_115", "Glyph Guardian (Golden)", "['TRIGGER_VISUAL']", "DRAGON", "", 2, "Whenever this attacks, triple its Attack.", "MINION");
-// 	}
-// 	else if (name == "Cold Breath (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_115e", "Cold Breath (Golden)", "", "", "", -1, "Multiplying Attack.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Imp Mama (Golden)") {
 // 		return BgBaseCard(12, "WARLOCK", 8, 20, "TB_BaconUps_116", "Imp Mama (Golden)", "['TRIGGER_VISUAL']", "DEMON", "", 6, "[x]Whenever this minion takes damage, summon 2 random Demons and give them <b>Taunt</b>.", "MINION");
-// 	}
-// 	else if (name == "Drakonid Enforcer (Golden)") {
 // 		return BgBaseCard(6, "NEUTRAL", 6, 12, "TB_BaconUps_117", "Drakonid Enforcer (Golden)", "['TRIGGER_VISUAL']", "DRAGON", "", 4, "After a friendly minion loses <b>Divine Shield</b>, gain +4/+4.", "MINION");
-// 	}
-// 	else if (name == "Divinity (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_117e", "Divinity (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Unstable Ghoul (Golden)") {
 // 		return BgBaseCard(2, "NEUTRAL", 2, 6, "TB_BaconUps_118", "Unstable Ghoul (Golden)", "['DEATHRATTLE', 'TAUNT']", "", "COMMON", 2, "<b>Taunt</b> <b>Deathrattle:</b> Deal 1 damage to all minions twice.", "MINION");
-// 	}
-// 	else if (name == "Master Demonologist (Golden)") {
 // 		return BgBaseCard(8, "NEUTRAL", 7, 12, "TB_BaconUps_119", "Master Demonologist (Golden)", "['TRIGGER_VISUAL']", "DEMON", "", -1, "Whenever you summon a Demon, gain +2/+2.", "MINION");
-// 	}
-// 	else if (name == "Demonic Fury (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_119e", "Demonic Fury (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Cobalt Scalebane (Golden)") {
 // 		return BgBaseCard(10, "NEUTRAL", 5, 10, "TB_BaconUps_120", "Cobalt Scalebane (Golden)", "['TRIGGER_VISUAL']", "DRAGON", "COMMON", 4, "At the end of your turn, give another random friendly minion +6 Attack.", "MINION");
-// 	}
-// 	else if (name == "Dragonscales (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_120e", "Dragonscales (Golden)", "", "", "", -1, "Attack increased.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Amalgadon (Golden)") {
 // 		return BgBaseCard(12, "NEUTRAL", 8, 12, "TB_BaconUps_121", "Amalgadon (Golden)", "['BATTLECRY']", "ALL", "", 6, "[x]<b>Battlecry:</b> For each different minion type you have, <b>Adapt</b> randomly twice.", "MINION");
-// 	}
-// 	else if (name == "Deflect-o-Bot (Golden)") {
 // 		return BgBaseCard(6, "NEUTRAL", 4, 4, "TB_BaconUps_123", "Deflect-o-Bot (Golden)", "['TRIGGER_VISUAL']", "MECHANICAL", "", 3, "[x]<b>Divine Shield</b> Whenever you summon a Mech during combat, gain +2 Attack and <b>Divine Shield</b>.", "MINION");
-// 	}
-// 	else if (name == "Deflect-o-Shield (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_123e", "Deflect-o-Shield (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Felfin Navigator (Golden)") {
 // 		return BgBaseCard(8, "NEUTRAL", 4, 8, "TB_BaconUps_124", "Felfin Navigator (Golden)", "['BATTLECRY']", "MURLOC", "COMMON", 3, "<b>Battlecry:</b> Give your other Murlocs +2/+2.", "MINION");
-// 	}
-// 	else if (name == "Felfin Fueled (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_124e", "Felfin Fueled (Golden)", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Rabid Saurolisk (Golden)") {
 // 		return BgBaseCard(6, "HUNTER", 3, 4, "TB_BaconUps_125", "Rabid Saurolisk (Golden)", "['TRIGGER_VISUAL']", "BEAST", "", 2, "After you play a minion with <b>Deathrattle</b>, gain +2/+2.", "MINION");
-// 	}
-// 	else if (name == "Rabid (Golden)") {
-// 		return BgBaseCard(-1, "HUNTER", -1, -1, "TB_BaconUps_125e", "Rabid (Golden)", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Deck Swabbie (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 3, 4, "TB_BaconUps_126", "Deck Swabbie (Golden)", "['BATTLECRY']", "PIRATE", "", 1, "<b>Battlecry:</b> Reduce the cost of upgrading Bob's Tavern by (2).", "MINION");
-// 	}
-// 	else if (name == "Arcane Cannon (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 3, 4, "TB_BaconUps_128", "Arcane Cannon (Golden)", "['CANT_ATTACK', 'TRIGGER_VISUAL']", "", "", 2, "[x]Can't attack. After an adjacent minion attacks, deal 2 damage to an enemy minion twice.", "MINION");
-// 	}
-// 	else if (name == "Goldgrubber (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 5, 4, "TB_BaconUps_130", "Goldgrubber (Golden)", "['TRIGGER_VISUAL']", "PIRATE", "", 4, "At the end of your turn, gain +4/+4 for each friendly Golden minion.", "MINION");
-// 	}
-// 	else if (name == "Gold Grubbing (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_130e", "Gold Grubbing (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Nat Pagle, Extreme Angler (Golden)") {
 // 		return BgBaseCard(16, "NEUTRAL", 7, 10, "TB_BaconUps_132", "Nat Pagle, Extreme Angler (Golden)", "", "PIRATE", "", 5, "<b>Overkill:</b> Summon a 0/2 Golden Treasure Chest.", "MINION");
-// 	}
-// 	else if (name == "Treasure Chest (Golden)") {
 // 		return BgBaseCard(0, "NEUTRAL", 2, 2, "TB_BaconUps_132t", "Treasure Chest (Golden)", "", "", "", 1, "<b>Deathrattle:</b> Summon 2 random Golden minions.", "MINION");
-// 	}
-// 	else if (name == "Cap'n Hoggarr (Golden)") {
 // 		return BgBaseCard(12, "NEUTRAL", 6, 12, "TB_BaconUps_133", "Cap'n Hoggarr (Golden)", "['TRIGGER_VISUAL']", "PIRATE", "", 5, "After you buy a Pirate, gain 2 Gold this turn only.", "MINION");
-// 	}
-// 	else if (name == "Dread Admiral Eliza (Golden)") {
 // 		return BgBaseCard(12, "NEUTRAL", 6, 14, "TB_BaconUps_134", "Dread Admiral Eliza (Golden)", "['TRIGGER_VISUAL']", "PIRATE", "", 6, "Whenever a friendly Pirate attacks, give all friendly minions +2/+2.", "MINION");
-// 	}
-// 	else if (name == "Yaharr!! (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_134e", "Yaharr!! (Golden)", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Monstrous Macaw (Golden)") {
 // 		return BgBaseCard(6, "NEUTRAL", 3, 4, "TB_BaconUps_135", "Monstrous Macaw (Golden)", "['TRIGGER_VISUAL']", "BEAST", "", 3, "[x]After this attacks, trigger a random friendly minion's <b>Deathrattle</b> twice.", "MINION");
-// 	}
-// 	else if (name == "Southsea Captain (Golden)") {
 // 		return BgBaseCard(6, "NEUTRAL", 3, 6, "TB_BaconUps_136", "Southsea Captain (Golden)", "['AURA']", "PIRATE", "EPIC", 2, "Your other Pirates have +2/+2.", "MINION");
-// 	}
-// 	else if (name == "Yarrr! (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_136e", "Yarrr! (Golden)", "", "", "", -1, "Southsea Captain is granting +2/+2.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "The Tide Razor (Golden)") {
-// 		return BgBaseCard(12, "NEUTRAL", 7, 8, "TB_BaconUps_137", "The Tide Razor (Golden)", "['DEATHRATTLE']", "", "", 6, "<b>Deathrattle</b>: Summon 6 random Pirates.", "MINION");
-// 	}
-// 	else if (name == "Bloodsail Cannoneer (Golden)") {
 // 		return BgBaseCard(8, "NEUTRAL", 4, 4, "TB_BaconUps_138", "Bloodsail Cannoneer (Golden)", "", "PIRATE", "", 3, "<b>Battlecry</b>: Give your other Pirates +6 Attack.", "MINION");
-// 	}
-// 	else if (name == "Pirate Life! (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_138e", "Pirate Life! (Golden)", "", "", "", -1, "+6 Attack.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Ripsnarl Captain (Golden)") {
 // 		return BgBaseCard(6, "NEUTRAL", 4, 8, "TB_BaconUps_139", "Ripsnarl Captain (Golden)", "['TRIGGER_VISUAL']", "PIRATE", "", 4, "Whenever another friendly Pirate attacks, give it +4/+4.", "MINION");
-// 	}
-// 	else if (name == "Snarled (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_139e", "Snarled (Golden)", "", "", "", -1, "+4/+4.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Southsea Strongarm (Golden)") {
 // 		return BgBaseCard(10, "NEUTRAL", 5, 8, "TB_BaconUps_140", "Southsea Strongarm (Golden)", "", "PIRATE", "", 4, "<b>Battlecry:</b> Give a friendly Pirate +2/+2 for each Pirate you bought this turn.", "MINION");
-// 	}
-// 	else if (name == "Pirate Tattoos (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_140e", "Pirate Tattoos (Golden)", "", "", "", -1, "Increased stats.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Scallywag (Golden)") {
 // 		return BgBaseCard(4, "NEUTRAL", 1, 2, "TB_BaconUps_141", "Scallywag (Golden)", "['DEATHRATTLE']", "PIRATE", "", 1, "<b>Deathrattle:</b> Summon a 2/2 Pirate. It attacks immediately.", "MINION");
-// 	}
-// 	else if (name == "Sky Pirate (Golden)") {
 // 		return BgBaseCard(2, "ROGUE", 1, 2, "TB_BaconUps_141t", "Sky Pirate (Golden)", "", "PIRATE", "", 1, "", "MINION");
-// 	}
-// 	else if (name == "Seabreaker Goliath (Golden)") {
 // 		return BgBaseCard(12, "NEUTRAL", 7, 14, "TB_BaconUps_142", "Seabreaker Goliath (Golden)", "['OVERKILL']", "PIRATE", "", 5, "<b>Windfury</b> <b>Overkill:</b> Give your other Pirates +4/+4.", "MINION");
-// 	}
-// 	else if (name == "Broken Seas (Golden)") {
-// 		return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_142e", "Broken Seas (Golden)", "", "", "", -1, "+4/+4.", "ENCHANTMENT");
-// 	}
-// 	else if (name == "Salty Looter (Golden)") {
+
 // 		return BgBaseCard(6, "ROGUE", 4, 6, "TB_BaconUps_143", "Salty Looter (Golden)", "['TRIGGER_VISUAL']", "PIRATE", "", 3, "Whenever you play a Pirate, gain +2/+2.", "MINION");
-// 	}
-// 	// else if (name == "Loot! (Golden)") {
-// 	// 	return BgBaseCard(-1, "NEUTRAL", -1, -1, "TB_BaconUps_143e", "Loot! (Golden)", "", "", "", -1, "+2/+2.", "ENCHANTMENT");
-// 	// }
-// 	else {
-// 		throw std::runtime_error("No card has name " + name);
-// 	}
-// }
 
 
 void BgCardFactory::init_cards() {
@@ -1280,6 +199,9 @@ void BgCardFactory::init_cards() {
 						  "['BATTLECRY']", "BEAST", "COMMON", 1, "MINION"));						  
     cards.emplace("Annihilan Battlemaster", BgBaseCard(3, "NEUTRAL", 8, 1, "Annihilan Battlemaster",
 						       "['BATTLECRY']", "DEMON", "EPIC", 5, "MINION"));
+
+    cards.emplace("Bronze Warden", BgBaseCard(2, "NEUTRAL", 4, 1, "Bronze Warden",
+			     "['DIVINE_SHIELD', 'REBORN']", "DRAGON", "", 3, "MINION"));
     
     cards.emplace("Deflect-o-Bot", BgBaseCard(3, "NEUTRAL", 4, 2, "Deflect-o-Bot",
 					      "['TRIGGER_VISUAL']", "MECHANICAL", "", 3,
@@ -1291,7 +213,9 @@ void BgCardFactory::init_cards() {
     cards.emplace("Foe Reaper 4000", BgBaseCard(6, "NEUTRAL", 8, 9, "Foe Reaper 4000",
 						"['CLEAVE']", "MECHANICAL", "LEGENDARY", 6, "Minion"));
 						
-    
+
+    cards.emplace("Gentle Megasaur", BgBaseCard(5, "NEUTRAL", 4, 4, "Gentle Megasaur",
+						"['BATTLECRY']", "BEAST", "EPIC", 6, "MINION"));
     cards.emplace("Ghastcoiler", BgBaseCard(7, "PRIEST", 6, 7, "Ghastcoiler",
 					    "['DEATHRATTLE']", "BEAST", "", 6, "MINION"));
     cards.emplace("Goldgrubber (Golden)", BgBaseCard(4, "NEUTRAL", 5, 4, "Goldgrubber (Golden)",
@@ -1301,7 +225,10 @@ void BgCardFactory::init_cards() {
 							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6,
 							 "MINION"));
 
-    
+    cards.emplace("Hangry Dragon", BgBaseCard(4, "NEUTRAL", 5, 4, "Hangry Dragon",
+					      "['TRIGGER_VISUAL']", "DRAGON", "", 3, "MINION"));
+    cards.emplace("Herald of Flame", BgBaseCard(5, "WARRIOR", 5, 6, "Herald of Flame",
+						"['OVERKILL']", "DRAGON", "", 4, "MINION"));
     cards.emplace("Houndmaster (Golden)", BgBaseCard(8, "HUNTER", 4, 6, "Houndmaster (Golden)",
 						     "['BATTLECRY']", "", "FREE", 3,
 						     "MINION"));
@@ -1313,6 +240,8 @@ void BgCardFactory::init_cards() {
 
     cards.emplace("Kangor's Apprentice", BgBaseCard(3, "NEUTRAL", 9, 6, "Kangor's Apprentice",
 						    "['DEATHRATTLE']", "", "EPIC", 6, "MINION"));
+    cards.emplace("King Bagurgle", BgBaseCard(6, "NEUTRAL", 6, 3, "King Bagurgle",
+					      "['BATTLECRY', 'DEATHRATTLE']", "MURLOC", "LEGENDARY", 5, "MINION"));
 
     cards.emplace("Lightfang Enforcer", BgBaseCard(2, "NEUTRAL", 6, 2, "Lightfang Enforcer",
 						   "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION"));

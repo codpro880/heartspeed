@@ -18,54 +18,6 @@ BgBaseCard BgCardFactory::get_card(std::string name) {
 }
 
 
-// // 		return BgBaseCard(1, "NEUTRAL", 3, 2, "BGS_035", "Waxrider Togwaggle", "['TRIGGER_VISUAL']", "", "", 2, "Whenever a friendly Dragon kills an enemy, gain +2/+2.", "MINION");
-// // 		return BgBaseCard(2, "NEUTRAL", 8, 4, "BGS_036", "Razorgore, the Untamed", "['TRIGGER_VISUAL']", "DRAGON", "", 5, "At the end of your turn, gain +1/+1 for each Dragon you have.", "MINION");
-// // 		return BgBaseCard(3, "NEUTRAL", 4, 4, "BGS_037", "Steward of Time", "", "DRAGON", "", 2, "When you sell this minion, give all minions in Bob's Tavern +1/+1.", "MINION");
-// // 		return BgBaseCard(4, "NEUTRAL", 6, 4, "BGS_038", "Twilight Emissary", "['BATTLECRY', 'TAUNT']", "DRAGON", "", 3, "<b>Taunt</b> <b>Battlecry:</b> Give a friendly Dragon +2/+2.", "MINION");
-// // 		return BgBaseCard(2, "NEUTRAL", 2, 3, "BGS_039", "Dragonspawn Lieutenant", "['TAUNT']", "DRAGON", "", 1, "<b>Taunt</b>", "MINION");
-// // 		return BgBaseCard(7, "NEUTRAL", 6, 4, "BGS_040", "Nadina the Red", "['DEATHRATTLE']", "", "", 6, "<b>Deathrattle:</b> Give your Dragons <b>Divine Shield</b>.", "MINION");
-// // 		return BgBaseCard(4, "NEUTRAL", 8, 12, "BGS_041", "Kalecgos, Arcane Aspect", "['TRIGGER_VISUAL']", "DRAGON", "", 6, "After you play a minion with <b>Battlecry</b>, give your Dragons +1/+1.", "MINION");
-// // 		return BgBaseCard(5, "NEUTRAL", 7, 5, "BGS_043", "Murozond", "['BATTLECRY']", "DRAGON", "", 5, "[x]<b>Battlecry:</b> Add a minion from your last opponent's warband to your hand.", "MINION");
-// // 		return BgBaseCard(6, "WARLOCK", 8, 10, "BGS_044", "Imp Mama", "['TRIGGER_VISUAL']", "DEMON", "", 6, "[x]Whenever this minion takes damage, summon a random Demon and give it <b>Taunt</b>.", "MINION");
-// // 		return BgBaseCard(2, "MAGE", 3, 4, "BGS_045", "Glyph Guardian", "['TRIGGER_VISUAL']", "DRAGON", "", 2, "Whenever this attacks, double its Attack.", "MINION");
-// // 		return BgBaseCard(8, "NEUTRAL", 7, 5, "BGS_046", "Nat Pagle, Extreme Angler", "", "PIRATE", "", 5, "<b>Overkill:</b> Summon a 0/2 Treasure Chest.", "MINION");
-// // 		return BgBaseCard(0, "NEUTRAL", 2, 2, "BGS_046t", "Treasure Chest", "", "", "", 1, "<b>Deathrattle:</b> Summon a random Golden minion.", "MINION");
-// // 		return BgBaseCard(6, "NEUTRAL", 6, 7, "BGS_047", "Dread Admiral Eliza", "['TRIGGER_VISUAL']", "PIRATE", "", 6, "Whenever a friendly Pirate attacks, give all friendly minions +1/+1.", "MINION");
-// // 		return BgBaseCard(5, "NEUTRAL", 5, 4, "BGS_048", "Southsea Strongarm", "", "PIRATE", "", 4, "<b>Battlecry:</b> Give a friendly Pirate +1/+1 for each Pirate you bought this turn.", "MINION");
-// // 		return BgBaseCard(3, "NEUTRAL", 3, 3, "BGS_049", "Freedealing Gambler", "", "PIRATE", "", 2, "This minion sells for 3 Gold.", "MINION");
-// // 		return BgBaseCard(4, "NEUTRAL", 4, 2, "BGS_053", "Bloodsail Cannoneer", "", "PIRATE", "", 3, "<b>Battlecry</b>: Give your other Pirates +3 Attack.", "MINION");
-// // 		return BgBaseCard(2, "NEUTRAL", 3, 2, "BGS_055", "Deck Swabbie", "['BATTLECRY']", "PIRATE", "", 1, "<b>Battlecry:</b> Reduce the cost of upgrading Bob's Tavern by (1).", "MINION");
-// // 		return BgBaseCard(3, "NEUTRAL", 4, 4, "BGS_056", "Ripsnarl Captain", "['TRIGGER_VISUAL']", "PIRATE", "", 4, "Whenever another friendly Pirate attacks, give it +2/+2.", "MINION");
-// // 		return BgBaseCard(4, "NEUTRAL", 7, 6, "BGS_059", "Master Demonologist", "['TRIGGER_VISUAL']", "DEMON", "", -1, "Whenever you summon a Demon, gain +1/+1.", "MINION");
-// // 		return BgBaseCard(2, "NEUTRAL", 6, 8, "BGS_060", "Yo-Ho-Ogre", "['TRIGGER_VISUAL']", "PIRATE", "", 3, "[x]<b>Taunt</b> After this minion survives being attacked, attack immediately.", "MINION");
-// // 		return BgBaseCard(2, "NEUTRAL", 1, 1, "BGS_061", "Scallywag", "['DEATHRATTLE']", "PIRATE", "", 1, "<b>Deathrattle:</b> Summon a 1/1 Pirate. It attacks immediately.", "MINION");
-// // 		return BgBaseCard(1, "ROGUE", 1, 1, "BGS_061t", "Sky Pirate", "", "PIRATE", "", 1, "", "MINION");
-// // 		return BgBaseCard(2, "NEUTRAL", 5, 2, "BGS_066", "Goldgrubber", "['TRIGGER_VISUAL']", "PIRATE", "", 4, "At the end of your turn, gain +2/+2 for each friendly Golden minion.", "MINION");
-// // 		return BgBaseCard(3, "NEUTRAL", 6, 6, "BGS_067", "Drakonid Enforcer", "['TRIGGER_VISUAL']", "DRAGON", "", 4, "After a friendly minion loses <b>Divine Shield</b>, gain +2/+2.", "MINION");
-// // 		return BgBaseCard(8, "PALADIN", 8, 4, "BGS_068", "Holy Mackerel", "['TRIGGER_VISUAL']", "MURLOC", "", 6, "[x]After another friendly minion loses <b>Divine Shield</b>, gain <b>Divine Shield</b>.", "MINION");
-// 		return BgBaseCard(6, "NEUTRAL", 8, 6, "BGS_069", "Amalgadon", "['BATTLECRY']", "ALL", "", 6, "[x]<b>Battlecry:</b> For each different minion type you have, <b>Adapt</b> randomly.", "MINION");
-// 		return BgBaseCard(3, "NEUTRAL", 4, 2, "BGS_071", "Deflect-o-Bot", "['TRIGGER_VISUAL']", "MECHANICAL", "", 3, "[x]<b>Divine Shield</b> Whenever you summon a Mech during combat, gain +1 Attack and <b>Divine Shield</b>.", "MINION");
-// 		return BgBaseCard(6, "NEUTRAL", 6, 6, "BGS_072", "Cap'n Hoggarr", "['TRIGGER_VISUAL']", "PIRATE", "", 5, "After you buy a Pirate, gain 1 Gold this turn only.", "MINION");
-// 		return BgBaseCard(3, "HUNTER", 3, 2, "BGS_075", "Rabid Saurolisk", "['TRIGGER_VISUAL']", "BEAST", "", 2, "After you play a minion with <b>Deathrattle</b>, gain +1/+1.", "MINION");
-// 		return BgBaseCard(2, "NEUTRAL", 3, 2, "BGS_077", "Arcane Cannon", "['CANT_ATTACK', 'TRIGGER_VISUAL']", "", "", 2, "[x]Can't attack. After an adjacent minion attacks, deal 2 damage to an enemy minion.", "MINION");
-// 		return BgBaseCard(3, "NEUTRAL", 3, 2, "BGS_078", "Monstrous Macaw", "['TRIGGER_VISUAL']", "BEAST", "", 3, "[x]After this attacks, trigger a random friendly minion's <b>Deathrattle</b>.", "MINION");
-// 		return BgBaseCard(6, "NEUTRAL", 7, 4, "BGS_079", "The Tide Razor", "['DEATHRATTLE']", "", "", 6, "<b>Deathrattle</b>: Summon 3 random Pirates.", "MINION");
-// 		return BgBaseCard(6, "NEUTRAL", 7, 7, "BGS_080", "Seabreaker Goliath", "['OVERKILL']", "PIRATE", "", 5, "<b>Windfury</b> <b>Overkill:</b> Give your other Pirates +2/+2.", "MINION");
-// 		return BgBaseCard(3, "ROGUE", 4, 3, "BGS_081", "Salty Looter", "['TRIGGER_VISUAL']", "PIRATE", "", 3, "Whenever you play a Pirate, gain +1/+1.", "MINION");
-// 		return BgBaseCard(-1, "HUNTER", 2, -1, "TB_Bacon_Secrets_01", "Venomstrike Trap", "['SECRET']", "", "RARE", -1, "<b>Secret:</b> When one of your minions is attacked, summon a 2/3 <b>Poisonous</b> Cobra.", "SPELL");
-// 		return BgBaseCard(-1, "HUNTER", 2, -1, "TB_Bacon_Secrets_02", "Snake Trap", "['SECRET']", "", "EPIC", -1, "<b>Secret:</b> When one of your minions is attacked, summon three 1/1 Snakes.", "SPELL");
-// 		return BgBaseCard(-1, "MAGE", 3, -1, "TB_Bacon_Secrets_04", "Splitting Image", "['SECRET']", "", "EPIC", -1, "<b>Secret:</b> When one of your minions is attacked, summon a copy of it.", "SPELL");
-// 		return BgBaseCard(-1, "MAGE", 3, -1, "TB_Bacon_Secrets_05", "Effigy", "['SECRET']", "", "RARE", -1, "<b>Secret:</b> When a friendly minion dies, summon a random minion with the same Cost.", "SPELL");
-// 		return BgBaseCard(-1, "PALADIN", 1, -1, "TB_Bacon_Secrets_07", "Autodefense Matrix", "['SECRET']", "", "COMMON", -1, "<b>Secret:</b> When one of your minions is attacked, give it <b>Divine Shield</b>.", "SPELL");
-// 		return BgBaseCard(-1, "PALADIN", 1, -1, "TB_Bacon_Secrets_08", "Avenge", "['SECRET']", "", "COMMON", -1, "<b>Secret:</b> When one of your minions dies, give a random friendly minion +3/+2.", "SPELL");
-// 		return BgBaseCard(-1, "PALADIN", 1, -1, "TB_Bacon_Secrets_10", "Redemption", "['SECRET']", "", "COMMON", -1, "<b>Secret:</b> When a friendly minion dies, return it to life with 1 Health.", "SPELL");
-// 		return BgBaseCard(-1, "PALADIN", 1, -1, "TB_Bacon_Secrets_11", "Hand of Salvation", "['SECRET']", "", "FREE", -1, "<b>Secret:</b> When your second minion dies in a turn, return it to life.", "SPELL");
-// 		return BgBaseCard(-1, "MAGE", 3, -1, "TB_Bacon_Secrets_12", "Ice Block", "['SECRET']", "", "EPIC", -1, "<b>Secret:</b> When your hero takes fatal damage, prevent it and become <b>Immune</b> this turn.", "SPELL");
-// 		return BgBaseCard(-1, "NEUTRAL", 0, -1, "TB_BaconShop_HP_008a", "Gold Coin", "", "", "RARE", -1, "Gain 1 Gold this turn only.", "SPELL");
-
-
-
-
 // 		return BgBaseCard(2, "NEUTRAL", 1, 2, "TB_BaconUps_002", "Mecharoo (Golden)", "['DEATHRATTLE']", "MECHANICAL", "COMMON", 1, "<b>Deathrattle:</b> Summon a 2/2 Jo-E Bot.", "MINION");
 // 		return BgBaseCard(2, "NEUTRAL", 1, 2, "TB_BaconUps_002t", "Jo-E Bot (Golden)", "", "MECHANICAL", "", 1, "", "MINION");
 // 		return BgBaseCard(4, "NEUTRAL", 2, 2, "TB_BaconUps_003", "Murloc Tidehunter (Golden)", "['BATTLECRY']", "MURLOC", "FREE", 1, "<b>Battlecry:</b> Summon a 2/2 Murloc Scout.", "MINION");
@@ -195,29 +147,66 @@ BgBaseCard BgCardFactory::get_card(std::string name) {
 
 
 void BgCardFactory::init_cards() {
+    // A
+    cards.emplace("Arcane Cannon", BgBaseCard(2, "NEUTRAL", 3, 2, "Arcane Cannon",
+					      "['CANT_ATTACK', 'TRIGGER_VISUAL']", "", "", 2, "MINION"));
     cards.emplace("Alleycat (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Alleycat (Golden)",
-						  "['BATTLECRY']", "BEAST", "COMMON", 1, "MINION"));						  
+						  "['BATTLECRY']", "BEAST", "COMMON", 1, "MINION"));
+    cards.emplace("Amalgadon", BgBaseCard(6, "NEUTRAL", 8, 6, "Amalgadon",
+					  "['BATTLECRY']", "ALL", "", 6, "MINION"));
     cards.emplace("Annihilan Battlemaster", BgBaseCard(3, "NEUTRAL", 8, 1, "Annihilan Battlemaster",
 						       "['BATTLECRY']", "DEMON", "EPIC", 5, "MINION"));
+    cards.emplace("Avenge", BgBaseCard(-1, "PALADIN", 1, -1, "Avenge",
+				       "['SECRET']", "", "COMMON", -1, "SPELL"));
+    cards.emplace("Autodefense Matrix", BgBaseCard(-1, "PALADIN", 1, -1, "Autodefense Matrix",
+						   "['SECRET']", "", "COMMON", -1, "SPELL"));
 
+    // B
+    cards.emplace("Bloodsail Cannoneer", BgBaseCard(4, "NEUTRAL", 4, 2, "Bloodsail Cannoneer",
+						    "", "PIRATE", "", 3, "MINION"));
     cards.emplace("Bronze Warden", BgBaseCard(2, "NEUTRAL", 4, 1, "Bronze Warden",
 			     "['DIVINE_SHIELD', 'REBORN']", "DRAGON", "", 3, "MINION"));
-    
+
+    // C
+    cards.emplace("Cap'n Hoggarr", BgBaseCard(6, "NEUTRAL", 6, 6,  "Cap'n Hoggarr",
+					      "['TRIGGER_VISUAL']", "PIRATE", "", 5, "MINION"));
+
+    // D
+    cards.emplace("Deck Swabbie", BgBaseCard(2, "NEUTRAL", 3, 2, "Deck Swabbie",
+					     "['BATTLECRY']", "PIRATE", "", 1, "MINION"));
     cards.emplace("Deflect-o-Bot", BgBaseCard(3, "NEUTRAL", 4, 2, "Deflect-o-Bot",
-					      "['TRIGGER_VISUAL']", "MECHANICAL", "", 3,
-					      "MINION"));
-    
+					      "['TRIGGER_VISUAL']", "MECHANICAL", "", 3, "MINION"));
+    cards.emplace("Drakonid Enforcer", BgBaseCard(3, "NEUTRAL", 6, 6, "Drakonid Enforcer",
+						  "['TRIGGER_VISUAL']", "DRAGON", "", 4, "MINION"));
+    cards.emplace("Dragonspawn Lieutenant", BgBaseCard(2, "NEUTRAL", 2, 3, "Dragonspawn Lieutenant",
+						       "['TAUNT']", "DRAGON", "", 1, "MINION"));
+    cards.emplace("Dread Admiral Eliza", BgBaseCard(6, "NEUTRAL", 6, 7, "Dread Admiral Eliza",
+						    "['TRIGGER_VISUAL']", "PIRATE", "", 6, "MINION"));
+
+    // E
+    cards.emplace("Effigy", BgBaseCard(-1, "MAGE", 3, -1, "Effigy",
+				       "['SECRET']", "", "RARE", -1, "SPELL"));
+
+    // F
+    cards.emplace("Freedealing Gambler", BgBaseCard(3, "NEUTRAL", 3, 3, "Freedealing Gambler",
+						    "", "PIRATE", "", 2, "MINION"));
     cards.emplace("Freedealing Gambler (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Freedealing Gambler (Golden)",
 							     "", "PIRATE", "", 2,
 							     "MINION"));
     cards.emplace("Foe Reaper 4000", BgBaseCard(6, "NEUTRAL", 8, 9, "Foe Reaper 4000",
 						"['CLEAVE']", "MECHANICAL", "LEGENDARY", 6, "Minion"));
 						
-
+    // G
     cards.emplace("Gentle Megasaur", BgBaseCard(5, "NEUTRAL", 4, 4, "Gentle Megasaur",
 						"['BATTLECRY']", "BEAST", "EPIC", 6, "MINION"));
     cards.emplace("Ghastcoiler", BgBaseCard(7, "PRIEST", 6, 7, "Ghastcoiler",
 					    "['DEATHRATTLE']", "BEAST", "", 6, "MINION"));
+    cards.emplace("Glyph Guardian", BgBaseCard(2, "MAGE", 3, 4, "Glyph Guardian",
+					       "['TRIGGER_VISUAL']", "DRAGON", "", 2, "MINION"));
+    cards.emplace("Gold Coin", BgBaseCard(-1, "NEUTRAL", 0, -1, "Gold Coin",
+					  "", "", "RARE", -1, "SPELL"));
+    cards.emplace("Goldgrubber", BgBaseCard(2, "NEUTRAL", 5, 2, "Goldgrubber",
+					    "['TRIGGER_VISUAL']", "PIRATE", "", 4,  "MINION"));
     cards.emplace("Goldgrubber (Golden)", BgBaseCard(4, "NEUTRAL", 5, 4, "Goldgrubber (Golden)",
 						     "['TRIGGER_VISUAL']", "PIRATE", "", 4,
 						     "MINION"));
@@ -225,47 +214,68 @@ void BgCardFactory::init_cards() {
 							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6,
 							 "MINION"));
 
+    // H
+    cards.emplace("Hand of Salvation", BgBaseCard(-1, "PALADIN", 1, -1, "Hand of Salvation",
+						  "['SECRET']", "", "FREE", -1, "SPELL"));
     cards.emplace("Hangry Dragon", BgBaseCard(4, "NEUTRAL", 5, 4, "Hangry Dragon",
 					      "['TRIGGER_VISUAL']", "DRAGON", "", 3, "MINION"));
     cards.emplace("Herald of Flame", BgBaseCard(5, "WARRIOR", 5, 6, "Herald of Flame",
 						"['OVERKILL']", "DRAGON", "", 4, "MINION"));
+    cards.emplace("Holy Mackerel", BgBaseCard(8, "PALADIN", 8, 4, "Holy Mackerel",
+					      "['TRIGGER_VISUAL']", "MURLOC", "", 6, "MINION"));
     cards.emplace("Houndmaster (Golden)", BgBaseCard(8, "HUNTER", 4, 6, "Houndmaster (Golden)",
-						     "['BATTLECRY']", "", "FREE", 3,
-						     "MINION"));
+						     "['BATTLECRY']", "", "FREE", 3, "MINION"));
 
+    // I
+    cards.emplace("Ice Block", BgBaseCard(-1, "MAGE", 3, -1, "Ice Block",
+					  "['SECRET']", "", "EPIC", -1, "SPELL"));
+    cards.emplace("Imp Mama", BgBaseCard(6, "WARLOCK", 8, 10, "Imp Mama",
+					 "['TRIGGER_VISUAL']", "DEMON", "", 6, "MINION"));
     cards.emplace("Imprisoner", BgBaseCard(3, "NEUTRAL", 3, 3, "Imprisoner",
 					   "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "MINION"));
     cards.emplace("Imprisoner (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Imprisoner (Golden)",
 						    "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "MINION"));
 
+    // K
+    cards.emplace("Kalecgos", BgBaseCard(4, "NEUTRAL", 8, 12, "Kalecgos, Arcane Aspect",
+					 "['TRIGGER_VISUAL']", "DRAGON", "", 6, "MINION"));
     cards.emplace("Kangor's Apprentice", BgBaseCard(3, "NEUTRAL", 9, 6, "Kangor's Apprentice",
 						    "['DEATHRATTLE']", "", "EPIC", 6, "MINION"));
     cards.emplace("King Bagurgle", BgBaseCard(6, "NEUTRAL", 6, 3, "King Bagurgle",
 					      "['BATTLECRY', 'DEATHRATTLE']", "MURLOC", "LEGENDARY", 5, "MINION"));
 
-    cards.emplace("Lightfang Enforcer", BgBaseCard(2, "NEUTRAL", 6, 2, "Lightfang Enforcer",
-						   "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION"));
-    
+    // L
+    cards.emplace("Lightfang", BgBaseCard(2, "NEUTRAL", 6, 2, "Lightfang Enforcer",
+					  "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION"));
+
+    // M
     cards.emplace("Mal'Ganis (Golden)", BgBaseCard(18, "WARLOCK", 9, 14, "Mal'Ganis (Golden)",
-						   "['AURA']", "DEMON", "LEGENDARY", 5,
-						   "MINION"));
+						   "['AURA']", "DEMON", "LEGENDARY", 5, "MINION"));
     cards.emplace("Mama Bear", BgBaseCard(5, "NEUTRAL", 8, 5, "Mama Bear",
 					  "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "MINION"));
+    // cards.emplace("Master Demonologist", BgBaseCard(4, "NEUTRAL", 7, 6, "Master Demonologist",
+    // 						    "['TRIGGER_VISUAL']", "DEMON", "", -1, "MINION"));
     cards.emplace("Micro Machine", BgBaseCard(1, "NEUTRAL", 2, 2, "Micro Machine",
 					      "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
     cards.emplace("Monstrous Macaw" ,BgBaseCard(3, "NEUTRAL", 3, 2, "Monstrous Macaw",
-						"['TRIGGER_VISUAL']", "BEAST", "", 3,
-						"MINION"));
+						"['TRIGGER_VISUAL']", "BEAST", "", 3, "MINION"));
     cards.emplace("Murloc Tidecaller (Golden)", BgBaseCard(2, "NEUTRAL", 1, 4,
 							   "Murloc Tidecaller (Golden)", "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1,
 							   "MINION"));
     cards.emplace("Murloc Tidehunter (Golden)", BgBaseCard(4, "NEUTRAL", 2, 2, "Murloc Tidehunter (Golden)",
-							   "['BATTLECRY']", "MURLOC", "FREE", 1,
-							   "MINION"));
-    
+							   "['BATTLECRY']", "MURLOC", "FREE", 1, "MINION"));
+    cards.emplace("Murozond", BgBaseCard(5, "NEUTRAL", 7, 5, "Murozond",
+					 "['BATTLECRY']", "DRAGON", "", 5, "MINION"));
+							   
+    // N
+    cards.emplace("Nadina the Red", BgBaseCard(7, "NEUTRAL", 6, 4, "Nadina the Red",
+					       "['DEATHRATTLE']", "", "", 6, "MINION"));
+    cards.emplace("Nat Pagle, Extreme Angler", BgBaseCard(8, "NEUTRAL", 7, 5, "Nat Pagle, Extreme Angler",
+							  "", "PIRATE", "", 5, "MINION"));
     cards.emplace("Nathrezim Overseer", BgBaseCard(2, "NEUTRAL", 3, 3, "Nathrezim Overseer",
 						   "['BATTLECRY']", "DEMON", "RARE", 2, "MINION"));
 
+    // P
     cards.emplace("Piloted Shredder", BgBaseCard(4, "NEUTRAL", 4, 3, "Piloted Shredder",
 	                                         "['DEATHRATTLE']", "MECHANICAL", "COMMON", 3, "MINION"));
     cards.emplace("Pogo-Hopper", BgBaseCard(1, "ROGUE", 1, 1, "Pogo-Hopper",
@@ -273,24 +283,68 @@ void BgCardFactory::init_cards() {
     cards.emplace("Primalfin Lookout", BgBaseCard(3, "NEUTRAL", 3, 2, "Primalfin Lookout",
 						  "['BATTLECRY', 'DISCOVER']", "MURLOC", "COMMON", 5, "MINION"));
 
+    // R
+    cards.emplace("Rabid Saurolisk", BgBaseCard(3, "HUNTER", 3, 2, "Rabid Saurolisk",
+						"['TRIGGER_VISUAL']", "BEAST", "", 2, "MINION"));
+    cards.emplace("Razorgore", BgBaseCard(2, "NEUTRAL", 8, 4, "Razorgore, the Untamed",
+						       "['TRIGGER_VISUAL']", "DRAGON", "", 5, "MINION"));
     cards.emplace("Red Whelp", BgBaseCard(1, "NEUTRAL", 1, 2, "Red Whelp",
 					  "['TRIGGER_VISUAL']", "DRAGON", "", 1, "MINION"));
-    
+    cards.emplace("Redemption", BgBaseCard(-1, "PALADIN", 1, -1, "Redemption",
+					   "['SECRET']", "", "COMMON", -1, "SPELL"));
+    cards.emplace("Ripsnarl Captain", BgBaseCard(3, "NEUTRAL", 4, 4, "Ripsnarl Captain",
+						 "['TRIGGER_VISUAL']", "PIRATE", "", 4, "MINION"));
+
+    // S
+    cards.emplace("Salty Looter", BgBaseCard(3, "ROGUE", 4, 3, "Salty Looter",
+					     "['TRIGGER_VISUAL']", "PIRATE", "", 3, "MINION"));
     cards.emplace("Salty Looter (Golden)", BgBaseCard(6, "ROGUE", 4, 6, "Salty Looter (Golden)",
-						      "['TRIGGER_VISUAL']", "PIRATE", "", 3,
-						      "MINION"));
+						      "['TRIGGER_VISUAL']", "PIRATE", "", 3, "MINION"));
+    cards.emplace("Scallywag", BgBaseCard(2, "NEUTRAL", 1, 1, "Scallywag",
+					  "['DEATHRATTLE']", "PIRATE", "", 1, "MINION"));
+    cards.emplace("Seabreaker Goliath", BgBaseCard(6, "NEUTRAL", 7, 7, "Seabreaker Goliath",
+						   "['OVERKILL']", "PIRATE", "", 5, "MINION"));
     cards.emplace("Shifter Zerus", BgBaseCard(1, "NEUTRAL", 1, 1, "Shifter Zerus",
 					      "", "", "LEGENDARY", 3, "MINION"));
+    cards.emplace("Sky Pirate", BgBaseCard(1, "ROGUE", 1, 1, "Sky Pirate",
+					   "", "PIRATE", "", 1, "MINION"));
+    cards.emplace("Snake Trap", BgBaseCard(-1, "HUNTER", 2, -1, "Snake Trap",
+					   "['SECRET']", "", "EPIC", -1, "SPELL"));
     cards.emplace("Sneed's Old Shredder", BgBaseCard(5, "NEUTRAL", 8, 7,"Sneed's Old Shredder",
 						     "['DEATHRATTLE']", "MECHANICAL", "LEGENDARY", 5, "MINION"));
-
     cards.emplace("Soul Juggler", BgBaseCard(3, "WARLOCK", 3, 3, "Soul Juggler",
 					     "['TRIGGER_VISUAL']", "", "", 3, "MINION"));
+    cards.emplace("Southsea Strongarm", BgBaseCard(5, "NEUTRAL", 5, 4,  "Southsea Strongarm",
+						   "", "PIRATE", "", 4,"MINION"));
+    cards.emplace("Splitting Image", BgBaseCard(-1, "MAGE", 3, -1, "Splitting Image",
+						"['SECRET']", "", "EPIC", -1, "SPELL"));
+    cards.emplace("Steward of Time", BgBaseCard(3, "NEUTRAL", 4, 4, "Steward of Time",
+						"", "DRAGON", "", 2, "MINION"));
+
+    // T
+    cards.emplace("The Tide Razor", BgBaseCard(6, "NEUTRAL", 7, 4, "The Tide Razor",
+					       "['DEATHRATTLE']", "", "", 6, "MINION"));
+    cards.emplace("Treasure Chest", BgBaseCard(0, "NEUTRAL", 2, 2, "Treasure Chest",
+					       "", "", "", 1, "MINION"));
+    cards.emplace("Twilight Emissary", BgBaseCard(4, "NEUTRAL", 6, 4, "Twilight Emissary",
+						  "['BATTLECRY', 'TAUNT']", "DRAGON", "", 3, "MINION"));
+
+    // V
+    cards.emplace("Venomstrike Trap", BgBaseCard(-1, "HUNTER", 2, -1, "Venomstrike Trap",
+						 "['SECRET']", "", "RARE", -1, "SPELL"));
 					     
 
+    // W
+    cards.emplace("Waxrider Togwaggle", BgBaseCard(1, "NEUTRAL", 3, 2, "Waxrider Togwaggle",
+						   "['TRIGGER_VISUAL']", "", "", 2, "MINION"));
     cards.emplace("Wrath Weaver", BgBaseCard(1, "NEUTRAL", 1, 1, "Wrath Weaver",
 					     "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION"));
 
+    // Y
+    cards.emplace("Yo-Ho-Ogre", BgBaseCard(2, "NEUTRAL", 6, 8, "Yo-Ho-Ogre",
+					   "['TRIGGER_VISUAL']", "PIRATE", "", 3, "MINION"));
+
+    // Z
     cards.emplace("Zapp Slywick", BgBaseCard(7, "NEUTRAL", 8, 10, "Zapp Slywick",
 					     "", "", "", 6, "MINION"));
 }

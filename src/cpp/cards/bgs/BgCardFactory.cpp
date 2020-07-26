@@ -17,19 +17,8 @@ BgBaseCard BgCardFactory::get_card(std::string name) {
     }
 }
 
+
 // 		return 
-// 		return BgBaseCard(6, "NEUTRAL", 3, 6, "TB_BaconUps_086", "Pack Leader (Golden)", "['TRIGGER_VISUAL']", "", "RARE", 3, "Whenever you summon a Beast, give it +6 Attack.", "MINION");
-// 		return BgBaseCard(6, "NEUTRAL", 9, 12, "TB_BaconUps_087", "Kangor's Apprentice (Golden)", "['DEATHRATTLE']", "", "EPIC", 6, "<b>Deathrattle</b>: Summon the first 4 friendly Mechs that died this combat.", "MINION");
-// 		return BgBaseCard(4, "NEUTRAL", 2, 4, "TB_BaconUps_088", "Dire Wolf Alpha (Golden)", "['ADJACENT_BUFF', 'AURA']", "BEAST", "COMMON", 1, "Adjacent minions have +2 Attack.", "MINION");
-// 		return BgBaseCard(6, "NEUTRAL", 3, 4, "TB_BaconUps_089", "Primalfin Lookout (Golden)", "['BATTLECRY', 'DISCOVER']", "MURLOC", "COMMON", 5, "<b>Battlecry:</b> If you control another Murloc, <b>Discover</b> two Murlocs.", "MINION");
-// 		return BgBaseCard(10, "NEUTRAL", 8, 10, "TB_BaconUps_090", "Mama Bear (Golden)", "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "Whenever you summon a Beast, give it +10/+10.", "MINION");
-// 		return BgBaseCard(14, "NEUTRAL", 8, 20, "TB_BaconUps_091", "Zapp Slywick (Golden)", "['WINDFURY']", "", "", 6, "[x]<b>Mega-Windfury</b> This minion always attacks the enemy minion with the lowest Attack.", "MINION");
-// 		return BgBaseCard(2, "HUNTER", 1, 2, "TB_BaconUps_093", "Alleycat (Golden)", "['BATTLECRY']", "BEAST", "COMMON", 1, "<b>Battlecry:</b> Summon a 2/2 Cat.", "MINION");
-// 		return BgBaseCard(2, "HUNTER", 1, 2, "TB_BaconUps_093t", "Tabbycat (Golden)", "", "BEAST", "", 1, "", "MINION");
-// 		return BgBaseCard(2, "NEUTRAL", 2, 4, "TB_BaconUps_094", "Micro Machine (Golden)", "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "At the start of each turn, gain +2 Attack.", "MINION");
-// 		return BgBaseCard(2, "NEUTRAL", 1, 2, "TB_BaconUps_095", "Shifter Zerus (Golden)", "", "", "LEGENDARY", 3, "Each turn this is in your hand, transform it into a random minion.", "MINION");
-// 		return BgBaseCard(4, "PALADIN", 4, 8, "TB_BaconUps_099", "Annoy-o-Module (Golden)", "['DIVINE_SHIELD', 'MODULAR', 'TAUNT']", "MECHANICAL", "RARE", 4, "<b>Magnetic</b> <b>Divine Shield</b> <b>Taunt</b>", "MINION");
-// 		return BgBaseCard(12, "NEUTRAL", 6, 6, "TB_BaconUps_100", "King Bagurgle (Golden)", "['BATTLECRY', 'DEATHRATTLE']", "MURLOC", "LEGENDARY", 5, "<b>Battlecry and Deathrattle:</b> Give your other Murlocs +4/+4.", "MINION");
 // 		return BgBaseCard(8, "WARLOCK", 5, 8, "TB_BaconUps_101", "Floating Watcher (Golden)", "['TRIGGER_VISUAL']", "DEMON", "COMMON", 4, "Whenever your hero takes damage on your turn, gain +4/+4.", "MINION");
 // 		return BgBaseCard(2, "NEUTRAL", 1, 4, "TB_BaconUps_102", "Red Whelp (Golden)", "['TRIGGER_VISUAL']", "DRAGON", "", 1, "[x]<b>Start of Combat:</b> Deal 1 damage per friendly Dragon to one random enemy minion twice.", "MINION");
 // 		return BgBaseCard(10, "WARRIOR", 5, 12, "TB_BaconUps_103", "Herald of Flame (Golden)", "['OVERKILL']", "DRAGON", "", 4, "<b>Overkill:</b> Deal 6 damage to the left-most enemy minion.", "MINION");
@@ -73,8 +62,6 @@ BgBaseCard BgCardFactory::get_card(std::string name) {
 
 void BgCardFactory::init_cards() {
     // A
-    cards.emplace("Arcane Cannon", BgBaseCard(2, "NEUTRAL", 3, 2, "Arcane Cannon",
-					      "['CANT_ATTACK', 'TRIGGER_VISUAL']", "", "", 2, "MINION"));
     cards.emplace("Alleycat (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Alleycat (Golden)",
 						  "['BATTLECRY']", "BEAST", "COMMON", 1, "MINION"));
     cards.emplace("Amalgadon", BgBaseCard(6, "NEUTRAL", 8, 6, "Amalgadon",
@@ -83,6 +70,10 @@ void BgCardFactory::init_cards() {
 						       "['BATTLECRY']", "DEMON", "EPIC", 5, "MINION"));
     cards.emplace("Annihilan Battlemaster (Golden)", BgBaseCard(6, "NEUTRAL", 8, 2, "Annihilan Battlemaster (Golden)",
 								"['BATTLECRY']", "DEMON", "EPIC", 5, "MINION"));
+    cards.emplace("Annoy-o-Module (Golden)", BgBaseCard(4, "PALADIN", 4, 8, "Annoy-o-Module (Golden)",
+							"['DIVINE_SHIELD', 'MODULAR', 'TAUNT']", "MECHANICAL", "RARE", 4, "MINION"));
+    cards.emplace("Arcane Cannon", BgBaseCard(2, "NEUTRAL", 3, 2, "Arcane Cannon",
+					      "['CANT_ATTACK', 'TRIGGER_VISUAL']", "", "", 2, "MINION"));
     cards.emplace("Avenge", BgBaseCard(-1, "PALADIN", 1, -1, "Avenge",
 				       "['SECRET']", "", "COMMON", -1, "SPELL"));
     cards.emplace("Autodefense Matrix", BgBaseCard(-1, "PALADIN", 1, -1, "Autodefense Matrix",
@@ -217,12 +208,16 @@ void BgCardFactory::init_cards() {
 					 "['TRIGGER_VISUAL']", "DRAGON", "", 6, "MINION"));
     cards.emplace("Kangor's Apprentice", BgBaseCard(3, "NEUTRAL", 9, 6, "Kangor's Apprentice",
 						    "['DEATHRATTLE']", "", "EPIC", 6, "MINION"));
+    cards.emplace("Kangor's Apprentice (Golden)", BgBaseCard(6, "NEUTRAL", 9, 12, "Kangor's Apprentice (Golden)",
+							     "['DEATHRATTLE']", "", "EPIC", 6,"MINION"));
     cards.emplace("Khadgar (Golden)", BgBaseCard(4, "MAGE", 2, 4,  "Khadgar (Golden)",
 						 "['TRIGGER_VISUAL']", "", "LEGENDARY", 3, "MINION"));
     cards.emplace("Kindly Grandmother (Golden)", BgBaseCard(2, "HUNTER", 2, 2, "Kindly Grandmother (Golden)",
 							    "['DEATHRATTLE']", "BEAST", "COMMON", 2, "MINION"));
     cards.emplace("King Bagurgle", BgBaseCard(6, "NEUTRAL", 6, 3, "King Bagurgle",
 					      "['BATTLECRY', 'DEATHRATTLE']", "MURLOC", "LEGENDARY", 5, "MINION"));
+    cards.emplace("King Bagurgle (Golden)", BgBaseCard(12, "NEUTRAL", 6, 6, "King Bagurgle (Golden)",
+						       "['BATTLECRY', 'DEATHRATTLE']", "MURLOC", "LEGENDARY", 5, "MINION"));
 
     // L
     cards.emplace("Lightfang", BgBaseCard(2, "NEUTRAL", 6, 2, "Lightfang Enforcer",
@@ -235,6 +230,8 @@ void BgCardFactory::init_cards() {
 						   "['AURA']", "DEMON", "LEGENDARY", 5, "MINION"));
     cards.emplace("Mama Bear", BgBaseCard(5, "NEUTRAL", 8, 5, "Mama Bear",
 					  "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "MINION"));
+    cards.emplace("Mama Bear (Golden)", BgBaseCard(10, "NEUTRAL", 8, 10, "Mama Bear (Golden)",
+						   "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "MINION"));
     // cards.emplace("Master Demonologist", BgBaseCard(4, "NEUTRAL", 7, 6, "Master Demonologist",
     // 						    "['TRIGGER_VISUAL']", "DEMON", "", -1, "MINION"));
     cards.emplace("Mechano-Egg (Golden)", BgBaseCard(0, "PALADIN", 5, 10, "Mechano-Egg (Golden)",
@@ -247,6 +244,8 @@ void BgCardFactory::init_cards() {
 							   "['BATTLECRY']", "MECHANICAL", "RARE", 2, "MINION"));
     cards.emplace("Micro Machine", BgBaseCard(1, "NEUTRAL", 2, 2, "Micro Machine",
 					      "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
+    cards.emplace("Micro Machine (Golden)", BgBaseCard(2, "NEUTRAL", 2, 4, "Micro Machine (Golden)",
+						       "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
     cards.emplace("Microbot (Golden)", BgBaseCard(2, "NEUTRAL", 1, 2, "Microbot (Golden)",
 						  "", "MECHANICAL", "", 1, "MINION"));
     cards.emplace("Monstrous Macaw" ,BgBaseCard(3, "NEUTRAL", 3, 2, "Monstrous Macaw",
@@ -281,6 +280,8 @@ void BgCardFactory::init_cards() {
 						      "['CHARGE']", "MURLOC", "LEGENDARY", 2, "MINION"));
 
     // P
+    cards.emplace("Pack Leader (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Pack Leader (Golden)",
+						     "['TRIGGER_VISUAL']", "", "RARE", 3, "MINION"));
     cards.emplace("Piloted Shredder", BgBaseCard(4, "NEUTRAL", 4, 3, "Piloted Shredder",
 	                                         "['DEATHRATTLE']", "MECHANICAL", "COMMON", 3, "MINION"));
     cards.emplace("Piloted Shredder (Golden)", BgBaseCard(8, "NEUTRAL", 4, 6, "Piloted Shredder (Golden)",
@@ -291,6 +292,8 @@ void BgCardFactory::init_cards() {
 						     "['BATTLECRY']", "MECHANICAL", "RARE", 2, "MINION"));
     cards.emplace("Primalfin Lookout", BgBaseCard(3, "NEUTRAL", 3, 2, "Primalfin Lookout",
 						  "['BATTLECRY', 'DISCOVER']", "MURLOC", "COMMON", 5, "MINION"));
+    cards.emplace("Primalfin Lookout (Golden)", BgBaseCard(6, "NEUTRAL", 3, 4, "Primalfin Lookout (Golden)",
+							   "['BATTLECRY', 'DISCOVER']", "MURLOC", "COMMON", 5, "MINION"));
 
     // R
     cards.emplace("Rabid Saurolisk", BgBaseCard(3, "HUNTER", 3, 2, "Rabid Saurolisk",
@@ -335,6 +338,8 @@ void BgCardFactory::init_cards() {
     						       "['DEATHRATTLE']", "", "RARE", 1, "MINION"));
     cards.emplace("Shifter Zerus", BgBaseCard(1, "NEUTRAL", 1, 1, "Shifter Zerus",
     					      "", "", "LEGENDARY", 3, "MINION"));
+    cards.emplace("Shifter Zerus (Golden)", BgBaseCard(2, "NEUTRAL", 1, 2, "Shifter Zerus (Golden)",
+						       "", "", "LEGENDARY", 3,"MINION"));
     cards.emplace("Siegebreaker (Golden)", BgBaseCard(10, "WARLOCK", 7, 16,  "Siegebreaker (Golden)",
     						      "['AURA', 'TAUNT']", "DEMON", "RARE", 4, "MINION"));
     cards.emplace("Sky Pirate", BgBaseCard(1, "ROGUE", 1, 1, "Sky Pirate",
@@ -365,6 +370,8 @@ void BgCardFactory::init_cards() {
 
 
     // T
+    cards.emplace("Tabbycat (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Tabbycat (Golden)",
+						  "", "BEAST", "", 1, "MINION"));
     cards.emplace("The Beast (Golden)", BgBaseCard(18, "NEUTRAL", 6, 14, "The Beast (Golden)",
 						   "['DEATHRATTLE']", "BEAST", "LEGENDARY", 3, "MINION"));
     cards.emplace("The Tide Razor", BgBaseCard(6, "NEUTRAL", 7, 4, "The Tide Razor",
@@ -400,6 +407,8 @@ void BgCardFactory::init_cards() {
     // Z
     cards.emplace("Zapp Slywick", BgBaseCard(7, "NEUTRAL", 8, 10, "Zapp Slywick",
 					     "", "", "", 6, "MINION"));
+    cards.emplace("Zapp Slywick (Golden)", BgBaseCard(14, "NEUTRAL", 8, 20, "Zapp Slywick (Golden)",
+						      "['WINDFURY']", "", "", 6, "MINION"));
     cards.emplace("Zoobot (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Zoobot (Golden)",
 						"['BATTLECRY']", "MECHANICAL", "COMMON", 2, "MINION"));
 }

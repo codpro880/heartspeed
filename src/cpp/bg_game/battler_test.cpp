@@ -119,3 +119,23 @@ TEST(Battler, CanHandleDivineShieldCorrectly) {
     // One deflecto should always live, it's a tier 3 card.    
     EXPECT_EQ(res.damage_taken, 1+3);
 }
+
+TEST(Battler, CanHandleBasicDeathrattles) {
+    auto f = BgCardFactory();
+    auto fiendish_serv = f.get_card("Fiendish Servant");
+    auto micro_machine = f.get_card("Micro Machine (Golden)");
+    auto gambler1 = f.get_card("Freedealing Gambler (Golden)");
+    // Imply proper deathrattle would be enough to draw it
+    EXPECT_EQ(fiendish_serv.get_attack() * 2 + micro_machine.get_attack(),
+	      gambler1.get_attack());
+    std::vector<BgBaseCard> p1_cards { fiendish_serv, micro_machine };
+    std::vector<BgBaseCard> p2_cards { gambler1 };
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+    EXPECT_EQ(res.damage_taken, 0); 
+}

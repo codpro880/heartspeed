@@ -102,6 +102,8 @@ void BgCardFactory::init_cards() {
     // F
     cards.emplace("Felfin Navigator (Golden)", BgBaseCard(8, "NEUTRAL", 4, 8, "Felfin Navigator (Golden)",
 							  "['BATTLECRY']", "MURLOC", "COMMON", 3, "MINION"));
+        cards.emplace("Fiendish Servant", BgBaseCard(2, "WARLOCK", 1, 1, "Fiendish Servant (Golden)",
+							  "['DEATHRATTLE']", "DEMON", "COMMON", 1, "MINION"));
     cards.emplace("Fiendish Servant (Golden)", BgBaseCard(4, "WARLOCK", 1, 2, "Fiendish Servant (Golden)",
 							  "['DEATHRATTLE']", "DEMON", "COMMON", 1, "MINION"));
     cards.emplace("Floating Watcher (Golden)", BgBaseCard(8, "WARLOCK", 5, 8, "Floating Watcher (Golden)",

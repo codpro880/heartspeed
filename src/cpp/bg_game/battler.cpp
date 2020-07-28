@@ -76,19 +76,19 @@ BattleResult Battler::battle(Player* p1,
     auto defender_pos = rand() % b2->length();
     auto defender = (*b2)[defender_pos];
     // TODO: Deal w/ deathrattle
-    attacker.take_damage(defender.get_attack());
-    defender.take_damage(attacker.get_attack());
+    attacker->take_damage(defender->get_attack());
+    defender->take_damage(attacker->get_attack());
 
-    if (attacker.is_dead()) {
+    if (attacker->is_dead()) {
 	b1->remove(attacker_pos);
-	// attacker.do_deathrattle(attacker_pos, b1, b2); // May modify b1/b2
+	attacker->do_deathrattle(attacker_pos, b1, b2); // May modify b1/b2
     }
     else {
 	b1->set_card(attacker_pos, attacker);
     }
-    if (defender.is_dead()) {
+    if (defender->is_dead()) {
 	b2->remove(defender_pos);
-	// defender.do_deathrattle(defender_pos, b1, b2); // May modify b1/b2
+	defender->do_deathrattle(defender_pos, b1, b2); // May modify b1/b2
     }
     else {
 	b2->set_card(defender_pos, defender);

@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+class Board; // Forward declare for circular dep between cards and board
+
 class BgBaseCard {
 public:
     BgBaseCard(int attack,
@@ -39,6 +41,8 @@ public:
     // 				 tech_level(c.tech_level),
     // 				 text(c.text),
     // 				 type(type) {}
+
+    virtual void do_deathrattle(int pos, Board* b1, Board* b2) {}
     
     int get_attack() { return is_poison ? 999999 : attack; } // Poison is like 'infinite' attack
     std::string get_card_class() { return card_class; }
@@ -61,7 +65,7 @@ public:
     void take_damage(int damage);
 
     friend std::ostream& operator<<(std::ostream& os, BgBaseCard& card);
-private:
+protected:
     int attack;
     std::string card_class;
     int cost;
@@ -75,3 +79,4 @@ private:
     int tech_level;
     std::string type;
 };
+

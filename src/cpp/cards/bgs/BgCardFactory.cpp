@@ -37,8 +37,9 @@ std::shared_ptr<BgBaseCard> BgCardFactory::init_card(int attack,
 
 void BgCardFactory::init_cards() {
     // A
-    // cards.emplace("Alleycat (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Alleycat (Golden)",
-    // 						  "['BATTLECRY']", "BEAST", "COMMON", 1, "MINION"));
+    std::shared_ptr<BgBaseCard> alleycat_gold(new BgBaseCard(2, "HUNTER", 1, 2, "Alleycat (Golden)",
+							     "['BATTLECRY']", "BEAST", "COMMON", 1, "MINION"));
+    cards.emplace("Alleycat (Golden)", alleycat_gold);
     // cards.emplace("Amalgadon", BgBaseCard(6, "NEUTRAL", 8, 6, "Amalgadon",
     // 					  "['BATTLECRY']", "ALL", "", 6, "MINION"));
     // cards.emplace("Amalgadon (Golden)", BgBaseCard(12, "NEUTRAL", 8, 12, "Amalgadon (Golden)",
@@ -125,6 +126,9 @@ void BgCardFactory::init_cards() {
     // 							  "['DEATHRATTLE']", "DEMON", "COMMON", 1, "MINION"));
     // cards.emplace("Floating Watcher (Golden)", BgBaseCard(8, "WARLOCK", 5, 8, "Floating Watcher (Golden)",
     // 							  "['TRIGGER_VISUAL']", "DEMON", "COMMON", 4, "MINION"));
+    std::shared_ptr<BgBaseCard> foe_reaper(new BgBaseCard(6, "NEUTRAL", 8, 9, "Foe Reaper 4000",
+							  "['CLEAVE']", "MECHANICAL", "LEGENDARY", 6, "Minion"));
+    cards.emplace("Foe Reaper 4000", foe_reaper);
     // cards.emplace("Foe Reaper 4000", BgBaseCard(6, "NEUTRAL", 8, 9, "Foe Reaper 4000",
     // 						"['CLEAVE']", "MECHANICAL", "LEGENDARY", 6, "Minion"));
     // cards.emplace("Freedealing Gambler", BgBaseCard(3, "NEUTRAL", 3, 3, "Freedealing Gambler",
@@ -149,6 +153,9 @@ void BgCardFactory::init_cards() {
     // 					  "", "", "RARE", -1, "SPELL"));
     // cards.emplace("Goldgrubber", BgBaseCard(2, "NEUTRAL", 5, 2, "Goldgrubber",
     // 					    "['TRIGGER_VISUAL']", "PIRATE", "", 4,  "MINION"));
+    std::shared_ptr<BgBaseCard> goldgrubber_gold(new BgBaseCard(4, "NEUTRAL", 5, 4, "Goldgrubber (Golden)",
+								"['TRIGGER_VISUAL']", "PIRATE", "", 4, "MINION"));
+    cards.emplace("Goldgrubber (Golden)", goldgrubber_gold);
     // cards.emplace("Goldgrubber (Golden)", BgBaseCard(4, "NEUTRAL", 5, 4, "Goldgrubber (Golden)",
     // 						     "['TRIGGER_VISUAL']", "PIRATE", "", 4,
     // 						     "MINION"));
@@ -180,6 +187,9 @@ void BgCardFactory::init_cards() {
     // 							 "['OVERKILL']", "DRAGON", "", 4, "MINION"));
     // cards.emplace("Holy Mackerel", BgBaseCard(8, "PALADIN", 8, 4, "Holy Mackerel",
     // 					      "['TRIGGER_VISUAL']", "MURLOC", "", 6, "MINION"));
+    std::shared_ptr<BgBaseCard> houndmaster_gold(new BgBaseCard(8, "HUNTER", 4, 6, "Houndmaster (Golden)",
+								"['BATTLECRY']", "", "FREE", 3, "MINION"));
+    cards.emplace("Houndmaster (Golden)", houndmaster_gold);
     // cards.emplace("Houndmaster (Golden)", BgBaseCard(8, "HUNTER", 4, 6, "Houndmaster (Golden)",
     // 						     "['BATTLECRY']", "", "FREE", 3, "MINION"));
     // cards.emplace("Hyena (Golden)", BgBaseCard(4, "HUNTER", 2, 4, "Hyena (Golden)",
@@ -200,6 +210,9 @@ void BgCardFactory::init_cards() {
     // 						  "['TRIGGER_VISUAL']", "DEMON", "", 6, "MINION"));
     // cards.emplace("Imprisoner", BgBaseCard(3, "NEUTRAL", 3, 3, "Imprisoner",
     // 					   "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "MINION"));
+    std::shared_ptr<BgBaseCard> imprisoner_gold(new BgBaseCard(6, "NEUTRAL", 3, 6, "Imprisoner (Golden)",
+							       "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "MINION"));
+    cards.emplace("Imprisoner (Golden)", imprisoner_gold);
     // cards.emplace("Imprisoner (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Imprisoner (Golden)",
     // 						    "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "MINION"));
     // cards.emplace("Iron Sensei (Golden)", BgBaseCard(4, "ROGUE", 3, 4, "Iron Sensei (Golden)",
@@ -242,6 +255,9 @@ void BgCardFactory::init_cards() {
     // 							    "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION"));
 
     // M
+    std::shared_ptr<BgBaseCard> malganis_gold(new BgBaseCard(18, "WARLOCK", 9, 14, "Mal'Ganis (Golden)",
+							     "['AURA']", "DEMON", "LEGENDARY", 5, "MINION"));
+    cards.emplace("Mal'Ganis (Golden)", malganis_gold);
     // cards.emplace("Mal'Ganis (Golden)", BgBaseCard(18, "WARLOCK", 9, 14, "Mal'Ganis (Golden)",
     // 						   "['AURA']", "DEMON", "LEGENDARY", 5, "MINION"));
     // cards.emplace("Mama Bear", BgBaseCard(5, "NEUTRAL", 8, 5, "Mama Bear",

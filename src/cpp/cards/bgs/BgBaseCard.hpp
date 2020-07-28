@@ -29,6 +29,18 @@ public:
 				   tech_level(tech_level),
 				   type(type) {}
     
+    BgBaseCard(const BgBaseCard& other) : attack(other.attack),
+					  card_class(other.card_class),
+					  cost(other.cost),
+					  has_divine_shield(other.has_divine_shield),
+					  is_poison(false),
+					  mechanics(mechanics),
+					  name(name),
+					  race(race),
+					  rarity(rarity),
+					  tech_level(tech_level),
+					  type(type) {}
+    
     // BgBaseCard(BgBaseCard c, new_health) : attack(c.attack),
     // 				 card_class(c.card_class),
     // 				 cost(c.cost),

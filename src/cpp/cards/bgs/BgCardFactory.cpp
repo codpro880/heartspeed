@@ -8,17 +8,50 @@ These are the cards that weren't automatically roped in and should be generated 
 #include "BgCardFactory.hpp"
 #include "DeathrattleCards.hpp"
 
-BgBaseCard* BgCardFactory::get_card(std::string name) {
-    auto card_found_it = cards.find(name);
-    if (card_found_it == cards.end())  {
-	throw std::runtime_error("No card has name " + name);
+std::shared_ptr<BgBaseCard> BgCardFactory::get_card(std::string name) {
+    if (name == "Deflect-o-Bot") {
+	return init_card(3, "NEUTRAL", 4, 2, "Deflect-o-Bot",
+			 "['TRIGGER_VISUAL']", "MECHANICAL", "", 3, "MINION");
+    }
+    else if (name == "Goldrinn, the Great Wolf") {
+	return init_card(4, "NEUTRAL", 8, 4, "Goldrinn, the Great Wolf",
+			 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "MINION");
+    }
+    else if (name == "Goldrinn, the Great Wolf (Golden)") {
+	return init_card(8, "NEUTRAL", 8, 8, "Goldrinn, the Great Wolf (Golden)",
+			 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "MINION");
+    }
+    else if (name == "Monstrous Macaw") {
+	return init_card(3, "NEUTRAL", 3, 2, "Monstrous Macaw",
+			 "['TRIGGER_VISUAL']", "BEAST", "", 3, "MINION");
+    }
+    else if (name == "Monstrous Macaw (Golden)") {
+	return init_card(6, "NEUTRAL", 3, 4, "Monstrous Macaw (Golden)",
+			 "['TRIGGER_VISUAL']", "BEAST", "", 3, "MINION");
+    }
+    else if (name == "Murloc Tidecaller (Golden)") {
+	return init_card(2, "NEUTRAL", 1, 4, "Murloc Tidecaller (Golden)",
+			 "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION");
+    }
+    else if (name == "Murloc Tidehunter (Golden)") {
+	return init_card(4, "NEUTRAL", 2, 2, "Murloc Tidehunter (Golden)",
+			 "['BATTLECRY']", "MURLOC", "FREE", 1, "MINION");
     }
     else {
-	return card_found_it->second;
+	throw std::runtime_error("No card has name " + name);
     }
+
+
+    // auto card_found_it = cards.find(name);
+    // if (card_found_it == cards.end())  {
+    // 	throw std::runtime_error("No card has name " + name);
+    // }
+    // else {
+    // 	return card_found_it->second;
+    // }
 }
 
-std::unique_ptr<BgBaseCard> init_card(int attack,
+std::shared_ptr<BgBaseCard> BgCardFactory::init_card(int attack,
 				      std::string card_class,
 				      int cost,
 				      int health,
@@ -28,12 +61,13 @@ std::unique_ptr<BgBaseCard> init_card(int attack,
 				      std::string rarity,
 				      int tech_level,
 				      std::string type) {
-    std::unique_ptr<BgBaseCard> card(new BgBaseCard(attack, card_class, cost, health, name,
+    std::shared_ptr<BgBaseCard> card(new BgBaseCard(attack, card_class, cost, health, name,
 						    mechanics, race, rarity, tech_level, type));
     return card;
 }
 
 void BgCardFactory::init_cards() {
+    return;
     // A
     // cards.emplace("Alleycat (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Alleycat (Golden)",
     // 						  "['BATTLECRY']", "BEAST", "COMMON", 1, "MINION"));
@@ -95,13 +129,9 @@ void BgCardFactory::init_cards() {
     // 						      "['BATTLECRY']", "PIRATE", "", 1, "MINION"));
     // cards.emplace("Defender of Argus (Golden)", BgBaseCard(4, "NEUTRAL", 4, 6, "Defender of Argus (Golden)",
     // 							   "['BATTLECRY']", "", "RARE", 4, "MINION"));
-    if (name == "Deflect-o-Bot") {
-	return init_card(3, "NEUTRAL", 4, 2, "Deflect-o-Bot",
-			 "['TRIGGER_VISUAL']", "MECHANICAL", "", 3, "MINION"));
-    }
-    std::unique_ptr<BgBaseCard> deflectobot(new BgBaseCard(3, "NEUTRAL", 4, 2, "Deflect-o-Bot",
-							 "['TRIGGER_VISUAL']", "MECHANICAL", "", 3, "MINION"));
-    cards.emplace("Deflect-o-Bot", deflectobot.get());
+    // std::shared_ptr<BgBaseCard> deflectobot(new BgBaseCard(3, "NEUTRAL", 4, 2, "Deflect-o-Bot",
+    // 							 "['TRIGGER_VISUAL']", "MECHANICAL", "", 3, "MINION"));
+    // cards.emplace("Deflect-o-Bot", deflectobot.get());
     // cards.emplace("Deflect-o-Bot (Golden)", BgBaseCard(6, "NEUTRAL", 4, 4, "Deflect-o-Bot (Golden)",
     // 						       "['TRIGGER_VISUAL']", "MECHANICAL", "", 3, "MINION"));
     // cards.emplace("Drakonid Enforcer", BgBaseCard(3, "NEUTRAL", 6, 6, "Drakonid Enforcer",
@@ -116,7 +146,7 @@ void BgCardFactory::init_cards() {
     // 							     "['TRIGGER_VISUAL']", "PIRATE", "", 6, "MINION"));
 
     // E
-    // std::unique_ptr<BgBaseCard> effigy(new BgBaseCard(-1, "MAGE", 3, -1, "Effigy",
+    // std::shared_ptr<BgBaseCard> effigy(new BgBaseCard(-1, "MAGE", 3, -1, "Effigy",
     // 						    "['SECRET']", "", "RARE", -1, "SPELL"));
     // cards.emplace("Effigy", effigy.get());
 
@@ -155,12 +185,15 @@ void BgCardFactory::init_cards() {
     // cards.emplace("Goldgrubber (Golden)", BgBaseCard(4, "NEUTRAL", 5, 4, "Goldgrubber (Golden)",
     // 						     "['TRIGGER_VISUAL']", "PIRATE", "", 4,
     // 						     "MINION"));
-    std::unique_ptr<BgBaseCard> goldrinn(new BgBaseCard(4, "NEUTRAL", 8, 4, "Goldrinn, the Great Wolf",
-    							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "MINION"));
-    cards.emplace("Goldrinn, the Great Wolf", goldrinn.get());
-    std::unique_ptr<BgBaseCard> goldrinn_gold(new BgBaseCard(4, "NEUTRAL", 8, 4, "Goldrinn, the Great Wolf",
-    							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "MINION"));
-    cards.emplace("Goldrinn, the Great Wolf (Golden)", goldrinn_gold.get());
+
+    // std::shared_ptr<BgBaseCard> goldrinn(new BgBaseCard(4, "NEUTRAL", 8, 4, "Goldrinn, the Great Wolf",
+    // 							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "MINION"));
+    // cards.emplace("Goldrinn, the Great Wolf", goldrinn.get());
+
+    // std::shared_ptr<BgBaseCard> goldrinn_gold(new BgBaseCard(8, "NEUTRAL", 8, 8, "Goldrinn, the Great Wolf (Golden)",
+    // 							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "MINION"));
+    // cards.emplace("Goldrinn, the Great Wolf (Golden)", goldrinn_gold.get());
+    
     // cards.emplace("Guard Bot (Golden)", BgBaseCard(4, "WARRIOR", 2, 6, "Guard Bot (Golden)",
     // 						   "['TAUNT']", "MECHANICAL", "", 1, "MINION"));
 
@@ -263,22 +296,25 @@ void BgCardFactory::init_cards() {
     // 						       "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
     // cards.emplace("Microbot (Golden)", BgBaseCard(2, "NEUTRAL", 1, 2, "Microbot (Golden)",
     // 						  "", "MECHANICAL", "", 1, "MINION"));
-    std::unique_ptr<BgBaseCard> macaw(new BgBaseCard(3, "NEUTRAL", 3, 2, "Monstrous Macaw",
-						     "['TRIGGER_VISUAL']", "BEAST", "", 3, "MINION"));
-    cards.emplace("Monstrous Macaw" , macaw.get());
-    std::unique_ptr<BgBaseCard> macaw_gold(new BgBaseCard(6, "NEUTRAL", 3, 4, "Monstrous Macaw (Golden)",
-							  "['TRIGGER_VISUAL']", "BEAST", "", 3, "MINION"));
-    cards.emplace("Monstrous Macaw (Golden)", macaw_gold.get());
+    // std::shared_ptr<BgBaseCard> macaw(new BgBaseCard(3, "NEUTRAL", 3, 2, "Monstrous Macaw",
+    // 						     "['TRIGGER_VISUAL']", "BEAST", "", 3, "MINION"));
+    // cards.emplace("Monstrous Macaw" , macaw.get());
+
+    // std::shared_ptr<BgBaseCard> macaw_gold(new BgBaseCard(6, "NEUTRAL", 3, 4, "Monstrous Macaw (Golden)",
+    // 							  "['TRIGGER_VISUAL']", "BEAST", "", 3, "MINION"));
+    // cards.emplace("Monstrous Macaw (Golden)", macaw_gold.get());
+    
     // cards.emplace("Mounted Raptor (Golden)", BgBaseCard(6, "DRUID", 3, 4, "Mounted Raptor (Golden)",
     // 							"['DEATHRATTLE']", "BEAST", "COMMON", 2, "MINION"));
     // cards.emplace("Murloc Scout (Golden)", BgBaseCard(2, "NEUTRAL", 1, 2, "Murloc Scout (Golden)",
     // 						      "", "MURLOC", "COMMON", 1, "MINION"));
-    std::unique_ptr<BgBaseCard> tidecaller_gold(new BgBaseCard(2, "NEUTRAL", 1, 4, "Murloc Tidecaller (Golden)",
-    							   "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION"));
-    cards.emplace("Murloc Tidecaller (Golden)", tidecaller_gold.get());
-    std::unique_ptr<BgBaseCard> tidehunter_gold(new BgBaseCard(4, "NEUTRAL", 2, 2, "Murloc Tidehunter (Golden)",
-							  "['BATTLECRY']", "MURLOC", "FREE", 1, "MINION"));
-    cards.emplace("Murloc Tidehunter (Golden)", tidehunter_gold.get());
+    // std::shared_ptr<BgBaseCard> tidecaller_gold(new BgBaseCard(2, "NEUTRAL", 1, 4, "Murloc Tidecaller (Golden)",
+    // 							   "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION"));
+    // cards.emplace("Murloc Tidecaller (Golden)", tidecaller_gold.get());
+
+    // std::shared_ptr<BgBaseCard> tidehunter_gold(new BgBaseCard(4, "NEUTRAL", 2, 2, "Murloc Tidehunter (Golden)",
+    // 							  "['BATTLECRY']", "MURLOC", "FREE", 1, "MINION"));
+    // cards.emplace("Murloc Tidehunter (Golden)", tidehunter_gold.get());
     // cards.emplace("Murloc Warleader (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Murloc Warleader (Golden)",
     // 							  "['AURA']", "MURLOC", "EPIC", 2, "MINION"));
     // cards.emplace("Murozond", BgBaseCard(5, "NEUTRAL", 7, 5, "Murozond",

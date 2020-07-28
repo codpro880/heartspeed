@@ -8,8 +8,19 @@
 class BgCardFactory {
 public:
     BgCardFactory() { init_cards(); }
-    BgBaseCard* get_card(std::string name);
+    std::shared_ptr<BgBaseCard> get_card(std::string name);
 private:
     void init_cards();
     std::unordered_map<std::string, BgBaseCard> cards;
+    std::shared_ptr<BgBaseCard> init_card(int attack,
+				      std::string card_class,
+				      int cost,
+				      int health,
+				      std::string name,
+				      std::string mechanics,
+				      std::string race,
+				      std::string rarity,
+				      int tech_level,
+				      std::string type);
+    //std::unordered_map<std::string, BgBaseCard*> cards;
 };

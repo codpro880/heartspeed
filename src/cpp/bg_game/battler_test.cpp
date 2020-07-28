@@ -9,8 +9,8 @@
 TEST(Battler, CalculatesWinWhenOppEmptyBoard) {
     auto f = BgCardFactory();
     auto tidecaller = f.get_card("Murloc Tidecaller (Golden)");
-    std::vector<BgBaseCard*> p1_cards { tidecaller };
-    std::vector<BgBaseCard*> p2_cards;
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards { tidecaller };
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards;
     std::unique_ptr<Board> board1(new Board(p1_cards));
     std::unique_ptr<Board> board2(new Board(p2_cards));    
     std::unique_ptr<Player> p1(new Player(board1.get(), "HookTusk"));
@@ -22,8 +22,8 @@ TEST(Battler, CalculatesWinWhenOppEmptyBoard) {
 }
 
 TEST(Battler, CanCalculateDrawWithEmptyBoards) {
-    std::vector<BgBaseCard*> p1_cards;
-    std::vector<BgBaseCard*> p2_cards;
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards;
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards;
     //auto board1 = std::unique_ptr<Board(p1_cards)>;
     std::unique_ptr<Board> board1(new Board(p1_cards));
     std::unique_ptr<Board> board2(new Board(p2_cards));    
@@ -43,8 +43,8 @@ TEST(Battler, CanCalculateDrawWithCardsThatImmediatelyDieToEachOther) {
     auto tidecaller4 = f.get_card("Murloc Tidehunter (Golden)");
     auto tidecaller5 = f.get_card("Murloc Tidehunter (Golden)");
     auto tidecaller6 = f.get_card("Murloc Tidehunter (Golden)");
-    std::vector<BgBaseCard*> p1_cards { tidecaller1, tidecaller2, tidecaller3 };
-    std::vector<BgBaseCard*> p2_cards { tidecaller4, tidecaller5, tidecaller6 };
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards { tidecaller1, tidecaller2, tidecaller3 };
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards { tidecaller4, tidecaller5, tidecaller6 };
     std::unique_ptr<Board> board1(new Board(p1_cards));
     std::unique_ptr<Board> board2(new Board(p2_cards));
     std::unique_ptr<Player> p1(new Player(board1.get(), "HookTusk"));

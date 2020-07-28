@@ -4,7 +4,7 @@
 #include "../test/googletest/include/gtest/gtest.h"
 
 TEST(Board, CanCalculateDamageEmptyBoard) {
-    std::vector<BgBaseCard*> cards;
+    std::vector<std::shared_ptr<BgBaseCard> > cards;
     auto board = Board(cards);
     EXPECT_EQ(board.calculate_damage(), 0);
 }
@@ -12,7 +12,7 @@ TEST(Board, CanCalculateDamageEmptyBoard) {
 TEST(Board, CanCalculateDamageOneCard) {
     auto f = BgCardFactory();
     auto goldrinn = f.get_card("Goldrinn, the Great Wolf");
-    std::vector<BgBaseCard*> cards{ goldrinn };
+    std::vector<std::shared_ptr<BgBaseCard> > cards{ goldrinn };
     auto board = Board(cards);
     EXPECT_EQ(board.calculate_damage(), 6);
 }

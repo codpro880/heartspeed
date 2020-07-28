@@ -98,6 +98,9 @@ void BgCardFactory::init_cards() {
     // 						      "['BATTLECRY']", "PIRATE", "", 1, "MINION"));
     // cards.emplace("Defender of Argus (Golden)", BgBaseCard(4, "NEUTRAL", 4, 6, "Defender of Argus (Golden)",
     // 							   "['BATTLECRY']", "", "RARE", 4, "MINION"));
+    std::shared_ptr<BgBaseCard> deflecto(new BgBaseCard(3, "NEUTRAL", 4, 2, "Deflect-o-Bot (Golden)",
+							"['TRIGGER_VISUAL']", "MECHANICAL", "", 3, "MINION"));
+    cards.emplace("Deflect-o-Bot", deflecto);
     // cards.emplace("Deflect-o-Bot (Golden)", BgBaseCard(6, "NEUTRAL", 4, 4, "Deflect-o-Bot (Golden)",
     // 						       "['TRIGGER_VISUAL']", "MECHANICAL", "", 3, "MINION"));
     // cards.emplace("Drakonid Enforcer", BgBaseCard(3, "NEUTRAL", 6, 6, "Drakonid Enforcer",
@@ -131,6 +134,9 @@ void BgCardFactory::init_cards() {
     cards.emplace("Foe Reaper 4000", foe_reaper);
     // cards.emplace("Foe Reaper 4000", BgBaseCard(6, "NEUTRAL", 8, 9, "Foe Reaper 4000",
     // 						"['CLEAVE']", "MECHANICAL", "LEGENDARY", 6, "Minion"));
+    std::shared_ptr<BgBaseCard> gambler(new BgBaseCard(3, "NEUTRAL", 3, 3, "Freedealing Gambler",
+						       "", "PIRATE", "", 2, "MINION"));
+    cards.emplace("Freedealing Gambler", gambler);
     // cards.emplace("Freedealing Gambler", BgBaseCard(3, "NEUTRAL", 3, 3, "Freedealing Gambler",
     // 						    "", "PIRATE", "", 2, "MINION"));
     // cards.emplace("Freedealing Gambler (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Freedealing Gambler (Golden)",

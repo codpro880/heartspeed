@@ -55,73 +55,73 @@ TEST(Battler, CanCalculateDrawWithCardsThatImmediatelyDieToEachOther) {
     EXPECT_EQ(res.damage_taken, 0);
 }
 
-// TEST(Battler, WinsIfWinIs100PercentGuaranteed) {
-//     auto f = BgCardFactory();
-//     auto tidecaller1 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
-//     auto tidecaller2 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
-//     auto tidecaller3 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
-//     auto gambler1 = f.get_card("Freedealing Gambler (Golden)");
-//     auto gambler2 = f.get_card("Freedealing Gambler (Golden)");
-//     std::vector<BgBaseCard*> p1_cards { tidecaller1, tidecaller2, tidecaller3 };
-//     std::vector<BgBaseCard*> p2_cards { gambler1, gambler2 };
-//     std::unique_ptr<Board> board1(new Board(p1_cards));
-//     std::unique_ptr<Board> board2(new Board(p2_cards));    
-//     std::unique_ptr<Player> p1(new Player(board1.get(), "HookTusk"));
-//     std::unique_ptr<Player> p2(new Player(board2.get(), "Pyramad"));
-//     auto battler = Battler(p1.get(), p2.get());
-//     auto res = battler.sim_battle();
-//     EXPECT_EQ(res.who_won, "Pyramad");
-//     // One gambler will always live, and it's a tier 2 card
-//     EXPECT_EQ(res.damage_taken, 1+2); 
-// }
+TEST(Battler, WinsIfWinIs100PercentGuaranteed) {
+    auto f = BgCardFactory();
+    auto tidecaller1 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
+    auto tidecaller2 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
+    auto tidecaller3 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
+    auto gambler1 = f.get_card("Freedealing Gambler (Golden)");
+    auto gambler2 = f.get_card("Freedealing Gambler (Golden)");
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards { tidecaller1, tidecaller2, tidecaller3 };
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards { gambler1, gambler2 };
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));    
+    std::unique_ptr<Player> p1(new Player(board1.get(), "HookTusk"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Pyramad"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Pyramad");
+    // One gambler will always live, and it's a tier 2 card
+    EXPECT_EQ(res.damage_taken, 1+2); 
+}
 
-// TEST(Battler, CanHandlePoisonCorrectly) {
-//     auto f = BgCardFactory();
-//     auto tidecaller1 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
-//     auto tidecaller2 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
-//     auto tidecaller3 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
-//     tidecaller1->set_poison();
-//     tidecaller2->set_poison();
-//     tidecaller3->set_poison();
-//     auto gambler1 = f.get_card("Freedealing Gambler (Golden)");
-//     auto gambler2 = f.get_card("Freedealing Gambler (Golden)");
-//     std::vector<BgBaseCard*> p1_cards { tidecaller1, tidecaller2, tidecaller3 };
-//     std::vector<BgBaseCard*> p2_cards { gambler1, gambler2 };
-//     std::unique_ptr<Board> board1(new Board(p1_cards));
-//     std::unique_ptr<Board> board2(new Board(p2_cards));    
-//     std::unique_ptr<Player> p1(new Player(board1.get(), "HookTusk"));
-//     std::unique_ptr<Player> p2(new Player(board2.get(), "Pyramad"));
-//     auto battler = Battler(p1.get(), p2.get());
-//     auto res = battler.sim_battle();
-//     EXPECT_EQ(res.who_won, "HookTusk");
-//     // One murloc should always live, tier 1
-//     EXPECT_EQ(res.damage_taken, 1+1); 
-// }
+TEST(Battler, CanHandlePoisonCorrectly) {
+    auto f = BgCardFactory();
+    auto tidecaller1 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
+    auto tidecaller2 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
+    auto tidecaller3 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
+    tidecaller1->set_poison();
+    tidecaller2->set_poison();
+    tidecaller3->set_poison();
+    auto gambler1 = f.get_card("Freedealing Gambler (Golden)");
+    auto gambler2 = f.get_card("Freedealing Gambler (Golden)");
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards { tidecaller1, tidecaller2, tidecaller3 };
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards { gambler1, gambler2 };
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));    
+    std::unique_ptr<Player> p1(new Player(board1.get(), "HookTusk"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Pyramad"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "HookTusk");
+    // One murloc should always live, tier 1
+    EXPECT_EQ(res.damage_taken, 1+1); 
+}
 
-// TEST(Battler, CanHandleDivineShieldCorrectly) {
-//     auto f = BgCardFactory();
-//     auto tidecaller1 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
-//     auto tidecaller2 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
-//     auto tidecaller3 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
-//     tidecaller1->set_poison();
-//     tidecaller2->set_poison();
-//     tidecaller3->set_poison();
-//     auto deflecto1 = f.get_card("Deflect-o-Bot");
-//     auto deflecto2 = f.get_card("Deflect-o-Bot");
-//     deflecto1->set_divine_shield();
-//     deflecto2->set_divine_shield();
-//     std::vector<BgBaseCard*> p1_cards { tidecaller1, tidecaller2, tidecaller3 };
-//     std::vector<BgBaseCard*> p2_cards { deflecto1, deflecto2 };
-//     std::unique_ptr<Board> board1(new Board(p1_cards));
-//     std::unique_ptr<Board> board2(new Board(p2_cards));    
-//     std::unique_ptr<Player> p1(new Player(board1.get(), "Eudora"));
-//     std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
-//     auto battler = Battler(p1.get(), p2.get());
-//     auto res = battler.sim_battle();
-//     EXPECT_EQ(res.who_won, "Edwin");
-//     // One deflecto should always live, it's a tier 3 card.    
-//     EXPECT_EQ(res.damage_taken, 1+3);
-// }
+TEST(Battler, CanHandleDivineShieldCorrectly) {
+    auto f = BgCardFactory();
+    auto tidecaller1 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
+    auto tidecaller2 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
+    auto tidecaller3 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
+    tidecaller1->set_poison();
+    tidecaller2->set_poison();
+    tidecaller3->set_poison();
+    auto deflecto1 = f.get_card("Deflect-o-Bot");
+    auto deflecto2 = f.get_card("Deflect-o-Bot");
+    deflecto1->set_divine_shield();
+    deflecto2->set_divine_shield();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards { tidecaller1, tidecaller2, tidecaller3 };
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards { deflecto1, deflecto2 };
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));    
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Eudora"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Edwin");
+    // One deflecto should always live, it's a tier 3 card.    
+    EXPECT_EQ(res.damage_taken, 1+3);
+}
 
 // TEST(Battler, CanHandleBasicDeathrattles) {
 //     auto f = BgCardFactory();

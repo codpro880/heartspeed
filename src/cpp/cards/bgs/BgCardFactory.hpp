@@ -22,5 +22,4 @@ private:
 				      std::string rarity,
 				      int tech_level,
 				      std::string type);
-    //std::unordered_map<std::string, BgBaseCard*> cards;
 };

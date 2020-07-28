@@ -33,13 +33,13 @@ public:
 					  card_class(other.card_class),
 					  cost(other.cost),
 					  has_divine_shield(other.has_divine_shield),
-					  is_poison(false),
-					  mechanics(mechanics),
-					  name(name),
-					  race(race),
-					  rarity(rarity),
-					  tech_level(tech_level),
-					  type(type) {}
+					  is_poison(other.is_poison),
+					  mechanics(other.mechanics),
+					  name(other.name),
+					  race(other.race),
+					  rarity(other.rarity),
+					  tech_level(other.tech_level),
+					  type(other.type) {}
     
     // BgBaseCard(BgBaseCard c, new_health) : attack(c.attack),
     // 				 card_class(c.card_class),

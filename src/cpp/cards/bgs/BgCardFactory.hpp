@@ -11,7 +11,7 @@ public:
     std::shared_ptr<BgBaseCard> get_card(std::string name);
 private:
     void init_cards();
-    std::unordered_map<std::string, BgBaseCard> cards;
+    std::unordered_map<std::string, std::shared_ptr<BgBaseCard> > cards;
     std::shared_ptr<BgBaseCard> init_card(int attack,
 				      std::string card_class,
 				      int cost,

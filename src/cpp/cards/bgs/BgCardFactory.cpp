@@ -14,10 +14,7 @@ std::shared_ptr<BgBaseCard> BgCardFactory::get_card(std::string name) {
     	throw std::runtime_error("No card has name " + name);
     }
     else {
-	BgBaseCard* found = (card_found_it->second).get();
-	std::cout << "Found card: " << (*found) << std::endl;
-    	std::shared_ptr<BgBaseCard> card_copy(new BgBaseCard(*found));
-	return card_copy;
+	return (card_found_it->second)->get_copy();
     }
 }
 
@@ -125,7 +122,11 @@ void BgCardFactory::init_cards() {
     // F
     // cards.emplace("Felfin Navigator (Golden)", BgBaseCard(8, "NEUTRAL", 4, 8, "Felfin Navigator (Golden)",
     // 							  "['BATTLECRY']", "MURLOC", "COMMON", 3, "MINION"));
-    // cards.emplace("Fiendish Servant", FiendishServant());
+    // std::shared_ptr<FiendishServant> fiendish_servant(new FiendishServant());
+    // cards.emplace("Fiendish Servant", fiendish_servant);
+    auto leo = std::make_shared<FiendishServant>();
+    cards.emplace("Fiendish Servant", leo);
+    // cards.emplace("Fiendish Servant", std::make_shared<FiendishServant>());
     // cards.emplace("Fiendish Servant (Golden)", BgBaseCard(4, "WARLOCK", 1, 2, "Fiendish Servant (Golden)",
     // 							  "['DEATHRATTLE']", "DEMON", "COMMON", 1, "MINION"));
     // cards.emplace("Floating Watcher (Golden)", BgBaseCard(8, "WARLOCK", 5, 8, "Floating Watcher (Golden)",
@@ -286,6 +287,9 @@ void BgCardFactory::init_cards() {
     // 							   "['BATTLECRY']", "MECHANICAL", "RARE", 2, "MINION"));
     // cards.emplace("Micro Machine", BgBaseCard(1, "NEUTRAL", 2, 2, "Micro Machine",
     // 					      "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
+    std::shared_ptr<BgBaseCard> micro_machine_gold(new BgBaseCard(2, "NEUTRAL", 2, 4, "Micro Machine (Golden)",
+								  "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
+    cards.emplace("Micro Machine (Golden)", micro_machine_gold);
     // cards.emplace("Micro Machine (Golden)", BgBaseCard(2, "NEUTRAL", 2, 4, "Micro Machine (Golden)",
     // 						       "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
     // cards.emplace("Microbot (Golden)", BgBaseCard(2, "NEUTRAL", 1, 2, "Microbot (Golden)",

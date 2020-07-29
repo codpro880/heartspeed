@@ -13,3 +13,7 @@ void BgBaseCard::take_damage(int damage) {
 	health -= damage;
     }
 }
+
+std::shared_ptr<BgBaseCard> BgBaseCard::get_copy() {
+    return std::make_shared<BgBaseCard>(*this);
+}

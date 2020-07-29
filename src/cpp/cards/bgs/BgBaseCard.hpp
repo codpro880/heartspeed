@@ -40,11 +40,8 @@ public:
 					  race(other.race),
 					  rarity(other.rarity),
 					  tech_level(other.tech_level),
-					  type(other.type) {
-	std::cout << "Copied." << std::endl;
-	std::cout << "My attack: " << attack << std::endl;
-	std::cout << "My health: " << health << std::endl;
-    }
+					  type(other.type) {}
+
     
     // BgBaseCard(BgBaseCard c, new_health) : attack(c.attack),
     // 				 card_class(c.card_class),
@@ -59,7 +56,8 @@ public:
     // 				 text(c.text),
     // 				 type(type) {}
 
-    virtual void do_deathrattle(int pos, Board* b1, Board* b2) {}
+    virtual void do_deathrattle(int pos, Board* b1, Board* b2) {std::cout << "Deathrattle..." << std::endl; }
+    virtual std::shared_ptr<BgBaseCard> get_copy();
     
     int get_attack() { return is_poison ? 999999 : attack; } // Poison is like 'infinite' attack
     std::string get_card_class() { return card_class; }
@@ -72,7 +70,7 @@ public:
     int get_tech_level() { return tech_level; }
     std::string get_type() { return type; }
 
-    bool is_dead() { if (health < 0) return true; else return false;; }
+    bool is_dead() { if (health <= 0) return true; else return false;; }
 
     void set_attack(int att) { attack = att; }
     void set_health(int hth) { health = hth; }
@@ -82,6 +80,8 @@ public:
     void take_damage(int damage);
 
     friend std::ostream& operator<<(std::ostream& os, BgBaseCard& card);
+    virtual ~BgBaseCard() {}
+    
 protected:
     int attack;
     std::string card_class;

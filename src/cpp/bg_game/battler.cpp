@@ -76,7 +76,7 @@ BattleResult Battler::battle(Player* p1,
     auto attacker = (*b1)[attacker_pos];
     auto defender_pos = rand() % b2->length();
     auto defender = (*b2)[defender_pos];
-    // TODO: Deal w/ deathrattle
+    // TODO: imple rest of deathrattles. See fiendish servant for example.
     attacker->take_damage(defender->get_attack());
     defender->take_damage(attacker->get_attack());
 

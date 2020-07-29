@@ -33,13 +33,18 @@ public:
 					  card_class(other.card_class),
 					  cost(other.cost),
 					  has_divine_shield(other.has_divine_shield),
+					  health(other.health),
 					  is_poison(other.is_poison),
 					  mechanics(other.mechanics),
 					  name(other.name),
 					  race(other.race),
 					  rarity(other.rarity),
 					  tech_level(other.tech_level),
-					  type(other.type) {}
+					  type(other.type) {
+	std::cout << "Copied." << std::endl;
+	std::cout << "My attack: " << attack << std::endl;
+	std::cout << "My health: " << health << std::endl;
+    }
     
     // BgBaseCard(BgBaseCard c, new_health) : attack(c.attack),
     // 				 card_class(c.card_class),

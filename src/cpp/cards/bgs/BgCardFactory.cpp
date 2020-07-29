@@ -15,6 +15,7 @@ std::shared_ptr<BgBaseCard> BgCardFactory::get_card(std::string name) {
     }
     else {
 	BgBaseCard* found = (card_found_it->second).get();
+	std::cout << "Found card: " << (*found) << std::endl;
     	std::shared_ptr<BgBaseCard> card_copy(new BgBaseCard(*found));
 	return card_copy;
     }
@@ -139,6 +140,9 @@ void BgCardFactory::init_cards() {
     cards.emplace("Freedealing Gambler", gambler);
     // cards.emplace("Freedealing Gambler", BgBaseCard(3, "NEUTRAL", 3, 3, "Freedealing Gambler",
     // 						    "", "PIRATE", "", 2, "MINION"));
+    std::shared_ptr<BgBaseCard> gambler_golden(new BgBaseCard(6, "NEUTRAL", 3, 6, "Freedealing Gambler (Golden)",
+							      "", "PIRATE", "", 2, "MINION"));
+    cards.emplace("Freedealing Gambler (Golden)", gambler_golden);
     // cards.emplace("Freedealing Gambler (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Freedealing Gambler (Golden)",
     // 							     "", "PIRATE", "", 2, "MINION"));
 						
@@ -301,12 +305,12 @@ void BgCardFactory::init_cards() {
     // cards.emplace("Murloc Scout (Golden)", BgBaseCard(2, "NEUTRAL", 1, 2, "Murloc Scout (Golden)",
     // 						      "", "MURLOC", "COMMON", 1, "MINION"));
     std::shared_ptr<BgBaseCard> tidecaller_gold(new BgBaseCard(2, "NEUTRAL", 1, 4, "Murloc Tidecaller (Golden)",
-    							   "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION"));
+							       "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION"));
     cards.emplace("Murloc Tidecaller (Golden)", tidecaller_gold);
     // cards.emplace("Murloc Tidecaller (Golden)", BgBaseCard(2, "NEUTRAL", 1, 4, "Murloc Tidecaller (Golden)",
     // 							   "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION"));
     std::shared_ptr<BgBaseCard> tidehunter_gold(new BgBaseCard(4, "NEUTRAL", 2, 2, "Murloc Tidehunter (Golden)",
-    							  "['BATTLECRY']", "MURLOC", "FREE", 1, "MINION"));
+							       "['BATTLECRY']", "MURLOC", "FREE", 1, "MINION"));
     cards.emplace("Murloc Tidehunter (Golden)", tidehunter_gold);
     // cards.emplace("Murloc Tidehunter (Golden)", BgBaseCard(4, "NEUTRAL", 2, 2, "Murloc Tidehunter (Golden)",
     // 							  "['BATTLECRY']", "MURLOC", "FREE", 1, "MINION"));

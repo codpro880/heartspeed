@@ -124,8 +124,7 @@ void BgCardFactory::init_cards() {
     // 							  "['BATTLECRY']", "MURLOC", "COMMON", 3, "MINION"));
     // std::shared_ptr<FiendishServant> fiendish_servant(new FiendishServant());
     // cards.emplace("Fiendish Servant", fiendish_servant);
-    auto leo = std::make_shared<FiendishServant>();
-    cards.emplace("Fiendish Servant", leo);
+    cards.emplace("Fiendish Servant", std::make_shared<FiendishServant>());
     // cards.emplace("Fiendish Servant", std::make_shared<FiendishServant>());
     // cards.emplace("Fiendish Servant (Golden)", BgBaseCard(4, "WARLOCK", 1, 2, "Fiendish Servant (Golden)",
     // 							  "['DEATHRATTLE']", "DEMON", "COMMON", 1, "MINION"));
@@ -234,6 +233,9 @@ void BgCardFactory::init_cards() {
     // 						       "", "BEAST", "", 1, "MINION"));
 
     // J
+    std::shared_ptr<BgBaseCard> joebot(new BgBaseCard(1, "NEUTRAL", 1, 1, "Jo-E Bot",
+						      "", "MECHANICAL", "", 1, "MINION"));
+    cards.emplace("Jo-E Bot", joebot);
     // cards.emplace("Jo-E Bot (Golden)", BgBaseCard(2, "NEUTRAL", 1, 2, "Jo-E Bot (Golden)",
     // 						  "", "MECHANICAL", "", 1, "MINION"));
     // cards.emplace("Junkbot (Golden)", BgBaseCard(2, "NEUTRAL", 5, 10, "Junkbot (Golden)",
@@ -279,6 +281,7 @@ void BgCardFactory::init_cards() {
     // // 						    "['TRIGGER_VISUAL']", "DEMON", "", -1, "MINION"));
     // cards.emplace("Mechano-Egg (Golden)", BgBaseCard(0, "PALADIN", 5, 10, "Mechano-Egg (Golden)",
     // 						     "['DEATHRATTLE']", "MECHANICAL", "COMMON", 4, "MINION"));
+    cards.emplace("Mecharoo", std::make_shared<Mecharoo>());
     // cards.emplace("Mecharoo (Golden)", BgBaseCard(2, "NEUTRAL", 1, 2, "Mecharoo (Golden)",
     // 						  "['DEATHRATTLE']", "MECHANICAL", "COMMON", 1, "MINION"));
     // cards.emplace("Menagerie Magician (Golden)", BgBaseCard(8, "NEUTRAL", 5, 8, "Menagerie Magician (Golden)",

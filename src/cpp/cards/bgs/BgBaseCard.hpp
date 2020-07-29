@@ -19,7 +19,7 @@ public:
 	       std::string type) : attack(attack),
 				   card_class(card_class),
 				   cost(cost),
-				   has_divine_shield(false),
+				   divine_shield(false),
 				   health(health),
 				   is_poison(false),
 				   mechanics(mechanics),
@@ -32,7 +32,7 @@ public:
     BgBaseCard(const BgBaseCard& other) : attack(other.attack),
 					  card_class(other.card_class),
 					  cost(other.cost),
-					  has_divine_shield(other.has_divine_shield),
+					  divine_shield(other.divine_shield),
 					  health(other.health),
 					  is_poison(other.is_poison),
 					  mechanics(other.mechanics),
@@ -70,12 +70,14 @@ public:
     int get_tech_level() { return tech_level; }
     std::string get_type() { return type; }
 
+    bool has_divine_shield() { return divine_shield; }
+
     bool is_dead() { if (health <= 0) return true; else return false;; }
 
     void set_attack(int att) { attack = att; }
     void set_health(int hth) { health = hth; }
     void set_poison() { is_poison = true; }
-    void set_divine_shield() { has_divine_shield = true; }
+    void set_divine_shield() { divine_shield = true; }
 
     void take_damage(int damage);
 
@@ -86,7 +88,7 @@ protected:
     int attack;
     std::string card_class;
     int cost;
-    bool has_divine_shield;
+    bool divine_shield;
     int health;
     bool is_poison;
     std::string mechanics;

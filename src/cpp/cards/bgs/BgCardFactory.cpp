@@ -98,6 +98,7 @@ void BgCardFactory::init_cards() {
     // 							   "['BATTLECRY']", "", "RARE", 4, "MINION"));
     std::shared_ptr<BgBaseCard> deflecto(new BgBaseCard(3, "NEUTRAL", 4, 2, "Deflect-o-Bot (Golden)",
 							"['TRIGGER_VISUAL']", "MECHANICAL", "", 3, "MINION"));
+    deflecto->set_divine_shield();
     cards.emplace("Deflect-o-Bot", deflecto);
     // cards.emplace("Deflect-o-Bot (Golden)", BgBaseCard(6, "NEUTRAL", 4, 4, "Deflect-o-Bot (Golden)",
     // 						       "['TRIGGER_VISUAL']", "MECHANICAL", "", 3, "MINION"));
@@ -411,6 +412,7 @@ void BgCardFactory::init_cards() {
     // 							    "['OVERKILL']", "PIRATE", "", 5, "MINION"));
     // cards.emplace("Security Rover (Golden)", BgBaseCard(4, "WARRIOR", 6, 12, "Security Rover (Golden)",
     // 							"['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 4, "MINION"));
+    cards.emplace("Selfless Hero", std::make_shared<SelflessHero>());
     // cards.emplace("Selfless Hero (Golden)", BgBaseCard(4, "PALADIN", 1, 2, "Selfless Hero (Golden)",
     // 						       "['DEATHRATTLE']", "", "RARE", 1, "MINION"));
     // cards.emplace("Shifter Zerus", BgBaseCard(1, "NEUTRAL", 1, 1, "Shifter Zerus",

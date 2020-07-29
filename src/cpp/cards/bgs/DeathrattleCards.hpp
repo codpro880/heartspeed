@@ -15,3 +15,11 @@ public:
     virtual void do_deathrattle(int pos, Board* b1, Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() { return std::make_shared<Mecharoo>(*this); } // boilerplate that every drattle needs...
 };
+
+class SelflessHero : public BgBaseCard {
+public:
+    SelflessHero() : BgBaseCard(2, "PALADIN", 1, 1, "Selfless Hero",
+				"['DEATHRATTLE']", "", "RARE", 1, "MINION") {}
+    virtual void do_deathrattle(int pos, Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() { return std::make_shared<SelflessHero>(*this); } // boilerplate that every drattle needs...
+};

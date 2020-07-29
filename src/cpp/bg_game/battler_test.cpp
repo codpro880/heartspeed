@@ -108,8 +108,8 @@ TEST(Battler, CanHandleDivineShieldCorrectly) {
     tidecaller3->set_poison();
     auto deflecto1 = f.get_card("Deflect-o-Bot");
     auto deflecto2 = f.get_card("Deflect-o-Bot");
-    deflecto1->set_divine_shield();
-    deflecto2->set_divine_shield();
+    // deflecto1->set_divine_shield();
+    // deflecto2->set_divine_shield();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { tidecaller1, tidecaller2, tidecaller3 };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { deflecto1, deflecto2 };
     std::unique_ptr<Board> board1(new Board(p1_cards));
@@ -157,6 +157,44 @@ TEST(Battler, MecharooDrattle) {
     std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+    EXPECT_EQ(res.damage_taken, 0);
+}
+
+TEST(Battler, SelflessHeroDrattle) {
+    auto f = BgCardFactory();
+    auto selfless = f.get_card("Selfless Hero");
+    auto tidehunter = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
+    auto gambler1 = f.get_card("Freedealing Gambler (Golden)");
+    // These should draw since mecharoo summons a 1/1 token as a drattle
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards { selfless, tidehunter };
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards { gambler1 };
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // Selfless will die first, gives tidehunter a divine shield, which then kills gambler and lives.
+    EXPECT_EQ(res.who_won, "Tess");
+    EXPECT_EQ(res.damage_taken, 1+1);
+}
+
+TEST(Battler, SelflessHeroDrattleDoesntHelpIfDivineAlreadyPresent) {
+    auto f = BgCardFactory();
+    auto selfless = f.get_card("Selfless Hero");
+    auto deflecto = f.get_card("Deflect-o-Bot"); // No battlecry
+    auto gambler1 = f.get_card("Freedealing Gambler (Golden)");
+    // These should draw since mecharoo summons a 1/1 token as a drattle
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards { selfless, deflecto };
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards { gambler1 };
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // Selfless will die first, gives no shield, gambler pops div sheild, then deflecto and gambler kill each other
     EXPECT_EQ(res.who_won, "draw");
     EXPECT_EQ(res.damage_taken, 0);
 }

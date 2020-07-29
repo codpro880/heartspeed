@@ -16,3 +16,19 @@ void Mecharoo::do_deathrattle(int pos, Board* our_board, Board* opp_board) {
     auto joebot = f.get_card("Jo-E Bot");
     our_board->insert_card(pos, joebot);
 }
+
+void SelflessHero::do_deathrattle(int pos, Board* b1, Board*b2) {
+    // Cards w/o divine shield
+    std::vector<std::shared_ptr<BgBaseCard> > cards;
+    for (auto card : b1->get_cards()) {
+	if (!card->has_divine_shield()) {
+	    cards.push_back(card);
+	}
+    }
+    if (cards.size() > 0) {
+	auto buffed_pos = rand() % cards.size();
+	auto card = cards[buffed_pos];
+	card->set_divine_shield();
+	b1->set_card(buffed_pos, card);
+    }
+}

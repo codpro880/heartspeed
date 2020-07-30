@@ -198,3 +198,29 @@ TEST(Battler, SelflessHeroDrattleDoesntHelpIfDivineAlreadyPresent) {
     EXPECT_EQ(res.who_won, "draw");
     EXPECT_EQ(res.damage_taken, 0);
 }
+
+TEST(Battler, ScallywagDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards { f.get_card("Scallywag"),
+							 f.get_card("Scallywag"),
+							 f.get_card("Scallywag"),
+							 f.get_card("Scallywag"),
+							 f.get_card("Scallywag"),
+							 f.get_card("Scallywag"),
+							 f.get_card("Scallywag") };
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards { f.get_card("Murloc Tidehunter"),
+							 f.get_card("Murloc Scout") };
+    // p1 should be left w/ 6 Scallywags (since 2/1 kills either scout or tidehunter, then 1/1 token immediately kills the other
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "p1"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "p2"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "p1");
+    auto battled_p1_cards = p1->get_board()->get_cards();
+    for (auto c : battled_p1_cards) {
+	EXPECT_EQ(c->get_name(), "Scallywag");
+    }
+    EXPECT_EQ(res.damage_taken, 7);
+}

@@ -73,7 +73,7 @@ BattleResult Battler::battle(Player* p1,
     }
     int attacker_pos = p1_counter;
 
-    battle_boards(attacker_pos, b1, b2); // Modifies b1/b2
+    BoardBattler().battle_boards(attacker_pos, b1, b2); // Modifies b1/b2
 
     // auto attacker = (*b1)[attacker_pos];
     // auto defender_pos = rand() % b2->length();
@@ -104,7 +104,7 @@ BattleResult Battler::battle(Player* p1,
     return battle(p2, p1, p2_counter, p1_counter+1);
 }
 
-void Battler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
+void BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     auto attacker = (*b1)[attacker_pos];
     auto defender_pos = rand() % b2->length();
     auto defender = (*b2)[defender_pos];

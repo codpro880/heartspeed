@@ -88,6 +88,12 @@ void BgCardFactory::init_cards() {
     // 						       "['BATTLECRY']", "", "COMMON", 3, "MINION"));
 
     // D
+    std::shared_ptr<BgBaseCard> damaged_golem(new BgBaseCard(2, "NEUTRAL", 1, 1,
+							     "Damaged Golem", "", "MECHANICAL", "", 1, "MINION"));
+    cards.emplace("Damaged Golem", damaged_golem);
+    std::shared_ptr<BgBaseCard> damaged_golem_gold(new BgBaseCard(4, "NEUTRAL", 1, 2,
+								  "Damaged Golem (Golden)", "", "MECHANICAL", "", 1, "MINION"));
+    cards.emplace("Damaged Golem", damaged_golem_gold);
     // cards.emplace("Damaged Golem (Golden)", BgBaseCard(4, "NEUTRAL", 1, 2,
     // 						       "Damaged Golem (Golden)", "", "MECHANICAL", "", 1, "MINION"));
     // cards.emplace("Deck Swabbie", BgBaseCard(2, "NEUTRAL", 3, 2, "Deck Swabbie",
@@ -421,18 +427,19 @@ void BgCardFactory::init_cards() {
     // cards.emplace("Security Rover (Golden)", BgBaseCard(4, "WARRIOR", 6, 12, "Security Rover (Golden)",
     // 							"['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 4, "MINION"));
     cards.emplace("Selfless Hero", std::make_shared<SelflessHero>());
-    // cards.emplace("Selfless Hero (Golden)", BgBaseCard(4, "PALADIN", 1, 2, "Selfless Hero (Golden)",
-    // 						       "['DEATHRATTLE']", "", "RARE", 1, "MINION"));
     // cards.emplace("Shifter Zerus", BgBaseCard(1, "NEUTRAL", 1, 1, "Shifter Zerus",
     // 					      "", "", "LEGENDARY", 3, "MINION"));
     // cards.emplace("Shifter Zerus (Golden)", BgBaseCard(2, "NEUTRAL", 1, 2, "Shifter Zerus (Golden)",
     // 						       "", "", "LEGENDARY", 3,"MINION"));
     // cards.emplace("Siegebreaker (Golden)", BgBaseCard(10, "WARLOCK", 7, 16,  "Siegebreaker (Golden)",
     // 						      "['AURA', 'TAUNT']", "DEMON", "RARE", 4, "MINION"));
-    // cards.emplace("Sky Pirate", BgBaseCard(1, "ROGUE", 1, 1, "Sky Pirate",
-    // 					   "", "PIRATE", "", 1, "MINION"));
-    // cards.emplace("Sky Pirate (Golden)", BgBaseCard(2, "ROGUE", 1, 2, "Sky Pirate (Golden)",
-    // 						    "", "PIRATE", "", 1, "MINION"));
+    std::shared_ptr<BgBaseCard> sky_pirate(new BgBaseCard(1, "ROGUE", 1, 1, "Sky Pirate",
+							  "", "PIRATE", "", 1, "MINION"));
+    cards.emplace("Sky Pirate", sky_pirate);
+    std::shared_ptr<BgBaseCard> sky_pirate_gold(new BgBaseCard(2, "ROGUE", 1, 2, "Sky Pirate (Golden)",
+							       "", "PIRATE", "", 1, "MINION"));
+    cards.emplace("Sky Pirate", sky_pirate_gold);
+    
     // cards.emplace("Snake Trap", BgBaseCard(-1, "HUNTER", 2, -1, "Snake Trap",
     // 					   "['SECRET']", "", "EPIC", -1, "SPELL"));
     // cards.emplace("Sneed's Old Shredder", BgBaseCard(5, "NEUTRAL", 8, 7,"Sneed's Old Shredder",

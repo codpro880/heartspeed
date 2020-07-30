@@ -5,6 +5,7 @@
 #include <stdexcept>
 
 #include <iostream>
+#include "../cards/bgs/DeathrattleCards.hpp"
 
 BattleResult Battler::sim_battle() {
     return sim_battle(p1, p2);
@@ -72,31 +73,59 @@ BattleResult Battler::battle(Player* p1,
     }
     int attacker_pos = p1_counter;
 
-    auto attacker = (*b1)[attacker_pos];
-    auto defender_pos = rand() % b2->length();
-    auto defender = (*b2)[defender_pos];
-    // TODO: Deal w/ deathrattle
-    attacker.take_damage(defender.get_attack());
-    defender.take_damage(attacker.get_attack());
+    BoardBattler().battle_boards(attacker_pos, b1, b2); // Modifies b1/b2
 
-    if (attacker.is_dead()) {
-	b1->remove(attacker_pos);
-    }
-    else {
-	b1->set_card(attacker_pos, attacker);
-    }
-    if (defender.is_dead()) {
-	b2->remove(defender_pos);
-    }
-    else {
-	b2->set_card(defender_pos, defender);
-    }
+    // auto attacker = (*b1)[attacker_pos];
+    // auto defender_pos = rand() % b2->length();
+    // auto defender = (*b2)[defender_pos];
+    // // TODO: impl rest of deathrattles. See fiendish servant for example.
+    // attacker->take_damage(defender->get_attack());
+    // defender->take_damage(attacker->get_attack());
+
+    // if (attacker->is_dead()) {
+    // 	b1->remove(attacker_pos);
+    // 	attacker->do_deathrattle(attacker_pos, b1, b2); // May modify b1/b2
+    // }
+    // else {
+    // 	b1->set_card(attacker_pos, attacker);
+    // }
+    // if (defender->is_dead()) {
+    // 	b2->remove(defender_pos);
+    // 	defender->do_deathrattle(defender_pos, b1, b2); // May modify b1/b2
+    // }
+    // else {
+    // 	b2->set_card(defender_pos, defender);
+    // }
 
     p1->set_board(b1);
     p2->set_board(b2);
     std::cout << "P1: " << (*p1) << std::endl;
     std::cout << "P2: " << (*p2) << std::endl;
-    return battle(p2, p1, p2_counter+1, p1_counter+1);
+    return battle(p2, p1, p2_counter, p1_counter+1);
+}
+
+void BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
+    auto attacker = (*b1)[attacker_pos];
+    auto defender_pos = rand() % b2->length();
+    auto defender = (*b2)[defender_pos];
+    // TODO: impl rest of deathrattles. See fiendish servant for example.
+    attacker->take_damage(defender->get_attack());
+    defender->take_damage(attacker->get_attack());
+
+    if (attacker->is_dead()) {
+	b1->remove(attacker_pos);
+	attacker->do_deathrattle(attacker_pos, b1, b2); // May modify b1/b2
+    }
+    else {
+	b1->set_card(attacker_pos, attacker);
+    }
+    if (defender->is_dead()) {
+	b2->remove(defender_pos);
+	defender->do_deathrattle(defender_pos, b1, b2); // May modify b1/b2
+    }
+    else {
+	b2->set_card(defender_pos, defender);
+    }
 }
 
 std::string Battler::decide_who_goes_first(Board* b1, Board* b2) {

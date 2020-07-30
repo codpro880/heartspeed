@@ -3,6 +3,8 @@
 #include <iostream>
 #include <string>
 
+class Board; // Forward declare for circular dep between cards and board
+
 class BgBaseCard {
 public:
     BgBaseCard(int attack,
@@ -17,7 +19,7 @@ public:
 	       std::string type) : attack(attack),
 				   card_class(card_class),
 				   cost(cost),
-				   has_divine_shield(false),
+				   divine_shield(false),
 				   health(health),
 				   is_poison(false),
 				   mechanics(mechanics),
@@ -26,6 +28,20 @@ public:
 				   rarity(rarity),
 				   tech_level(tech_level),
 				   type(type) {}
+    
+    BgBaseCard(const BgBaseCard& other) : attack(other.attack),
+					  card_class(other.card_class),
+					  cost(other.cost),
+					  divine_shield(other.divine_shield),
+					  health(other.health),
+					  is_poison(other.is_poison),
+					  mechanics(other.mechanics),
+					  name(other.name),
+					  race(other.race),
+					  rarity(other.rarity),
+					  tech_level(other.tech_level),
+					  type(other.type) {}
+
     
     // BgBaseCard(BgBaseCard c, new_health) : attack(c.attack),
     // 				 card_class(c.card_class),
@@ -39,6 +55,9 @@ public:
     // 				 tech_level(c.tech_level),
     // 				 text(c.text),
     // 				 type(type) {}
+
+    virtual void do_deathrattle(int pos, Board* b1, Board* b2) {std::cout << "Deathrattle..." << std::endl; }
+    virtual std::shared_ptr<BgBaseCard> get_copy();
     
     int get_attack() { return is_poison ? 999999 : attack; } // Poison is like 'infinite' attack
     std::string get_card_class() { return card_class; }
@@ -51,21 +70,25 @@ public:
     int get_tech_level() { return tech_level; }
     std::string get_type() { return type; }
 
-    bool is_dead() { if (health < 0) return true; else return false;; }
+    bool has_divine_shield() { return divine_shield; }
+
+    bool is_dead() { if (health <= 0) return true; else return false;; }
 
     void set_attack(int att) { attack = att; }
     void set_health(int hth) { health = hth; }
     void set_poison() { is_poison = true; }
-    void set_divine_shield() { has_divine_shield = true; }
+    void set_divine_shield() { divine_shield = true; }
 
     void take_damage(int damage);
 
     friend std::ostream& operator<<(std::ostream& os, BgBaseCard& card);
-private:
+    virtual ~BgBaseCard() {}
+    
+protected:
     int attack;
     std::string card_class;
     int cost;
-    bool has_divine_shield;
+    bool divine_shield;
     int health;
     bool is_poison;
     std::string mechanics;
@@ -75,3 +98,4 @@ private:
     int tech_level;
     std::string type;
 };
+

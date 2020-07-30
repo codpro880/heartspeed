@@ -27,3 +27,8 @@ private:
     Player* p1;
     Player* p2;
 };
+
+class BoardBattler {
+public:
+    void battle_boards(int attacker_pos, Board* b1, Board* b2);
+};

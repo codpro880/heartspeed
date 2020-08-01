@@ -46,9 +46,10 @@ BattleResult Battler::battle(Player* p1,
     // base case
     auto b1 = p1->get_board();
     auto b2 = p2->get_board();
-    std::cout << "Boards: " << std::endl;
-    std::cout << (*b1) << std::endl;
-    std::cout << (*b2) << std::endl;
+    std::cout << "P1 (before): " << std::endl;
+    std::cout << (*p1) << std::endl;
+    std::cout << "P2 (before): " << std::endl;
+    std::cout << (*p2) << std::endl;
     BattleResult res = BattleResult();
     if (b1->empty() && b2->empty()) {
 	res.who_won = "draw";
@@ -98,7 +99,7 @@ void BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     }
     if (defender->is_dead()) {
 	b2->remove(defender_pos);
-	defender->do_deathrattle(defender_pos, b1, b2); // May modify b1/b2
+	defender->do_deathrattle(defender_pos, b2, b1); // May modify b1/b2
     }
     else {
 	b2->set_card(defender_pos, defender);

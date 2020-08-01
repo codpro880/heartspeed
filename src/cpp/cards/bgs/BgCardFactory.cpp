@@ -196,6 +196,7 @@ void BgCardFactory::init_cards() {
     // 					      "['TRIGGER_VISUAL']", "DRAGON", "", 3, "MINION"));
     // cards.emplace("Hangry Dragon (Golden)", BgBaseCard(8, "NEUTRAL", 5, 8, "Hangry Dragon (Golden)",
     // 						       "['TRIGGER_VISUAL']", "DRAGON", "", 3, "MINION"));
+    cards.emplace("Harvest Golem", std::make_shared<HarvestGolem>());
     // cards.emplace("Harvest Golem (Golden)", BgBaseCard(4, "NEUTRAL", 3, 6, "Harvest Golem (Golden)",
     // 						       "['DEATHRATTLE']", "MECHANICAL", "COMMON", 2, "MINION"));
     // cards.emplace("Herald of Flame", BgBaseCard(5, "WARRIOR", 5, 6, "Herald of Flame",

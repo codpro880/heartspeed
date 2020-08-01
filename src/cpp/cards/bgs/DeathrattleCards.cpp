@@ -36,7 +36,15 @@ void SelflessHero::do_deathrattle(int pos, Board* b1, Board*b2) {
 
 void Scallywag::do_deathrattle(int pos, Board* b1, Board* b2) {
     auto f = BgCardFactory();
-    auto sky_pirate = f.get_card("Sky Pirate"); // TODO: Replace w/ pirate token
+    auto sky_pirate = f.get_card("Sky Pirate");
     b1->insert_card(pos, sky_pirate);
-    BoardBattler().battle_boards(pos, b1, b2); // Modifies b1/b2
+    if (!b2->empty()) {
+	BoardBattler().battle_boards(pos, b1, b2); // Modifies b1/b2
+    }
+}
+
+void HarvestGolem::do_deathrattle(int pos, Board* b1, Board* b2) {
+    auto f = BgCardFactory();
+    auto damaged_golem = f.get_card("Damaged Golem");
+    b1->insert_card(pos, damaged_golem);
 }

@@ -39,3 +39,11 @@ public:
     virtual void do_deathrattle(int pos, Board* b1, Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() { return std::make_shared<HarvestGolem>(*this); } // boilerplate that every drattle needs...
 };
+
+class KaboomBot : public BgBaseCard {
+public:
+    KaboomBot() : BgBaseCard(2, "NEUTRAL", 3, 2, "Kaboom Bot",
+			     "['DEATHRATTLE']", "MECHANICAL", "COMMON", 2, "MINION") {}
+    virtual void do_deathrattle(int pos, Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() { return std::make_shared<KaboomBot>(*this); } // boilerplate that every drattle needs...
+};

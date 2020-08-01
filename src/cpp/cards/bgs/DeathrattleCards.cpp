@@ -50,6 +50,9 @@ void HarvestGolem::do_deathrattle(int pos, Board* b1, Board* b2) {
 }
 
 void KaboomBot::do_deathrattle(int pos, Board* b1, Board* b2) {
+    if (b2->length() == 0) {
+	return;
+    }
     auto bombed_pos = rand() % b2->length();
     auto bombed_card = b2->get_cards()[bombed_pos];
     bombed_card->take_damage(4);
@@ -63,14 +66,20 @@ void KaboomBot::do_deathrattle(int pos, Board* b1, Board* b2) {
 }
 
 void KindlyGrandmother::do_deathrattle(int pos, Board* b1, Board* b2) {
-    auto bombed_pos = rand() % b2->length();
-    auto bombed_card = b2->get_cards()[bombed_pos];
-    bombed_card->take_damage(4);
-    if (bombed_card->is_dead()) {
-	b2->remove(bombed_pos);
-	bombed_card->do_deathrattle(bombed_pos, b2, b1);
-    }
-    else {
-	b2->set_card(bombed_pos, bombed_card);
-    }
+    auto f = BgCardFactory();
+    auto bbw = f.get_card("Big Bad Wolf");
+    b1->insert_card(pos, bbw);
 }
+
+// void SpawnOfNzoth::do_deathrattle(int pos, Board* b1, Board* b2) {
+//     auto bombed_pos = rand() % b2->length();
+//     auto bombed_card = b2->get_cards()[bombed_pos];
+//     bombed_card->take_damage(4);
+//     if (bombed_card->is_dead()) {
+// 	b2->remove(bombed_pos);
+// 	bombed_card->do_deathrattle(bombed_pos, b2, b1);
+//     }
+//     else {
+// 	b2->set_card(bombed_pos, bombed_card);
+//     }
+// }

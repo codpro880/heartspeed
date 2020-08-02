@@ -56,7 +56,14 @@ public:
     // 				 text(c.text),
     // 				 type(type) {}
 
-    virtual void do_deathrattle(int pos, Board* b1, Board* b2) {std::cout << "Deathrattle..." << std::endl; }
+    // By default, no deathrattle.
+    // Purposely ignore compiler warning: we know they're unused in the
+    // default impl
+    #pragma clang diagnostic push
+    #pragma clang diagnostic ignored "-Wunused-parameter"
+    virtual void do_deathrattle(int pos, Board* b1, Board* b2) {}
+    #pragma clang diagnostic pop
+    
     virtual std::shared_ptr<BgBaseCard> get_copy();
     
     int get_attack() { return is_poison ? 999999 : attack; } // Poison is like 'infinite' attack

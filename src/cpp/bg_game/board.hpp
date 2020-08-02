@@ -16,7 +16,7 @@ public:
     auto operator[](const int& i) { return cards[i]; }
     friend std::ostream& operator<<(std::ostream& os, Board& board);
     auto remove(const int& i) {
-	if (cards.size() > i) {
+	if (cards.size() > (unsigned)i) {
 	    cards.erase(cards.begin() + i);
 	}
     }

@@ -94,15 +94,9 @@ void BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
 	b1->remove(attacker_pos);
 	attacker->do_deathrattle(attacker_pos, b1, b2); // May modify b1/b2
     }
-    else {
-	b1->set_card(attacker_pos, attacker);
-    }
     if (defender->is_dead()) {
 	b2->remove(defender_pos);
 	defender->do_deathrattle(defender_pos, b2, b1); // May modify b1/b2
-    }
-    else {
-	b2->set_card(defender_pos, defender);
     }
 }
 

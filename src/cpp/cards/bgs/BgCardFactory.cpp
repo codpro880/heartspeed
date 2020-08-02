@@ -11,7 +11,7 @@ These are the cards that weren't automatically roped in and should be generated 
 std::shared_ptr<BgBaseCard> BgCardFactory::get_card(std::string name) {
     auto card_found_it = cards.find(name);
     if (card_found_it == cards.end())  {
-    	throw std::runtime_error("No card has name " + name);
+    	throw std::runtime_error("No card has name '" + name + "'");
     }
     else {
 	return (card_found_it->second)->get_copy();
@@ -462,6 +462,7 @@ void BgCardFactory::init_cards() {
     // 						   "", "PIRATE", "", 4,"MINION"));
     // cards.emplace("Southsea Strongarm (Golden)", BgBaseCard(10, "NEUTRAL", 5, 8, "Southsea Strongarm (Golden)",
     // 							    "", "PIRATE", "", 4, "MINION"));
+    cards.emplace("Spawn of Nzoth", std::make_shared<SpawnOfNzoth>());
     // cards.emplace("Spawn of N'Zoth (Golden)", BgBaseCard(4, "NEUTRAL", 3, 4, "Spawn of N'Zoth (Golden)",
     // 							 "['DEATHRATTLE']", "", "COMMON", 2, "MINION"));
     // cards.emplace("Spider (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Spider (Golden)",

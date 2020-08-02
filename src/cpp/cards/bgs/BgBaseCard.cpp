@@ -7,14 +7,14 @@ std::ostream& operator<<(std::ostream& os, BgBaseCard& card) {
     return os;
 }
 
-void BgBaseCard::take_damage(int damage) {
+void BgBaseCard::take_damage(int damage, Board* b1, Board* b2) {
     if (divine_shield) {
 	divine_shield = false;
     }
     else {
 	health -= damage;
     }
-    //deal_with_death(b1, b2);
+    deal_with_death(b1, b2);
 }
 
 std::shared_ptr<BgBaseCard> BgBaseCard::get_copy() {

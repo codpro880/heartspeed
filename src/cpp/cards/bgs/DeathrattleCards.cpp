@@ -56,8 +56,7 @@ void KaboomBot::do_deathrattle(Board* b1, Board* b2) {
     }
     auto bombed_pos = rand() % b2->length();
     auto bombed_card = b2->get_cards()[bombed_pos];
-    bombed_card->take_damage(4);
-    bombed_card->deal_with_death(b2, b1);
+    bombed_card->take_damage(4, b2, b1);
 }
 
 void KindlyGrandmother::do_deathrattle(Board* b1, Board* b2) {
@@ -75,12 +74,10 @@ void SpawnOfNzoth::do_deathrattle(Board* b1, Board* b2) {
 
 void UnstableGhoul::do_deathrattle(Board* b1, Board* b2) {
     for (auto c : b1->get_cards()) {
-	c->take_damage(1);
-	c->deal_with_death(b1, b2);
+	c->take_damage(1, b1, b2);
     }    
     for (auto c : b2->get_cards()) {
-	c->take_damage(1);
-	c->deal_with_death(b2, b1);
+	c->take_damage(1, b2, b1);
     }
     
 }

@@ -495,6 +495,7 @@ void BgCardFactory::init_cards() {
     // 							   "['BATTLECRY', 'TAUNT']", "DRAGON", "", 3, "MINION"));
 
     // U
+    cards.emplace("Unstable Ghoul", std::make_shared<UnstableGhoul>());
     // cards.emplace("Unstable Ghoul (Golden)", BgBaseCard(2, "NEUTRAL", 2, 6, "Unstable Ghoul (Golden)",
     // 							"['DEATHRATTLE', 'TAUNT']", "", "COMMON", 2, "MINION"));
 

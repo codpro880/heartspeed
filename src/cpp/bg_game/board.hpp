@@ -25,8 +25,7 @@ public:
 	}
 	std::cerr << "NOT FOUND" << std::endl;
 	// std::cerr << "Removing pointer." << std::endl;
-	// remove(std::make_shared<BgBaseCard>(*c));
-	
+	// remove(std::make_shared<BgBaseCard>(*c));	
     }
     void remove(std::shared_ptr<BgBaseCard> c) {
 	std::cerr << "Removing shared ptr." << std::endl;

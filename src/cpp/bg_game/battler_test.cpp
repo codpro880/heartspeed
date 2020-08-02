@@ -328,3 +328,31 @@ TEST(Battler, SpawnOfNzothDrattle) {
     EXPECT_LE(res.damage_taken, 12);
     EXPECT_GE(res.damage_taken, 6);
 }
+
+TEST(Battler, UnstableGhoulDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Unstable Ghoul")
+	};
+    // Should have the 1 damaged golem left on board
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // Tidehunters kill ghoul, it explodes, should be a draw
+    EXPECT_EQ(res.who_won, "draw");
+    EXPECT_LE(res.damage_taken, 0);
+}

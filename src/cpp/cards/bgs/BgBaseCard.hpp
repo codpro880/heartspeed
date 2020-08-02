@@ -42,28 +42,8 @@ public:
 					  tech_level(other.tech_level),
 					  type(other.type) {}
 
-    
-    // BgBaseCard(BgBaseCard c, new_health) : attack(c.attack),
-    // 				 card_class(c.card_class),
-    // 				 cost(c.cost),
-    // 				 health(new_health),
-    // 				 id(c.id),
-    // 				 mechanics(c.mechanics),
-    // 				 name(c.name),
-    // 				 race(c.race),
-    // 				 rarity(c.rarity),
-    // 				 tech_level(c.tech_level),
-    // 				 text(c.text),
-    // 				 type(type) {}
-
-    // By default, no deathrattle.
-    // Purposely ignore compiler warning: we know they're unused in the
-    // default impl
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wunused-parameter"
-    //virtual void do_deathrattle(int pos, Board* b1, Board* b2) {if (this->is_dead()) b1->remove(this);}
+    void deal_with_death(Board* b1, Board* b2);
     virtual void do_deathrattle(Board* b1, Board* b2);
-    #pragma clang diagnostic pop
     
     virtual std::shared_ptr<BgBaseCard> get_copy();
     

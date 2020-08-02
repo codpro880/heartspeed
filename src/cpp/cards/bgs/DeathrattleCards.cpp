@@ -1,4 +1,5 @@
 #include <iostream>
+#include <memory>
 
 #include "DeathrattleCards.hpp"
 #include "BgCardFactory.hpp"
@@ -57,7 +58,7 @@ void KaboomBot::do_deathrattle(int pos, Board* b1, Board* b2) {
     auto bombed_card = b2->get_cards()[bombed_pos];
     bombed_card->take_damage(4);
     if (bombed_card->is_dead()) {
-	b2->remove(bombed_pos);
+	b2->remove(bombed_card);
 	bombed_card->do_deathrattle(bombed_pos, b2, b1);
     }
     else {
@@ -77,3 +78,25 @@ void SpawnOfNzoth::do_deathrattle(int pos, Board* b1, Board* b2) {
 	c->set_health(c->get_health() + 1);
     }
 }
+
+// void UnstableGhoul::do_deathrattle(int pos, Board* b1, Board* b2) {
+//     for (auto c : b1->get_cards()) {
+// 	c->set_health(c->get_health() - 1);
+//     }    
+//     for (auto c : b2->get_cards()) {
+// 	c->set_health(c->get_health() - 1);
+//     }
+//     for (auto c : b1->get_cards()) {
+// 	if (c->is_dead()) {
+// 	    b1->remove(bombed_pos);
+// 	    c->do_deathrattle(bombed_pos, b1, b2);
+// 	}
+//     }
+//     for (auto c : b2->get_cards()) {
+// 	if (c->is_dead()) {
+// 	    b2->remove(bombed_pos);
+// 	    c->do_deathrattle(bombed_pos, b2, b1);
+// 	}
+//     }
+    
+// }

@@ -62,3 +62,10 @@ public:
     virtual void do_deathrattle(int pos, Board* b1, Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<SpawnOfNzoth>(*this); } // boilerplate that every drattle needs...
 };
+
+// class UnstableGhoul : public BgBaseCard {
+// public:
+//     UnstableGhoul() : BgBaseCard(1, "NEUTRAL", 2, 3, "Unstable Ghoul",	"['DEATHRATTLE', 'TAUNT']", "", "COMMON", 2, "MINION") {}
+//     virtual void do_deathrattle(int pos, Board* b1, Board* b2) override;
+//     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<UnstableGhoul>(*this); } // boilerplate that every drattle needs...
+// };

@@ -46,9 +46,10 @@ BattleResult Battler::battle(Player* p1,
     // base case
     auto b1 = p1->get_board();
     auto b2 = p2->get_board();
-    std::cout << "Boards: " << std::endl;
-    std::cout << (*b1) << std::endl;
-    std::cout << (*b2) << std::endl;
+    std::cout << "P1 (before): " << std::endl;
+    std::cout << (*p1) << std::endl;
+    std::cout << "P2 (before): " << std::endl;
+    std::cout << (*p2) << std::endl;
     BattleResult res = BattleResult();
     if (b1->empty() && b2->empty()) {
 	res.who_won = "draw";
@@ -64,8 +65,7 @@ BattleResult Battler::battle(Player* p1,
 	res.who_won = p1->get_name();
 	res.damage_taken = p1->calculate_damage();
 	return res;
-    }
-    
+    }    
     
     // b1 always goes first here
     if (p1_counter >= b1->length()) {
@@ -74,28 +74,6 @@ BattleResult Battler::battle(Player* p1,
     int attacker_pos = p1_counter;
 
     BoardBattler().battle_boards(attacker_pos, b1, b2); // Modifies b1/b2
-
-    // auto attacker = (*b1)[attacker_pos];
-    // auto defender_pos = rand() % b2->length();
-    // auto defender = (*b2)[defender_pos];
-    // // TODO: impl rest of deathrattles. See fiendish servant for example.
-    // attacker->take_damage(defender->get_attack());
-    // defender->take_damage(attacker->get_attack());
-
-    // if (attacker->is_dead()) {
-    // 	b1->remove(attacker_pos);
-    // 	attacker->do_deathrattle(attacker_pos, b1, b2); // May modify b1/b2
-    // }
-    // else {
-    // 	b1->set_card(attacker_pos, attacker);
-    // }
-    // if (defender->is_dead()) {
-    // 	b2->remove(defender_pos);
-    // 	defender->do_deathrattle(defender_pos, b1, b2); // May modify b1/b2
-    // }
-    // else {
-    // 	b2->set_card(defender_pos, defender);
-    // }
 
     p1->set_board(b1);
     p2->set_board(b2);
@@ -116,15 +94,9 @@ void BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
 	b1->remove(attacker_pos);
 	attacker->do_deathrattle(attacker_pos, b1, b2); // May modify b1/b2
     }
-    else {
-	b1->set_card(attacker_pos, attacker);
-    }
     if (defender->is_dead()) {
 	b2->remove(defender_pos);
-	defender->do_deathrattle(defender_pos, b1, b2); // May modify b1/b2
-    }
-    else {
-	b2->set_card(defender_pos, defender);
+	defender->do_deathrattle(defender_pos, b2, b1); // May modify b1/b2
     }
 }
 

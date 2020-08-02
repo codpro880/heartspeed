@@ -11,7 +11,7 @@ These are the cards that weren't automatically roped in and should be generated 
 std::shared_ptr<BgBaseCard> BgCardFactory::get_card(std::string name) {
     auto card_found_it = cards.find(name);
     if (card_found_it == cards.end())  {
-    	throw std::runtime_error("No card has name " + name);
+    	throw std::runtime_error("No card has name '" + name + "'");
     }
     else {
 	return (card_found_it->second)->get_copy();
@@ -60,6 +60,9 @@ void BgCardFactory::init_cards() {
     // B
     // cards.emplace("Baron Rivendare (Golden)", BgBaseCard(2, "NEUTRAL", 4, 14, "Baron Rivendare (Golden)",
     // 							 "['AURA']", "", "LEGENDARY", 5, "MINION"));
+    std::shared_ptr<BgBaseCard> big_bad_wolf(new BgBaseCard(3, "HUNTER", 2, 2, "Big Bad Wolf",
+							    "", "BEAST", "", 1, "MINION"));					    
+    cards.emplace("Big Bad Wolf", big_bad_wolf);
     // cards.emplace("Big Bad Wolf (Golden)", BgBaseCard(6, "HUNTER", 2, 4, "Big Bad Wolf (Golden)",
     // 						      "", "BEAST", "", 1, "MINION"));
     // cards.emplace("Bloodsail Cannoneer", BgBaseCard(4, "NEUTRAL", 4, 2, "Bloodsail Cannoneer",
@@ -88,6 +91,12 @@ void BgCardFactory::init_cards() {
     // 						       "['BATTLECRY']", "", "COMMON", 3, "MINION"));
 
     // D
+    std::shared_ptr<BgBaseCard> damaged_golem(new BgBaseCard(2, "NEUTRAL", 1, 1,
+							     "Damaged Golem", "", "MECHANICAL", "", 1, "MINION"));
+    cards.emplace("Damaged Golem", damaged_golem);
+    std::shared_ptr<BgBaseCard> damaged_golem_gold(new BgBaseCard(4, "NEUTRAL", 1, 2,
+								  "Damaged Golem (Golden)", "", "MECHANICAL", "", 1, "MINION"));
+    cards.emplace("Damaged Golem", damaged_golem_gold);
     // cards.emplace("Damaged Golem (Golden)", BgBaseCard(4, "NEUTRAL", 1, 2,
     // 						       "Damaged Golem (Golden)", "", "MECHANICAL", "", 1, "MINION"));
     // cards.emplace("Deck Swabbie", BgBaseCard(2, "NEUTRAL", 3, 2, "Deck Swabbie",
@@ -190,6 +199,7 @@ void BgCardFactory::init_cards() {
     // 					      "['TRIGGER_VISUAL']", "DRAGON", "", 3, "MINION"));
     // cards.emplace("Hangry Dragon (Golden)", BgBaseCard(8, "NEUTRAL", 5, 8, "Hangry Dragon (Golden)",
     // 						       "['TRIGGER_VISUAL']", "DRAGON", "", 3, "MINION"));
+    cards.emplace("Harvest Golem", std::make_shared<HarvestGolem>());
     // cards.emplace("Harvest Golem (Golden)", BgBaseCard(4, "NEUTRAL", 3, 6, "Harvest Golem (Golden)",
     // 						       "['DEATHRATTLE']", "MECHANICAL", "COMMON", 2, "MINION"));
     // cards.emplace("Herald of Flame", BgBaseCard(5, "WARRIOR", 5, 6, "Herald of Flame",
@@ -243,6 +253,7 @@ void BgCardFactory::init_cards() {
     // 						 "['TRIGGER_VISUAL']", "MECHANICAL", "EPIC", 5, "MINION"));
 
     // K
+    cards.emplace("Kaboom Bot", std::make_shared<KaboomBot>());
     // cards.emplace("Kaboom Bot (Golden)", BgBaseCard(4, "NEUTRAL", 3, 4, "Kaboom Bot (Golden)",
     // 						    "['DEATHRATTLE']", "MECHANICAL", "COMMON", 2, "MINION"));
     // cards.emplace("Kalecgos", BgBaseCard(4, "NEUTRAL", 8, 12, "Kalecgos, Arcane Aspect",
@@ -255,6 +266,7 @@ void BgCardFactory::init_cards() {
     // 							     "['DEATHRATTLE']", "", "EPIC", 6,"MINION"));
     // cards.emplace("Khadgar (Golden)", BgBaseCard(4, "MAGE", 2, 4,  "Khadgar (Golden)",
     // 						 "['TRIGGER_VISUAL']", "", "LEGENDARY", 3, "MINION"));
+    cards.emplace("Kindly Grandmother", std::make_shared<KindlyGrandmother>());
     // cards.emplace("Kindly Grandmother (Golden)", BgBaseCard(2, "HUNTER", 2, 2, "Kindly Grandmother (Golden)",
     // 							    "['DEATHRATTLE']", "BEAST", "COMMON", 2, "MINION"));
     // cards.emplace("King Bagurgle", BgBaseCard(6, "NEUTRAL", 6, 3, "King Bagurgle",
@@ -421,18 +433,19 @@ void BgCardFactory::init_cards() {
     // cards.emplace("Security Rover (Golden)", BgBaseCard(4, "WARRIOR", 6, 12, "Security Rover (Golden)",
     // 							"['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 4, "MINION"));
     cards.emplace("Selfless Hero", std::make_shared<SelflessHero>());
-    // cards.emplace("Selfless Hero (Golden)", BgBaseCard(4, "PALADIN", 1, 2, "Selfless Hero (Golden)",
-    // 						       "['DEATHRATTLE']", "", "RARE", 1, "MINION"));
     // cards.emplace("Shifter Zerus", BgBaseCard(1, "NEUTRAL", 1, 1, "Shifter Zerus",
     // 					      "", "", "LEGENDARY", 3, "MINION"));
     // cards.emplace("Shifter Zerus (Golden)", BgBaseCard(2, "NEUTRAL", 1, 2, "Shifter Zerus (Golden)",
     // 						       "", "", "LEGENDARY", 3,"MINION"));
     // cards.emplace("Siegebreaker (Golden)", BgBaseCard(10, "WARLOCK", 7, 16,  "Siegebreaker (Golden)",
     // 						      "['AURA', 'TAUNT']", "DEMON", "RARE", 4, "MINION"));
-    // cards.emplace("Sky Pirate", BgBaseCard(1, "ROGUE", 1, 1, "Sky Pirate",
-    // 					   "", "PIRATE", "", 1, "MINION"));
-    // cards.emplace("Sky Pirate (Golden)", BgBaseCard(2, "ROGUE", 1, 2, "Sky Pirate (Golden)",
-    // 						    "", "PIRATE", "", 1, "MINION"));
+    std::shared_ptr<BgBaseCard> sky_pirate(new BgBaseCard(1, "ROGUE", 1, 1, "Sky Pirate",
+							  "", "PIRATE", "", 1, "MINION"));
+    cards.emplace("Sky Pirate", sky_pirate);
+    std::shared_ptr<BgBaseCard> sky_pirate_gold(new BgBaseCard(2, "ROGUE", 1, 2, "Sky Pirate (Golden)",
+							       "", "PIRATE", "", 1, "MINION"));
+    cards.emplace("Sky Pirate", sky_pirate_gold);
+    
     // cards.emplace("Snake Trap", BgBaseCard(-1, "HUNTER", 2, -1, "Snake Trap",
     // 					   "['SECRET']", "", "EPIC", -1, "SPELL"));
     // cards.emplace("Sneed's Old Shredder", BgBaseCard(5, "NEUTRAL", 8, 7,"Sneed's Old Shredder",
@@ -449,6 +462,7 @@ void BgCardFactory::init_cards() {
     // 						   "", "PIRATE", "", 4,"MINION"));
     // cards.emplace("Southsea Strongarm (Golden)", BgBaseCard(10, "NEUTRAL", 5, 8, "Southsea Strongarm (Golden)",
     // 							    "", "PIRATE", "", 4, "MINION"));
+    cards.emplace("Spawn of Nzoth", std::make_shared<SpawnOfNzoth>());
     // cards.emplace("Spawn of N'Zoth (Golden)", BgBaseCard(4, "NEUTRAL", 3, 4, "Spawn of N'Zoth (Golden)",
     // 							 "['DEATHRATTLE']", "", "COMMON", 2, "MINION"));
     // cards.emplace("Spider (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Spider (Golden)",

@@ -42,27 +42,7 @@ public:
 					  tech_level(other.tech_level),
 					  type(other.type) {}
 
-    
-    // BgBaseCard(BgBaseCard c, new_health) : attack(c.attack),
-    // 				 card_class(c.card_class),
-    // 				 cost(c.cost),
-    // 				 health(new_health),
-    // 				 id(c.id),
-    // 				 mechanics(c.mechanics),
-    // 				 name(c.name),
-    // 				 race(c.race),
-    // 				 rarity(c.rarity),
-    // 				 tech_level(c.tech_level),
-    // 				 text(c.text),
-    // 				 type(type) {}
-
-    // By default, no deathrattle.
-    // Purposely ignore compiler warning: we know they're unused in the
-    // default impl
-    #pragma clang diagnostic push
-    #pragma clang diagnostic ignored "-Wunused-parameter"
-    virtual void do_deathrattle(int pos, Board* b1, Board* b2) {}
-    #pragma clang diagnostic pop
+    virtual void do_deathrattle(Board* b1, Board* b2);
     
     virtual std::shared_ptr<BgBaseCard> get_copy();
     
@@ -86,7 +66,7 @@ public:
     void set_poison() { is_poison = true; }
     void set_divine_shield() { divine_shield = true; }
 
-    void take_damage(int damage);
+    void take_damage(int damage, Board* b1, Board* b2);
 
     friend std::ostream& operator<<(std::ostream& os, BgBaseCard& card);
     virtual ~BgBaseCard() {}
@@ -104,5 +84,8 @@ protected:
     std::string rarity;
     int tech_level;
     std::string type;
+    int death_pos = -2;
+private:
+    void deal_with_death(Board* b1, Board* b2);
 };
 

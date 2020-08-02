@@ -61,7 +61,8 @@ public:
     // default impl
     #pragma clang diagnostic push
     #pragma clang diagnostic ignored "-Wunused-parameter"
-    virtual void do_deathrattle(int pos, Board* b1, Board* b2) {}
+    //virtual void do_deathrattle(int pos, Board* b1, Board* b2) {if (this->is_dead()) b1->remove(this);}
+    virtual void do_deathrattle(Board* b1, Board* b2);
     #pragma clang diagnostic pop
     
     virtual std::shared_ptr<BgBaseCard> get_copy();
@@ -104,5 +105,7 @@ protected:
     std::string rarity;
     int tech_level;
     std::string type;
+
+    int death_pos = -2;
 };
 

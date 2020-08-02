@@ -1,5 +1,7 @@
 #include "BgBaseCard.hpp"
 
+#include "../../bg_game/board.hpp"
+
 std::ostream& operator<<(std::ostream& os, BgBaseCard& card) {
     os << "(" << card.get_attack() << "/" << card.get_health() << ") ";
     return os;
@@ -16,4 +18,13 @@ void BgBaseCard::take_damage(int damage) {
 
 std::shared_ptr<BgBaseCard> BgBaseCard::get_copy() {
     return std::make_shared<BgBaseCard>(*this);
+}
+
+void BgBaseCard::do_deathrattle(Board* b1, Board* b2) {
+    std::cerr << "Checking if dead." << std::endl;
+    if (this->is_dead()) {
+	death_pos = b1->get_pos(this);
+	std::cerr << "Dead." << std::endl;
+	b1->remove(this);
+    }
 }

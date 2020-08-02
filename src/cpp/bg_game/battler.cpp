@@ -90,14 +90,20 @@ void BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     attacker->take_damage(defender->get_attack());
     defender->take_damage(attacker->get_attack());
 
-    if (attacker->is_dead()) {
-	b1->remove(attacker_pos);
-	attacker->do_deathrattle(attacker_pos, b1, b2); // May modify b1/b2
-    }
-    if (defender->is_dead()) {
-	b2->remove(defender_pos);
-	defender->do_deathrattle(defender_pos, b2, b1); // May modify b1/b2
-    }
+    // attacker->do_deathrattle(attacker_pos, b1, b2); // May modify b1/b2
+    // defender->do_deathrattle(defender_pos, b2, b1); // May modify b1/b2
+
+    attacker->do_deathrattle(b1, b2); // May modify b1/b2
+    defender->do_deathrattle(b2, b1); // May modify b1/b2
+
+    // if (attacker->is_dead()) {
+    // 	b1->remove(attacker_pos);
+	
+    // }
+    // if (defender->is_dead()) {
+    // 	b2->remove(defender_pos);
+	
+    // }
 }
 
 std::string Battler::decide_who_goes_first(Board* b1, Board* b2) {

@@ -333,7 +333,7 @@ void BgCardFactory::init_cards() {
     cards.emplace("Murloc Tidecaller (Golden)", tidecaller_gold);
     // cards.emplace("Murloc Tidecaller (Golden)", BgBaseCard(2, "NEUTRAL", 1, 4, "Murloc Tidecaller (Golden)",
     // 							   "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION"));
-    std::shared_ptr<BgBaseCard> tidehunter(new BgBaseCard(1, "NEUTRAL", 2, 1, "Murloc Tidehunter",
+    std::shared_ptr<BgBaseCard> tidehunter(new BgBaseCard(2, "NEUTRAL", 2, 1, "Murloc Tidehunter",
 							  "['BATTLECRY']", "MURLOC", "FREE", 1, "MINION"));
     cards.emplace("Murloc Tidehunter", tidehunter);
     std::shared_ptr<BgBaseCard> tidehunter_gold(new BgBaseCard(4, "NEUTRAL", 2, 2, "Murloc Tidehunter (Golden)",
@@ -385,8 +385,12 @@ void BgCardFactory::init_cards() {
     // 						"['TRIGGER_VISUAL']", "BEAST", "", 2, "MINION"));
     // cards.emplace("Rabid Saurolisk (Golden)", BgBaseCard(6, "HUNTER", 3, 4, "Rabid Saurolisk (Golden)",
     // 							 "['TRIGGER_VISUAL']", "BEAST", "", 2, "MINION"));
+    std::shared_ptr<BgBaseCard> rat(new BgBaseCard(1, "HUNTER", 1, 1, "Rat",
+						   "", "BEAST", "", 1, "MINION"));
+    cards.emplace("Rat", rat);
     // cards.emplace("Rat (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Rat (Golden)",
     // 					     "", "BEAST", "", 1, "MINION"));
+    cards.emplace("Rat Pack", std::make_shared<RatPack>());
     // cards.emplace("Rat Pack (Golden)", BgBaseCard(4, "HUNTER", 3, 4, "Rat Pack (Golden)",
     // 						  "['DEATHRATTLE']", "BEAST", "EPIC", 2, "MINION"));
     // cards.emplace("Razorgore", BgBaseCard(2, "NEUTRAL", 8, 4, "Razorgore, the Untamed",

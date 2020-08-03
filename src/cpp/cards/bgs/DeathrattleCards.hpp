@@ -69,3 +69,11 @@ public:
     virtual void do_deathrattle(Board* b1, Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<UnstableGhoul>(*this); } // boilerplate that every drattle needs...
 };
+
+class RatPack : public BgBaseCard {
+public:
+    RatPack() : BgBaseCard(2, "HUNTER", 3, 2, "Rat Pack",
+			   "['DEATHRATTLE']", "BEAST", "EPIC", 2, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<RatPack>(*this); } // boilerplate that every drattle needs...
+};

@@ -20,6 +20,7 @@ public:
 	for (auto card : cards) {
 	    if (c == card.get()) {
 		remove(pos);
+		return;
 	    }
 	    pos++;
 	}

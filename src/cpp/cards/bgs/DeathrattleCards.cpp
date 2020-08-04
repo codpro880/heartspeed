@@ -78,6 +78,25 @@ void UnstableGhoul::do_deathrattle(Board* b1, Board* b2) {
     }    
     for (auto c : b2->get_cards()) {
 	c->take_damage(1, b2, b1);
-    }
-    
+    }    
+}
+
+void RatPack::do_deathrattle(Board* b1, Board* b2) {
+    // Insert to the right the attack val or # spots remaining,
+    // whichever is less
+    auto attack = get_attack();
+    auto spots_left = 7 - b1->length();
+    auto spots_to_fill = attack < spots_left ? attack : spots_left;
+
+    auto f = BgCardFactory();
+    for (int i = 0; i < spots_to_fill; i++) {
+	auto rat = f.get_card("Rat");
+	b1->insert_card(death_pos + i, rat);
+    }    
+}
+
+void Imprisoner::do_deathrattle(Board* b1, Board* b2) {
+    auto f = BgCardFactory();
+    auto imp = f.get_card("Imp");
+    b1->insert_card(death_pos, imp);
 }

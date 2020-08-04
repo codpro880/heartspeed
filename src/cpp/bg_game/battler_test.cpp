@@ -356,3 +356,88 @@ TEST(Battler, UnstableGhoulDrattle) {
     EXPECT_EQ(res.who_won, "draw");
     EXPECT_LE(res.damage_taken, 0);
 }
+
+TEST(Battler, RatPackDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    auto rp = f.get_card("Rat Pack");
+    rp->set_attack(7);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	    rp
+	};
+    // Should have the 1 damaged golem left on board
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // One rat should always survive
+    EXPECT_EQ(res.who_won, "Tess");
+    EXPECT_EQ(res.damage_taken, 2);
+}
+
+TEST(Battler, RatPackDrattleSummonsCorrectNumOfRats) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards;
+    auto rp = f.get_card("Rat Pack");
+    rp->set_attack(7);
+    auto big_guy = f.get_card("Razorgore");
+    big_guy->set_health(100);
+    auto big_guy2 = f.get_card("Razorgore");
+    big_guy2->set_health(100);	
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 big_guy,
+	 rp,
+	 big_guy2
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    rp->take_damage(2, board2.get(), board1.get());
+    int rat_count = 0;
+    int razor_count = 0;
+    for (auto c : board2->get_cards()) {
+	auto name = c->get_name();
+	if (name == "Rat") rat_count++;
+	if (name.find("Razorgore") != std::string::npos) razor_count++;
+    }
+    EXPECT_EQ(rat_count, 5);
+    EXPECT_EQ(razor_count, 2);
+}
+
+TEST(Battler, ImprisonerDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Murloc Tidehunter (Golden)")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Imprisoner")
+	};
+    // Should have the 1 damaged golem left on board
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // 3/3 taunt kills 4/2 murloc, 1/1 drattle wins
+    auto battled_p2_cards = p2->get_board()->get_cards();
+    for (auto c : battled_p2_cards) {
+	EXPECT_EQ(c->get_name(), "Imp");
+    }
+    EXPECT_EQ(res.who_won, "Tess");
+    EXPECT_EQ(res.damage_taken, 2);
+}

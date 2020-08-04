@@ -94,3 +94,9 @@ void RatPack::do_deathrattle(Board* b1, Board* b2) {
 	b1->insert_card(death_pos + i, rat);
     }    
 }
+
+void Imprisoner::do_deathrattle(Board* b1, Board* b2) {
+    auto f = BgCardFactory();
+    auto imp = f.get_card("Imp");
+    b1->insert_card(death_pos, imp);
+}

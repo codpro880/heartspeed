@@ -221,8 +221,12 @@ void BgCardFactory::init_cards() {
     // 					  "['SECRET']", "", "EPIC", -1, "SPELL"));
     // cards.emplace("Infested Wolf (Golden)", BgBaseCard(6, "HUNTER", 4, 6, "Infested Wolf (Golden)",
     // 						       "['DEATHRATTLE']", "BEAST", "RARE", 3, "MINION"));
-    // cards.emplace("Imp (Golden)", BgBaseCard(2, "WARLOCK", 1, 2, "Imp (Golden)",
-    // 					     "", "DEMON", "", 1, "MINION"));
+    std::shared_ptr<BgBaseCard> imp(new BgBaseCard(1, "WARLOCK", 1, 1, "Imp",
+						   "", "DEMON", "", 1, "MINION"));
+    cards.emplace("Imp", imp);
+    std::shared_ptr<BgBaseCard> imp_gold(new BgBaseCard(2, "WARLOCK", 1, 2, "Imp (Golden)",
+    					     "", "DEMON", "", 1, "MINION"));
+    cards.emplace("Imp (Golden)", imp_gold);
     // cards.emplace("Imp Gang Boss (Golden)", BgBaseCard(4, "WARLOCK", 3, 8, "Imp Gang Boss (Golden)",
     // 						       "['TRIGGER_VISUAL']", "DEMON", "COMMON", 3, "MINION"));
     // cards.emplace("Imp Mama", BgBaseCard(6, "WARLOCK", 8, 10, "Imp Mama",
@@ -231,6 +235,7 @@ void BgCardFactory::init_cards() {
     // 						  "['TRIGGER_VISUAL']", "DEMON", "", 6, "MINION"));
     // cards.emplace("Imprisoner", BgBaseCard(3, "NEUTRAL", 3, 3, "Imprisoner",
     // 					   "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "MINION"));
+    cards.emplace("Imprisoner", std::make_shared<Imprisoner>());
     std::shared_ptr<BgBaseCard> imprisoner_gold(new BgBaseCard(6, "NEUTRAL", 3, 6, "Imprisoner (Golden)",
 							       "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "MINION"));
     cards.emplace("Imprisoner (Golden)", imprisoner_gold);

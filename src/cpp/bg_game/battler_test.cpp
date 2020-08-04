@@ -143,6 +143,34 @@ TEST(Battler, CanHandleBasicDeathrattles) {
     EXPECT_EQ(res.damage_taken, 0); 
 }
 
+TEST(Battler, FiendishServantGoldenDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Fiendish Servant (Golden)"),
+	 f.get_card("Micro Machine (Golden)"),
+	 f.get_card("Micro Machine (Golden)"),
+	 f.get_card("Micro Machine (Golden)"),
+	 f.get_card("Micro Machine (Golden)"),
+    };
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards;
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));    
+    auto fiendish = p1_cards[0];
+    fiendish->set_attack(10);
+    fiendish->take_damage(10, board1.get(), board2.get());
+    int total_attack = 0;
+    // TODO: Looks like p1_cards getting copied, probably not great for
+    // performance. Fix this sometime...
+    for (auto c : board1->get_cards()) {
+	total_attack += c->get_attack();
+    }
+    // Make sure total attack is 2*4 (original micro machines)
+    // plus 10*2 (fiendish damage)
+    EXPECT_EQ(total_attack, 2*4 + 10*2);
+}
+
+
 TEST(Battler, MecharooDrattle) {
     auto f = BgCardFactory();
     auto mecharoo = f.get_card("Mecharoo");

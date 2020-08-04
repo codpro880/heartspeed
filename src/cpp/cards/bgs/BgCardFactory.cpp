@@ -135,6 +135,8 @@ void BgCardFactory::init_cards() {
     // std::shared_ptr<FiendishServant> fiendish_servant(new FiendishServant());
     // cards.emplace("Fiendish Servant", fiendish_servant);
     cards.emplace("Fiendish Servant", std::make_shared<FiendishServant>());
+    cards.emplace("Fiendish Servant (Golden)",
+		  std::make_shared<FiendishServantGolden>());
     // cards.emplace("Fiendish Servant", std::make_shared<FiendishServant>());
     // cards.emplace("Fiendish Servant (Golden)", BgBaseCard(4, "WARLOCK", 1, 2, "Fiendish Servant (Golden)",
     // 							  "['DEATHRATTLE']", "DEMON", "COMMON", 1, "MINION"));

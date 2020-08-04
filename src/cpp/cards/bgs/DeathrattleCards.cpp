@@ -10,7 +10,13 @@ void FiendishServant::do_deathrattle(Board* b1, Board*b2) {
     auto buffed_pos = rand() % b1->length();
     auto card = b1->get_cards()[buffed_pos];
     card->set_attack(card->get_attack() + attack);
-    b1->set_card(buffed_pos, card);
+}
+
+void FiendishServantGolden::do_deathrattle(Board* b1, Board*b2) {
+    serv.set_attack(this->get_attack());
+    for (int i = 0; i < 2; i++) {
+	serv.do_deathrattle(b1, b2);
+    }
 }
 
 void Mecharoo::do_deathrattle(Board* b1, Board* b2) {

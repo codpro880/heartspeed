@@ -37,6 +37,12 @@ void Imprisoner::do_deathrattle(Board* b1, Board* b2) {
     b1->insert_card(death_pos, imp);
 }
 
+void ImprisonerGolden::do_deathrattle(Board* b1, Board* b2) {
+    auto f = BgCardFactory();
+    auto imp = f.get_card("Imp (Golden)");
+    b1->insert_card(death_pos, imp);
+}
+
 void KaboomBot::do_deathrattle(Board* b1, Board* b2) {    
     if (b2->length() == 0) {
 	return;

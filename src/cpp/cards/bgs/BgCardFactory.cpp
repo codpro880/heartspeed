@@ -239,9 +239,7 @@ void BgCardFactory::init_cards() {
     // cards.emplace("Imprisoner", BgBaseCard(3, "NEUTRAL", 3, 3, "Imprisoner",
     // 					   "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "MINION"));
     cards.emplace("Imprisoner", std::make_shared<Imprisoner>());
-    std::shared_ptr<BgBaseCard> imprisoner_gold(new BgBaseCard(6, "NEUTRAL", 3, 6, "Imprisoner (Golden)",
-							       "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "MINION"));
-    cards.emplace("Imprisoner (Golden)", imprisoner_gold);
+    cards.emplace("Imprisoner (Golden)", std::make_shared<ImprisonerGolden>());
     // cards.emplace("Imprisoner (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Imprisoner (Golden)",
     // 						    "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "MINION"));
     // cards.emplace("Iron Sensei (Golden)", BgBaseCard(4, "ROGUE", 3, 4, "Iron Sensei (Golden)",

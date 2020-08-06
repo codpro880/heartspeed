@@ -161,7 +161,7 @@ TEST(Battler, FiendishServantGoldenDrattle) {
     fiendish->take_damage(10, board1.get(), board2.get());
     int total_attack = 0;
     // TODO: Looks like p1_cards getting copied, probably not great for
-    // performance. Fix this sometime...
+    // performace...fix when profiler setup
     for (auto c : board1->get_cards()) {
 	total_attack += c->get_attack();
     }

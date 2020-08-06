@@ -143,6 +143,34 @@ TEST(Battler, CanHandleBasicDeathrattles) {
     EXPECT_EQ(res.damage_taken, 0); 
 }
 
+TEST(Battler, FiendishServantGoldenDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Fiendish Servant (Golden)"),
+	 f.get_card("Micro Machine (Golden)"),
+	 f.get_card("Micro Machine (Golden)"),
+	 f.get_card("Micro Machine (Golden)"),
+	 f.get_card("Micro Machine (Golden)"),
+    };
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards;
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));    
+    auto fiendish = p1_cards[0];
+    fiendish->set_attack(10);
+    fiendish->take_damage(10, board1.get(), board2.get());
+    int total_attack = 0;
+    // TODO: Looks like p1_cards getting copied, probably not great for
+    // performace...fix when profiler setup
+    for (auto c : board1->get_cards()) {
+	total_attack += c->get_attack();
+    }
+    // Make sure total attack is 2*4 (original micro machines)
+    // plus 10*2 (fiendish damage)
+    EXPECT_EQ(total_attack, 2*4 + 10*2);
+}
+
+
 TEST(Battler, MecharooDrattle) {
     auto f = BgCardFactory();
     auto mecharoo = f.get_card("Mecharoo");
@@ -244,11 +272,32 @@ TEST(Battler, HarvestGolemDrattle) {
     EXPECT_EQ(res.damage_taken, 2);
 }
 
+TEST(Battler, HarvestGolemGoldenDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards { f.get_card("Harvest Golem (Golden)") };
+    auto th = f.get_card("Murloc Tidehunter (Golden)");
+    th->set_attack(6); // ENough to kill the golem
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards { th };
+    // Should have the 1 damaged golem left on board
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Pyramad"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Murgle"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Pyramad");
+    auto battled_p1_cards = p1->get_board()->get_cards();
+    for (auto c : battled_p1_cards) {
+	EXPECT_EQ(c->get_name(), "Damaged Golem (Golden)");
+    }
+    EXPECT_EQ(res.damage_taken, 2);
+}
+
 TEST(Battler, KaboomBotDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
 	{
-	 f.get_card("Harvest Golem")
+	 f.get_card("Kaboom Bot")
 	};
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
 	{
@@ -266,6 +315,31 @@ TEST(Battler, KaboomBotDrattle) {
     EXPECT_EQ(res.who_won, "draw");
     EXPECT_EQ(res.damage_taken, 0);
 }
+
+TEST(Battler, KaboomBotGoldenDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Kaboom Bot (Golden)")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)")
+	};
+    // Should have the 1 damaged golem left on board
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Pyramad"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Murgle"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // 4/4 kills 4/2, bombs kills other 4/2s
+    EXPECT_EQ(res.who_won, "draw");
+    EXPECT_EQ(res.damage_taken, 0);
+}
+
 
 TEST(Battler, KindlyGrandmotherDrattle) {
     auto f = BgCardFactory();
@@ -441,3 +515,32 @@ TEST(Battler, ImprisonerDrattle) {
     EXPECT_EQ(res.who_won, "Tess");
     EXPECT_EQ(res.damage_taken, 2);
 }
+
+TEST(Battler, ImprisonerGoldenDrattle) {
+    auto f = BgCardFactory();
+    auto th = f.get_card("Murloc Tidehunter (Golden)");
+    th->set_attack(10);
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 th
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Imprisoner (Golden)")
+	};
+    // Should have the 1 damaged golem left on board
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // 6/6 taunt kills 10/2 murloc, 2/2 drattle wins
+    auto battled_p2_cards = p2->get_board()->get_cards();
+    for (auto c : battled_p2_cards) {
+	EXPECT_EQ(c->get_name(), "Imp (Golden)");
+    }
+    EXPECT_EQ(res.who_won, "Tess");
+    EXPECT_EQ(res.damage_taken, 2);
+}
+

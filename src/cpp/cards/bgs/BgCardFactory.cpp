@@ -96,7 +96,7 @@ void BgCardFactory::init_cards() {
     cards.emplace("Damaged Golem", damaged_golem);
     std::shared_ptr<BgBaseCard> damaged_golem_gold(new BgBaseCard(4, "NEUTRAL", 1, 2,
 								  "Damaged Golem (Golden)", "", "MECHANICAL", "", 1, "MINION"));
-    cards.emplace("Damaged Golem", damaged_golem_gold);
+    cards.emplace("Damaged Golem (Golden)", damaged_golem_gold);
     // cards.emplace("Damaged Golem (Golden)", BgBaseCard(4, "NEUTRAL", 1, 2,
     // 						       "Damaged Golem (Golden)", "", "MECHANICAL", "", 1, "MINION"));
     // cards.emplace("Deck Swabbie", BgBaseCard(2, "NEUTRAL", 3, 2, "Deck Swabbie",
@@ -135,6 +135,8 @@ void BgCardFactory::init_cards() {
     // std::shared_ptr<FiendishServant> fiendish_servant(new FiendishServant());
     // cards.emplace("Fiendish Servant", fiendish_servant);
     cards.emplace("Fiendish Servant", std::make_shared<FiendishServant>());
+    cards.emplace("Fiendish Servant (Golden)",
+		  std::make_shared<FiendishServantGolden>());
     // cards.emplace("Fiendish Servant", std::make_shared<FiendishServant>());
     // cards.emplace("Fiendish Servant (Golden)", BgBaseCard(4, "WARLOCK", 1, 2, "Fiendish Servant (Golden)",
     // 							  "['DEATHRATTLE']", "DEMON", "COMMON", 1, "MINION"));
@@ -200,6 +202,7 @@ void BgCardFactory::init_cards() {
     // cards.emplace("Hangry Dragon (Golden)", BgBaseCard(8, "NEUTRAL", 5, 8, "Hangry Dragon (Golden)",
     // 						       "['TRIGGER_VISUAL']", "DRAGON", "", 3, "MINION"));
     cards.emplace("Harvest Golem", std::make_shared<HarvestGolem>());
+    cards.emplace("Harvest Golem (Golden)", std::make_shared<HarvestGolemGolden>());
     // cards.emplace("Harvest Golem (Golden)", BgBaseCard(4, "NEUTRAL", 3, 6, "Harvest Golem (Golden)",
     // 						       "['DEATHRATTLE']", "MECHANICAL", "COMMON", 2, "MINION"));
     // cards.emplace("Herald of Flame", BgBaseCard(5, "WARRIOR", 5, 6, "Herald of Flame",
@@ -236,9 +239,7 @@ void BgCardFactory::init_cards() {
     // cards.emplace("Imprisoner", BgBaseCard(3, "NEUTRAL", 3, 3, "Imprisoner",
     // 					   "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "MINION"));
     cards.emplace("Imprisoner", std::make_shared<Imprisoner>());
-    std::shared_ptr<BgBaseCard> imprisoner_gold(new BgBaseCard(6, "NEUTRAL", 3, 6, "Imprisoner (Golden)",
-							       "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "MINION"));
-    cards.emplace("Imprisoner (Golden)", imprisoner_gold);
+    cards.emplace("Imprisoner (Golden)", std::make_shared<ImprisonerGolden>());
     // cards.emplace("Imprisoner (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Imprisoner (Golden)",
     // 						    "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "MINION"));
     // cards.emplace("Iron Sensei (Golden)", BgBaseCard(4, "ROGUE", 3, 4, "Iron Sensei (Golden)",
@@ -259,8 +260,7 @@ void BgCardFactory::init_cards() {
 
     // K
     cards.emplace("Kaboom Bot", std::make_shared<KaboomBot>());
-    // cards.emplace("Kaboom Bot (Golden)", BgBaseCard(4, "NEUTRAL", 3, 4, "Kaboom Bot (Golden)",
-    // 						    "['DEATHRATTLE']", "MECHANICAL", "COMMON", 2, "MINION"));
+    cards.emplace("Kaboom Bot (Golden)", std::make_shared<KaboomBotGolden>());
     // cards.emplace("Kalecgos", BgBaseCard(4, "NEUTRAL", 8, 12, "Kalecgos, Arcane Aspect",
     // 					 "['TRIGGER_VISUAL']", "DRAGON", "", 6, "MINION"));
     // cards.emplace("Kalecgos (Golden)", BgBaseCard(8, "NEUTRAL", 8, 24, "Kalecgos, Arcane Aspect (Golden)",

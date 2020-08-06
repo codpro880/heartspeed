@@ -37,7 +37,6 @@ void Imprisoner::do_deathrattle(Board* b1, Board* b2) {
     b1->insert_card(death_pos, imp);
 }
 
-
 void KaboomBot::do_deathrattle(Board* b1, Board* b2) {    
     if (b2->length() == 0) {
 	return;
@@ -46,6 +45,13 @@ void KaboomBot::do_deathrattle(Board* b1, Board* b2) {
     auto bombed_card = b2->get_cards()[bombed_pos];
     bombed_card->take_damage(4, b2, b1);
 }
+
+void KaboomBotGolden::do_deathrattle(Board* b1, Board* b2) {    
+    for (int i = 0; i < 2; i++) {
+	kbot.do_deathrattle(b1, b2);
+    }
+}
+
 
 void KindlyGrandmother::do_deathrattle(Board* b1, Board* b2) {
     auto f = BgCardFactory();

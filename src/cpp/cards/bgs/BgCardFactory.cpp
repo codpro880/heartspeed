@@ -262,8 +262,7 @@ void BgCardFactory::init_cards() {
 
     // K
     cards.emplace("Kaboom Bot", std::make_shared<KaboomBot>());
-    // cards.emplace("Kaboom Bot (Golden)", BgBaseCard(4, "NEUTRAL", 3, 4, "Kaboom Bot (Golden)",
-    // 						    "['DEATHRATTLE']", "MECHANICAL", "COMMON", 2, "MINION"));
+    cards.emplace("Kaboom Bot (Golden)", std::make_shared<KaboomBotGolden>());
     // cards.emplace("Kalecgos", BgBaseCard(4, "NEUTRAL", 8, 12, "Kalecgos, Arcane Aspect",
     // 					 "['TRIGGER_VISUAL']", "DRAGON", "", 6, "MINION"));
     // cards.emplace("Kalecgos (Golden)", BgBaseCard(8, "NEUTRAL", 8, 24, "Kalecgos, Arcane Aspect (Golden)",

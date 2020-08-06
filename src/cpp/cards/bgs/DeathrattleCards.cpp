@@ -25,6 +25,12 @@ void HarvestGolem::do_deathrattle(Board* b1, Board* b2) {
     b1->insert_card(death_pos, damaged_golem);
 }
 
+void HarvestGolemGolden::do_deathrattle(Board* b1, Board* b2) {
+    auto f = BgCardFactory();
+    auto damaged_golem = f.get_card("Damaged Golem (Golden)");
+    b1->insert_card(death_pos, damaged_golem);
+}
+
 void Imprisoner::do_deathrattle(Board* b1, Board* b2) {
     auto f = BgCardFactory();
     auto imp = f.get_card("Imp");

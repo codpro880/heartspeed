@@ -96,7 +96,7 @@ void BgCardFactory::init_cards() {
     cards.emplace("Damaged Golem", damaged_golem);
     std::shared_ptr<BgBaseCard> damaged_golem_gold(new BgBaseCard(4, "NEUTRAL", 1, 2,
 								  "Damaged Golem (Golden)", "", "MECHANICAL", "", 1, "MINION"));
-    cards.emplace("Damaged Golem", damaged_golem_gold);
+    cards.emplace("Damaged Golem (Golden)", damaged_golem_gold);
     // cards.emplace("Damaged Golem (Golden)", BgBaseCard(4, "NEUTRAL", 1, 2,
     // 						       "Damaged Golem (Golden)", "", "MECHANICAL", "", 1, "MINION"));
     // cards.emplace("Deck Swabbie", BgBaseCard(2, "NEUTRAL", 3, 2, "Deck Swabbie",
@@ -202,6 +202,7 @@ void BgCardFactory::init_cards() {
     // cards.emplace("Hangry Dragon (Golden)", BgBaseCard(8, "NEUTRAL", 5, 8, "Hangry Dragon (Golden)",
     // 						       "['TRIGGER_VISUAL']", "DRAGON", "", 3, "MINION"));
     cards.emplace("Harvest Golem", std::make_shared<HarvestGolem>());
+    cards.emplace("Harvest Golem (Golden)", std::make_shared<HarvestGolemGolden>());
     // cards.emplace("Harvest Golem (Golden)", BgBaseCard(4, "NEUTRAL", 3, 6, "Harvest Golem (Golden)",
     // 						       "['DEATHRATTLE']", "MECHANICAL", "COMMON", 2, "MINION"));
     // cards.emplace("Herald of Flame", BgBaseCard(5, "WARRIOR", 5, 6, "Herald of Flame",

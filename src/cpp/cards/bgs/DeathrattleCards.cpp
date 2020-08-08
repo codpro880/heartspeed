@@ -78,6 +78,12 @@ void Mecharoo::do_deathrattle(Board* b1, Board* b2) {
     b1->insert_card(death_pos, joebot);
 }
 
+void MecharooGolden::do_deathrattle(Board* b1, Board* b2) {
+    auto f = BgCardFactory();
+    auto joebot = f.get_card("Jo-E Bot (Golden)");
+    b1->insert_card(death_pos, joebot);
+}
+
 void RatPack::do_deathrattle(Board* b1, Board* b2) {
     // Insert to the right the attack val or # spots remaining,
     // whichever is less
@@ -98,7 +104,11 @@ void Scallywag::do_deathrattle(Board* b1, Board* b2) {
     auto sky_pirate = f.get_card("Sky Pirate");
     b1->insert_card(death_pos, sky_pirate);
     if (!b2->empty()) {
+	std::cout << "b1: " << (*b1) << std::endl;
+	std::cout << "b2: " << (*b2) << std::endl;
 	BoardBattler().battle_boards(death_pos, b1, b2); // Modifies b1/b2
+	std::cout << "b1 (after): " << (*b1) << std::endl;
+	std::cout << "b2 (after): " << (*b2) << std::endl;
     }
 }
 

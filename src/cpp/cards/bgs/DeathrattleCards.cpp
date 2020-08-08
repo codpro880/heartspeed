@@ -65,6 +65,12 @@ void KindlyGrandmother::do_deathrattle(Board* b1, Board* b2) {
     b1->insert_card(death_pos, bbw);
 }
 
+void KindlyGrandmotherGolden::do_deathrattle(Board* b1, Board* b2) {
+    auto f = BgCardFactory();
+    auto bbw = f.get_card("Big Bad Wolf (Golden)");
+    b1->insert_card(death_pos, bbw);
+}
+
 
 void Mecharoo::do_deathrattle(Board* b1, Board* b2) {
     auto f = BgCardFactory();

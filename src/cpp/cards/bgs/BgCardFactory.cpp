@@ -63,6 +63,9 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> big_bad_wolf(new BgBaseCard(3, "HUNTER", 2, 2, "Big Bad Wolf",
 							    "", "BEAST", "", 1, "MINION"));					    
     cards.emplace("Big Bad Wolf", big_bad_wolf);
+    std::shared_ptr<BgBaseCard> big_bad_wolf_gold(new BgBaseCard(6, "HUNTER", 2, 4, "Big Bad Wolf (Golden)",
+								 "", "BEAST", "", 1, "MINION"));
+    cards.emplace("Big Bad Wolf (Golden)", big_bad_wolf_gold);
     // cards.emplace("Big Bad Wolf (Golden)", BgBaseCard(6, "HUNTER", 2, 4, "Big Bad Wolf (Golden)",
     // 						      "", "BEAST", "", 1, "MINION"));
     // cards.emplace("Bloodsail Cannoneer", BgBaseCard(4, "NEUTRAL", 4, 2, "Bloodsail Cannoneer",
@@ -272,6 +275,7 @@ void BgCardFactory::init_cards() {
     // cards.emplace("Khadgar (Golden)", BgBaseCard(4, "MAGE", 2, 4,  "Khadgar (Golden)",
     // 						 "['TRIGGER_VISUAL']", "", "LEGENDARY", 3, "MINION"));
     cards.emplace("Kindly Grandmother", std::make_shared<KindlyGrandmother>());
+    cards.emplace("Kindly Grandmother (Golden)", std::make_shared<KindlyGrandmotherGolden>());
     // cards.emplace("Kindly Grandmother (Golden)", BgBaseCard(2, "HUNTER", 2, 2, "Kindly Grandmother (Golden)",
     // 							    "['DEATHRATTLE']", "BEAST", "COMMON", 2, "MINION"));
     // cards.emplace("King Bagurgle", BgBaseCard(6, "NEUTRAL", 6, 3, "King Bagurgle",

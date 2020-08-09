@@ -2,6 +2,7 @@
 #pragma once
 
 #include <iostream>
+#include <queue>
 #include <string>
 #include <vector>
 
@@ -29,11 +30,8 @@ public:
 	// remove(std::make_shared<BgBaseCard>(*c));	
     }
     void remove(std::shared_ptr<BgBaseCard> c) {
-	std::cerr << "Removing shared ptr." << std::endl;
 	auto it = std::find(cards.begin(), cards.end(), c);
-	std::cerr << "Found it." << std::endl;
 	cards.erase(it);
-	std::cerr << "Removed it." << std::endl;
     }
     void remove(const int& i) {
 	if (cards.size() > (unsigned)i) {
@@ -53,9 +51,41 @@ public:
     	}
     	return -1;
     }
+    void remove_and_mark_dead() {
+	std::queue<std::shared_ptr<BgBaseCard> > to_remove;
+	for (auto c : cards) {
+	    if (c->is_dead()) {
+		auto death_pos = this->get_pos(c.get());
+		c->set_death_pos(death_pos);
+		deathrattle_q.push(c);
+		to_remove.push(c);
+	    }
+	}
+	while (!to_remove.empty()) {
+	    this->remove(to_remove.front());
+	    to_remove.pop();
+	}
+    }
+    void do_deathrattles(Board* other) {
+	bool at_least_one_dead = false;
+	while (!deathrattle_q.empty()) {
+	    at_least_one_dead = true;
+	    auto card = deathrattle_q.front();
+	    deathrattle_q.pop();
+	    card->do_deathrattle(this, other);
+	}
+	if (at_least_one_dead) {
+	    // Deathrattles can cause other deaths to occur
+	    remove_and_mark_dead();
+	    other->remove_and_mark_dead();
+	    do_deathrattles(other);
+	    other->do_deathrattles(this);
+	}
+    }
     void set_card(int i, std::shared_ptr<BgBaseCard> c) { cards[i] = c; }
     void insert_card(int pos, std::shared_ptr<BgBaseCard> c) { cards.insert(cards.begin() + pos, c); }
     std::vector<std::shared_ptr<BgBaseCard> > const get_cards() { return cards;  } // TODO: Make this an iterator
 private:
-    std::vector<std::shared_ptr<BgBaseCard> > cards;    
+    std::vector<std::shared_ptr<BgBaseCard> > cards;
+    std::queue<std::shared_ptr<BgBaseCard> > deathrattle_q;
 };

@@ -159,6 +159,10 @@ TEST(Battler, FiendishServantGoldenDrattle) {
     auto fiendish = p1_cards[0];
     fiendish->set_attack(10);
     fiendish->take_damage(10, board1.get(), board2.get());
+    board1->remove_and_mark_dead();
+    board2->remove_and_mark_dead();
+    board1->do_deathrattles(board2.get());
+    board2->do_deathrattles(board1.get());
     int total_attack = 0;
     // TODO: Looks like p1_cards getting copied, probably not great for
     // performace...fix when profiler setup
@@ -524,6 +528,10 @@ TEST(Battler, RatPackDrattleSummonsCorrectNumOfRats) {
     std::unique_ptr<Board> board1(new Board(p1_cards));
     std::unique_ptr<Board> board2(new Board(p2_cards));
     rp->take_damage(2, board2.get(), board1.get());
+    board1->remove_and_mark_dead();
+    board2->remove_and_mark_dead();
+    board1->do_deathrattles(board2.get());
+    board2->do_deathrattles(board1.get());
     int rat_count = 0;
     int razor_count = 0;
     for (auto c : board2->get_cards()) {

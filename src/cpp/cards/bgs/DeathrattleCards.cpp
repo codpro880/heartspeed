@@ -55,6 +55,10 @@ void KaboomBot::do_deathrattle(Board* b1, Board* b2) {
 void KaboomBotGolden::do_deathrattle(Board* b1, Board* b2) {    
     for (int i = 0; i < 2; i++) {
 	kbot.do_deathrattle(b1, b2);
+	b1->remove_and_mark_dead();
+	b2->remove_and_mark_dead();
+	b1->do_deathrattles(b2);
+	b2->do_deathrattles(b2);
     }
 }
 
@@ -104,11 +108,7 @@ void Scallywag::do_deathrattle(Board* b1, Board* b2) {
     auto sky_pirate = f.get_card("Sky Pirate");
     b1->insert_card(death_pos, sky_pirate);
     if (!b2->empty()) {
-	std::cout << "b1: " << (*b1) << std::endl;
-	std::cout << "b2: " << (*b2) << std::endl;
 	BoardBattler().battle_boards(death_pos, b1, b2); // Modifies b1/b2
-	std::cout << "b1 (after): " << (*b1) << std::endl;
-	std::cout << "b2 (after): " << (*b2) << std::endl;
     }
 }
 
@@ -142,5 +142,5 @@ void UnstableGhoul::do_deathrattle(Board* b1, Board* b2) {
     }    
     for (auto c : b2->get_cards()) {
 	c->take_damage(1, b2, b1);
-    }    
+    }
 }

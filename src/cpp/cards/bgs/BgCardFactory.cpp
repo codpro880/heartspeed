@@ -399,9 +399,11 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> rat(new BgBaseCard(1, "HUNTER", 1, 1, "Rat",
 						   "", "BEAST", "", 1, "MINION"));
     cards.emplace("Rat", rat);
-    // cards.emplace("Rat (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Rat (Golden)",
-    // 					     "", "BEAST", "", 1, "MINION"));
+    std::shared_ptr<BgBaseCard> rat_gold(new BgBaseCard(2, "HUNTER", 1, 2, "Rat (Golden)",
+							"", "BEAST", "", 1, "MINION"));
+    cards.emplace("Rat (Golden)", rat_gold);
     cards.emplace("Rat Pack", std::make_shared<RatPack>());
+    cards.emplace("Rat Pack (Golden)", std::make_shared<RatPackGolden>());
     // cards.emplace("Rat Pack (Golden)", BgBaseCard(4, "HUNTER", 3, 4, "Rat Pack (Golden)",
     // 						  "['DEATHRATTLE']", "BEAST", "EPIC", 2, "MINION"));
     std::shared_ptr<BgBaseCard> razorgore(new BgBaseCard(2, "NEUTRAL", 8, 4, "Razorgore, the Untamed",

@@ -89,19 +89,15 @@ void BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     
     // TODO: impl rest of deathrattles. See fiendish servant for example.
     // Handles drattles
-    std::cerr << "taking damage" << std::endl;
     attacker->take_damage(defender->get_attack(), b1, b2); // May modify b1/b2
     defender->take_damage(attacker->get_attack(), b2, b1); // May modify b1/b2
 
-    std::cerr << "mark remove" << std::endl;
     b1->remove_and_mark_dead();
     b2->remove_and_mark_dead();
 
     // TODO: Ordering seems to be a coin flip?
-    std::cerr << "drats remove" << std::endl;
     b1->do_deathrattles(b2);
     b2->do_deathrattles(b1);
-    std::cerr << "drats done" << std::endl;
 
     // Handles deathrattles, nothing happens if nothing died
     //attacker->do_deathrattle(b1, b2);

@@ -57,9 +57,9 @@ void KaboomBotGolden::do_deathrattle(Board* b1, Board* b2) {
 	kbot.do_deathrattle(b1, b2);
 	b1->remove_and_mark_dead();
 	b2->remove_and_mark_dead();
-	b1->do_deathrattles(b2);
-	b2->do_deathrattles(b2);
     }
+    b1->do_deathrattles(b2);
+    b2->do_deathrattles(b2);
 }
 
 
@@ -101,6 +101,21 @@ void RatPack::do_deathrattle(Board* b1, Board* b2) {
 	b1->insert_card(death_pos + i, rat);
     }    
 }
+
+void RatPackGolden::do_deathrattle(Board* b1, Board* b2) {
+    // Insert to the right the attack val or # spots remaining,
+    // whichever is less
+    auto attack = get_attack();
+    auto spots_left = 7 - b1->length();
+    auto spots_to_fill = attack < spots_left ? attack : spots_left;
+
+    auto f = BgCardFactory();
+    for (int i = 0; i < spots_to_fill; i++) {
+	auto rat = f.get_card("Rat (Golden)");
+	b1->insert_card(death_pos + i, rat);
+    }    
+}
+
 
 
 void Scallywag::do_deathrattle(Board* b1, Board* b2) {

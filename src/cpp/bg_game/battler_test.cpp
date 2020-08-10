@@ -510,6 +510,36 @@ TEST(Battler, RatPackDrattle) {
     EXPECT_EQ(res.damage_taken, 2);
 }
 
+TEST(Battler, RatPackGoldenDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Murloc Tidehunter (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)")
+	};
+    auto rp = f.get_card("Rat Pack (Golden)");
+    rp->set_attack(7);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	    rp
+	};
+    // Should have the 1 damaged golem left on board
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // One rat should always survive
+    EXPECT_EQ(res.who_won, "Tess");
+    EXPECT_EQ(res.damage_taken, 2);
+}
+
 TEST(Battler, RatPackDrattleSummonsCorrectNumOfRats) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards;

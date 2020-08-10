@@ -134,7 +134,6 @@ void ScallywagGolden::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
-
 void SelflessHero::do_deathrattle(Board* b1, Board*b2) {
     // Cards w/o divine shield
     std::vector<std::shared_ptr<BgBaseCard> > cards;
@@ -147,7 +146,12 @@ void SelflessHero::do_deathrattle(Board* b1, Board*b2) {
 	auto buffed_pos = rand() % cards.size();
 	auto card = cards[buffed_pos];
 	card->set_divine_shield();
-	b1->set_card(buffed_pos, card);
+    }
+}
+
+void SelflessHeroGolden::do_deathrattle(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	hero.do_deathrattle(b1, b2);
     }
 }
 

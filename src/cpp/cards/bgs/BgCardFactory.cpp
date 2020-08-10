@@ -214,6 +214,9 @@ void BgCardFactory::init_cards() {
     // 							 "['OVERKILL']", "DRAGON", "", 4, "MINION"));
     // cards.emplace("Holy Mackerel", BgBaseCard(8, "PALADIN", 8, 4, "Holy Mackerel",
     // 					      "['TRIGGER_VISUAL']", "MURLOC", "", 6, "MINION"));
+    std::shared_ptr<BgBaseCard> houndmaster(new BgBaseCard(4, "HUNTER", 4, 3, "Houndmaster",
+							   "['BATTLECRY']", "", "FREE", 3, "MINION"));
+    cards.emplace("Houndmaster", houndmaster);
     std::shared_ptr<BgBaseCard> houndmaster_gold(new BgBaseCard(8, "HUNTER", 4, 6, "Houndmaster (Golden)",
 								"['BATTLECRY']", "", "FREE", 3, "MINION"));
     cards.emplace("Houndmaster (Golden)", houndmaster_gold);
@@ -454,6 +457,7 @@ void BgCardFactory::init_cards() {
     // cards.emplace("Security Rover (Golden)", BgBaseCard(4, "WARRIOR", 6, 12, "Security Rover (Golden)",
     // 							"['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 4, "MINION"));
     cards.emplace("Selfless Hero", std::make_shared<SelflessHero>());
+    cards.emplace("Selfless Hero (Golden)", std::make_shared<SelflessHeroGolden>());
     // cards.emplace("Shifter Zerus", BgBaseCard(1, "NEUTRAL", 1, 1, "Shifter Zerus",
     // 					      "", "", "LEGENDARY", 3, "MINION"));
     // cards.emplace("Shifter Zerus (Golden)", BgBaseCard(2, "NEUTRAL", 1, 2, "Shifter Zerus (Golden)",

@@ -230,6 +230,31 @@ TEST(Battler, SelflessHeroDrattle) {
     EXPECT_EQ(res.damage_taken, 1+1);
 }
 
+TEST(Battler, SelflessHeroGoldenDrattle) {
+    auto f = BgCardFactory();
+    auto gambler1 = f.get_card("Freedealing Gambler (Golden)");
+    gambler1->set_health(20); // 4x5 (two divine shields) should give a draw
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Selfless Hero (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 gambler1
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+    EXPECT_EQ(res.damage_taken, 0);
+}
+
+
 TEST(Battler, SelflessHeroDrattleDoesntHelpIfDivineAlreadyPresent) {
     auto f = BgCardFactory();
     auto selfless = f.get_card("Selfless Hero");

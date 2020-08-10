@@ -48,6 +48,7 @@ BattleResult Battler::battle(Player* p1,
     auto b2 = p2->get_board();
     std::cout << "P1 (before): " << std::endl;
     std::cout << (*p1) << std::endl;
+    std::cout << "Attacker pos: " << p1_counter << std::endl;
     std::cout << "P2 (before): " << std::endl;
     std::cout << (*p2) << std::endl;
     BattleResult res = BattleResult();
@@ -71,18 +72,20 @@ BattleResult Battler::battle(Player* p1,
     if (p1_counter >= b1->length()) {
 	p1_counter = 0;
     }
-    int attacker_pos = p1_counter;
 
-    BoardBattler().battle_boards(attacker_pos, b1, b2); // Modifies b1/b2
-
-    p1->set_board(b1);
-    p2->set_board(b2);
+    //p1->set_board(b1);
+    //p2->set_board(b2);
+    auto attacker_is_dead = BoardBattler().battle_boards(p1_counter, b1, b2); // Modifies b1/b2
+    if (!attacker_is_dead) {
+	p1_counter++;
+    }
     std::cout << "P1: " << (*p1) << std::endl;
+    std::cout << "Attacker pos: " << p1_counter << std::endl;
     std::cout << "P2: " << (*p2) << std::endl;
-    return battle(p2, p1, p2_counter, p1_counter+1);
+    return battle(p2, p1, p2_counter, p1_counter);
 }
 
-void BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
+bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     auto attacker = (*b1)[attacker_pos];
     auto defender_pos = rand() % b2->length();
     auto defender = (*b2)[defender_pos];
@@ -102,6 +105,7 @@ void BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     // Handles deathrattles, nothing happens if nothing died
     //attacker->do_deathrattle(b1, b2);
     //defender->do_deathrattle(b2, b1); // May modify b1/b2
+    return attacker->is_dead();
 }
 
 std::string Battler::decide_who_goes_first(Board* b1, Board* b2) {

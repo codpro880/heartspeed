@@ -79,6 +79,7 @@ void KindlyGrandmotherGolden::do_deathrattle(Board* b1, Board* b2) {
 void Mecharoo::do_deathrattle(Board* b1, Board* b2) {
     auto f = BgCardFactory();
     auto joebot = f.get_card("Jo-E Bot");
+    std::cout << "DEATH POS IN DRAT: " << death_pos << std::endl;    
     b1->insert_card(death_pos, joebot);
 }
 
@@ -175,5 +176,15 @@ void UnstableGhoul::do_deathrattle(Board* b1, Board* b2) {
     }    
     for (auto c : b2->get_cards()) {
 	c->take_damage(1, b2, b1);
+    }
+}
+
+void UnstableGhoulGolden::do_deathrattle(Board* b1, Board* b2) {
+    for (int i = 0; i < 2; i++) {
+	ghoul.do_deathrattle(b1, b2);
+	b1->remove_and_mark_dead();
+	b2->remove_and_mark_dead();
+	b1->do_deathrattles(b2);
+	b2->do_deathrattles(b1);
     }
 }

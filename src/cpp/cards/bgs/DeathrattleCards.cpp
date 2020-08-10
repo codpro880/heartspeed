@@ -55,7 +55,11 @@ void KaboomBot::do_deathrattle(Board* b1, Board* b2) {
 void KaboomBotGolden::do_deathrattle(Board* b1, Board* b2) {    
     for (int i = 0; i < 2; i++) {
 	kbot.do_deathrattle(b1, b2);
+	b1->remove_and_mark_dead();
+	b2->remove_and_mark_dead();
     }
+    b1->do_deathrattles(b2);
+    b2->do_deathrattles(b2);
 }
 
 
@@ -65,10 +69,23 @@ void KindlyGrandmother::do_deathrattle(Board* b1, Board* b2) {
     b1->insert_card(death_pos, bbw);
 }
 
+void KindlyGrandmotherGolden::do_deathrattle(Board* b1, Board* b2) {
+    auto f = BgCardFactory();
+    auto bbw = f.get_card("Big Bad Wolf (Golden)");
+    b1->insert_card(death_pos, bbw);
+}
+
 
 void Mecharoo::do_deathrattle(Board* b1, Board* b2) {
     auto f = BgCardFactory();
     auto joebot = f.get_card("Jo-E Bot");
+    std::cout << "DEATH POS IN DRAT: " << death_pos << std::endl;    
+    b1->insert_card(death_pos, joebot);
+}
+
+void MecharooGolden::do_deathrattle(Board* b1, Board* b2) {
+    auto f = BgCardFactory();
+    auto joebot = f.get_card("Jo-E Bot (Golden)");
     b1->insert_card(death_pos, joebot);
 }
 
@@ -86,6 +103,19 @@ void RatPack::do_deathrattle(Board* b1, Board* b2) {
     }    
 }
 
+void RatPackGolden::do_deathrattle(Board* b1, Board* b2) {
+    // Insert to the right the attack val or # spots remaining,
+    // whichever is less
+    auto attack = get_attack();
+    auto spots_left = 7 - b1->length();
+    auto spots_to_fill = attack < spots_left ? attack : spots_left;
+
+    auto f = BgCardFactory();
+    for (int i = 0; i < spots_to_fill; i++) {
+	auto rat = f.get_card("Rat (Golden)");
+	b1->insert_card(death_pos + i, rat);
+    }    
+}
 
 void Scallywag::do_deathrattle(Board* b1, Board* b2) {
     auto f = BgCardFactory();
@@ -96,6 +126,14 @@ void Scallywag::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
+void ScallywagGolden::do_deathrattle(Board* b1, Board* b2) {
+    auto f = BgCardFactory();
+    auto sky_pirate = f.get_card("Sky Pirate (Golden)");
+    b1->insert_card(death_pos, sky_pirate);
+    if (!b2->empty()) {
+	BoardBattler().battle_boards(death_pos, b1, b2); // Modifies b1/b2
+    }
+}
 
 void SelflessHero::do_deathrattle(Board* b1, Board*b2) {
     // Cards w/o divine shield
@@ -109,7 +147,12 @@ void SelflessHero::do_deathrattle(Board* b1, Board*b2) {
 	auto buffed_pos = rand() % cards.size();
 	auto card = cards[buffed_pos];
 	card->set_divine_shield();
-	b1->set_card(buffed_pos, card);
+    }
+}
+
+void SelflessHeroGolden::do_deathrattle(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	hero.do_deathrattle(b1, b2);
     }
 }
 
@@ -120,11 +163,28 @@ void SpawnOfNzoth::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
+void SpawnOfNzothGolden::do_deathrattle(Board* b1, Board* b2) {
+    for (auto c : b1->get_cards()) {
+	c->set_attack(c->get_attack() + 2);
+	c->set_health(c->get_health() + 2);
+    }
+}
+
 void UnstableGhoul::do_deathrattle(Board* b1, Board* b2) {
     for (auto c : b1->get_cards()) {
 	c->take_damage(1, b1, b2);
     }    
     for (auto c : b2->get_cards()) {
 	c->take_damage(1, b2, b1);
-    }    
+    }
+}
+
+void UnstableGhoulGolden::do_deathrattle(Board* b1, Board* b2) {
+    for (int i = 0; i < 2; i++) {
+	ghoul.do_deathrattle(b1, b2);
+	b1->remove_and_mark_dead();
+	b2->remove_and_mark_dead();
+	b1->do_deathrattles(b2);
+	b2->do_deathrattles(b1);
+    }
 }

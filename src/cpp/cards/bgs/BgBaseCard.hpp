@@ -62,6 +62,7 @@ public:
     bool is_dead() { if (health <= 0) return true; else return false;; }
 
     void set_attack(int att) { attack = att; }
+    void set_death_pos(int dp) { death_pos = dp; }
     void set_health(int hth) { health = hth; }
     void set_poison() { is_poison = true; }
     void set_divine_shield() { divine_shield = true; }

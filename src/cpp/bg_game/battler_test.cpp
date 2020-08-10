@@ -159,6 +159,10 @@ TEST(Battler, FiendishServantGoldenDrattle) {
     auto fiendish = p1_cards[0];
     fiendish->set_attack(10);
     fiendish->take_damage(10, board1.get(), board2.get());
+    board1->remove_and_mark_dead();
+    board2->remove_and_mark_dead();
+    board1->do_deathrattles(board2.get());
+    board2->do_deathrattles(board1.get());
     int total_attack = 0;
     // TODO: Looks like p1_cards getting copied, probably not great for
     // performace...fix when profiler setup
@@ -169,7 +173,6 @@ TEST(Battler, FiendishServantGoldenDrattle) {
     // plus 10*2 (fiendish damage)
     EXPECT_EQ(total_attack, 2*4 + 10*2);
 }
-
 
 TEST(Battler, MecharooDrattle) {
     auto f = BgCardFactory();
@@ -189,6 +192,25 @@ TEST(Battler, MecharooDrattle) {
     EXPECT_EQ(res.damage_taken, 0);
 }
 
+TEST(Battler, MecharooGoldenDrattle) {
+    auto f = BgCardFactory();
+    auto mecharoo = f.get_card("Mecharoo (Golden)");
+    auto tidehunter = f.get_card("Murloc Tidehunter"); // No battlecry
+    auto gambler1 = f.get_card("Freedealing Gambler (Golden)");
+    // These should draw since mecharoo summons a 2/2 token as a drattle
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards { mecharoo, tidehunter };
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards { gambler1 };
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+    EXPECT_EQ(res.damage_taken, 0);
+}
+
+
 TEST(Battler, SelflessHeroDrattle) {
     auto f = BgCardFactory();
     auto selfless = f.get_card("Selfless Hero");
@@ -207,6 +229,31 @@ TEST(Battler, SelflessHeroDrattle) {
     EXPECT_EQ(res.who_won, "Tess");
     EXPECT_EQ(res.damage_taken, 1+1);
 }
+
+TEST(Battler, SelflessHeroGoldenDrattle) {
+    auto f = BgCardFactory();
+    auto gambler1 = f.get_card("Freedealing Gambler (Golden)");
+    gambler1->set_health(20); // 4x5 (two divine shields) should give a draw
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Selfless Hero (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 gambler1
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+    EXPECT_EQ(res.damage_taken, 0);
+}
+
 
 TEST(Battler, SelflessHeroDrattleDoesntHelpIfDivineAlreadyPresent) {
     auto f = BgCardFactory();
@@ -239,6 +286,32 @@ TEST(Battler, ScallywagDrattle) {
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { f.get_card("Murloc Tidehunter"),
 							 f.get_card("Murloc Scout") };
     // p1 should be left w/ 6 Scallywags (since 2/1 kills either scout or tidehunter, then 1/1 token immediately kills the other
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "p1"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "p2"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "p1");
+    auto battled_p1_cards = p1->get_board()->get_cards();
+    for (auto c : battled_p1_cards) {
+	EXPECT_EQ(c->get_name(), "Scallywag");
+    }
+    EXPECT_EQ(res.damage_taken, 7);
+}
+
+TEST(Battler, ScallywagGoldenDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards { f.get_card("Scallywag (Golden)"),
+							 f.get_card("Scallywag"),
+							 f.get_card("Scallywag"),
+							 f.get_card("Scallywag"),
+							 f.get_card("Scallywag"),
+							 f.get_card("Scallywag"),
+							 f.get_card("Scallywag") };
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards { f.get_card("Murloc Tidehunter (Golden)"),
+							 f.get_card("Murloc Tidehunter (Golden)") };
+    // p1 should be left w/ 6 Scallywags AND (since 4/2 kills either tidehunter, then 2/2 token immediately kills the other
     std::unique_ptr<Board> board1(new Board(p1_cards));
     std::unique_ptr<Board> board2(new Board(p2_cards));
     std::unique_ptr<Player> p1(new Player(board1.get(), "p1"));
@@ -367,6 +440,33 @@ TEST(Battler, KindlyGrandmotherDrattle) {
     EXPECT_EQ(res.damage_taken, 2);
 }
 
+TEST(Battler, KindlyGrandmotherGoldenDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Murloc Tidehunter")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Kindly Grandmother (Golden)")
+	};
+    // Should have the 1 damaged golem left on board
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // 2/2 kills 2/1, 6/4 drattle wins
+    auto battled_p2_cards = p2->get_board()->get_cards();
+    for (auto c : battled_p2_cards) {
+	EXPECT_EQ(c->get_name(), "Big Bad Wolf (Golden)");
+    }
+    EXPECT_EQ(res.who_won, "Tess");
+    EXPECT_EQ(res.damage_taken, 2);
+}
+
+
 TEST(Battler, SpawnOfNzothDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -382,6 +482,42 @@ TEST(Battler, SpawnOfNzothDrattle) {
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
 	{
 	 f.get_card("Spawn of Nzoth"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)")
+	};
+    // Should have the 1 damaged golem left on board
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Tess");
+    // Will take at most 2 * 6 = 12
+    // WIll take at least 2 * 3 = 6
+    EXPECT_LE(res.damage_taken, 12);
+    EXPECT_GE(res.damage_taken, 6);
+}
+
+TEST(Battler, SpawnOfNzothGoldenDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Spawn of Nzoth (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)"),
@@ -431,6 +567,34 @@ TEST(Battler, UnstableGhoulDrattle) {
     EXPECT_LE(res.damage_taken, 0);
 }
 
+TEST(Battler, UnstableGhoulGoldenDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Mecharoo"),
+	 f.get_card("Mecharoo"),
+	 f.get_card("Mecharoo"),
+	 f.get_card("Mecharoo")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Unstable Ghoul (Golden)")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // Ghoul goes off twice, so kills mecharoos, then all jo-e-bots
+    EXPECT_EQ(res.who_won, "draw");
+    EXPECT_LE(res.damage_taken, 0);
+}
+
+
 TEST(Battler, RatPackDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -444,6 +608,36 @@ TEST(Battler, RatPackDrattle) {
 	 f.get_card("Murloc Tidehunter")
 	};
     auto rp = f.get_card("Rat Pack");
+    rp->set_attack(7);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	    rp
+	};
+    // Should have the 1 damaged golem left on board
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // One rat should always survive
+    EXPECT_EQ(res.who_won, "Tess");
+    EXPECT_EQ(res.damage_taken, 2);
+}
+
+TEST(Battler, RatPackGoldenDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Murloc Tidehunter (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)"),
+	 f.get_card("Murloc Tidehunter (Golden)")
+	};
+    auto rp = f.get_card("Rat Pack (Golden)");
     rp->set_attack(7);
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
 	{
@@ -479,6 +673,10 @@ TEST(Battler, RatPackDrattleSummonsCorrectNumOfRats) {
     std::unique_ptr<Board> board1(new Board(p1_cards));
     std::unique_ptr<Board> board2(new Board(p2_cards));
     rp->take_damage(2, board2.get(), board1.get());
+    board1->remove_and_mark_dead();
+    board2->remove_and_mark_dead();
+    board1->do_deathrattles(board2.get());
+    board2->do_deathrattles(board1.get());
     int rat_count = 0;
     int razor_count = 0;
     for (auto c : board2->get_cards()) {

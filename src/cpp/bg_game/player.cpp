@@ -1,11 +1,8 @@
 #include "player.hpp"
 
 std::ostream& operator<<(std::ostream& os, Player& p) {
-    auto cards = p.get_board()->get_cards();
+    auto board = p.get_board();
     os << "Player " << p.get_name() << std::endl;
-    for (auto c : cards) {
-    	os << "(" << c->get_attack() << "/" << c->get_health() << ") ";
-    }
-    os << std::endl;
+    os << (*board) << std::endl;
     return os;
 }

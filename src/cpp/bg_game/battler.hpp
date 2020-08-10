@@ -30,5 +30,5 @@ private:
 
 class BoardBattler {
 public:
-    void battle_boards(int attacker_pos, Board* b1, Board* b2);
+    bool battle_boards(int attacker_pos, Board* b1, Board* b2);
 };

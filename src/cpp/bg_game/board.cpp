@@ -14,7 +14,8 @@ int Board::calculate_damage() {
 std::ostream& operator<<(std::ostream& os, Board& board) {
     auto cards = board.get_cards();
     for (auto c : cards) {
-    	os << "(" << c->get_attack() << "/" << c->get_health() << ") ";
+	auto card = c.get();
+    	os << (*card) << " ";
     }
     os << std::endl;
     return os;

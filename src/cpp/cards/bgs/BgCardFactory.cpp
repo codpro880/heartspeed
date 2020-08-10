@@ -438,6 +438,7 @@ void BgCardFactory::init_cards() {
     // cards.emplace("Savannah Highmane (Golden)", BgBaseCard(12, "HUNTER", 6, 10, "Savannah Highmane (Golden)",
     // 							   "['DEATHRATTLE']", "BEAST", "RARE", 4,"MINION"));
     cards.emplace("Scallywag", std::make_shared<Scallywag>());
+    cards.emplace("Scallywag (Golden)", std::make_shared<ScallywagGolden>());
     // cards.emplace("Scallywag", BgBaseCard(2, "NEUTRAL", 1, 1, "Scallywag",
     // 					  "['DEATHRATTLE']", "PIRATE", "", 1, "MINION"));
     // cards.emplace("Scallywag (Golden)", BgBaseCard(4, "NEUTRAL", 1, 2, "Scallywag (Golden)",
@@ -464,7 +465,7 @@ void BgCardFactory::init_cards() {
     cards.emplace("Sky Pirate", sky_pirate);
     std::shared_ptr<BgBaseCard> sky_pirate_gold(new BgBaseCard(2, "ROGUE", 1, 2, "Sky Pirate (Golden)",
 							       "", "PIRATE", "", 1, "MINION"));
-    cards.emplace("Sky Pirate", sky_pirate_gold);
+    cards.emplace("Sky Pirate (Golden)", sky_pirate_gold);
     
     // cards.emplace("Snake Trap", BgBaseCard(-1, "HUNTER", 2, -1, "Snake Trap",
     // 					   "['SECRET']", "", "EPIC", -1, "SPELL"));

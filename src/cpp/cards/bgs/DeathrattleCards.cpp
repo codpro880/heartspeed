@@ -116,11 +116,18 @@ void RatPackGolden::do_deathrattle(Board* b1, Board* b2) {
     }    
 }
 
-
-
 void Scallywag::do_deathrattle(Board* b1, Board* b2) {
     auto f = BgCardFactory();
     auto sky_pirate = f.get_card("Sky Pirate");
+    b1->insert_card(death_pos, sky_pirate);
+    if (!b2->empty()) {
+	BoardBattler().battle_boards(death_pos, b1, b2); // Modifies b1/b2
+    }
+}
+
+void ScallywagGolden::do_deathrattle(Board* b1, Board* b2) {
+    auto f = BgCardFactory();
+    auto sky_pirate = f.get_card("Sky Pirate (Golden)");
     b1->insert_card(death_pos, sky_pirate);
     if (!b2->empty()) {
 	BoardBattler().battle_boards(death_pos, b1, b2); // Modifies b1/b2

@@ -275,6 +275,32 @@ TEST(Battler, ScallywagDrattle) {
     EXPECT_EQ(res.damage_taken, 7);
 }
 
+TEST(Battler, ScallywagGoldenDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards { f.get_card("Scallywag (Golden)"),
+							 f.get_card("Scallywag"),
+							 f.get_card("Scallywag"),
+							 f.get_card("Scallywag"),
+							 f.get_card("Scallywag"),
+							 f.get_card("Scallywag"),
+							 f.get_card("Scallywag") };
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards { f.get_card("Murloc Tidehunter (Golden)"),
+							 f.get_card("Murloc Tidehunter (Golden)") };
+    // p1 should be left w/ 6 Scallywags AND (since 4/2 kills either tidehunter, then 2/2 token immediately kills the other
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "p1"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "p2"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "p1");
+    auto battled_p1_cards = p1->get_board()->get_cards();
+    for (auto c : battled_p1_cards) {
+	EXPECT_EQ(c->get_name(), "Scallywag");
+    }
+    EXPECT_EQ(res.damage_taken, 7);
+}
+
 TEST(Battler, HarvestGolemDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { f.get_card("Harvest Golem") };

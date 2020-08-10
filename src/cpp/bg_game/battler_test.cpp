@@ -503,6 +503,42 @@ TEST(Battler, SpawnOfNzothDrattle) {
     EXPECT_GE(res.damage_taken, 6);
 }
 
+TEST(Battler, SpawnOfNzothGoldenDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Spawn of Nzoth (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)"),
+	 f.get_card("Freedealing Gambler (Golden)")
+	};
+    // Should have the 1 damaged golem left on board
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Tess");
+    // Will take at most 2 * 6 = 12
+    // WIll take at least 2 * 3 = 6
+    EXPECT_LE(res.damage_taken, 12);
+    EXPECT_GE(res.damage_taken, 6);
+}
+
 TEST(Battler, UnstableGhoulDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards

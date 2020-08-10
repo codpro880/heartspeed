@@ -162,6 +162,13 @@ void SpawnOfNzoth::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
+void SpawnOfNzothGolden::do_deathrattle(Board* b1, Board* b2) {
+    for (auto c : b1->get_cards()) {
+	c->set_attack(c->get_attack() + 2);
+	c->set_health(c->get_health() + 2);
+    }
+}
+
 void UnstableGhoul::do_deathrattle(Board* b1, Board* b2) {
     for (auto c : b1->get_cards()) {
 	c->take_damage(1, b1, b2);

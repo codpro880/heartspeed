@@ -488,6 +488,7 @@ void BgCardFactory::init_cards() {
     // cards.emplace("Southsea Strongarm (Golden)", BgBaseCard(10, "NEUTRAL", 5, 8, "Southsea Strongarm (Golden)",
     // 							    "", "PIRATE", "", 4, "MINION"));
     cards.emplace("Spawn of Nzoth", std::make_shared<SpawnOfNzoth>());
+    cards.emplace("Spawn of Nzoth (Golden)", std::make_shared<SpawnOfNzothGolden>());
     // cards.emplace("Spawn of N'Zoth (Golden)", BgBaseCard(4, "NEUTRAL", 3, 4, "Spawn of N'Zoth (Golden)",
     // 							 "['DEATHRATTLE']", "", "COMMON", 2, "MINION"));
     // cards.emplace("Spider (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Spider (Golden)",

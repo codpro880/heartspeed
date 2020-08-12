@@ -6,6 +6,12 @@
 #include "../../bg_game/board.hpp"
 #include "../../bg_game/battler.hpp"
 
+void DeathrattleCard::basic_summon(std::string cardname, Board* b1, Board* b2) {
+    auto f = BgCardFactory();
+    auto summon = f.get_card(cardname);
+    b1->insert_card(death_pos, summon);
+}
+
 void FiendishServant::do_deathrattle(Board* b1, Board*b2) {
     auto buffed_pos = rand() % b1->length();
     auto card = b1->get_cards()[buffed_pos];
@@ -20,9 +26,10 @@ void FiendishServantGolden::do_deathrattle(Board* b1, Board*b2) {
 }
 
 void HarvestGolem::do_deathrattle(Board* b1, Board* b2) {
-    auto f = BgCardFactory();
-    auto damaged_golem = f.get_card("Damaged Golem");
-    b1->insert_card(death_pos, damaged_golem);
+    basic_summon("Damaged Golem", b1, b2);
+    // auto f = BgCardFactory();
+    // auto damaged_golem = f.get_card("Damaged Golem");
+    // b1->insert_card(death_pos, damaged_golem);
 }
 
 void HarvestGolemGolden::do_deathrattle(Board* b1, Board* b2) {

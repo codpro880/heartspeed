@@ -5,7 +5,7 @@ public:
     using BgBaseCard::BgBaseCard;
     virtual void do_deathrattle(Board* b1, Board* b2) override = 0;
     virtual std::shared_ptr<BgBaseCard> get_copy() override = 0; // boilerplate that every drattle needs...
-    
+    void basic_summon(std::string cardname, Board* b1, Board* b2);
 };
 
 class FiendishServant : public DeathrattleCard {

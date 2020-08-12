@@ -142,6 +142,23 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<RatPackGolden>(*this); } // boilerplate that every drattle needs...
 };
 
+class ReplicatingMenace : public DeathrattleCard {
+public:
+    ReplicatingMenace() : DeathrattleCard(3, "NEUTRAL", 4, 1, "Replicating Menace",
+					  "['DEATHRATTLE', 'MODULAR']", "MECHANICAL", "RARE", 3, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ReplicatingMenace>(*this); } // boilerplate that every drattle needs...
+};
+
+class ReplicatingMenaceGolden : public DeathrattleCard {
+public:
+    ReplicatingMenaceGolden() : DeathrattleCard(6, "NEUTRAL", 4, 2, "Replicating Menace (Golden)",
+						"['DEATHRATTLE', 'MODULAR']", "MECHANICAL", "RARE", 3, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ReplicatingMenaceGolden>(*this); } // boilerplate that every drattle needs...
+};
+
+
 class Scallywag : public DeathrattleCard {
 public:
     Scallywag() : DeathrattleCard(2, "NEUTRAL", 1, 1, "Scallywag",

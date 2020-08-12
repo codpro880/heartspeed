@@ -53,25 +53,11 @@ void ImprisonerGolden::do_deathrattle(Board* b1, Board* b2) {
 }
 
 void InfestedWolf::do_deathrattle(Board* b1, Board* b2) {
-    auto spots_left = 7 - b1->length();
-    auto spots_to_fill = 2 < spots_left ? 2 : spots_left;
-
-    auto f = BgCardFactory();
-    for (int i = 0; i < spots_to_fill; i++) {
-	auto rat = f.get_card("Spider");
-	b1->insert_card(death_pos + i, rat);
-    }
+    multi_summon("Spider", 2, b1, b2);
 }
 
 void InfestedWolfGolden::do_deathrattle(Board* b1, Board* b2) {
-    auto spots_left = 7 - b1->length();
-    auto spots_to_fill = 2 < spots_left ? 2 : spots_left;
-
-    auto f = BgCardFactory();
-    for (int i = 0; i < spots_to_fill; i++) {
-	auto rat = f.get_card("Spider (Golden)");
-	b1->insert_card(death_pos + i, rat);
-    }
+    multi_summon("Spider (Golden)", 2, b1, b2);
 }
 
 void KaboomBot::do_deathrattle(Board* b1, Board* b2) {    
@@ -110,24 +96,23 @@ void MecharooGolden::do_deathrattle(Board* b1, Board* b2) {
 }
 
 void RatPack::do_deathrattle(Board* b1, Board* b2) {
-    // Insert to the right the attack val or # spots remaining,
-    // whichever is less
     auto attack = get_attack();
     multi_summon("Rat", attack, b1, b2);
 }
 
 void RatPackGolden::do_deathrattle(Board* b1, Board* b2) {
-    // Insert to the right the attack val or # spots remaining,
-    // whichever is less
     auto attack = get_attack();
-    auto spots_left = 7 - b1->length();
-    auto spots_to_fill = attack < spots_left ? attack : spots_left;
+    multi_summon("Rat (Golden)", attack, b1, b2);
+}
 
-    auto f = BgCardFactory();
-    for (int i = 0; i < spots_to_fill; i++) {
-	auto rat = f.get_card("Rat (Golden)");
-	b1->insert_card(death_pos + i, rat);
-    }    
+void ReplicatingMenace::do_deathrattle(Board* b1, Board* b2) {
+    auto attack = get_attack();
+    multi_summon("Microbot", 3, b1, b2);
+}
+
+void ReplicatingMenaceGolden::do_deathrattle(Board* b1, Board* b2) {
+    auto attack = get_attack();
+    multi_summon("Microbot (Golden)", 3, b1, b2);
 }
 
 void Scallywag::do_deathrattle(Board* b1, Board* b2) {

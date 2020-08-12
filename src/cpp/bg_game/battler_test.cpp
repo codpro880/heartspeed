@@ -279,8 +279,6 @@ TEST(Battler, ImprisonerGoldenDrattle) {
 // TEST(Battler, InfestedWolfGoldenDrattle) {
 // }
 
-
-
 TEST(Battler, KaboomBotDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -510,6 +508,14 @@ TEST(Battler, RatPackDrattleSummonsCorrectNumOfRats) {
     EXPECT_EQ(rat_count, 5);
     EXPECT_EQ(razor_count, 2);
 }
+
+// So similar to ratpack we skip it for now...
+// TEST(Battler, ReplicatingMenaceDrattle) {
+// }
+
+// So similar to ratpack we skip it for now...
+// TEST(Battler, ReplicatingMenaceGoldenDrattle) {
+// }
 
 TEST(Battler, ScallywagDrattle) {
     auto f = BgCardFactory();

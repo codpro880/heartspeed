@@ -322,8 +322,12 @@ void BgCardFactory::init_cards() {
     cards.emplace("Micro Machine (Golden)", micro_machine_gold);
     // cards.emplace("Micro Machine (Golden)", BgBaseCard(2, "NEUTRAL", 2, 4, "Micro Machine (Golden)",
     // 						       "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
-    // cards.emplace("Microbot (Golden)", BgBaseCard(2, "NEUTRAL", 1, 2, "Microbot (Golden)",
-    // 						  "", "MECHANICAL", "", 1, "MINION"));
+    std::shared_ptr<BgBaseCard> microbot(new BgBaseCard(1, "NEUTRAL", 1, 1, "Microbot",
+							"", "MECHANICAL", "", 1, "MINION"));
+    cards.emplace("Microbot", microbot);
+    std::shared_ptr<BgBaseCard> microbot_gold(new BgBaseCard(2, "NEUTRAL", 1, 2, "Microbot",
+							     "", "MECHANICAL", "", 1, "MINION"));
+    cards.emplace("Microbot (Golden)", microbot_gold);
     std::shared_ptr<BgBaseCard> macaw(new BgBaseCard(3, "NEUTRAL", 3, 2, "Monstrous Macaw",
     						     "['TRIGGER_VISUAL']", "BEAST", "", 3, "MINION"));
     cards.emplace("Monstrous Macaw" , macaw);

@@ -43,6 +43,28 @@ void ImprisonerGolden::do_deathrattle(Board* b1, Board* b2) {
     b1->insert_card(death_pos, imp);
 }
 
+void InfestedWolf::do_deathrattle(Board* b1, Board* b2) {
+    auto spots_left = 7 - b1->length();
+    auto spots_to_fill = 2 < spots_left ? attack : spots_left;
+
+    auto f = BgCardFactory();
+    for (int i = 0; i < spots_to_fill; i++) {
+	auto rat = f.get_card("Spider");
+	b1->insert_card(death_pos + i, rat);
+    }
+}
+
+void InfestedWolfGolden::do_deathrattle(Board* b1, Board* b2) {
+    auto spots_left = 7 - b1->length();
+    auto spots_to_fill = 2 < spots_left ? attack : spots_left;
+
+    auto f = BgCardFactory();
+    for (int i = 0; i < spots_to_fill; i++) {
+	auto rat = f.get_card("Spider (Golden)");
+	b1->insert_card(death_pos + i, rat);
+    }
+}
+
 void KaboomBot::do_deathrattle(Board* b1, Board* b2) {    
     if (b2->length() == 0) {
 	return;
@@ -79,7 +101,6 @@ void KindlyGrandmotherGolden::do_deathrattle(Board* b1, Board* b2) {
 void Mecharoo::do_deathrattle(Board* b1, Board* b2) {
     auto f = BgCardFactory();
     auto joebot = f.get_card("Jo-E Bot");
-    std::cout << "DEATH POS IN DRAT: " << death_pos << std::endl;    
     b1->insert_card(death_pos, joebot);
 }
 
@@ -100,7 +121,7 @@ void RatPack::do_deathrattle(Board* b1, Board* b2) {
     for (int i = 0; i < spots_to_fill; i++) {
 	auto rat = f.get_card("Rat");
 	b1->insert_card(death_pos + i, rat);
-    }    
+    }
 }
 
 void RatPackGolden::do_deathrattle(Board* b1, Board* b2) {

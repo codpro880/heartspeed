@@ -230,6 +230,8 @@ void BgCardFactory::init_cards() {
     // 					  "['SECRET']", "", "EPIC", -1, "SPELL"));
     // cards.emplace("Infested Wolf (Golden)", BgBaseCard(6, "HUNTER", 4, 6, "Infested Wolf (Golden)",
     // 						       "['DEATHRATTLE']", "BEAST", "RARE", 3, "MINION"));
+    cards.emplace("Infested Wolf", std::make_shared<InfestedWolf>());
+    cards.emplace("Infested Wolf (Golden)", std::make_shared<InfestedWolfGolden>());
     std::shared_ptr<BgBaseCard> imp(new BgBaseCard(1, "WARLOCK", 1, 1, "Imp",
 						   "", "DEMON", "", 1, "MINION"));
     cards.emplace("Imp", imp);
@@ -491,6 +493,12 @@ void BgCardFactory::init_cards() {
     cards.emplace("Spawn of Nzoth (Golden)", std::make_shared<SpawnOfNzothGolden>());
     // cards.emplace("Spawn of N'Zoth (Golden)", BgBaseCard(4, "NEUTRAL", 3, 4, "Spawn of N'Zoth (Golden)",
     // 							 "['DEATHRATTLE']", "", "COMMON", 2, "MINION"));
+    std::shared_ptr<BgBaseCard> spider(new BgBaseCard(1, "HUNTER", 1, 1, "Spider",
+						      "", "BEAST", "", 1, "MINION"));
+    cards.emplace("Spider", spider);
+    std::shared_ptr<BgBaseCard> spider_gold(new BgBaseCard(2, "HUNTER", 1, 2, "Spider",
+							   "", "BEAST", "", 1, "MINION"));
+    cards.emplace("Spider (Golden)", spider_gold);
     // cards.emplace("Spider (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Spider (Golden)",
     // 						"", "BEAST", "", 1, "MINION"));
     // cards.emplace("Splitting Image", BgBaseCard(-1, "MAGE", 3, -1, "Splitting Image",

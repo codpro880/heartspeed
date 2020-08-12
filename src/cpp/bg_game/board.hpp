@@ -57,43 +57,31 @@ public:
 	for (auto c : cards) {
 	    if (c->is_dead()) {
 		// auto death_pos = this->get_pos(c.get());
-		std::cout << "Name: " << c->get_name() << std::endl;
 		auto death_pos = this->get_pos(c);
-		std::cout << "Death pos: " << death_pos << std::endl;
 		c->set_death_pos(death_pos);
-		std::cout << "Set death." << std::endl;
 		deathrattle_q.push(c);
-		std::cout << "Pushed to queue." << std::endl;
 		to_remove.push(c);
 	    }
 	}
 	while (!to_remove.empty()) {
 	    auto front = to_remove.front();
-	    std::cout << "Removed " << front->get_name() << std::endl;
 	    this->remove(front);
 	    to_remove.pop();
 	}
     }
     void do_deathrattles(Board* other) {
-	std::cout << "Doin drattles" << std::endl;
 	bool at_least_one_dead = false;
 	while (!deathrattle_q.empty()) {
 	    at_least_one_dead = true;
 	    auto card = deathrattle_q.front();
 	    deathrattle_q.pop();
-	    std::cout << "Drattle name: " << card->get_name() << std::endl;
 	    card->do_deathrattle(this, other);
 	}
-	std::cout << "Done drats." << std::endl;
 	if (at_least_one_dead) {
 	    // Deathrattles can cause other deaths to occur
-	    std::cout << "Markin b1" << std::endl;
 	    remove_and_mark_dead();
-	    std::cout << "Markin b2" << std::endl;
 	    other->remove_and_mark_dead();
-	    std::cout << "b1 drats" << std::endl;
 	    do_deathrattles(other);
-	    std::cout << "b2 drats" << std::endl;
 	    other->do_deathrattles(this);
 	}
     }

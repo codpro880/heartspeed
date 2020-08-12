@@ -228,8 +228,6 @@ void BgCardFactory::init_cards() {
     // I
     // cards.emplace("Ice Block", BgBaseCard(-1, "MAGE", 3, -1, "Ice Block",
     // 					  "['SECRET']", "", "EPIC", -1, "SPELL"));
-    // cards.emplace("Infested Wolf (Golden)", BgBaseCard(6, "HUNTER", 4, 6, "Infested Wolf (Golden)",
-    // 						       "['DEATHRATTLE']", "BEAST", "RARE", 3, "MINION"));
     cards.emplace("Infested Wolf", std::make_shared<InfestedWolf>());
     cards.emplace("Infested Wolf (Golden)", std::make_shared<InfestedWolfGolden>());
     std::shared_ptr<BgBaseCard> imp(new BgBaseCard(1, "WARLOCK", 1, 1, "Imp",

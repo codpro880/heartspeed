@@ -27,27 +27,18 @@ void FiendishServantGolden::do_deathrattle(Board* b1, Board*b2) {
 
 void HarvestGolem::do_deathrattle(Board* b1, Board* b2) {
     basic_summon("Damaged Golem", b1, b2);
-    // auto f = BgCardFactory();
-    // auto damaged_golem = f.get_card("Damaged Golem");
-    // b1->insert_card(death_pos, damaged_golem);
 }
 
 void HarvestGolemGolden::do_deathrattle(Board* b1, Board* b2) {
-    auto f = BgCardFactory();
-    auto damaged_golem = f.get_card("Damaged Golem (Golden)");
-    b1->insert_card(death_pos, damaged_golem);
+    basic_summon("Damaged Golem (Golden)", b1, b2);
 }
 
 void Imprisoner::do_deathrattle(Board* b1, Board* b2) {
-    auto f = BgCardFactory();
-    auto imp = f.get_card("Imp");
-    b1->insert_card(death_pos, imp);
+    basic_summon("Imp", b1, b2);
 }
 
 void ImprisonerGolden::do_deathrattle(Board* b1, Board* b2) {
-    auto f = BgCardFactory();
-    auto imp = f.get_card("Imp (Golden)");
-    b1->insert_card(death_pos, imp);
+    basic_summon("Imp (Golden)", b1, b2);
 }
 
 void InfestedWolf::do_deathrattle(Board* b1, Board* b2) {
@@ -91,30 +82,20 @@ void KaboomBotGolden::do_deathrattle(Board* b1, Board* b2) {
     b2->do_deathrattles(b2);
 }
 
-
 void KindlyGrandmother::do_deathrattle(Board* b1, Board* b2) {
-    auto f = BgCardFactory();
-    auto bbw = f.get_card("Big Bad Wolf");
-    b1->insert_card(death_pos, bbw);
+    basic_summon("Big Bad Wolf", b1, b2);
 }
 
 void KindlyGrandmotherGolden::do_deathrattle(Board* b1, Board* b2) {
-    auto f = BgCardFactory();
-    auto bbw = f.get_card("Big Bad Wolf (Golden)");
-    b1->insert_card(death_pos, bbw);
+    basic_summon("Big Bad Wolf (Golden)", b1, b2);
 }
 
-
 void Mecharoo::do_deathrattle(Board* b1, Board* b2) {
-    auto f = BgCardFactory();
-    auto joebot = f.get_card("Jo-E Bot");
-    b1->insert_card(death_pos, joebot);
+    basic_summon("Jo-E Bot", b1, b2);
 }
 
 void MecharooGolden::do_deathrattle(Board* b1, Board* b2) {
-    auto f = BgCardFactory();
-    auto joebot = f.get_card("Jo-E Bot (Golden)");
-    b1->insert_card(death_pos, joebot);
+    basic_summon("Jo-E Bot (Golden)", b1, b2);
 }
 
 void RatPack::do_deathrattle(Board* b1, Board* b2) {

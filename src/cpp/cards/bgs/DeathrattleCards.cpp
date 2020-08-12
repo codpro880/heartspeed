@@ -12,6 +12,17 @@ void DeathrattleCard::basic_summon(std::string cardname, Board* b1, Board* b2) {
     b1->insert_card(death_pos, summon);
 }
 
+void DeathrattleCard::multi_summon(std::string cardname, int num_summons, Board* b1, Board* b2) {
+    auto spots_left = 7 - b1->length();
+    auto spots_to_fill = num_summons < spots_left ? num_summons : spots_left;
+
+    auto f = BgCardFactory();
+    for (int i = 0; i < spots_to_fill; i++) {
+	auto rat = f.get_card(cardname);
+	b1->insert_card(death_pos + i, rat);
+    }    
+}
+
 void FiendishServant::do_deathrattle(Board* b1, Board*b2) {
     auto buffed_pos = rand() % b1->length();
     auto card = b1->get_cards()[buffed_pos];
@@ -43,7 +54,7 @@ void ImprisonerGolden::do_deathrattle(Board* b1, Board* b2) {
 
 void InfestedWolf::do_deathrattle(Board* b1, Board* b2) {
     auto spots_left = 7 - b1->length();
-    auto spots_to_fill = 2 < spots_left ? attack : spots_left;
+    auto spots_to_fill = 2 < spots_left ? 2 : spots_left;
 
     auto f = BgCardFactory();
     for (int i = 0; i < spots_to_fill; i++) {
@@ -54,7 +65,7 @@ void InfestedWolf::do_deathrattle(Board* b1, Board* b2) {
 
 void InfestedWolfGolden::do_deathrattle(Board* b1, Board* b2) {
     auto spots_left = 7 - b1->length();
-    auto spots_to_fill = 2 < spots_left ? attack : spots_left;
+    auto spots_to_fill = 2 < spots_left ? 2 : spots_left;
 
     auto f = BgCardFactory();
     for (int i = 0; i < spots_to_fill; i++) {
@@ -102,14 +113,7 @@ void RatPack::do_deathrattle(Board* b1, Board* b2) {
     // Insert to the right the attack val or # spots remaining,
     // whichever is less
     auto attack = get_attack();
-    auto spots_left = 7 - b1->length();
-    auto spots_to_fill = attack < spots_left ? attack : spots_left;
-
-    auto f = BgCardFactory();
-    for (int i = 0; i < spots_to_fill; i++) {
-	auto rat = f.get_card("Rat");
-	b1->insert_card(death_pos + i, rat);
-    }
+    multi_summon("Rat", attack, b1, b2);
 }
 
 void RatPackGolden::do_deathrattle(Board* b1, Board* b2) {

@@ -18,6 +18,21 @@ std::shared_ptr<BgBaseCard> BgCardFactory::get_card(std::string name) {
     }
 }
 
+std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_cost(int cost) {
+    std::vector<std::shared_ptr<BgBaseCard> > res;
+    auto it = cards.begin();
+    while (it != cards.end()) {
+	auto card = it->second;
+	if (card->get_cost() == cost) {
+	    // TODO: Not copying here may improve performance.
+	    // Maybe only return names?
+	    res.push_back(card->get_copy());
+	}
+	it++;
+    }
+    return res;
+}
+
 std::shared_ptr<BgBaseCard> BgCardFactory::init_card(int attack,
 				      std::string card_class,
 				      int cost,
@@ -138,8 +153,10 @@ void BgCardFactory::init_cards() {
     // std::shared_ptr<FiendishServant> fiendish_servant(new FiendishServant());
     // cards.emplace("Fiendish Servant", fiendish_servant);
     cards.emplace("Fiendish Servant", std::make_shared<FiendishServant>());
-    cards.emplace("Fiendish Servant (Golden)",
-		  std::make_shared<FiendishServantGolden>());
+    cards.emplace("Fiendish Servant (Golden)", std::make_shared<FiendishServantGolden>());
+    std::shared_ptr<BgBaseCard> finkle_einhorn(new BgBaseCard(3, "NEUTRAL", 3, 3, "Finkle Einhorn",
+							      "", "", "COMMON", 1, "MINION"));
+    cards.emplace("Finkle Einhorn", finkle_einhorn);
     // cards.emplace("Fiendish Servant", std::make_shared<FiendishServant>());
     // cards.emplace("Fiendish Servant (Golden)", BgBaseCard(4, "WARLOCK", 1, 2, "Fiendish Servant (Golden)",
     // 							  "['DEATHRATTLE']", "DEMON", "COMMON", 1, "MINION"));
@@ -228,8 +245,8 @@ void BgCardFactory::init_cards() {
     // I
     // cards.emplace("Ice Block", BgBaseCard(-1, "MAGE", 3, -1, "Ice Block",
     // 					  "['SECRET']", "", "EPIC", -1, "SPELL"));
-    // cards.emplace("Infested Wolf (Golden)", BgBaseCard(6, "HUNTER", 4, 6, "Infested Wolf (Golden)",
-    // 						       "['DEATHRATTLE']", "BEAST", "RARE", 3, "MINION"));
+    cards.emplace("Infested Wolf", std::make_shared<InfestedWolf>());
+    cards.emplace("Infested Wolf (Golden)", std::make_shared<InfestedWolfGolden>());
     std::shared_ptr<BgBaseCard> imp(new BgBaseCard(1, "WARLOCK", 1, 1, "Imp",
 						   "", "DEMON", "", 1, "MINION"));
     cards.emplace("Imp", imp);
@@ -322,8 +339,12 @@ void BgCardFactory::init_cards() {
     cards.emplace("Micro Machine (Golden)", micro_machine_gold);
     // cards.emplace("Micro Machine (Golden)", BgBaseCard(2, "NEUTRAL", 2, 4, "Micro Machine (Golden)",
     // 						       "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
-    // cards.emplace("Microbot (Golden)", BgBaseCard(2, "NEUTRAL", 1, 2, "Microbot (Golden)",
-    // 						  "", "MECHANICAL", "", 1, "MINION"));
+    std::shared_ptr<BgBaseCard> microbot(new BgBaseCard(1, "NEUTRAL", 1, 1, "Microbot",
+							"", "MECHANICAL", "", 1, "MINION"));
+    cards.emplace("Microbot", microbot);
+    std::shared_ptr<BgBaseCard> microbot_gold(new BgBaseCard(2, "NEUTRAL", 1, 2, "Microbot",
+							     "", "MECHANICAL", "", 1, "MINION"));
+    cards.emplace("Microbot (Golden)", microbot_gold);
     std::shared_ptr<BgBaseCard> macaw(new BgBaseCard(3, "NEUTRAL", 3, 2, "Monstrous Macaw",
     						     "['TRIGGER_VISUAL']", "BEAST", "", 3, "MINION"));
     cards.emplace("Monstrous Macaw" , macaw);
@@ -381,10 +402,8 @@ void BgCardFactory::init_cards() {
     // P
     // cards.emplace("Pack Leader (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Pack Leader (Golden)",
     // 						     "['TRIGGER_VISUAL']", "", "RARE", 3, "MINION"));
-    // cards.emplace("Piloted Shredder", BgBaseCard(4, "NEUTRAL", 4, 3, "Piloted Shredder",
-    // 	                                         "['DEATHRATTLE']", "MECHANICAL", "COMMON", 3, "MINION"));
-    // cards.emplace("Piloted Shredder (Golden)", BgBaseCard(8, "NEUTRAL", 4, 6, "Piloted Shredder (Golden)",
-    // 							  "['DEATHRATTLE']", "MECHANICAL", "COMMON", 3, "MINION"));
+    cards.emplace("Piloted Shredder", std::make_shared<PilotedShredder>());
+    cards.emplace("Piloted Shredder (Golden)", std::make_shared<PilotedShredderGolden>());
     // cards.emplace("Pogo-Hopper", BgBaseCard(1, "ROGUE", 1, 1, "Pogo-Hopper",
     // 					    "['BATTLECRY']", "MECHANICAL", "RARE", 2, "MINION"));
     // cards.emplace("Pogo-Hopper (Golden)", BgBaseCard(2, "ROGUE", 1, 2, "Pogo-Hopper (Golden)",
@@ -491,6 +510,12 @@ void BgCardFactory::init_cards() {
     cards.emplace("Spawn of Nzoth (Golden)", std::make_shared<SpawnOfNzothGolden>());
     // cards.emplace("Spawn of N'Zoth (Golden)", BgBaseCard(4, "NEUTRAL", 3, 4, "Spawn of N'Zoth (Golden)",
     // 							 "['DEATHRATTLE']", "", "COMMON", 2, "MINION"));
+    std::shared_ptr<BgBaseCard> spider(new BgBaseCard(1, "HUNTER", 1, 1, "Spider",
+						      "", "BEAST", "", 1, "MINION"));
+    cards.emplace("Spider", spider);
+    std::shared_ptr<BgBaseCard> spider_gold(new BgBaseCard(2, "HUNTER", 1, 2, "Spider",
+							   "", "BEAST", "", 1, "MINION"));
+    cards.emplace("Spider (Golden)", spider_gold);
     // cards.emplace("Spider (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Spider (Golden)",
     // 						"", "BEAST", "", 1, "MINION"));
     // cards.emplace("Splitting Image", BgBaseCard(-1, "MAGE", 3, -1, "Splitting Image",
@@ -507,6 +532,8 @@ void BgCardFactory::init_cards() {
     // T
     // cards.emplace("Tabbycat (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Tabbycat (Golden)",
     // 						  "", "BEAST", "", 1, "MINION"));
+    cards.emplace("The Beast", std::make_shared<TheBeast>());
+    cards.emplace("The Beast (Golden)", std::make_shared<TheBeastGolden>());
     // cards.emplace("The Beast (Golden)", BgBaseCard(18, "NEUTRAL", 6, 14, "The Beast (Golden)",
     // 						   "['DEATHRATTLE']", "BEAST", "LEGENDARY", 3, "MINION"));
     // cards.emplace("The Tide Razor", BgBaseCard(6, "NEUTRAL", 7, 4, "The Tide Razor",

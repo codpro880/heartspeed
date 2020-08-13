@@ -268,6 +268,19 @@ void UnstableGhoul::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
+void TheBeast::do_deathrattle(Board* b1, Board* b2) {
+    basic_summon(b2);
+}
+
+std::shared_ptr<BgBaseCard> TheBeast::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Finkle Einhorn");
+}
+
+void TheBeastGolden::do_deathrattle(Board* b1, Board* b2) {
+    the_beast.do_deathrattle(b1, b2);
+}
+
 void UnstableGhoulGolden::do_deathrattle(Board* b1, Board* b2) {
     for (int i = 0; i < 2; i++) {
 	ghoul.do_deathrattle(b1, b2);

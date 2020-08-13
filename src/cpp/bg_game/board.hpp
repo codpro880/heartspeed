@@ -53,7 +53,6 @@ public:
     // }
     void remove_and_mark_dead() {
 	std::queue<std::shared_ptr<BgBaseCard> > to_remove;
-	std::cout << "remove and mark" << std::endl;
 	for (auto c : cards) {
 	    if (c->is_dead()) {
 		// auto death_pos = this->get_pos(c.get());

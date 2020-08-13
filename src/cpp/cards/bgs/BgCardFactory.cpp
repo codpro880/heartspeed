@@ -24,6 +24,8 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_cost(int c
     while (it != cards.end()) {
 	auto card = it->second;
 	if (card->get_cost() == cost) {
+	    // TODO: Not copying here may improve performance.
+	    // Maybe only return names?
 	    res.push_back(card->get_copy());
 	}
 	it++;
@@ -151,8 +153,10 @@ void BgCardFactory::init_cards() {
     // std::shared_ptr<FiendishServant> fiendish_servant(new FiendishServant());
     // cards.emplace("Fiendish Servant", fiendish_servant);
     cards.emplace("Fiendish Servant", std::make_shared<FiendishServant>());
-    cards.emplace("Fiendish Servant (Golden)",
-		  std::make_shared<FiendishServantGolden>());
+    cards.emplace("Fiendish Servant (Golden)", std::make_shared<FiendishServantGolden>());
+    std::shared_ptr<BgBaseCard> finkle_einhorn(new BgBaseCard(3, "NEUTRAL", 3, 3, "Finkle Einhorn",
+							      "", "", "COMMON", 1, "MINION"));
+    cards.emplace("Finkle Einhorn", finkle_einhorn);
     // cards.emplace("Fiendish Servant", std::make_shared<FiendishServant>());
     // cards.emplace("Fiendish Servant (Golden)", BgBaseCard(4, "WARLOCK", 1, 2, "Fiendish Servant (Golden)",
     // 							  "['DEATHRATTLE']", "DEMON", "COMMON", 1, "MINION"));
@@ -528,6 +532,8 @@ void BgCardFactory::init_cards() {
     // T
     // cards.emplace("Tabbycat (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Tabbycat (Golden)",
     // 						  "", "BEAST", "", 1, "MINION"));
+    cards.emplace("The Beast", std::make_shared<TheBeast>());
+    cards.emplace("The Beast (Golden)", std::make_shared<TheBeastGolden>());
     // cards.emplace("The Beast (Golden)", BgBaseCard(18, "NEUTRAL", 6, 14, "The Beast (Golden)",
     // 						   "['DEATHRATTLE']", "BEAST", "LEGENDARY", 3, "MINION"));
     // cards.emplace("The Tide Razor", BgBaseCard(6, "NEUTRAL", 7, 4, "The Tide Razor",

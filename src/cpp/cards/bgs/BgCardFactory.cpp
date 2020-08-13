@@ -385,10 +385,8 @@ void BgCardFactory::init_cards() {
     // P
     // cards.emplace("Pack Leader (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Pack Leader (Golden)",
     // 						     "['TRIGGER_VISUAL']", "", "RARE", 3, "MINION"));
-    // cards.emplace("Piloted Shredder", BgBaseCard(4, "NEUTRAL", 4, 3, "Piloted Shredder",
-    // 	                                         "['DEATHRATTLE']", "MECHANICAL", "COMMON", 3, "MINION"));
-    // cards.emplace("Piloted Shredder (Golden)", BgBaseCard(8, "NEUTRAL", 4, 6, "Piloted Shredder (Golden)",
-    // 							  "['DEATHRATTLE']", "MECHANICAL", "COMMON", 3, "MINION"));
+    // cards.emplace("Piloted Shredder", std::make_shared<PilotedShredder>());
+    // cards.emplace("Piloted Shredder (Golden)", std::make_shared<PilotedShredderGolden>());
     // cards.emplace("Pogo-Hopper", BgBaseCard(1, "ROGUE", 1, 1, "Pogo-Hopper",
     // 					    "['BATTLECRY']", "MECHANICAL", "RARE", 2, "MINION"));
     // cards.emplace("Pogo-Hopper (Golden)", BgBaseCard(2, "ROGUE", 1, 2, "Pogo-Hopper (Golden)",

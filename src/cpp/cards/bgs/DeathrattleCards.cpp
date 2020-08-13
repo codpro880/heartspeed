@@ -6,10 +6,9 @@
 #include "../../bg_game/board.hpp"
 #include "../../bg_game/battler.hpp"
 
-void DeathrattleCard::basic_summon(std::string cardname, Board* b1, Board* b2) {
-    auto f = BgCardFactory();
-    auto summon = f.get_card(cardname);
-    b1->insert_card(death_pos, summon);
+void DeathrattleCard::basic_summon(Board* b1) {
+    auto summoned_card = summon();
+    b1->insert_card(death_pos, summoned_card);
 }
 
 void DeathrattleCard::multi_summon(std::string cardname, int num_summons, Board* b1, Board* b2) {
@@ -37,20 +36,52 @@ void FiendishServantGolden::do_deathrattle(Board* b1, Board*b2) {
 }
 
 void HarvestGolem::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon("Damaged Golem", b1, b2);
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> HarvestGolem::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Damaged Golem");
 }
 
 void HarvestGolemGolden::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon("Damaged Golem (Golden)", b1, b2);
+    basic_summon(b1);
 }
+
+std::shared_ptr<BgBaseCard> HarvestGolemGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Damaged Golem (Golden)");
+}
+
+// void HarvestGolemGolden::do_deathrattle(Board* b1, Board* b2) {
+//     basic_summon("Damaged Golem (Golden)", b1, b2);
+// }
 
 void Imprisoner::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon("Imp", b1, b2);
+    basic_summon(b1);
 }
 
-void ImprisonerGolden::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon("Imp (Golden)", b1, b2);
+std::shared_ptr<BgBaseCard> Imprisoner::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Imp");
 }
+
+// void Imprisoner::do_deathrattle(Board* b1, Board* b2) {
+//     basic_summon("Imp", b1, b2);
+// }
+
+void ImprisonerGolden::do_deathrattle(Board* b1, Board* b2) {
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> ImprisonerGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Imp (Golden)");
+}
+
+// void ImprisonerGolden::do_deathrattle(Board* b1, Board* b2) {
+//     basic_summon("Imp (Golden)", b1, b2);
+// }
 
 void InfestedWolf::do_deathrattle(Board* b1, Board* b2) {
     multi_summon("Spider", 2, b1, b2);
@@ -79,21 +110,62 @@ void KaboomBotGolden::do_deathrattle(Board* b1, Board* b2) {
     b2->do_deathrattles(b2);
 }
 
+
 void KindlyGrandmother::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon("Big Bad Wolf", b1, b2);
+    basic_summon(b1);
 }
+
+std::shared_ptr<BgBaseCard> KindlyGrandmother::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Big Bad Wolf");
+}
+
+// void KindlyGrandmother::do_deathrattle(Board* b1, Board* b2) {
+//     basic_summon("Big Bad Wolf", b1, b2);
+// }
 
 void KindlyGrandmotherGolden::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon("Big Bad Wolf (Golden)", b1, b2);
+    basic_summon(b1);
 }
+
+std::shared_ptr<BgBaseCard> KindlyGrandmotherGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Big Bad Wolf (Golden)");
+}
+
+// void KindlyGrandmotherGolden::do_deathrattle(Board* b1, Board* b2) {
+//     basic_summon("Big Bad Wolf (Golden)", b1, b2);
+// }
 
 void Mecharoo::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon("Jo-E Bot", b1, b2);
+    basic_summon(b1);
 }
 
-void MecharooGolden::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon("Jo-E Bot (Golden)", b1, b2);
+std::shared_ptr<BgBaseCard> Mecharoo::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Jo-E Bot");
 }
+
+// void Mecharoo::do_deathrattle(Board* b1, Board* b2) {
+//     basic_summon("Jo-E Bot", b1, b2);
+// }
+
+void MecharooGolden::do_deathrattle(Board* b1, Board* b2) {
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> MecharooGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Jo-E Bot (Golden)");
+}
+
+// void MecharooGolden::do_deathrattle(Board* b1, Board* b2) {
+//     basic_summon("Jo-E Bot (Golden)", b1, b2);
+// }
+
+// void PilotedShredder::do_deathrattle(Board* b1, Board b2) {
+//     multi_summon(b1, b2);
+// }
 
 void RatPack::do_deathrattle(Board* b1, Board* b2) {
     auto attack = get_attack();

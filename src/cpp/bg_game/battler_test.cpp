@@ -416,6 +416,34 @@ TEST(Battler, MecharooGoldenDrattle) {
     EXPECT_EQ(res.damage_taken, 0);
 }
 
+// TEST(Battler, PilotedShredderDrattle) {
+//     auto f = BgCardFactory();
+//     auto ps = f.get_card("Piloted Shredder");
+//     ps->set_attack(6);
+//     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+// 	{
+// 	 ps
+// 	};
+//     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+// 	{
+// 	 f.get_card("Piloted Shredder (Golden)")
+// 	};
+//     std::unique_ptr<Board> board1(new Board(p1_cards));
+//     std::unique_ptr<Board> board2(new Board(p2_cards));
+//     BoardBattler().battle_boards(0, board1.get(), board2.get());
+
+//     auto b1_cards = board1->get_cards();
+//     auto b2_cards = board2->get_cards();
+//     EXPECT_EQ(b1_cards.size(), (unsigned)1);
+//     EXPECT_EQ(b2_cards.size(), (unsigned)2);
+//     for (auto c : b1_cards) {
+// 	EXPECT_EQ(c->get_cost(), 2);
+//     }
+//     for (auto c : b2_cards) {
+// 	EXPECT_EQ(c->get_cost(), 2);
+//     }
+// }
+
 TEST(Battler, RatPackDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards

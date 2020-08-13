@@ -7,8 +7,9 @@
 #include "../../bg_game/battler.hpp"
 
 void DeathrattleCard::basic_summon(Board* b1) {
-    auto summoned_card = summon();
-    b1->insert_card(death_pos, summoned_card);
+    // auto summoned_card = summon();
+    // b1->insert_card(death_pos, summoned_card);
+    multi_summon(1, b1);
 }
 
 void DeathrattleCard::multi_summon(int num_summons, Board* b1) {
@@ -148,9 +149,24 @@ std::shared_ptr<BgBaseCard> MecharooGolden::summon() {
     return f.get_card("Jo-E Bot (Golden)");
 }
 
-// void PilotedShredder::do_deathrattle(Board* b1, Board b2) {
-//     multi_summon(b1, b2);
-// }
+void PilotedShredder::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(1, b1);
+}
+
+std::shared_ptr<BgBaseCard> PilotedShredder::summon() {
+    auto f = BgCardFactory();
+    auto two_cost_cards = f.get_cards_of_cost(2);
+    auto card = two_cost_cards[rand() % two_cost_cards.size()];
+    return card;
+}
+
+void PilotedShredderGolden::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(2, b1);
+}
+
+std::shared_ptr<BgBaseCard> PilotedShredderGolden::summon() {
+    return shredder.summon();
+}
 
 void RatPack::do_deathrattle(Board* b1, Board* b2) {
     auto attack = get_attack();

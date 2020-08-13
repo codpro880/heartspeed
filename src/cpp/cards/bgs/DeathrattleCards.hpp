@@ -156,6 +156,8 @@ public:
     virtual void do_deathrattle(Board* b1, Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<PilotedShredderGolden>(*this); } // boilerplate that every drattle needs...
     std::shared_ptr<BgBaseCard> summon() override;
+private:
+    PilotedShredder shredder;
 };
 
 class RatPack : public DeathrattleCard {

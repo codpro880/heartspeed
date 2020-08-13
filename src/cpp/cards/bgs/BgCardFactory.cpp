@@ -18,6 +18,19 @@ std::shared_ptr<BgBaseCard> BgCardFactory::get_card(std::string name) {
     }
 }
 
+std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_cost(int cost) {
+    std::vector<std::shared_ptr<BgBaseCard> > res;
+    auto it = cards.begin();
+    while (it != cards.end()) {
+	auto card = it->second;
+	if (card->get_cost() == cost) {
+	    res.push_back(card->get_copy());
+	}
+	it++;
+    }
+    return res;
+}
+
 std::shared_ptr<BgBaseCard> BgCardFactory::init_card(int attack,
 				      std::string card_class,
 				      int cost,
@@ -385,8 +398,8 @@ void BgCardFactory::init_cards() {
     // P
     // cards.emplace("Pack Leader (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Pack Leader (Golden)",
     // 						     "['TRIGGER_VISUAL']", "", "RARE", 3, "MINION"));
-    // cards.emplace("Piloted Shredder", std::make_shared<PilotedShredder>());
-    // cards.emplace("Piloted Shredder (Golden)", std::make_shared<PilotedShredderGolden>());
+    cards.emplace("Piloted Shredder", std::make_shared<PilotedShredder>());
+    cards.emplace("Piloted Shredder (Golden)", std::make_shared<PilotedShredderGolden>());
     // cards.emplace("Pogo-Hopper", BgBaseCard(1, "ROGUE", 1, 1, "Pogo-Hopper",
     // 					    "['BATTLECRY']", "MECHANICAL", "RARE", 2, "MINION"));
     // cards.emplace("Pogo-Hopper (Golden)", BgBaseCard(2, "ROGUE", 1, 2, "Pogo-Hopper (Golden)",

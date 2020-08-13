@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 #include <unordered_map>
 
 #include "BgBaseCard.hpp"
@@ -9,6 +10,7 @@ class BgCardFactory {
 public:
     BgCardFactory() { init_cards(); }
     std::shared_ptr<BgBaseCard> get_card(std::string name);
+    std::vector<std::shared_ptr<BgBaseCard> > get_cards_of_cost(int cost);
 private:
     void init_cards();
     std::unordered_map<std::string, std::shared_ptr<BgBaseCard> > cards;

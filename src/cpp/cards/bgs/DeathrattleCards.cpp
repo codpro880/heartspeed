@@ -11,14 +11,14 @@ void DeathrattleCard::basic_summon(Board* b1) {
     b1->insert_card(death_pos, summoned_card);
 }
 
-void DeathrattleCard::multi_summon(std::string cardname, int num_summons, Board* b1, Board* b2) {
+void DeathrattleCard::multi_summon(int num_summons, Board* b1) {
     auto spots_left = 7 - b1->length();
     auto spots_to_fill = num_summons < spots_left ? num_summons : spots_left;
 
     auto f = BgCardFactory();
     for (int i = 0; i < spots_to_fill; i++) {
-	auto rat = f.get_card(cardname);
-	b1->insert_card(death_pos + i, rat);
+	auto summoned_card = summon();
+	b1->insert_card(death_pos + i, summoned_card);
     }    
 }
 
@@ -53,10 +53,6 @@ std::shared_ptr<BgBaseCard> HarvestGolemGolden::summon() {
     return f.get_card("Damaged Golem (Golden)");
 }
 
-// void HarvestGolemGolden::do_deathrattle(Board* b1, Board* b2) {
-//     basic_summon("Damaged Golem (Golden)", b1, b2);
-// }
-
 void Imprisoner::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }
@@ -65,10 +61,6 @@ std::shared_ptr<BgBaseCard> Imprisoner::summon() {
     auto f = BgCardFactory();
     return f.get_card("Imp");
 }
-
-// void Imprisoner::do_deathrattle(Board* b1, Board* b2) {
-//     basic_summon("Imp", b1, b2);
-// }
 
 void ImprisonerGolden::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
@@ -84,11 +76,21 @@ std::shared_ptr<BgBaseCard> ImprisonerGolden::summon() {
 // }
 
 void InfestedWolf::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon("Spider", 2, b1, b2);
+    multi_summon(2, b1);
+}
+
+std::shared_ptr<BgBaseCard> InfestedWolf::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Spider");
 }
 
 void InfestedWolfGolden::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon("Spider (Golden)", 2, b1, b2);
+    multi_summon(2, b1);
+}
+
+std::shared_ptr<BgBaseCard> InfestedWolfGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Spider (Golden)");
 }
 
 void KaboomBot::do_deathrattle(Board* b1, Board* b2) {    
@@ -110,7 +112,6 @@ void KaboomBotGolden::do_deathrattle(Board* b1, Board* b2) {
     b2->do_deathrattles(b2);
 }
 
-
 void KindlyGrandmother::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }
@@ -119,10 +120,6 @@ std::shared_ptr<BgBaseCard> KindlyGrandmother::summon() {
     auto f = BgCardFactory();
     return f.get_card("Big Bad Wolf");
 }
-
-// void KindlyGrandmother::do_deathrattle(Board* b1, Board* b2) {
-//     basic_summon("Big Bad Wolf", b1, b2);
-// }
 
 void KindlyGrandmotherGolden::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
@@ -133,10 +130,6 @@ std::shared_ptr<BgBaseCard> KindlyGrandmotherGolden::summon() {
     return f.get_card("Big Bad Wolf (Golden)");
 }
 
-// void KindlyGrandmotherGolden::do_deathrattle(Board* b1, Board* b2) {
-//     basic_summon("Big Bad Wolf (Golden)", b1, b2);
-// }
-
 void Mecharoo::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }
@@ -145,10 +138,6 @@ std::shared_ptr<BgBaseCard> Mecharoo::summon() {
     auto f = BgCardFactory();
     return f.get_card("Jo-E Bot");
 }
-
-// void Mecharoo::do_deathrattle(Board* b1, Board* b2) {
-//     basic_summon("Jo-E Bot", b1, b2);
-// }
 
 void MecharooGolden::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
@@ -159,32 +148,46 @@ std::shared_ptr<BgBaseCard> MecharooGolden::summon() {
     return f.get_card("Jo-E Bot (Golden)");
 }
 
-// void MecharooGolden::do_deathrattle(Board* b1, Board* b2) {
-//     basic_summon("Jo-E Bot (Golden)", b1, b2);
-// }
-
 // void PilotedShredder::do_deathrattle(Board* b1, Board b2) {
 //     multi_summon(b1, b2);
 // }
 
 void RatPack::do_deathrattle(Board* b1, Board* b2) {
     auto attack = get_attack();
-    multi_summon("Rat", attack, b1, b2);
+    multi_summon(attack, b1);
+}
+
+std::shared_ptr<BgBaseCard> RatPack::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Rat");
 }
 
 void RatPackGolden::do_deathrattle(Board* b1, Board* b2) {
     auto attack = get_attack();
-    multi_summon("Rat (Golden)", attack, b1, b2);
+    multi_summon(attack, b1);
+}
+
+std::shared_ptr<BgBaseCard> RatPackGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Rat (Golden)");
 }
 
 void ReplicatingMenace::do_deathrattle(Board* b1, Board* b2) {
-    auto attack = get_attack();
-    multi_summon("Microbot", 3, b1, b2);
+    multi_summon(3, b1);
+}
+
+std::shared_ptr<BgBaseCard> ReplicatingMenace::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Microbot");
 }
 
 void ReplicatingMenaceGolden::do_deathrattle(Board* b1, Board* b2) {
-    auto attack = get_attack();
-    multi_summon("Microbot (Golden)", 3, b1, b2);
+    multi_summon(3, b1);
+}
+
+std::shared_ptr<BgBaseCard> ReplicatingMenaceGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Microbot (Golden)");
 }
 
 void Scallywag::do_deathrattle(Board* b1, Board* b2) {

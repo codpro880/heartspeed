@@ -131,6 +131,24 @@ std::shared_ptr<BgBaseCard> KindlyGrandmotherGolden::summon() {
     return f.get_card("Big Bad Wolf (Golden)");
 }
 
+void MechanoEgg::do_deathrattle(Board* b1, Board* b2) {
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> MechanoEgg::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Robosaur");
+}
+
+void MechanoEggGolden::do_deathrattle(Board* b1, Board* b2) {
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> MechanoEggGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Robosaur (Golden)");
+}
+
 void Mecharoo::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }

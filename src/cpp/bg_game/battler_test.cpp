@@ -379,6 +379,9 @@ TEST(Battler, KindlyGrandmotherGoldenDrattle) {
     EXPECT_EQ(res.damage_taken, 2);
 }
 
+// So similar to other basic drattle summons not going to test
+// TEST(Battler, MechanoEggDrattle) {
+// }
 
 TEST(Battler, MecharooDrattle) {
     auto f = BgCardFactory();
@@ -443,32 +446,6 @@ TEST(Battler, PilotedShredderDrattle) {
 	EXPECT_EQ(c->get_cost(), 2);
     }
 }
-
-TEST(Battler, TheBeastDrattle) {
-    auto f = BgCardFactory();
-    auto card = f.get_card("Murloc Tidehunter");
-    card->set_attack(100);
-    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
-	{
-	 card
-	};
-    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
-	{
-	 f.get_card("The Beast (Golden)")
-	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    BoardBattler().battle_boards(0, board1.get(), board2.get());
-
-    auto b1_cards = board1->get_cards();
-    auto b2_cards = board2->get_cards();
-    EXPECT_EQ(b1_cards.size(), (unsigned)1);
-    EXPECT_EQ(b2_cards.size(), (unsigned)0);
-    for (auto c : b1_cards) {
-	EXPECT_EQ(c->get_name(), "Finkle Einhorn");
-    }
-}
-
 
 TEST(Battler, RatPackDrattle) {
     auto f = BgCardFactory();
@@ -757,6 +734,31 @@ TEST(Battler, SpawnOfNzothGoldenDrattle) {
     // WIll take at least 2 * 3 = 6
     EXPECT_LE(res.damage_taken, 12);
     EXPECT_GE(res.damage_taken, 6);
+}
+
+TEST(Battler, TheBeastDrattle) {
+    auto f = BgCardFactory();
+    auto card = f.get_card("Murloc Tidehunter");
+    card->set_attack(100);
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 card
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("The Beast (Golden)")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    BoardBattler().battle_boards(0, board1.get(), board2.get());
+
+    auto b1_cards = board1->get_cards();
+    auto b2_cards = board2->get_cards();
+    EXPECT_EQ(b1_cards.size(), (unsigned)1);
+    EXPECT_EQ(b2_cards.size(), (unsigned)0);
+    for (auto c : b1_cards) {
+	EXPECT_EQ(c->get_name(), "Finkle Einhorn");
+    }
 }
 
 TEST(Battler, UnstableGhoulDrattle) {

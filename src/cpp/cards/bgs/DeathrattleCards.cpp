@@ -131,6 +131,24 @@ std::shared_ptr<BgBaseCard> KindlyGrandmotherGolden::summon() {
     return f.get_card("Big Bad Wolf (Golden)");
 }
 
+void MechanoEgg::do_deathrattle(Board* b1, Board* b2) {
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> MechanoEgg::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Robosaur");
+}
+
+void MechanoEggGolden::do_deathrattle(Board* b1, Board* b2) {
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> MechanoEggGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Robosaur (Golden)");
+}
+
 void Mecharoo::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }
@@ -204,6 +222,24 @@ void ReplicatingMenaceGolden::do_deathrattle(Board* b1, Board* b2) {
 std::shared_ptr<BgBaseCard> ReplicatingMenaceGolden::summon() {
     auto f = BgCardFactory();
     return f.get_card("Microbot (Golden)");
+}
+
+void SavannahHighmane::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(2, b1);
+}
+
+std::shared_ptr<BgBaseCard> SavannahHighmane::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Hyena");
+}
+
+void SavannahHighmaneGolden::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(2, b1);
+}
+
+std::shared_ptr<BgBaseCard> SavannahHighmaneGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Hyena (Golden)");
 }
 
 void Scallywag::do_deathrattle(Board* b1, Board* b2) {

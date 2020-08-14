@@ -239,6 +239,12 @@ void BgCardFactory::init_cards() {
     cards.emplace("Houndmaster (Golden)", houndmaster_gold);
     // cards.emplace("Houndmaster (Golden)", BgBaseCard(8, "HUNTER", 4, 6, "Houndmaster (Golden)",
     // 						     "['BATTLECRY']", "", "FREE", 3, "MINION"));
+    std::shared_ptr<BgBaseCard> hyena(new BgBaseCard(2, "HUNTER", 2, 2, "Hyena",
+						     "", "BEAST", "", 1,"MINION"));
+    cards.emplace("Hyena", hyena);
+    std::shared_ptr<BgBaseCard> hyena_gold(new BgBaseCard(4, "HUNTER", 2, 4, "Hyena (Golden)",
+							  "", "BEAST", "", 1,"MINION"));
+    cards.emplace("Hyena (Golden)", hyena_gold);
     // cards.emplace("Hyena (Golden)", BgBaseCard(4, "HUNTER", 2, 4, "Hyena (Golden)",
     // 					       "", "BEAST", "", 1,"MINION"));
 
@@ -467,6 +473,8 @@ void BgCardFactory::init_cards() {
     // 						      "['TRIGGER_VISUAL']", "PIRATE", "", 3, "MINION"));
     // cards.emplace("Savannah Highmane (Golden)", BgBaseCard(12, "HUNTER", 6, 10, "Savannah Highmane (Golden)",
     // 							   "['DEATHRATTLE']", "BEAST", "RARE", 4,"MINION"));
+    cards.emplace("Savannah Highmane", std::make_shared<SavannahHighmane>());
+    cards.emplace("Savannah Highmane (Golden)", std::make_shared<SavannahHighmaneGolden>());
     cards.emplace("Scallywag", std::make_shared<Scallywag>());
     cards.emplace("Scallywag (Golden)", std::make_shared<ScallywagGolden>());
     // cards.emplace("Scallywag", BgBaseCard(2, "NEUTRAL", 1, 1, "Scallywag",

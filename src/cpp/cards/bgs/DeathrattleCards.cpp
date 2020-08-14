@@ -224,6 +224,24 @@ std::shared_ptr<BgBaseCard> ReplicatingMenaceGolden::summon() {
     return f.get_card("Microbot (Golden)");
 }
 
+void SavannahHighmane::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(2, b1);
+}
+
+std::shared_ptr<BgBaseCard> SavannahHighmane::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Hyena");
+}
+
+void SavannahHighmaneGolden::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(2, b1);
+}
+
+std::shared_ptr<BgBaseCard> SavannahHighmaneGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Hyena (Golden)");
+}
+
 void Scallywag::do_deathrattle(Board* b1, Board* b2) {
     auto f = BgCardFactory();
     auto sky_pirate = f.get_card("Sky Pirate");

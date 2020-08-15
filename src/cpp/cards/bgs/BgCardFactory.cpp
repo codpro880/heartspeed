@@ -50,6 +50,9 @@ std::shared_ptr<BgBaseCard> BgCardFactory::init_card(int attack,
 
 void BgCardFactory::init_cards() {
     // A
+    std::shared_ptr<BgBaseCard> alleycat(new BgBaseCard(1, "HUNTER", 1, 1, "Alleycat",
+							"['BATTLECRY']", "BEAST", "COMMON", 1, "MINION"));
+    cards.emplace("Alleycat", alleycat);
     std::shared_ptr<BgBaseCard> alleycat_gold(new BgBaseCard(2, "HUNTER", 1, 2, "Alleycat (Golden)",
 							     "['BATTLECRY']", "BEAST", "COMMON", 1, "MINION"));
     cards.emplace("Alleycat (Golden)", alleycat_gold);
@@ -237,8 +240,6 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> houndmaster_gold(new BgBaseCard(8, "HUNTER", 4, 6, "Houndmaster (Golden)",
 								"['BATTLECRY']", "", "FREE", 3, "MINION"));
     cards.emplace("Houndmaster (Golden)", houndmaster_gold);
-    // cards.emplace("Houndmaster (Golden)", BgBaseCard(8, "HUNTER", 4, 6, "Houndmaster (Golden)",
-    // 						     "['BATTLECRY']", "", "FREE", 3, "MINION"));
     std::shared_ptr<BgBaseCard> hyena(new BgBaseCard(2, "HUNTER", 2, 2, "Hyena",
 						     "", "BEAST", "", 1,"MINION"));
     cards.emplace("Hyena", hyena);
@@ -303,12 +304,8 @@ void BgCardFactory::init_cards() {
     // 						 "['TRIGGER_VISUAL']", "", "LEGENDARY", 3, "MINION"));
     cards.emplace("Kindly Grandmother", std::make_shared<KindlyGrandmother>());
     cards.emplace("Kindly Grandmother (Golden)", std::make_shared<KindlyGrandmotherGolden>());
-    // cards.emplace("Kindly Grandmother (Golden)", BgBaseCard(2, "HUNTER", 2, 2, "Kindly Grandmother (Golden)",
-    // 							    "['DEATHRATTLE']", "BEAST", "COMMON", 2, "MINION"));
-    // cards.emplace("King Bagurgle", BgBaseCard(6, "NEUTRAL", 6, 3, "King Bagurgle",
-    // 					      "['BATTLECRY', 'DEATHRATTLE']", "MURLOC", "LEGENDARY", 5, "MINION"));
-    // cards.emplace("King Bagurgle (Golden)", BgBaseCard(12, "NEUTRAL", 6, 6, "King Bagurgle (Golden)",
-    // 						       "['BATTLECRY', 'DEATHRATTLE']", "MURLOC", "LEGENDARY", 5, "MINION"));
+    cards.emplace("King Bagurgle", std::make_shared<KingBagurgle>());
+    cards.emplace("King Bagurgle (Golden)", std::make_shared<KingBagurgleGolden>());
 
     // L
     // cards.emplace("Lightfang", BgBaseCard(2, "NEUTRAL", 6, 2, "Lightfang Enforcer",
@@ -574,10 +571,14 @@ void BgCardFactory::init_cards() {
     // 						 "['SECRET']", "", "RARE", -1, "SPELL"));
     // cards.emplace("Virmen Sensei (Golden)", BgBaseCard(8, "DRUID", 5, 10, "Virmen Sensei (Golden)",
     // 						       "['BATTLECRY']", "", "RARE", 4, "MINION"));
-    // cards.emplace("Voidlord (Golden)", BgBaseCard(6, "WARLOCK", 9, 18, "Voidlord (Golden)",
-    // 						  "['DEATHRATTLE', 'TAUNT']", "DEMON", "EPIC", 5, "MINION"));
-    // cards.emplace("Voidwalker (Golden)", BgBaseCard(2, "WARLOCK", 1, 6, "Voidwalker (Golden)",
-    // 						    "['TAUNT']", "DEMON", "FREE", 1, "MINION"));
+    cards.emplace("Voidlord", std::make_shared<Voidlord>());
+    cards.emplace("Voidlord (Golden)", std::make_shared<Voidlord>());
+    std::shared_ptr<BgBaseCard> voidwalker(new BgBaseCard(1, "WARLOCK", 1, 3, "Voidwalker",
+							  "['TAUNT']", "DEMON", "FREE", 1, "MINION"));
+    cards.emplace("Voidwalker", voidwalker);
+    std::shared_ptr<BgBaseCard> voidwalker_gold(new BgBaseCard(2, "WARLOCK", 1, 6, "Voidwalker (Golden)",
+							       "['TAUNT']", "DEMON", "FREE", 1, "MINION"));
+    cards.emplace("Voidwalker (Golden)", voidwalker_gold);
 					     
 
     // W

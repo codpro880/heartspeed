@@ -36,6 +36,25 @@ void FiendishServantGolden::do_deathrattle(Board* b1, Board*b2) {
     }
 }
 
+void Ghastcoiler::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(2, b1);
+}
+
+std::shared_ptr<BgBaseCard> Ghastcoiler::summon() {
+    auto f = BgCardFactory();
+    auto cards = f.get_cards_with_deathrattle();
+    auto card = cards[rand() % cards.size()];
+    return card;
+}
+
+void GhastcoilerGolden::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(4, b1);
+}
+
+std::shared_ptr<BgBaseCard> GhastcoilerGolden::summon() {
+    return coiler.summon();
+}
+
 void HarvestGolem::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }

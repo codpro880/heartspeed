@@ -48,6 +48,22 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_rarity(std
     return res;
 }
 
+std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_with_deathrattle() {
+    std::vector<std::shared_ptr<BgBaseCard> > res;
+    auto it = cards.begin();
+    while (it != cards.end()) {
+	auto card = it->second;
+	if (card->has_deathrattle()) {
+	    // TODO: Not copying here may improve performance.
+	    // Maybe only return names?
+	    res.push_back(card->get_copy());
+	}
+	it++;
+    }
+    return res;
+}
+
+
 
 std::shared_ptr<BgBaseCard> BgCardFactory::init_card(int attack,
 				      std::string card_class,
@@ -204,6 +220,8 @@ void BgCardFactory::init_cards() {
     // 							 "['BATTLECRY']", "BEAST", "EPIC", 6, "MINION"));
     // cards.emplace("Ghastcoiler", BgBaseCard(7, "PRIEST", 6, 7, "Ghastcoiler",
     // 					    "['DEATHRATTLE']", "BEAST", "", 6, "MINION"));
+    cards.emplace("Ghastcoiler", std::make_shared<Ghastcoiler>());
+    cards.emplace("Ghastcoiler (Golden)", std::make_shared<GhastcoilerGolden>());
     // cards.emplace("Ghastcoiler (Golden)", BgBaseCard(14, "PRIEST", 6, 14, "Ghastcoiler (Golden)",
     // 						     "['DEATHRATTLE']", "BEAST", "", 6, "MINION"));
     // cards.emplace("Glyph Guardian", BgBaseCard(2, "MAGE", 3, 4, "Glyph Guardian",

@@ -176,6 +176,34 @@ TEST(Battler, FiendishServantGoldenDrattle) {
     EXPECT_EQ(total_attack, 2*4 + 10*2);
 }
 
+TEST(Battler, GhastcoilerDrattle) {
+    auto f = BgCardFactory();
+    auto gc = f.get_card("Ghastcoiler");
+    gc->set_attack(100);
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 gc
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Ghastcoiler (Golden)")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    BoardBattler().battle_boards(0, board1.get(), board2.get());
+
+    auto b1_cards = board1->get_cards();
+    auto b2_cards = board2->get_cards();
+    EXPECT_EQ(b1_cards.size(), (unsigned)2);
+    EXPECT_EQ(b2_cards.size(), (unsigned)4);
+    for (auto c : b1_cards) {
+	EXPECT_EQ(c->has_deathrattle(), true);
+    }
+    for (auto c : b2_cards) {
+	EXPECT_EQ(c->has_deathrattle(), true);
+    }
+}
+
 TEST(Battler, HarvestGolemDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { f.get_card("Harvest Golem") };

@@ -58,6 +58,7 @@ public:
     std::string get_type() { return type; }
 
     bool has_divine_shield() { return divine_shield; }
+    bool has_deathrattle() { return mechanics.find("DEATHRATTLE") != std::string::npos; }
 
     bool is_dead() { if (health <= 0) return true; else return false;; }
 

@@ -31,6 +31,26 @@ private:
     FiendishServant serv;
 };
 
+class Ghastcoiler : public DeathrattleCard {
+public:
+    Ghastcoiler() : DeathrattleCard(7, "PRIEST", 6, 7, "Ghastcoiler",
+				    "['DEATHRATTLE']", "BEAST", "", 6, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<Ghastcoiler>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;    
+};
+
+class GhastcoilerGolden : public DeathrattleCard {
+public:
+    GhastcoilerGolden() : DeathrattleCard(14, "PRIEST", 6, 14, "Ghastcoiler (Golden)",
+					  "['DEATHRATTLE']", "BEAST", "", 6, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<GhastcoilerGolden>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+private:
+    Ghastcoiler coiler;
+};
+
 class HarvestGolem : public DeathrattleCard {
 public:
     HarvestGolem() : DeathrattleCard(2, "NEUTRAL", 3, 3, "Harvest Golem",

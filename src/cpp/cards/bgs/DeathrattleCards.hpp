@@ -51,6 +51,25 @@ private:
     Ghastcoiler coiler;
 };
 
+class Goldrinn : public DeathrattleCard {
+public:
+    Goldrinn() : DeathrattleCard(4, "NEUTRAL", 8, 4, "Goldrinn",
+				 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<Goldrinn>(*this); } // boilerplate that every drattle needs...
+};
+
+class GoldrinnGolden : public DeathrattleCard {
+public:
+    GoldrinnGolden() : DeathrattleCard(8, "NEUTRAL", 8, 8, "Goldrinn (Golden)",
+				       "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<GoldrinnGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    Goldrinn bag;
+};
+
+
 class HarvestGolem : public DeathrattleCard {
 public:
     HarvestGolem() : DeathrattleCard(2, "NEUTRAL", 3, 3, "Harvest Golem",

@@ -55,6 +55,22 @@ std::shared_ptr<BgBaseCard> GhastcoilerGolden::summon() {
     return coiler.summon();
 }
 
+void Goldrinn::do_deathrattle(Board* b1, Board* b2) {
+    auto cards = b1->get_cards();
+    for (auto c : cards) {
+	if (c->get_race() == "BEAST") {
+	    c->set_health(c->get_health() + 4);
+	    c->set_attack(c->get_attack() + 4);
+	}
+    }
+}
+
+void GoldrinnGolden::do_deathrattle(Board* b1, Board* b2) {
+    for (int i = 0; i < 2; i++) {
+	bag.do_deathrattle(b1, b2);
+    }
+}
+
 void HarvestGolem::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }

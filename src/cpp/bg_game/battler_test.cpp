@@ -143,8 +143,6 @@ TEST(Battler, CanHandleBasicDeathrattles) {
     EXPECT_EQ(res.damage_taken, 0); 
 }
 
-// Specific card tests
-
 TEST(Battler, FiendishServantGoldenDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards

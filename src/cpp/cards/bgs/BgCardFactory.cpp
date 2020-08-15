@@ -238,16 +238,8 @@ void BgCardFactory::init_cards() {
     // cards.emplace("Goldgrubber (Golden)", BgBaseCard(4, "NEUTRAL", 5, 4, "Goldgrubber (Golden)",
     // 						     "['TRIGGER_VISUAL']", "PIRATE", "", 4,
     // 						     "MINION"));
-    std::shared_ptr<BgBaseCard> goldrinn(new BgBaseCard(4, "NEUTRAL", 8, 4, "Goldrinn, the Great Wolf",
-    							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "MINION"));
-    cards.emplace("Goldrinn, the Great Wolf", goldrinn);
-    // cards.emplace("Goldrinn, the Great Wolf", BgBaseCard(4, "NEUTRAL", 8, 4, "Goldrinn, the Great Wolf",
-    // 							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "MINION"));
-    std::shared_ptr<BgBaseCard> goldrinn_gold(new BgBaseCard(8, "NEUTRAL", 8, 8, "Goldrinn, the Great Wolf (Golden)",
-    							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "MINION"));
-    cards.emplace("Goldrinn, the Great Wolf (Golden)", goldrinn_gold);
-    // cards.emplace("Goldrinn, the Great Wolf (Golden)", BgBaseCard(8, "NEUTRAL", 8, 8, "Goldrinn, the Great Wolf (Golden)",
-    // 							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "MINION"));
+    cards.emplace("Goldrinn", std::make_shared<Goldrinn>());
+    cards.emplace("Goldrinn (Golden)", std::make_shared<GoldrinnGolden>());
     // cards.emplace("Guard Bot (Golden)", BgBaseCard(4, "WARRIOR", 2, 6, "Guard Bot (Golden)",
     // 						   "['TAUNT']", "MECHANICAL", "", 1, "MINION"));
 

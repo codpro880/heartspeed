@@ -122,6 +122,24 @@ public:
     std::shared_ptr<BgBaseCard> summon() override;
 };
 
+class KingBagurgle : public DeathrattleCard {
+public:
+    KingBagurgle() : DeathrattleCard(6, "NEUTRAL", 6, 3, "King Bagurgle",
+				     "['BATTLECRY', 'DEATHRATTLE']", "MURLOC", "LEGENDARY", 5, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<KingBagurgle>(*this); } // boilerplate that every drattle needs...
+};
+
+class KingBagurgleGolden : public DeathrattleCard {
+public:
+    KingBagurgleGolden() : DeathrattleCard(12, "NEUTRAL", 6, 6, "King Bagurgle (Golden)",
+					   "['BATTLECRY', 'DEATHRATTLE']", "MURLOC", "LEGENDARY", 5, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<KingBagurgleGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    KingBagurgle bag;
+};
+
 class MechanoEgg : public DeathrattleCard {
 public:
     MechanoEgg() : DeathrattleCard(0, "NEUTRAL", 5, 5, "Mechano-Egg",
@@ -267,6 +285,26 @@ private:
     SelflessHero hero;
 };
 
+class SneedsOldShredder : public DeathrattleCard {
+public:
+    SneedsOldShredder() : DeathrattleCard(5, "NEUTRAL", 8, 7,"Sneed's Old Shredder",
+					  "['DEATHRATTLE']", "MECHANICAL", "LEGENDARY", 5, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<SneedsOldShredder>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;    
+};
+
+class SneedsOldShredderGolden : public DeathrattleCard {
+public:
+    SneedsOldShredderGolden() : DeathrattleCard(10, "NEUTRAL", 8, 14, "Sneed's Old Shredder (Golden)",
+						"['DEATHRATTLE']", "MECHANICAL", "LEGENDARY", 5, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<SneedsOldShredderGolden>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+private:
+    SneedsOldShredder shredder;
+};
+
 class SpawnOfNzoth : public DeathrattleCard {
 public:
     SpawnOfNzoth() : DeathrattleCard(2, "NEUTRAL", 3, 2, "Spawn of N'Zoth", "['DEATHRATTLE']", "", "COMMON", 2, "MINION") {}
@@ -299,6 +337,25 @@ public:
 private:
     TheBeast the_beast;
 };
+
+class Voidlord : public DeathrattleCard {
+public:
+    Voidlord() : DeathrattleCard(3, "WARLOCK", 9, 9, "Voidlord",
+				 "['DEATHRATTLE', 'TAUNT']", "DEMON", "EPIC", 5, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<Voidlord>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+};
+
+class VoidlordGolden : public DeathrattleCard {
+public:
+    VoidlordGolden() : DeathrattleCard(6, "WARLOCK", 9, 18, "VoidlordGolden (Golden)",
+				 "['DEATHRATTLE', 'TAUNT']", "DEMON", "EPIC", 5, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<VoidlordGolden>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+};
+
 
 class UnstableGhoul : public DeathrattleCard {
 public:

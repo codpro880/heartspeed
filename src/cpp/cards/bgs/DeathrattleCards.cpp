@@ -131,6 +131,22 @@ std::shared_ptr<BgBaseCard> KindlyGrandmotherGolden::summon() {
     return f.get_card("Big Bad Wolf (Golden)");
 }
 
+void KingBagurgle::do_deathrattle(Board* b1, Board* b2) {
+    auto cards = b1->get_cards();
+    for (auto c : cards) {
+	if (c->get_race() == "MURLOC") {
+	    c->set_health(c->get_health() + 2);
+	    c->set_attack(c->get_attack() + 2);
+	}
+    }
+}
+
+void KingBagurgleGolden::do_deathrattle(Board* b1, Board* b2) {
+    for (int i = 0; i < 2; i++) {
+	bag.do_deathrattle(b1, b2);
+    }
+}
+
 void MechanoEgg::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }
@@ -281,6 +297,25 @@ void SelflessHeroGolden::do_deathrattle(Board* b1, Board*b2) {
     }
 }
 
+void SneedsOldShredder::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(1, b1);
+}
+
+std::shared_ptr<BgBaseCard> SneedsOldShredder::summon() {
+    auto f = BgCardFactory();
+    auto legendary_cards = f.get_cards_of_rarity("LEGENDARY");
+    auto card = legendary_cards[rand() % legendary_cards.size()];
+    return card;
+}
+
+void SneedsOldShredderGolden::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(2, b1);
+}
+
+std::shared_ptr<BgBaseCard> SneedsOldShredderGolden::summon() {
+    return shredder.summon();
+}
+
 void SpawnOfNzoth::do_deathrattle(Board* b1, Board* b2) {
     for (auto c : b1->get_cards()) {
 	c->set_attack(c->get_attack() + 1);
@@ -295,15 +330,6 @@ void SpawnOfNzothGolden::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
-void UnstableGhoul::do_deathrattle(Board* b1, Board* b2) {
-    for (auto c : b1->get_cards()) {
-	c->take_damage(1, b1, b2);
-    }    
-    for (auto c : b2->get_cards()) {
-	c->take_damage(1, b2, b1);
-    }
-}
-
 void TheBeast::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b2);
 }
@@ -315,6 +341,33 @@ std::shared_ptr<BgBaseCard> TheBeast::summon() {
 
 void TheBeastGolden::do_deathrattle(Board* b1, Board* b2) {
     the_beast.do_deathrattle(b1, b2);
+}
+
+void Voidlord::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(3, b1);
+}
+
+std::shared_ptr<BgBaseCard> Voidlord::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Voidwalker");
+}
+
+void VoidlordGolden::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(3, b1);
+}
+
+std::shared_ptr<BgBaseCard> VoidlordGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Voidwalker (Golden)");
+}
+
+void UnstableGhoul::do_deathrattle(Board* b1, Board* b2) {
+    for (auto c : b1->get_cards()) {
+	c->take_damage(1, b1, b2);
+    }    
+    for (auto c : b2->get_cards()) {
+	c->take_damage(1, b2, b1);
+    }
 }
 
 void UnstableGhoulGolden::do_deathrattle(Board* b1, Board* b2) {

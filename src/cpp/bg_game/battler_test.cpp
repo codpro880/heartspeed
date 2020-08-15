@@ -379,6 +379,86 @@ TEST(Battler, KindlyGrandmotherGoldenDrattle) {
     EXPECT_EQ(res.damage_taken, 2);
 }
 
+TEST(Battler, KingBagurgleDeathrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("King Bagurgle"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Alleycat"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Mechano-Egg")
+	};
+    auto high_attack = f.get_card("Murloc Tidehunter");
+    high_attack->set_attack(100);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 high_attack
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    auto battled_p1_cards = p1->get_board()->get_cards();
+    EXPECT_EQ(battled_p1_cards.size(), (unsigned)5);
+    for (auto c : battled_p1_cards) {
+	if (c->get_name() == "Murloc Tidehunter") {
+	    // Check that the murlocs got buffed. All 2/1 -> 4/3    
+	    EXPECT_EQ(c->get_attack(), 4);
+	    EXPECT_EQ(c->get_health(), 3);
+	}
+	else {
+	    // Make sure non-murlocs didn't get buffed
+	    auto copy = f.get_card(c->get_name());
+	    EXPECT_EQ(copy->get_attack(), c->get_attack());
+	    EXPECT_EQ(copy->get_health(), c->get_health());
+	}
+    }
+}
+
+TEST(Battler, KingBagurgleGoldenDeathrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("King Bagurgle (Golden)"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Alleycat"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Mechano-Egg")
+	};
+    auto high_attack = f.get_card("Murloc Tidehunter");
+    high_attack->set_attack(100);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 high_attack
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    auto battled_p1_cards = p1->get_board()->get_cards();
+    EXPECT_EQ(battled_p1_cards.size(), (unsigned)5);
+    for (auto c : battled_p1_cards) {
+	if (c->get_name() == "Murloc Tidehunter") {
+	    // Check that the murlocs got buffed. All 2/1 -> 6/5
+	    EXPECT_EQ(c->get_attack(), 6);
+	    EXPECT_EQ(c->get_health(), 5);
+	}
+	else {
+	    // Make sure non-murlocs didn't get buffed
+	    auto copy = f.get_card(c->get_name());
+	    EXPECT_EQ(copy->get_attack(), c->get_attack());
+	    EXPECT_EQ(copy->get_health(), c->get_health());
+	}
+    }
+}
+
 // So similar to other basic drattle summons not going to test
 // TEST(Battler, MechanoEggDrattle) {
 // }
@@ -662,6 +742,34 @@ TEST(Battler, SelflessHeroDrattleDoesntHelpIfDivineAlreadyPresent) {
     // Selfless will die first, gives no shield, gambler pops div sheild, then deflecto and gambler kill each other
     EXPECT_EQ(res.who_won, "draw");
     EXPECT_EQ(res.damage_taken, 0);
+}
+
+TEST(Battler, SneedsOldShredderDrattle) {
+    auto f = BgCardFactory();
+    auto sos = f.get_card("Sneed's Old Shredder");
+    sos->set_attack(100);
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 sos
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Sneed's Old Shredder (Golden)")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    BoardBattler().battle_boards(0, board1.get(), board2.get());
+
+    auto b1_cards = board1->get_cards();
+    auto b2_cards = board2->get_cards();
+    EXPECT_EQ(b1_cards.size(), (unsigned)1);
+    EXPECT_EQ(b2_cards.size(), (unsigned)2);
+    for (auto c : b1_cards) {
+	EXPECT_EQ(c->get_rarity(), "LEGENDARY");
+    }
+    for (auto c : b2_cards) {
+	EXPECT_EQ(c->get_rarity(), "LEGENDARY");
+    }
 }
 
 TEST(Battler, SpawnOfNzothDrattle) {

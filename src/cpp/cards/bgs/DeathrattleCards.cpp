@@ -297,6 +297,25 @@ void SelflessHeroGolden::do_deathrattle(Board* b1, Board*b2) {
     }
 }
 
+void SneedsOldShredder::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(1, b1);
+}
+
+std::shared_ptr<BgBaseCard> SneedsOldShredder::summon() {
+    auto f = BgCardFactory();
+    auto legendary_cards = f.get_cards_of_rarity("LEGENDARY");
+    auto card = legendary_cards[rand() % legendary_cards.size()];
+    return card;
+}
+
+void SneedsOldShredderGolden::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(2, b1);
+}
+
+std::shared_ptr<BgBaseCard> SneedsOldShredderGolden::summon() {
+    return shredder.summon();
+}
+
 void SpawnOfNzoth::do_deathrattle(Board* b1, Board* b2) {
     for (auto c : b1->get_cards()) {
 	c->set_attack(c->get_attack() + 1);

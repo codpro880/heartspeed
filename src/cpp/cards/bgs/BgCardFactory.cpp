@@ -33,6 +33,22 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_cost(int c
     return res;
 }
 
+std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_rarity(std::string rarity) {
+    std::vector<std::shared_ptr<BgBaseCard> > res;
+    auto it = cards.begin();
+    while (it != cards.end()) {
+	auto card = it->second;
+	if (card->get_rarity() == rarity) {
+	    // TODO: Not copying here may improve performance.
+	    // Maybe only return names?
+	    res.push_back(card->get_copy());
+	}
+	it++;
+    }
+    return res;
+}
+
+
 std::shared_ptr<BgBaseCard> BgCardFactory::init_card(int attack,
 				      std::string card_class,
 				      int cost,
@@ -505,10 +521,8 @@ void BgCardFactory::init_cards() {
     
     // cards.emplace("Snake Trap", BgBaseCard(-1, "HUNTER", 2, -1, "Snake Trap",
     // 					   "['SECRET']", "", "EPIC", -1, "SPELL"));
-    // cards.emplace("Sneed's Old Shredder", BgBaseCard(5, "NEUTRAL", 8, 7,"Sneed's Old Shredder",
-    // 						     "['DEATHRATTLE']", "MECHANICAL", "LEGENDARY", 5, "MINION"));
-    // cards.emplace("Sneed's Old Shredder (Golden)", BgBaseCard(10, "NEUTRAL", 8, 14, "Sneed's Old Shredder (Golden)",
-    // 							      "['DEATHRATTLE']", "MECHANICAL", "LEGENDARY", 5, "MINION"));
+    cards.emplace("Sneed's Old Shredder", std::make_shared<SneedsOldShredder>());
+    cards.emplace("Sneed's Old Shredder (Golden)", std::make_shared<SneedsOldShredderGolden>());
     // cards.emplace("Soul Juggler", BgBaseCard(3, "WARLOCK", 3, 3, "Soul Juggler",
     // 					     "['TRIGGER_VISUAL']", "", "", 3, "MINION"));
     // cards.emplace("Soul Juggler (Golden)", BgBaseCard(6, "WARLOCK", 3, 6, "Soul Juggler (Golden)",

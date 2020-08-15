@@ -744,6 +744,34 @@ TEST(Battler, SelflessHeroDrattleDoesntHelpIfDivineAlreadyPresent) {
     EXPECT_EQ(res.damage_taken, 0);
 }
 
+TEST(Battler, SneedsOldShredderDrattle) {
+    auto f = BgCardFactory();
+    auto sos = f.get_card("Sneed's Old Shredder");
+    sos->set_attack(100);
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 sos
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Sneed's Old Shredder (Golden)")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    BoardBattler().battle_boards(0, board1.get(), board2.get());
+
+    auto b1_cards = board1->get_cards();
+    auto b2_cards = board2->get_cards();
+    EXPECT_EQ(b1_cards.size(), (unsigned)1);
+    EXPECT_EQ(b2_cards.size(), (unsigned)2);
+    for (auto c : b1_cards) {
+	EXPECT_EQ(c->get_rarity(), "LEGENDARY");
+    }
+    for (auto c : b2_cards) {
+	EXPECT_EQ(c->get_rarity(), "LEGENDARY");
+    }
+}
+
 TEST(Battler, SpawnOfNzothDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards

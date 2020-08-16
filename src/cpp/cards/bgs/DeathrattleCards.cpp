@@ -254,6 +254,19 @@ std::shared_ptr<BgBaseCard> MecharooGolden::summon() {
     return f.get_card("Jo-E Bot (Golden)");
 }
 
+void Nadina::do_deathrattle(Board* b1, Board* b2) {
+    auto cards = b1->get_cards();
+    for (auto c : cards) {
+	if (c->get_race() == "DRAGON") {
+	    c->set_divine_shield();
+	}
+    }
+}
+
+void NadinaGolden::do_deathrattle(Board* b1, Board* b2) {
+    bag.do_deathrattle(b1, b2);
+}
+
 void PilotedShredder::do_deathrattle(Board* b1, Board* b2) {
     multi_summon(1, b1);
 }

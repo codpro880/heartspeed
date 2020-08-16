@@ -417,8 +417,8 @@ void BgCardFactory::init_cards() {
     // 						  "['BATTLECRY']", "DRAGON", "", 5, "MINION"));
 							   
     // N
-    // cards.emplace("Nadina the Red", BgBaseCard(7, "NEUTRAL", 6, 4, "Nadina the Red",
-    // 					       "['DEATHRATTLE']", "", "", 6, "MINION"));    
+    cards.emplace("Nadina", std::make_shared<Nadina>());
+    cards.emplace("Nadina (Golden)", std::make_shared<NadinaGolden>());
     // cards.emplace("Nat Pagle, Extreme Angler", BgBaseCard(8, "NEUTRAL", 7, 5, "Nat Pagle, Extreme Angler",
     // 							  "", "PIRATE", "", 5, "MINION"));
     // cards.emplace("Nat Pagle, Extreme Angler (Golden)", BgBaseCard(16, "NEUTRAL", 7, 10, "Nat Pagle, Extreme Angler (Golden)",

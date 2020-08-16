@@ -239,6 +239,24 @@ public:
     std::shared_ptr<BgBaseCard> summon() override;
 };
 
+class Nadina : public DeathrattleCard {
+public:
+    Nadina() : DeathrattleCard(7, "NEUTRAL", 6, 4, "Nadina",
+			       "['DEATHRATTLE']", "", "", 6, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<Nadina>(*this); } // boilerplate that every drattle needs...
+};
+
+class NadinaGolden : public DeathrattleCard {
+public:
+    NadinaGolden() : DeathrattleCard(14, "NEUTRAL", 6, 8, "Nadina (Golden)",
+				     "['DEATHRATTLE']", "", "", 6, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<NadinaGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    Nadina bag;
+};
+
 class PilotedShredder : public DeathrattleCard {
 public:
     PilotedShredder() : DeathrattleCard(4, "NEUTRAL", 4, 3, "Piloted Shredder",

@@ -474,8 +474,8 @@ void BgCardFactory::init_cards() {
     // 						   "['TRIGGER_VISUAL']", "DRAGON", "", 1, "MINION"));
     // cards.emplace("Redemption", BgBaseCard(-1, "PALADIN", 1, -1, "Redemption",
     // 					   "['SECRET']", "", "COMMON", -1, "SPELL"));
-    // cards.emplace("Replicating Menace (Golden)", BgBaseCard(6, "NEUTRAL", 4, 2, "Replicating Menace (Golden)",
-    // 							    "['DEATHRATTLE', 'MODULAR']", "MECHANICAL", "RARE", 3, "MINION"));
+    cards.emplace("Replicating Menace", std::make_shared<ReplicatingMenace>());
+    cards.emplace("Replicating Menace (Golden)", std::make_shared<ReplicatingMenaceGolden>());
     // cards.emplace("Ripsnarl Captain", BgBaseCard(3, "NEUTRAL", 4, 4, "Ripsnarl Captain",
     // 						 "['TRIGGER_VISUAL']", "PIRATE", "", 4, "MINION"));
     // cards.emplace("Ripsnarl Captain (Golden)", BgBaseCard(6, "NEUTRAL", 4, 8, "Ripsnarl Captain (Golden)",

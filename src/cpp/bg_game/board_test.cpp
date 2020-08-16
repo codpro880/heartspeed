@@ -11,7 +11,7 @@ TEST(Board, CanCalculateDamageEmptyBoard) {
 
 TEST(Board, CanCalculateDamageOneCard) {
     auto f = BgCardFactory();
-    auto goldrinn = f.get_card("Goldrinn, the Great Wolf");
+    auto goldrinn = f.get_card("Goldrinn");
     std::vector<std::shared_ptr<BgBaseCard> > cards{ goldrinn };
     auto board = Board(cards);
     EXPECT_EQ(board.calculate_damage(), 6);

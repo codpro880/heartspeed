@@ -5,8 +5,8 @@
 
 TEST(BgCardFactory, CanGenerateGoldrinn) {
     auto f = BgCardFactory();
-    auto goldrinn = f.get_card("Goldrinn, the Great Wolf");
-    EXPECT_EQ(goldrinn->get_name(), "Goldrinn, the Great Wolf");
+    auto goldrinn = f.get_card("Goldrinn");
+    EXPECT_EQ(goldrinn->get_name(), "Goldrinn");
     EXPECT_EQ(goldrinn->get_health(), 4);
     EXPECT_EQ(goldrinn->get_attack(), 4);
     EXPECT_EQ(goldrinn->get_mechanics(), "['DEATHRATTLE']");

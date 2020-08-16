@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <memory>
 
@@ -33,6 +34,41 @@ void FiendishServantGolden::do_deathrattle(Board* b1, Board*b2) {
     serv.set_attack(this->get_attack());
     for (int i = 0; i < 2; i++) {
 	serv.do_deathrattle(b1, b2);
+    }
+}
+
+void Ghastcoiler::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(2, b1);
+}
+
+std::shared_ptr<BgBaseCard> Ghastcoiler::summon() {
+    auto f = BgCardFactory();
+    auto cards = f.get_cards_with_deathrattle();
+    auto card = cards[rand() % cards.size()];
+    return card;
+}
+
+void GhastcoilerGolden::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(4, b1);
+}
+
+std::shared_ptr<BgBaseCard> GhastcoilerGolden::summon() {
+    return coiler.summon();
+}
+
+void Goldrinn::do_deathrattle(Board* b1, Board* b2) {
+    auto cards = b1->get_cards();
+    for (auto c : cards) {
+	if (c->get_race() == "BEAST") {
+	    c->set_health(c->get_health() + 4);
+	    c->set_attack(c->get_attack() + 4);
+	}
+    }
+}
+
+void GoldrinnGolden::do_deathrattle(Board* b1, Board* b2) {
+    for (int i = 0; i < 2; i++) {
+	bag.do_deathrattle(b1, b2);
     }
 }
 
@@ -113,6 +149,41 @@ void KaboomBotGolden::do_deathrattle(Board* b1, Board* b2) {
     b2->do_deathrattles(b2);
 }
 
+void Kangor::do_deathrattle(Board* b1, Board* b2) {
+    reset_mech_queue(b1);
+    //auto available_mechs = std::min(mech_queue.size(), (unsigned)2);
+    auto available_mechs = mech_queue.size() < unsigned(2) ? mech_queue.size() : unsigned(2);
+    std::cerr << "Avail mechs: " << available_mechs << std::endl;
+    multi_summon(available_mechs, b1);
+}
+
+std::shared_ptr<BgBaseCard> Kangor::summon() {
+    auto card_name = mech_queue.front();
+    mech_queue.pop();
+    auto f = BgCardFactory();
+    return f.get_card(card_name);
+}
+
+void Kangor::reset_mech_queue(Board* b) {
+    std::queue<std::string>().swap(mech_queue); // clear current queue
+    for (auto c : b->has_died()) {
+	if (c->get_race() == "MECHANICAL") {
+	    mech_queue.push(c->get_name());
+	}
+    }
+}
+
+void KangorGolden::do_deathrattle(Board* b1, Board* b2) {
+    kang.reset_mech_queue(b1);
+    auto available_mechs = kang.mech_queue.size() < unsigned(4) ? kang.mech_queue.size() : unsigned(4);
+    multi_summon(available_mechs, b1);
+}
+
+std::shared_ptr<BgBaseCard> KangorGolden::summon() {
+    return kang.summon();
+}
+
+
 void KindlyGrandmother::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }
@@ -181,6 +252,19 @@ void MecharooGolden::do_deathrattle(Board* b1, Board* b2) {
 std::shared_ptr<BgBaseCard> MecharooGolden::summon() {
     auto f = BgCardFactory();
     return f.get_card("Jo-E Bot (Golden)");
+}
+
+void Nadina::do_deathrattle(Board* b1, Board* b2) {
+    auto cards = b1->get_cards();
+    for (auto c : cards) {
+	if (c->get_race() == "DRAGON") {
+	    c->set_divine_shield();
+	}
+    }
+}
+
+void NadinaGolden::do_deathrattle(Board* b1, Board* b2) {
+    bag.do_deathrattle(b1, b2);
 }
 
 void PilotedShredder::do_deathrattle(Board* b1, Board* b2) {
@@ -341,6 +425,25 @@ std::shared_ptr<BgBaseCard> TheBeast::summon() {
 
 void TheBeastGolden::do_deathrattle(Board* b1, Board* b2) {
     the_beast.do_deathrattle(b1, b2);
+}
+
+void TheTideRazor::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(3, b1);
+}
+
+std::shared_ptr<BgBaseCard> TheTideRazor::summon() {
+    auto f = BgCardFactory();
+    auto cards = f.get_cards_of_race("PIRATE");
+    auto card = cards[rand() % cards.size()];
+    return card;
+}
+
+void TheTideRazorGolden::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(6, b1);
+}
+
+std::shared_ptr<BgBaseCard> TheTideRazorGolden::summon() {
+    return ttr.summon();
 }
 
 void Voidlord::do_deathrattle(Board* b1, Board* b2) {

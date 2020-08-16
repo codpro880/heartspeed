@@ -143,8 +143,6 @@ TEST(Battler, CanHandleBasicDeathrattles) {
     EXPECT_EQ(res.damage_taken, 0); 
 }
 
-// Specific card tests
-
 TEST(Battler, FiendishServantGoldenDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -174,6 +172,34 @@ TEST(Battler, FiendishServantGoldenDrattle) {
     // Make sure total attack is 2*4 (original micro machines)
     // plus 10*2 (fiendish damage)
     EXPECT_EQ(total_attack, 2*4 + 10*2);
+}
+
+TEST(Battler, GhastcoilerDrattle) {
+    auto f = BgCardFactory();
+    auto gc = f.get_card("Ghastcoiler");
+    gc->set_attack(100);
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 gc
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Ghastcoiler (Golden)")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    BoardBattler().battle_boards(0, board1.get(), board2.get());
+
+    auto b1_cards = board1->get_cards();
+    auto b2_cards = board2->get_cards();
+    EXPECT_EQ(b1_cards.size(), (unsigned)2);
+    EXPECT_EQ(b2_cards.size(), (unsigned)4);
+    for (auto c : b1_cards) {
+	EXPECT_EQ(c->has_deathrattle(), true);
+    }
+    for (auto c : b2_cards) {
+	EXPECT_EQ(c->has_deathrattle(), true);
+    }
 }
 
 TEST(Battler, HarvestGolemDrattle) {
@@ -379,6 +405,85 @@ TEST(Battler, KindlyGrandmotherGoldenDrattle) {
     EXPECT_EQ(res.damage_taken, 2);
 }
 
+TEST(Battler, KangorNoMechDeathsDeathrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Kangor")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("King Bagurgle")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+}
+
+TEST(Battler, KangorOneMechDeathrattle) {
+    // Boombot goes first, hits 9 health menace, deals 6 total damage.
+    // Menace attacks into Kangor, they both die. Kangor summons bomb,
+    // menace summons tokens, which tie.
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Kaboom Bot"),
+	 f.get_card("Kangor")
+	};
+    auto replicating_menace = f.get_card("Replicating Menace");
+    replicating_menace->set_attack(6);
+    replicating_menace->set_health(9);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 replicating_menace
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+}
+
+bool compareCards(std::shared_ptr<BgBaseCard> c1,
+		  std::shared_ptr<BgBaseCard> c2) {
+    return c1->get_name() < c2->get_name();
+}
+
+TEST(Battler, KangorTwoMechDeathrattle) {
+    // Should summon the harvest golem and damaged golem
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Harvest Golem"),
+	 f.get_card("Kangor")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(3);
+    th->set_health(10);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Edwin");
+    auto b1_cards = p1->get_board()->get_cards();
+    EXPECT_EQ(b1_cards.size(), (unsigned)2);
+    std::sort(b1_cards.begin(), b1_cards.end(), compareCards);
+    EXPECT_TRUE(b1_cards[0]->get_name() == "Damaged Golem");
+    EXPECT_TRUE(b1_cards[1]->get_name() == "Harvest Golem");
+}
+
 TEST(Battler, KingBagurgleDeathrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -489,6 +594,30 @@ TEST(Battler, MecharooGoldenDrattle) {
     // These should draw since mecharoo summons a 2/2 token as a drattle
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { mecharoo, tidehunter };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { gambler1 };
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+    EXPECT_EQ(res.damage_taken, 0);
+}
+
+TEST(Battler, NadinaDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Nadina"),
+	 f.get_card("Razorgore")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(4);
+    th->set_health(11); // 7 nadina, 2 razor div shield, then 2 razorgore
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
     std::unique_ptr<Board> board1(new Board(p1_cards));
     std::unique_ptr<Board> board2(new Board(p2_cards));
     std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
@@ -866,6 +995,34 @@ TEST(Battler, TheBeastDrattle) {
     EXPECT_EQ(b2_cards.size(), (unsigned)0);
     for (auto c : b1_cards) {
 	EXPECT_EQ(c->get_name(), "Finkle Einhorn");
+    }
+}
+
+TEST(Battler, TheTideRazorDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("The Tide Razor"),
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(4);
+    th->set_health(4);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Tess");
+    EXPECT_GT(res.damage_taken, 4);
+    auto p1_res_cards = p1->get_board()->get_cards();
+    EXPECT_EQ(p1_res_cards.size(), (unsigned)3);
+    for (auto c : p1_res_cards) {
+	EXPECT_EQ(c->get_race(), "PIRATE");
     }
 }
 

@@ -15,7 +15,7 @@ public:
     auto empty() { return cards.empty(); }
     auto length() { return cards.size(); }
     auto operator[](const int& i) { return cards[i]; }
-    friend std::ostream& operator<<(std::ostream& os, Board& board);
+    friend std::ostream& operator<<(std::ostream& os, Board& board);    
     void remove(BgBaseCard* c) {
 	int pos = 0;
 	for (auto card : cards) {
@@ -65,6 +65,7 @@ public:
 	while (!to_remove.empty()) {
 	    auto front = to_remove.front();
 	    this->remove(front);
+	    _has_died.push_back(front);
 	    to_remove.pop();
 	}
     }
@@ -99,7 +100,9 @@ public:
 	}
     }
     std::vector<std::shared_ptr<BgBaseCard> > const get_cards() { return cards;  } // TODO: Make this an iterator
+    std::vector<std::shared_ptr<BgBaseCard> > has_died() { return _has_died; }
 private:
     std::vector<std::shared_ptr<BgBaseCard> > cards;
     std::queue<std::shared_ptr<BgBaseCard> > deathrattle_q;
+    std::vector<std::shared_ptr<BgBaseCard> > _has_died;
 };

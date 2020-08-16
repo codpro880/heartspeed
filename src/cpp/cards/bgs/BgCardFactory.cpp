@@ -48,6 +48,35 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_rarity(std
     return res;
 }
 
+std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_with_deathrattle() {
+    std::vector<std::shared_ptr<BgBaseCard> > res;
+    auto it = cards.begin();
+    while (it != cards.end()) {
+	auto card = it->second;
+	if (card->has_deathrattle()) {
+	    // TODO: Not copying here may improve performance.
+	    // Maybe only return names?
+	    res.push_back(card->get_copy());
+	}
+	it++;
+    }
+    return res;
+}
+
+std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_race(std::string race) {
+    std::vector<std::shared_ptr<BgBaseCard> > res;
+    auto it = cards.begin();
+    while (it != cards.end()) {
+	auto card = it->second;
+	if (card->get_race() == race) {
+	    // TODO: Not copying here may improve performance.
+	    // Maybe only return names?
+	    res.push_back(card->get_copy());
+	}
+	it++;
+    }
+    return res;
+}
 
 std::shared_ptr<BgBaseCard> BgCardFactory::init_card(int attack,
 				      std::string card_class,
@@ -204,6 +233,8 @@ void BgCardFactory::init_cards() {
     // 							 "['BATTLECRY']", "BEAST", "EPIC", 6, "MINION"));
     // cards.emplace("Ghastcoiler", BgBaseCard(7, "PRIEST", 6, 7, "Ghastcoiler",
     // 					    "['DEATHRATTLE']", "BEAST", "", 6, "MINION"));
+    cards.emplace("Ghastcoiler", std::make_shared<Ghastcoiler>());
+    cards.emplace("Ghastcoiler (Golden)", std::make_shared<GhastcoilerGolden>());
     // cards.emplace("Ghastcoiler (Golden)", BgBaseCard(14, "PRIEST", 6, 14, "Ghastcoiler (Golden)",
     // 						     "['DEATHRATTLE']", "BEAST", "", 6, "MINION"));
     // cards.emplace("Glyph Guardian", BgBaseCard(2, "MAGE", 3, 4, "Glyph Guardian",
@@ -220,16 +251,8 @@ void BgCardFactory::init_cards() {
     // cards.emplace("Goldgrubber (Golden)", BgBaseCard(4, "NEUTRAL", 5, 4, "Goldgrubber (Golden)",
     // 						     "['TRIGGER_VISUAL']", "PIRATE", "", 4,
     // 						     "MINION"));
-    std::shared_ptr<BgBaseCard> goldrinn(new BgBaseCard(4, "NEUTRAL", 8, 4, "Goldrinn, the Great Wolf",
-    							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "MINION"));
-    cards.emplace("Goldrinn, the Great Wolf", goldrinn);
-    // cards.emplace("Goldrinn, the Great Wolf", BgBaseCard(4, "NEUTRAL", 8, 4, "Goldrinn, the Great Wolf",
-    // 							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "MINION"));
-    std::shared_ptr<BgBaseCard> goldrinn_gold(new BgBaseCard(8, "NEUTRAL", 8, 8, "Goldrinn, the Great Wolf (Golden)",
-    							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "MINION"));
-    cards.emplace("Goldrinn, the Great Wolf (Golden)", goldrinn_gold);
-    // cards.emplace("Goldrinn, the Great Wolf (Golden)", BgBaseCard(8, "NEUTRAL", 8, 8, "Goldrinn, the Great Wolf (Golden)",
-    // 							 "['DEATHRATTLE']", "BEAST", "LEGENDARY", 6, "MINION"));
+    cards.emplace("Goldrinn", std::make_shared<Goldrinn>());
+    cards.emplace("Goldrinn (Golden)", std::make_shared<GoldrinnGolden>());
     // cards.emplace("Guard Bot (Golden)", BgBaseCard(4, "WARRIOR", 2, 6, "Guard Bot (Golden)",
     // 						   "['TAUNT']", "MECHANICAL", "", 1, "MINION"));
 
@@ -308,6 +331,8 @@ void BgCardFactory::init_cards() {
     // K
     cards.emplace("Kaboom Bot", std::make_shared<KaboomBot>());
     cards.emplace("Kaboom Bot (Golden)", std::make_shared<KaboomBotGolden>());
+    cards.emplace("Kangor", std::make_shared<Kangor>());
+    cards.emplace("Kangor (Golden)", std::make_shared<KangorGolden>());
     // cards.emplace("Kalecgos", BgBaseCard(4, "NEUTRAL", 8, 12, "Kalecgos, Arcane Aspect",
     // 					 "['TRIGGER_VISUAL']", "DRAGON", "", 6, "MINION"));
     // cards.emplace("Kalecgos (Golden)", BgBaseCard(8, "NEUTRAL", 8, 24, "Kalecgos, Arcane Aspect (Golden)",
@@ -405,8 +430,8 @@ void BgCardFactory::init_cards() {
     // 						  "['BATTLECRY']", "DRAGON", "", 5, "MINION"));
 							   
     // N
-    // cards.emplace("Nadina the Red", BgBaseCard(7, "NEUTRAL", 6, 4, "Nadina the Red",
-    // 					       "['DEATHRATTLE']", "", "", 6, "MINION"));    
+    cards.emplace("Nadina", std::make_shared<Nadina>());
+    cards.emplace("Nadina (Golden)", std::make_shared<NadinaGolden>());
     // cards.emplace("Nat Pagle, Extreme Angler", BgBaseCard(8, "NEUTRAL", 7, 5, "Nat Pagle, Extreme Angler",
     // 							  "", "PIRATE", "", 5, "MINION"));
     // cards.emplace("Nat Pagle, Extreme Angler (Golden)", BgBaseCard(16, "NEUTRAL", 7, 10, "Nat Pagle, Extreme Angler (Golden)",
@@ -449,7 +474,7 @@ void BgCardFactory::init_cards() {
     cards.emplace("Rat Pack (Golden)", std::make_shared<RatPackGolden>());
     // cards.emplace("Rat Pack (Golden)", BgBaseCard(4, "HUNTER", 3, 4, "Rat Pack (Golden)",
     // 						  "['DEATHRATTLE']", "BEAST", "EPIC", 2, "MINION"));
-    std::shared_ptr<BgBaseCard> razorgore(new BgBaseCard(2, "NEUTRAL", 8, 4, "Razorgore, the Untamed",
+    std::shared_ptr<BgBaseCard> razorgore(new BgBaseCard(2, "NEUTRAL", 8, 4, "Razorgore",
 							 "['TRIGGER_VISUAL']", "DRAGON", "", 5, "MINION"));
     cards.emplace("Razorgore", razorgore);
     // cards.emplace("Razorgore", BgBaseCard(2, "NEUTRAL", 8, 4, "Razorgore, the Untamed",
@@ -462,8 +487,8 @@ void BgCardFactory::init_cards() {
     // 						   "['TRIGGER_VISUAL']", "DRAGON", "", 1, "MINION"));
     // cards.emplace("Redemption", BgBaseCard(-1, "PALADIN", 1, -1, "Redemption",
     // 					   "['SECRET']", "", "COMMON", -1, "SPELL"));
-    // cards.emplace("Replicating Menace (Golden)", BgBaseCard(6, "NEUTRAL", 4, 2, "Replicating Menace (Golden)",
-    // 							    "['DEATHRATTLE', 'MODULAR']", "MECHANICAL", "RARE", 3, "MINION"));
+    cards.emplace("Replicating Menace", std::make_shared<ReplicatingMenace>());
+    cards.emplace("Replicating Menace (Golden)", std::make_shared<ReplicatingMenaceGolden>());
     // cards.emplace("Ripsnarl Captain", BgBaseCard(3, "NEUTRAL", 4, 4, "Ripsnarl Captain",
     // 						 "['TRIGGER_VISUAL']", "PIRATE", "", 4, "MINION"));
     // cards.emplace("Ripsnarl Captain (Golden)", BgBaseCard(6, "NEUTRAL", 4, 8, "Ripsnarl Captain (Golden)",
@@ -565,6 +590,8 @@ void BgCardFactory::init_cards() {
     // 						   "['DEATHRATTLE']", "BEAST", "LEGENDARY", 3, "MINION"));
     // cards.emplace("The Tide Razor", BgBaseCard(6, "NEUTRAL", 7, 4, "The Tide Razor",
     // 					       "['DEATHRATTLE']", "", "", 6, "MINION"));
+    cards.emplace("The Tide Razor", std::make_shared<TheTideRazor>());
+    cards.emplace("The Tide Razor (Golden)", std::make_shared<TheTideRazorGolden>());
     // cards.emplace("Treasure Chest", BgBaseCard(0, "NEUTRAL", 2, 2, "Treasure Chest",
     // 					       "", "", "", 1, "MINION"));
     // cards.emplace("Treasure Chest (Golden)", BgBaseCard(0, "NEUTRAL", 2, 2, "Treasure Chest (Golden)",

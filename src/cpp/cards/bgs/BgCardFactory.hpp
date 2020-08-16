@@ -13,6 +13,7 @@ public:
     std::vector<std::shared_ptr<BgBaseCard> > get_cards_of_cost(int cost);
     std::vector<std::shared_ptr<BgBaseCard> > get_cards_of_rarity(std::string rarity);
     std::vector<std::shared_ptr<BgBaseCard> > get_cards_with_deathrattle();
+    std::vector<std::shared_ptr<BgBaseCard> > get_cards_of_race(std::string race);
 private:
     void init_cards();
     std::unordered_map<std::string, std::shared_ptr<BgBaseCard> > cards;

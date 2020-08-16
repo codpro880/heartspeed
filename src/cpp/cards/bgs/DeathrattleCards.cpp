@@ -427,6 +427,25 @@ void TheBeastGolden::do_deathrattle(Board* b1, Board* b2) {
     the_beast.do_deathrattle(b1, b2);
 }
 
+void TheTideRazor::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(3, b1);
+}
+
+std::shared_ptr<BgBaseCard> TheTideRazor::summon() {
+    auto f = BgCardFactory();
+    auto cards = f.get_cards_of_race("PIRATE");
+    auto card = cards[rand() % cards.size()];
+    return card;
+}
+
+void TheTideRazorGolden::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(6, b1);
+}
+
+std::shared_ptr<BgBaseCard> TheTideRazorGolden::summon() {
+    return ttr.summon();
+}
+
 void Voidlord::do_deathrattle(Board* b1, Board* b2) {
     multi_summon(3, b1);
 }

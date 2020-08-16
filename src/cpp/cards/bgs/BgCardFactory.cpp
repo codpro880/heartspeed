@@ -63,7 +63,20 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_with_deathrat
     return res;
 }
 
-
+std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_race(std::string race) {
+    std::vector<std::shared_ptr<BgBaseCard> > res;
+    auto it = cards.begin();
+    while (it != cards.end()) {
+	auto card = it->second;
+	if (card->get_race() == race) {
+	    // TODO: Not copying here may improve performance.
+	    // Maybe only return names?
+	    res.push_back(card->get_copy());
+	}
+	it++;
+    }
+    return res;
+}
 
 std::shared_ptr<BgBaseCard> BgCardFactory::init_card(int attack,
 				      std::string card_class,
@@ -577,6 +590,8 @@ void BgCardFactory::init_cards() {
     // 						   "['DEATHRATTLE']", "BEAST", "LEGENDARY", 3, "MINION"));
     // cards.emplace("The Tide Razor", BgBaseCard(6, "NEUTRAL", 7, 4, "The Tide Razor",
     // 					       "['DEATHRATTLE']", "", "", 6, "MINION"));
+    cards.emplace("The Tide Razor", std::make_shared<TheTideRazor>());
+    cards.emplace("The Tide Razor (Golden)", std::make_shared<TheTideRazorGolden>());
     // cards.emplace("Treasure Chest", BgBaseCard(0, "NEUTRAL", 2, 2, "Treasure Chest",
     // 					       "", "", "", 1, "MINION"));
     // cards.emplace("Treasure Chest (Golden)", BgBaseCard(0, "NEUTRAL", 2, 2, "Treasure Chest (Golden)",

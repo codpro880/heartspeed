@@ -604,6 +604,30 @@ TEST(Battler, MecharooGoldenDrattle) {
     EXPECT_EQ(res.damage_taken, 0);
 }
 
+TEST(Battler, NadinaDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Nadina"),
+	 f.get_card("Razorgore")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(4);
+    th->set_health(11); // 7 nadina, 2 razor div shield, then 2 razorgore
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+    EXPECT_EQ(res.damage_taken, 0);
+}
+
 TEST(Battler, PilotedShredderDrattle) {
     auto f = BgCardFactory();
     auto ps = f.get_card("Piloted Shredder");
@@ -971,6 +995,34 @@ TEST(Battler, TheBeastDrattle) {
     EXPECT_EQ(b2_cards.size(), (unsigned)0);
     for (auto c : b1_cards) {
 	EXPECT_EQ(c->get_name(), "Finkle Einhorn");
+    }
+}
+
+TEST(Battler, TheTideRazorDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("The Tide Razor"),
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(4);
+    th->set_health(4);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Tess");
+    EXPECT_GT(res.damage_taken, 4);
+    auto p1_res_cards = p1->get_board()->get_cards();
+    EXPECT_EQ(p1_res_cards.size(), (unsigned)3);
+    for (auto c : p1_res_cards) {
+	EXPECT_EQ(c->get_race(), "PIRATE");
     }
 }
 

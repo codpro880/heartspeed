@@ -318,6 +318,8 @@ void BgCardFactory::init_cards() {
     // K
     cards.emplace("Kaboom Bot", std::make_shared<KaboomBot>());
     cards.emplace("Kaboom Bot (Golden)", std::make_shared<KaboomBotGolden>());
+    cards.emplace("Kangor", std::make_shared<Kangor>());
+    cards.emplace("Kangor (Golden)", std::make_shared<KangorGolden>());
     // cards.emplace("Kalecgos", BgBaseCard(4, "NEUTRAL", 8, 12, "Kalecgos, Arcane Aspect",
     // 					 "['TRIGGER_VISUAL']", "DRAGON", "", 6, "MINION"));
     // cards.emplace("Kalecgos (Golden)", BgBaseCard(8, "NEUTRAL", 8, 24, "Kalecgos, Arcane Aspect (Golden)",
@@ -459,7 +461,7 @@ void BgCardFactory::init_cards() {
     cards.emplace("Rat Pack (Golden)", std::make_shared<RatPackGolden>());
     // cards.emplace("Rat Pack (Golden)", BgBaseCard(4, "HUNTER", 3, 4, "Rat Pack (Golden)",
     // 						  "['DEATHRATTLE']", "BEAST", "EPIC", 2, "MINION"));
-    std::shared_ptr<BgBaseCard> razorgore(new BgBaseCard(2, "NEUTRAL", 8, 4, "Razorgore, the Untamed",
+    std::shared_ptr<BgBaseCard> razorgore(new BgBaseCard(2, "NEUTRAL", 8, 4, "Razorgore",
 							 "['TRIGGER_VISUAL']", "DRAGON", "", 5, "MINION"));
     cards.emplace("Razorgore", razorgore);
     // cards.emplace("Razorgore", BgBaseCard(2, "NEUTRAL", 8, 4, "Razorgore, the Untamed",

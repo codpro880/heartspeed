@@ -1,3 +1,4 @@
+#include <algorithm>
 #include <iostream>
 #include <memory>
 
@@ -147,6 +148,41 @@ void KaboomBotGolden::do_deathrattle(Board* b1, Board* b2) {
     b1->do_deathrattles(b2);
     b2->do_deathrattles(b2);
 }
+
+void Kangor::do_deathrattle(Board* b1, Board* b2) {
+    reset_mech_queue(b1);
+    //auto available_mechs = std::min(mech_queue.size(), (unsigned)2);
+    auto available_mechs = mech_queue.size() < unsigned(2) ? mech_queue.size() : unsigned(2);
+    std::cerr << "Avail mechs: " << available_mechs << std::endl;
+    multi_summon(available_mechs, b1);
+}
+
+std::shared_ptr<BgBaseCard> Kangor::summon() {
+    auto card_name = mech_queue.front();
+    mech_queue.pop();
+    auto f = BgCardFactory();
+    return f.get_card(card_name);
+}
+
+void Kangor::reset_mech_queue(Board* b) {
+    std::queue<std::string>().swap(mech_queue); // clear current queue
+    for (auto c : b->has_died()) {
+	if (c->get_race() == "MECHANICAL") {
+	    mech_queue.push(c->get_name());
+	}
+    }
+}
+
+void KangorGolden::do_deathrattle(Board* b1, Board* b2) {
+    kang.reset_mech_queue(b1);
+    auto available_mechs = kang.mech_queue.size() < unsigned(4) ? kang.mech_queue.size() : unsigned(4);
+    multi_summon(available_mechs, b1);
+}
+
+std::shared_ptr<BgBaseCard> KangorGolden::summon() {
+    return kang.summon();
+}
+
 
 void KindlyGrandmother::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);

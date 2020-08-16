@@ -405,6 +405,84 @@ TEST(Battler, KindlyGrandmotherGoldenDrattle) {
     EXPECT_EQ(res.damage_taken, 2);
 }
 
+TEST(Battler, KangorNoMechDeathsDeathrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Kangor")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("King Bagurgle")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+}
+
+// TEST(Battler, KangorOneMechDeathrattle) {
+//     // Boombot goes first, hits 9 health menace, deals 6 total damage.
+//     // Menace attacks into Kangor, they both die. Kangor summons bomb,
+//     // menace summons tokens, which tie.
+//     auto f = BgCardFactory();
+//     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+// 	{
+// 	 f.get_card("Kaboom Bot"),
+// 	 f.get_card("Kangor")
+// 	};
+//     auto replicating_menace = f.get_card("Replicating Menace");
+//     replicating_menace->set_attack(6);
+//     replicating_menace->set_health(9);
+//     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+// 	{
+// 	 replicating_menace
+// 	};
+//     std::unique_ptr<Board> board1(new Board(p1_cards));
+//     std::unique_ptr<Board> board2(new Board(p2_cards));
+//     std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+//     std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+//     auto battler = Battler(p1.get(), p2.get());
+//     auto res = battler.sim_battle();
+//     EXPECT_EQ(res.who_won, "draw");
+// }
+
+// bool compareCards(BgBaseCard c1, BgBaseCard c2) {
+//     return c1->get_name() < c2->get_name();
+// }
+
+// TEST(Battler, KangorTwoMechDeathrattle) {
+//     // Should summon the harvest golem and damaged golem
+//     auto f = BgCardFactory();
+//     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+// 	{
+// 	 f.get_card("Harvest Golem"),
+// 	 f.get_card("Kangor")
+// 	};
+//     auto th = f.get_card("Murloc Tidehunter");
+//     th->set_attack(3);
+//     th->set_health(10);
+//     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+// 	{
+// 	 th
+// 	};
+//     std::unique_ptr<Board> board1(new Board(p1_cards));
+//     std::unique_ptr<Board> board2(new Board(p2_cards));
+//     std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
+//     std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+//     auto battler = Battler(p1.get(), p2.get());
+//     auto res = battler.sim_battle();
+//     EXPECT_EQ(res.who_won, "Edwin");
+//     auto b1_cards = p1->get_board()->get_cards();
+//     EXPECT_EQ(b1_cards.size(), (unsigned)2);
+//     std::sort(b1_cards.begin(), b1_cards.end(), compareCards);
+//     EXPECT_EQ(b1_cards[0]->get_name() == "Damaged Golem");
+//     EXPECT_EQ(b1_cards[0]->get_name() == "Harvest Golem");
+// }
+
 TEST(Battler, KingBagurgleDeathrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards

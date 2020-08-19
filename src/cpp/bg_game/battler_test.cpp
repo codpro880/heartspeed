@@ -158,11 +158,8 @@ TEST(Battler, FiendishServantGoldenDrattle) {
     std::unique_ptr<Board> board2(new Board(p2_cards));    
     auto fiendish = p1_cards[0];
     fiendish->set_attack(10);
-    fiendish->take_damage(10, board1.get(), board2.get());
-    board1->remove_and_mark_dead();
-    board2->remove_and_mark_dead();
-    board1->do_deathrattles(board2.get());
-    board2->do_deathrattles(board1.get());
+    BoardBattler b;
+    b.take_dmg_simul(fiendish, 10, board1.get(), board2.get());
     int total_attack = 0;
     // TODO: Looks like p1_cards getting copied, probably not great for
     // performace...fix when profiler setup
@@ -733,11 +730,8 @@ TEST(Battler, RatPackDrattleSummonsCorrectNumOfRats) {
 	};
     std::unique_ptr<Board> board1(new Board(p1_cards));
     std::unique_ptr<Board> board2(new Board(p2_cards));
-    rp->take_damage(2, board2.get(), board1.get());
-    board1->remove_and_mark_dead();
-    board2->remove_and_mark_dead();
-    board1->do_deathrattles(board2.get());
-    board2->do_deathrattles(board1.get());
+    BoardBattler b;
+    b.take_dmg_simul(rp, 2, board2.get(), board1.get());
     int rat_count = 0;
     int razor_count = 0;
     for (auto c : board2->get_cards()) {
@@ -748,6 +742,27 @@ TEST(Battler, RatPackDrattleSummonsCorrectNumOfRats) {
     EXPECT_EQ(rat_count, 5);
     EXPECT_EQ(razor_count, 2);
 }
+
+// TEST(Battler, RedWhelpPreBattleCondition) {
+//     auto f = BgCardFactory();
+//     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+// 	{
+// 	 f.get_card("Red Whelp")
+// 	};
+//     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+// 	{
+// 	 f.get_card("Murloc Tidehunter"),
+// 	 f.get_card("Murloc Tidehunter")
+// 	};
+//     std::unique_ptr<Board> board1(new Board(p1_cards));
+//     std::unique_ptr<Board> board2(new Board(p2_cards));
+//     std::unique_ptr<Player> p1(new Player(board1.get(), "p1"));
+//     std::unique_ptr<Player> p2(new Player(board2.get(), "p2"));
+//     auto battler = Battler(p1.get(), p2.get());
+//     auto res = battler.sim_battle();
+//     EXPECT_EQ(res.who_won, "draw");
+// }
+
 
 // So similar to ratpack we skip it for now...
 // TEST(Battler, ReplicatingMenaceDrattle) {

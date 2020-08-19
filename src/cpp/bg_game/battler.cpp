@@ -85,22 +85,69 @@ BattleResult Battler::battle(Player* p1,
     return battle(p2, p1, p2_counter, p1_counter);
 }
 
-bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
-    auto attacker = (*b1)[attacker_pos];
-    auto defender_pos = rand() % b2->length();
-    auto defender = (*b2)[defender_pos];
-    
-    // TODO: impl rest of deathrattles. See fiendish servant for example.
-    // Handles drattles
-    attacker->take_damage(defender->get_attack(), b1, b2); // May modify b1/b2
-    defender->take_damage(attacker->get_attack(), b2, b1); // May modify b1/b2
+void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker, std::shared_ptr<BgBaseCard> defender, Board* b1, Board* b2) {
+    std::vector<int> dmg = {defender->get_attack(), attacker->get_attack()};
+    std::vector<std::shared_ptr<BgBaseCard> > cards = {attacker, defender};
+    take_dmg_simul(cards, dmg, b1, b2);
+}
 
+void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> card, int dmg, Board* b1, Board* b2) {
+    auto cards = {card};
+    take_dmg_simul(cards, dmg, b1, b2);
+}
+
+void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards, int dmg, Board* b1, Board* b2) {
+    for (auto c : cards) {
+	std::cerr << "Takin dmg: " << c->get_name() << std::endl;
+	c->take_damage(dmg);
+    }
+    
     b1->remove_and_mark_dead();
     b2->remove_and_mark_dead();
 
     // TODO: Ordering seems to be a coin flip?
     b1->do_deathrattles(b2);
     b2->do_deathrattles(b1);
+}
+
+void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards, std::vector<int> dmg, Board* b1, Board* b2) {    
+    for (int i = 0; i < cards.size(); i++) {
+	cards[i]->take_damage(dmg[i]);	
+    }
+    
+    b1->remove_and_mark_dead();
+    b2->remove_and_mark_dead();
+
+    // TODO: Ordering seems to be a coin flip?
+    b1->do_deathrattles(b2);
+    b2->do_deathrattles(b1);
+}
+
+// BoardBattler::pre_battle(Board* b1, Board* b2) {
+//     // TODO: Ordering should be coin flip
+//     int drag_count = 0;
+//     // TODO: Make this O(1) to get whelp, e.g. assoc_map["Red Whelp"]
+//     if (b1->is_in("Red Whelp")) {
+// 	for (auto card : b1->get_cards()) {	
+// 	    if (card->get_race() == "DRAGON") {
+// 		drag_count++;
+// 	    }
+// 	}
+// 	auto defender_pos = rand() % b2->length();
+// 	auto defender = (*b2)[defender_pos];
+// 	take_damage(defender_pos, drag_count, b2, b1);
+//     }
+// }
+
+bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
+    // pre_battle(b1, b2); // Special case: Red Whelp start of combat mechanic. Illidan, too.
+    
+    auto attacker = (*b1)[attacker_pos];
+    auto defender_pos = rand() % b2->length();
+    auto defender = (*b2)[defender_pos];
+    
+    // Handles drattles
+    take_dmg_simul(attacker, defender, b1, b2);
 
     // Handles deathrattles, nothing happens if nothing died
     //attacker->do_deathrattle(b1, b2);

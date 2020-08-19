@@ -68,7 +68,7 @@ public:
     void set_poison() { is_poison = true; }
     void set_divine_shield() { divine_shield = true; }
 
-    void take_damage(int damage, Board* b1, Board* b2);
+    void take_damage(int damage);
 
     friend std::ostream& operator<<(std::ostream& os, BgBaseCard& card);
     virtual ~BgBaseCard() {}

@@ -5,6 +5,7 @@
 #include <queue>
 #include <string>
 #include <vector>
+#include <unordered_set>
 
 #include "../cards/bgs/BgBaseCard.hpp"
 
@@ -32,10 +33,12 @@ public:
     void remove(std::shared_ptr<BgBaseCard> c) {
 	auto it = std::find(cards.begin(), cards.end(), c);
 	cards.erase(it);
+	card_names.erase(c->get_name());
     }
     void remove(const int& i) {
 	if (cards.size() > (unsigned)i) {
 	    cards.erase(cards.begin() + i);
+	    card_names.erase(cards[i]->get_name());
 	}
     }
     auto get_pos(std::shared_ptr<BgBaseCard> c) {
@@ -94,15 +97,19 @@ public:
 	    // Else, if mecharoo was to right of surviving card, we
 	    // want it in back...
 	    cards.push_back(c);
+	    card_names.insert(c->get_name());
 	}
 	else{
 	    cards.insert(cards.begin() + pos, c);
+	    card_names.insert(c->get_name());
 	}
     }
     std::vector<std::shared_ptr<BgBaseCard> > const get_cards() { return cards;  } // TODO: Make this an iterator
     std::vector<std::shared_ptr<BgBaseCard> > has_died() { return _has_died; }
+    bool is_in(std::string card_name) { return card_names.find(card_name) != card_names.end(); }
 private:
     std::vector<std::shared_ptr<BgBaseCard> > cards;
     std::queue<std::shared_ptr<BgBaseCard> > deathrattle_q;
     std::vector<std::shared_ptr<BgBaseCard> > _has_died;
+    std::unordered_set<std::string> card_names;
 };

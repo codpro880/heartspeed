@@ -42,7 +42,8 @@ public:
 					  tech_level(other.tech_level),
 					  type(other.type) {}
 
-    virtual void do_deathrattle(Board* b1, Board* b2);
+    virtual void do_deathrattle(Board* b1, Board* b2) {}
+    virtual void do_prebattle(Board* b1, Board* b2) {}
     
     virtual std::shared_ptr<BgBaseCard> get_copy();
     

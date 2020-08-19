@@ -33,7 +33,3 @@ void BgBaseCard::deal_with_death(Board* b1, Board* b2) {
     // 	do_deathrattle(b1, b2);
     // }
 }
-
-void BgBaseCard::do_deathrattle(Board* b1, Board* b2) {
-    
-}

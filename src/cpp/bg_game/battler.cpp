@@ -123,24 +123,18 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
     b2->do_deathrattles(b1);
 }
 
-// BoardBattler::pre_battle(Board* b1, Board* b2) {
-//     // TODO: Ordering should be coin flip
-//     int drag_count = 0;
-//     // TODO: Make this O(1) to get whelp, e.g. assoc_map["Red Whelp"]
-//     if (b1->is_in("Red Whelp")) {
-// 	for (auto card : b1->get_cards()) {	
-// 	    if (card->get_race() == "DRAGON") {
-// 		drag_count++;
-// 	    }
-// 	}
-// 	auto defender_pos = rand() % b2->length();
-// 	auto defender = (*b2)[defender_pos];
-// 	take_damage(defender_pos, drag_count, b2, b1);
-//     }
-// }
+void BoardBattler::pre_battle(Board* b1, Board* b2) {
+    // TODO: randomize order
+    for (auto c : b1->get_cards()) {
+	c->do_prebattle(b1, b2);
+    }
+    for (auto c : b2->get_cards()) {
+	c->do_prebattle(b2, b1);
+    }
+}
 
 bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
-    // pre_battle(b1, b2); // Special case: Red Whelp start of combat mechanic. Illidan, too.
+    pre_battle(b1, b2); // Special case: Red Whelp start of combat mechanic. Illidan, too.
     
     auto attacker = (*b1)[attacker_pos];
     auto defender_pos = rand() % b2->length();

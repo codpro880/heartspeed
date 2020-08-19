@@ -31,6 +31,7 @@ private:
 class BoardBattler {
 public:
     bool battle_boards(int attacker_pos, Board* b1, Board* b2);
+    void pre_battle(Board* b1, Board* b2);
     void take_dmg_simul(std::shared_ptr<BgBaseCard> card, int dmg, Board* b1, Board* b2);
     void take_dmg_simul(std::shared_ptr<BgBaseCard> attacker, std::shared_ptr<BgBaseCard> defender, Board* b1, Board* b2);
     void take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards, int dmg, Board* b1, Board* b2);

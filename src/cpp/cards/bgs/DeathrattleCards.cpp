@@ -467,20 +467,15 @@ std::shared_ptr<BgBaseCard> VoidlordGolden::summon() {
 }
 
 void UnstableGhoul::do_deathrattle(Board* b1, Board* b2) {
-    std::cerr << "Doin ghoul drattle" << std::endl;
     auto b1_cards = b1->get_cards();
     auto b2_cards = b2->get_cards();
-    std::cerr << "Copied" << std::endl;
     b1_cards.insert(b1_cards.end(), b2_cards.begin(), b2_cards.end());
-    std::cerr << "Concatted" << std::endl;
     BoardBattler b;
-    std::cerr << "Dmg simul." << std::endl;
     b.take_dmg_simul(b1_cards, 1, b1, b2);
 }
 
 void UnstableGhoulGolden::do_deathrattle(Board* b1, Board* b2) {
     for (int i = 0; i < 2; i++) {
-	std::cerr << "Doin comp drattle" << std::endl;
 	ghoul.do_deathrattle(b1, b2);
     }
 }

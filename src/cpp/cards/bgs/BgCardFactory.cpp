@@ -7,6 +7,7 @@ These are the cards that weren't automatically roped in and should be generated 
 #include "BgBaseCard.hpp"
 #include "BgCardFactory.hpp"
 #include "DeathrattleCards.hpp"
+#include "PrebattleCards.hpp"
 
 std::shared_ptr<BgBaseCard> BgCardFactory::get_card(std::string name) {
     auto card_found_it = cards.find(name);
@@ -481,10 +482,8 @@ void BgCardFactory::init_cards() {
     // 						       "['TRIGGER_VISUAL']", "DRAGON", "", 5, "MINION"));
     // cards.emplace("Razorgore (Golden)", BgBaseCard(4, "NEUTRAL", 8, 8, "Razorgore, the Untamed (Golden)",
     // 						   "['TRIGGER_VISUAL']", "DRAGON", "", 5, "MINION"));
-    // cards.emplace("Red Whelp", BgBaseCard(1, "NEUTRAL", 1, 2, "Red Whelp",
-    // 					  "['TRIGGER_VISUAL']", "DRAGON", "", 1, "MINION"));
-    // cards.emplace("Red Whelp (Golden)", BgBaseCard(2, "NEUTRAL", 1, 4, "Red Whelp (Golden)",
-    // 						   "['TRIGGER_VISUAL']", "DRAGON", "", 1, "MINION"));
+    cards.emplace("Red Whelp", std::make_shared<RedWhelp>());
+    cards.emplace("Red Whelp (Golden)", std::make_shared<RedWhelpGolden>());
     // cards.emplace("Redemption", BgBaseCard(-1, "PALADIN", 1, -1, "Redemption",
     // 					   "['SECRET']", "", "COMMON", -1, "SPELL"));
     cards.emplace("Replicating Menace", std::make_shared<ReplicatingMenace>());

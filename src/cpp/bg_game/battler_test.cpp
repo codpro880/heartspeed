@@ -784,6 +784,52 @@ TEST(Battler, RedWhelpGoldenPreBattleCondition) {
     EXPECT_EQ(res.who_won, "draw");
 }
 
+// TEST(Battler, ScavengingHyenaIfBeastDies) {
+//     auto f = BgCardFactory();
+//     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+// 	{
+// 	 f.get_card("Alleycat"),
+// 	 f.get_card("Scavaging Hyena")
+// 	};
+//     auto th = f.get_card("Murloc Tidehunter");
+//     th->set_attack(3);
+//     th->set_health(5);
+//     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+// 	{
+// 	 th
+// 	};
+//     std::unique_ptr<Board> board1(new Board(p1_cards));
+//     std::unique_ptr<Board> board2(new Board(p2_cards));
+//     std::unique_ptr<Player> p1(new Player(board1.get(), "p1"));
+//     std::unique_ptr<Player> p2(new Player(board2.get(), "p2"));
+//     auto battler = Battler(p1.get(), p2.get());
+//     auto res = battler.sim_battle();
+//     EXPECT_EQ(res.who_won, "draw");
+// }
+
+// TEST(Battler, ScavengingHyenaIfBeastDiesGolden) {
+//     auto f = BgCardFactory();
+//     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+// 	{
+// 	 f.get_card("Alleycat"),
+// 	 f.get_card("Scavaging Hyena (Golden)")
+// 	};
+//     auto th = f.get_card("Murloc Tidehunter");
+//     th->set_attack(3); // Not enough health to kill golden hyena
+//     th->set_health(7);
+//     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+// 	{
+// 	 th
+// 	};
+//     std::unique_ptr<Board> board1(new Board(p1_cards));
+//     std::unique_ptr<Board> board2(new Board(p2_cards));
+//     std::unique_ptr<Player> p1(new Player(board1.get(), "p1"));
+//     std::unique_ptr<Player> p2(new Player(board2.get(), "p2"));
+//     auto battler = Battler(p1.get(), p2.get());
+//     auto res = battler.sim_battle();
+//     EXPECT_EQ(res.who_won, "p1");
+// }
+
 
 // So similar to ratpack we skip it for now...
 // TEST(Battler, ReplicatingMenaceDrattle) {

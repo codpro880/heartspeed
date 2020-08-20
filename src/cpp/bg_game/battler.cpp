@@ -75,7 +75,7 @@ BattleResult Battler::battle(Player* p1,
 
     //p1->set_board(b1);
     //p2->set_board(b2);
-    auto attacker_is_dead = BoardBattler().battle_boards(p1_counter, b1, b2); // Modifies b1/b2
+    auto attacker_is_dead = board_battler.battle_boards(p1_counter, b1, b2); // Modifies b1/b2
     if (!attacker_is_dead) {
 	p1_counter++;
     }
@@ -123,7 +123,11 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
     b2->do_deathrattles(b1);
 }
 
-void BoardBattler::pre_battle(Board* b1, Board* b2) {
+void BoardBattler::pre_combat(Board* b1, Board* b2) {
+    if (first_combat) {
+	return;
+	first_combat = true;
+    }
     // TODO: randomize order
     for (auto c : b1->get_cards()) {
 	c->do_prebattle(b1, b2);
@@ -134,14 +138,27 @@ void BoardBattler::pre_battle(Board* b1, Board* b2) {
 }
 
 bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
-    pre_battle(b1, b2); // Special case: Red Whelp start of combat mechanic. Illidan, too.
+    pre_combat(b1, b2); // Special case: Red Whelp start of combat mechanic. Illidan, too.
     
     auto attacker = (*b1)[attacker_pos];
     auto defender_pos = rand() % b2->length();
     auto defender = (*b2)[defender_pos];
+
+    auto pre_b1_dead = b1->has_died();
+    auto pre_b2_dead = b2->has_died();
     
     // Handles drattles
     take_dmg_simul(attacker, defender, b1, b2);
+
+    auto post_b1_dead = b1->has_died();
+    auto post_b2_dead = b2->has_died();
+
+    // if (post_b1_dead.size() > pre_b1_dead.size()) {
+    // 	post_battle(b1, pre_b1_dead, post_b1_dead);
+    // }
+    // if (post_b2_dead.size() > pre_b2_dead.size()) {
+    // 	post_battle(b2, pre_b2_dead, post_b2_dead);
+    // }
 
     // Handles deathrattles, nothing happens if nothing died
     //attacker->do_deathrattle(b1, b2);

@@ -130,12 +130,24 @@ void BoardBattler::pre_combat(Board* b1, Board* b2) {
     }
     // TODO: randomize order
     for (auto c : b1->get_cards()) {
-	c->do_prebattle(b1, b2);
+	c->do_precombat(b1, b2);
     }
     for (auto c : b2->get_cards()) {
-	c->do_prebattle(b2, b1);
+	c->do_precombat(b2, b1);
     }
 }
+
+// void BoardBattler::post_battle(Board* board,
+// 			       std::vector<std::shared_ptr<BgBaseCard> pre_death,
+// 			       std::vector<std::shared_ptr<BgBaseCard> post_death) {
+//     if (pre_death.size() == post_death.size()) return;
+//     auto first = post_death.begin() + pre_death.size();
+//     auto last = post_death.end();
+//     std::vector<std::shared_ptr<BgBaseCard> new_dead(first, last);
+//     for (auto c : board->get_cards()) {	
+// 	c.post_battle(board, new_dead);
+//     }
+// }
 
 bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     pre_combat(b1, b2); // Special case: Red Whelp start of combat mechanic. Illidan, too.
@@ -153,12 +165,9 @@ bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     auto post_b1_dead = b1->has_died();
     auto post_b2_dead = b2->has_died();
 
-    // if (post_b1_dead.size() > pre_b1_dead.size()) {
-    // 	post_battle(b1, pre_b1_dead, post_b1_dead);
-    // }
-    // if (post_b2_dead.size() > pre_b2_dead.size()) {
-    // 	post_battle(b2, pre_b2_dead, post_b2_dead);
-    // }
+    // Handles things like Scavenging Hyena
+    post_battle(b1, pre_b1_dead, post_b1_dead);
+    post_battle(b2, pre_b2_dead, post_b2_dead);
 
     // Handles deathrattles, nothing happens if nothing died
     //attacker->do_deathrattle(b1, b2);

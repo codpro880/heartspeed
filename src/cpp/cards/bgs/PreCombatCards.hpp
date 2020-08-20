@@ -2,26 +2,26 @@
 
 #include <queue>
 
-class PrebattleCard : public BgBaseCard {
+class PreCombatCard : public BgBaseCard {
 public:
     using BgBaseCard::BgBaseCard;
-    virtual void do_prebattle(Board* b1, Board* b2) override = 0;
+    virtual void do_precombat(Board* b1, Board* b2) override = 0;
     virtual std::shared_ptr<BgBaseCard> get_copy() override = 0; // boilerplate that every drattle needs...
 };
 
-class RedWhelp : public PrebattleCard {
+class RedWhelp : public PreCombatCard {
 public:
-    RedWhelp() : PrebattleCard(1, "NEUTRAL", 1, 2, "Red Whelp",
+    RedWhelp() : PreCombatCard(1, "NEUTRAL", 1, 2, "Red Whelp",
 			       "['TRIGGER_VISUAL']", "DRAGON", "", 1, "MINION") {}
-    virtual void do_prebattle(Board* b1, Board* b2) override;
+    virtual void do_precombat(Board* b1, Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<RedWhelp>(*this); } // boilerplate that every drattle needs...
 };
 
-class RedWhelpGolden : public PrebattleCard {
+class RedWhelpGolden : public PreCombatCard {
 public:
-    RedWhelpGolden() : PrebattleCard(1, "NEUTRAL", 1, 2, "Red Whelp",
+    RedWhelpGolden() : PreCombatCard(1, "NEUTRAL", 1, 2, "Red Whelp",
 			       "['TRIGGER_VISUAL']", "DRAGON", "", 1, "MINION") {}
-    virtual void do_prebattle(Board* b1, Board* b2) override;
+    virtual void do_precombat(Board* b1, Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<RedWhelpGolden>(*this); } // boilerplate that every drattle needs...
 private:
     RedWhelp rw;

@@ -23,5 +23,4 @@ void ScavagingHyenaGolden::do_postbattle(Board* b1, std::vector<std::shared_ptr<
 	    set_attack(get_attack() + 4);
 	}
     }
-
 }

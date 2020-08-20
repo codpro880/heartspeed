@@ -1,5 +1,5 @@
 # About
-Heartspeed is a Hearthstone simulator written in C++ (for speed). Ultimate goal is to use this simulator to train a bot using reenforcement learning: so simulations need to happen fast.
+Heartspeed is a Hearthstone simulator written in C++ (for speed). Ultimate goal is to use this simulator to train a bot using reinforcement learning: so simulations need to happen fast.
 It's currently under construction: not officially released.
 
 # Building

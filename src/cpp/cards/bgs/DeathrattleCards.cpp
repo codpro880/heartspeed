@@ -136,7 +136,9 @@ void KaboomBot::do_deathrattle(Board* b1, Board* b2) {
     }
     auto bombed_pos = rand() % b2->length();
     auto bombed_card = b2->get_cards()[bombed_pos];
-    bombed_card->take_damage(4, b2, b1);
+    BoardBattler b;
+    b.take_dmg_simul(bombed_card, 4, b2, b1);
+    // bombed_card->take_damage(4, b2, b1);
 }
 
 void KaboomBotGolden::do_deathrattle(Board* b1, Board* b2) {    
@@ -465,20 +467,15 @@ std::shared_ptr<BgBaseCard> VoidlordGolden::summon() {
 }
 
 void UnstableGhoul::do_deathrattle(Board* b1, Board* b2) {
-    for (auto c : b1->get_cards()) {
-	c->take_damage(1, b1, b2);
-    }    
-    for (auto c : b2->get_cards()) {
-	c->take_damage(1, b2, b1);
-    }
+    auto b1_cards = b1->get_cards();
+    auto b2_cards = b2->get_cards();
+    b1_cards.insert(b1_cards.end(), b2_cards.begin(), b2_cards.end());
+    BoardBattler b;
+    b.take_dmg_simul(b1_cards, 1, b1, b2);
 }
 
 void UnstableGhoulGolden::do_deathrattle(Board* b1, Board* b2) {
     for (int i = 0; i < 2; i++) {
 	ghoul.do_deathrattle(b1, b2);
-	b1->remove_and_mark_dead();
-	b2->remove_and_mark_dead();
-	b1->do_deathrattles(b2);
-	b2->do_deathrattles(b1);
     }
 }

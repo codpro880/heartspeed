@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <string>
+#include <vector>
 
 class Board; // Forward declare for circular dep between cards and board
 
@@ -44,7 +45,7 @@ public:
 
     virtual void do_deathrattle(Board* b1, Board* b2) {}
     virtual void do_precombat(Board* b1, Board* b2) {}
-    virtual void do_postbattle(Board* b1, Board* b2) {}
+    virtual void do_postbattle(Board* b1, std::vector<std::shared_ptr<BgBaseCard> > new_dead) {}
     
     virtual std::shared_ptr<BgBaseCard> get_copy();
     

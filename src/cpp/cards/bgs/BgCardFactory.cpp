@@ -8,6 +8,7 @@ These are the cards that weren't automatically roped in and should be generated 
 #include "BgCardFactory.hpp"
 #include "DeathrattleCards.hpp"
 #include "PreCombatCards.hpp"
+#include "PostBattleCards.hpp"
 
 std::shared_ptr<BgBaseCard> BgCardFactory::get_card(std::string name) {
     auto card_found_it = cards.find(name);
@@ -514,12 +515,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Savannah Highmane (Golden)", std::make_shared<SavannahHighmaneGolden>());
     cards.emplace("Scallywag", std::make_shared<Scallywag>());
     cards.emplace("Scallywag (Golden)", std::make_shared<ScallywagGolden>());
-    // cards.emplace("Scallywag", BgBaseCard(2, "NEUTRAL", 1, 1, "Scallywag",
-    // 					  "['DEATHRATTLE']", "PIRATE", "", 1, "MINION"));
-    // cards.emplace("Scallywag (Golden)", BgBaseCard(4, "NEUTRAL", 1, 2, "Scallywag (Golden)",
-    // 						   "['DEATHRATTLE']", "PIRATE", "", 1, "MINION"));
-    // cards.emplace("Scavenging Hyena (Golden)", BgBaseCard(4, "HUNTER", 2, 4, "Scavenging Hyena (Golden)",
-    // 							  "['TRIGGER_VISUAL']", "BEAST", "COMMON", 1, "MINION"));
+    cards.emplace("Scavaging Hyena", std::make_shared<ScavagingHyena>());
+    cards.emplace("Scavaging Hyena (Golden)", std::make_shared<ScavagingHyenaGolden>());
     // cards.emplace("Screwjank Clunker (Golden)", BgBaseCard(4, "WARRIOR", 4, 10, "Screwjank Clunker (Golden)",
     // 							   "['BATTLECRY']", "MECHANICAL", "RARE", 3, "MINION"));
     // cards.emplace("Seabreaker Goliath", BgBaseCard(6, "NEUTRAL", 7, 7, "Seabreaker Goliath",

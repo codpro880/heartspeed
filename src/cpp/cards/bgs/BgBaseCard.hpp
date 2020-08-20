@@ -43,7 +43,8 @@ public:
 					  type(other.type) {}
 
     virtual void do_deathrattle(Board* b1, Board* b2) {}
-    virtual void do_prebattle(Board* b1, Board* b2) {}
+    virtual void do_precombat(Board* b1, Board* b2) {}
+    virtual void do_postbattle(Board* b1, Board* b2) {}
     
     virtual std::shared_ptr<BgBaseCard> get_copy();
     

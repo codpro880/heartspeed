@@ -166,8 +166,8 @@ bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     auto post_b2_dead = b2->has_died();
 
     // Handles things like Scavenging Hyena
-    post_battle(b1, pre_b1_dead, post_b1_dead);
-    post_battle(b2, pre_b2_dead, post_b2_dead);
+    // post_battle(b1, pre_b1_dead, post_b1_dead);
+    // post_battle(b2, pre_b2_dead, post_b2_dead);
 
     // Handles deathrattles, nothing happens if nothing died
     //attacker->do_deathrattle(b1, b2);

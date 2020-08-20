@@ -7,7 +7,7 @@ These are the cards that weren't automatically roped in and should be generated 
 #include "BgBaseCard.hpp"
 #include "BgCardFactory.hpp"
 #include "DeathrattleCards.hpp"
-#include "PrebattleCards.hpp"
+#include "PreCombatCards.hpp"
 
 std::shared_ptr<BgBaseCard> BgCardFactory::get_card(std::string name) {
     auto card_found_it = cards.find(name);

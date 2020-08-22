@@ -54,6 +54,29 @@ private:
     Ghastcoiler coiler;
 };
 
+class GlyphGuardian : public BgBaseCard {
+public:
+    GlyphGuardian() : BgBaseCard(2, "MAGE", 4, 4, "Glyph Guardian",
+				    "", "DRAGON", "", 2, "MINION") {}
+    virtual void do_preattack(std::shared_ptr<BgBaseCard> defender,
+			      Board* b1,
+			      Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<GlyphGuardian>(*this); } // boilerplate that every drattle needs...
+};
+
+class GlyphGuardianGolden : public BgBaseCard {
+public:
+    GlyphGuardianGolden() : BgBaseCard(4, "MAGE", 4, 8, "Glyph Guardian (Golden)",
+				       "", "DRAGON", "", 2, "MINION") {}
+    virtual void do_preattack(std::shared_ptr<BgBaseCard> defender,
+			      Board* b1,
+			      Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<GlyphGuardianGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    GlyphGuardian coiler;
+};
+
+
 class Goldrinn : public DeathrattleCard {
 public:
     Goldrinn() : DeathrattleCard(4, "NEUTRAL", 8, 4, "Goldrinn",

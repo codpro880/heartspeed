@@ -234,16 +234,10 @@ void BgCardFactory::init_cards() {
     // 						"['BATTLECRY']", "BEAST", "EPIC", 6, "MINION"));
     // cards.emplace("Gentle Megasaur (Golden)", BgBaseCard(10, "NEUTRAL", 4, 8, "Gentle Megasaur (Golden)",
     // 							 "['BATTLECRY']", "BEAST", "EPIC", 6, "MINION"));
-    // cards.emplace("Ghastcoiler", BgBaseCard(7, "PRIEST", 6, 7, "Ghastcoiler",
-    // 					    "['DEATHRATTLE']", "BEAST", "", 6, "MINION"));
     cards.emplace("Ghastcoiler", std::make_shared<Ghastcoiler>());
     cards.emplace("Ghastcoiler (Golden)", std::make_shared<GhastcoilerGolden>());
-    // cards.emplace("Ghastcoiler (Golden)", BgBaseCard(14, "PRIEST", 6, 14, "Ghastcoiler (Golden)",
-    // 						     "['DEATHRATTLE']", "BEAST", "", 6, "MINION"));
-    // cards.emplace("Glyph Guardian", BgBaseCard(2, "MAGE", 3, 4, "Glyph Guardian",
-    // 					       "['TRIGGER_VISUAL']", "DRAGON", "", 2, "MINION"));
-    // cards.emplace("Glyph Guardian (Golden)", BgBaseCard(4, "MAGE", 3, 8, "Glyph Guardian (Golden)",
-    // 							"['TRIGGER_VISUAL']", "DRAGON", "", 2, "MINION"));
+    cards.emplace("Glyph Guardian", std::make_shared<GlyphGuardian>());
+    cards.emplace("Glyph Guardian (Golden)", std::make_shared<GlyphGuardianGolden>());
     // cards.emplace("Gold Coin", BgBaseCard(-1, "NEUTRAL", 0, -1, "Gold Coin",
     // 					  "", "", "RARE", -1, "SPELL"));
     // cards.emplace("Goldgrubber", BgBaseCard(2, "NEUTRAL", 5, 2, "Goldgrubber",

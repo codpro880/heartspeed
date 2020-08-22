@@ -56,6 +56,18 @@ std::shared_ptr<BgBaseCard> GhastcoilerGolden::summon() {
     return coiler.summon();
 }
 
+void GlyphGuardian::do_preattack(std::shared_ptr<BgBaseCard> defender,
+				 Board* b1,
+				 Board* b2) {
+    set_attack(get_attack() * 2);
+}
+
+void GlyphGuardianGolden::do_preattack(std::shared_ptr<BgBaseCard> defender,
+				       Board* b1,
+				       Board* b2) {
+    set_attack(get_attack() * 3);
+}
+
 void Goldrinn::do_deathrattle(Board* b1, Board* b2) {
     auto cards = b1->get_cards();
     for (auto c : cards) {

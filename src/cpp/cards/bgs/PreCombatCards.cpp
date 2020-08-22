@@ -89,3 +89,37 @@ void OldMurkeyeGolden::do_postbattle(Board* board,
 	rw.do_postbattle(board, new_dead);
     }
 }
+
+void SouthseaCaptain::do_precombat(Board* b1, Board*b2) {
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "PIRATE") {
+	    card->set_attack(card->get_attack() + 1);
+	    card->set_health(card->get_health() + 1);
+	}
+    }
+    set_attack(get_attack() - 1); // Southsea doesn't apply to itself
+    set_health(get_health() - 1); // Southsea doesn't apply to itself
+}
+
+void SouthseaCaptain::do_deathrattle(Board* b1, Board*b2) {
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "PIRATE") {
+	    card->set_attack(card->get_attack() - 1);
+	    card->set_health(card->get_health() - 1);
+	}
+    }
+    set_attack(get_attack() + 1);  // Southsea doesn't apply to itself
+    set_health(get_health() + 1);  // Southsea doesn't apply to itself
+}
+
+void SouthseaCaptainGolden::do_precombat(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	rw.do_precombat(b1, b2);
+    }
+}
+
+void SouthseaCaptainGolden::do_deathrattle(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	rw.do_deathrattle(b1, b2);
+    }
+}

@@ -124,10 +124,10 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
 }
 
 void BoardBattler::pre_combat(Board* b1, Board* b2) {
-    if (first_combat) {
+    if (!first_combat) {
 	return;
-	first_combat = true;
     }
+    first_combat = false;
     // TODO: randomize order
     for (auto c : b1->get_cards()) {
 	c->do_precombat(b1, b2);

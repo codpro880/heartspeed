@@ -625,6 +625,61 @@ TEST(Battler, MurlocWarleader) {
     EXPECT_EQ(res.damage_taken, 0);
 }
 
+TEST(Battler, OldMurkey) {
+    auto f = BgCardFactory();
+    auto gambler = f.get_card("Freedealing Gambler");
+    gambler->set_health(4 + 3 + 2); // As murkeyes die, they deal less dmg
+    gambler->set_attack(4);
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Old Murkeye"),
+	 f.get_card("Old Murkeye"),
+	 f.get_card("Old Murkeye")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 gambler
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+    EXPECT_EQ(res.damage_taken, 0);
+}
+
+TEST(Battler, OldMurkeyProperDamage) {
+    // Bug where last murkey didn't have damage reduced
+    auto f = BgCardFactory();
+    auto gambler = f.get_card("Freedealing Gambler");
+    // As murkeyes die, they deal less dmg.
+    // Added one extra health so gambler/p2 will win.
+    gambler->set_health(4 + 3 + 2 + 1);
+    gambler->set_attack(4);
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Old Murkeye"),
+	 f.get_card("Old Murkeye"),
+	 f.get_card("Old Murkeye")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 gambler
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Edwin");
+    EXPECT_EQ(res.damage_taken, 3);
+}
+
+
+
 
 TEST(Battler, NadinaDrattle) {
     auto f = BgCardFactory();

@@ -442,6 +442,8 @@ void BgCardFactory::init_cards() {
     // 							    "['BATTLECRY']", "DEMON", "RARE", 2, "MINION"));
 
     // O
+    cards.emplace("Old Murkeye", std::make_shared<OldMurkeye>());
+    cards.emplace("Old Murkeye (Golden)", std::make_shared<OldMurkeyeGolden>());
     // cards.emplace("Old Murk-Eye (Golden)", BgBaseCard(4, "NEUTRAL", 4, 8, "Old Murk-Eye (Golden)",
     // 						      "['CHARGE']", "MURLOC", "LEGENDARY", 2, "MINION"));
 

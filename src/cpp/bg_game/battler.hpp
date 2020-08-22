@@ -14,7 +14,7 @@ struct BattleResult {
 
 class BoardBattler {
 public:
-    BoardBattler() : first_combat(false) {}
+    BoardBattler() : first_combat(true) {}
     bool battle_boards(int attacker_pos, Board* b1, Board* b2);
     void pre_combat(Board* b1, Board* b2);
     void post_battle(Board*, std::vector<std::shared_ptr<BgBaseCard> >, std::vector<std::shared_ptr<BgBaseCard> >);

@@ -46,3 +46,25 @@ public:
 private:
     MurlocWarleader rw;
 };
+
+class OldMurkeye : public PreCombatCard {
+public:
+    OldMurkeye() : PreCombatCard(2, "NEUTRAL", 4, 4, "Old Murk-Eye",
+				 "['CHARGE']", "MURLOC", "LEGENDARY", 2, "MINION") {}
+    virtual void do_precombat(Board* b1, Board* b2) override;
+    virtual void do_postbattle(Board* b1,
+			       std::vector<std::shared_ptr<BgBaseCard> > new_dead) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<OldMurkeye>(*this); } // boilerplate that every drattle needs...
+};
+
+class OldMurkeyeGolden : public PreCombatCard {
+public:
+    OldMurkeyeGolden() : PreCombatCard(4, "NEUTRAL", 4, 8, "Old Murk-Eye (Golden)",
+				       "['CHARGE']", "MURLOC", "LEGENDARY", 2, "MINION") {}
+    virtual void do_precombat(Board* b1, Board* b2) override;
+    virtual void do_postbattle(Board* b1,
+			       std::vector<std::shared_ptr<BgBaseCard> > new_dead) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<OldMurkeyeGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    OldMurkeye rw;
+};

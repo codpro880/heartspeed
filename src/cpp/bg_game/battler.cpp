@@ -124,10 +124,10 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
 }
 
 void BoardBattler::pre_combat(Board* b1, Board* b2) {
-    if (first_combat) {
+    if (!first_combat) {
 	return;
-	first_combat = true;
     }
+    first_combat = false;
     // TODO: randomize order
     for (auto c : b1->get_cards()) {
 	c->do_precombat(b1, b2);
@@ -150,7 +150,7 @@ void BoardBattler::post_battle(Board* board,
 }
 
 bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
-    pre_combat(b1, b2); // Special case: Red Whelp start of combat mechanic. Illidan, too.
+    pre_combat(b1, b2); // Special case: Red Whelp start of combat mechanic. Illidan, too.    
     
     auto attacker = (*b1)[attacker_pos];
     auto defender_pos = rand() % b2->length();

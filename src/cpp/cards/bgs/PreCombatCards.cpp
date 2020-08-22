@@ -25,3 +25,33 @@ void RedWhelpGolden::do_precombat(Board* b1, Board*b2) {
 	rw.do_precombat(b1, b2);
     }
 }
+
+void MurlocWarleader::do_precombat(Board* b1, Board*b2) {
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "MURLOC") {
+	    card->set_attack(card->get_attack() + 2);
+	}
+    }
+    set_attack(get_attack() - 2); // Warleader doesn't apply to itself
+}
+
+void MurlocWarleader::do_deathrattle(Board* b1, Board*b2) {
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "MURLOC") {
+	    card->set_attack(card->get_attack() - 2);
+	}
+    }
+    set_attack(get_attack() + 2); // Warleader doesn't apply to itself
+}
+
+void MurlocWarleaderGolden::do_precombat(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	rw.do_precombat(b1, b2);
+    }
+}
+
+void MurlocWarleaderGolden::do_deathrattle(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	rw.do_deathrattle(b1, b2);
+    }
+}

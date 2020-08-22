@@ -422,10 +422,8 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> tidehunter_gold(new BgBaseCard(4, "NEUTRAL", 2, 2, "Murloc Tidehunter (Golden)",
 							       "['BATTLECRY']", "MURLOC", "FREE", 1, "MINION"));
     cards.emplace("Murloc Tidehunter (Golden)", tidehunter_gold);
-    // cards.emplace("Murloc Tidehunter (Golden)", BgBaseCard(4, "NEUTRAL", 2, 2, "Murloc Tidehunter (Golden)",
-    // 							  "['BATTLECRY']", "MURLOC", "FREE", 1, "MINION"));
-    // cards.emplace("Murloc Warleader (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Murloc Warleader (Golden)",
-    // 							  "['AURA']", "MURLOC", "EPIC", 2, "MINION"));
+    cards.emplace("Murloc Warleader", std::make_shared<MurlocWarleader>());
+    cards.emplace("Murloc Warleader (Golden)", std::make_shared<MurlocWarleaderGolden>());
     // cards.emplace("Murozond", BgBaseCard(5, "NEUTRAL", 7, 5, "Murozond",
     // 					 "['BATTLECRY']", "DRAGON", "", 5, "MINION"));
     // cards.emplace("Murozond (Golden)", BgBaseCard(10, "NEUTRAL", 7, 10, "Murozond (Golden)",

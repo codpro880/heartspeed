@@ -150,7 +150,7 @@ void BoardBattler::post_battle(Board* board,
 }
 
 bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
-    pre_combat(b1, b2); // Special case: Red Whelp start of combat mechanic. Illidan, too.
+    pre_combat(b1, b2); // Special case: Red Whelp start of combat mechanic. Illidan, too.    
     
     auto attacker = (*b1)[attacker_pos];
     auto defender_pos = rand() % b2->length();

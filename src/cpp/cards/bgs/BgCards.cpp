@@ -2,7 +2,7 @@
 #include <iostream>
 #include <memory>
 
-#include "DeathrattleCards.hpp"
+#include "BgCards.hpp"
 #include "BgCardFactory.hpp"
 #include "../../bg_game/board.hpp"
 #include "../../bg_game/battler.hpp"

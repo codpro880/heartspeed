@@ -5,7 +5,7 @@
 #include <stdexcept>
 
 #include <iostream>
-#include "../cards/bgs/DeathrattleCards.hpp"
+//#include "../cards/bgs/DeathrattleCards.hpp"
 
 BattleResult Battler::sim_battle() {
     return sim_battle(p1, p2);

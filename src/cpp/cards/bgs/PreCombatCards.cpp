@@ -1,3 +1,5 @@
+/** Precombat hook goes off once in the beginning of combat. **/
+
 #include <algorithm>
 #include <iostream>
 #include <memory>

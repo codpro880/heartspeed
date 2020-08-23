@@ -327,7 +327,7 @@ private:
 class PackLeader : public BgBaseCard {
 public:
     PackLeader() : BgBaseCard(3, "NEUTRAL", 3, 3, "Pack Leader",
-			      "['TRIGGER_VISUAL']", "", "RARE", 3, "MINION") {}
+			      "['TRIGGER_VISUAL']", "", "RARE", 2, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<PackLeader>(*this); } // boilerplate that every drattle needs...
     void mod_summoned(std::shared_ptr<BgBaseCard> card) override;
 };
@@ -335,7 +335,7 @@ public:
 class PackLeaderGolden : public BgBaseCard {
 public:
     PackLeaderGolden() : BgBaseCard(6, "NEUTRAL", 3, 6, "Pack Leader (Golden)",
-				    "['TRIGGER_VISUAL']", "", "RARE", 3, "MINION") {}
+				    "['TRIGGER_VISUAL']", "", "RARE", 2, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<PackLeaderGolden>(*this); } // boilerplate that every drattle needs...
     void mod_summoned(std::shared_ptr<BgBaseCard> card) override;
 private:

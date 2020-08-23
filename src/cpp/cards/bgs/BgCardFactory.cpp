@@ -6,9 +6,10 @@ These are the cards that weren't automatically roped in and should be generated 
 
 #include "BgBaseCard.hpp"
 #include "BgCardFactory.hpp"
-#include "DeathrattleCards.hpp"
-#include "PreCombatCards.hpp"
-#include "PostBattleCards.hpp"
+#include "BgCards.hpp"
+// #include "DeathrattleCards.hpp"
+// #include "PreCombatCards.hpp"
+// #include "PostBattleCards.hpp"
 
 std::shared_ptr<BgBaseCard> BgCardFactory::get_card(std::string name) {
     auto card_found_it = cards.find(name);
@@ -233,16 +234,10 @@ void BgCardFactory::init_cards() {
     // 						"['BATTLECRY']", "BEAST", "EPIC", 6, "MINION"));
     // cards.emplace("Gentle Megasaur (Golden)", BgBaseCard(10, "NEUTRAL", 4, 8, "Gentle Megasaur (Golden)",
     // 							 "['BATTLECRY']", "BEAST", "EPIC", 6, "MINION"));
-    // cards.emplace("Ghastcoiler", BgBaseCard(7, "PRIEST", 6, 7, "Ghastcoiler",
-    // 					    "['DEATHRATTLE']", "BEAST", "", 6, "MINION"));
     cards.emplace("Ghastcoiler", std::make_shared<Ghastcoiler>());
     cards.emplace("Ghastcoiler (Golden)", std::make_shared<GhastcoilerGolden>());
-    // cards.emplace("Ghastcoiler (Golden)", BgBaseCard(14, "PRIEST", 6, 14, "Ghastcoiler (Golden)",
-    // 						     "['DEATHRATTLE']", "BEAST", "", 6, "MINION"));
-    // cards.emplace("Glyph Guardian", BgBaseCard(2, "MAGE", 3, 4, "Glyph Guardian",
-    // 					       "['TRIGGER_VISUAL']", "DRAGON", "", 2, "MINION"));
-    // cards.emplace("Glyph Guardian (Golden)", BgBaseCard(4, "MAGE", 3, 8, "Glyph Guardian (Golden)",
-    // 							"['TRIGGER_VISUAL']", "DRAGON", "", 2, "MINION"));
+    cards.emplace("Glyph Guardian", std::make_shared<GlyphGuardian>());
+    cards.emplace("Glyph Guardian (Golden)", std::make_shared<GlyphGuardianGolden>());
     // cards.emplace("Gold Coin", BgBaseCard(-1, "NEUTRAL", 0, -1, "Gold Coin",
     // 					  "", "", "RARE", -1, "SPELL"));
     // cards.emplace("Goldgrubber", BgBaseCard(2, "NEUTRAL", 5, 2, "Goldgrubber",
@@ -448,8 +443,8 @@ void BgCardFactory::init_cards() {
     // 						      "['CHARGE']", "MURLOC", "LEGENDARY", 2, "MINION"));
 
     // P
-    // cards.emplace("Pack Leader (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Pack Leader (Golden)",
-    // 						     "['TRIGGER_VISUAL']", "", "RARE", 3, "MINION"));
+    cards.emplace("Pack Leader", std::make_shared<PackLeader>());
+    cards.emplace("Pack Leader (Golden)", std::make_shared<PackLeaderGolden>());
     cards.emplace("Piloted Shredder", std::make_shared<PilotedShredder>());
     cards.emplace("Piloted Shredder (Golden)", std::make_shared<PilotedShredderGolden>());
     // cards.emplace("Pogo-Hopper", BgBaseCard(1, "ROGUE", 1, 1, "Pogo-Hopper",
@@ -548,8 +543,8 @@ void BgCardFactory::init_cards() {
     // 					     "['TRIGGER_VISUAL']", "", "", 3, "MINION"));
     // cards.emplace("Soul Juggler (Golden)", BgBaseCard(6, "WARLOCK", 3, 6, "Soul Juggler (Golden)",
     // 						      "['TRIGGER_VISUAL']", "", "", 3, "MINION"));
-    // cards.emplace("Southsea Captain (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Southsea Captain (Golden)",
-    // 							  "['AURA']", "PIRATE", "EPIC", 2, "MINION"));
+    cards.emplace("Southsea Captain", std::make_shared<SouthseaCaptain>());
+    cards.emplace("Southsea Captain (Golden)", std::make_shared<SouthseaCaptainGolden>());
     // cards.emplace("Southsea Strongarm", BgBaseCard(5, "NEUTRAL", 5, 4,  "Southsea Strongarm",
     // 						   "", "PIRATE", "", 4,"MINION"));
     // cards.emplace("Southsea Strongarm (Golden)", BgBaseCard(10, "NEUTRAL", 5, 8, "Southsea Strongarm (Golden)",

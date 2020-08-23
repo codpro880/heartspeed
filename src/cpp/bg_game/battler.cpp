@@ -5,7 +5,6 @@
 #include <stdexcept>
 
 #include <iostream>
-#include "../cards/bgs/DeathrattleCards.hpp"
 
 BattleResult Battler::sim_battle() {
     return sim_battle(p1, p2);
@@ -86,9 +85,11 @@ BattleResult Battler::battle(Player* p1,
 }
 
 void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker, std::shared_ptr<BgBaseCard> defender, Board* b1, Board* b2) {
+    attacker->do_preattack(defender, b1, b2);
     std::vector<int> dmg = {defender->get_attack(), attacker->get_attack()};
     std::vector<std::shared_ptr<BgBaseCard> > cards = {attacker, defender};
     take_dmg_simul(cards, dmg, b1, b2);
+    attacker->do_postattack(defender, b1, b2);
 }
 
 void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> card, int dmg, Board* b1, Board* b2) {

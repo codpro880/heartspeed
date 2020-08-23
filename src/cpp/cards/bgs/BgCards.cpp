@@ -2,10 +2,18 @@
 #include <iostream>
 #include <memory>
 
-#include "DeathrattleCards.hpp"
+#include "BgCards.hpp"
 #include "BgCardFactory.hpp"
 #include "../../bg_game/board.hpp"
 #include "../../bg_game/battler.hpp"
+
+std::shared_ptr<BgBaseCard> DeathrattleCard::do_summon(Board* b1) {
+    auto summoned = summon();
+    for (auto c : b1->get_cards()) {
+	c->mod_summoned(summoned);
+    }
+    return summoned;
+}
 
 void DeathrattleCard::basic_summon(Board* b1) {
     // auto summoned_card = summon();
@@ -19,7 +27,7 @@ void DeathrattleCard::multi_summon(int num_summons, Board* b1) {
 
     auto f = BgCardFactory();
     for (int i = 0; i < spots_to_fill; i++) {
-	auto summoned_card = summon();
+	auto summoned_card = do_summon(b1);
 	b1->insert_card(death_pos + i, summoned_card);
     }    
 }
@@ -54,6 +62,18 @@ void GhastcoilerGolden::do_deathrattle(Board* b1, Board* b2) {
 
 std::shared_ptr<BgBaseCard> GhastcoilerGolden::summon() {
     return coiler.summon();
+}
+
+void GlyphGuardian::do_preattack(std::shared_ptr<BgBaseCard> defender,
+				 Board* b1,
+				 Board* b2) {
+    set_attack(get_attack() * 2);
+}
+
+void GlyphGuardianGolden::do_preattack(std::shared_ptr<BgBaseCard> defender,
+				       Board* b1,
+				       Board* b2) {
+    set_attack(get_attack() * 3);
 }
 
 void Goldrinn::do_deathrattle(Board* b1, Board* b2) {
@@ -256,6 +276,37 @@ std::shared_ptr<BgBaseCard> MecharooGolden::summon() {
     return f.get_card("Jo-E Bot (Golden)");
 }
 
+void MurlocWarleader::do_precombat(Board* b1, Board*b2) {
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "MURLOC") {
+	    card->set_attack(card->get_attack() + 2);
+	}
+    }
+    set_attack(get_attack() - 2); // Warleader doesn't apply to itself
+}
+
+void MurlocWarleader::do_deathrattle(Board* b1, Board*b2) {
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "MURLOC") {
+	    card->set_attack(card->get_attack() - 2);
+	}
+    }
+    set_attack(get_attack() + 2); // Warleader doesn't apply to itself
+}
+
+void MurlocWarleaderGolden::do_precombat(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	rw.do_precombat(b1, b2);
+    }
+}
+
+void MurlocWarleaderGolden::do_deathrattle(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	rw.do_deathrattle(b1, b2);
+    }
+}
+
+
 void Nadina::do_deathrattle(Board* b1, Board* b2) {
     auto cards = b1->get_cards();
     for (auto c : cards) {
@@ -267,6 +318,52 @@ void Nadina::do_deathrattle(Board* b1, Board* b2) {
 
 void NadinaGolden::do_deathrattle(Board* b1, Board* b2) {
     bag.do_deathrattle(b1, b2);
+}
+
+void OldMurkeye::do_precombat(Board* b1, Board*b2) {
+    int murloc_count = 0;
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "MURLOC") {
+	    murloc_count++;
+	}
+    }
+    set_attack(get_attack() + murloc_count - 1); // Old Murkeye doesn't apply to itself
+}
+
+void OldMurkeyeGolden::do_precombat(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	rw.do_precombat(b1, b2);
+    }
+}
+
+void OldMurkeye::do_postbattle(Board* board,
+			       std::vector<std::shared_ptr<BgBaseCard> > new_dead) {
+    int dead_murloc_count = 0;
+    for (auto c : new_dead) {
+	if (c->get_race() == "MURLOC") {
+	    dead_murloc_count++;
+	}
+    }
+    set_attack(get_attack() - dead_murloc_count);
+}
+
+void OldMurkeyeGolden::do_postbattle(Board* board,
+				     std::vector<std::shared_ptr<BgBaseCard> > new_dead) {
+    for (int i = 0; i < 2; i++) {
+	rw.do_postbattle(board, new_dead);
+    }
+}
+
+void PackLeader::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+    if (card->get_race() == "BEAST") {
+	card->set_attack(card->get_attack() + 3);
+    }
+}
+
+void PackLeaderGolden::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+    for (int i = 0; i < 2; i++) {
+	pl.mod_summoned(card);
+    }
 }
 
 void PilotedShredder::do_deathrattle(Board* b1, Board* b2) {
@@ -306,6 +403,25 @@ void RatPackGolden::do_deathrattle(Board* b1, Board* b2) {
 std::shared_ptr<BgBaseCard> RatPackGolden::summon() {
     auto f = BgCardFactory();
     return f.get_card("Rat (Golden)");
+}
+
+void RedWhelp::do_precombat(Board* b1, Board*b2) {
+    int drag_count = 0;
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "DRAGON") {
+	    drag_count++;
+	}
+    }
+    auto defender_pos = rand() % b2->length();
+    auto defender = (*b2)[defender_pos];
+    BoardBattler b;
+    b.take_dmg_simul(defender, drag_count, b2, b1);
+}
+
+void RedWhelpGolden::do_precombat(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	rw.do_precombat(b1, b2);
+    }
 }
 
 void ReplicatingMenace::do_deathrattle(Board* b1, Board* b2) {
@@ -362,6 +478,24 @@ void ScallywagGolden::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
+void ScavagingHyena::do_postbattle(Board* b1, std::vector<std::shared_ptr<BgBaseCard> > new_dead) {
+    for (auto c : new_dead) {
+	if (c->get_race() == "BEAST") {
+	    set_health(get_health() + 1);
+	    set_attack(get_attack() + 2);
+	}
+    }
+}
+
+void ScavagingHyenaGolden::do_postbattle(Board* b1, std::vector<std::shared_ptr<BgBaseCard> > new_dead) {
+    for (auto c : new_dead) {
+	if (c->get_race() == "BEAST") {
+	    set_health(get_health() + 2);
+	    set_attack(get_attack() + 4);
+	}
+    }
+}
+
 void SelflessHero::do_deathrattle(Board* b1, Board*b2) {
     // Cards w/o divine shield
     std::vector<std::shared_ptr<BgBaseCard> > cards;
@@ -400,6 +534,40 @@ void SneedsOldShredderGolden::do_deathrattle(Board* b1, Board* b2) {
 
 std::shared_ptr<BgBaseCard> SneedsOldShredderGolden::summon() {
     return shredder.summon();
+}
+
+void SouthseaCaptain::do_precombat(Board* b1, Board*b2) {
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "PIRATE") {
+	    card->set_attack(card->get_attack() + 1);
+	    card->set_health(card->get_health() + 1);
+	}
+    }
+    set_attack(get_attack() - 1); // Southsea doesn't apply to itself
+    set_health(get_health() - 1); // Southsea doesn't apply to itself
+}
+
+void SouthseaCaptain::do_deathrattle(Board* b1, Board*b2) {
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "PIRATE") {
+	    card->set_attack(card->get_attack() - 1);
+	    card->set_health(card->get_health() - 1);
+	}
+    }
+    set_attack(get_attack() + 1);  // Southsea doesn't apply to itself
+    set_health(get_health() + 1);  // Southsea doesn't apply to itself
+}
+
+void SouthseaCaptainGolden::do_precombat(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	rw.do_precombat(b1, b2);
+    }
+}
+
+void SouthseaCaptainGolden::do_deathrattle(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	rw.do_deathrattle(b1, b2);
+    }
 }
 
 void SpawnOfNzoth::do_deathrattle(Board* b1, Board* b2) {

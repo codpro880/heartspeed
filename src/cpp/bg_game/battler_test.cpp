@@ -199,6 +199,30 @@ TEST(Battler, GhastcoilerDrattle) {
     }
 }
 
+TEST(Battler, GlyphGuardian) {
+    auto f = BgCardFactory();
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_health(4 + 8);
+    th->set_attack(1);
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Glyph Guardian")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Alleycat"),
+	 th
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Pyramad"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Murgle"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+}
+
+
 TEST(Battler, HarvestGolemDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { f.get_card("Harvest Golem") };
@@ -678,9 +702,6 @@ TEST(Battler, OldMurkeyProperDamage) {
     EXPECT_EQ(res.damage_taken, 3);
 }
 
-
-
-
 TEST(Battler, NadinaDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -691,6 +712,30 @@ TEST(Battler, NadinaDrattle) {
     auto th = f.get_card("Murloc Tidehunter");
     th->set_attack(4);
     th->set_health(11); // 7 nadina, 2 razor div shield, then 2 razorgore
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+    EXPECT_EQ(res.damage_taken, 0);
+}
+
+TEST(Battler, PackLeader) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Rat Pack"),
+	 f.get_card("Pack Leader")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(3);
+    th->set_health(2 + 3*2 + 3); // 2 from rp, 3x2=6 from the two summoned rats, 3 from packleader
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
 	{
 	 th

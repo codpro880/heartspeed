@@ -43,9 +43,23 @@ public:
 					  tech_level(other.tech_level),
 					  type(other.type) {}
 
+    // Triggered on death (ex: deathrattle cards, stat-buffs that die)
     virtual void do_deathrattle(Board* b1, Board* b2) {}
+    // Triggered before every attack (ex: glyph gaurdian mechanic)
+    virtual void do_preattack(std::shared_ptr<BgBaseCard> defender,
+			      Board* b1,
+			      Board* b2) {}
+    // Triggered once before combat starts (ex: red whelp, stat-buffs)
     virtual void do_precombat(Board* b1, Board* b2) {}
+    // Triggered after attack (ex: overkill mechanic)
+    virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       Board* b1,
+			       Board* b2) {}
+    // Triggered after deaths of each dmg exchange (ex: scavaging hyena)
     virtual void do_postbattle(Board* b1, std::vector<std::shared_ptr<BgBaseCard> > new_dead) {}
+
+    // Triggered after a summon occurs
+    virtual void mod_summoned(std::shared_ptr<BgBaseCard> card) { }
     
     virtual std::shared_ptr<BgBaseCard> get_copy();
     

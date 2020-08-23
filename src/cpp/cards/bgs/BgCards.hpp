@@ -10,10 +10,12 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() override = 0; // boilerplate that every card needs...
     void basic_summon(Board* b1);
     void multi_summon(int num_summons, Board* b1);
+    // TODO: Move summon mechanic to base class
     // summon() must be overriden if called,
     // but don't want to force it since not all drattles summon
     // Think of it as a mutable callback...
     virtual std::shared_ptr<BgBaseCard> summon() {throw std::runtime_error("summon() not implemented"); }
+    virtual std::shared_ptr<BgBaseCard> do_summon(Board* b1);
 };
 
 class FiendishServant : public DeathrattleCard {
@@ -75,7 +77,6 @@ public:
 private:
     GlyphGuardian coiler;
 };
-
 
 class Goldrinn : public DeathrattleCard {
 public:
@@ -322,6 +323,25 @@ public:
 private:
     OldMurkeye rw;
 };
+
+class PackLeader : public BgBaseCard {
+public:
+    PackLeader() : BgBaseCard(3, "NEUTRAL", 3, 3, "Pack Leader",
+			      "['TRIGGER_VISUAL']", "", "RARE", 3, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<PackLeader>(*this); } // boilerplate that every drattle needs...
+    void mod_summoned(std::shared_ptr<BgBaseCard> card) override;
+};
+
+class PackLeaderGolden : public BgBaseCard {
+public:
+    PackLeaderGolden() : BgBaseCard(6, "NEUTRAL", 3, 6, "Pack Leader (Golden)",
+				    "['TRIGGER_VISUAL']", "", "RARE", 3, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<PackLeaderGolden>(*this); } // boilerplate that every drattle needs...
+    void mod_summoned(std::shared_ptr<BgBaseCard> card) override;
+private:
+    PackLeader pl;
+};
+
 
 class PilotedShredder : public DeathrattleCard {
 public:

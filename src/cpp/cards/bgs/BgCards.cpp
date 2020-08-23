@@ -7,6 +7,14 @@
 #include "../../bg_game/board.hpp"
 #include "../../bg_game/battler.hpp"
 
+std::shared_ptr<BgBaseCard> DeathrattleCard::do_summon(Board* b1) {
+    auto summoned = summon();
+    for (auto c : b1->get_cards()) {
+	c->mod_summoned(summoned);
+    }
+    return summoned;
+}
+
 void DeathrattleCard::basic_summon(Board* b1) {
     // auto summoned_card = summon();
     // b1->insert_card(death_pos, summoned_card);
@@ -19,7 +27,7 @@ void DeathrattleCard::multi_summon(int num_summons, Board* b1) {
 
     auto f = BgCardFactory();
     for (int i = 0; i < spots_to_fill; i++) {
-	auto summoned_card = summon();
+	auto summoned_card = do_summon(b1);
 	b1->insert_card(death_pos + i, summoned_card);
     }    
 }
@@ -343,6 +351,18 @@ void OldMurkeyeGolden::do_postbattle(Board* board,
 				     std::vector<std::shared_ptr<BgBaseCard> > new_dead) {
     for (int i = 0; i < 2; i++) {
 	rw.do_postbattle(board, new_dead);
+    }
+}
+
+void PackLeader::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+    if (card->get_race() == "BEAST") {
+	card->set_attack(card->get_attack() + 3);
+    }
+}
+
+void PackLeaderGolden::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+    for (int i = 0; i < 2; i++) {
+	pl.mod_summoned(card);
     }
 }
 

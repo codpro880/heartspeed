@@ -85,8 +85,16 @@ public:
     void set_poison() { is_poison = true; }
     void set_divine_shield() { divine_shield = true; }
 
-    void take_damage(int damage);
+    void take_damage(int damage, std::string who_from_race);
 
+    std::string who_killed_race() {
+	if (is_dead()) {
+	    return last_dmg_race;
+	}
+	else {
+	    throw std::runtime_error("Card isn't dead");
+	}
+    }
     friend std::ostream& operator<<(std::ostream& os, BgBaseCard& card);
     virtual ~BgBaseCard() {}
     
@@ -104,6 +112,7 @@ protected:
     int tech_level;
     std::string type;
     int death_pos = -2;
+    std::string last_dmg_race;
 private:
     void deal_with_death(Board* b1, Board* b2);
 };

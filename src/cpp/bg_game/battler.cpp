@@ -84,23 +84,35 @@ BattleResult Battler::battle(Player* p1,
     return battle(p2, p1, p2_counter, p1_counter);
 }
 
-void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker, std::shared_ptr<BgBaseCard> defender, Board* b1, Board* b2) {
+void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker,
+				  std::shared_ptr<BgBaseCard> defender,
+				  Board* b1,
+				  Board* b2) {
     attacker->do_preattack(defender, b1, b2);
     std::vector<int> dmg = {defender->get_attack(), attacker->get_attack()};
     std::vector<std::shared_ptr<BgBaseCard> > cards = {attacker, defender};
-    take_dmg_simul(cards, dmg, b1, b2);
+    std::vector<std::string> who_from_race = {defender->get_race(), attacker->get_race()};
+    take_dmg_simul(cards, who_from_race, dmg, b1, b2);
     attacker->do_postattack(defender, b1, b2);
 }
 
-void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> card, int dmg, Board* b1, Board* b2) {
+void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> card,
+				  std::string who_from_race,
+				  int dmg,
+				  Board* b1,
+				  Board* b2) {
     auto cards = {card};
-    take_dmg_simul(cards, dmg, b1, b2);
+    auto who_from_races = {who_from_race};
+    take_dmg_simul(cards, who_from_races, dmg, b1, b2);
 }
 
-void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards, int dmg, Board* b1, Board* b2) {
-    for (auto c : cards) {
-	std::cerr << "Takin dmg: " << c->get_name() << std::endl;
-	c->take_damage(dmg);
+void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards,
+				  std::vector<std::string> who_from_race,
+				  int dmg,
+				  Board* b1,
+				  Board* b2) {
+    for (int i = 0; i < cards.size(); i++) {
+	cards[i]->take_damage(dmg, who_from_race[i]);
     }
     
     b1->remove_and_mark_dead();
@@ -111,9 +123,13 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
     b2->do_deathrattles(b1);
 }
 
-void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards, std::vector<int> dmg, Board* b1, Board* b2) {    
+void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards,
+				  std::vector<std::string> who_from_race,
+				  std::vector<int> dmg,
+				  Board* b1,
+				  Board* b2) {
     for (int i = 0; i < cards.size(); i++) {
-	cards[i]->take_damage(dmg[i]);	
+	cards[i]->take_damage(dmg[i], who_from_race[i]);
     }
     
     b1->remove_and_mark_dead();

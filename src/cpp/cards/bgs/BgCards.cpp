@@ -157,8 +157,7 @@ void KaboomBot::do_deathrattle(Board* b1, Board* b2) {
     auto bombed_pos = rand() % b2->length();
     auto bombed_card = b2->get_cards()[bombed_pos];
     BoardBattler b;
-    b.take_dmg_simul(bombed_card, 4, b2, b1);
-    // bombed_card->take_damage(4, b2, b1);
+    b.take_dmg_simul(bombed_card, this->get_race(), 4, b2, b1);
 }
 
 void KaboomBotGolden::do_deathrattle(Board* b1, Board* b2) {    
@@ -415,10 +414,10 @@ void RedWhelp::do_precombat(Board* b1, Board*b2) {
     auto defender_pos = rand() % b2->length();
     auto defender = (*b2)[defender_pos];
     BoardBattler b;
-    b.take_dmg_simul(defender, drag_count, b2, b1);
+    b.take_dmg_simul(defender, this->get_race(), drag_count, b2, b1);
 }
 
-void RedWhelpGolden::do_precombat(Board* b1, Board*b2) {
+void RedWhelpGolden::do_precombat(Board* b1, Board* b2) {
     for (int i = 0; i < 2; i++) {
 	rw.do_precombat(b1, b2);
     }
@@ -638,8 +637,9 @@ void UnstableGhoul::do_deathrattle(Board* b1, Board* b2) {
     auto b1_cards = b1->get_cards();
     auto b2_cards = b2->get_cards();
     b1_cards.insert(b1_cards.end(), b2_cards.begin(), b2_cards.end());
+    std::vector<std::string> who_from_race = {this->get_race()};
     BoardBattler b;
-    b.take_dmg_simul(b1_cards, 1, b1, b2);
+    b.take_dmg_simul(b1_cards, who_from_race, 1, b1, b2);
 }
 
 void UnstableGhoulGolden::do_deathrattle(Board* b1, Board* b2) {

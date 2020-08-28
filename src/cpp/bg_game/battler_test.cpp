@@ -1289,4 +1289,35 @@ TEST(Battler, UnstableGhoulGoldenDrattle) {
     EXPECT_LE(res.damage_taken, 0);
 }
 
-
+TEST(Battler, WaxriderTogwaggle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Red Whelp"),
+	 f.get_card("Waxrider Togwaggle")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Alleycat")
+	 };
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Pyramad"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Murgle"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Pyramad");
+    auto battled_p1_cards = p1->get_board()->get_cards();
+    for (auto c : battled_p1_cards) {
+	if (c->get_name() == "Red Whelp") {
+	}
+	else if (c->get_name() == "Waxrider Togwaggle") {
+	    EXPECT_EQ(c->get_attack(), 3);
+	    EXPECT_EQ(c->get_health(), 4);
+	}
+	else {
+	    // fail
+	    EXPECT_EQ(true, false);
+	}
+    }
+}

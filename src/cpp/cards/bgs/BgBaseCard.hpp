@@ -56,7 +56,7 @@ public:
 			       Board* b1,
 			       Board* b2) {}
     // Triggered after deaths of each dmg exchange (ex: scavaging hyena)
-    virtual void do_postbattle(Board* b1, std::vector<std::shared_ptr<BgBaseCard> > new_dead) {}
+    virtual void do_postbattle(Board* b1, Board* b2, std::vector<std::shared_ptr<BgBaseCard> > dead_b1, std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {}
 
     // Triggered after a summon occurs
     virtual void mod_summoned(std::shared_ptr<BgBaseCard> card) { }

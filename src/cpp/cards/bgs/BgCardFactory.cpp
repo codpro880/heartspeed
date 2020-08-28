@@ -618,6 +618,8 @@ void BgCardFactory::init_cards() {
     // 						   "['TRIGGER_VISUAL']", "", "", 2, "MINION"));
     // cards.emplace("Waxrider Togwaggle (Golden)", BgBaseCard(2, "NEUTRAL", 3, 4, "Waxrider Togwaggle (Golden)",
     // 							    "['TRIGGER_VISUAL']", "", "", 2, "MINION"));
+    cards.emplace("Waxrider Togwaggle", std::make_shared<WaxriderTogwaggle>());
+    cards.emplace("Waxrider Togwaggle (Golden)", std::make_shared<WaxriderTogwaggleGolden>());
     // cards.emplace("Wrath Weaver", BgBaseCard(1, "NEUTRAL", 1, 1, "Wrath Weaver",
     // 					     "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION"));
     // cards.emplace("Wrath Weaver (Golden)", BgBaseCard(2, "NEUTRAL", 1, 2, "Wrath Weaver (Golden)",

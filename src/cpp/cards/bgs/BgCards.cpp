@@ -335,10 +335,12 @@ void OldMurkeyeGolden::do_precombat(Board* b1, Board*b2) {
     }
 }
 
-void OldMurkeye::do_postbattle(Board* board,
-			       std::vector<std::shared_ptr<BgBaseCard> > new_dead) {
+void OldMurkeye::do_postbattle(Board* b1,
+				     Board* b2,
+				     std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+				     std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
     int dead_murloc_count = 0;
-    for (auto c : new_dead) {
+    for (auto c : dead_b1) {
 	if (c->get_race() == "MURLOC") {
 	    dead_murloc_count++;
 	}
@@ -346,10 +348,12 @@ void OldMurkeye::do_postbattle(Board* board,
     set_attack(get_attack() - dead_murloc_count);
 }
 
-void OldMurkeyeGolden::do_postbattle(Board* board,
-				     std::vector<std::shared_ptr<BgBaseCard> > new_dead) {
+void OldMurkeyeGolden::do_postbattle(Board* b1,
+				     Board* b2,
+				     std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+				     std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
     for (int i = 0; i < 2; i++) {
-	rw.do_postbattle(board, new_dead);
+	rw.do_postbattle(b1, b2, dead_b1, dead_b2);
     }
 }
 
@@ -414,7 +418,9 @@ void RedWhelp::do_precombat(Board* b1, Board*b2) {
     auto defender_pos = rand() % b2->length();
     auto defender = (*b2)[defender_pos];
     BoardBattler b;
+    std::cerr << "Taking dmg simul whelp" << std::endl;
     b.take_dmg_simul(defender, this->get_race(), drag_count, b2, b1);
+    std::cerr << "Ending dmg simul" << std::endl;
 }
 
 void RedWhelpGolden::do_precombat(Board* b1, Board* b2) {
@@ -477,8 +483,11 @@ void ScallywagGolden::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
-void ScavagingHyena::do_postbattle(Board* b1, std::vector<std::shared_ptr<BgBaseCard> > new_dead) {
-    for (auto c : new_dead) {
+void ScavagingHyena::do_postbattle(Board* b1,
+				   Board* b2,
+				   std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+				   std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+    for (auto c : dead_b1) {
 	if (c->get_race() == "BEAST") {
 	    set_health(get_health() + 1);
 	    set_attack(get_attack() + 2);
@@ -486,8 +495,11 @@ void ScavagingHyena::do_postbattle(Board* b1, std::vector<std::shared_ptr<BgBase
     }
 }
 
-void ScavagingHyenaGolden::do_postbattle(Board* b1, std::vector<std::shared_ptr<BgBaseCard> > new_dead) {
-    for (auto c : new_dead) {
+void ScavagingHyenaGolden::do_postbattle(Board* b1,
+					 Board* b2,
+					 std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+					 std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+    for (auto c : dead_b1) {
 	if (c->get_race() == "BEAST") {
 	    set_health(get_health() + 2);
 	    set_attack(get_attack() + 4);
@@ -636,14 +648,44 @@ std::shared_ptr<BgBaseCard> VoidlordGolden::summon() {
 void UnstableGhoul::do_deathrattle(Board* b1, Board* b2) {
     auto b1_cards = b1->get_cards();
     auto b2_cards = b2->get_cards();
+    std::cerr << "b1_cards" << (*b1) << std::endl;
+    std::cerr << "b2_cards" << (*b2) << std::endl;
     b1_cards.insert(b1_cards.end(), b2_cards.begin(), b2_cards.end());
-    std::vector<std::string> who_from_race = {this->get_race()};
+    std::vector<std::string> who_from_race(b1_cards.size(), this->get_race());
     BoardBattler b;
+    for (auto c : b1_cards) {
+	std::cerr << "Taking dmg: " << (*c) << std::endl;
+    }
     b.take_dmg_simul(b1_cards, who_from_race, 1, b1, b2);
 }
 
 void UnstableGhoulGolden::do_deathrattle(Board* b1, Board* b2) {
     for (int i = 0; i < 2; i++) {
 	ghoul.do_deathrattle(b1, b2);
+    }
+}
+
+void WaxriderTogwaggle::do_postbattle(Board* b1,
+				      Board* b2,
+				      std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+				      std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+    std::cerr << "Postbattle." << std::endl;
+    for (auto c : dead_b2) {
+	if (c->who_killed_race() == "DRAGON") {
+	    set_health(get_health() + 2);
+	    set_attack(get_attack() + 2);
+	}
+    }
+}
+
+void WaxriderTogwaggleGolden::do_postbattle(Board* b1,
+					    Board* b2,
+					    std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+					    std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+    for (auto c : dead_b2) {
+	if (c->who_killed_race() == "DRAGON") {
+	    set_health(get_health() + 4);
+	    set_attack(get_attack() + 4);
+	}
     }
 }

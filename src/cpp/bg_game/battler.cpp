@@ -111,6 +111,7 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
 				  int dmg,
 				  Board* b1,
 				  Board* b2) {
+    std::cerr << "Taking dmg simul" << std::endl;
     for (int i = 0; i < cards.size(); i++) {
 	cards[i]->take_damage(dmg, who_from_race[i]);
     }
@@ -154,20 +155,41 @@ void BoardBattler::pre_combat(Board* b1, Board* b2) {
     }
 }
 
-void BoardBattler::post_battle(Board* board,
-			       std::vector<std::shared_ptr<BgBaseCard> > pre_death,
-			       std::vector<std::shared_ptr<BgBaseCard> > post_death) {
-    if (pre_death.size() == post_death.size()) return;
-    auto first = post_death.begin() + pre_death.size();
-    auto last = post_death.end();
-    std::vector<std::shared_ptr<BgBaseCard> > new_dead(first, last);
-    for (auto c : board->get_cards()) {	
-	c->do_postbattle(board, new_dead);
+void BoardBattler::post_battle(Board* b1,
+			       Board* b2,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+    if (dead_b1.empty() && dead_b2.empty()) return;
+    for (auto c : b1->get_cards()) {
+	c->do_postbattle(b1, b2, dead_b1, dead_b2);
     }
 }
 
 bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
-    pre_combat(b1, b2); // Special case: Red Whelp start of combat mechanic. Illidan, too.    
+    auto pre_precom_b1_dead = b1->has_died();
+    auto pre_precom_b2_dead = b2->has_died();
+    
+    pre_combat(b1, b2); // Special case: Red Whelp start of combat mechanic. Illidan, too.
+
+    auto post_precom_b1_dead = b1->has_died();
+    auto post_precom_b2_dead = b2->has_died();
+
+    // TODO: Refactor to have new dead for b1/b2 calculated here
+    auto firstb1_precom = post_precom_b1_dead.begin() + pre_precom_b1_dead.size();
+    auto lastb1_precom = post_precom_b1_dead.end();
+    std::vector<std::shared_ptr<BgBaseCard> > precom_dead_b1(firstb1_precom, lastb1_precom);
+
+    auto firstb2_precom = post_precom_b2_dead.begin() + pre_precom_b2_dead.size();
+    auto lastb2_precom = post_precom_b2_dead.end();
+    std::vector<std::shared_ptr<BgBaseCard> > precom_dead_b2(firstb2_precom, lastb2_precom);
+
+    // Handles things like Scavenging Hyena
+    post_battle(b1, b2, precom_dead_b1, precom_dead_b2);
+    post_battle(b2, b1, precom_dead_b2, precom_dead_b1);
+
+    if (b1->length() == 0 || b2->length() == 0) {
+	return true;
+    }
     
     auto attacker = (*b1)[attacker_pos];
     auto defender_pos = rand() % b2->length();
@@ -182,9 +204,18 @@ bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     auto post_b1_dead = b1->has_died();
     auto post_b2_dead = b2->has_died();
 
+    // TODO: Refactor to have new dead for b1/b2 calculated here
+    auto firstb1 = post_b1_dead.begin() + pre_b1_dead.size();
+    auto lastb1 = post_b1_dead.end();
+    std::vector<std::shared_ptr<BgBaseCard> > new_dead_b1(firstb1, lastb1);
+
+    auto firstb2 = post_b2_dead.begin() + pre_b2_dead.size();
+    auto lastb2 = post_b2_dead.end();
+    std::vector<std::shared_ptr<BgBaseCard> > new_dead_b2(firstb2, lastb2);
+
     // Handles things like Scavenging Hyena
-    post_battle(b1, pre_b1_dead, post_b1_dead);
-    post_battle(b2, pre_b2_dead, post_b2_dead);
+    post_battle(b1, b2, new_dead_b1, new_dead_b2);
+    post_battle(b2, b1, new_dead_b2, new_dead_b1);
 
     // Handles deathrattles, nothing happens if nothing died
     //attacker->do_deathrattle(b1, b2);

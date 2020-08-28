@@ -1181,6 +1181,34 @@ TEST(Battler, SpawnOfNzothGoldenDrattle) {
     EXPECT_GE(res.damage_taken, 6);
 }
 
+TEST(Battler, Taunt) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Voidlord"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(4);
+    th->set_health(4);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Tess");
+    auto p1_res_cards = p1->get_board()->get_cards();
+    // Both voidwalker and tidehunter should always survive
+    EXPECT_EQ(p1_res_cards.size(), (unsigned)2);
+}
+
 TEST(Battler, TheBeastDrattle) {
     auto f = BgCardFactory();
     auto card = f.get_card("Murloc Tidehunter");
@@ -1226,7 +1254,7 @@ TEST(Battler, TheTideRazorDrattle) {
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Tess");
-    EXPECT_GT(res.damage_taken, 4);
+    EXPECT_GT(res.damage_taken, 3); // 3 one drops and 1 for tav tier
     auto p1_res_cards = p1->get_board()->get_cards();
     EXPECT_EQ(p1_res_cards.size(), (unsigned)3);
     for (auto c : p1_res_cards) {

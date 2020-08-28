@@ -76,6 +76,9 @@ public:
 
     bool has_divine_shield() { return divine_shield; }
     bool has_deathrattle() { return mechanics.find("DEATHRATTLE") != std::string::npos; }
+    bool has_taunt() {
+	return _has_taunt || mechanics.find("TAUNT") != std::string::npos;
+    }    
 
     bool is_dead() { return health <= 0; }
 
@@ -84,6 +87,7 @@ public:
     void set_health(int hth) { health = hth; }
     void set_poison() { is_poison = true; }
     void set_divine_shield() { divine_shield = true; }
+    void set_taunt() { _has_taunt = true; }
 
     void take_damage(int damage, std::string who_from_race);
 
@@ -103,6 +107,7 @@ protected:
     std::string card_class;
     int cost;
     bool divine_shield;
+    bool _has_taunt = false;
     int health;
     bool is_poison;
     std::string mechanics;

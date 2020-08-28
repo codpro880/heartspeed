@@ -192,8 +192,24 @@ bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     }
     
     auto attacker = (*b1)[attacker_pos];
-    auto defender_pos = rand() % b2->length();
-    auto defender = (*b2)[defender_pos];
+    std::vector<std::shared_ptr<BgBaseCard>> taunts;
+    for (auto c : b2->get_cards()) {
+	std::cerr << "Checking taunt for: " << c->get_name() << std::endl;
+	if (c->has_taunt()) {
+	    std::cerr << c->get_name() << " HAS TAUNT." << std::endl;
+	    taunts.push_back(c);
+	}
+    }
+    std::shared_ptr<BgBaseCard> defender;
+    if (!taunts.empty()) {
+	auto defender_pos = rand() % taunts.size();
+	defender = taunts[defender_pos];
+    }
+    else {
+	auto defender_pos = rand() % b2->length();
+	defender = (*b2)[defender_pos];
+    }
+    
 
     auto pre_b1_dead = b1->has_died();
     auto pre_b2_dead = b2->has_died();

@@ -111,9 +111,8 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
 				  int dmg,
 				  Board* b1,
 				  Board* b2) {
-    std::cerr << "Taking dmg simul" << std::endl;
     for (int i = 0; i < cards.size(); i++) {
-	cards[i]->take_damage(dmg, who_from_race[i]);
+	cards[i]->take_damage(dmg, who_from_race[i], b1);
     }
     
     b1->remove_and_mark_dead();
@@ -130,7 +129,7 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
 				  Board* b1,
 				  Board* b2) {
     for (int i = 0; i < cards.size(); i++) {
-	cards[i]->take_damage(dmg[i], who_from_race[i]);
+	cards[i]->take_damage(dmg[i], who_from_race[i], b1);
     }
     
     b1->remove_and_mark_dead();
@@ -194,9 +193,7 @@ bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     auto attacker = (*b1)[attacker_pos];
     std::vector<std::shared_ptr<BgBaseCard>> taunts;
     for (auto c : b2->get_cards()) {
-	std::cerr << "Checking taunt for: " << c->get_name() << std::endl;
 	if (c->has_taunt()) {
-	    std::cerr << c->get_name() << " HAS TAUNT." << std::endl;
 	    taunts.push_back(c);
 	}
     }

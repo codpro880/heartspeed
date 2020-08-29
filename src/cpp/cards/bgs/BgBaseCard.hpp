@@ -89,7 +89,7 @@ public:
     void set_divine_shield() { divine_shield = true; }
     void set_taunt() { _has_taunt = true; }
 
-    void take_damage(int damage, std::string who_from_race);
+    void take_damage(int damage, std::string who_from_race, Board* b1);
 
     std::string who_killed_race() {
 	if (is_dead()) {

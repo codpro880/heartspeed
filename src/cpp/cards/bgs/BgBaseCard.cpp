@@ -11,16 +11,14 @@ std::ostream& operator<<(std::ostream& os, BgBaseCard& card) {
     return os;
 }
 
-void BgBaseCard::take_damage(int damage, std::string who_from_race) {
+void BgBaseCard::take_damage(int damage, std::string who_from_race, Board* b1) {
     if (divine_shield) {
 	divine_shield = false;
     }
     else {
 	health -= damage;
     }
-    // std::cerr << "Setting race." << std::endl;
     last_dmg_race = who_from_race;
-    // std::cerr << "Done setting race." << std::endl;
 }
 
 std::shared_ptr<BgBaseCard> BgBaseCard::get_copy() {

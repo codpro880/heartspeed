@@ -7,31 +7,6 @@
 #include "../../bg_game/board.hpp"
 #include "../../bg_game/battler.hpp"
 
-std::shared_ptr<BgBaseCard> DeathrattleCard::do_summon(Board* b1) {
-    auto summoned = summon();
-    for (auto c : b1->get_cards()) {
-	c->mod_summoned(summoned);
-    }
-    return summoned;
-}
-
-void DeathrattleCard::basic_summon(Board* b1) {
-    // auto summoned_card = summon();
-    // b1->insert_card(death_pos, summoned_card);
-    multi_summon(1, b1);
-}
-
-void DeathrattleCard::multi_summon(int num_summons, Board* b1) {
-    auto spots_left = 7 - b1->length();
-    auto spots_to_fill = num_summons < spots_left ? num_summons : spots_left;
-
-    auto f = BgCardFactory();
-    for (int i = 0; i < spots_to_fill; i++) {
-	auto summoned_card = do_summon(b1);
-	b1->insert_card(death_pos + i, summoned_card);
-    }    
-}
-
 void FiendishServant::do_deathrattle(Board* b1, Board*b2) {
     auto buffed_pos = rand() % b1->length();
     auto card = b1->get_cards()[buffed_pos];
@@ -117,6 +92,26 @@ void Imprisoner::do_deathrattle(Board* b1, Board* b2) {
 std::shared_ptr<BgBaseCard> Imprisoner::summon() {
     auto f = BgCardFactory();
     return f.get_card("Imp");
+}
+
+void ImpGangBoss::take_damage(int damage, std::string who_from_race, Board* b1) {
+    BgBaseCard::take_damage(damage, who_from_race, b1);
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> ImpGangBoss::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Imp");
+}
+
+void ImpGangBossGolden::take_damage(int damage, std::string who_from_race, Board* b1) {
+    BgBaseCard::take_damage(damage, who_from_race, b1);
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> ImpGangBossGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Imp (Golden)");
 }
 
 void ImprisonerGolden::do_deathrattle(Board* b1, Board* b2) {

@@ -1,4 +1,5 @@
 #include "BgBaseCard.hpp"
+#include "BgCardFactory.hpp"
 
 #include "../../bg_game/board.hpp"
 
@@ -33,4 +34,29 @@ void BgBaseCard::deal_with_death(Board* b1, Board* b2) {
     // 	b1->remove(this);
     // 	do_deathrattle(b1, b2);
     // }
+}
+
+std::shared_ptr<BgBaseCard> BgBaseCard::do_summon(Board* b1) {
+    auto summoned = summon();
+    for (auto c : b1->get_cards()) {
+	c->mod_summoned(summoned);
+    }
+    return summoned;
+}
+
+void BgBaseCard::basic_summon(Board* b1) {
+    // auto summoned_card = summon();
+    // b1->insert_card(death_pos, summoned_card);
+    multi_summon(1, b1);
+}
+
+void BgBaseCard::multi_summon(int num_summons, Board* b1) {
+    auto spots_left = 7 - b1->length();
+    auto spots_to_fill = num_summons < spots_left ? num_summons : spots_left;
+
+    auto f = BgCardFactory();
+    for (int i = 0; i < spots_to_fill; i++) {
+	auto summoned_card = do_summon(b1);
+	b1->insert_card(death_pos + i, summoned_card);
+    }    
 }

@@ -89,7 +89,12 @@ public:
     void set_divine_shield() { divine_shield = true; }
     void set_taunt() { _has_taunt = true; }
 
-    void take_damage(int damage, std::string who_from_race, Board* b1);
+    virtual std::shared_ptr<BgBaseCard> summon() {throw std::runtime_error("summon() not implemented");}
+    virtual std::shared_ptr<BgBaseCard> do_summon(Board* b1);
+    void basic_summon(Board* b1);
+    void multi_summon(int num_summons, Board* b1);
+
+    virtual void take_damage(int damage, std::string who_from_race, Board* b1);
 
     std::string who_killed_race() {
 	if (is_dead()) {

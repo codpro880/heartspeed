@@ -8,14 +8,11 @@ public:
     using BgBaseCard::BgBaseCard;
     virtual void do_deathrattle(Board* b1, Board* b2) override = 0;
     virtual std::shared_ptr<BgBaseCard> get_copy() override = 0; // boilerplate that every card needs...
-    void basic_summon(Board* b1);
-    void multi_summon(int num_summons, Board* b1);
     // TODO: Move summon mechanic to base class
     // summon() must be overriden if called,
     // but don't want to force it since not all drattles summon
     // Think of it as a mutable callback...
-    virtual std::shared_ptr<BgBaseCard> summon() {throw std::runtime_error("summon() not implemented"); }
-    virtual std::shared_ptr<BgBaseCard> do_summon(Board* b1);
+    // virtual std::shared_ptr<BgBaseCard> summon() override {throw std::runtime_error("summon() not implemented"); }    
 };
 
 class FiendishServant : public DeathrattleCard {
@@ -113,6 +110,24 @@ public:
     virtual void do_deathrattle(Board* b1, Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<HarvestGolemGolden>(*this); } // boilerplate that every drattle needs...
     std::shared_ptr<BgBaseCard> summon() override;
+};
+
+class ImpGangBoss : public BgBaseCard {
+public:
+    ImpGangBoss() : BgBaseCard(2, "WARLOCK", 3, 4, "Imp Gang Boss",
+			       "['TRIGGER_VISUAL']", "DEMON", "COMMON", 3, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ImpGangBoss>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+    void take_damage(int damage, std::string who_from_race, Board* b1) override;
+};
+
+class ImpGangBossGolden : public BgBaseCard {
+public:
+    ImpGangBossGolden() : BgBaseCard(4, "WARLOCK", 3, 8, "Imp Gang Boss (Golden)",
+				     "['TRIGGER_VISUAL']", "DEMON", "COMMON", 3, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ImpGangBossGolden>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+    void take_damage(int damage, std::string who_from_race, Board* b1) override;
 };
 
 class Imprisoner : public DeathrattleCard {

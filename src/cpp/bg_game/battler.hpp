@@ -17,11 +17,11 @@ public:
     BoardBattler() : first_combat(true) {}
     bool battle_boards(int attacker_pos, Board* b1, Board* b2);
     void pre_combat(Board* b1, Board* b2);
-    void post_battle(Board*, std::vector<std::shared_ptr<BgBaseCard> >, std::vector<std::shared_ptr<BgBaseCard> >);
-    void take_dmg_simul(std::shared_ptr<BgBaseCard> card, int dmg, Board* b1, Board* b2);
+    void post_battle(Board*, Board*, std::vector<std::shared_ptr<BgBaseCard> >, std::vector<std::shared_ptr<BgBaseCard> >);
+    void take_dmg_simul(std::shared_ptr<BgBaseCard> card, std::string who_from_race, int dmg, Board* b1, Board* b2);
     void take_dmg_simul(std::shared_ptr<BgBaseCard> attacker, std::shared_ptr<BgBaseCard> defender, Board* b1, Board* b2);
-    void take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards, int dmg, Board* b1, Board* b2);
-    void take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards, std::vector<int> dmg, Board* b1, Board* b2);
+    void take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards, std::vector<std::string> who_from_race, int dmg, Board* b1, Board* b2);
+    void take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards, std::vector<std::string> who_from_race,  std::vector<int> dmg, Board* b1, Board* b2);
 private:
     bool first_combat;
 };

@@ -296,6 +296,8 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> imp_gold(new BgBaseCard(2, "WARLOCK", 1, 2, "Imp (Golden)",
     					     "", "DEMON", "", 1, "MINION"));
     cards.emplace("Imp (Golden)", imp_gold);
+    cards.emplace("Imp Gang Boss", std::make_shared<ImpGangBoss>());
+    cards.emplace("Imp Gang Boss (Golden)", std::make_shared<ImpGangBossGolden>());
     // cards.emplace("Imp Gang Boss (Golden)", BgBaseCard(4, "WARLOCK", 3, 8, "Imp Gang Boss (Golden)",
     // 						       "['TRIGGER_VISUAL']", "DEMON", "COMMON", 3, "MINION"));
     // cards.emplace("Imp Mama", BgBaseCard(6, "WARLOCK", 8, 10, "Imp Mama",
@@ -618,6 +620,8 @@ void BgCardFactory::init_cards() {
     // 						   "['TRIGGER_VISUAL']", "", "", 2, "MINION"));
     // cards.emplace("Waxrider Togwaggle (Golden)", BgBaseCard(2, "NEUTRAL", 3, 4, "Waxrider Togwaggle (Golden)",
     // 							    "['TRIGGER_VISUAL']", "", "", 2, "MINION"));
+    cards.emplace("Waxrider Togwaggle", std::make_shared<WaxriderTogwaggle>());
+    cards.emplace("Waxrider Togwaggle (Golden)", std::make_shared<WaxriderTogwaggleGolden>());
     // cards.emplace("Wrath Weaver", BgBaseCard(1, "NEUTRAL", 1, 1, "Wrath Weaver",
     // 					     "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION"));
     // cards.emplace("Wrath Weaver (Golden)", BgBaseCard(2, "NEUTRAL", 1, 2, "Wrath Weaver (Golden)",

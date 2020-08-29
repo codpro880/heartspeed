@@ -8,14 +8,11 @@ public:
     using BgBaseCard::BgBaseCard;
     virtual void do_deathrattle(Board* b1, Board* b2) override = 0;
     virtual std::shared_ptr<BgBaseCard> get_copy() override = 0; // boilerplate that every card needs...
-    void basic_summon(Board* b1);
-    void multi_summon(int num_summons, Board* b1);
     // TODO: Move summon mechanic to base class
     // summon() must be overriden if called,
     // but don't want to force it since not all drattles summon
     // Think of it as a mutable callback...
-    virtual std::shared_ptr<BgBaseCard> summon() {throw std::runtime_error("summon() not implemented"); }
-    virtual std::shared_ptr<BgBaseCard> do_summon(Board* b1);
+    // virtual std::shared_ptr<BgBaseCard> summon() override {throw std::runtime_error("summon() not implemented"); }    
 };
 
 class FiendishServant : public DeathrattleCard {
@@ -113,6 +110,24 @@ public:
     virtual void do_deathrattle(Board* b1, Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<HarvestGolemGolden>(*this); } // boilerplate that every drattle needs...
     std::shared_ptr<BgBaseCard> summon() override;
+};
+
+class ImpGangBoss : public BgBaseCard {
+public:
+    ImpGangBoss() : BgBaseCard(2, "WARLOCK", 3, 4, "Imp Gang Boss",
+			       "['TRIGGER_VISUAL']", "DEMON", "COMMON", 3, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ImpGangBoss>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+    void take_damage(int damage, std::string who_from_race, Board* b1) override;
+};
+
+class ImpGangBossGolden : public BgBaseCard {
+public:
+    ImpGangBossGolden() : BgBaseCard(4, "WARLOCK", 3, 8, "Imp Gang Boss (Golden)",
+				     "['TRIGGER_VISUAL']", "DEMON", "COMMON", 3, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ImpGangBossGolden>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+    void take_damage(int damage, std::string who_from_race, Board* b1) override;
 };
 
 class Imprisoner : public DeathrattleCard {
@@ -308,7 +323,9 @@ public:
 				 "['CHARGE']", "MURLOC", "LEGENDARY", 2, "MINION") {}
     virtual void do_precombat(Board* b1, Board* b2) override;
     virtual void do_postbattle(Board* b1,
-			       std::vector<std::shared_ptr<BgBaseCard> > new_dead) override;
+			       Board* b2,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;    
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<OldMurkeye>(*this); } // boilerplate that every drattle needs...
 };
 
@@ -318,7 +335,9 @@ public:
 				       "['CHARGE']", "MURLOC", "LEGENDARY", 2, "MINION") {}
     virtual void do_precombat(Board* b1, Board* b2) override;
     virtual void do_postbattle(Board* b1,
-			       std::vector<std::shared_ptr<BgBaseCard> > new_dead) override;
+			       Board* b2,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;    
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<OldMurkeyeGolden>(*this); } // boilerplate that every drattle needs...
 private:
     OldMurkeye rw;
@@ -455,7 +474,10 @@ class ScavagingHyena : public BgBaseCard {
 public:
     ScavagingHyena() : BgBaseCard(2, "HUNTER", 2, 2, "Scavenging Hyena",
 				  "['TRIGGER_VISUAL']", "BEAST", "COMMON", 1, "MINION") {}
-    virtual void do_postbattle(Board* b1, std::vector<std::shared_ptr<BgBaseCard> > new_dead) override;
+    virtual void do_postbattle(Board* b1,
+			       Board* b2,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;    
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ScavagingHyena>(*this); } // boilerplate that every drattle needs...
 };
 
@@ -463,7 +485,10 @@ class ScavagingHyenaGolden : public BgBaseCard {
 public:
     ScavagingHyenaGolden() : BgBaseCard(4, "HUNTER", 2, 4, "Scavenging Hyena (Golden)",
 					"['TRIGGER_VISUAL']", "BEAST", "COMMON", 1, "MINION") {}
-    virtual void do_postbattle(Board* b1, std::vector<std::shared_ptr<BgBaseCard> > new_dead) override;
+    virtual void do_postbattle(Board* b1,
+			       Board* b2,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;    
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ScavagingHyenaGolden>(*this); } // boilerplate that every drattle needs...
 private:
     ScavagingHyena sh;
@@ -613,4 +638,28 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<UnstableGhoulGolden>(*this); } // boilerplate that every drattle needs...
 private:
     UnstableGhoul ghoul;
+};
+
+class WaxriderTogwaggle : public BgBaseCard {
+public:
+    WaxriderTogwaggle() : BgBaseCard(1, "NEUTRAL", 3, 2, "Waxrider Togwaggle",
+				     "['TRIGGER_VISUAL']", "", "", 2, "MINION") {}
+    virtual void do_postbattle(Board* b1,
+			       Board* b2,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<WaxriderTogwaggle>(*this); } // boilerplate that every drattle needs...
+};
+
+class WaxriderTogwaggleGolden : public BgBaseCard {
+public:
+    WaxriderTogwaggleGolden() : BgBaseCard(2, "NEUTRAL", 3, 4, "Waxrider Togwaggle (Golden)",
+					   "['TRIGGER_VISUAL']", "", "", 2, "MINION") {}
+    virtual void do_postbattle(Board* b1,
+			       Board* b2,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<WaxriderTogwaggleGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    WaxriderTogwaggle sh;
 };

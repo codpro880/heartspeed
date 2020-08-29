@@ -159,7 +159,8 @@ TEST(Battler, FiendishServantGoldenDrattle) {
     auto fiendish = p1_cards[0];
     fiendish->set_attack(10);
     BoardBattler b;
-    b.take_dmg_simul(fiendish, 10, board1.get(), board2.get());
+    // who_from (fiendish) doesn't matter here
+    b.take_dmg_simul(fiendish, "", 10, board1.get(), board2.get());
     int total_attack = 0;
     // TODO: Looks like p1_cards getting copied, probably not great for
     // performace...fix when profiler setup
@@ -263,7 +264,6 @@ TEST(Battler, HarvestGolemGoldenDrattle) {
     EXPECT_EQ(res.damage_taken, 2);
 }
 
-
 TEST(Battler, ImprisonerDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -316,6 +316,28 @@ TEST(Battler, ImprisonerGoldenDrattle) {
     }
     EXPECT_EQ(res.who_won, "Tess");
     EXPECT_EQ(res.damage_taken, 2);
+}
+
+TEST(Battler, ImpGangBoss) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Imp Gang Boss")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Tess");
+    auto p1_res_cards = p1->get_board()->get_cards();
+    // Should summon an imp
+    EXPECT_EQ(p1_res_cards.size(), (unsigned)2);
 }
 
 // So similar to ratpack we skip it for now...
@@ -856,7 +878,7 @@ TEST(Battler, RatPackDrattleSummonsCorrectNumOfRats) {
     std::unique_ptr<Board> board1(new Board(p1_cards));
     std::unique_ptr<Board> board2(new Board(p2_cards));
     BoardBattler b;
-    b.take_dmg_simul(rp, 2, board2.get(), board1.get());
+    b.take_dmg_simul(rp, "", 2, board2.get(), board1.get());
     int rat_count = 0;
     int razor_count = 0;
     for (auto c : board2->get_cards()) {
@@ -1180,6 +1202,34 @@ TEST(Battler, SpawnOfNzothGoldenDrattle) {
     EXPECT_GE(res.damage_taken, 6);
 }
 
+TEST(Battler, Taunt) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Voidlord"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(4);
+    th->set_health(4);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Tess");
+    auto p1_res_cards = p1->get_board()->get_cards();
+    // Both voidwalker and tidehunter should always survive
+    EXPECT_EQ(p1_res_cards.size(), (unsigned)2);
+}
+
 TEST(Battler, TheBeastDrattle) {
     auto f = BgCardFactory();
     auto card = f.get_card("Murloc Tidehunter");
@@ -1225,7 +1275,7 @@ TEST(Battler, TheTideRazorDrattle) {
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Tess");
-    EXPECT_GT(res.damage_taken, 4);
+    EXPECT_GT(res.damage_taken, 3); // 3 one drops and 1 for tav tier
     auto p1_res_cards = p1->get_board()->get_cards();
     EXPECT_EQ(p1_res_cards.size(), (unsigned)3);
     for (auto c : p1_res_cards) {
@@ -1288,4 +1338,35 @@ TEST(Battler, UnstableGhoulGoldenDrattle) {
     EXPECT_LE(res.damage_taken, 0);
 }
 
-
+TEST(Battler, WaxriderTogwaggle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Red Whelp"),
+	 f.get_card("Waxrider Togwaggle")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Alleycat")
+	 };
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Pyramad"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Murgle"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Pyramad");
+    auto battled_p1_cards = p1->get_board()->get_cards();
+    for (auto c : battled_p1_cards) {
+	if (c->get_name() == "Red Whelp") {
+	}
+	else if (c->get_name() == "Waxrider Togwaggle") {
+	    EXPECT_EQ(c->get_attack(), 3);
+	    EXPECT_EQ(c->get_health(), 4);
+	}
+	else {
+	    // fail
+	    EXPECT_EQ(true, false);
+	}
+    }
+}

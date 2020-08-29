@@ -56,7 +56,7 @@ public:
 			       Board* b1,
 			       Board* b2) {}
     // Triggered after deaths of each dmg exchange (ex: scavaging hyena)
-    virtual void do_postbattle(Board* b1, std::vector<std::shared_ptr<BgBaseCard> > new_dead) {}
+    virtual void do_postbattle(Board* b1, Board* b2, std::vector<std::shared_ptr<BgBaseCard> > dead_b1, std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {}
 
     // Triggered after a summon occurs
     virtual void mod_summoned(std::shared_ptr<BgBaseCard> card) { }
@@ -76,6 +76,9 @@ public:
 
     bool has_divine_shield() { return divine_shield; }
     bool has_deathrattle() { return mechanics.find("DEATHRATTLE") != std::string::npos; }
+    bool has_taunt() {
+	return _has_taunt || mechanics.find("TAUNT") != std::string::npos;
+    }    
 
     bool is_dead() { return health <= 0; }
 
@@ -84,9 +87,23 @@ public:
     void set_health(int hth) { health = hth; }
     void set_poison() { is_poison = true; }
     void set_divine_shield() { divine_shield = true; }
+    void set_taunt() { _has_taunt = true; }
 
-    void take_damage(int damage);
+    virtual std::shared_ptr<BgBaseCard> summon() {throw std::runtime_error("summon() not implemented");}
+    virtual std::shared_ptr<BgBaseCard> do_summon(Board* b1);
+    void basic_summon(Board* b1);
+    void multi_summon(int num_summons, Board* b1);
 
+    virtual void take_damage(int damage, std::string who_from_race, Board* b1);
+
+    std::string who_killed_race() {
+	if (is_dead()) {
+	    return last_dmg_race;
+	}
+	else {
+	    throw std::runtime_error("Card isn't dead");
+	}
+    }
     friend std::ostream& operator<<(std::ostream& os, BgBaseCard& card);
     virtual ~BgBaseCard() {}
     
@@ -95,6 +112,7 @@ protected:
     std::string card_class;
     int cost;
     bool divine_shield;
+    bool _has_taunt = false;
     int health;
     bool is_poison;
     std::string mechanics;
@@ -104,6 +122,7 @@ protected:
     int tech_level;
     std::string type;
     int death_pos = -2;
+    std::string last_dmg_race;
 private:
     void deal_with_death(Board* b1, Board* b2);
 };

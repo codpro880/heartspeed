@@ -15,6 +15,13 @@ public:
     // virtual std::shared_ptr<BgBaseCard> summon() override {throw std::runtime_error("summon() not implemented"); }    
 };
 
+// class RebornCard : public BgBaseCard {
+// public:
+//     using BgBaseCard::BgBaseCard;
+//     virtual void do_deathrattle(Board* b1, Board* b2) override;
+//     virtual std::shared_ptr<BgBaseCard> get_copy() override = 0; // boilerplate that every card needs...
+// }
+
 class FiendishServant : public DeathrattleCard {
 public:
     FiendishServant() : DeathrattleCard(2, "WARLOCK", 1, 1, "Fiendish Servant",

@@ -143,6 +143,28 @@ TEST(Battler, CanHandleBasicDeathrattles) {
     EXPECT_EQ(res.damage_taken, 0); 
 }
 
+TEST(Battler, BronzeWarden) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Bronze Warden")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+}
+
 TEST(Battler, FiendishServantGoldenDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -340,29 +362,6 @@ TEST(Battler, ImpGangBoss) {
     EXPECT_EQ(p1_res_cards.size(), (unsigned)2);
 }
 
-TEST(Battler, Khadgar) {
-    auto f = BgCardFactory();
-    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
-	{
-	 f.get_card("Imp Gang Boss"),
-	 f.get_card("Khadgar")
-	};
-    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
-	{
-	 f.get_card("Murloc Tidehunter"),
-	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
-    auto battler = Battler(p1.get(), p2.get());
-    auto res = battler.sim_battle();
-    EXPECT_EQ(res.who_won, "Tess");
-    auto p1_res_cards = p1->get_board()->get_cards();
-    // Should summon two imps b/c of khadgar
-    EXPECT_EQ(p1_res_cards.size(), (unsigned)4);
-}
-
 
 // So similar to ratpack we skip it for now...
 // TEST(Battler, InfestedWolfDrattle) {
@@ -419,6 +418,28 @@ TEST(Battler, KaboomBotGoldenDrattle) {
     EXPECT_EQ(res.damage_taken, 0);
 }
 
+TEST(Battler, Khadgar) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Imp Gang Boss"),
+	 f.get_card("Khadgar")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Tess");
+    auto p1_res_cards = p1->get_board()->get_cards();
+    // Should summon two imps b/c of khadgar
+    EXPECT_EQ(p1_res_cards.size(), (unsigned)4);
+}
 
 TEST(Battler, KindlyGrandmotherDrattle) {
     auto f = BgCardFactory();

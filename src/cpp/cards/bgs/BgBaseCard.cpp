@@ -50,6 +50,17 @@ void BgBaseCard::basic_summon(Board* b1) {
     multi_summon(1, b1);
 }
 
+void BgBaseCard::reborn_self(Board* b1) {
+    auto f = BgCardFactory();
+    auto summoned_card = f.get_card(this->get_name());
+    if (summoned_card->get_mechanics().find("DIVINE SHIELD") != std::string::npos) {
+	summoned_card->set_divine_shield();
+    }
+    summoned_card->set_reborn(false);
+    summoned_card->set_health(1);
+    b1->insert_card(death_pos, summoned_card);
+}
+
 void BgBaseCard::multi_summon(int num_summons, Board* b1) {
     auto original_num_summons = num_summons;
     for (auto c : b1->get_cards()) {

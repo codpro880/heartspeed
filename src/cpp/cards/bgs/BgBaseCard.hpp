@@ -21,6 +21,7 @@ public:
 				   card_class(card_class),
 				   cost(cost),
 				   divine_shield(false),
+				   _has_reborn(false),
 				   health(health),
 				   is_poison(false),
 				   mechanics(mechanics),
@@ -34,6 +35,7 @@ public:
 					  card_class(other.card_class),
 					  cost(other.cost),
 					  divine_shield(other.divine_shield),
+					  _has_reborn(other._has_reborn),
 					  health(other.health),
 					  is_poison(other.is_poison),
 					  mechanics(other.mechanics),
@@ -78,9 +80,14 @@ public:
     bool has_deathrattle() { return mechanics.find("DEATHRATTLE") != std::string::npos; }
     bool has_taunt() {
 	return _has_taunt || mechanics.find("TAUNT") != std::string::npos;
-    }    
+    }
+    bool has_reborn() {
+	return _has_reborn;
+    }
 
     bool is_dead() { return health <= 0; }
+
+    void reborn_self(Board* b1);
 
     void set_attack(int att) { attack = att; }
     void set_death_pos(int dp) { death_pos = dp; }
@@ -88,6 +95,7 @@ public:
     void set_poison() { is_poison = true; }
     void set_divine_shield() { divine_shield = true; }
     void set_taunt() { _has_taunt = true; }
+    void set_reborn(bool rb = true) {_has_reborn = rb; }
 
     virtual std::shared_ptr<BgBaseCard> summon() {throw std::runtime_error("summon() not implemented");}
     virtual std::shared_ptr<BgBaseCard> do_summon(Board* b1);
@@ -113,6 +121,7 @@ protected:
     int cost;
     bool divine_shield;
     bool _has_taunt = false;
+    bool _has_reborn = false;
     int health;
     bool is_poison;
     std::string mechanics;

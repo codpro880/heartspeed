@@ -142,6 +142,16 @@ void BgCardFactory::init_cards() {
     // 							   "['DIVINE_SHIELD', 'TRIGGER_VISUAL']", "", "LEGENDARY", 4, "MINION"));
     // cards.emplace("Brann Bronzebeard (Golden)", BgBaseCard(4, "NEUTRAL", 3, 8, "Brann Bronzebeard (Golden)",
     // 							   "['AURA']", "", "LEGENDARY", 5, "MINION"));
+    std::shared_ptr<BgBaseCard> bronze_warden(new BgBaseCard(2, "NEUTRAL", 4, 1, "Bronze Warden",
+							     "['DIVINE_SHIELD', 'REBORN']", "DRAGON", "", 3, "MINION"));
+    bronze_warden->set_divine_shield();
+    bronze_warden->set_reborn();
+    cards.emplace("Bronze Warden", bronze_warden);
+    std::shared_ptr<BgBaseCard> bronze_warden_golden(new BgBaseCard(4, "NEUTRAL", 4, 2, "Bronze Warden (Golden)",
+								    "['DIVINE_SHIELD', 'REBORN']", "DRAGON", "", 3, "MINION"));
+    bronze_warden_golden->set_divine_shield();
+    bronze_warden_golden->set_reborn();
+    cards.emplace("Bronze Warden (Golden)", bronze_warden_golden);
     // cards.emplace("Bronze Warden", BgBaseCard(2, "NEUTRAL", 4, 1, "Bronze Warden",
     // 			     "['DIVINE_SHIELD', 'REBORN']", "DRAGON", "", 3, "MINION"));
 

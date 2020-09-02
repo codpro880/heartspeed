@@ -55,7 +55,6 @@ public:
     // 	return -1;
     // }
     void remove_and_mark_dead() {
-	std::cerr << "Remove and mark dead" << std::endl;
 	std::queue<std::shared_ptr<BgBaseCard> > to_remove;
 	for (auto c : cards) {
 	    if (c->is_dead()) {
@@ -69,12 +68,15 @@ public:
 	while (!to_remove.empty()) {
 	    auto front = to_remove.front();
 	    this->remove(front);
+	    if (front->has_reborn()) {
+		std::cerr << "REBORN!" << std::endl;
+		front->reborn_self(this);
+	    }
 	    _has_died.push_back(front);
 	    to_remove.pop();
 	}
     }
     void do_deathrattles(Board* other) {
-	std::cerr << "Doing drats" << std::endl;
 	bool at_least_one_dead = false;
 	while (!deathrattle_q.empty()) {
 	    at_least_one_dead = true;

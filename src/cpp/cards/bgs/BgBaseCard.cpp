@@ -51,6 +51,15 @@ void BgBaseCard::basic_summon(Board* b1) {
 }
 
 void BgBaseCard::multi_summon(int num_summons, Board* b1) {
+    auto original_num_summons = num_summons;
+    for (auto c : b1->get_cards()) {
+	if (c->get_name() == "Khadgar") {
+	    num_summons += original_num_summons;
+	}
+	if (c->get_name() == "Khadgar (Golden)") {
+	    num_summons += original_num_summons*2;
+	}
+    }
     auto spots_left = 7 - b1->length();
     auto spots_to_fill = num_summons < spots_left ? num_summons : spots_left;
 

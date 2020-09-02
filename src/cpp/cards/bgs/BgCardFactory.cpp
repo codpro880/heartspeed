@@ -336,12 +336,13 @@ void BgCardFactory::init_cards() {
     // 					 "['TRIGGER_VISUAL']", "DRAGON", "", 6, "MINION"));
     // cards.emplace("Kalecgos (Golden)", BgBaseCard(8, "NEUTRAL", 8, 24, "Kalecgos, Arcane Aspect (Golden)",
     // 						  "['TRIGGER_VISUAL']", "DRAGON", "", 6, "MINION"));
-    // cards.emplace("Kangor's Apprentice", BgBaseCard(3, "NEUTRAL", 9, 6, "Kangor's Apprentice",
-    // 						    "['DEATHRATTLE']", "", "EPIC", 6, "MINION"));
-    // cards.emplace("Kangor's Apprentice (Golden)", BgBaseCard(6, "NEUTRAL", 9, 12, "Kangor's Apprentice (Golden)",
-    // 							     "['DEATHRATTLE']", "", "EPIC", 6,"MINION"));
-    // cards.emplace("Khadgar (Golden)", BgBaseCard(4, "MAGE", 2, 4,  "Khadgar (Golden)",
-    // 						 "['TRIGGER_VISUAL']", "", "LEGENDARY", 3, "MINION"));
+    // Khadgar's effect is hardcoded in the summoning logic, not handled by the card itself
+    std::shared_ptr<BgBaseCard> khadgar(new BgBaseCard(2, "MAGE", 2, 2,  "Khadgar",
+						       "['TRIGGER_VISUAL']", "", "LEGENDARY", 3, "MINION"));
+    cards.emplace("Khadgar", khadgar);
+    std::shared_ptr<BgBaseCard> khadgar_golden(new BgBaseCard(4, "MAGE", 2, 4,  "Khadgar (Golden)",
+							      "['TRIGGER_VISUAL']", "", "LEGENDARY", 3, "MINION"));
+    cards.emplace("Khadgar (Golden)", khadgar_golden);
     cards.emplace("Kindly Grandmother", std::make_shared<KindlyGrandmother>());
     cards.emplace("Kindly Grandmother (Golden)", std::make_shared<KindlyGrandmotherGolden>());
     cards.emplace("King Bagurgle", std::make_shared<KingBagurgle>());

@@ -564,6 +564,37 @@ std::shared_ptr<BgBaseCard> SneedsOldShredderGolden::summon() {
     return shredder.summon();
 }
 
+void SoulJuggler::do_postbattle(Board* b1,
+				Board* b2,
+				std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+				std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+    int dead_demon_count = 0;
+    for (auto c : dead_b1) {
+	if (c->get_race() == "DEMON") {
+	    dead_demon_count++;
+	}
+    }
+    auto cards = b2->get_cards();
+    if (cards.empty()) {
+	return;
+    }
+    auto battler = BoardBattler();
+    for (int i = 0; i < dead_demon_count; i++) {
+	auto card = cards[rand() % cards.size()];
+	battler.take_dmg_simul(card, "NEUTRAL", 3, b1, b2);
+    }
+    
+}
+
+void SoulJugglerGolden::do_postbattle(Board* b1,
+				     Board* b2,
+				     std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+				     std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+    for (int i = 0; i < 2; i++) {
+	soul_juggler.do_postbattle(b1, b2, dead_b1, dead_b2);
+    }
+}
+
 void SouthseaCaptain::do_precombat(Board* b1, Board*b2) {
     for (auto card : b1->get_cards()) {
 	if (card->get_race() == "PIRATE") {

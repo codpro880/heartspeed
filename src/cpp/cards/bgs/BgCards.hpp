@@ -298,7 +298,7 @@ public:
 
 class MonstrousMacawGolden : public BgBaseCard {
 public:
-    MonstrousMacawGolden() : BgBaseCard(8, "NEUTRAL", 3, 6, "Monstrous Macaw",
+    MonstrousMacawGolden() : BgBaseCard(8, "NEUTRAL", 3, 6, "Monstrous Macaw (Golden)",
 					"['TRIGGER_VISUAL']", "BEAST", "", 3, "MINION") {}
     virtual void do_preattack(std::shared_ptr<BgBaseCard> defender,
 			      Board* b1,
@@ -559,6 +559,30 @@ public:
     std::shared_ptr<BgBaseCard> summon() override;
 private:
     SneedsOldShredder shredder;
+};
+
+class SoulJuggler : public BgBaseCard {
+public:
+    SoulJuggler() : BgBaseCard(3, "WARLOCK", 3, 3, "Soul Juggler",
+			       "['TRIGGER_VISUAL']", "", "", 3, "MINION") {}
+    virtual void do_postbattle(Board* b1,
+			       Board* b2,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;    
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<SoulJuggler>(*this); } // boilerplate that every drattle needs...
+};
+
+class SoulJugglerGolden : public BgBaseCard {
+public:
+    SoulJugglerGolden() : BgBaseCard(6, "WARLOCK", 3, 6, "Soul Juggler (Golden)",
+				     "['TRIGGER_VISUAL']", "", "", 3, "MINION") {}
+    virtual void do_postbattle(Board* b1,
+			       Board* b2,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;    
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<SoulJugglerGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    SoulJuggler soul_juggler;
 };
 
 class SouthseaCaptain : public BgBaseCard {

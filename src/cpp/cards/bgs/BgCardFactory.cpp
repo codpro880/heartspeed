@@ -548,6 +548,8 @@ void BgCardFactory::init_cards() {
     // 					     "['TRIGGER_VISUAL']", "", "", 3, "MINION"));
     // cards.emplace("Soul Juggler (Golden)", BgBaseCard(6, "WARLOCK", 3, 6, "Soul Juggler (Golden)",
     // 						      "['TRIGGER_VISUAL']", "", "", 3, "MINION"));
+    cards.emplace("Soul Juggler", std::make_shared<SoulJuggler>());
+    cards.emplace("Soul Juggler (Golden)", std::make_shared<SoulJugglerGolden>());
     cards.emplace("Southsea Captain", std::make_shared<SouthseaCaptain>());
     cards.emplace("Southsea Captain (Golden)", std::make_shared<SouthseaCaptainGolden>());
     // cards.emplace("Southsea Strongarm", BgBaseCard(5, "NEUTRAL", 5, 4,  "Southsea Strongarm",

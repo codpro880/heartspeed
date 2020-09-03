@@ -270,6 +270,28 @@ std::shared_ptr<BgBaseCard> MecharooGolden::summon() {
     return f.get_card("Jo-E Bot (Golden)");
 }
 
+void MonstrousMacaw::do_preattack(std::shared_ptr<BgBaseCard> defender,
+				  Board* b1,
+				  Board* b2) {
+    std::vector<std::shared_ptr<BgBaseCard>> drattles;
+    for (auto c : b1->get_cards()) {
+	if (c->has_deathrattle()) {
+	    drattles.push_back(c);
+	}
+    }
+    if (!drattles.empty()) {
+	auto random_drattle = drattles[rand() % drattles.size()];
+	random_drattle->do_deathrattle(b1, b2);
+    }
+}
+
+void MonstrousMacawGolden::do_preattack(std::shared_ptr<BgBaseCard> defender,
+					Board* b1,
+					Board* b2) {
+    macaw.do_preattack(defender, b1, b2);
+    macaw.do_preattack(defender, b1, b2);
+}
+
 void MurlocWarleader::do_precombat(Board* b1, Board*b2) {
     for (auto card : b1->get_cards()) {
 	if (card->get_race() == "MURLOC") {

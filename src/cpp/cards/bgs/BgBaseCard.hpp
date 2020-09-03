@@ -135,4 +135,3 @@ protected:
 private:
     void deal_with_death(Board* b1, Board* b2);
 };
-

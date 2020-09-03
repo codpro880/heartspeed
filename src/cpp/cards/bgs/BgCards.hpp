@@ -286,6 +286,28 @@ public:
     std::shared_ptr<BgBaseCard> summon() override;
 };
 
+class MonstrousMacaw : public BgBaseCard {
+public:
+    MonstrousMacaw() : BgBaseCard(4, "NEUTRAL", 3, 3, "Monstrous Macaw",
+				  "['TRIGGER_VISUAL']", "BEAST", "", 3, "MINION") {}
+    virtual void do_preattack(std::shared_ptr<BgBaseCard> defender,
+			      Board* b1,
+			      Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<MonstrousMacaw>(*this); } // boilerplate that every drattle needs...
+};
+
+class MonstrousMacawGolden : public BgBaseCard {
+public:
+    MonstrousMacawGolden() : BgBaseCard(8, "NEUTRAL", 3, 6, "Monstrous Macaw",
+					"['TRIGGER_VISUAL']", "BEAST", "", 3, "MINION") {}
+    virtual void do_preattack(std::shared_ptr<BgBaseCard> defender,
+			      Board* b1,
+			      Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<MonstrousMacawGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    MonstrousMacaw macaw;
+};
+
 class MurlocWarleader : public BgBaseCard {
 public:
     MurlocWarleader() : BgBaseCard(3, "NEUTRAL", 3, 3, "Murloc Warleader",

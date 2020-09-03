@@ -401,16 +401,8 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> microbot_gold(new BgBaseCard(2, "NEUTRAL", 1, 2, "Microbot",
 							     "", "MECHANICAL", "", 1, "MINION"));
     cards.emplace("Microbot (Golden)", microbot_gold);
-    std::shared_ptr<BgBaseCard> macaw(new BgBaseCard(3, "NEUTRAL", 3, 2, "Monstrous Macaw",
-    						     "['TRIGGER_VISUAL']", "BEAST", "", 3, "MINION"));
-    cards.emplace("Monstrous Macaw" , macaw);
-    // cards.emplace("Monstrous Macaw", BgBaseCard(3, "NEUTRAL", 3, 2, "Monstrous Macaw",
-    // 						"['TRIGGER_VISUAL']", "BEAST", "", 3, "MINION"));
-    std::shared_ptr<BgBaseCard> macaw_gold(new BgBaseCard(6, "NEUTRAL", 3, 4, "Monstrous Macaw (Golden)",
-    							  "['TRIGGER_VISUAL']", "BEAST", "", 3, "MINION"));
-    cards.emplace("Monstrous Macaw (Golden)", macaw_gold);
-    // cards.emplace("Monstrous Macaw (Golden)", BgBaseCard(6, "NEUTRAL", 3, 4, "Monstrous Macaw (Golden)",
-    // 							 "['TRIGGER_VISUAL']", "BEAST", "", 3, "MINION"));    
+    cards.emplace("Monstrous Macaw" , std::make_shared<MonstrousMacaw>());
+    cards.emplace("Monstrous Macaw (Golden)" , std::make_shared<MonstrousMacawGolden>());
     // cards.emplace("Mounted Raptor (Golden)", BgBaseCard(6, "DRUID", 3, 4, "Mounted Raptor (Golden)",
     // 							"['DEATHRATTLE']", "BEAST", "COMMON", 2, "MINION"));
     std::shared_ptr<BgBaseCard> murloc_scout(new BgBaseCard(1, "NEUTRAL", 1, 1, "Murloc Scout",

@@ -125,7 +125,7 @@ public:
 			       "['TRIGGER_VISUAL']", "DEMON", "COMMON", 3, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ImpGangBoss>(*this); } // boilerplate that every drattle needs...
     std::shared_ptr<BgBaseCard> summon() override;
-    void take_damage(int damage, std::string who_from_race, Board* b1) override;
+    void take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) override;
 };
 
 class ImpGangBossGolden : public BgBaseCard {
@@ -134,7 +134,7 @@ public:
 				     "['TRIGGER_VISUAL']", "DEMON", "COMMON", 3, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ImpGangBossGolden>(*this); } // boilerplate that every drattle needs...
     std::shared_ptr<BgBaseCard> summon() override;
-    void take_damage(int damage, std::string who_from_race, Board* b1) override;
+    void take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) override;
 };
 
 class Imprisoner : public DeathrattleCard {
@@ -716,3 +716,22 @@ public:
 private:
     WaxriderTogwaggle sh;
 };
+
+// class YoHoOgre : public BgBaseCard {
+// public:
+//     YoHoOgre() : BgBaseCard(2, "WARLOCK", 3, 4, "Imp Gang Boss",
+// 			       "['TRIGGER_VISUAL']", "DEMON", "COMMON", 3, "MINION") {}
+//     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<YoHoOgre>(*this); } // boilerplate that every drattle needs...
+//     std::shared_ptr<BgBaseCard> summon() override;
+//     void take_damage(int damage, std::string who_from_race, Board* b1) override;
+// }
+
+// class YoHoOgreGolden : public BgBaseCard {
+// public:
+//     YoHoOgreGolden() : BgBaseCard(4, "WARLOCK", 3, 8, "Imp Gang Boss (Golden)",
+// 				     "['TRIGGER_VISUAL']", "DEMON", "COMMON", 3, "MINION") {}
+//     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<YoHoOgreGolden>(*this); } // boilerplate that every drattle needs...
+//     std::shared_ptr<BgBaseCard> summon() override;
+//     void take_damage(int damage, std::string who_from_race, Board* b1) override;
+// };
+

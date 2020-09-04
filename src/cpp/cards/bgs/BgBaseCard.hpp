@@ -102,7 +102,7 @@ public:
     void basic_summon(Board* b1);
     void multi_summon(int num_summons, Board* b1);
 
-    virtual void take_damage(int damage, std::string who_from_race, Board* b1);
+    virtual void take_damage(int damage, std::string who_from_race, Board* b1, Board* b2);
 
     std::string who_killed_race() {
 	if (is_dead()) {

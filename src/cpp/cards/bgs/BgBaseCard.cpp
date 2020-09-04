@@ -12,7 +12,7 @@ std::ostream& operator<<(std::ostream& os, BgBaseCard& card) {
     return os;
 }
 
-void BgBaseCard::take_damage(int damage, std::string who_from_race, Board* b1) {
+void BgBaseCard::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
     if (divine_shield) {
 	divine_shield = false;
     }

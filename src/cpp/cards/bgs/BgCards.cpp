@@ -94,8 +94,8 @@ std::shared_ptr<BgBaseCard> Imprisoner::summon() {
     return f.get_card("Imp");
 }
 
-void ImpGangBoss::take_damage(int damage, std::string who_from_race, Board* b1) {
-    BgBaseCard::take_damage(damage, who_from_race, b1);
+void ImpGangBoss::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
+    BgBaseCard::take_damage(damage, who_from_race, b1, b2);
     basic_summon(b1);
 }
 
@@ -104,8 +104,8 @@ std::shared_ptr<BgBaseCard> ImpGangBoss::summon() {
     return f.get_card("Imp");
 }
 
-void ImpGangBossGolden::take_damage(int damage, std::string who_from_race, Board* b1) {
-    BgBaseCard::take_damage(damage, who_from_race, b1);
+void ImpGangBossGolden::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
+    BgBaseCard::take_damage(damage, who_from_race, b1, b2);
     basic_summon(b1);
 }
 

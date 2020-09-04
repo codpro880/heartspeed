@@ -6,11 +6,11 @@
 
 #include <iostream>
 
-BattleResult Battler::sim_battle() {
-    return sim_battle(p1, p2);
+BattleResult Battler::sim_battle(std::string goes_first) {
+    return sim_battle(p1, p2, goes_first);
 }
 
-BattleResult Battler::sim_battle(Player* p1, Player* p2) {
+BattleResult Battler::sim_battle(Player* p1, Player* p2, std::string goes_first) {
     auto b1 = p1->get_board();
     auto b2 = p2->get_board();
     BattleResult res = BattleResult();
@@ -28,6 +28,9 @@ BattleResult Battler::sim_battle(Player* p1, Player* p2) {
     }
     else {
 	auto first_player = decide_who_goes_first(b1, b2);
+	if (goes_first != "null") {
+	    first_player = goes_first;
+	}
 	if (first_player == "p1") {
 	    res = battle(p1, p2);
 	}
@@ -94,6 +97,7 @@ void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker,
     std::vector<std::string> who_from_race = {defender->get_race(), attacker->get_race()};
     take_dmg_simul(cards, who_from_race, dmg, b1, b2);
     attacker->do_postattack(defender, b1, b2);
+    defender->do_postdefense(attacker, b2, b1);
 }
 
 void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> card,

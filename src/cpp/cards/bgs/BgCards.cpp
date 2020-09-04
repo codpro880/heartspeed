@@ -737,3 +737,17 @@ void WaxriderTogwaggleGolden::do_postbattle(Board* b1,
 	}
     }
 }
+
+void YoHoOgre::do_postdefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {
+    if (this->is_dead()) {
+	return;
+    }
+    BoardBattler().battle_boards(b1->get_pos(this), b1, b2); // Modifies b1/b2    
+}
+
+void YoHoOgreGolden::do_postdefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {
+    if (this->is_dead()) {
+	return;
+    }
+    BoardBattler().battle_boards(b1->get_pos(this), b1, b2); // Modifies b1/b2    
+}

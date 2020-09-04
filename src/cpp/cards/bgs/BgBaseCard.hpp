@@ -57,6 +57,10 @@ public:
     virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
 			       Board* b1,
 			       Board* b2) {}
+    // Triggered after attack for defender (ex: yo-ho-ogre)
+    virtual void do_postdefense(std::shared_ptr<BgBaseCard> attacker,
+				Board* b1,
+				Board* b2) {}
     // Triggered after deaths of each dmg exchange (ex: scavaging hyena)
     virtual void do_postbattle(Board* b1, Board* b2, std::vector<std::shared_ptr<BgBaseCard> > dead_b1, std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {}
 

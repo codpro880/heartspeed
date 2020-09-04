@@ -633,8 +633,8 @@ void BgCardFactory::init_cards() {
     // 						      "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION"));
 
     // Y
-    // cards.emplace("Yo-Ho-Ogre", BgBaseCard(2, "NEUTRAL", 6, 8, "Yo-Ho-Ogre",
-    // 					   "['TRIGGER_VISUAL']", "PIRATE", "", 3, "MINION"));
+    cards.emplace("Yo-Ho-Ogre", std::make_shared<YoHoOgre>());
+    cards.emplace("Yo-Ho-Ogre (Golden)", std::make_shared<YoHoOgreGolden>());
 
     // Z
 //     cards.emplace("Zapp Slywick", BgBaseCard(7, "NEUTRAL", 8, 10, "Zapp Slywick",

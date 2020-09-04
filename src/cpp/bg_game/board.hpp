@@ -16,7 +16,7 @@ public:
     auto empty() { return cards.empty(); }
     auto length() { return cards.size(); }
     auto operator[](const int& i) { return cards[i]; }
-    friend std::ostream& operator<<(std::ostream& os, Board& board);    
+    friend std::ostream& operator<<(std::ostream& os, Board& board);
     void remove(BgBaseCard* c) {
 	int pos = 0;
 	for (auto card : cards) {
@@ -41,9 +41,21 @@ public:
 	    card_names.erase(cards[i]->get_name());
 	}
     }
-    auto get_pos(std::shared_ptr<BgBaseCard> c) {
+    auto get_pos(std::shared_ptr<BgBaseCard> c) {	
     	auto it = std::find(cards.begin(), cards.end(), c);
     	return std::distance(cards.begin(), it);
+    }
+    auto get_pos(BgBaseCard* c) {
+	int pos = 0;
+	for (auto card : cards) {
+	    if (card.get() == c) {
+		return pos;
+	    }
+	    pos++;
+	}
+	return -1;
+    	// auto it = std::find(cards.begin(), cards.end(), std::shared_ptr<BgBaseCard>(c));
+    	// return std::distance(cards.begin(), it);
     }
     // auto get_pos(BgBaseCard* card) {
     // 	auto pos = 0;

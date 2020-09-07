@@ -6,11 +6,11 @@
 
 #include <iostream>
 
-BattleResult Battler::sim_battle() {
-    return sim_battle(p1, p2);
+BattleResult Battler::sim_battle(std::string goes_first) {
+    return sim_battle(p1, p2, goes_first);
 }
 
-BattleResult Battler::sim_battle(Player* p1, Player* p2) {
+BattleResult Battler::sim_battle(Player* p1, Player* p2, std::string goes_first) {
     auto b1 = p1->get_board();
     auto b2 = p2->get_board();
     BattleResult res = BattleResult();
@@ -28,6 +28,9 @@ BattleResult Battler::sim_battle(Player* p1, Player* p2) {
     }
     else {
 	auto first_player = decide_who_goes_first(b1, b2);
+	if (goes_first != "null") {
+	    first_player = goes_first;
+	}
 	if (first_player == "p1") {
 	    res = battle(p1, p2);
 	}
@@ -89,11 +92,36 @@ void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker,
 				  Board* b1,
 				  Board* b2) {
     attacker->do_preattack(defender, b1, b2);
-    std::vector<int> dmg = {defender->get_attack(), attacker->get_attack()};
-    std::vector<std::shared_ptr<BgBaseCard> > cards = {attacker, defender};
+    std::vector<int> dmg;
+    std::vector<std::shared_ptr<BgBaseCard> > cards;
+    if (attacker->has_cleave() && b2->get_cards().size() > (unsigned)1) {
+	auto def_pos = b2->get_pos(defender);
+	if (def_pos == 0) {
+	    dmg = {defender->get_attack(), attacker->get_attack(), attacker->get_attack()};
+	    cards = {attacker, defender, b2->get_cards()[def_pos+1]};
+	}
+	else if (def_pos == b2->get_cards().size()) {
+	    dmg = {defender->get_attack(), attacker->get_attack(), attacker->get_attack()};
+	    cards = {attacker, defender, b2->get_cards()[def_pos-1]};
+	}
+	else if (b2->get_cards().size() == (unsigned)2) {
+	    dmg = {defender->get_attack(), attacker->get_attack(), attacker->get_attack()};
+	    cards = {attacker, b2->get_cards()[0], b2->get_cards()[1]};
+	}
+	else { // More than 2 and not on ends
+	    dmg = {defender->get_attack(), attacker->get_attack(), attacker->get_attack(), attacker->get_attack()};
+	    cards = {attacker, defender, b2->get_cards()[def_pos+1], b2->get_cards()[def_pos-1]};
+	}
+    }
+    else {
+	std::cerr << "NO Cleave" << std::endl;
+	dmg = {defender->get_attack(), attacker->get_attack()};
+	cards = {attacker, defender};
+    }
     std::vector<std::string> who_from_race = {defender->get_race(), attacker->get_race()};
     take_dmg_simul(cards, who_from_race, dmg, b1, b2);
     attacker->do_postattack(defender, b1, b2);
+    defender->do_postdefense(attacker, b2, b1);
 }
 
 void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> card,
@@ -112,7 +140,7 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
 				  Board* b1,
 				  Board* b2) {
     for (int i = 0; i < cards.size(); i++) {
-	cards[i]->take_damage(dmg, who_from_race[i], b1);
+	cards[i]->take_damage(dmg, who_from_race[i], b1, b2);
     }
     
     b1->remove_and_mark_dead();
@@ -129,7 +157,7 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
 				  Board* b1,
 				  Board* b2) {
     for (int i = 0; i < cards.size(); i++) {
-	cards[i]->take_damage(dmg[i], who_from_race[i], b1);
+	cards[i]->take_damage(dmg[i], who_from_race[i], b1, b2);
     }
     
     b1->remove_and_mark_dead();

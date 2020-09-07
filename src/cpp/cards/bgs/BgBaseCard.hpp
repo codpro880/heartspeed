@@ -21,6 +21,7 @@ public:
 				   card_class(card_class),
 				   cost(cost),
 				   divine_shield(false),
+				   _has_reborn(false),
 				   health(health),
 				   is_poison(false),
 				   mechanics(mechanics),
@@ -34,6 +35,7 @@ public:
 					  card_class(other.card_class),
 					  cost(other.cost),
 					  divine_shield(other.divine_shield),
+					  _has_reborn(other._has_reborn),
 					  health(other.health),
 					  is_poison(other.is_poison),
 					  mechanics(other.mechanics),
@@ -55,6 +57,10 @@ public:
     virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
 			       Board* b1,
 			       Board* b2) {}
+    // Triggered after attack for defender (ex: yo-ho-ogre)
+    virtual void do_postdefense(std::shared_ptr<BgBaseCard> attacker,
+				Board* b1,
+				Board* b2) {}
     // Triggered after deaths of each dmg exchange (ex: scavaging hyena)
     virtual void do_postbattle(Board* b1, Board* b2, std::vector<std::shared_ptr<BgBaseCard> > dead_b1, std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {}
 
@@ -78,9 +84,17 @@ public:
     bool has_deathrattle() { return mechanics.find("DEATHRATTLE") != std::string::npos; }
     bool has_taunt() {
 	return _has_taunt || mechanics.find("TAUNT") != std::string::npos;
-    }    
+    }
+    bool has_reborn() {
+	return _has_reborn;
+    }
+    bool has_cleave() {
+	return mechanics.find("CLEAVE") != std::string::npos;
+    }
 
     bool is_dead() { return health <= 0; }
+
+    void reborn_self(Board* b1);
 
     void set_attack(int att) { attack = att; }
     void set_death_pos(int dp) { death_pos = dp; }
@@ -88,13 +102,14 @@ public:
     void set_poison() { is_poison = true; }
     void set_divine_shield() { divine_shield = true; }
     void set_taunt() { _has_taunt = true; }
+    void set_reborn(bool rb = true) {_has_reborn = rb; }
 
     virtual std::shared_ptr<BgBaseCard> summon() {throw std::runtime_error("summon() not implemented");}
     virtual std::shared_ptr<BgBaseCard> do_summon(Board* b1);
     void basic_summon(Board* b1);
     void multi_summon(int num_summons, Board* b1);
 
-    virtual void take_damage(int damage, std::string who_from_race, Board* b1);
+    virtual void take_damage(int damage, std::string who_from_race, Board* b1, Board* b2);
 
     std::string who_killed_race() {
 	if (is_dead()) {
@@ -113,6 +128,7 @@ protected:
     int cost;
     bool divine_shield;
     bool _has_taunt = false;
+    bool _has_reborn = false;
     int health;
     bool is_poison;
     std::string mechanics;
@@ -126,4 +142,3 @@ protected:
 private:
     void deal_with_death(Board* b1, Board* b2);
 };
-

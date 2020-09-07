@@ -162,6 +162,12 @@ void BgCardFactory::init_cards() {
     // 			     "['DIVINE_SHIELD', 'REBORN']", "DRAGON", "", 3, "MINION"));
 
     // C
+    std::shared_ptr<BgBaseCard> cave_hydra(new BgBaseCard(2, "BEAST", 3, 4, "Cave Hydra",
+							  "['CLEAVE']", "BEAST", "", 4, "MINION"));
+    cards.emplace("Cave Hydra", cave_hydra);
+    std::shared_ptr<BgBaseCard> cave_hydra_golden(new BgBaseCard(4, "BEAST", 3, 8, "Cave Hydra (Golden)",
+								    "['CLEAVE']", "BEAST", "", 4, "MINION"));
+    cards.emplace("Cave Hydra (Golden)", cave_hydra_golden);
     // cards.emplace("Cap'n Hoggarr", BgBaseCard(6, "NEUTRAL", 6, 6,  "Cap'n Hoggarr",
     // 					      "['TRIGGER_VISUAL']", "PIRATE", "", 5, "MINION"));
     // cards.emplace("Cap'n Hoggarr (Golden)", BgBaseCard(12, "NEUTRAL", 6, 12, "Cap'n Hoggarr (Golden)",

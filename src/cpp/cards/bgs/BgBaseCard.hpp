@@ -88,6 +88,9 @@ public:
     bool has_reborn() {
 	return _has_reborn;
     }
+    bool has_cleave() {
+	return mechanics.find("CLEAVE") != std::string::npos;
+    }
 
     bool is_dead() { return health <= 0; }
 

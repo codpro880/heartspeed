@@ -92,8 +92,32 @@ void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker,
 				  Board* b1,
 				  Board* b2) {
     attacker->do_preattack(defender, b1, b2);
-    std::vector<int> dmg = {defender->get_attack(), attacker->get_attack()};
-    std::vector<std::shared_ptr<BgBaseCard> > cards = {attacker, defender};
+    std::vector<int> dmg;
+    std::vector<std::shared_ptr<BgBaseCard> > cards;
+    if (attacker->has_cleave() && b2->get_cards().size() > (unsigned)1) {
+	auto def_pos = b2->get_pos(defender);
+	if (def_pos == 0) {
+	    dmg = {defender->get_attack(), attacker->get_attack(), attacker->get_attack()};
+	    cards = {attacker, defender, b2->get_cards()[def_pos+1]};
+	}
+	else if (def_pos == b2->get_cards().size()) {
+	    dmg = {defender->get_attack(), attacker->get_attack(), attacker->get_attack()};
+	    cards = {attacker, defender, b2->get_cards()[def_pos-1]};
+	}
+	else if (b2->get_cards().size() == (unsigned)2) {
+	    dmg = {defender->get_attack(), attacker->get_attack(), attacker->get_attack()};
+	    cards = {attacker, b2->get_cards()[0], b2->get_cards()[1]};
+	}
+	else { // More than 2 and not on ends
+	    dmg = {defender->get_attack(), attacker->get_attack(), attacker->get_attack(), attacker->get_attack()};
+	    cards = {attacker, defender, b2->get_cards()[def_pos+1], b2->get_cards()[def_pos-1]};
+	}
+    }
+    else {
+	std::cerr << "NO Cleave" << std::endl;
+	dmg = {defender->get_attack(), attacker->get_attack()};
+	cards = {attacker, defender};
+    }
     std::vector<std::string> who_from_race = {defender->get_race(), attacker->get_race()};
     take_dmg_simul(cards, who_from_race, dmg, b1, b2);
     attacker->do_postattack(defender, b1, b2);

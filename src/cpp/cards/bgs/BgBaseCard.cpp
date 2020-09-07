@@ -15,6 +15,14 @@ std::ostream& operator<<(std::ostream& os, BgBaseCard& card) {
 void BgBaseCard::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
     if (divine_shield) {
 	divine_shield = false;
+	for (auto c : b1->get_cards()) {
+	    if (c->get_name() == "Bolvar") {
+		c->set_attack(c->get_attack() + 2);
+	    }
+	    else if (c->get_name() == "Bolvar (Golden)") {
+		c->set_attack(c->get_attack() + 4);
+	    }
+	}
     }
     else {
 	health -= damage;

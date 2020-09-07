@@ -524,6 +524,27 @@ void ScavagingHyenaGolden::do_postbattle(Board* b1,
     }
 }
 
+void SecurityRover::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
+    BgBaseCard::take_damage(damage, who_from_race, b1, b2);
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> SecurityRover::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Guard Bot");
+}
+
+void SecurityRoverGolden::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
+    BgBaseCard::take_damage(damage, who_from_race, b1, b2);
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> SecurityRoverGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Guard Bot (Golden)");
+}
+
+
 void SelflessHero::do_deathrattle(Board* b1, Board*b2) {
     // Cards w/o divine shield
     std::vector<std::shared_ptr<BgBaseCard> > cards;

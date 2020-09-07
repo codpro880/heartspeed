@@ -272,6 +272,12 @@ void BgCardFactory::init_cards() {
     // 						     "MINION"));
     cards.emplace("Goldrinn", std::make_shared<Goldrinn>());
     cards.emplace("Goldrinn (Golden)", std::make_shared<GoldrinnGolden>());
+    std::shared_ptr<BgBaseCard> guard_bot(new BgBaseCard(2, "WARRIOR", 2, 3, "Guard Bot",
+							 "['TAUNT']", "MECHANICAL", "", 1, "MINION"));
+    cards.emplace("Guard Bot", guard_bot);
+    std::shared_ptr<BgBaseCard> guard_bot_golden(new BgBaseCard(4, "WARRIOR", 2, 6, "Guard Bot (Golden)",
+								"['TAUNT']", "MECHANICAL", "", 1, "MINION"));
+    cards.emplace("Guard Bot (Golden)", guard_bot_golden);
     // cards.emplace("Guard Bot (Golden)", BgBaseCard(4, "WARRIOR", 2, 6, "Guard Bot (Golden)",
     // 						   "['TAUNT']", "MECHANICAL", "", 1, "MINION"));
 
@@ -535,8 +541,8 @@ void BgCardFactory::init_cards() {
     // 						   "['OVERKILL']", "PIRATE", "", 5, "MINION"));
     // cards.emplace("Seabreaker Goliath (Golden)", BgBaseCard(12, "NEUTRAL", 7, 14, "Seabreaker Goliath (Golden)",
     // 							    "['OVERKILL']", "PIRATE", "", 5, "MINION"));
-    // cards.emplace("Security Rover (Golden)", BgBaseCard(4, "WARRIOR", 6, 12, "Security Rover (Golden)",
-    // 							"['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 4, "MINION"));
+    cards.emplace("Security Rover", std::make_shared<SecurityRover>());
+    cards.emplace("Security Rover (Golden)", std::make_shared<SecurityRoverGolden>());
     cards.emplace("Selfless Hero", std::make_shared<SelflessHero>());
     cards.emplace("Selfless Hero (Golden)", std::make_shared<SelflessHeroGolden>());
     // cards.emplace("Shifter Zerus", BgBaseCard(1, "NEUTRAL", 1, 1, "Shifter Zerus",

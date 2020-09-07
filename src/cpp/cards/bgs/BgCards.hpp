@@ -523,6 +523,24 @@ private:
     ScavagingHyena sh;
 };
 
+class SecurityRover : public BgBaseCard {
+public:
+    SecurityRover() : BgBaseCard(2, "WARRIOR", 6, 6, "Security Rover",
+				 "['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 4, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<SecurityRover>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+    void take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) override;
+};
+
+class SecurityRoverGolden : public BgBaseCard {
+public:
+    SecurityRoverGolden() : BgBaseCard(4, "WARRIOR", 6, 12, "Security Rover (Golden)",
+				       "['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 4, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<SecurityRoverGolden>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+    void take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) override;
+};
+
 class SelflessHero : public DeathrattleCard {
 public:
     SelflessHero() : DeathrattleCard(2, "PALADIN", 1, 1, "Selfless Hero",

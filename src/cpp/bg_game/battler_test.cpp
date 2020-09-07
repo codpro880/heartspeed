@@ -1153,6 +1153,28 @@ TEST(Battler, ScallywagGoldenDrattle) {
     EXPECT_EQ(res.damage_taken, 7);
 }
 
+TEST(Battler, SecurityRover) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Security Rover")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Tess");
+    auto p1_res_cards = p1->get_board()->get_cards();
+    // Should summon a guard bot
+    EXPECT_EQ(p1_res_cards.size(), (unsigned)2);
+}
+
 
 TEST(Battler, SelflessHeroDrattle) {
     auto f = BgCardFactory();

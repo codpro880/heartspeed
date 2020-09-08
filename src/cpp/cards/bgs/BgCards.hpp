@@ -559,6 +559,26 @@ private:
     SelflessHero hero;
 };
 
+class Siegebreaker : public BgBaseCard {
+public:
+    Siegebreaker() : BgBaseCard(5, "WARLOCK", 7, 8,  "Siegebreaker",
+				"['AURA', 'TAUNT']", "DEMON", "RARE", 4, "MINION") {}
+    virtual void do_precombat(Board* b1, Board* b2) override;
+    virtual void do_deathrattle(Board* b1, Board* b2) override; // Not really a drattle
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<Siegebreaker>(*this); } // boilerplate that every drattle needs...
+};
+
+class SiegebreakerGolden : public BgBaseCard {
+public:
+    SiegebreakerGolden() : BgBaseCard(10, "WARLOCK", 7, 16,  "Siegebreaker (Golden)",
+				      "['AURA', 'TAUNT']", "DEMON", "RARE", 4, "MINION") {}
+    virtual void do_precombat(Board* b1, Board* b2) override;
+    virtual void do_deathrattle(Board* b1, Board* b2) override; // Not really a drattle
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<SiegebreakerGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    Siegebreaker sb;
+};
+
 class SneedsOldShredder : public DeathrattleCard {
 public:
     SneedsOldShredder() : DeathrattleCard(5, "NEUTRAL", 8, 7,"Sneed's Old Shredder",

@@ -551,6 +551,8 @@ void BgCardFactory::init_cards() {
     // 						       "", "", "LEGENDARY", 3,"MINION"));
     // cards.emplace("Siegebreaker (Golden)", BgBaseCard(10, "WARLOCK", 7, 16,  "Siegebreaker (Golden)",
     // 						      "['AURA', 'TAUNT']", "DEMON", "RARE", 4, "MINION"));
+    cards.emplace("Siegebreaker", std::make_shared<Siegebreaker>());
+    cards.emplace("Siegebreaker (Golden)", std::make_shared<SiegebreakerGolden>());
     std::shared_ptr<BgBaseCard> sky_pirate(new BgBaseCard(1, "ROGUE", 1, 1, "Sky Pirate",
 							  "", "PIRATE", "", 1, "MINION"));
     cards.emplace("Sky Pirate", sky_pirate);

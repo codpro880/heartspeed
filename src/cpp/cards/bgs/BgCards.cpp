@@ -566,6 +566,36 @@ void SelflessHeroGolden::do_deathrattle(Board* b1, Board*b2) {
     }
 }
 
+void Siegebreaker::do_precombat(Board* b1, Board*b2) {
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "DEMON") {
+	    card->set_attack(card->get_attack() + 1);
+	}
+    }
+    set_attack(get_attack() - 1); // Siegbreaker doesn't apply to itself
+}
+
+void Siegebreaker::do_deathrattle(Board* b1, Board*b2) {
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "DEMON") {
+	    card->set_attack(card->get_attack() - 1);
+	}
+    }
+    set_attack(get_attack() + 1); // Siegebreaker doesn't apply to itself
+}
+
+void SiegebreakerGolden::do_precombat(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	sb.do_precombat(b1, b2);
+    }
+}
+
+void SiegebreakerGolden::do_deathrattle(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	sb.do_deathrattle(b1, b2);
+    }
+}
+
 void SneedsOldShredder::do_deathrattle(Board* b1, Board* b2) {
     multi_summon(1, b1);
 }

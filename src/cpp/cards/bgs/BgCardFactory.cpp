@@ -206,6 +206,12 @@ void BgCardFactory::init_cards() {
     // 						  "['TRIGGER_VISUAL']", "DRAGON", "", 4, "MINION"));
     // cards.emplace("Drakonid Enforcer (Golden)", BgBaseCard(6, "NEUTRAL", 6, 12, "Drakonid Enforcer (Golden)",
     // 							   "['TRIGGER_VISUAL']", "DRAGON", "", 4, "MINION"));
+    std::shared_ptr<BgBaseCard> drakonid_encorcer(new BgBaseCard(3, "NEUTRAL", 6, 6, "Drakonid Enforcer",
+								 "['TRIGGER_VISUAL']", "DRAGON", "", 4, "MINION"));
+    cards.emplace("Drakonid Enforcer", drakonid_encorcer);
+    std::shared_ptr<BgBaseCard> drakonid_enforcer_golden(new BgBaseCard(6, "NEUTRAL", 6, 12, "Drakonid Enforcer (Golden)",
+									"['TRIGGER_VISUAL']", "DRAGON", "", 4, "MINION"));
+    cards.emplace("Drakonid Enforcer (Golden)", drakonid_enforcer_golden);
     // cards.emplace("Dragonspawn Lieutenant", BgBaseCard(2, "NEUTRAL", 2, 3, "Dragonspawn Lieutenant",
     // 						       "['TAUNT']", "DRAGON", "", 1, "MINION"));
     // cards.emplace("Dread Admiral Eliza", BgBaseCard(6, "NEUTRAL", 6, 7, "Dread Admiral Eliza",

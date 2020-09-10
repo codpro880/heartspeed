@@ -16,11 +16,20 @@ void BgBaseCard::take_damage(int damage, std::string who_from_race, Board* b1, B
     if (divine_shield) {
 	divine_shield = false;
 	for (auto c : b1->get_cards()) {
+	    // TODO: make "lost_divine_shield" hook...
 	    if (c->get_name() == "Bolvar") {
 		c->set_attack(c->get_attack() + 2);
 	    }
 	    else if (c->get_name() == "Bolvar (Golden)") {
 		c->set_attack(c->get_attack() + 4);
+	    }
+	    else if (c->get_name() == "Drakonid Enforcer") {
+		c->set_attack(c->get_attack() + 2);
+		c->set_health(c->get_health() + 2);
+	    }
+	    else if (c->get_name() == "Drakonid Enforcer (Golden)") {
+		c->set_attack(c->get_attack() + 4);
+		c->set_health(c->get_health() + 4);
 	    }
 	}
     }

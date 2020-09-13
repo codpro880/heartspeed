@@ -114,7 +114,6 @@ void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker,
 	}
     }
     else {
-	std::cerr << "NO Cleave" << std::endl;
 	dmg = {defender->get_attack(), attacker->get_attack()};
 	cards = {attacker, defender};
     }

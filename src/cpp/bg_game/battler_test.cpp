@@ -210,6 +210,29 @@ TEST(Battler, CaveHydra) {
     EXPECT_EQ(res.who_won, "draw");
 }
 
+TEST(Battler, DrakonidEnforcer) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Deflect-o-Bot"),
+	 f.get_card("Drakonid Enforcer")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_health(16); // 3 and 3 from bot, 5 and 5 from enforcer
+    th->set_attack(7); // Should take two hits from both bot and enforcer
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+}
+
 
 TEST(Battler, FiendishServantGoldenDrattle) {
     auto f = BgCardFactory();
@@ -331,6 +354,33 @@ TEST(Battler, HarvestGolemGoldenDrattle) {
     }
     EXPECT_EQ(res.damage_taken, 2);
 }
+
+TEST(Battler, HeraldOfFlame) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Herald Of Flame")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // Herald will chain overkill all the tidehunters
+    EXPECT_EQ(res.who_won, "Tess");
+}
+
 
 TEST(Battler, ImprisonerDrattle) {
     auto f = BgCardFactory();
@@ -1046,6 +1096,30 @@ TEST(Battler, RedWhelpGoldenPreBattleCondition) {
     EXPECT_EQ(res.who_won, "draw");
 }
 
+TEST(Battler, RipsnarlWithScallywag) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Scallywag"),
+	 f.get_card("Ripsnarl Captain")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(3); // Want to kill scallywag, but not ripsnarl
+    th->set_health(3 + 3 + 3 + 3); // 3 and 3 from scally, ripsnarl takes two attacks as well
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+}
+
+
 TEST(Battler, ScavengingHyenaIfBeastDies) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -1151,6 +1225,28 @@ TEST(Battler, ScallywagGoldenDrattle) {
 	EXPECT_EQ(c->get_name(), "Scallywag");
     }
     EXPECT_EQ(res.damage_taken, 7);
+}
+
+TEST(Battler, SecurityRover) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Security Rover")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Tess");
+    auto p1_res_cards = p1->get_board()->get_cards();
+    // Should summon a guard bot
+    EXPECT_EQ(p1_res_cards.size(), (unsigned)2);
 }
 
 

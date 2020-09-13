@@ -7,6 +7,23 @@
 #include "../../bg_game/board.hpp"
 #include "../../bg_game/battler.hpp"
 
+void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
+			      Board* b1,
+			      Board* b2) {
+    std::cerr << "Doing pirate pre_attack" << std::endl;
+    for (auto c : b1->get_cards()) {
+	if (c->get_name() == "Ripsnarl Captain" && c.get() != this) {
+	    std::cerr << "Ripsnarl!" << std::endl;
+	    set_attack(get_attack() + 2);
+	    set_health(get_health() + 2);
+	}
+	else if (c->get_name() == "Ripsnarl Captain (Golden)" && c.get() != this) {
+	    set_attack(get_attack() + 4);
+	    set_health(get_health() + 4);
+	}
+    }
+}
+
 void FiendishServant::do_deathrattle(Board* b1, Board*b2) {
     auto buffed_pos = rand() % b1->length();
     auto card = b1->get_cards()[buffed_pos];
@@ -83,6 +100,36 @@ void HarvestGolemGolden::do_deathrattle(Board* b1, Board* b2) {
 std::shared_ptr<BgBaseCard> HarvestGolemGolden::summon() {
     auto f = BgCardFactory();
     return f.get_card("Damaged Golem (Golden)");
+}
+
+void HeraldOfFlame::do_postattack(std::shared_ptr<BgBaseCard> defender,
+				  Board* b1,
+				  Board* b2) {
+    if (defender->get_health() < 0) {
+	auto b2_cards = b2->get_cards();
+	if (!b2_cards.empty()) {
+	    auto new_defender = b2_cards[0];
+	    auto f = BgCardFactory();
+	    auto hof = f.get_card("Herald Of Flame");
+	    hof->set_attack(3);
+	    BoardBattler().take_dmg_simul(hof, new_defender, b1, b2);
+	}
+    }
+}
+
+void HeraldOfFlameGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
+					Board* b1,
+					Board* b2) {
+    if (defender->get_health() < 0) {
+	auto b2_cards = b2->get_cards();
+	if (!b2_cards.empty()) {
+	    auto new_defender = b2_cards[0];
+	    auto f = BgCardFactory();
+	    auto hof = f.get_card("Herald Of Flame (Golden)");
+	    hof->set_attack(6);
+	    BoardBattler().take_dmg_simul(hof, new_defender, b1, b2);
+	}
+    }
 }
 
 void Imprisoner::do_deathrattle(Board* b1, Board* b2) {
@@ -524,6 +571,27 @@ void ScavagingHyenaGolden::do_postbattle(Board* b1,
     }
 }
 
+void SecurityRover::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
+    BgBaseCard::take_damage(damage, who_from_race, b1, b2);
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> SecurityRover::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Guard Bot");
+}
+
+void SecurityRoverGolden::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
+    BgBaseCard::take_damage(damage, who_from_race, b1, b2);
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> SecurityRoverGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Guard Bot (Golden)");
+}
+
+
 void SelflessHero::do_deathrattle(Board* b1, Board*b2) {
     // Cards w/o divine shield
     std::vector<std::shared_ptr<BgBaseCard> > cards;
@@ -542,6 +610,36 @@ void SelflessHero::do_deathrattle(Board* b1, Board*b2) {
 void SelflessHeroGolden::do_deathrattle(Board* b1, Board*b2) {
     for (int i = 0; i < 2; i++) {
 	hero.do_deathrattle(b1, b2);
+    }
+}
+
+void Siegebreaker::do_precombat(Board* b1, Board*b2) {
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "DEMON") {
+	    card->set_attack(card->get_attack() + 1);
+	}
+    }
+    set_attack(get_attack() - 1); // Siegbreaker doesn't apply to itself
+}
+
+void Siegebreaker::do_deathrattle(Board* b1, Board*b2) {
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "DEMON") {
+	    card->set_attack(card->get_attack() - 1);
+	}
+    }
+    set_attack(get_attack() + 1); // Siegebreaker doesn't apply to itself
+}
+
+void SiegebreakerGolden::do_precombat(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	sb.do_precombat(b1, b2);
+    }
+}
+
+void SiegebreakerGolden::do_deathrattle(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	sb.do_deathrattle(b1, b2);
     }
 }
 

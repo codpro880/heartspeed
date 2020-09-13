@@ -119,6 +119,28 @@ public:
     std::shared_ptr<BgBaseCard> summon() override;
 };
 
+class HeraldOfFlame : public BgBaseCard {
+public:
+    HeraldOfFlame() : BgBaseCard(5, "WARRIOR", 5, 6, "Herald of Flame",
+				 "['OVERKILL']", "DRAGON", "", 4, "MINION") {}
+    virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       Board* b1,
+			       Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<HeraldOfFlame>(*this); } // boilerplate that every drattle needs...
+};
+
+class HeraldOfFlameGolden : public BgBaseCard {
+public:
+    HeraldOfFlameGolden() : BgBaseCard(10, "WARRIOR", 5, 12, "Herald of Flame (Golden)",
+				       "['OVERKILL']", "DRAGON", "", 4, "MINION") {}
+    virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       Board* b1,
+			       Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<HeraldOfFlameGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    HeraldOfFlame soul_juggler;
+};
+
 class ImpGangBoss : public BgBaseCard {
 public:
     ImpGangBoss() : BgBaseCard(2, "WARLOCK", 3, 4, "Imp Gang Boss",

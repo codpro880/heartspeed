@@ -85,6 +85,36 @@ std::shared_ptr<BgBaseCard> HarvestGolemGolden::summon() {
     return f.get_card("Damaged Golem (Golden)");
 }
 
+void HeraldOfFlame::do_postattack(std::shared_ptr<BgBaseCard> defender,
+				  Board* b1,
+				  Board* b2) {
+    if (defender->get_health() < 0) {
+	auto b2_cards = b2->get_cards();
+	if (!b2_cards.empty()) {
+	    auto new_defender = b2_cards[0];
+	    auto f = BgCardFactory();
+	    auto hof = f.get_card("Herald Of Flame");
+	    hof->set_attack(3);
+	    BoardBattler().take_dmg_simul(hof, new_defender, b1, b2);
+	}
+    }
+}
+
+void HeraldOfFlameGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
+					Board* b1,
+					Board* b2) {
+    if (defender->get_health() < 0) {
+	auto b2_cards = b2->get_cards();
+	if (!b2_cards.empty()) {
+	    auto new_defender = b2_cards[0];
+	    auto f = BgCardFactory();
+	    auto hof = f.get_card("Herald Of Flame (Golden)");
+	    hof->set_attack(6);
+	    BoardBattler().take_dmg_simul(hof, new_defender, b1, b2);
+	}
+    }
+}
+
 void Imprisoner::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }

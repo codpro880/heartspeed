@@ -7,6 +7,23 @@
 #include "../../bg_game/board.hpp"
 #include "../../bg_game/battler.hpp"
 
+void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
+			      Board* b1,
+			      Board* b2) {
+    std::cerr << "Doing pirate pre_attack" << std::endl;
+    for (auto c : b1->get_cards()) {
+	if (c->get_name() == "Ripsnarl Captain" && c.get() != this) {
+	    std::cerr << "Ripsnarl!" << std::endl;
+	    set_attack(get_attack() + 2);
+	    set_health(get_health() + 2);
+	}
+	else if (c->get_name() == "Ripsnarl Captain (Golden)" && c.get() != this) {
+	    set_attack(get_attack() + 4);
+	    set_health(get_health() + 4);
+	}
+    }
+}
+
 void FiendishServant::do_deathrattle(Board* b1, Board*b2) {
     auto buffed_pos = rand() % b1->length();
     auto card = b1->get_cards()[buffed_pos];

@@ -1096,6 +1096,30 @@ TEST(Battler, RedWhelpGoldenPreBattleCondition) {
     EXPECT_EQ(res.who_won, "draw");
 }
 
+TEST(Battler, RipsnarlWithScallywag) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Scallywag"),
+	 f.get_card("Ripsnarl Captain")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(3); // Want to kill scallywag, but not ripsnarl
+    th->set_health(3 + 3 + 3 + 3); // 3 and 3 from scally, ripsnarl takes two attacks as well
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+}
+
+
 TEST(Battler, ScavengingHyenaIfBeastDies) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards

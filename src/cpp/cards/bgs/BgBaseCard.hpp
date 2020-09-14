@@ -45,8 +45,12 @@ public:
 					  tech_level(other.tech_level),
 					  type(other.type) {}
 
-    // Triggered on death (ex: deathrattle cards, stat-buffs that die)
+    // Triggered on death
+    // (ex: stat-buffs that die)
+    // Note: Actual deathrattle cards handled by DeathrattleCard class
     virtual void do_deathrattle(Board* b1, Board* b2) {}
+    virtual void deathrattle(Board* b1, Board* b2) { do_deathrattle(b1, b2); }
+    
     // Triggered before every attack (ex: glyph gaurdian mechanic)
     virtual void do_preattack(std::shared_ptr<BgBaseCard> defender,
 			      Board* b1,

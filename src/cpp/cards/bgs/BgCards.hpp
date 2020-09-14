@@ -6,6 +6,7 @@
 class DeathrattleCard : virtual public BgBaseCard {
 public:
     using BgBaseCard::BgBaseCard;
+    virtual void deathrattle(Board* b1, Board* b2) override;
     virtual void do_deathrattle(Board* b1, Board* b2) override = 0;
     virtual std::shared_ptr<BgBaseCard> get_copy() override = 0; // boilerplate that every card needs...
     // TODO: Move summon mechanic to base class

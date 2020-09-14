@@ -126,6 +126,12 @@ void BgCardFactory::init_cards() {
     // B
     // cards.emplace("Baron Rivendare (Golden)", BgBaseCard(2, "NEUTRAL", 4, 14, "Baron Rivendare (Golden)",
     // 							 "['AURA']", "", "LEGENDARY", 5, "MINION"));
+    std::shared_ptr<BgBaseCard> baron(new BgBaseCard(1, "NEUTRAL", 4, 7, "Baron",
+						     "['AURA']", "", "LEGENDARY", 5, "MINION"));
+    cards.emplace("Baron", baron);
+    std::shared_ptr<BgBaseCard> baron_gold(new BgBaseCard(2, "NEUTRAL", 4, 14, "Baron",
+							  "['AURA']", "", "LEGENDARY", 5, "MINION"));
+    cards.emplace("Baron (Golden)", baron_gold);
     std::shared_ptr<BgBaseCard> big_bad_wolf(new BgBaseCard(3, "HUNTER", 2, 2, "Big Bad Wolf",
 							    "", "BEAST", "", 1, "MINION"));					    
     cards.emplace("Big Bad Wolf", big_bad_wolf);

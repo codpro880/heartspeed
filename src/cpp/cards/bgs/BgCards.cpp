@@ -7,13 +7,28 @@
 #include "../../bg_game/board.hpp"
 #include "../../bg_game/battler.hpp"
 
+void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
+    std::cerr << "New drattles...?" << std::endl;
+    if (b1->is_in("Baron")) {
+	std::cerr << "Found baron. " << std::endl;
+	do_deathrattle(b1, b2);
+	do_deathrattle(b1, b2);
+    }
+    else if (b1->is_in("Baron (Golden)")) {
+	do_deathrattle(b1, b2);
+	do_deathrattle(b1, b2);
+	do_deathrattle(b1, b2);
+    }
+    else {
+	do_deathrattle(b1, b2);
+    }
+}
+
 void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
 			      Board* b1,
 			      Board* b2) {
-    std::cerr << "Doing pirate pre_attack" << std::endl;
     for (auto c : b1->get_cards()) {
 	if (c->get_name() == "Ripsnarl Captain" && c.get() != this) {
-	    std::cerr << "Ripsnarl!" << std::endl;
 	    set_attack(get_attack() + 2);
 	    set_health(get_health() + 2);
 	}

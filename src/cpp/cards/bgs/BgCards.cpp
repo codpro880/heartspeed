@@ -207,6 +207,34 @@ std::shared_ptr<BgBaseCard> InfestedWolfGolden::summon() {
     return f.get_card("Spider (Golden)");
 }
 
+void IronhideDirehorn::do_postattack(std::shared_ptr<BgBaseCard> defender,
+				     Board* b1,
+				     Board* b2) {
+    if (defender->get_health() < 0) {
+	basic_summon(b1);
+    }
+}
+
+std::shared_ptr<BgBaseCard> IronhideDirehorn::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Ironhide Runt");
+}
+
+
+void IronhideDirehornGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
+					Board* b1,
+					Board* b2) {
+    if (defender->get_health() < 0) {
+	basic_summon(b1);
+    }
+}
+
+std::shared_ptr<BgBaseCard> IronhideDirehornGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Ironhide Runt (Golden)");
+}
+
+
 void KaboomBot::do_deathrattle(Board* b1, Board* b2) {    
     if (b2->length() == 0) {
 	return;

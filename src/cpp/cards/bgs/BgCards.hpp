@@ -147,8 +147,6 @@ public:
 			       Board* b1,
 			       Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<HeraldOfFlameGolden>(*this); } // boilerplate that every drattle needs...
-private:
-    HeraldOfFlame soul_juggler;
 };
 
 class ImpGangBoss : public BgBaseCard {
@@ -204,6 +202,29 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<InfestedWolfGolden>(*this); } // boilerplate that every drattle needs...
     std::shared_ptr<BgBaseCard> summon() override;
 };
+
+class IronhideDirehorn : public BgBaseCard {
+public:
+    IronhideDirehorn() : BgBaseCard(5, "WARRIOR", 5, 6, "Herald of Flame",
+				 "['OVERKILL']", "DRAGON", "", 4, "MINION") {}
+    virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       Board* b1,
+			       Board* b2) override;
+    std::shared_ptr<BgBaseCard> summon() override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<IronhideDirehorn>(*this); } // boilerplate that every drattle needs...
+};
+
+class IronhideDirehornGolden : public BgBaseCard {
+public:
+    IronhideDirehornGolden() : BgBaseCard(10, "WARRIOR", 5, 12, "Herald of Flame (Golden)",
+				       "['OVERKILL']", "DRAGON", "", 4, "MINION") {}
+    virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       Board* b1,
+			       Board* b2) override;
+    std::shared_ptr<BgBaseCard> summon() override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<IronhideDirehornGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 
 class KaboomBot : public DeathrattleCard {
 public:

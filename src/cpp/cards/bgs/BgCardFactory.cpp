@@ -356,6 +356,15 @@ void BgCardFactory::init_cards() {
     // 						     "['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 4, "MINION"));
     // cards.emplace("Ironhide Direhorn (Golden)", BgBaseCard(14, "DRUID", 7, 14,  "Ironhide Direhorn (Golden)",
     // 							   "['OVERKILL']", "BEAST", "COMMON", 5, "MINION"));
+    cards.emplace("Ironhide Direhorn", std::make_shared<IronhideDirehorn>());
+    cards.emplace("Ironhide Direhorn (Golden)", std::make_shared<IronhideDirehornGolden>());
+    std::shared_ptr<BgBaseCard> ironhide_runt(new BgBaseCard(5, "DRUID", 5, 5, "Ironhide Runt",
+							     "", "BEAST", "", 1, "MINION"));
+    cards.emplace("Ironhide Runt", ironhide_runt);
+    std::shared_ptr<BgBaseCard> ironhide_runt_gold(new BgBaseCard(10, "DRUID", 5, 10, "Ironhide Runt (Golden)",
+								  "", "BEAST", "", 1, "MINION"));
+    cards.emplace("Ironhide Runt (Golden)", ironhide_runt_gold);
+    
     // cards.emplace("Ironhide Runt (Golden)", BgBaseCard(10, "DRUID", 5, 10, "Ironhide Runt (Golden)",
     // 						       "", "BEAST", "", 1, "MINION"));
 

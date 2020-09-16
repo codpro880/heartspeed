@@ -375,6 +375,8 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> joebot_gold(new BgBaseCard(2, "NEUTRAL", 1, 2, "Jo-E Bot (Golden)",
 						      "", "MECHANICAL", "", 1, "MINION"));
     cards.emplace("Jo-E Bot (Golden)", joebot_gold);
+    cards.emplace("Junkbot", std::make_shared<Junkbot>());
+    cards.emplace("Junkbot (Golden)", std::make_shared<JunkbotGolden>());
     // cards.emplace("Junkbot (Golden)", BgBaseCard(2, "NEUTRAL", 5, 10, "Junkbot (Golden)",
     // 						 "['TRIGGER_VISUAL']", "MECHANICAL", "EPIC", 5, "MINION"));
 

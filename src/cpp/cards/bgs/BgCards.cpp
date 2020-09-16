@@ -235,6 +235,32 @@ std::shared_ptr<BgBaseCard> IronhideDirehornGolden::summon() {
 }
 
 
+void Junkbot::do_postbattle(Board* b1,
+			    Board* b2,
+			    std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+			    std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+    int dead_mech_count = 0;
+    for (auto c : dead_b1) {
+	if (c->get_race() == "MECHANICAL") {
+	    dead_mech_count++;
+	}
+    }
+    for (int i = 0; i < dead_mech_count; i++) {
+	set_attack(get_attack() + 2);
+	set_health(get_health() + 2);
+    }
+}
+
+void JunkbotGolden::do_postbattle(Board* b1,
+				     Board* b2,
+				     std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+				     std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+    for (int i = 0; i < 2; i++) {
+	junk_bot.do_postbattle(b1, b2, dead_b1, dead_b2);
+    }
+}
+
+
 void KaboomBot::do_deathrattle(Board* b1, Board* b2) {    
     if (b2->length() == 0) {
 	return;

@@ -225,6 +225,29 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<IronhideDirehornGolden>(*this); } // boilerplate that every drattle needs...
 };
 
+class Junkbot : public BgBaseCard {
+public:
+    Junkbot() : BgBaseCard(1, "NEUTRAL", 5, 5, "Junkbot",
+			   "['TRIGGER_VISUAL']", "MECHANICAL", "EPIC", 5, "MINION") {}
+    virtual void do_postbattle(Board* b1,
+			       Board* b2,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;    
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<Junkbot>(*this); } // boilerplate that every drattle needs...
+};
+
+class JunkbotGolden : public BgBaseCard {
+public:
+    JunkbotGolden() : BgBaseCard(2, "NEUTRAL", 5, 10, "Junkbot (Golden)",
+				 "['TRIGGER_VISUAL']", "MECHANICAL", "EPIC", 5, "MINION") {}
+    virtual void do_postbattle(Board* b1,
+			       Board* b2,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<JunkbotGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    Junkbot junk_bot;
+};
 
 class KaboomBot : public DeathrattleCard {
 public:

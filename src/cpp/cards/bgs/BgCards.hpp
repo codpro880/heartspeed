@@ -326,6 +326,26 @@ private:
     KingBagurgle bag;
 };
 
+class MalGanis : public BgBaseCard {
+public:
+    MalGanis() : BgBaseCard(9, "WARLOCK", 9, 7, "Mal'Ganis",
+			    "['AURA']", "DEMON", "LEGENDARY", 5, "MINION") {}
+    virtual void do_precombat(Board* b1, Board* b2) override;
+    virtual void do_deathrattle(Board* b1, Board* b2) override; // Not really a drattle
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<MalGanis>(*this); } // boilerplate that every drattle needs...
+};
+
+class MalGanisGolden : public BgBaseCard {
+public:
+    MalGanisGolden() : BgBaseCard(18, "WARLOCK", 9, 14, "Mal'Ganis (Golden)",
+				  "['AURA']", "DEMON", "LEGENDARY", 5, "MINION") {}
+    virtual void do_precombat(Board* b1, Board* b2) override;
+    virtual void do_deathrattle(Board* b1, Board* b2) override; // Not really a drattle
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<MalGanisGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    MalGanis rw;
+};
+
 class MechanoEgg : public DeathrattleCard {
 public:
     MechanoEgg() : BgBaseCard(0, "NEUTRAL", 5, 5, "Mechano-Egg",

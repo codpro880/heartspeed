@@ -377,8 +377,6 @@ void BgCardFactory::init_cards() {
     cards.emplace("Jo-E Bot (Golden)", joebot_gold);
     cards.emplace("Junkbot", std::make_shared<Junkbot>());
     cards.emplace("Junkbot (Golden)", std::make_shared<JunkbotGolden>());
-    // cards.emplace("Junkbot (Golden)", BgBaseCard(2, "NEUTRAL", 5, 10, "Junkbot (Golden)",
-    // 						 "['TRIGGER_VISUAL']", "MECHANICAL", "EPIC", 5, "MINION"));
 
     // K
     cards.emplace("Kaboom Bot", std::make_shared<KaboomBot>());
@@ -408,9 +406,8 @@ void BgCardFactory::init_cards() {
     // 							    "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION"));
 
     // M
-    std::shared_ptr<BgBaseCard> malganis_gold(new BgBaseCard(18, "WARLOCK", 9, 14, "Mal'Ganis (Golden)",
-							     "['AURA']", "DEMON", "LEGENDARY", 5, "MINION"));
-    cards.emplace("Mal'Ganis (Golden)", malganis_gold);
+    cards.emplace("Mal'Ganis", std::make_shared<MalGanis>());
+    cards.emplace("Mal'Ganis (Golden)", std::make_shared<MalGanisGolden>());
     // cards.emplace("Mal'Ganis (Golden)", BgBaseCard(18, "WARLOCK", 9, 14, "Mal'Ganis (Golden)",
     // 						   "['AURA']", "DEMON", "LEGENDARY", 5, "MINION"));
     // cards.emplace("Mama Bear", BgBaseCard(5, "NEUTRAL", 8, 5, "Mama Bear",

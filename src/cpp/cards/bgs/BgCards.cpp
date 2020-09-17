@@ -350,6 +350,41 @@ void KingBagurgleGolden::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
+void MalGanis::do_precombat(Board* b1, Board*b2) {
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "DEMON") {
+	    card->set_attack(card->get_attack() + 2);
+	    card->set_health(card->get_health() + 2);
+	}
+    }
+    set_attack(get_attack() - 2); // MalGanis doesn't apply to itself
+    set_health(get_health() - 2); // MalGanis doesn't apply to itself
+}
+
+void MalGanis::do_deathrattle(Board* b1, Board*b2) {
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "DEMON") {
+	    card->set_attack(card->get_attack() - 2);
+	    card->set_health(card->get_health() - 2);
+	}
+    }
+    set_attack(get_attack() + 2); // Malganis doesn't apply to itself
+    set_health(get_health() + 2); // Malganis doesn't apply to itself
+}
+
+void MalGanisGolden::do_precombat(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	rw.do_precombat(b1, b2);
+    }
+}
+
+void MalGanisGolden::do_deathrattle(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	rw.do_deathrattle(b1, b2);
+    }
+}
+
+
 void MechanoEgg::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }

@@ -346,6 +346,25 @@ private:
     MalGanis rw;
 };
 
+class MamaBear : public BgBaseCard {
+public:
+    MamaBear() : BgBaseCard(4, "NEUTRAL", 8, 4, "Mama Bear",
+			    "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<MamaBear>(*this); } // boilerplate that every drattle needs...
+    void mod_summoned(std::shared_ptr<BgBaseCard> card) override;
+};
+
+class MamaBearGolden : public BgBaseCard {
+public:
+    MamaBearGolden() : BgBaseCard(8, "NEUTRAL", 8, 8, "Mama Bear (Golden)",
+				  "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<MamaBearGolden>(*this); } // boilerplate that every drattle needs...
+    void mod_summoned(std::shared_ptr<BgBaseCard> card) override;
+private:
+    MamaBear pl;
+};
+
+
 class MechanoEgg : public DeathrattleCard {
 public:
     MechanoEgg() : BgBaseCard(0, "NEUTRAL", 5, 5, "Mechano-Egg",

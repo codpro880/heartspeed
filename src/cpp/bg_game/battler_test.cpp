@@ -821,6 +821,33 @@ TEST(Battler, KingBagurgleGoldenDeathrattle) {
 // TEST(Battler, MalGanis) {
 // }
 
+TEST(Battler, MamaBear) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Rat Pack"),
+	 f.get_card("Mama Bear")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(4);
+    // 2 from rp, 5 from each re-sum rat, and each attacks twice (5*2*2)
+    // Then 4 from mama bear
+    th->set_health(2 + 5*2*2 + 4);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+    EXPECT_EQ(res.damage_taken, 0);
+}
+
+
 // So similar to other basic drattle summons not going to test
 // TEST(Battler, MechanoEggDrattle) {
 // }

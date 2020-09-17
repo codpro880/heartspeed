@@ -408,12 +408,8 @@ void BgCardFactory::init_cards() {
     // M
     cards.emplace("Mal'Ganis", std::make_shared<MalGanis>());
     cards.emplace("Mal'Ganis (Golden)", std::make_shared<MalGanisGolden>());
-    // cards.emplace("Mal'Ganis (Golden)", BgBaseCard(18, "WARLOCK", 9, 14, "Mal'Ganis (Golden)",
-    // 						   "['AURA']", "DEMON", "LEGENDARY", 5, "MINION"));
-    // cards.emplace("Mama Bear", BgBaseCard(5, "NEUTRAL", 8, 5, "Mama Bear",
-    // 					  "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "MINION"));
-    // cards.emplace("Mama Bear (Golden)", BgBaseCard(10, "NEUTRAL", 8, 10, "Mama Bear (Golden)",
-    // 						   "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "MINION"));
+    cards.emplace("Mama Bear", std::make_shared<MamaBear>());
+    cards.emplace("Mama Bear (Golden)", std::make_shared<MamaBearGolden>());
     // // cards.emplace("Master Demonologist", BgBaseCard(4, "NEUTRAL", 7, 6, "Master Demonologist",
     // // 						    "['TRIGGER_VISUAL']", "DEMON", "", -1, "MINION"));
     // cards.emplace("Mechano-Egg (Golden)", BgBaseCard(0, "PALADIN", 5, 10, "Mechano-Egg (Golden)",

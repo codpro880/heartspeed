@@ -384,6 +384,19 @@ void MalGanisGolden::do_deathrattle(Board* b1, Board*b2) {
     }
 }
 
+void MamaBear::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+    if (card->get_race() == "BEAST") {
+	card->set_attack(card->get_attack() + 4);
+	card->set_health(card->get_health() + 4);
+    }
+}
+
+void MamaBearGolden::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+    for (int i = 0; i < 2; i++) {
+	pl.mod_summoned(card);
+    }
+}
+
 
 void MechanoEgg::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);

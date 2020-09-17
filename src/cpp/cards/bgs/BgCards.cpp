@@ -688,6 +688,28 @@ void ScavagingHyenaGolden::do_postbattle(Board* b1,
     }
 }
 
+void SeabreakerGoliath::do_postattack(std::shared_ptr<BgBaseCard> defender,
+				  Board* b1,
+				  Board* b2) {
+    if (defender->get_health() < 0) {
+	for (auto c : b1->get_cards()) {
+	    if (c->get_race() == "PIRATE" && c.get() != this) {
+		c->set_attack(c->get_attack() + 2);
+		c->set_health(c->get_health() + 2);
+	    }
+	}
+    }
+}
+
+void SeabreakerGoliathGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
+					Board* b1,
+					Board* b2) {
+    for (int i = 0; i < 2; i++) {
+	sbg.do_postattack(defender, b1, b2);
+    }
+}
+
+
 void SecurityRover::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
     BgBaseCard::take_damage(damage, who_from_race, b1, b2);
     basic_summon(b1);

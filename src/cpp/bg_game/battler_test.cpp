@@ -1326,6 +1326,37 @@ TEST(Battler, ScallywagGoldenDrattle) {
     EXPECT_EQ(res.damage_taken, 7);
 }
 
+TEST(Battler, SeabreakerGoliath) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Seabreaker Goliath"),
+	 f.get_card("Scallywag"),
+	 f.get_card("Kaboom Bot") // not relevant, just to make sure p1 goes first
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    auto b1_cards = board1->get_cards();
+    EXPECT_EQ(b1_cards.size(), (unsigned)3);
+    for (auto c : b1_cards) { // Make sure windfury goes off
+	if (c->get_name() == "Scallywag") {
+	    EXPECT_EQ(c->get_attack(), 6);
+	    EXPECT_EQ(c->get_health(), 5);
+	}
+    }
+    EXPECT_EQ(res.who_won, "Tess");
+}
+
+
 TEST(Battler, SecurityRover) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards

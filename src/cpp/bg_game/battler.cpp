@@ -257,6 +257,20 @@ bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     post_battle(b1, b2, new_dead_b1, new_dead_b2);
     post_battle(b2, b1, new_dead_b2, new_dead_b1);
 
+    std::cerr << "attacker not dead" << (!attacker->is_dead()) << std::endl;
+    std::cerr << "has windfury" << (attacker->has_windfury()) << std::endl;
+    std::cerr << "has windfury active" << (attacker->has_windfury_active()) << std::endl;
+
+    if (!attacker->is_dead() && attacker->has_windfury_active()) {
+	std::cerr << "WINDFURY" << std::endl;
+	attacker->set_windfury_active(false);
+	battle_boards(attacker_pos, b1, b2);	   
+    }
+
+    if (attacker->has_windfury()) {
+	attacker->set_windfury_active();
+    }
+
     // Handles deathrattles, nothing happens if nothing died
     //attacker->do_deathrattle(b1, b2);
     //defender->do_deathrattle(b2, b1); // May modify b1/b2

@@ -22,6 +22,8 @@ public:
 				   cost(cost),
 				   divine_shield(false),
 				   _has_reborn(false),
+				   _has_windfury(false),
+				   _has_windfury_active(false),
 				   health(health),
 				   is_poison(false),
 				   mechanics(mechanics),
@@ -36,6 +38,8 @@ public:
 					  cost(other.cost),
 					  divine_shield(other.divine_shield),
 					  _has_reborn(other._has_reborn),
+					  _has_windfury(other._has_windfury),
+					  _has_windfury_active(other._has_windfury_active),
 					  health(other.health),
 					  is_poison(other.is_poison),
 					  mechanics(other.mechanics),
@@ -95,6 +99,8 @@ public:
     bool has_cleave() {
 	return mechanics.find("CLEAVE") != std::string::npos;
     }
+    bool has_windfury() { return _has_windfury; }
+    bool has_windfury_active() { return _has_windfury_active; }
 
     bool is_dead() { return health <= 0; }
 
@@ -107,6 +113,8 @@ public:
     void set_divine_shield() { divine_shield = true; }
     void set_taunt() { _has_taunt = true; }
     void set_reborn(bool rb = true) {_has_reborn = rb; }
+    void set_windfury(bool wf = true) { _has_windfury = wf; _has_windfury_active = wf; }
+    void set_windfury_active(bool wfa = true) { _has_windfury_active = wfa; }
 
     virtual std::shared_ptr<BgBaseCard> summon() {throw std::runtime_error("summon() not implemented");}
     virtual std::shared_ptr<BgBaseCard> do_summon(Board* b1);
@@ -133,6 +141,8 @@ protected:
     bool divine_shield;
     bool _has_taunt = false;
     bool _has_reborn = false;
+    bool _has_windfury = false; // attribute
+    bool _has_windfury_active = false; // Whether or not we can attack again
     int health;
     bool is_poison;
     std::string mechanics;

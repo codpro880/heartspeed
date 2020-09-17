@@ -652,6 +652,29 @@ private:
     ScavagingHyena sh;
 };
 
+class SeabreakerGoliath : public BgBaseCard {
+public:
+    SeabreakerGoliath() : BgBaseCard(6, "NEUTRAL", 7, 7, "Seabreaker Goliath",
+				     "['OVERKILL']", "PIRATE", "", 5, "MINION") {}
+    virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       Board* b1,
+			       Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<SeabreakerGoliath>(*this); } // boilerplate that every drattle needs...
+};
+
+class SeabreakerGoliathGolden : public BgBaseCard {
+public:
+    SeabreakerGoliathGolden() : BgBaseCard(12, "NEUTRAL", 7, 14, "Seabreaker Goliath (Golden)",
+					   "['OVERKILL']", "PIRATE", "", 5, "MINION") {}
+    virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       Board* b1,
+			       Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<SeabreakerGoliathGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    SeabreakerGoliath sbg;
+};
+
+
 class SecurityRover : public BgBaseCard {
 public:
     SecurityRover() : BgBaseCard(2, "WARRIOR", 6, 6, "Security Rover",

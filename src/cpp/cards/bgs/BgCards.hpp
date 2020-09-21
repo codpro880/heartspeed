@@ -32,6 +32,20 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() override = 0; // boilerplate that every card needs...
 };
 
+class DreadAdmiralEliza : public PirateCard {
+public:
+    DreadAdmiralEliza() : BgBaseCard(6, "NEUTRAL", 6, 7, "Dread Admiral Eliza",
+				     "['TRIGGER_VISUAL']", "PIRATE", "", 6, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<DreadAdmiralEliza>(*this); } // boilerplate that every drattle needs...
+};
+
+class DreadAdmiralElizaGolden : public PirateCard {
+public:
+    DreadAdmiralElizaGolden() : BgBaseCard(12, "NEUTRAL", 6, 14, "Dread Admiral Eliza (Golden)",
+					   "['TRIGGER_VISUAL']", "PIRATE", "", 6, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<DreadAdmiralElizaGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 class FiendishServant : public DeathrattleCard {
 public:
     FiendishServant() : BgBaseCard(2, "WARLOCK", 1, 1, "Fiendish Servant",

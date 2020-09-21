@@ -27,6 +27,16 @@ void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
 void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
 			      Board* b1,
 			      Board* b2) {
+    int num_eliza = 0;
+    int num_eliza_gold = 0;
+    for (auto c : b1->get_cards()) {
+	if (c->get_name() == "Dread Admiral Eliza") {
+	    num_eliza += 1;
+	}
+	else if (c->get_name() == "Dread Admiral Eliza (Golden)") {
+	    num_eliza_gold += 1;
+	}
+    }
     for (auto c : b1->get_cards()) {
 	if (c->get_name() == "Ripsnarl Captain" && c.get() != this) {
 	    set_attack(get_attack() + 2);
@@ -36,6 +46,12 @@ void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
 	    set_attack(get_attack() + 4);
 	    set_health(get_health() + 4);
 	}
+    }
+    auto total_buff = 2 * num_eliza_gold + num_eliza;
+    std::cerr << "Total buff: " << total_buff << std::endl;
+    for (auto c : b1->get_cards()) {
+	c->set_attack(c->get_attack() + total_buff);
+	c->set_health(c->get_health() + total_buff);
     }
 }
 

@@ -220,6 +220,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Drakonid Enforcer (Golden)", drakonid_enforcer_golden);
     // cards.emplace("Dragonspawn Lieutenant", BgBaseCard(2, "NEUTRAL", 2, 3, "Dragonspawn Lieutenant",
     // 						       "['TAUNT']", "DRAGON", "", 1, "MINION"));
+    cards.emplace("Dread Admiral Eliza", std::make_shared<DreadAdmiralEliza>());
+    cards.emplace("Dread Admiral Eliza (Golden)", std::make_shared<DreadAdmiralElizaGolden>());
     // cards.emplace("Dread Admiral Eliza", BgBaseCard(6, "NEUTRAL", 6, 7, "Dread Admiral Eliza",
     // 						    "['TRIGGER_VISUAL']", "PIRATE", "", 6, "MINION"));
     // cards.emplace("Dread Admiral Eliza (Golden)", BgBaseCard(12, "NEUTRAL", 6, 14, "Dread Admiral Eliza (Golden)",

@@ -66,7 +66,7 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_with_deathrat
     return res;
 }
 
-std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_race(std::string race) {
+std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_race(std::string race, bool include_golden) {
     std::vector<std::shared_ptr<BgBaseCard> > res;
     auto it = cards.begin();
     while (it != cards.end()) {
@@ -74,7 +74,14 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_race(std::
 	if (card->get_race() == race) {
 	    // TODO: Not copying here may improve performance.
 	    // Maybe only return names?
-	    res.push_back(card->get_copy());
+	    if (include_golden) {
+		res.push_back(card->get_copy());
+	    }
+	    else {
+		if (card->is_golden()) {
+		    res.push_back(card->get_copy());
+		}
+	    }
 	}
 	it++;
     }
@@ -339,8 +346,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Imp (Golden)", imp_gold);
     cards.emplace("Imp Gang Boss", std::make_shared<ImpGangBoss>());
     cards.emplace("Imp Gang Boss (Golden)", std::make_shared<ImpGangBossGolden>());
-    // cards.emplace("Imp Gang Boss (Golden)", BgBaseCard(4, "WARLOCK", 3, 8, "Imp Gang Boss (Golden)",
-    // 						       "['TRIGGER_VISUAL']", "DEMON", "COMMON", 3, "MINION"));
+    cards.emplace("Imp Mama", std::make_shared<ImpMama>());
+    cards.emplace("Imp Mama (Golden)", std::make_shared<ImpMamaGolden>());
     // cards.emplace("Imp Mama", BgBaseCard(6, "WARLOCK", 8, 10, "Imp Mama",
     // 					 "['TRIGGER_VISUAL']", "DEMON", "", 6, "MINION"));
     // cards.emplace("Imp Mama (Golden)", BgBaseCard(12, "WARLOCK", 8, 20, "Imp Mama (Golden)",

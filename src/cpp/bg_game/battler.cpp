@@ -139,7 +139,13 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
 				  Board* b1,
 				  Board* b2) {
     for (int i = 0; i < cards.size(); i++) {
-	cards[i]->take_damage(dmg, who_from_race[i], b1, b2);
+	if (b1->contains(cards[i])) {
+	    std::cerr << "Card " << cards[i]->get_name() << " in b1";
+	    cards[i]->take_damage(dmg, who_from_race[i], b1, b2);
+	}
+	else {
+	    cards[i]->take_damage(dmg, who_from_race[i], b2, b1);
+	}
     }
     
     b1->remove_and_mark_dead();
@@ -156,7 +162,13 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
 				  Board* b1,
 				  Board* b2) {
     for (int i = 0; i < cards.size(); i++) {
-	cards[i]->take_damage(dmg[i], who_from_race[i], b1, b2);
+	if (b1->contains(cards[i])) {
+	    std::cerr << "Card " << cards[i]->get_name() << " in b1";
+	    cards[i]->take_damage(dmg[i], who_from_race[i], b1, b2);
+	}
+	else {
+	    cards[i]->take_damage(dmg[i], who_from_race[i], b2, b1);
+	}
     }
     
     b1->remove_and_mark_dead();

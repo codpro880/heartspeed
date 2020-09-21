@@ -192,6 +192,28 @@ std::shared_ptr<BgBaseCard> ImpGangBossGolden::summon() {
     return f.get_card("Imp (Golden)");
 }
 
+void ImpMama::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
+    BgBaseCard::take_damage(damage, who_from_race, b1, b2);
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> ImpMama::summon() {
+    auto f = BgCardFactory();
+    auto demons = f.get_cards_of_race("DEMON");
+    auto demon = demons[rand() % demons.size()];
+    demon->set_taunt();
+    return demon;
+}
+
+void ImpMamaGolden::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
+    BgBaseCard::take_damage(damage, who_from_race, b1, b2);
+    multi_summon(2, b1);    
+}
+
+std::shared_ptr<BgBaseCard> ImpMamaGolden::summon() {
+    return imp_mama.summon();
+}
+
 void ImprisonerGolden::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }

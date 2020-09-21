@@ -181,6 +181,27 @@ public:
     void take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) override;
 };
 
+class ImpMama : public BgBaseCard {
+public:
+    ImpMama() : BgBaseCard(6, "WARLOCK", 8, 10, "Imp Mama",
+			   "['TRIGGER_VISUAL']", "DEMON", "", 6, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ImpMama>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+    void take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) override;
+};
+
+class ImpMamaGolden : public BgBaseCard {
+public:
+    ImpMamaGolden() : BgBaseCard(12, "WARLOCK", 8, 20, "Imp Mama (Golden)",
+				 "['TRIGGER_VISUAL']", "DEMON", "", 6, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ImpMamaGolden>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+    void take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) override;
+private:
+    ImpMama imp_mama;
+};
+
+
 class Imprisoner : public DeathrattleCard {
 public:
     Imprisoner() : BgBaseCard(3, "NEUTRAL", 3, 3, "Imprisoner",

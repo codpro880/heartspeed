@@ -61,6 +61,10 @@ public:
     	// auto it = std::find(cards.begin(), cards.end(), std::shared_ptr<BgBaseCard>(c));
     	// return std::distance(cards.begin(), it);
     }
+    bool contains(std::shared_ptr<BgBaseCard> c) {
+	auto pos = get_pos(c);
+	return pos != -1 && pos != cards.size();
+    }
     // auto get_pos(BgBaseCard* card) {
     // 	auto pos = 0;
     // 	for (auto c : cards) {

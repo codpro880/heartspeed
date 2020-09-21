@@ -103,6 +103,7 @@ public:
     bool has_windfury_active() { return _has_windfury_active; }
 
     bool is_dead() { return health <= 0; }
+    bool is_golden() { return name.find("Golden") != std::string::npos; }
 
     void reborn_self(Board* b1);
 

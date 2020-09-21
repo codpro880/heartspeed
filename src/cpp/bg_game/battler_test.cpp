@@ -504,6 +504,34 @@ TEST(Battler, ImpGangBoss) {
     EXPECT_EQ(p1_res_cards.size(), (unsigned)2);
 }
 
+TEST(Battler, ImpMama) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Imp Mama")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Tess");
+    auto p1_res_cards = p1->get_board()->get_cards();
+    // Should summon an imp
+    EXPECT_EQ(p1_res_cards.size(), (unsigned)2);
+    for (auto c : p1_res_cards) {
+	if (c->get_name() != "Imp Mama") {
+	    EXPECT_EQ(c->has_taunt(), true);
+	}
+    }
+}
+
+
 TEST(Battler, IronhideDirehorn) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards

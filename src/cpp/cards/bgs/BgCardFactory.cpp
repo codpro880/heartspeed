@@ -175,6 +175,12 @@ void BgCardFactory::init_cards() {
     // 			     "['DIVINE_SHIELD', 'REBORN']", "DRAGON", "", 3, "MINION"));
 
     // C
+    std::shared_ptr<BgBaseCard> cat(new BgBaseCard(1, "HUNTER", 1, 1, "Cat",
+						   "['BATTLECRY']", "BEAST", "COMMON", 1, "MINION"));
+    cards.emplace("Cat", cat);
+    std::shared_ptr<BgBaseCard> cat_gold(new BgBaseCard(2, "HUNTER", 1, 2, "Cat (Golden)",
+							     "['BATTLECRY']", "BEAST", "COMMON", 1, "MINION"));
+    cards.emplace("Cat (Golden)", cat_gold);
     std::shared_ptr<BgBaseCard> cave_hydra(new BgBaseCard(2, "BEAST", 3, 4, "Cave Hydra",
 							  "['CLEAVE']", "BEAST", "", 4, "MINION"));
     cards.emplace("Cave Hydra", cave_hydra);
@@ -438,13 +444,18 @@ void BgCardFactory::init_cards() {
     // 							    "['BATTLECRY']", "", "COMMON", 4, "MINION"));
     // cards.emplace("Metaltooth Leaper (Golden)", BgBaseCard(6, "HUNTER", 3, 6, "Metaltooth Leaper (Golden)",
     // 							   "['BATTLECRY']", "MECHANICAL", "RARE", 2, "MINION"));
-    // cards.emplace("Micro Machine", BgBaseCard(1, "NEUTRAL", 2, 2, "Micro Machine",
-    // 					      "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
+    std::shared_ptr<BgBaseCard> micro_machine(new BgBaseCard(1, "NEUTRAL", 2, 2, "Micro Machine",
+							     "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
+    cards.emplace("Micro Machine", micro_machine);
     std::shared_ptr<BgBaseCard> micro_machine_gold(new BgBaseCard(2, "NEUTRAL", 2, 4, "Micro Machine (Golden)",
 								  "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
     cards.emplace("Micro Machine (Golden)", micro_machine_gold);
-    // cards.emplace("Micro Machine (Golden)", BgBaseCard(2, "NEUTRAL", 2, 4, "Micro Machine (Golden)",
-    // 						       "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
+    std::shared_ptr<BgBaseCard> micro_mummy(new BgBaseCard(1, "NEUTRAL", 2, 2, "Micro Mummy",
+							   "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
+    cards.emplace("Micro Mummy", micro_mummy);
+    std::shared_ptr<BgBaseCard> micro_mummy_gold(new BgBaseCard(2, "NEUTRAL", 2, 4, "Micro Mummy (Golden)",
+							   "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
+    cards.emplace("Micro Mummy (Golden)", micro_mummy_gold);
     std::shared_ptr<BgBaseCard> microbot(new BgBaseCard(1, "NEUTRAL", 1, 1, "Microbot",
 							"", "MECHANICAL", "", 1, "MINION"));
     cards.emplace("Microbot", microbot);
@@ -461,11 +472,12 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> murloc_scout_gold(new BgBaseCard(2, "NEUTRAL", 1, 2, "Murloc Scout (Golden)",
 								 "", "MURLOC", "COMMON", 1, "MINION"));
     cards.emplace("Murloc Scout (Golden)", murloc_scout_gold);
+    std::shared_ptr<BgBaseCard> tidecaller(new BgBaseCard(1, "NEUTRAL", 1, 2, "Murloc Tidecaller",
+							  "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION"));
+    cards.emplace("Murloc Tidecaller", tidecaller);
     std::shared_ptr<BgBaseCard> tidecaller_gold(new BgBaseCard(2, "NEUTRAL", 1, 4, "Murloc Tidecaller (Golden)",
 							       "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION"));
     cards.emplace("Murloc Tidecaller (Golden)", tidecaller_gold);
-    // cards.emplace("Murloc Tidecaller (Golden)", BgBaseCard(2, "NEUTRAL", 1, 4, "Murloc Tidecaller (Golden)",
-    // 							   "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION"));
     std::shared_ptr<BgBaseCard> tidehunter(new BgBaseCard(2, "NEUTRAL", 2, 1, "Murloc Tidehunter",
 							  "['BATTLECRY']", "MURLOC", "FREE", 1, "MINION"));
     cards.emplace("Murloc Tidehunter", tidehunter);

@@ -66,7 +66,7 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_with_deathrat
     return res;
 }
 
-std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_race(std::string race) {
+std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_race(std::string race, bool include_golden) {
     std::vector<std::shared_ptr<BgBaseCard> > res;
     auto it = cards.begin();
     while (it != cards.end()) {
@@ -74,7 +74,14 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_race(std::
 	if (card->get_race() == race) {
 	    // TODO: Not copying here may improve performance.
 	    // Maybe only return names?
-	    res.push_back(card->get_copy());
+	    if (include_golden) {
+		res.push_back(card->get_copy());
+	    }
+	    else {
+		if (card->is_golden()) {
+		    res.push_back(card->get_copy());
+		}
+	    }
 	}
 	it++;
     }
@@ -126,6 +133,12 @@ void BgCardFactory::init_cards() {
     // B
     // cards.emplace("Baron Rivendare (Golden)", BgBaseCard(2, "NEUTRAL", 4, 14, "Baron Rivendare (Golden)",
     // 							 "['AURA']", "", "LEGENDARY", 5, "MINION"));
+    std::shared_ptr<BgBaseCard> baron(new BgBaseCard(1, "NEUTRAL", 4, 7, "Baron",
+						     "['AURA']", "", "LEGENDARY", 5, "MINION"));
+    cards.emplace("Baron", baron);
+    std::shared_ptr<BgBaseCard> baron_gold(new BgBaseCard(2, "NEUTRAL", 4, 14, "Baron",
+							  "['AURA']", "", "LEGENDARY", 5, "MINION"));
+    cards.emplace("Baron (Golden)", baron_gold);
     std::shared_ptr<BgBaseCard> big_bad_wolf(new BgBaseCard(3, "HUNTER", 2, 2, "Big Bad Wolf",
 							    "", "BEAST", "", 1, "MINION"));					    
     cards.emplace("Big Bad Wolf", big_bad_wolf);
@@ -214,6 +227,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Drakonid Enforcer (Golden)", drakonid_enforcer_golden);
     // cards.emplace("Dragonspawn Lieutenant", BgBaseCard(2, "NEUTRAL", 2, 3, "Dragonspawn Lieutenant",
     // 						       "['TAUNT']", "DRAGON", "", 1, "MINION"));
+    cards.emplace("Dread Admiral Eliza", std::make_shared<DreadAdmiralEliza>());
+    cards.emplace("Dread Admiral Eliza (Golden)", std::make_shared<DreadAdmiralElizaGolden>());
     // cards.emplace("Dread Admiral Eliza", BgBaseCard(6, "NEUTRAL", 6, 7, "Dread Admiral Eliza",
     // 						    "['TRIGGER_VISUAL']", "PIRATE", "", 6, "MINION"));
     // cards.emplace("Dread Admiral Eliza (Golden)", BgBaseCard(12, "NEUTRAL", 6, 14, "Dread Admiral Eliza (Golden)",
@@ -244,20 +259,17 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> foe_reaper(new BgBaseCard(6, "NEUTRAL", 8, 9, "Foe Reaper 4000",
 							  "['CLEAVE']", "MECHANICAL", "LEGENDARY", 6, "Minion"));
     cards.emplace("Foe Reaper 4000", foe_reaper);
-    // cards.emplace("Foe Reaper 4000", BgBaseCard(6, "NEUTRAL", 8, 9, "Foe Reaper 4000",
-    // 						"['CLEAVE']", "MECHANICAL", "LEGENDARY", 6, "Minion"));
+    std::shared_ptr<BgBaseCard> foe_reaper_gold(new BgBaseCard(12, "NEUTRAL", 8, 18, "Foe Reaper 4000",
+							       "['CLEAVE']", "MECHANICAL", "LEGENDARY", 6, "Minion"));
+    cards.emplace("Foe Reaper 4000 (Golden)", foe_reaper_gold);
+
+    // G
     std::shared_ptr<BgBaseCard> gambler(new BgBaseCard(3, "NEUTRAL", 3, 3, "Freedealing Gambler",
 						       "", "PIRATE", "", 2, "MINION"));
     cards.emplace("Freedealing Gambler", gambler);
-    // cards.emplace("Freedealing Gambler", BgBaseCard(3, "NEUTRAL", 3, 3, "Freedealing Gambler",
-    // 						    "", "PIRATE", "", 2, "MINION"));
     std::shared_ptr<BgBaseCard> gambler_golden(new BgBaseCard(6, "NEUTRAL", 3, 6, "Freedealing Gambler (Golden)",
 							      "", "PIRATE", "", 2, "MINION"));
     cards.emplace("Freedealing Gambler (Golden)", gambler_golden);
-    // cards.emplace("Freedealing Gambler (Golden)", BgBaseCard(6, "NEUTRAL", 3, 6, "Freedealing Gambler (Golden)",
-    // 							     "", "PIRATE", "", 2, "MINION"));
-						
-    // G
     // cards.emplace("Gentle Megasaur", BgBaseCard(5, "NEUTRAL", 4, 4, "Gentle Megasaur",
     // 						"['BATTLECRY']", "BEAST", "EPIC", 6, "MINION"));
     // cards.emplace("Gentle Megasaur (Golden)", BgBaseCard(10, "NEUTRAL", 4, 8, "Gentle Megasaur (Golden)",
@@ -334,8 +346,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Imp (Golden)", imp_gold);
     cards.emplace("Imp Gang Boss", std::make_shared<ImpGangBoss>());
     cards.emplace("Imp Gang Boss (Golden)", std::make_shared<ImpGangBossGolden>());
-    // cards.emplace("Imp Gang Boss (Golden)", BgBaseCard(4, "WARLOCK", 3, 8, "Imp Gang Boss (Golden)",
-    // 						       "['TRIGGER_VISUAL']", "DEMON", "COMMON", 3, "MINION"));
+    cards.emplace("Imp Mama", std::make_shared<ImpMama>());
+    cards.emplace("Imp Mama (Golden)", std::make_shared<ImpMamaGolden>());
     // cards.emplace("Imp Mama", BgBaseCard(6, "WARLOCK", 8, 10, "Imp Mama",
     // 					 "['TRIGGER_VISUAL']", "DEMON", "", 6, "MINION"));
     // cards.emplace("Imp Mama (Golden)", BgBaseCard(12, "WARLOCK", 8, 20, "Imp Mama (Golden)",
@@ -350,6 +362,15 @@ void BgCardFactory::init_cards() {
     // 						     "['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 4, "MINION"));
     // cards.emplace("Ironhide Direhorn (Golden)", BgBaseCard(14, "DRUID", 7, 14,  "Ironhide Direhorn (Golden)",
     // 							   "['OVERKILL']", "BEAST", "COMMON", 5, "MINION"));
+    cards.emplace("Ironhide Direhorn", std::make_shared<IronhideDirehorn>());
+    cards.emplace("Ironhide Direhorn (Golden)", std::make_shared<IronhideDirehornGolden>());
+    std::shared_ptr<BgBaseCard> ironhide_runt(new BgBaseCard(5, "DRUID", 5, 5, "Ironhide Runt",
+							     "", "BEAST", "", 1, "MINION"));
+    cards.emplace("Ironhide Runt", ironhide_runt);
+    std::shared_ptr<BgBaseCard> ironhide_runt_gold(new BgBaseCard(10, "DRUID", 5, 10, "Ironhide Runt (Golden)",
+								  "", "BEAST", "", 1, "MINION"));
+    cards.emplace("Ironhide Runt (Golden)", ironhide_runt_gold);
+    
     // cards.emplace("Ironhide Runt (Golden)", BgBaseCard(10, "DRUID", 5, 10, "Ironhide Runt (Golden)",
     // 						       "", "BEAST", "", 1, "MINION"));
 
@@ -360,8 +381,8 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> joebot_gold(new BgBaseCard(2, "NEUTRAL", 1, 2, "Jo-E Bot (Golden)",
 						      "", "MECHANICAL", "", 1, "MINION"));
     cards.emplace("Jo-E Bot (Golden)", joebot_gold);
-    // cards.emplace("Junkbot (Golden)", BgBaseCard(2, "NEUTRAL", 5, 10, "Junkbot (Golden)",
-    // 						 "['TRIGGER_VISUAL']", "MECHANICAL", "EPIC", 5, "MINION"));
+    cards.emplace("Junkbot", std::make_shared<Junkbot>());
+    cards.emplace("Junkbot (Golden)", std::make_shared<JunkbotGolden>());
 
     // K
     cards.emplace("Kaboom Bot", std::make_shared<KaboomBot>());
@@ -391,15 +412,18 @@ void BgCardFactory::init_cards() {
     // 							    "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION"));
 
     // M
-    std::shared_ptr<BgBaseCard> malganis_gold(new BgBaseCard(18, "WARLOCK", 9, 14, "Mal'Ganis (Golden)",
-							     "['AURA']", "DEMON", "LEGENDARY", 5, "MINION"));
-    cards.emplace("Mal'Ganis (Golden)", malganis_gold);
-    // cards.emplace("Mal'Ganis (Golden)", BgBaseCard(18, "WARLOCK", 9, 14, "Mal'Ganis (Golden)",
-    // 						   "['AURA']", "DEMON", "LEGENDARY", 5, "MINION"));
-    // cards.emplace("Mama Bear", BgBaseCard(5, "NEUTRAL", 8, 5, "Mama Bear",
-    // 					  "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "MINION"));
-    // cards.emplace("Mama Bear (Golden)", BgBaseCard(10, "NEUTRAL", 8, 10, "Mama Bear (Golden)",
-    // 						   "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "MINION"));
+    std::shared_ptr<BgBaseCard> maexxna(new BgBaseCard(2, "NEUTRAL", 6, 8, "Maexxna",
+						      "", "BEAST", "", 6, "MINION"));
+    maexxna->set_poison();
+    cards.emplace("Maexxna", maexxna);
+    std::shared_ptr<BgBaseCard> maexxna_gold(new BgBaseCard(4, "NEUTRAL", 6, 16, "Maexxna (Golden)",
+							   "", "BEAST", "", 6, "MINION"));
+    maexxna_gold->set_poison();
+    cards.emplace("Maexxna (Golden)", maexxna_gold);
+    cards.emplace("Mal'Ganis", std::make_shared<MalGanis>());
+    cards.emplace("Mal'Ganis (Golden)", std::make_shared<MalGanisGolden>());
+    cards.emplace("Mama Bear", std::make_shared<MamaBear>());
+    cards.emplace("Mama Bear (Golden)", std::make_shared<MamaBearGolden>());
     // // cards.emplace("Master Demonologist", BgBaseCard(4, "NEUTRAL", 7, 6, "Master Demonologist",
     // // 						    "['TRIGGER_VISUAL']", "DEMON", "", -1, "MINION"));
     // cards.emplace("Mechano-Egg (Golden)", BgBaseCard(0, "PALADIN", 5, 10, "Mechano-Egg (Golden)",
@@ -552,10 +576,12 @@ void BgCardFactory::init_cards() {
     cards.emplace("Scavaging Hyena (Golden)", std::make_shared<ScavagingHyenaGolden>());
     // cards.emplace("Screwjank Clunker (Golden)", BgBaseCard(4, "WARRIOR", 4, 10, "Screwjank Clunker (Golden)",
     // 							   "['BATTLECRY']", "MECHANICAL", "RARE", 3, "MINION"));
-    // cards.emplace("Seabreaker Goliath", BgBaseCard(6, "NEUTRAL", 7, 7, "Seabreaker Goliath",
-    // 						   "['OVERKILL']", "PIRATE", "", 5, "MINION"));
-    // cards.emplace("Seabreaker Goliath (Golden)", BgBaseCard(12, "NEUTRAL", 7, 14, "Seabreaker Goliath (Golden)",
-    // 							    "['OVERKILL']", "PIRATE", "", 5, "MINION"));
+    auto seabreaker = std::make_shared<SeabreakerGoliath>();
+    seabreaker->set_windfury();
+    cards.emplace("Seabreaker Goliath", seabreaker);
+    auto seabreaker_gold = std::make_shared<SeabreakerGoliathGolden>();
+    seabreaker_gold->set_windfury();
+    cards.emplace("Seabreaker Goliath (Golden)", seabreaker_gold);
     cards.emplace("Security Rover", std::make_shared<SecurityRover>());
     cards.emplace("Security Rover (Golden)", std::make_shared<SecurityRoverGolden>());
     cards.emplace("Selfless Hero", std::make_shared<SelflessHero>());
@@ -673,6 +699,14 @@ void BgCardFactory::init_cards() {
     cards.emplace("Yo-Ho-Ogre (Golden)", std::make_shared<YoHoOgreGolden>());
 
     // Z
+    std::shared_ptr<BgBaseCard> zapp(new BgBaseCard(7, "NEUTRAL", 8, 10, "Zapp",
+						    "", "", "", 6, "MINION"));
+    zapp->set_windfury();
+    cards.emplace("Zapp", zapp);
+    std::shared_ptr<BgBaseCard> zapp_gold(new BgBaseCard(14, "NEUTRAL", 8, 20, "Zapp (Golden)",
+							 "['WINDFURY']", "", "", 6, "MINION"));
+    zapp_gold->set_windfury();
+    cards.emplace("Zapp (Golden)", zapp_gold);
 //     cards.emplace("Zapp Slywick", BgBaseCard(7, "NEUTRAL", 8, 10, "Zapp Slywick",
 // 					     "", "", "", 6, "MINION"));
 //     cards.emplace("Zapp Slywick (Golden)", BgBaseCard(14, "NEUTRAL", 8, 20, "Zapp Slywick (Golden)",

@@ -143,6 +143,30 @@ TEST(Battler, CanHandleBasicDeathrattles) {
     EXPECT_EQ(res.damage_taken, 0); 
 }
 
+TEST(Battler, Baron) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Spawn of Nzoth"),
+	 f.get_card("Baron")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(8); // Two attacks for baron
+    th->set_health(2 + 3 + 3); // 2 from spawn, 3 and 3 from baron
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+}
+
+
 TEST(Battler, Bolvar) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -233,6 +257,28 @@ TEST(Battler, DrakonidEnforcer) {
     EXPECT_EQ(res.who_won, "draw");
 }
 
+TEST(Battler, DreadAdmiralEliza) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Scallywag"),
+	 f.get_card("Dread Admiral Eliza")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(100);
+    th->set_health(3 + 2 + 8); // 3 and 2 from scally, then +3/+3 to eliza
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+}
 
 TEST(Battler, FiendishServantGoldenDrattle) {
     auto f = BgCardFactory();
@@ -458,6 +504,54 @@ TEST(Battler, ImpGangBoss) {
     EXPECT_EQ(p1_res_cards.size(), (unsigned)2);
 }
 
+TEST(Battler, ImpMama) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Imp Mama")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "Tess");
+    auto p1_res_cards = p1->get_board()->get_cards();
+    // Should summon an imp
+    EXPECT_EQ(p1_res_cards.size(), (unsigned)2);
+    for (auto c : p1_res_cards) {
+	if (c->get_name() != "Imp Mama") {
+	    EXPECT_EQ(c->has_taunt(), true);
+	}
+    }
+}
+
+TEST(Battler, IronhideDirehorn) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Ironhide Direhorn")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(board1->get_cards().size(), (unsigned)2);
+    EXPECT_EQ(res.who_won, "Tess");
+}
+
 
 // So similar to ratpack we skip it for now...
 // TEST(Battler, InfestedWolfDrattle) {
@@ -466,6 +560,30 @@ TEST(Battler, ImpGangBoss) {
 // So similar to ratpack we skip it for now...
 // TEST(Battler, InfestedWolfGoldenDrattle) {
 // }
+
+TEST(Battler, Junkbot) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Kaboom Bot"),
+	 f.get_card("Junkbot")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(6); // Should attack junkbot twice
+    th->set_health(6 + 3 + 3); // 6 from kaboom, 3 and 3 from junkbot
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+}
+
 
 TEST(Battler, KaboomBotDrattle) {
     auto f = BgCardFactory();
@@ -748,16 +866,22 @@ TEST(Battler, KingBagurgleGoldenDeathrattle) {
     }
 }
 
-TEST(Battler, MonstrousMacaw) {
+// So similar to MurlocWarleader not going to test
+// TEST(Battler, MalGanis) {
+// }
+
+TEST(Battler, MamaBear) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
 	{
-	 f.get_card("Monstrous Macaw"),
-	 f.get_card("Spawn of Nzoth")
+	 f.get_card("Rat Pack"),
+	 f.get_card("Mama Bear")
 	};
     auto th = f.get_card("Murloc Tidehunter");
-    th->set_health(7); // 4 from macaw, 3 from spawn that had drattle trig
-    th->set_attack(7);
+    th->set_attack(4);
+    // 2 from rp, 5 from each re-sum rat, and each attacks twice (5*2*2)
+    // Then 4 from mama bear
+    th->set_health(2 + 5*2*2 + 4);
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
 	{
 	 th
@@ -769,6 +893,7 @@ TEST(Battler, MonstrousMacaw) {
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
+    EXPECT_EQ(res.damage_taken, 0);
 }
 
 
@@ -810,6 +935,29 @@ TEST(Battler, MecharooGoldenDrattle) {
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
     EXPECT_EQ(res.damage_taken, 0);
+}
+
+TEST(Battler, MonstrousMacaw) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Monstrous Macaw"),
+	 f.get_card("Spawn of Nzoth")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_health(7); // 4 from macaw, 3 from spawn that had drattle trig
+    th->set_attack(7);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
 }
 
 TEST(Battler, MurlocWarleader) {
@@ -1227,6 +1375,37 @@ TEST(Battler, ScallywagGoldenDrattle) {
     EXPECT_EQ(res.damage_taken, 7);
 }
 
+TEST(Battler, SeabreakerGoliath) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Seabreaker Goliath"),
+	 f.get_card("Scallywag"),
+	 f.get_card("Kaboom Bot") // not relevant, just to make sure p1 goes first
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    auto b1_cards = board1->get_cards();
+    EXPECT_EQ(b1_cards.size(), (unsigned)3);
+    for (auto c : b1_cards) { // Make sure windfury goes off
+	if (c->get_name() == "Scallywag") {
+	    EXPECT_EQ(c->get_attack(), 6);
+	    EXPECT_EQ(c->get_health(), 5);
+	}
+    }
+    EXPECT_EQ(res.who_won, "Tess");
+}
+
+
 TEST(Battler, SecurityRover) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -1626,4 +1805,31 @@ TEST(Battler, YoHoOgre) {
     EXPECT_EQ(res.who_won, "Tess");
     // Murloc tidehunter never attacks since yo-ho attacks back immediately
     EXPECT_EQ(board1->get_cards().size(), (unsigned)2);
+}
+
+TEST(Battler, Zapp) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Zapp")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    // Make it big enough to kill Baron
+    th->set_attack(20);
+    th->set_health(20);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Baron"),
+	 f.get_card("Baron"),
+	 th,
+	 f.get_card("Baron"),
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(board2->get_cards().size(), 1); // Barons should all be dead
+    EXPECT_EQ(res.who_won, "Edwin");
 }

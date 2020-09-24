@@ -7,13 +7,38 @@
 #include "../../bg_game/board.hpp"
 #include "../../bg_game/battler.hpp"
 
+void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
+    std::cerr << "New drattles...?" << std::endl;
+    if (b1->is_in("Baron")) {
+	std::cerr << "Found baron. " << std::endl;
+	do_deathrattle(b1, b2);
+	do_deathrattle(b1, b2);
+    }
+    else if (b1->is_in("Baron (Golden)")) {
+	do_deathrattle(b1, b2);
+	do_deathrattle(b1, b2);
+	do_deathrattle(b1, b2);
+    }
+    else {
+	do_deathrattle(b1, b2);
+    }
+}
+
 void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
 			      Board* b1,
 			      Board* b2) {
-    std::cerr << "Doing pirate pre_attack" << std::endl;
+    int num_eliza = 0;
+    int num_eliza_gold = 0;
+    for (auto c : b1->get_cards()) {
+	if (c->get_name() == "Dread Admiral Eliza") {
+	    num_eliza += 1;
+	}
+	else if (c->get_name() == "Dread Admiral Eliza (Golden)") {
+	    num_eliza_gold += 1;
+	}
+    }
     for (auto c : b1->get_cards()) {
 	if (c->get_name() == "Ripsnarl Captain" && c.get() != this) {
-	    std::cerr << "Ripsnarl!" << std::endl;
 	    set_attack(get_attack() + 2);
 	    set_health(get_health() + 2);
 	}
@@ -21,6 +46,12 @@ void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
 	    set_attack(get_attack() + 4);
 	    set_health(get_health() + 4);
 	}
+    }
+    auto total_buff = 2 * num_eliza_gold + num_eliza;
+    std::cerr << "Total buff: " << total_buff << std::endl;
+    for (auto c : b1->get_cards()) {
+	c->set_attack(c->get_attack() + total_buff);
+	c->set_health(c->get_health() + total_buff);
     }
 }
 
@@ -161,6 +192,28 @@ std::shared_ptr<BgBaseCard> ImpGangBossGolden::summon() {
     return f.get_card("Imp (Golden)");
 }
 
+void ImpMama::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
+    BgBaseCard::take_damage(damage, who_from_race, b1, b2);
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> ImpMama::summon() {
+    auto f = BgCardFactory();
+    auto demons = f.get_cards_of_race("DEMON");
+    auto demon = demons[rand() % demons.size()];
+    demon->set_taunt();
+    return demon;
+}
+
+void ImpMamaGolden::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
+    BgBaseCard::take_damage(damage, who_from_race, b1, b2);
+    multi_summon(2, b1);    
+}
+
+std::shared_ptr<BgBaseCard> ImpMamaGolden::summon() {
+    return imp_mama.summon();
+}
+
 void ImprisonerGolden::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }
@@ -191,6 +244,60 @@ std::shared_ptr<BgBaseCard> InfestedWolfGolden::summon() {
     auto f = BgCardFactory();
     return f.get_card("Spider (Golden)");
 }
+
+void IronhideDirehorn::do_postattack(std::shared_ptr<BgBaseCard> defender,
+				     Board* b1,
+				     Board* b2) {
+    if (defender->get_health() < 0) {
+	basic_summon(b1);
+    }
+}
+
+std::shared_ptr<BgBaseCard> IronhideDirehorn::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Ironhide Runt");
+}
+
+
+void IronhideDirehornGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
+					Board* b1,
+					Board* b2) {
+    if (defender->get_health() < 0) {
+	basic_summon(b1);
+    }
+}
+
+std::shared_ptr<BgBaseCard> IronhideDirehornGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Ironhide Runt (Golden)");
+}
+
+
+void Junkbot::do_postbattle(Board* b1,
+			    Board* b2,
+			    std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+			    std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+    int dead_mech_count = 0;
+    for (auto c : dead_b1) {
+	if (c->get_race() == "MECHANICAL") {
+	    dead_mech_count++;
+	}
+    }
+    for (int i = 0; i < dead_mech_count; i++) {
+	set_attack(get_attack() + 2);
+	set_health(get_health() + 2);
+    }
+}
+
+void JunkbotGolden::do_postbattle(Board* b1,
+				     Board* b2,
+				     std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+				     std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+    for (int i = 0; i < 2; i++) {
+	junk_bot.do_postbattle(b1, b2, dead_b1, dead_b2);
+    }
+}
+
 
 void KaboomBot::do_deathrattle(Board* b1, Board* b2) {    
     if (b2->length() == 0) {
@@ -280,6 +387,54 @@ void KingBagurgleGolden::do_deathrattle(Board* b1, Board* b2) {
 	bag.do_deathrattle(b1, b2);
     }
 }
+
+void MalGanis::do_precombat(Board* b1, Board*b2) {
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "DEMON") {
+	    card->set_attack(card->get_attack() + 2);
+	    card->set_health(card->get_health() + 2);
+	}
+    }
+    set_attack(get_attack() - 2); // MalGanis doesn't apply to itself
+    set_health(get_health() - 2); // MalGanis doesn't apply to itself
+}
+
+void MalGanis::do_deathrattle(Board* b1, Board*b2) {
+    for (auto card : b1->get_cards()) {
+	if (card->get_race() == "DEMON") {
+	    card->set_attack(card->get_attack() - 2);
+	    card->set_health(card->get_health() - 2);
+	}
+    }
+    set_attack(get_attack() + 2); // Malganis doesn't apply to itself
+    set_health(get_health() + 2); // Malganis doesn't apply to itself
+}
+
+void MalGanisGolden::do_precombat(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	rw.do_precombat(b1, b2);
+    }
+}
+
+void MalGanisGolden::do_deathrattle(Board* b1, Board*b2) {
+    for (int i = 0; i < 2; i++) {
+	rw.do_deathrattle(b1, b2);
+    }
+}
+
+void MamaBear::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+    if (card->get_race() == "BEAST") {
+	card->set_attack(card->get_attack() + 4);
+	card->set_health(card->get_health() + 4);
+    }
+}
+
+void MamaBearGolden::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+    for (int i = 0; i < 2; i++) {
+	pl.mod_summoned(card);
+    }
+}
+
 
 void MechanoEgg::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
@@ -570,6 +725,28 @@ void ScavagingHyenaGolden::do_postbattle(Board* b1,
 	}
     }
 }
+
+void SeabreakerGoliath::do_postattack(std::shared_ptr<BgBaseCard> defender,
+				  Board* b1,
+				  Board* b2) {
+    if (defender->get_health() < 0) {
+	for (auto c : b1->get_cards()) {
+	    if (c->get_race() == "PIRATE" && c.get() != this) {
+		c->set_attack(c->get_attack() + 2);
+		c->set_health(c->get_health() + 2);
+	    }
+	}
+    }
+}
+
+void SeabreakerGoliathGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
+					Board* b1,
+					Board* b2) {
+    for (int i = 0; i < 2; i++) {
+	sbg.do_postattack(defender, b1, b2);
+    }
+}
+
 
 void SecurityRover::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
     BgBaseCard::take_damage(damage, who_from_race, b1, b2);

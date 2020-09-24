@@ -139,7 +139,12 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
 				  Board* b1,
 				  Board* b2) {
     for (int i = 0; i < cards.size(); i++) {
-	cards[i]->take_damage(dmg, who_from_race[i], b1, b2);
+	if (b1->contains(cards[i])) {
+	    cards[i]->take_damage(dmg, who_from_race[i], b1, b2);
+	}
+	else {
+	    cards[i]->take_damage(dmg, who_from_race[i], b2, b1);
+	}
     }
     
     b1->remove_and_mark_dead();
@@ -156,7 +161,12 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
 				  Board* b1,
 				  Board* b2) {
     for (int i = 0; i < cards.size(); i++) {
-	cards[i]->take_damage(dmg[i], who_from_race[i], b1, b2);
+	if (b1->contains(cards[i])) {
+	    cards[i]->take_damage(dmg[i], who_from_race[i], b1, b2);
+	}
+	else {
+	    cards[i]->take_damage(dmg[i], who_from_race[i], b2, b1);
+	}
     }
     
     b1->remove_and_mark_dead();
@@ -233,6 +243,35 @@ bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
 	auto defender_pos = rand() % b2->length();
 	defender = (*b2)[defender_pos];
     }
+
+    // Zapp special case, ignores taunts
+    if (attacker->get_name() == "Zapp" || attacker->get_name() == "Zapp (Golden)") {
+	// No Idea why this isn't working, tried w/ and w/o const& in lambda
+	// auto min_elt_it = std::min_element(b2->get_cards().begin(),
+	// 				   b2->get_cards().end(),
+	// 				   [](std::shared_ptr<BgBaseCard> a, std::shared_ptr<BgBaseCard> b)
+	// 				   {
+	// 				       return a->get_attack() < b->get_attack();
+	// 				   }
+	// 				   );
+	// std::cerr << "GOt here..." << std::endl;
+	// auto idx = std::distance(b2->get_cards().begin(), min_elt_it);
+	// std::cerr << "Index: " << idx << std::endl;
+	// defender = b2->get_cards()[idx];
+	int min_attack = b2->get_cards()[0]->get_attack();
+	std::vector<std::shared_ptr<BgBaseCard>> defenders;
+	for (auto c : b2->get_cards()) {
+	    if (c->get_attack() < min_attack) {
+		min_attack = c->get_attack();
+	    }
+	}
+	for (auto c : b2->get_cards()) {
+	    if (c->get_attack() == min_attack) {
+		defenders.push_back(c);
+	    }
+	}
+	defender = defenders[rand() % defenders.size()];
+    }
     
 
     auto pre_b1_dead = b1->has_died();
@@ -256,6 +295,15 @@ bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     // Handles things like Scavenging Hyena
     post_battle(b1, b2, new_dead_b1, new_dead_b2);
     post_battle(b2, b1, new_dead_b2, new_dead_b1);
+
+    if (!attacker->is_dead() && attacker->has_windfury_active()) {
+	attacker->set_windfury_active(false);
+	battle_boards(attacker_pos, b1, b2);
+    }
+
+    if (attacker->has_windfury()) {
+	attacker->set_windfury_active();
+    }
 
     // Handles deathrattles, nothing happens if nothing died
     //attacker->do_deathrattle(b1, b2);

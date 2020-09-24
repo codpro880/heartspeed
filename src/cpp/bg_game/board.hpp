@@ -11,7 +11,11 @@
 
 class Board {
 public:
-    Board(std::vector<std::shared_ptr<BgBaseCard> > cards) : cards(cards) {}
+    Board(std::vector<std::shared_ptr<BgBaseCard> > cards) : cards(cards) {
+	for (auto c : cards) {
+	    card_names.insert(c->get_name());
+	}
+    }
     int calculate_damage();
     auto empty() { return cards.empty(); }
     auto length() { return cards.size(); }
@@ -57,6 +61,10 @@ public:
     	// auto it = std::find(cards.begin(), cards.end(), std::shared_ptr<BgBaseCard>(c));
     	// return std::distance(cards.begin(), it);
     }
+    bool contains(std::shared_ptr<BgBaseCard> c) {
+	auto pos = get_pos(c);
+	return pos != -1 && pos != cards.size();
+    }
     // auto get_pos(BgBaseCard* card) {
     // 	auto pos = 0;
     // 	for (auto c : cards) {
@@ -94,7 +102,7 @@ public:
 	    at_least_one_dead = true;
 	    auto card = deathrattle_q.front();
 	    deathrattle_q.pop();
-	    card->do_deathrattle(this, other);
+	    card->deathrattle(this, other);
 	}
 	if (at_least_one_dead) {
 	    // Deathrattles can cause other deaths to occur
@@ -104,7 +112,6 @@ public:
 	    other->do_deathrattles(this);
 	}
     }
-    void set_card(int i, std::shared_ptr<BgBaseCard> c) { cards[i] = c; }
     void insert_card(int pos, std::shared_ptr<BgBaseCard> c) {
 	if (pos >= cards.size()) {
 	    // This case can occur w/ certain deathrattle interactions

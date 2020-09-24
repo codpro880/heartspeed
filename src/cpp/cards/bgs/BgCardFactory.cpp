@@ -699,6 +699,14 @@ void BgCardFactory::init_cards() {
     cards.emplace("Yo-Ho-Ogre (Golden)", std::make_shared<YoHoOgreGolden>());
 
     // Z
+    std::shared_ptr<BgBaseCard> zapp(new BgBaseCard(7, "NEUTRAL", 8, 10, "Zapp",
+						    "", "", "", 6, "MINION"));
+    zapp->set_windfury();
+    cards.emplace("Zapp", zapp);
+    std::shared_ptr<BgBaseCard> zapp_gold(new BgBaseCard(14, "NEUTRAL", 8, 20, "Zapp (Golden)",
+							 "['WINDFURY']", "", "", 6, "MINION"));
+    zapp_gold->set_windfury();
+    cards.emplace("Zapp (Golden)", zapp_gold);
 //     cards.emplace("Zapp Slywick", BgBaseCard(7, "NEUTRAL", 8, 10, "Zapp Slywick",
 // 					     "", "", "", 6, "MINION"));
 //     cards.emplace("Zapp Slywick (Golden)", BgBaseCard(14, "NEUTRAL", 8, 20, "Zapp Slywick (Golden)",

@@ -531,7 +531,6 @@ TEST(Battler, ImpMama) {
     }
 }
 
-
 TEST(Battler, IronhideDirehorn) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -1806,4 +1805,31 @@ TEST(Battler, YoHoOgre) {
     EXPECT_EQ(res.who_won, "Tess");
     // Murloc tidehunter never attacks since yo-ho attacks back immediately
     EXPECT_EQ(board1->get_cards().size(), (unsigned)2);
+}
+
+TEST(Battler, Zapp) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Zapp")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    // Make it big enough to kill Baron
+    th->set_attack(20);
+    th->set_health(20);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Baron"),
+	 f.get_card("Baron"),
+	 th,
+	 f.get_card("Baron"),
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(board2->get_cards().size(), 1); // Barons should all be dead
+    EXPECT_EQ(res.who_won, "Edwin");
 }

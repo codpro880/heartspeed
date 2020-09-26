@@ -207,12 +207,12 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> damaged_golem_gold(new BgBaseCard(4, "NEUTRAL", 1, 2,
 								  "Damaged Golem (Golden)", "", "MECHANICAL", "", 1, "MINION"));
     cards.emplace("Damaged Golem (Golden)", damaged_golem_gold);
-    // cards.emplace("Damaged Golem (Golden)", BgBaseCard(4, "NEUTRAL", 1, 2,
-    // 						       "Damaged Golem (Golden)", "", "MECHANICAL", "", 1, "MINION"));
-    // cards.emplace("Deck Swabbie", BgBaseCard(2, "NEUTRAL", 3, 2, "Deck Swabbie",
-    // 					     "['BATTLECRY']", "PIRATE", "", 1, "MINION"));
-    // cards.emplace("Deck Swabbie (Golden)", BgBaseCard(4, "NEUTRAL", 3, 4, "Deck Swabbie (Golden)",
-    // 						      "['BATTLECRY']", "PIRATE", "", 1, "MINION"));
+    std::shared_ptr<BgBaseCard> deck_swab(new BgBaseCard(2, "NEUTRAL", 3, 2, "Deck Swabbie",
+							 "['BATTLECRY']", "PIRATE", "", 1, "MINION"));
+    cards.emplace("Deck Swabbie", deck_swab);
+    std::shared_ptr<BgBaseCard> deck_swab_gold(new BgBaseCard(4, "NEUTRAL", 3, 4, "Deck Swabbie (Golden)",
+							      "['BATTLECRY']", "PIRATE", "", 1, "MINION"));
+    cards.emplace("Deck Swabbie (Golden)", deck_swab_gold);
     // cards.emplace("Defender of Argus (Golden)", BgBaseCard(4, "NEUTRAL", 4, 6, "Defender of Argus (Golden)",
     // 							   "['BATTLECRY']", "", "RARE", 4, "MINION"));
     std::shared_ptr<BgBaseCard> deflecto(new BgBaseCard(3, "NEUTRAL", 4, 2, "Deflect-o-Bot (Golden)",
@@ -231,14 +231,14 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> drakonid_enforcer_golden(new BgBaseCard(6, "NEUTRAL", 6, 12, "Drakonid Enforcer (Golden)",
 									"['TRIGGER_VISUAL']", "DRAGON", "", 4, "MINION"));
     cards.emplace("Drakonid Enforcer (Golden)", drakonid_enforcer_golden);
-    // cards.emplace("Dragonspawn Lieutenant", BgBaseCard(2, "NEUTRAL", 2, 3, "Dragonspawn Lieutenant",
-    // 						       "['TAUNT']", "DRAGON", "", 1, "MINION"));
+    std::shared_ptr<BgBaseCard> dragonspawn_lt(new BgBaseCard(2, "NEUTRAL", 2, 3, "Dragonspawn Lieutenant",
+							      "['TAUNT']", "DRAGON", "", 1, "MINION"));
+    cards.emplace("Dragonspawn Lieutenant", dragonspawn_lt);
+    std::shared_ptr<BgBaseCard> dragonspawn_lt_gold(new BgBaseCard(4, "NEUTRAL", 2, 6, "Dragonspawn Lieutenant (Golden)",
+								   "['TAUNT']", "DRAGON", "", 1, "MINION"));
+    cards.emplace("Dragonspawn Lieutenant (Golden)", dragonspawn_lt_gold);
     cards.emplace("Dread Admiral Eliza", std::make_shared<DreadAdmiralEliza>());
     cards.emplace("Dread Admiral Eliza (Golden)", std::make_shared<DreadAdmiralElizaGolden>());
-    // cards.emplace("Dread Admiral Eliza", BgBaseCard(6, "NEUTRAL", 6, 7, "Dread Admiral Eliza",
-    // 						    "['TRIGGER_VISUAL']", "PIRATE", "", 6, "MINION"));
-    // cards.emplace("Dread Admiral Eliza (Golden)", BgBaseCard(12, "NEUTRAL", 6, 14, "Dread Admiral Eliza (Golden)",
-    // 							     "['TRIGGER_VISUAL']", "PIRATE", "", 6, "MINION"));
 
     // E
     std::shared_ptr<BgBaseCard> effigy(new BgBaseCard(-1, "MAGE", 3, -1, "Effigy",
@@ -704,7 +704,14 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> voidwalker_gold(new BgBaseCard(2, "WARLOCK", 1, 6, "Voidwalker (Golden)",
 							       "['TAUNT']", "DEMON", "FREE", 1, "MINION"));
     cards.emplace("Voidwalker (Golden)", voidwalker_gold);
-
+    std::shared_ptr<BgBaseCard> vulgar_hom(new BgBaseCard(2, "WARLOCK", 2, 4, "Vulgar Homunculus",
+							  "['TAUNT']", "DEMON", "FREE", 1, "MINION"));
+    cards.emplace("Vulgar Homunculus", vulgar_hom);
+    std::shared_ptr<BgBaseCard> vulgar_hom_gold(new BgBaseCard(4, "WARLOCK", 2, 8, "Vulgar Homunculus (Golden)",
+							       "['TAUNT']", "DEMON", "FREE", 1, "MINION"));
+    cards.emplace("Vulgar Homunculus (Golden)", vulgar_hom_gold);
+    
+					   
 					     
 
     // W
@@ -714,10 +721,12 @@ void BgCardFactory::init_cards() {
     // 							    "['TRIGGER_VISUAL']", "", "", 2, "MINION"));
     cards.emplace("Waxrider Togwaggle", std::make_shared<WaxriderTogwaggle>());
     cards.emplace("Waxrider Togwaggle (Golden)", std::make_shared<WaxriderTogwaggleGolden>());
-    // cards.emplace("Wrath Weaver", BgBaseCard(1, "NEUTRAL", 1, 1, "Wrath Weaver",
-    // 					     "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION"));
-    // cards.emplace("Wrath Weaver (Golden)", BgBaseCard(2, "NEUTRAL", 1, 2, "Wrath Weaver (Golden)",
-    // 						      "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION"));
+    std::shared_ptr<BgBaseCard> wrath_weaver(new BgBaseCard(1, "NEUTRAL", 1, 1, "Wrath Weaver",
+							    "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION"));
+    cards.emplace("Wrath Weaver", wrath_weaver);
+    std::shared_ptr<BgBaseCard> wrath_weaver_gold(new BgBaseCard(2, "NEUTRAL", 1, 2, "Wrath Weaver (Golden)",
+								 "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION"));
+    cards.emplace("Wrath Weaver (Golden)", wrath_weaver_gold);
 
     // Y
     cards.emplace("Yo-Ho-Ogre", std::make_shared<YoHoOgre>());

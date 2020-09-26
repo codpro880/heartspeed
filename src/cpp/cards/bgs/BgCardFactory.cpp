@@ -553,6 +553,14 @@ void BgCardFactory::init_cards() {
     cards.emplace("Replicating Menace (Golden)", std::make_shared<ReplicatingMenaceGolden>());
     // std::shared_ptr<BgBaseCard> ripsnarl(new PirateCard(3, "NEUTRAL", 4, 4, "Ripsnarl Captain",
     // 							"['TRIGGER_VISUAL']", "PIRATE", "", 4, "MINION"));
+    std::shared_ptr<BgBaseCard> righteous_protector(new BgBaseCard(1, "PALADIN", 1, 1, "Righteous Protector",
+								   "", "", "", 1, "MINION"));
+    righteous_protector->set_divine_shield();
+    cards.emplace("Righteous Protector", righteous_protector);
+    std::shared_ptr<BgBaseCard> righteous_protector_gold(new BgBaseCard(2, "PALADIN", 2, 1, "Righteous Protector (Golden)",
+									"", "", "", 1, "MINION"));
+    righteous_protector_gold->set_divine_shield();
+    cards.emplace("Righteous Protector (Golden)", righteous_protector_gold);
     cards.emplace("Ripsnarl Captain", std::make_shared<RipsnarlCaptain>());
     cards.emplace("Ripsnarl Captain (Golden)", std::make_shared<RipsnarlCaptainGolden>());
     // std::shared_ptr<BgBaseCard> ripsnarl_gold(new PirateCard(6, "NEUTRAL", 4, 8, "Ripsnarl Captain (Golden)",
@@ -570,8 +578,12 @@ void BgCardFactory::init_cards() {
     cards.emplace("Robosaur (Golden)", robosaur_gold);
     // cards.emplace("Robosaur (Golden)", BgBaseCard(16, "PALADIN", 8, 16, "Robosaur (Golden)",
     // 						  "", "MECHANICAL", "", 1, "MINION"));
-    // cards.emplace("Rockpool Hunter (Golden)", BgBaseCard(4, "NEUTRAL", 2, 6, "Rockpool Hunter (Golden)",
-    // 							 "['BATTLECRY']", "MURLOC", "COMMON", 1, "MINION"));
+    std::shared_ptr<BgBaseCard> rockpool(new BgBaseCard(2, "NEUTRAL", 2, 3, "Rockpool Hunter",
+							"['BATTLECRY']", "MURLOC", "COMMON", 1, "MINION"));
+    cards.emplace("Rockpool Hunter", rockpool);
+    std::shared_ptr<BgBaseCard> rockpool_gold(new BgBaseCard(4, "NEUTRAL", 2, 6, "Rockpool Hunter (Golden)",
+							     "['BATTLECRY']", "MURLOC", "COMMON", 1, "MINION"));
+    cards.emplace("Rockpool Hunter (Golden)", rockpool_gold);
 
     // S
     // cards.emplace("Salty Looter", BgBaseCard(3, "ROGUE", 4, 3, "Salty Looter",
@@ -692,6 +704,7 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> voidwalker_gold(new BgBaseCard(2, "WARLOCK", 1, 6, "Voidwalker (Golden)",
 							       "['TAUNT']", "DEMON", "FREE", 1, "MINION"));
     cards.emplace("Voidwalker (Golden)", voidwalker_gold);
+
 					     
 
     // W

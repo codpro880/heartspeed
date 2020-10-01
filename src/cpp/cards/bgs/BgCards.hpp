@@ -148,6 +148,7 @@ public:
     HeraldOfFlame() : BgBaseCard(5, "WARRIOR", 5, 6, "Herald of Flame",
 				 "['OVERKILL']", "DRAGON", "", 4, "MINION") {}
     virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       int def_pos,
 			       Board* b1,
 			       Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<HeraldOfFlame>(*this); } // boilerplate that every drattle needs...
@@ -158,6 +159,7 @@ public:
     HeraldOfFlameGolden() : BgBaseCard(10, "WARRIOR", 5, 12, "Herald of Flame (Golden)",
 				       "['OVERKILL']", "DRAGON", "", 4, "MINION") {}
     virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       int def_pos,
 			       Board* b1,
 			       Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<HeraldOfFlameGolden>(*this); } // boilerplate that every drattle needs...
@@ -240,9 +242,10 @@ public:
 
 class IronhideDirehorn : public BgBaseCard {
 public:
-    IronhideDirehorn() : BgBaseCard(5, "WARRIOR", 5, 6, "Herald of Flame",
-				 "['OVERKILL']", "DRAGON", "", 4, "MINION") {}
+    IronhideDirehorn() : BgBaseCard(7, "DRUID", 7, 7, "Ironhide Direhorn",
+				 "['OVERKILL']", "BEAST", "", 5, "MINION") {}
     virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       int def_pos,
 			       Board* b1,
 			       Board* b2) override;
     std::shared_ptr<BgBaseCard> summon() override;
@@ -251,9 +254,10 @@ public:
 
 class IronhideDirehornGolden : public BgBaseCard {
 public:
-    IronhideDirehornGolden() : BgBaseCard(10, "WARRIOR", 5, 12, "Herald of Flame (Golden)",
-				       "['OVERKILL']", "DRAGON", "", 4, "MINION") {}
+    IronhideDirehornGolden() : BgBaseCard(14, "DRUID", 7, 14, "Ironhide Direhorn (Golden)",
+				       "['OVERKILL']", "BEAST", "", 5, "MINION") {}
     virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       int def_pos,
 			       Board* b1,
 			       Board* b2) override;
     std::shared_ptr<BgBaseCard> summon() override;
@@ -692,6 +696,7 @@ public:
     SeabreakerGoliath() : BgBaseCard(6, "NEUTRAL", 7, 7, "Seabreaker Goliath",
 				     "['OVERKILL']", "PIRATE", "", 5, "MINION") {}
     virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       int def_pos,
 			       Board* b1,
 			       Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<SeabreakerGoliath>(*this); } // boilerplate that every drattle needs...
@@ -702,6 +707,7 @@ public:
     SeabreakerGoliathGolden() : BgBaseCard(12, "NEUTRAL", 7, 14, "Seabreaker Goliath (Golden)",
 					   "['OVERKILL']", "PIRATE", "", 5, "MINION") {}
     virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       int def_pos,
 			       Board* b1,
 			       Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<SeabreakerGoliathGolden>(*this); } // boilerplate that every drattle needs...
@@ -956,6 +962,29 @@ public:
 private:
     WaxriderTogwaggle sh;
 };
+
+class WildfireElemental : public BgBaseCard {
+public:
+    WildfireElemental() : BgBaseCard(7, "NEUTRAL", 6, 3, "Wildfire Elemental",
+				 "", "ELEMENTAL", "", 4, "MINION") {}
+    virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       int def_pos,
+			       Board* b1,
+			       Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<WildfireElemental>(*this); } // boilerplate that every drattle needs...
+};
+
+class WildfireElementalGolden : public BgBaseCard {
+public:
+    WildfireElementalGolden() : BgBaseCard(14, "NEUTRAL", 6, 6, "Wildfire Elemental (Golden)",
+					   "", "ELEMENTAL", "", 4, "MINION") {}
+    virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       int def_pos,
+			       Board* b1,
+			       Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<WildfireElementalGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 
 class YoHoOgre : public PirateCard {
 public:

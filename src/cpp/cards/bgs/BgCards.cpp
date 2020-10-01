@@ -134,6 +134,7 @@ std::shared_ptr<BgBaseCard> HarvestGolemGolden::summon() {
 }
 
 void HeraldOfFlame::do_postattack(std::shared_ptr<BgBaseCard> defender,
+				  int def_pos,
 				  Board* b1,
 				  Board* b2) {
     if (defender->get_health() < 0) {
@@ -149,6 +150,7 @@ void HeraldOfFlame::do_postattack(std::shared_ptr<BgBaseCard> defender,
 }
 
 void HeraldOfFlameGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
+					int def_pos,
 					Board* b1,
 					Board* b2) {
     if (defender->get_health() < 0) {
@@ -247,6 +249,7 @@ std::shared_ptr<BgBaseCard> InfestedWolfGolden::summon() {
 }
 
 void IronhideDirehorn::do_postattack(std::shared_ptr<BgBaseCard> defender,
+				     int def_pos,
 				     Board* b1,
 				     Board* b2) {
     if (defender->get_health() < 0) {
@@ -261,8 +264,9 @@ std::shared_ptr<BgBaseCard> IronhideDirehorn::summon() {
 
 
 void IronhideDirehornGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
-					Board* b1,
-					Board* b2) {
+					   int def_pos,
+					   Board* b1,
+					   Board* b2) {
     if (defender->get_health() < 0) {
 	basic_summon(b1);
     }
@@ -728,8 +732,9 @@ void ScavagingHyenaGolden::do_postbattle(Board* b1,
 }
 
 void SeabreakerGoliath::do_postattack(std::shared_ptr<BgBaseCard> defender,
-				  Board* b1,
-				  Board* b2) {
+				      int def_pos,
+				      Board* b1,
+				      Board* b2) {
     if (defender->get_health() < 0) {
 	for (auto c : b1->get_cards()) {
 	    if (c->get_race() == "PIRATE" && c.get() != this) {
@@ -741,10 +746,11 @@ void SeabreakerGoliath::do_postattack(std::shared_ptr<BgBaseCard> defender,
 }
 
 void SeabreakerGoliathGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
-					Board* b1,
-					Board* b2) {
+					    int def_pos,
+					    Board* b1,
+					    Board* b2) {
     for (int i = 0; i < 2; i++) {
-	sbg.do_postattack(defender, b1, b2);
+	sbg.do_postattack(defender, def_pos, b1, b2);
     }
 }
 
@@ -1013,6 +1019,23 @@ void WaxriderTogwaggleGolden::do_postbattle(Board* b1,
 	}
     }
 }
+
+// void WildfireElemental::do_postattack(std::shared_ptr<BgBaseCard> defender,
+// 				      int def_pos,
+// 				      Board* b1,
+// 				      Board* b2) {
+//     if (defender->get_health() < 0) {
+// 	auto b2_cards = b2->get_cards();
+// 	if (!b2_cards.empty()) {
+// 	    auto new_defender = b2_cards[0];
+// 	    auto f = BgCardFactory();
+// 	    auto hof = f.get_card("Herald Of Flame");
+// 	    hof->set_attack(3);
+// 	    BoardBattler().take_dmg_simul(hof, new_defender, b1, b2);
+// 	}
+//     }
+// }
+
 
 void YoHoOgre::do_postdefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {
     if (this->is_dead()) {

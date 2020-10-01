@@ -63,6 +63,7 @@ public:
     virtual void do_precombat(Board* b1, Board* b2) {}
     // Triggered after attack (ex: overkill mechanic)
     virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       int def_pos,
 			       Board* b1,
 			       Board* b2) {}
     // Triggered after attack for defender (ex: yo-ho-ogre)

@@ -129,7 +129,7 @@ public:
     }
     std::vector<std::shared_ptr<BgBaseCard> > const get_cards() { return cards;  } // TODO: Make this an iterator
     std::vector<std::shared_ptr<BgBaseCard> > has_died() { return _has_died; }
-    bool is_in(std::string card_name) { return card_names.find(card_name) != card_names.end(); }
+    bool contains(std::string card_name) { return card_names.find(card_name) != card_names.end(); }
 private:
     std::vector<std::shared_ptr<BgBaseCard> > cards;
     std::queue<std::shared_ptr<BgBaseCard> > deathrattle_q;

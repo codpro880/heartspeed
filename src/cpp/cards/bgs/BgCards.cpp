@@ -9,12 +9,12 @@
 
 void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
     std::cerr << "New drattles...?" << std::endl;
-    if (b1->is_in("Baron")) {
+    if (b1->contains("Baron")) {
 	std::cerr << "Found baron. " << std::endl;
 	do_deathrattle(b1, b2);
 	do_deathrattle(b1, b2);
     }
-    else if (b1->is_in("Baron (Golden)")) {
+    else if (b1->contains("Baron (Golden)")) {
 	do_deathrattle(b1, b2);
 	do_deathrattle(b1, b2);
 	do_deathrattle(b1, b2);
@@ -134,6 +134,7 @@ std::shared_ptr<BgBaseCard> HarvestGolemGolden::summon() {
 }
 
 void HeraldOfFlame::do_postattack(std::shared_ptr<BgBaseCard> defender,
+				  int def_pos,
 				  Board* b1,
 				  Board* b2) {
     if (defender->get_health() < 0) {
@@ -149,6 +150,7 @@ void HeraldOfFlame::do_postattack(std::shared_ptr<BgBaseCard> defender,
 }
 
 void HeraldOfFlameGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
+					int def_pos,
 					Board* b1,
 					Board* b2) {
     if (defender->get_health() < 0) {
@@ -200,6 +202,7 @@ void ImpMama::take_damage(int damage, std::string who_from_race, Board* b1, Boar
 std::shared_ptr<BgBaseCard> ImpMama::summon() {
     auto f = BgCardFactory();
     auto demons = f.get_cards_of_race("DEMON");
+    
     auto demon = demons[rand() % demons.size()];
     demon->set_taunt();
     return demon;
@@ -246,6 +249,7 @@ std::shared_ptr<BgBaseCard> InfestedWolfGolden::summon() {
 }
 
 void IronhideDirehorn::do_postattack(std::shared_ptr<BgBaseCard> defender,
+				     int def_pos,
 				     Board* b1,
 				     Board* b2) {
     if (defender->get_health() < 0) {
@@ -260,8 +264,9 @@ std::shared_ptr<BgBaseCard> IronhideDirehorn::summon() {
 
 
 void IronhideDirehornGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
-					Board* b1,
-					Board* b2) {
+					   int def_pos,
+					   Board* b1,
+					   Board* b2) {
     if (defender->get_health() < 0) {
 	basic_summon(b1);
     }
@@ -727,8 +732,9 @@ void ScavagingHyenaGolden::do_postbattle(Board* b1,
 }
 
 void SeabreakerGoliath::do_postattack(std::shared_ptr<BgBaseCard> defender,
-				  Board* b1,
-				  Board* b2) {
+				      int def_pos,
+				      Board* b1,
+				      Board* b2) {
     if (defender->get_health() < 0) {
 	for (auto c : b1->get_cards()) {
 	    if (c->get_race() == "PIRATE" && c.get() != this) {
@@ -740,10 +746,11 @@ void SeabreakerGoliath::do_postattack(std::shared_ptr<BgBaseCard> defender,
 }
 
 void SeabreakerGoliathGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
-					Board* b1,
-					Board* b2) {
+					    int def_pos,
+					    Board* b1,
+					    Board* b2) {
     for (int i = 0; i < 2; i++) {
-	sbg.do_postattack(defender, b1, b2);
+	sbg.do_postattack(defender, def_pos, b1, b2);
     }
 }
 
@@ -1012,6 +1019,35 @@ void WaxriderTogwaggleGolden::do_postbattle(Board* b1,
 	}
     }
 }
+
+void WildfireElemental::do_postattack(std::shared_ptr<BgBaseCard> defender,
+				      int def_pos,
+				      Board* b1,
+				      Board* b2) {
+    if (defender->get_health() < 0) {
+	auto b2_cards = b2->get_cards();
+	auto damage = -1 * defender->get_health();
+	int new_defender_pos = 0;
+	if (b2_cards.size() > 1) {
+	    auto lor = rand() % 2;
+	    if (lor) { // left
+		new_defender_pos = def_pos - 1;
+	    }
+	    else { // right
+		// def_pos since defender is dead
+		// (everyone shifted left to fill)
+		new_defender_pos = def_pos;
+	    }
+	}
+	auto new_defender = b2_cards[new_defender_pos];
+	BoardBattler().take_dmg_simul(new_defender,
+				      "ELEMENTAL",
+				      damage,
+				      b1,
+				      b2);
+    }
+}
+
 
 void YoHoOgre::do_postdefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {
     if (this->is_dead()) {

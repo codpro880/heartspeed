@@ -94,8 +94,8 @@ void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker,
     attacker->do_preattack(defender, b1, b2);
     std::vector<int> dmg;
     std::vector<std::shared_ptr<BgBaseCard> > cards;
+    auto def_pos = b2->get_pos(defender);
     if (attacker->has_cleave() && b2->get_cards().size() > (unsigned)1) {
-	auto def_pos = b2->get_pos(defender);
 	if (def_pos == 0) {
 	    dmg = {defender->get_attack(), attacker->get_attack(), attacker->get_attack()};
 	    cards = {attacker, defender, b2->get_cards()[def_pos+1]};
@@ -119,7 +119,7 @@ void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker,
     }
     std::vector<std::string> who_from_race = {defender->get_race(), attacker->get_race()};
     take_dmg_simul(cards, who_from_race, dmg, b1, b2);
-    attacker->do_postattack(defender, b1, b2);
+    attacker->do_postattack(defender, def_pos, b1, b2);
     defender->do_postdefense(attacker, b2, b1);
 }
 
@@ -297,8 +297,19 @@ bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     post_battle(b2, b1, new_dead_b2, new_dead_b1);
 
     if (!attacker->is_dead() && attacker->has_windfury_active()) {
+	// Need to turn off windfury, or we'll infinitely recurse
 	attacker->set_windfury_active(false);
 	battle_boards(attacker_pos, b1, b2);
+	if (b1->contains("Whirlwind Tempest")) {
+	    if (!attacker->is_dead()) {
+		attacker->set_windfury_active(false);
+		battle_boards(attacker_pos, b1, b2);
+	    }
+	    if (!attacker->is_dead()) {
+		attacker->set_windfury_active(false);
+		battle_boards(attacker_pos, b1, b2);
+	    }
+	}
     }
 
     if (attacker->has_windfury()) {

@@ -1020,21 +1020,33 @@ void WaxriderTogwaggleGolden::do_postbattle(Board* b1,
     }
 }
 
-// void WildfireElemental::do_postattack(std::shared_ptr<BgBaseCard> defender,
-// 				      int def_pos,
-// 				      Board* b1,
-// 				      Board* b2) {
-//     if (defender->get_health() < 0) {
-// 	auto b2_cards = b2->get_cards();
-// 	if (!b2_cards.empty()) {
-// 	    auto new_defender = b2_cards[0];
-// 	    auto f = BgCardFactory();
-// 	    auto hof = f.get_card("Herald Of Flame");
-// 	    hof->set_attack(3);
-// 	    BoardBattler().take_dmg_simul(hof, new_defender, b1, b2);
-// 	}
-//     }
-// }
+void WildfireElemental::do_postattack(std::shared_ptr<BgBaseCard> defender,
+				      int def_pos,
+				      Board* b1,
+				      Board* b2) {
+    if (defender->get_health() < 0) {
+	auto b2_cards = b2->get_cards();
+	auto damage = -1 * defender->get_health();
+	int new_defender_pos = 0;
+	if (b2_cards.size() > 1) {
+	    auto lor = rand() % 2;
+	    if (lor) { // left
+		new_defender_pos = def_pos - 1;
+	    }
+	    else { // right
+		// def_pos since defender is dead
+		// (everyone shifted left to fill)
+		new_defender_pos = def_pos;
+	    }
+	}
+	auto new_defender = b2_cards[new_defender_pos];
+	BoardBattler().take_dmg_simul(new_defender,
+				      "ELEMENTAL",
+				      damage,
+				      b1,
+				      b2);
+    }
+}
 
 
 void YoHoOgre::do_postdefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {

@@ -126,6 +126,10 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> annoyo_gold(new BgBaseCard(4, "PALADIN", 4, 8, "Annoy-o-Module (Golden)",
 							   "['DIVINE_SHIELD', 'MODULAR', 'TAUNT']", "MECHANICAL", "RARE", 4, "MINION"));
     cards.emplace("Annoy-o-Module (Golden)", annoyo_gold);
+    cards.emplace("Arcane Assistant", std::make_shared<BgBaseCard>(3, "NEUTRAL", -1, 2, "Arcane Assistant",
+								   "", "ELEMENTAL", "", 3, "MINION"));
+    cards.emplace("Arcane Assistant (Golden)", std::make_shared<BgBaseCard>(6, "NEUTRAL", -1, 4, "Arcane Assistant (Golden)",
+									    "", "ELEMENTAL", "", 3, "MINION"));
     // cards.emplace("Arcane Cannon", BgBaseCard(2, "NEUTRAL", 3, 2, "Arcane Cannon",
     // 					      "['CANT_ATTACK', 'TRIGGER_VISUAL']", "", "", 2, "MINION"));
     // cards.emplace("Arcane Cannon (Golden)", BgBaseCard(4, "NEUTRAL", 3, 4, "Arcane Cannon (Golden)",
@@ -206,9 +210,20 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> coldlight_gold(new BgBaseCard(4, "NEUTRAL", 3, 6, "Coldlight Seer (Golden)",
 							      "['BATTLECRY']", "MURLOC", "RARE", 3, "MINION"));
     cards.emplace("Coldlight Seer (Golden)", coldlight_gold);
+    std::shared_ptr<BgBaseCard> crackling_cyclone(new BgBaseCard(3, "NEUTRAL", -1, 2, "Crackling Cyclone",
+								   "", "ELEMENTAL", "", 3, "MINION"));
+    crackling_cyclone->set_divine_shield();
+    crackling_cyclone->set_windfury();    
+    cards.emplace("Crackling Cyclone", crackling_cyclone);
+    std::shared_ptr<BgBaseCard> crackling_cyclone_golden(new BgBaseCard(6, "NEUTRAL", -1, 4, "Crackling Cyclone (Golden)",
+									"", "ELEMENTAL", "", 3, "MINION"));
+    crackling_cyclone_golden->set_divine_shield();
+    crackling_cyclone_golden->set_windfury();
+    cards.emplace("Crackling Cyclone", crackling_cyclone_golden);
     std::shared_ptr<BgBaseCard> crowd_fav(new BgBaseCard(4, "NEUTRAL", 4, 4, "Crowd Favorite",
 							 "['TRIGGER_VISUAL']", "", "EPIC", 3, "MINION"));
     cards.emplace("Crowd Favorite", crowd_fav);
+
     std::shared_ptr<BgBaseCard> crowd_fav_gold(new BgBaseCard(8, "NEUTRAL", 4, 8, "Crowd Favorite (Golden)",
 							      "['TRIGGER_VISUAL']", "", "EPIC", 3, "MINION"));
     cards.emplace("Crowd Favorite (Golden)", crowd_fav_gold);
@@ -479,6 +494,10 @@ void BgCardFactory::init_cards() {
     cards.emplace("Microbot (Golden)", microbot_gold);
     cards.emplace("Monstrous Macaw" , std::make_shared<MonstrousMacaw>());
     cards.emplace("Monstrous Macaw (Golden)" , std::make_shared<MonstrousMacawGolden>());
+    cards.emplace("Molten Rock", std::make_shared<BgBaseCard>(2, "NEUTRAL", -1, 3, "Molten Rock",
+							      "", "ELEMENTAL", "", 2, "MINION"));
+    cards.emplace("Molten Rock (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", -1, 6, "Molten Rock (Golden)",
+								       "", "ELEMENTAL", "", 2, "MINION"));
     // cards.emplace("Mounted Raptor (Golden)", BgBaseCard(6, "DRUID", 3, 4, "Mounted Raptor (Golden)",
     // 							"['DEATHRATTLE']", "BEAST", "COMMON", 2, "MINION"));
     std::shared_ptr<BgBaseCard> murloc_scout(new BgBaseCard(1, "NEUTRAL", 1, 1, "Murloc Scout",
@@ -527,6 +546,10 @@ void BgCardFactory::init_cards() {
     // P
     cards.emplace("Pack Leader", std::make_shared<PackLeader>());
     cards.emplace("Pack Leader (Golden)", std::make_shared<PackLeaderGolden>());
+    cards.emplace("Party Elemental", std::make_shared<BgBaseCard>(2, "NEUTRAL", -1, 2, "Party Elemental",
+								  "", "ELEMENTAL", "", 2, "MINION"));
+    cards.emplace("Party Elemental (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", -1, 4, "Party Elemental (Golden)",
+									   "", "ELEMENTAL", "", 2, "MINION"));
     cards.emplace("Piloted Shredder", std::make_shared<PilotedShredder>());
     cards.emplace("Piloted Shredder (Golden)", std::make_shared<PilotedShredderGolden>());
     std::shared_ptr<BgBaseCard> pogo(new BgBaseCard(1, "ROGUE", 1, 1, "Pogo-Hopper",
@@ -565,6 +588,10 @@ void BgCardFactory::init_cards() {
     cards.emplace("Red Whelp (Golden)", std::make_shared<RedWhelpGolden>());
     // cards.emplace("Redemption", BgBaseCard(-1, "PALADIN", 1, -1, "Redemption",
     // 					   "['SECRET']", "", "COMMON", -1, "SPELL"));
+    cards.emplace("Refreshing Anomaly", std::make_shared<BgBaseCard>(1, "NEUTRAL", -1, 3, "Refreshing Anomaly",
+								     "", "ELEMENTAL", "", 1, "MINION"));
+    cards.emplace("Refreshing Anomaly (Golden)", std::make_shared<BgBaseCard>(2, "NEUTRAL", -1, 6, "Refreshing Anomaly (Golden)",
+									      "", "ELEMENTAL", "", 1, "MINION"));
     cards.emplace("Replicating Menace", std::make_shared<ReplicatingMenace>());
     cards.emplace("Replicating Menace (Golden)", std::make_shared<ReplicatingMenaceGolden>());
     // std::shared_ptr<BgBaseCard> ripsnarl(new PirateCard(3, "NEUTRAL", 4, 4, "Ripsnarl Captain",
@@ -621,6 +648,10 @@ void BgCardFactory::init_cards() {
     cards.emplace("Security Rover (Golden)", std::make_shared<SecurityRoverGolden>());
     cards.emplace("Selfless Hero", std::make_shared<SelflessHero>());
     cards.emplace("Selfless Hero (Golden)", std::make_shared<SelflessHeroGolden>());
+    cards.emplace("Sellemental", std::make_shared<BgBaseCard>(2, "NEUTRAL", -1, 2, "Sellemental",
+							      "", "ELEMENTAL", "", 1, "MINION"));
+    cards.emplace("Sellemental (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", -1, 4, "Sellemental (Golden)",
+								       "", "ELEMENTAL", "", 1, "MINION"));
     std::shared_ptr<BgBaseCard> shifter(new BgBaseCard(1, "NEUTRAL", 1, 1, "Shifter Zerus",
 						       "", "", "LEGENDARY", 3, "MINION"));
     cards.emplace("Shifter Zerus", shifter);
@@ -655,6 +686,10 @@ void BgCardFactory::init_cards() {
     cards.emplace("Spider (Golden)", spider_gold);
     // cards.emplace("Splitting Image", BgBaseCard(-1, "MAGE", 3, -1, "Splitting Image",
     // 						"['SECRET']", "", "EPIC", -1, "SPELL"));
+    cards.emplace("Stasis Elemental", std::make_shared<BgBaseCard>(4, "NEUTRAL", -1, 4, "Stasis Elemental",
+								   "", "ELEMENTAL", "", 3, "MINION"));
+    cards.emplace("Stasis Elemental (Golden)", std::make_shared<BgBaseCard>(8, "NEUTRAL", -1, 8, "Stasis Elemental (Golden)",
+									    "", "ELEMENTAL", "", 3, "MINION"));
     std::shared_ptr<BgBaseCard> steward(new BgBaseCard(3, "NEUTRAL", 4, 4, "Steward of Time",
 						       "", "DRAGON", "", 2, "MINION"));
     cards.emplace("Steward of Time", steward);
@@ -723,6 +758,10 @@ void BgCardFactory::init_cards() {
     // W
     cards.emplace("Waxrider Togwaggle", std::make_shared<WaxriderTogwaggle>());
     cards.emplace("Waxrider Togwaggle (Golden)", std::make_shared<WaxriderTogwaggleGolden>());
+    cards.emplace("Whirlwind Tempest", std::make_shared<BgBaseCard>(6, "NEUTRAL", 8, 6, "Whirlwind Tempest",
+							      "", "ELEMENTAL", "", 4, "MINION"));
+    cards.emplace("Whirlwind Tempest (Golden)", std::make_shared<BgBaseCard>(12, "NEUTRAL", 8, 12, "Whirlwind Tempest (Golden)",
+								       "", "ELEMENTAL", "", 4, "MINION"));
     std::shared_ptr<BgBaseCard> wrath_weaver(new BgBaseCard(1, "NEUTRAL", 1, 1, "Wrath Weaver",
 							    "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION"));
     cards.emplace("Wrath Weaver", wrath_weaver);

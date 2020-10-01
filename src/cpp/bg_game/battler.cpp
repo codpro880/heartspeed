@@ -297,8 +297,19 @@ bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     post_battle(b2, b1, new_dead_b2, new_dead_b1);
 
     if (!attacker->is_dead() && attacker->has_windfury_active()) {
+	// Need to turn off windfury, or we'll infinitely recurse
 	attacker->set_windfury_active(false);
 	battle_boards(attacker_pos, b1, b2);
+	if (b1->contains("Whirlwind Tempest")) {
+	    if (!attacker->is_dead()) {
+		attacker->set_windfury_active(false);
+		battle_boards(attacker_pos, b1, b2);
+	    }
+	    if (!attacker->is_dead()) {
+		attacker->set_windfury_active(false);
+		battle_boards(attacker_pos, b1, b2);
+	    }
+	}
     }
 
     if (attacker->has_windfury()) {

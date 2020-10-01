@@ -9,12 +9,12 @@
 
 void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
     std::cerr << "New drattles...?" << std::endl;
-    if (b1->is_in("Baron")) {
+    if (b1->contains("Baron")) {
 	std::cerr << "Found baron. " << std::endl;
 	do_deathrattle(b1, b2);
 	do_deathrattle(b1, b2);
     }
-    else if (b1->is_in("Baron (Golden)")) {
+    else if (b1->contains("Baron (Golden)")) {
 	do_deathrattle(b1, b2);
 	do_deathrattle(b1, b2);
 	do_deathrattle(b1, b2);
@@ -200,6 +200,7 @@ void ImpMama::take_damage(int damage, std::string who_from_race, Board* b1, Boar
 std::shared_ptr<BgBaseCard> ImpMama::summon() {
     auto f = BgCardFactory();
     auto demons = f.get_cards_of_race("DEMON");
+    
     auto demon = demons[rand() % demons.size()];
     demon->set_taunt();
     return demon;

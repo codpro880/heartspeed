@@ -1807,6 +1807,35 @@ TEST(Battler, YoHoOgre) {
     EXPECT_EQ(board1->get_cards().size(), (unsigned)2);
 }
 
+TEST(Battler, WhirlwindTempest) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Zapp"),
+	 f.get_card("Whirlwind Tempest")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    // 
+    th->set_attack(100);
+    th->set_health(7 + 6);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 th,
+	 f.get_card("Baron"),
+	 f.get_card("Baron"),
+	 f.get_card("Baron"),
+	 f.get_card("Baron")
+	};
+    std::unique_ptr<Board> board1(new Board(p1_cards));
+    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");    
+}
+
 TEST(Battler, Zapp) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards

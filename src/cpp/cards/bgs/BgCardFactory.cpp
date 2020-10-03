@@ -241,6 +241,14 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> damaged_golem_gold(new BgBaseCard(4, "NEUTRAL", 1, 2,
 								  "Damaged Golem (Golden)", "", "MECHANICAL", "", 1, "MINION"));
     cards.emplace("Damaged Golem (Golden)", damaged_golem_gold);
+    std::shared_ptr<BgBaseCard> spore(new BgBaseCard(1, "NEUTRAL", 1, 1, "Deadly Spore",
+						     "", "", "", 4, "MINION"));
+    spore->set_poison();
+    cards.emplace("Deadly Spore", spore);
+    std::shared_ptr<BgBaseCard> spore_gold(new BgBaseCard(2, "NEUTRAL", 1, 2, "Deadly Spore (Golden)",
+							  "", "", "", 4, "MINION"));
+    spore_gold->set_poison();
+    cards.emplace("Deadly Spore (Golden)", spore_gold);
     std::shared_ptr<BgBaseCard> deck_swab(new BgBaseCard(2, "NEUTRAL", 3, 2, "Deck Swabbie",
 							 "['BATTLECRY']", "PIRATE", "", 1, "MINION"));
     cards.emplace("Deck Swabbie", deck_swab);
@@ -446,6 +454,10 @@ void BgCardFactory::init_cards() {
 							   "", "BEAST", "", 6, "MINION"));
     maexxna_gold->set_poison();
     cards.emplace("Maexxna (Golden)", maexxna_gold);
+    cards.emplace("Majordomo Executus", std::make_shared<BgBaseCard>(6, "NEUTRAL", 6, 3, "Majordomo Executus",
+								     "", "", "", 4, "MINION"));
+    cards.emplace("Majordomo Executus (Golden)", std::make_shared<BgBaseCard>(12, "NEUTRAL", 6, 6, "Majordomo Executus (Golden)",
+									      "", "", "", 4, "MINION"));
     cards.emplace("Mal'Ganis", std::make_shared<MalGanis>());
     cards.emplace("Mal'Ganis (Golden)", std::make_shared<MalGanisGolden>());
     cards.emplace("Mama Bear", std::make_shared<MamaBear>());

@@ -1,9 +1,12 @@
+#include <filesystem>
+
 #include "../test/googletest/include/gtest/gtest.h"
 
 #include "bobs_buddy.hpp"
 
 TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
-    auto bb = BobsBuddy("Power.log");
+    std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
+    auto bb = BobsBuddy(power_log.string());
     auto battle_boards = bb.parse_full_log();
 
     ASSERT_GT(battle_boards.size(), 1);

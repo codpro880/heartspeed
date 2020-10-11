@@ -127,6 +127,19 @@ std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> BobsBuddy::parse_chunk
 	}
     }
 
+    // Update based on stat buffs
+    for (auto line : chunk) {
+	if (line.find("TAG_CHANGE") != std::string::npos) {
+	    auto tag = pystr.get_str_between(line, "tag=", " value");
+	    if (tag == "HEALTH") {
+		auto id = pystr.get_str_between(line, "id=", " zone");
+		auto health = pystr.get_str_between(line, "value=", " ");
+	    }
+	    else if (tag == "ATTACK") {
+	    }
+	}
+    }
+
     std::vector<std::shared_ptr<BgBaseCard>> our_cards;
     for (auto kv : our_id_to_card) {
 	our_cards.push_back(kv.second);

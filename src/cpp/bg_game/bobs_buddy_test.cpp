@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <filesystem>
 
 #include "../test/googletest/include/gtest/gtest.h"
@@ -13,19 +14,43 @@ TEST(BobsBuddy, PyLikeStringParsing) {
     EXPECT_EQ(id, "71");
 }
 
-TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
-    std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
-    auto bb = BobsBuddy(power_log.string());
-    auto battle_boards = bb.parse_full_log();
-    std::cerr << "Battlin boards..." << std::endl;
-    // ASSERT_GT(battle_boards.size(), 1);
-    std::cerr << "Asserted." << std::endl;
-
-    // Turn 1
-    auto our_first_board = battle_boards[0].first;
-    auto their_first_board = battle_boards[0].second;
-    EXPECT_EQ(our_first_board->length(), 1);
-    EXPECT_EQ(their_first_board->length(), 1);
-    EXPECT_EQ(our_first_board->get_cards()[0]->get_name(), "Rockpool Hunter");
-    EXPECT_EQ(their_first_board->get_cards()[0]->get_name(), "Rockpool Hunter");
+TEST(BobsBuddy, PyLikeStringParsingWorksWithEmptyEndStr) {
+    auto pystr = PyString();
+    std::string item = "D 08:20:54.1034250 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Rockpool Hunter id=3180 zone=SETASIDE zonePos=0 cardId=TB_BaconUps_061 player=8] tag=HEALTH value=10";
+    std::string start = "value=";
+    std::string end = "";
+    auto id = pystr.get_str_between(item, start, end);
+    EXPECT_EQ(id, "10");
 }
+
+TEST(BobsBuddy, PyLikeStringParsingWorksWithWhitespace) {
+    auto pystr = PyString();
+    std::string item = "D 08:20:54.1034250 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Rockpool Hunter id=3180 zone=SETASIDE zonePos=0 cardId=TB_BaconUps_061 player=8] tag=HEALTH value=10 ";
+    std::string start = "value=";
+    std::string end = " ";
+    auto id = pystr.get_str_between(item, start, end);
+    EXPECT_EQ(atoi(id.c_str()), 10);
+}
+
+
+
+// TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
+//     std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
+//     auto bb = BobsBuddy(power_log.string());
+//     auto battle_boards = bb.parse_full_log();
+//     std::cerr << "Battlin boards..." << std::endl;
+//     // ASSERT_GT(battle_boards.size(), 1);
+//     std::cerr << "Asserted." << std::endl;
+
+//     // Turn 1
+//     auto our_first_board = battle_boards[0].first;
+//     auto their_first_board = battle_boards[0].second;
+//     EXPECT_EQ(our_first_board->length(), 1);
+//     EXPECT_EQ(their_first_board->length(), 1);
+//     auto our_rockpool = our_first_board->get_cards()[0];
+//     auto their_rockpool = their_first_board->get_cards()[0];
+//     EXPECT_EQ(our_rockpool->get_name(), "Rockpool Hunter");
+//     EXPECT_EQ(their_rockpool->get_name(), "Rockpool Hunter");
+//     EXPECT_EQ(our_rockpool->get_attack(), 4);
+//     EXPECT_EQ(their_rockpool->get_attack(), 4);
+// }

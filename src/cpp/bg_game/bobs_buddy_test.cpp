@@ -34,23 +34,23 @@ TEST(BobsBuddy, PyLikeStringParsingWorksWithWhitespace) {
 
 
 
-// TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
-//     std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
-//     auto bb = BobsBuddy(power_log.string());
-//     auto battle_boards = bb.parse_full_log();
-//     std::cerr << "Battlin boards..." << std::endl;
-//     // ASSERT_GT(battle_boards.size(), 1);
-//     std::cerr << "Asserted." << std::endl;
+TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
+    std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
+    auto bb = BobsBuddy(power_log.string());
+    auto battle_boards = bb.parse_full_log();
+    std::cerr << "Battlin boards..." << std::endl;
+    // ASSERT_GT(battle_boards.size(), 1);
+    std::cerr << "Asserted." << std::endl;
 
-//     // Turn 1
-//     auto our_first_board = battle_boards[0].first;
-//     auto their_first_board = battle_boards[0].second;
-//     EXPECT_EQ(our_first_board->length(), 1);
-//     EXPECT_EQ(their_first_board->length(), 1);
-//     auto our_rockpool = our_first_board->get_cards()[0];
-//     auto their_rockpool = their_first_board->get_cards()[0];
-//     EXPECT_EQ(our_rockpool->get_name(), "Rockpool Hunter");
-//     EXPECT_EQ(their_rockpool->get_name(), "Rockpool Hunter");
-//     EXPECT_EQ(our_rockpool->get_attack(), 4);
-//     EXPECT_EQ(their_rockpool->get_attack(), 4);
-// }
+    // Turn 1
+    auto our_first_board = battle_boards[0].first;
+    auto their_first_board = battle_boards[0].second;
+    EXPECT_EQ(our_first_board->length(), 1);
+    EXPECT_EQ(their_first_board->length(), 1);
+    auto our_rockpool = our_first_board->get_cards()[0];
+    auto their_rockpool = their_first_board->get_cards()[0];
+    EXPECT_EQ(our_rockpool->get_name(), "Rockpool Hunter");
+    EXPECT_EQ(their_rockpool->get_name(), "Rockpool Hunter");
+    EXPECT_EQ(our_rockpool->get_attack(), 4);
+    EXPECT_EQ(their_rockpool->get_attack(), 4);
+}

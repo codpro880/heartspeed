@@ -1,3 +1,4 @@
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <memory>
@@ -5,7 +6,6 @@
 #include <utility>
 
 #include "bobs_buddy.hpp"
-#include "../cards/bgs/BgCardFactory.hpp"
 
 std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>> BobsBuddy::parse_full_log() {
     std::vector<std::string> file_contents = get_file_contents();
@@ -70,17 +70,11 @@ std::vector<std::vector<std::string>> BobsBuddy::get_chunks(std::vector<std::str
 
     std::cerr << "Possible chunks size: " << possible_chunks.size() << std::endl;
     
-    auto card_factory = BgCardFactory();
     std::vector<std::vector<std::string>> chunks;
     for (auto possible_chunk : possible_chunks) {
 	for (auto line : possible_chunk) {
 	    if (line.find("FULL_ENTITY - Updating [entityName=") != std::string::npos) {
 		auto card_name = pystr.get_str_between(line, "[entityName=", " id=");
-		// std::string start_token = "[entityName=";
-		// auto start = line.find(start_token);
-		// auto real_start = start + start_token.size();
-		// auto end = line.find(" id=");
-		// auto card_name = line.substr(real_start, end - real_start);
 		try {
 		    card_factory.get_card(card_name);
 		    chunks.push_back(possible_chunk);
@@ -114,9 +108,22 @@ std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> BobsBuddy::parse_chunk
     std::unordered_map<int, std::shared_ptr<BgBaseCard>> their_id_to_card;
     for (auto line : chunk) {
 	if (line.find("FULL_ENTITY - Updating") != std::string::npos) {
-	    // auto start_id = "id=";
-	    // auto end_id = "zone=";
-	    // our_cards[id] = card;
+	    auto card_name = pystr.get_str_between(line, "entityName=", " id=");
+	    std::shared_ptr<BgBaseCard> card;
+	    try {
+		card = card_factory.get_card(card_name);
+	    }
+	    catch (...) {
+		continue;
+	    }
+	    auto id = atoi(pystr.get_str_between(line, "id=", " zone=").c_str());
+	    auto player = pystr.get_str_between(line, "player=", "]");
+	    if (player == "8") {
+		our_id_to_card[id] = card;
+	    }
+	    else {
+		their_id_to_card[id] = card;
+	    }
 	}
     }
 

@@ -8,6 +8,7 @@
 #include <utility>
 
 #include "board.hpp"
+#include "../cards/bgs/BgCardFactory.hpp"
 
 class PyString {
 public:
@@ -49,4 +50,5 @@ private:
     std::vector<std::vector<std::string>> get_chunks(std::vector<std::string>);
     std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> parse_chunk(std::vector<std::string>);
     PyString pystr;
+    BgCardFactory card_factory;
 };

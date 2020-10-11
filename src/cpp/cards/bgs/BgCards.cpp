@@ -55,6 +55,37 @@ void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
     }
 }
 
+void Djinni::do_deathrattle(Board* b1, Board* b2) {
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> Djinni::summon() {
+    auto f = BgCardFactory();
+    auto cards = f.get_cards_of_race("ELEMENTAL");
+    // TOOD: Use a map or something more efficient
+    int pos = 0;
+    for (auto c : cards) {
+	std::cerr << c->get_name() << std::endl;
+	if (c->get_name() == "Djinni") {
+	    break;
+	}
+	pos++;
+    }
+    std::cerr << "Pos: " << pos << std::endl;
+    cards.erase(cards.begin() + pos);
+    std::cerr << "Errased...?" << std::endl;
+    auto card = cards[rand() % cards.size()];
+    return card;
+}
+
+void DjinniGolden::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(2, b1);
+}
+
+std::shared_ptr<BgBaseCard> DjinniGolden::summon() {
+    return dj.summon();
+}
+
 void FiendishServant::do_deathrattle(Board* b1, Board*b2) {
     auto buffed_pos = rand() % b1->length();
     auto card = b1->get_cards()[buffed_pos];
@@ -201,8 +232,7 @@ void ImpMama::take_damage(int damage, std::string who_from_race, Board* b1, Boar
 
 std::shared_ptr<BgBaseCard> ImpMama::summon() {
     auto f = BgCardFactory();
-    auto demons = f.get_cards_of_race("DEMON");
-    
+    auto demons = f.get_cards_of_race("DEMON");    
     auto demon = demons[rand() % demons.size()];
     demon->set_taunt();
     return demon;
@@ -1024,8 +1054,9 @@ void WildfireElemental::do_postattack(std::shared_ptr<BgBaseCard> defender,
 				      int def_pos,
 				      Board* b1,
 				      Board* b2) {
+    auto b2_cards = b2->get_cards();
+    if (b2_cards.size() == 0) return;
     if (defender->get_health() < 0) {
-	auto b2_cards = b2->get_cards();
 	auto damage = -1 * defender->get_health();
 	int new_defender_pos = 0;
 	if (b2_cards.size() > 1) {
@@ -1047,6 +1078,39 @@ void WildfireElemental::do_postattack(std::shared_ptr<BgBaseCard> defender,
 				      b2);
     }
 }
+
+void WildfireElementalGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
+					    int def_pos,
+					    Board* b1,
+					    Board* b2) {
+    auto b2_cards = b2->get_cards();
+    if (b2_cards.size() == 0) return;
+    if (defender->get_health() < 0) {	
+	auto damage = -1 * defender->get_health();
+	int new_defender_pos = 0;
+	if (b2_cards.size() == 1) {
+	    auto new_defender = b2_cards[0];
+	    BoardBattler().take_dmg_simul(new_defender,
+					  "ELEMENTAL",
+					  damage,
+					  b1,
+					  b2);
+	}
+	else {
+	    auto new_defender_left = b2_cards[def_pos - 1];
+	    auto new_defender_right = b2_cards[def_pos];
+	    std::vector<std::shared_ptr<BgBaseCard>> cards{new_defender_left, new_defender_right};
+	    std::vector<int> dmg{damage, damage};
+	    std::vector<std::string> race{"ELEMENTAL", "ELEMENTAL"};
+	    BoardBattler().take_dmg_simul(cards,
+					  race,
+					  dmg,
+					  b1,
+					  b2);
+	}
+    }
+}
+
 
 
 void YoHoOgre::do_postdefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {

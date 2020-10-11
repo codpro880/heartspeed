@@ -5,8 +5,23 @@
   cases.
 */
 #include <string>
+#include <utility>
 
 #include "board.hpp"
+
+class PyString {
+public:
+    std::string get_str_between(std::string item, std::string start_token, std::string end_token) {
+	// std::string start_token = "[entityName=";
+	auto start = item.find(start_token);
+	auto real_start = start + start_token.size();
+	// auto end = line.find(" id=");
+	auto end = item.find(end_token);
+	std::string card_name = item.substr(real_start, end - real_start);
+	return card_name;
+    }
+};
+
 
 // NOTES:
 // m_chosenEntities == which triple reward was chosen
@@ -30,4 +45,8 @@ public:
     std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>> parse_full_log();
 private:
     std::string _power_log;
+    std::vector<std::string> get_file_contents();
+    std::vector<std::vector<std::string>> get_chunks(std::vector<std::string>);
+    std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> parse_chunk(std::vector<std::string>);
+    PyString pystr;
 };

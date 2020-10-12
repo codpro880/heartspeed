@@ -75,4 +75,30 @@ TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
     EXPECT_EQ(our_second_murlocScout->get_health(), 1);
     EXPECT_EQ(their_drag_lt->get_attack(), 2);
     EXPECT_EQ(their_drag_lt->get_health(), 3);
+
+    // Turn 3, can't see all off opp board from screenshot
+    auto our_third_board = battle_boards[2].first;
+    // auto their_third_board = battle_boards[2].second;
+    EXPECT_EQ(our_third_board->length(), 5);
+    auto our_third_rockpool1 = our_third_board->get_cards()[0];
+    auto our_third_rockpool2 = our_third_board->get_cards()[1];
+    auto our_third_murlocTH1 = our_third_board->get_cards()[2];
+    auto our_third_murlocTH2 = our_third_board->get_cards()[3];
+    auto our_third_drag_lt = our_third_board->get_cards()[4];
+    EXPECT_EQ(our_third_rockpool1->get_name(), "Rockpool Hunter");
+    EXPECT_EQ(our_third_rockpool2->get_name(), "Rockpool Hunter");
+    EXPECT_EQ(our_third_murlocTH1->get_name(), "Murloc Tidehunter");
+    EXPECT_EQ(our_third_murlocTH2->get_name(), "Murloc Tidehunter");
+    EXPECT_EQ(our_third_drag_lt->get_name(), "Dragonspawn Lieutenant");
+    // Attack and def
+    EXPECT_EQ(our_third_rockpool1->get_attack(), 3);
+    EXPECT_EQ(our_third_rockpool1->get_health(), 4);
+    EXPECT_EQ(our_third_rockpool2->get_attack(), 2);
+    EXPECT_EQ(our_third_rockpool2->get_health(), 3);
+    EXPECT_EQ(our_third_murlocTH1->get_attack(), 2);
+    EXPECT_EQ(our_third_murlocTH1->get_health(), 1);
+    EXPECT_EQ(our_third_murlocTH2->get_attack(), 2);
+    EXPECT_EQ(our_third_murlocTH2->get_health(), 1);
+    EXPECT_EQ(our_third_drag_lt->get_attack(), 2);
+    EXPECT_EQ(our_third_drag_lt->get_health(), 3);
 }

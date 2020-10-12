@@ -15,14 +15,14 @@ std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>> BobsBuddy
     std::cerr << "CHUNKS" << std::endl;
     std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>> res;
     std::cerr << "DECLARE RES" << std::endl;
-    auto count = 0;
+    // auto count = 0;
     for (auto chunk : chunks) {
 	std::cerr << "LOOP" << std::endl;
 	std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> pair = parse_chunk(chunk);
 	std::cerr << "ADD PAIR" << std::endl;
 	res.push_back(pair);
-	count++;
-	if (count == 2) break;
+	// count++;
+	// if (count == 2) break;
     }
     std::cerr << "RETURN" << std::endl;
     return res;
@@ -31,7 +31,7 @@ std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>> BobsBuddy
 std::vector<std::string> BobsBuddy::get_file_contents() {
     std::string line;
     std::ifstream myfile (_power_log);
-    std::vector<std::string> lines(100);
+    std::vector<std::string> lines;
     if (myfile.is_open())
 	{
 	    while ( getline (myfile,line) )
@@ -146,6 +146,47 @@ std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> BobsBuddy::parse_chunk
 		std::cerr << "Added " << card->get_name() << " to theirs with ID " << their_zone_pos << std::endl;
 	    }
 	}
+	else if (line.find("TAG_CHANGE") != std::string::npos) {
+	    auto tag = pystr.get_str_between(line, "tag=", " value");
+	    if (tag == "HEALTH") {
+		// auto zone_pos = atoi(pystr.get_str_between(line, "zonePos=", " cardId").c_str());
+		auto health = atoi(pystr.get_str_between(line, "value=", " ").c_str());
+		auto player = pystr.get_str_between(line, "player=", "]");
+		if (player == "8") {
+		    std::cerr << "OUR ID (Health): " << our_zone_pos << std::endl;
+		    our_id_to_card[our_zone_pos]->set_health(health);
+		    std::cerr << "After our health set..."  << std::endl;
+		}
+		else {
+		    std::cerr << "THEIR ID (health): " << their_zone_pos << std::endl;
+		    their_id_to_card[their_zone_pos]->set_health(health);
+		    std::cerr << "After their health set..."  << std::endl;
+		}
+	    }
+	    else if (tag == "ATK") {
+		auto zone_pos = atoi(pystr.get_str_between(line, "zonePos=", " cardId").c_str());
+		auto player = pystr.get_str_between(line, "player=", "]");
+		auto attack = atoi(pystr.get_str_between(line, "value=", " ").c_str());
+		// std::cerr << "OurIdToCard size: " << our_id_to_card.size() << std::endl;
+		// for (auto item : our_id_to_card) {
+		//     std::cerr << item.first << std::endl;
+		// }
+		if (player == "8") {
+		    std::cerr << "OUR ID (ATK): " << our_zone_pos << std::endl;
+		    our_id_to_card[our_zone_pos]->set_attack(attack);
+		    std::cerr << "After our attack set..."  << std::endl;
+		}
+		else {
+		    std::cerr << "THEIR ID (ATK): " << their_zone_pos << std::endl;
+		    // std::cerr << "TheirIdToCard size: " << their_id_to_card.size() << std::endl;
+		    // for (auto item : their_id_to_card) {
+		    // 	std::cerr << item.first << std::endl;
+		    // }
+		    their_id_to_card[their_zone_pos]->set_attack(attack);
+		    std::cerr << "After their attack set..."  << std::endl;
+		}
+	    }
+	}
     }
 
     std::cerr << "Original ids assigned" << std::endl;
@@ -181,48 +222,54 @@ std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> BobsBuddy::parse_chunk
 
     std::cerr << "Reassigned..." << std::endl;
     std::cerr << "OUR SIZE: " << our_id_to_card.size() << std::endl;
-    std::cerr << "THEIR SIZE: " << our_id_to_card.size() << std::endl;
+    std::cerr << "THEIR SIZE: " << their_id_to_card.size() << std::endl;
 
     // Update based on stat buffs
-    for (auto line : chunk) {
-	if (line.find("TAG_CHANGE") != std::string::npos) {
-	    auto tag = pystr.get_str_between(line, "tag=", " value");
-	    if (tag == "HEALTH") {
-		auto zone_pos = atoi(pystr.get_str_between(line, "zonePos=", " cardId").c_str());
-		auto health = atoi(pystr.get_str_between(line, "value=", " ").c_str());
-		auto player = pystr.get_str_between(line, "player=", "]");
-		if (player == "8") {
-		    our_id_to_card[zone_pos]->set_health(health);
-		}
-		else {
-		    their_id_to_card[zone_pos]->set_health(health);
-		}
-	    }
-	    else if (tag == "ATK") {
-		auto zone_pos = atoi(pystr.get_str_between(line, "zonePos=", " cardId").c_str());
-		auto player = pystr.get_str_between(line, "player=", "]");
-		auto attack = atoi(pystr.get_str_between(line, "value=", " ").c_str());
-		// std::cerr << "OurIdToCard size: " << our_id_to_card.size() << std::endl;
-		// for (auto item : our_id_to_card) {
-		//     std::cerr << item.first << std::endl;
-		// }
-		if (player == "8") {
-		    std::cerr << "OUR ID: " << zone_pos << std::endl;
-		    our_id_to_card[zone_pos]->set_attack(attack);
-		    std::cerr << "After our attack set..."  << std::endl;
-		}
-		else {
-		    std::cerr << "THEIR ID: " << zone_pos << std::endl;
-		    // std::cerr << "TheirIdToCard size: " << their_id_to_card.size() << std::endl;
-		    // for (auto item : their_id_to_card) {
-		    // 	std::cerr << item.first << std::endl;
-		    // }
-		    their_id_to_card[zone_pos]->set_attack(attack);
-		    std::cerr << "After their attack set..."  << std::endl;
-		}
-	    }
-	}
-    }
+    // our_zone_pos = 0;
+    // their_zone_pos = 0;
+    // for (auto line : chunk) {
+    // 	if (line.find("TAG_CHANGE") != std::string::npos) {
+    // 	    auto tag = pystr.get_str_between(liine, "tag=", " value");
+    // 	    if (tag == "HEALTH") {
+    // 		// auto zone_pos = atoi(pystr.get_str_between(line, "zonePos=", " cardId").c_str());
+    // 		auto health = atoi(pystr.get_str_between(line, "value=", " ").c_str());
+    // 		auto player = pystr.get_str_between(line, "player=", "]");
+    // 		if (player == "8") {
+    // 		    std::cerr << "OUR ID (Health): " << zone_pos << std::endl;
+    // 		    our_id_to_card[our_zone_pos]->set_health(health);
+    // 		    std::cerr << "After our health set..."  << std::endl;
+    // 		}
+    // 		else {
+    // 		    std::cerr << "THEIR ID: " << zone_pos << std::endl;
+    // 		    their_id_to_card[zone_pos]->set_health(health);
+    // 		    std::cerr << "After their health set..."  << std::endl;
+    // 		}
+    // 	    }
+    // 	    else if (tag == "ATK") {
+    // 		auto zone_pos = atoi(pystr.get_str_between(line, "zonePos=", " cardId").c_str());
+    // 		auto player = pystr.get_str_between(line, "player=", "]");
+    // 		auto attack = atoi(pystr.get_str_between(line, "value=", " ").c_str());
+    // 		// std::cerr << "OurIdToCard size: " << our_id_to_card.size() << std::endl;
+    // 		// for (auto item : our_id_to_card) {
+    // 		//     std::cerr << item.first << std::endl;
+    // 		// }
+    // 		if (player == "8") {
+    // 		    std::cerr << "OUR ID (ATK): " << zone_pos << std::endl;
+    // 		    our_id_to_card[zone_pos]->set_attack(attack);
+    // 		    std::cerr << "After our attack set..."  << std::endl;
+    // 		}
+    // 		else {
+    // 		    std::cerr << "THEIR ID: " << zone_pos << std::endl;
+    // 		    // std::cerr << "TheirIdToCard size: " << their_id_to_card.size() << std::endl;
+    // 		    // for (auto item : their_id_to_card) {
+    // 		    // 	std::cerr << item.first << std::endl;
+    // 		    // }
+    // 		    their_id_to_card[zone_pos]->set_attack(attack);
+    // 		    std::cerr << "After their attack set..."  << std::endl;
+    // 		}
+    // 	    }
+    // 	}
+    // }
 
     std::vector<std::shared_ptr<BgBaseCard>> our_cards;
     for (auto kv : our_id_to_card) {

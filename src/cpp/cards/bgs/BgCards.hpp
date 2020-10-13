@@ -688,28 +688,28 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ScallywagGolden>(*this); } // boilerplate that every drattle needs...
 };
 
-class ScavagingHyena : public BgBaseCard {
+class ScavengingHyena : public BgBaseCard {
 public:
-    ScavagingHyena() : BgBaseCard(2, "HUNTER", 2, 2, "Scavenging Hyena",
-				  "['TRIGGER_VISUAL']", "BEAST", "COMMON", 1, "MINION") {}
+    ScavengingHyena() : BgBaseCard(2, "HUNTER", 2, 2, "Scavenging Hyena",
+				   "['TRIGGER_VISUAL']", "BEAST", "COMMON", 1, "MINION") {}
     virtual void do_postbattle(Board* b1,
 			       Board* b2,
 			       std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
 			       std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;    
-    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ScavagingHyena>(*this); } // boilerplate that every drattle needs...
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ScavengingHyena>(*this); } // boilerplate that every drattle needs...
 };
 
-class ScavagingHyenaGolden : public BgBaseCard {
+class ScavengingHyenaGolden : public BgBaseCard {
 public:
-    ScavagingHyenaGolden() : BgBaseCard(4, "HUNTER", 2, 4, "Scavenging Hyena (Golden)",
-					"['TRIGGER_VISUAL']", "BEAST", "COMMON", 1, "MINION") {}
+    ScavengingHyenaGolden() : BgBaseCard(4, "HUNTER", 2, 4, "Scavenging Hyena (Golden)",
+					 "['TRIGGER_VISUAL']", "BEAST", "COMMON", 1, "MINION") {}
     virtual void do_postbattle(Board* b1,
 			       Board* b2,
 			       std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
 			       std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;    
-    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ScavagingHyenaGolden>(*this); } // boilerplate that every drattle needs...
+    virtual std::shared_ptr<BgBaseCard> get_copy() override { return std::make_shared<ScavengingHyenaGolden>(*this); } // boilerplate that every drattle needs...
 private:
-    ScavagingHyena sh;
+    ScavengingHyena sh;
 };
 
 class SeabreakerGoliath : public BgBaseCard {

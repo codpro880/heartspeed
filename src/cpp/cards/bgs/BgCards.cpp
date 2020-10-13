@@ -737,7 +737,7 @@ void ScallywagGolden::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
-void ScavagingHyena::do_postbattle(Board* b1,
+void ScavengingHyena::do_postbattle(Board* b1,
 				   Board* b2,
 				   std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
 				   std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
@@ -749,7 +749,7 @@ void ScavagingHyena::do_postbattle(Board* b1,
     }
 }
 
-void ScavagingHyenaGolden::do_postbattle(Board* b1,
+void ScavengingHyenaGolden::do_postbattle(Board* b1,
 					 Board* b2,
 					 std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
 					 std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {

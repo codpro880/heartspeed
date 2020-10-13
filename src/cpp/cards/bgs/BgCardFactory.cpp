@@ -182,12 +182,6 @@ void BgCardFactory::init_cards() {
     cards.emplace("Bronze Warden (Golden)", bronze_warden_golden);
 
     // C
-    std::shared_ptr<BgBaseCard> cat(new BgBaseCard(1, "HUNTER", 1, 1, "Cat",
-						   "['BATTLECRY']", "BEAST", "COMMON", 1, "MINION"));
-    cards.emplace("Cat", cat);
-    std::shared_ptr<BgBaseCard> cat_gold(new BgBaseCard(2, "HUNTER", 1, 2, "Cat (Golden)",
-							     "['BATTLECRY']", "BEAST", "COMMON", 1, "MINION"));
-    cards.emplace("Cat (Golden)", cat_gold);
     std::shared_ptr<BgBaseCard> cave_hydra(new BgBaseCard(2, "BEAST", 3, 4, "Cave Hydra",
 							  "['CLEAVE']", "BEAST", "", 4, "MINION"));
     cards.emplace("Cave Hydra", cave_hydra);
@@ -657,8 +651,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Savannah Highmane (Golden)", std::make_shared<SavannahHighmaneGolden>());
     cards.emplace("Scallywag", std::make_shared<Scallywag>());
     cards.emplace("Scallywag (Golden)", std::make_shared<ScallywagGolden>());
-    cards.emplace("Scavaging Hyena", std::make_shared<ScavagingHyena>());
-    cards.emplace("Scavaging Hyena (Golden)", std::make_shared<ScavagingHyenaGolden>());
+    cards.emplace("Scavenging Hyena", std::make_shared<ScavengingHyena>());
+    cards.emplace("Scavenging Hyena (Golden)", std::make_shared<ScavengingHyenaGolden>());
     std::shared_ptr<BgBaseCard> screwjank(new BgBaseCard(2, "WARRIOR", 4, 5, "Screwjank Clunker",
 							 "['BATTLECRY']", "MECHANICAL", "RARE", 3, "MINION"));
     cards.emplace("Screwjank Clunker", screwjank);
@@ -731,8 +725,12 @@ void BgCardFactory::init_cards() {
     cards.emplace("Strongshell Scavenger (Golden)", strongshell_gold);
 
     // T
-    // cards.emplace("Tabbycat (Golden)", BgBaseCard(2, "HUNTER", 1, 2, "Tabbycat (Golden)",
-    // 						  "", "BEAST", "", 1, "MINION"));
+    std::shared_ptr<BgBaseCard> cat(new BgBaseCard(1, "HUNTER", 1, 1, "Tabbycat",
+						   "", "BEAST", "COMMON", 1, "MINION"));
+    cards.emplace("Tabbycat", cat);
+    std::shared_ptr<BgBaseCard> cat_gold(new BgBaseCard(2, "HUNTER", 1, 2, "Tabbycat (Golden)",
+							     "", "BEAST", "COMMON", 1, "MINION"));
+    cards.emplace("Tabbycat (Golden)", cat_gold);
     cards.emplace("Tavern Tempest", std::make_shared<BgBaseCard>(4, "NEUTRAL", 5, 4, "Tavern Tempest",
 								 "['BATTLECRY']", "ELEMENTAL", "", 5, "MINION"));
     cards.emplace("Tavern Tempest (Golden)", std::make_shared<BgBaseCard>(8, "NEUTRAL", 5, 8, "Tavern Tempest (Golden)",

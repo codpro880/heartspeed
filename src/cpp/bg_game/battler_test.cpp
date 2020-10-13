@@ -1301,7 +1301,7 @@ TEST(Battler, ScavengingHyenaIfBeastDies) {
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
 	{
 	 f.get_card("Alleycat"),
-	 f.get_card("Scavaging Hyena")
+	 f.get_card("Scavenging Hyena")
 	};
     auto th = f.get_card("Murloc Tidehunter");
     th->set_attack(3);
@@ -1324,7 +1324,7 @@ TEST(Battler, ScavengingHyenaIfBeastDiesGolden) {
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
 	{
 	 f.get_card("Alleycat"),
-	 f.get_card("Scavaging Hyena (Golden)")
+	 f.get_card("Scavenging Hyena (Golden)")
 	};
     auto th = f.get_card("Murloc Tidehunter");
     th->set_attack(3); // Not enough health to kill golden hyena

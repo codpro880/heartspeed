@@ -15,14 +15,14 @@ std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>> BobsBuddy
     std::cerr << "CHUNKS" << std::endl;
     std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>> res;
     std::cerr << "DECLARE RES" << std::endl;
-    // auto count = 0;
+    auto count = 0;
     for (auto chunk : chunks) {
 	std::cerr << "LOOP" << std::endl;
 	std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> pair = parse_chunk(chunk);
 	std::cerr << "ADD PAIR" << std::endl;
 	res.push_back(pair);
-	// count++;
-	// if (count == 2) break;
+	count++;
+	if (count == 4) break;
     }
     std::cerr << "RETURN" << std::endl;
     return res;
@@ -118,6 +118,7 @@ std::vector<std::vector<std::string>> BobsBuddy::get_chunks(std::vector<std::str
 }
 
 std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> BobsBuddy::parse_chunk(std::vector<std::string> chunk) {
+    std::cerr << "\n" << std::endl;
     std::cerr << "Chunk: " << std::endl;
     std::map<int, std::shared_ptr<BgBaseCard>> our_id_to_card;
     std::map<int, std::shared_ptr<BgBaseCard>> their_id_to_card;
@@ -127,7 +128,11 @@ std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> BobsBuddy::parse_chunk
     for (auto line : chunk) {
 	std::cerr << "ChunkLine: " << line << std::endl;
 	if (line.find("FULL_ENTITY - Updating") != std::string::npos) {
+	    auto is_golden = pystr.get_str_between(line, "cardId=", " player=").find("BaconUps") != std::string::npos;
 	    auto card_name = pystr.get_str_between(line, "entityName=", " id=");
+	    if (is_golden) {
+		card_name += " (Golden)";
+	    }
 	    std::shared_ptr<BgBaseCard> card;
 	    try {
 		card = card_factory.get_card(card_name);

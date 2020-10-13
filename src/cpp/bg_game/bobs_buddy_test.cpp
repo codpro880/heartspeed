@@ -101,4 +101,64 @@ TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
     EXPECT_EQ(our_third_murlocTH2->get_health(), 1);
     EXPECT_EQ(our_third_drag_lt->get_attack(), 2);
     EXPECT_EQ(our_third_drag_lt->get_health(), 3);
+
+    // Turn 4
+    auto our_fourth_board = battle_boards[3].first;
+    auto their_fourth_board = battle_boards[3].second;
+    EXPECT_EQ(our_fourth_board->length(), 6);
+    EXPECT_EQ(their_fourth_board->length(), 7);
+    // ours
+    auto our_fourth_rockpool = our_fourth_board->get_cards()[0];
+    auto our_fourth_stew = our_fourth_board->get_cards()[1];
+    auto our_fourth_murlocTH1 = our_fourth_board->get_cards()[2];
+    auto our_fourth_murlocTH2 = our_fourth_board->get_cards()[3];
+    auto our_fourth_salty_looter = our_fourth_board->get_cards()[4];
+    auto our_fourth_drag_lt = our_fourth_board->get_cards()[5];
+    EXPECT_EQ(our_fourth_rockpool->get_name(), "Rockpool Hunter (Golden)");
+    EXPECT_EQ(our_fourth_stew->get_name(), "Steward of Time");
+    EXPECT_EQ(our_fourth_murlocTH1->get_name(), "Murloc Tidehunter");
+    EXPECT_EQ(our_fourth_murlocTH2->get_name(), "Murloc Tidehunter");
+    EXPECT_EQ(our_fourth_salty_looter->get_name(), "Salty Looter");
+    EXPECT_EQ(our_fourth_drag_lt->get_name(), "Dragonspawn Lieutenant");
+    EXPECT_EQ(our_fourth_rockpool->get_attack(), 5);
+    EXPECT_EQ(our_fourth_rockpool->get_health(), 7);
+    EXPECT_EQ(our_fourth_stew->get_attack(), 3);
+    EXPECT_EQ(our_fourth_stew->get_health(), 4);
+    EXPECT_EQ(our_fourth_murlocTH1->get_attack(), 4);
+    EXPECT_EQ(our_fourth_murlocTH1->get_health(), 3);
+    EXPECT_EQ(our_fourth_murlocTH2->get_attack(), 2);
+    EXPECT_EQ(our_fourth_murlocTH2->get_health(), 1);
+    EXPECT_EQ(our_fourth_salty_looter->get_attack(), 3);
+    EXPECT_EQ(our_fourth_salty_looter->get_health(), 3);
+    EXPECT_EQ(our_fourth_drag_lt->get_attack(), 2);
+    EXPECT_EQ(our_fourth_drag_lt->get_health(), 3);
+    // theirs
+    auto their_fourth_tabby = their_fourth_board->get_cards()[0];
+    auto their_fourth_selfless = their_fourth_board->get_cards()[1];
+    auto their_fourth_scav1 = their_fourth_board->get_cards()[2];
+    auto their_fourth_scav2 = their_fourth_board->get_cards()[3];
+    auto their_fourth_ref_anom = their_fourth_board->get_cards()[4];
+    auto their_fourth_drag_lt = their_fourth_board->get_cards()[5];
+    auto their_fourth_right_prot = their_fourth_board->get_cards()[6];
+    EXPECT_EQ(their_fourth_tabby->get_name(), "Tabbycat");
+    EXPECT_EQ(their_fourth_selfless->get_name(), "Selfless Hero");
+    EXPECT_EQ(their_fourth_scav1->get_name(), "Scavenging Hyena");
+    EXPECT_EQ(their_fourth_scav2->get_name(), "Scavenging Hyena");
+    EXPECT_EQ(their_fourth_ref_anom->get_name(), "Refreshing Anomaly");
+    EXPECT_EQ(their_fourth_drag_lt->get_name(), "Dragonspawn Lieutenant");
+    EXPECT_EQ(their_fourth_right_prot->get_name(), "Righteous Protector");
+    EXPECT_EQ(their_fourth_tabby->get_attack(), 1);
+    EXPECT_EQ(their_fourth_tabby->get_health(), 1);
+    EXPECT_EQ(their_fourth_selfless->get_attack(), 2);
+    EXPECT_EQ(their_fourth_selfless->get_health(), 1);
+    EXPECT_EQ(their_fourth_scav1->get_attack(), 2);
+    EXPECT_EQ(their_fourth_scav1->get_health(), 2);
+    EXPECT_EQ(their_fourth_scav2->get_attack(), 2);
+    EXPECT_EQ(their_fourth_scav2->get_health(), 2);
+    EXPECT_EQ(their_fourth_ref_anom->get_attack(), 1);
+    EXPECT_EQ(their_fourth_ref_anom->get_health(), 3);
+    EXPECT_EQ(their_fourth_drag_lt->get_attack(), 2);
+    EXPECT_EQ(their_fourth_drag_lt->get_health(), 3);
+    EXPECT_EQ(their_fourth_right_prot->get_attack(), 1);
+    EXPECT_EQ(their_fourth_right_prot->get_health(), 1);
 }

@@ -161,4 +161,69 @@ TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
     EXPECT_EQ(their_fourth_drag_lt->get_health(), 3);
     EXPECT_EQ(their_fourth_right_prot->get_attack(), 1);
     EXPECT_EQ(their_fourth_right_prot->get_health(), 1);
+
+    // Turn 5
+    auto our_fifth_board = battle_boards[4].first;
+    auto their_fifth_board = battle_boards[4].second;
+    EXPECT_EQ(our_fifth_board->length(), 7);
+    EXPECT_EQ(their_fifth_board->length(), 6);
+    // ours
+    auto our_fifth_rockpool = our_fifth_board->get_cards()[0];
+    auto our_fifth_salty_looter = our_fifth_board->get_cards()[1];
+    auto our_fifth_scally = our_fifth_board->get_cards()[2];
+    auto our_fifth_stew = our_fifth_board->get_cards()[3];
+    auto our_fifth_murlocTH1 = our_fifth_board->get_cards()[4];
+    auto our_fifth_murlocTH2 = our_fifth_board->get_cards()[5];
+    auto our_fifth_drag_lt = our_fifth_board->get_cards()[6];
+    EXPECT_EQ(our_fifth_rockpool->get_name(), "Rockpool Hunter (Golden)");
+    EXPECT_EQ(our_fifth_salty_looter->get_name(), "Salty Looter");
+    EXPECT_EQ(our_fifth_scally->get_name(), "Scallywag");
+    EXPECT_EQ(our_fifth_stew->get_name(), "Steward of Time");
+    EXPECT_EQ(our_fifth_murlocTH1->get_name(), "Murloc Tidehunter");
+    EXPECT_EQ(our_fifth_murlocTH2->get_name(), "Murloc Tidehunter");
+    EXPECT_EQ(our_fifth_drag_lt->get_name(), "Dragonspawn Lieutenant");
+    EXPECT_EQ(our_fifth_rockpool->get_attack(), 6);
+    EXPECT_EQ(our_fifth_rockpool->get_health(), 8);
+    EXPECT_EQ(our_fifth_salty_looter->get_attack(), 5);
+    EXPECT_EQ(our_fifth_salty_looter->get_health(), 5);
+    EXPECT_EQ(our_fifth_scally->get_attack(), 2);
+    EXPECT_EQ(our_fifth_scally->get_health(), 1);
+    EXPECT_EQ(our_fifth_stew->get_attack(), 3);
+    EXPECT_EQ(our_fifth_stew->get_health(), 4);
+    EXPECT_EQ(our_fifth_murlocTH1->get_attack(), 4);
+    EXPECT_EQ(our_fifth_murlocTH1->get_health(), 3);
+    EXPECT_EQ(our_fifth_murlocTH2->get_attack(), 2);
+    EXPECT_EQ(our_fifth_murlocTH2->get_health(), 1);
+    EXPECT_EQ(our_fifth_drag_lt->get_attack(), 3);
+    EXPECT_EQ(our_fifth_drag_lt->get_health(), 4);
+    // theirs
+    auto their_fifth_macaw = their_fifth_board->get_cards()[0];
+    auto their_fifth_spawn = their_fifth_board->get_cards()[1];
+    auto their_fifth_sellemental = their_fifth_board->get_cards()[2];
+    auto their_fifth_deck_swab = their_fifth_board->get_cards()[3];
+    auto their_fifth_alley = their_fifth_board->get_cards()[4];
+    auto their_fifth_molten_rock = their_fifth_board->get_cards()[5];
+    EXPECT_EQ(their_fifth_macaw->get_name(), "Monstrous Macaw");
+    // Special checks for al-akir
+    EXPECT_EQ(their_fifth_macaw->has_divine_shield(), true);
+    EXPECT_EQ(their_fifth_macaw->has_taunt(), true);
+    EXPECT_EQ(their_fifth_macaw->has_windfury(), true);
+    EXPECT_EQ(their_fifth_macaw->get_name(), "Monstrous Macaw");
+    EXPECT_EQ(their_fifth_spawn->get_name(), "Spawn of N'Zoth");
+    EXPECT_EQ(their_fifth_sellemental->get_name(), "Sellemental");
+    EXPECT_EQ(their_fifth_deck_swab->get_name(), "Deck Swabbie");
+    EXPECT_EQ(their_fifth_alley->get_name(), "Alleycat");
+    EXPECT_EQ(their_fifth_molten_rock->get_name(), "Molten Rock");
+    EXPECT_EQ(their_fifth_macaw->get_attack(), 4);
+    EXPECT_EQ(their_fifth_macaw->get_health(), 3);
+    EXPECT_EQ(their_fifth_spawn->get_attack(), 2);
+    EXPECT_EQ(their_fifth_spawn->get_health(), 2);
+    EXPECT_EQ(their_fifth_sellemental->get_attack(), 2);
+    EXPECT_EQ(their_fifth_sellemental->get_health(), 2);
+    EXPECT_EQ(their_fifth_deck_swab->get_attack(), 2);
+    EXPECT_EQ(their_fifth_deck_swab->get_health(), 2);
+    EXPECT_EQ(their_fifth_alley->get_attack(), 1);
+    EXPECT_EQ(their_fifth_alley->get_health(), 1);
+    EXPECT_EQ(their_fifth_molten_rock->get_attack(), 2);
+    EXPECT_EQ(their_fifth_molten_rock->get_health(), 3);
 }

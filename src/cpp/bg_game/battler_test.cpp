@@ -147,7 +147,7 @@ TEST(Battler, Baron) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
 	{
-	 f.get_card("Spawn of Nzoth"),
+	 f.get_card("Spawn of N'Zoth"),
 	 f.get_card("Baron")
 	};
     auto th = f.get_card("Murloc Tidehunter");
@@ -970,7 +970,7 @@ TEST(Battler, MonstrousMacaw) {
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
 	{
 	 f.get_card("Monstrous Macaw"),
-	 f.get_card("Spawn of Nzoth")
+	 f.get_card("Spawn of N'Zoth")
 	};
     auto th = f.get_card("Murloc Tidehunter");
     th->set_health(7); // 4 from macaw, 3 from spawn that had drattle trig
@@ -1562,7 +1562,7 @@ TEST(Battler, SpawnOfNzothDrattle) {
 	};
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
 	{
-	 f.get_card("Spawn of Nzoth"),
+	 f.get_card("Spawn of N'Zoth"),
 	 f.get_card("Freedealing Gambler (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)"),
@@ -1598,7 +1598,7 @@ TEST(Battler, SpawnOfNzothGoldenDrattle) {
 	};
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
 	{
-	 f.get_card("Spawn of Nzoth (Golden)"),
+	 f.get_card("Spawn of N'Zoth (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)"),

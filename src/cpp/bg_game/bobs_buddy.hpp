@@ -9,6 +9,7 @@
 
 #include "board.hpp"
 #include "../cards/bgs/BgCardFactory.hpp"
+#include "hero.hpp"
 
 class PyString {
 public:
@@ -49,6 +50,7 @@ private:
     std::vector<std::string> get_file_contents();
     std::vector<std::vector<std::string>> get_chunks(std::vector<std::string>);
     std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> parse_chunk(std::vector<std::string>);
+    std::shared_ptr<Hero> get_their_hero(std::vector<std::string> chunk);
     PyString pystr;
     BgCardFactory card_factory;
 };

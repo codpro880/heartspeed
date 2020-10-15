@@ -7,6 +7,8 @@
 #include <utility>
 
 #include "bobs_buddy.hpp"
+#include "hero_factory.hpp"
+#include "hero.hpp"
 
 std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>> BobsBuddy::parse_full_log() {
     std::vector<std::string> file_contents = get_file_contents();
@@ -19,10 +21,11 @@ std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>> BobsBuddy
     for (auto chunk : chunks) {
 	std::cerr << "LOOP" << std::endl;
 	std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> pair = parse_chunk(chunk);
+	
 	std::cerr << "ADD PAIR" << std::endl;
 	res.push_back(pair);
 	count++;
-	if (count == 4) break;
+	if (count == 5) break;
     }
     std::cerr << "RETURN" << std::endl;
     return res;
@@ -229,53 +232,6 @@ std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> BobsBuddy::parse_chunk
     std::cerr << "OUR SIZE: " << our_id_to_card.size() << std::endl;
     std::cerr << "THEIR SIZE: " << their_id_to_card.size() << std::endl;
 
-    // Update based on stat buffs
-    // our_zone_pos = 0;
-    // their_zone_pos = 0;
-    // for (auto line : chunk) {
-    // 	if (line.find("TAG_CHANGE") != std::string::npos) {
-    // 	    auto tag = pystr.get_str_between(liine, "tag=", " value");
-    // 	    if (tag == "HEALTH") {
-    // 		// auto zone_pos = atoi(pystr.get_str_between(line, "zonePos=", " cardId").c_str());
-    // 		auto health = atoi(pystr.get_str_between(line, "value=", " ").c_str());
-    // 		auto player = pystr.get_str_between(line, "player=", "]");
-    // 		if (player == "8") {
-    // 		    std::cerr << "OUR ID (Health): " << zone_pos << std::endl;
-    // 		    our_id_to_card[our_zone_pos]->set_health(health);
-    // 		    std::cerr << "After our health set..."  << std::endl;
-    // 		}
-    // 		else {
-    // 		    std::cerr << "THEIR ID: " << zone_pos << std::endl;
-    // 		    their_id_to_card[zone_pos]->set_health(health);
-    // 		    std::cerr << "After their health set..."  << std::endl;
-    // 		}
-    // 	    }
-    // 	    else if (tag == "ATK") {
-    // 		auto zone_pos = atoi(pystr.get_str_between(line, "zonePos=", " cardId").c_str());
-    // 		auto player = pystr.get_str_between(line, "player=", "]");
-    // 		auto attack = atoi(pystr.get_str_between(line, "value=", " ").c_str());
-    // 		// std::cerr << "OurIdToCard size: " << our_id_to_card.size() << std::endl;
-    // 		// for (auto item : our_id_to_card) {
-    // 		//     std::cerr << item.first << std::endl;
-    // 		// }
-    // 		if (player == "8") {
-    // 		    std::cerr << "OUR ID (ATK): " << zone_pos << std::endl;
-    // 		    our_id_to_card[zone_pos]->set_attack(attack);
-    // 		    std::cerr << "After our attack set..."  << std::endl;
-    // 		}
-    // 		else {
-    // 		    std::cerr << "THEIR ID: " << zone_pos << std::endl;
-    // 		    // std::cerr << "TheirIdToCard size: " << their_id_to_card.size() << std::endl;
-    // 		    // for (auto item : their_id_to_card) {
-    // 		    // 	std::cerr << item.first << std::endl;
-    // 		    // }
-    // 		    their_id_to_card[zone_pos]->set_attack(attack);
-    // 		    std::cerr << "After their attack set..."  << std::endl;
-    // 		}
-    // 	    }
-    // 	}
-    // }
-
     std::vector<std::shared_ptr<BgBaseCard>> our_cards;
     for (auto kv : our_id_to_card) {
 	std::cerr << "FINAL ADD OURS " << kv.second->get_name() << std::endl;
@@ -291,9 +247,31 @@ std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> BobsBuddy::parse_chunk
     auto our_board = std::make_shared<Board>(our_cards);
     auto their_board = std::make_shared<Board>(their_cards);
 
+    // Hero battle considerations, like al-akir
+    // TODO: get our hero in here...
+    std::shared_ptr<Hero> their_hero = get_their_hero(chunk);    
+    their_hero->apply_hero_power(their_board);
+
     auto pair = std::make_pair(our_board, their_board);
     return pair;
     // std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>> res;
     // res.push_back(pair);
     // return res;
+}
+
+std::shared_ptr<Hero> BobsBuddy::get_their_hero(std::vector<std::string> chunk) {
+    auto hero_fac = HeroFactory();
+    std::shared_ptr<Hero> hero(new Hero("Default"));
+    for (auto line : chunk) {
+	if (line.find("FULL_ENTITY") != std::string::npos) {
+	    auto hero_name = pystr.get_str_between(line, "entityName=", " id=");
+	    try {
+		hero = hero_fac.get_hero(hero_name);
+		return hero;
+	    }
+	    catch (...) {
+	    }
+	}
+    }
+    return hero;
 }

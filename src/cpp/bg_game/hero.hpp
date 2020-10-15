@@ -1,0 +1,23 @@
+#pragma once
+
+#include <string>
+#include <memory>
+
+#include "board.hpp"
+
+class Hero {
+public:
+    Hero(std::string name) : _name(name) {};
+    virtual void apply_hero_power(std::shared_ptr<Board> b) {};
+    std::string get_name() { return _name; }
+    virtual std::shared_ptr<Hero> get_copy() { return std::make_shared<Hero>(*this); } // copy boilerplate
+private:
+    std::string _name;
+};
+
+class AlAkir : public Hero {
+public:
+    AlAkir() : Hero("Al'Akir") {}
+    void apply_hero_power(std::shared_ptr<Board> b) override;
+    virtual std::shared_ptr<Hero> get_copy() override { return std::make_shared<AlAkir>(*this); } // copy boilerplate
+};

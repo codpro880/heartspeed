@@ -140,12 +140,12 @@ void BgCardFactory::init_cards() {
     // 						   "['SECRET']", "", "COMMON", -1, "SPELL"));
 
     // B
-    std::shared_ptr<BgBaseCard> baron(new BgBaseCard(1, "NEUTRAL", 4, 7, "Baron",
+    std::shared_ptr<BgBaseCard> baron(new BgBaseCard(1, "NEUTRAL", 4, 7, "Baron Rivendare",
 						     "['AURA']", "", "LEGENDARY", 5, "MINION"));
-    cards.emplace("Baron", baron);
-    std::shared_ptr<BgBaseCard> baron_gold(new BgBaseCard(2, "NEUTRAL", 4, 14, "Baron",
+    cards.emplace("Baron Rivendare", baron);
+    std::shared_ptr<BgBaseCard> baron_gold(new BgBaseCard(2, "NEUTRAL", 4, 14, "Baron Rivendare (Golden)",
 							  "['AURA']", "", "LEGENDARY", 5, "MINION"));
-    cards.emplace("Baron (Golden)", baron_gold);
+    cards.emplace("Baron Rivendare (Golden)", baron_gold);
     std::shared_ptr<BgBaseCard> big_bad_wolf(new BgBaseCard(3, "HUNTER", 2, 2, "Big Bad Wolf",
 							    "", "BEAST", "", 1, "MINION"));					    
     cards.emplace("Big Bad Wolf", big_bad_wolf);
@@ -204,8 +204,8 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> coldlight_gold(new BgBaseCard(4, "NEUTRAL", 3, 6, "Coldlight Seer (Golden)",
 							      "['BATTLECRY']", "MURLOC", "RARE", 3, "MINION"));
     cards.emplace("Coldlight Seer (Golden)", coldlight_gold);
-    std::shared_ptr<BgBaseCard> crackling_cyclone(new BgBaseCard(3, "NEUTRAL", -1, 2, "Crackling Cyclone",
-								   "", "ELEMENTAL", "", 3, "MINION"));
+    std::shared_ptr<BgBaseCard> crackling_cyclone(new BgBaseCard(4, "NEUTRAL", -1, 1, "Crackling Cyclone",
+								 "", "ELEMENTAL", "", 3, "MINION"));
     crackling_cyclone->set_divine_shield();
     crackling_cyclone->set_windfury();    
     cards.emplace("Crackling Cyclone", crackling_cyclone);

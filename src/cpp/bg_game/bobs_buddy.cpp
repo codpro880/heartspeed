@@ -25,7 +25,7 @@ std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>> BobsBuddy
 	std::cerr << "ADD PAIR" << std::endl;
 	res.push_back(pair);
 	count++;
-	if (count == 7) break;
+	if (count == 8) break;
     }
     std::cerr << "RETURN" << std::endl;
     return res;

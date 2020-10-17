@@ -231,7 +231,6 @@ TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
     // Not totally sure what board state was, bad screenshots
 
     // Turn 7
-    // NOTE: Calculate reborn...
     auto our_seventh_board = battle_boards[6].first;
     auto their_seventh_board = battle_boards[6].second;
     EXPECT_EQ(our_seventh_board->length(), 7);
@@ -244,7 +243,6 @@ TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
     auto our_seventh_murlocTH1 = our_seventh_board->get_cards()[4];
     auto our_seventh_murlocTH2 = our_seventh_board->get_cards()[5];
     auto our_seventh_stasis = our_seventh_board->get_cards()[6];
-    std::cerr << "Past ours" << std::endl;
     EXPECT_EQ(our_seventh_rockpool->get_name(), "Rockpool Hunter (Golden)");
     EXPECT_EQ(our_seventh_salty_looter->get_name(), "Salty Looter");
     EXPECT_EQ(our_seventh_bronzew1->get_name(), "Bronze Warden");
@@ -298,5 +296,69 @@ TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
     EXPECT_EQ(their_seventh_stew2->get_health(), 4);
     EXPECT_EQ(their_seventh_waxrider->get_attack(), 1);
     EXPECT_EQ(their_seventh_waxrider->get_health(), 2);
+
+    // Turn 8, 10 gold
+    auto our_eighth_board = battle_boards[7].first;
+    auto their_eighth_board = battle_boards[7].second;
+    EXPECT_EQ(our_eighth_board->length(), 7);
+    EXPECT_EQ(their_eighth_board->length(), 7);
+    // ours
+    auto our_eighth_rockpool = our_eighth_board->get_cards()[0];
+    auto our_eighth_salty_looter1 = our_eighth_board->get_cards()[1];
+    auto our_eighth_salty_looter2 = our_eighth_board->get_cards()[2];
+    auto our_eighth_bronzew1 = our_eighth_board->get_cards()[3];
+    auto our_eighth_bronzew2 = our_eighth_board->get_cards()[4];
+    auto our_eighth_stasis = our_eighth_board->get_cards()[5];
+    auto our_eighth_yoho = our_eighth_board->get_cards()[6];
+    EXPECT_EQ(our_eighth_rockpool->get_name(), "Rockpool Hunter (Golden)");
+    EXPECT_EQ(our_eighth_salty_looter1->get_name(), "Salty Looter");
+    EXPECT_EQ(our_eighth_salty_looter1->get_name(), "Salty Looter");
+    EXPECT_EQ(our_eighth_bronzew1->get_name(), "Bronze Warden");
+    EXPECT_EQ(our_eighth_bronzew2->get_name(), "Bronze Warden");
+    EXPECT_EQ(our_eighth_stasis->get_name(), "Stasis Elemental");
+    EXPECT_EQ(our_eighth_yoho->get_name(), "Yo-Ho-Ogre");
+    EXPECT_EQ(our_eighth_rockpool->get_attack(), 6);
+    EXPECT_EQ(our_eighth_rockpool->get_health(), 10);
+    EXPECT_EQ(our_eighth_salty_looter1->get_attack(), 8);
+    EXPECT_EQ(our_eighth_salty_looter1->get_health(), 8);
+    EXPECT_EQ(our_eighth_salty_looter2->get_attack(), 4);
+    EXPECT_EQ(our_eighth_salty_looter2->get_health(), 4);
+    EXPECT_EQ(our_eighth_bronzew1->get_attack(), 4);
+    EXPECT_EQ(our_eighth_bronzew1->get_health(), 3);
+    EXPECT_EQ(our_eighth_bronzew2->get_attack(), 4);
+    EXPECT_EQ(our_eighth_bronzew2->get_health(), 3);
+    EXPECT_EQ(our_eighth_stasis->get_attack(), 6);
+    EXPECT_EQ(our_eighth_stasis->get_health(), 6);
+    EXPECT_EQ(our_eighth_yoho->get_attack(), 2);
+    EXPECT_EQ(our_eighth_yoho->get_health(), 8);
+    // theirs
+    auto their_eighth_spawn = their_eighth_board->get_cards()[0];
+    auto their_eighth_tabby1 = their_eighth_board->get_cards()[1];
+    auto their_eighth_tabby2 = their_eighth_board->get_cards()[2];
+    auto their_eighth_selfless = their_eighth_board->get_cards()[3];
+    auto their_eighth_scav = their_eighth_board->get_cards()[4];
+    auto their_eighth_crackling = their_eighth_board->get_cards()[5];
+    auto their_eighth_baron = their_eighth_board->get_cards()[6];
+    EXPECT_EQ(their_eighth_spawn->get_name(), "Spawn of N'Zoth");
+    EXPECT_EQ(their_eighth_tabby1->get_name(), "Tabbycat");
+    EXPECT_EQ(their_eighth_tabby2->get_name(), "Tabbycat");
+    EXPECT_EQ(their_eighth_selfless->get_name(), "Selfless Hero");
+    EXPECT_EQ(their_eighth_scav->get_name(), "Scavenging Hyena (Golden)");
+    EXPECT_EQ(their_eighth_crackling->get_name(), "Crackling Cyclone");
+    EXPECT_EQ(their_eighth_baron->get_name(), "Baron Rivendare");
+    EXPECT_EQ(their_eighth_spawn->get_attack(), 2);
+    EXPECT_EQ(their_eighth_spawn->get_health(), 2);
+    EXPECT_EQ(their_eighth_tabby1->get_attack(), 1);
+    EXPECT_EQ(their_eighth_tabby1->get_health(), 1);
+    EXPECT_EQ(their_eighth_tabby2->get_attack(), 1);
+    EXPECT_EQ(their_eighth_tabby2->get_health(), 1);
+    EXPECT_EQ(their_eighth_selfless->get_attack(), 2);
+    EXPECT_EQ(their_eighth_selfless->get_health(), 1);
+    EXPECT_EQ(their_eighth_scav->get_attack(), 4);
+    EXPECT_EQ(their_eighth_scav->get_health(), 4);
+    EXPECT_EQ(their_eighth_crackling->get_attack(), 4);
+    EXPECT_EQ(their_eighth_crackling->get_health(), 1);
+    EXPECT_EQ(their_eighth_baron->get_attack(), 1);
+    EXPECT_EQ(their_eighth_baron->get_health(), 7);
 
 }

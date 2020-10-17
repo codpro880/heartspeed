@@ -147,8 +147,8 @@ TEST(Battler, Baron) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
 	{
-	 f.get_card("Spawn of Nzoth"),
-	 f.get_card("Baron")
+	 f.get_card("Spawn of N'Zoth"),
+	 f.get_card("Baron Rivendare")
 	};
     auto th = f.get_card("Murloc Tidehunter");
     th->set_attack(8); // Two attacks for baron
@@ -970,7 +970,7 @@ TEST(Battler, MonstrousMacaw) {
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
 	{
 	 f.get_card("Monstrous Macaw"),
-	 f.get_card("Spawn of Nzoth")
+	 f.get_card("Spawn of N'Zoth")
 	};
     auto th = f.get_card("Murloc Tidehunter");
     th->set_health(7); // 4 from macaw, 3 from spawn that had drattle trig
@@ -1301,7 +1301,7 @@ TEST(Battler, ScavengingHyenaIfBeastDies) {
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
 	{
 	 f.get_card("Alleycat"),
-	 f.get_card("Scavaging Hyena")
+	 f.get_card("Scavenging Hyena")
 	};
     auto th = f.get_card("Murloc Tidehunter");
     th->set_attack(3);
@@ -1324,7 +1324,7 @@ TEST(Battler, ScavengingHyenaIfBeastDiesGolden) {
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
 	{
 	 f.get_card("Alleycat"),
-	 f.get_card("Scavaging Hyena (Golden)")
+	 f.get_card("Scavenging Hyena (Golden)")
 	};
     auto th = f.get_card("Murloc Tidehunter");
     th->set_attack(3); // Not enough health to kill golden hyena
@@ -1562,7 +1562,7 @@ TEST(Battler, SpawnOfNzothDrattle) {
 	};
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
 	{
-	 f.get_card("Spawn of Nzoth"),
+	 f.get_card("Spawn of N'Zoth"),
 	 f.get_card("Freedealing Gambler (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)"),
@@ -1598,7 +1598,7 @@ TEST(Battler, SpawnOfNzothGoldenDrattle) {
 	};
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
 	{
-	 f.get_card("Spawn of Nzoth (Golden)"),
+	 f.get_card("Spawn of N'Zoth (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)"),
@@ -1849,10 +1849,10 @@ TEST(Battler, WhirlwindTempest) {
 	{
 	 f.get_card("Murloc Tidehunter"),
 	 th,
-	 f.get_card("Baron"),
-	 f.get_card("Baron"),
-	 f.get_card("Baron"),
-	 f.get_card("Baron")
+	 f.get_card("Baron Rivendare"),
+	 f.get_card("Baron Rivendare"),
+	 f.get_card("Baron Rivendare"),
+	 f.get_card("Baron Rivendare")
 	};
     std::unique_ptr<Board> board1(new Board(p1_cards));
     std::unique_ptr<Board> board2(new Board(p2_cards));
@@ -1919,10 +1919,10 @@ TEST(Battler, Zapp) {
     th->set_health(20);
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
 	{
-	 f.get_card("Baron"),
-	 f.get_card("Baron"),
+	 f.get_card("Baron Rivendare"),
+	 f.get_card("Baron Rivendare"),
 	 th,
-	 f.get_card("Baron"),
+	 f.get_card("Baron Rivendare"),
 	};
     std::unique_ptr<Board> board1(new Board(p1_cards));
     std::unique_ptr<Board> board2(new Board(p2_cards));

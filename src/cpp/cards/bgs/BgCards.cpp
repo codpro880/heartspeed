@@ -8,13 +8,12 @@
 #include "../../bg_game/battler.hpp"
 
 void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
-    std::cerr << "New drattles...?" << std::endl;
-    if (b1->contains("Baron")) {
+    if (b1->contains("Baron Rivendare")) {
 	std::cerr << "Found baron. " << std::endl;
 	do_deathrattle(b1, b2);
 	do_deathrattle(b1, b2);
     }
-    else if (b1->contains("Baron (Golden)")) {
+    else if (b1->contains("Baron Rivendare (Golden)")) {
 	do_deathrattle(b1, b2);
 	do_deathrattle(b1, b2);
 	do_deathrattle(b1, b2);
@@ -737,7 +736,7 @@ void ScallywagGolden::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
-void ScavagingHyena::do_postbattle(Board* b1,
+void ScavengingHyena::do_postbattle(Board* b1,
 				   Board* b2,
 				   std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
 				   std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
@@ -749,7 +748,7 @@ void ScavagingHyena::do_postbattle(Board* b1,
     }
 }
 
-void ScavagingHyenaGolden::do_postbattle(Board* b1,
+void ScavengingHyenaGolden::do_postbattle(Board* b1,
 					 Board* b2,
 					 std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
 					 std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {

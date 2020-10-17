@@ -16,4 +16,5 @@ std::shared_ptr<Hero> HeroFactory::get_hero(std::string name) {
 
 void HeroFactory::init_heros() {
     heros.emplace("Al'Akir", std::make_shared<AlAkir>());
+    heros.emplace("The Lich King", std::make_shared<LichKing>());
 }

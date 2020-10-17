@@ -25,7 +25,7 @@ std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>> BobsBuddy
 	std::cerr << "ADD PAIR" << std::endl;
 	res.push_back(pair);
 	count++;
-	if (count == 5) break;
+	if (count == 7) break;
     }
     std::cerr << "RETURN" << std::endl;
     return res;
@@ -249,8 +249,10 @@ std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> BobsBuddy::parse_chunk
 
     // Hero battle considerations, like al-akir
     // TODO: get our hero in here...
-    std::shared_ptr<Hero> their_hero = get_their_hero(chunk);    
-    their_hero->apply_hero_power(their_board);
+    std::shared_ptr<Hero> their_hero = get_their_hero(chunk);
+    int pos = get_their_hero_power_pos(their_hero, chunk);
+    std::cerr << "POS: " << pos;
+    their_hero->apply_hero_power(their_board, pos);
 
     auto pair = std::make_pair(our_board, their_board);
     return pair;
@@ -274,4 +276,19 @@ std::shared_ptr<Hero> BobsBuddy::get_their_hero(std::vector<std::string> chunk) 
 	}
     }
     return hero;
+}
+
+int BobsBuddy::get_their_hero_power_pos(std::shared_ptr<Hero> hero, std::vector<std::string> chunk) {
+    std::cerr << "HERO NAME: " <<  hero->get_name() << std::endl;
+    if (hero->get_name() == "The Lich King") {
+	std::cerr << "PArsin chunk..." << std::endl;
+	for (auto line : chunk) {
+	    if (line.find("FULL_ENTITY - Updating [entityName=Reborn Rites") != std::string::npos) {
+		std::cerr << "clu..." << std::endl;
+		int zone_pos = atoi(pystr.get_str_between(line, "zonePos=", " cardId=").c_str());
+		return zone_pos;
+	    }
+	}
+    }
+    return -1;
 }

@@ -226,4 +226,77 @@ TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
     EXPECT_EQ(their_fifth_alley->get_health(), 1);
     EXPECT_EQ(their_fifth_molten_rock->get_attack(), 2);
     EXPECT_EQ(their_fifth_molten_rock->get_health(), 3);
+
+    // Turn 6
+    // Not totally sure what board state was, bad screenshots
+
+    // Turn 7
+    // NOTE: Calculate reborn...
+    auto our_seventh_board = battle_boards[6].first;
+    auto their_seventh_board = battle_boards[6].second;
+    EXPECT_EQ(our_seventh_board->length(), 7);
+    EXPECT_EQ(their_seventh_board->length(), 7);
+    // ours
+    auto our_seventh_rockpool = our_seventh_board->get_cards()[0];
+    auto our_seventh_salty_looter = our_seventh_board->get_cards()[1];
+    auto our_seventh_bronzew1 = our_seventh_board->get_cards()[2];
+    auto our_seventh_bronzew2 = our_seventh_board->get_cards()[3];
+    auto our_seventh_murlocTH1 = our_seventh_board->get_cards()[4];
+    auto our_seventh_murlocTH2 = our_seventh_board->get_cards()[5];
+    auto our_seventh_stasis = our_seventh_board->get_cards()[6];
+    std::cerr << "Past ours" << std::endl;
+    EXPECT_EQ(our_seventh_rockpool->get_name(), "Rockpool Hunter (Golden)");
+    EXPECT_EQ(our_seventh_salty_looter->get_name(), "Salty Looter");
+    EXPECT_EQ(our_seventh_bronzew1->get_name(), "Bronze Warden");
+    EXPECT_EQ(our_seventh_bronzew2->get_name(), "Bronze Warden");
+    EXPECT_EQ(our_seventh_murlocTH1->get_name(), "Murloc Tidehunter");
+    EXPECT_EQ(our_seventh_murlocTH2->get_name(), "Murloc Tidehunter");
+    EXPECT_EQ(our_seventh_stasis->get_name(), "Stasis Elemental");
+    EXPECT_EQ(our_seventh_rockpool->get_attack(), 6);
+    EXPECT_EQ(our_seventh_rockpool->get_health(), 10);
+    EXPECT_EQ(our_seventh_salty_looter->get_attack(), 6);
+    EXPECT_EQ(our_seventh_salty_looter->get_health(), 6);
+    EXPECT_EQ(our_seventh_bronzew1->get_attack(), 4);
+    EXPECT_EQ(our_seventh_bronzew1->get_health(), 3);
+    EXPECT_EQ(our_seventh_bronzew2->get_attack(), 4);
+    EXPECT_EQ(our_seventh_bronzew2->get_health(), 3);
+    EXPECT_EQ(our_seventh_murlocTH1->get_attack(), 4);
+    EXPECT_EQ(our_seventh_murlocTH1->get_health(), 5);
+    EXPECT_EQ(our_seventh_murlocTH2->get_attack(), 2);
+    EXPECT_EQ(our_seventh_murlocTH2->get_health(), 3);
+    EXPECT_EQ(our_seventh_stasis->get_attack(), 6);
+    EXPECT_EQ(our_seventh_stasis->get_health(), 6);
+    // theirs
+    auto their_seventh_glyph = their_seventh_board->get_cards()[0];
+    auto their_seventh_selfless1 = their_seventh_board->get_cards()[1];
+    auto their_seventh_selfless2 = their_seventh_board->get_cards()[2];
+    auto their_seventh_stew1 = their_seventh_board->get_cards()[3];
+    auto their_seventh_hangry = their_seventh_board->get_cards()[4];
+    auto their_seventh_stew2 = their_seventh_board->get_cards()[5];
+    auto their_seventh_waxrider = their_seventh_board->get_cards()[6];
+    std::cerr << "Past theirs ours" << std::endl;
+    EXPECT_EQ(their_seventh_glyph->get_name(), "Glyph Guardian");
+    // Special checks for lich king
+    EXPECT_EQ(their_seventh_glyph->has_reborn(), true);
+    EXPECT_EQ(their_seventh_selfless1->get_name(), "Selfless Hero");
+    EXPECT_EQ(their_seventh_selfless2->get_name(), "Selfless Hero");
+    EXPECT_EQ(their_seventh_stew1->get_name(), "Steward of Time");
+    EXPECT_EQ(their_seventh_hangry->get_name(), "Hangry Dragon");
+    EXPECT_EQ(their_seventh_stew2->get_name(), "Steward of Time");
+    EXPECT_EQ(their_seventh_waxrider->get_name(), "Waxrider Togwaggle");
+    EXPECT_EQ(their_seventh_glyph->get_attack(), 2);
+    EXPECT_EQ(their_seventh_glyph->get_health(), 4);
+    EXPECT_EQ(their_seventh_selfless1->get_attack(), 2);
+    EXPECT_EQ(their_seventh_selfless1->get_health(), 1);
+    EXPECT_EQ(their_seventh_selfless2->get_attack(), 2);
+    EXPECT_EQ(their_seventh_selfless2->get_health(), 1);
+    EXPECT_EQ(their_seventh_stew1->get_attack(), 3);
+    EXPECT_EQ(their_seventh_stew1->get_health(), 4);
+    EXPECT_EQ(their_seventh_hangry->get_attack(), 6);
+    EXPECT_EQ(their_seventh_hangry->get_health(), 6);
+    EXPECT_EQ(their_seventh_stew2->get_attack(), 3);
+    EXPECT_EQ(their_seventh_stew2->get_health(), 4);
+    EXPECT_EQ(their_seventh_waxrider->get_attack(), 1);
+    EXPECT_EQ(their_seventh_waxrider->get_health(), 2);
+
 }

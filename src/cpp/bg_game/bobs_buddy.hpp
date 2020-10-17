@@ -51,6 +51,7 @@ private:
     std::vector<std::vector<std::string>> get_chunks(std::vector<std::string>);
     std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> parse_chunk(std::vector<std::string>);
     std::shared_ptr<Hero> get_their_hero(std::vector<std::string> chunk);
+    int get_their_hero_power_pos(std::shared_ptr<Hero> h, std::vector<std::string> chunk);
     PyString pystr;
     BgCardFactory card_factory;
 };

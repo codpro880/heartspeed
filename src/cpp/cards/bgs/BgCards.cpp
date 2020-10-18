@@ -9,7 +9,6 @@
 
 void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
     if (b1->contains("Baron Rivendare")) {
-	std::cerr << "Found baron. " << std::endl;
 	do_deathrattle(b1, b2);
 	do_deathrattle(b1, b2);
     }
@@ -47,7 +46,6 @@ void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
 	}
     }
     auto total_buff = 2 * num_eliza_gold + num_eliza;
-    std::cerr << "Total buff: " << total_buff << std::endl;
     for (auto c : b1->get_cards()) {
 	c->set_attack(c->get_attack() + total_buff);
 	c->set_health(c->get_health() + total_buff);
@@ -64,15 +62,12 @@ std::shared_ptr<BgBaseCard> Djinni::summon() {
     // TOOD: Use a map or something more efficient
     int pos = 0;
     for (auto c : cards) {
-	std::cerr << c->get_name() << std::endl;
 	if (c->get_name() == "Djinni") {
 	    break;
 	}
 	pos++;
     }
-    std::cerr << "Pos: " << pos << std::endl;
     cards.erase(cards.begin() + pos);
-    std::cerr << "Errased...?" << std::endl;
     auto card = cards[rand() % cards.size()];
     return card;
 }
@@ -357,7 +352,6 @@ void Kangor::do_deathrattle(Board* b1, Board* b2) {
     reset_mech_queue(b1);
     //auto available_mechs = std::min(mech_queue.size(), (unsigned)2);
     auto available_mechs = mech_queue.size() < unsigned(2) ? mech_queue.size() : unsigned(2);
-    std::cerr << "Avail mechs: " << available_mechs << std::endl;
     multi_summon(available_mechs, b1);
 }
 
@@ -671,9 +665,7 @@ void RedWhelp::do_precombat(Board* b1, Board*b2) {
     auto defender_pos = rand() % b2->length();
     auto defender = (*b2)[defender_pos];
     BoardBattler b;
-    std::cerr << "Taking dmg simul whelp" << std::endl;
     b.take_dmg_simul(defender, this->get_race(), drag_count, b2, b1);
-    std::cerr << "Ending dmg simul" << std::endl;
 }
 
 void RedWhelpGolden::do_precombat(Board* b1, Board* b2) {
@@ -1007,14 +999,9 @@ std::shared_ptr<BgBaseCard> VoidlordGolden::summon() {
 void UnstableGhoul::do_deathrattle(Board* b1, Board* b2) {
     auto b1_cards = b1->get_cards();
     auto b2_cards = b2->get_cards();
-    std::cerr << "b1_cards" << (*b1) << std::endl;
-    std::cerr << "b2_cards" << (*b2) << std::endl;
     b1_cards.insert(b1_cards.end(), b2_cards.begin(), b2_cards.end());
     std::vector<std::string> who_from_race(b1_cards.size(), this->get_race());
     BoardBattler b;
-    for (auto c : b1_cards) {
-	std::cerr << "Taking dmg: " << (*c) << std::endl;
-    }
     b.take_dmg_simul(b1_cards, who_from_race, 1, b1, b2);
 }
 
@@ -1028,7 +1015,6 @@ void WaxriderTogwaggle::do_postbattle(Board* b1,
 				      Board* b2,
 				      std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
 				      std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
-    std::cerr << "Postbattle." << std::endl;
     for (auto c : dead_b2) {
 	if (c->who_killed_race() == "DRAGON") {
 	    set_health(get_health() + 2);

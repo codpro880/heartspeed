@@ -18,6 +18,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, Player& p);
     std::string get_name() { return name; }
     void reset() {
+	// TODO: Make this shared ptr
 	Board* b = new Board(original_board);
 	board = b;
     }

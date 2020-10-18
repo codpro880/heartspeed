@@ -75,11 +75,11 @@ BattleResult Battler::battle(Player* p1,
     // base case
     auto b1 = p1->get_board();
     auto b2 = p2->get_board();
-    std::cout << "P1 (before): " << std::endl;
-    std::cout << (*p1) << std::endl;
-    std::cout << "Attacker pos: " << p1_counter << std::endl;
-    std::cout << "P2 (before): " << std::endl;
-    std::cout << (*p2) << std::endl;
+    // std::cout << "P1 (before): " << std::endl;
+    // std::cout << (*p1) << std::endl;
+    // std::cout << "Attacker pos: " << p1_counter << std::endl;
+    // std::cout << "P2 (before): " << std::endl;
+    // std::cout << (*p2) << std::endl;
     BattleResult res = BattleResult();
     if (b1->empty() && b2->empty()) {
 	res.who_won = "draw";
@@ -108,9 +108,9 @@ BattleResult Battler::battle(Player* p1,
     if (!attacker_is_dead) {
 	p1_counter++;
     }
-    std::cout << "P1: " << (*p1) << std::endl;
-    std::cout << "Attacker pos: " << p1_counter << std::endl;
-    std::cout << "P2: " << (*p2) << std::endl;
+    // std::cout << "P1: " << (*p1) << std::endl;
+    // std::cout << "Attacker pos: " << p1_counter << std::endl;
+    // std::cout << "P2: " << (*p2) << std::endl;
     return battle(p2, p1, p2_counter, p1_counter);
 }
 

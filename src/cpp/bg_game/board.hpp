@@ -99,7 +99,6 @@ public:
 	    auto front = to_remove.front();
 	    this->remove(front);
 	    if (front->has_reborn()) {
-		std::cerr << "REBORN!" << std::endl;
 		front->reborn_self(this);
 	    }
 	    _has_died.push_back(front);

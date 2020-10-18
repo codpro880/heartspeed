@@ -12,6 +12,13 @@ struct BattleResult {
     int damage_taken;
 };
 
+struct BattleResults {
+    double p1_win;
+    double draw;
+    double p2_win;
+};
+
+
 class BoardBattler {
 public:
     BoardBattler() : first_combat(true) {}
@@ -31,6 +38,7 @@ class Battler {
 public:
     Battler(Player* p1, Player* p2) : p1(p1), p2(p2) {}
     BattleResult sim_battle(std::string goes_first="null");
+    BattleResults sim_battles(int num_battles=1000);
 private:
     BattleResult sim_battle(Player* p1, Player* p2, std::string goes_first);
     std::string decide_who_goes_first(Board* b1, Board* b2);

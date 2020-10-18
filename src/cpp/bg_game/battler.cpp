@@ -10,6 +10,33 @@ BattleResult Battler::sim_battle(std::string goes_first) {
     return sim_battle(p1, p2, goes_first);
 }
 
+BattleResults Battler::sim_battles(int num_battles) {
+    int total_p1_win = 0;
+    int total_draw = 0;
+    int total_p2_win = 0;
+    for (int bnum = 0; bnum < num_battles; bnum++) {
+	auto res = sim_battle();
+	p1->reset();
+	p2->reset();
+	if (res.who_won == p1->get_name()) {
+	    total_p1_win++;
+	}
+	else if (res.who_won == p2->get_name()) {
+	    total_p2_win++;
+	}
+	else {
+	    total_draw++;
+	}
+    }
+
+    BattleResults full_res = BattleResults();
+    full_res.p1_win = total_p1_win / double(num_battles);
+    full_res.draw = total_draw / double(num_battles);
+    full_res.p2_win = total_p2_win / double(num_battles);
+    
+    return full_res;
+}
+
 BattleResult Battler::sim_battle(Player* p1, Player* p2, std::string goes_first) {
     auto b1 = p1->get_board();
     auto b2 = p2->get_board();

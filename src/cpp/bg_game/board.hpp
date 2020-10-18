@@ -16,6 +16,16 @@ public:
 	    card_names.insert(c->get_name());
 	}
     }
+    Board(Board* b) {
+	// std::vector<std::shared_ptr<BgBaseCard> > cards_copy;
+	cards.clear();
+	card_names.clear();
+	for (auto c : b->get_cards()) {
+	    cards.push_back(c->get_copy());
+	    card_names.insert(c->get_name());
+	}
+	//return Board(cards_copy);
+    }
     int calculate_damage();
     auto empty() { return cards.empty(); }
     auto length() { return cards.size(); }

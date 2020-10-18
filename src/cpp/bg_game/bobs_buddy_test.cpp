@@ -4,6 +4,8 @@
 #include "../test/googletest/include/gtest/gtest.h"
 
 #include "bobs_buddy.hpp"
+#include "player.hpp"
+#include "battler.hpp"
 
 TEST(BobsBuddy, PyLikeStringParsing) {
     auto pystr = PyString();
@@ -361,4 +363,21 @@ TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
     EXPECT_EQ(their_eighth_baron->get_attack(), 1);
     EXPECT_EQ(their_eighth_baron->get_health(), 7);
 
+    // Give some tolerance, but bobs buddy gave:
+    // Lethal: 13.6, Win 99.7, Tie .2, Loss .1, Lethal 0
+    std::unique_ptr<Player> p1(new Player(our_eighth_board.get(), "Ours"));
+    std::unique_ptr<Player> p2(new Player(their_eighth_board.get(), "Theirs"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battles(10000);
+    std::cerr << "P1 win: " << res.p1_win << std::endl;
+    EXPECT_LT(res.p1_win, 1);
+    EXPECT_GT(res.p1_win, .95);
+    // EXPECT_GT(res.p1_lethal, .10);
+    std::cerr << "draw: " << res.draw << std::endl;
+    EXPECT_LT(res.draw, .005);
+    EXPECT_GT(res.draw, 0);
+    std::cerr << "p2 win: " << res.p2_win << std::endl;
+    EXPECT_LT(res.p2_win, .005);
+    EXPECT_GT(res.p2_win, 0);
+    // EXPECT_EQ(res.p2_lethal, 0);
 }

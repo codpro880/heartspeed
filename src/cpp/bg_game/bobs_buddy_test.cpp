@@ -47,8 +47,8 @@ TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
     // Turn 1
     auto our_first_board = battle_boards[0].first;
     auto their_first_board = battle_boards[0].second;
-    EXPECT_EQ(our_first_board->length(), 1);
-    EXPECT_EQ(their_first_board->length(), 1);
+    EXPECT_EQ(our_first_board->length(), (unsigned)1);
+    EXPECT_EQ(their_first_board->length(), (unsigned)1);
     auto our_rockpool = our_first_board->get_cards()[0];
     auto their_rockpool = their_first_board->get_cards()[0];
     EXPECT_EQ(our_rockpool->get_name(), "Rockpool Hunter");
@@ -59,8 +59,8 @@ TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
     // Turn 2
     auto our_second_board = battle_boards[1].first;
     auto their_second_board = battle_boards[1].second;
-    EXPECT_EQ(our_second_board->length(), 3);
-    EXPECT_EQ(their_second_board->length(), 1);
+    EXPECT_EQ(our_second_board->length(), (unsigned)3);
+    EXPECT_EQ(their_second_board->length(), (unsigned)1);
     auto our_second_rockpool = our_second_board->get_cards()[0];
     auto our_second_murlocTH = our_second_board->get_cards()[1];
     auto our_second_murlocScout = our_second_board->get_cards()[2];
@@ -81,7 +81,7 @@ TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
     // Turn 3, can't see all off opp board from screenshot
     auto our_third_board = battle_boards[2].first;
     // auto their_third_board = battle_boards[2].second;
-    EXPECT_EQ(our_third_board->length(), 5);
+    EXPECT_EQ(our_third_board->length(), (unsigned)5);
     auto our_third_rockpool1 = our_third_board->get_cards()[0];
     auto our_third_rockpool2 = our_third_board->get_cards()[1];
     auto our_third_murlocTH1 = our_third_board->get_cards()[2];
@@ -107,8 +107,8 @@ TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
     // Turn 4
     auto our_fourth_board = battle_boards[3].first;
     auto their_fourth_board = battle_boards[3].second;
-    EXPECT_EQ(our_fourth_board->length(), 6);
-    EXPECT_EQ(their_fourth_board->length(), 7);
+    EXPECT_EQ(our_fourth_board->length(), (unsigned)6);
+    EXPECT_EQ(their_fourth_board->length(), (unsigned)7);
     // ours
     auto our_fourth_rockpool = our_fourth_board->get_cards()[0];
     auto our_fourth_stew = our_fourth_board->get_cards()[1];
@@ -167,8 +167,8 @@ TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
     // Turn 5
     auto our_fifth_board = battle_boards[4].first;
     auto their_fifth_board = battle_boards[4].second;
-    EXPECT_EQ(our_fifth_board->length(), 7);
-    EXPECT_EQ(their_fifth_board->length(), 6);
+    EXPECT_EQ(our_fifth_board->length(), (unsigned)7);
+    EXPECT_EQ(their_fifth_board->length(), (unsigned)6);
     // ours
     auto our_fifth_rockpool = our_fifth_board->get_cards()[0];
     auto our_fifth_salty_looter = our_fifth_board->get_cards()[1];
@@ -235,8 +235,8 @@ TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
     // Turn 7
     auto our_seventh_board = battle_boards[6].first;
     auto their_seventh_board = battle_boards[6].second;
-    EXPECT_EQ(our_seventh_board->length(), 7);
-    EXPECT_EQ(their_seventh_board->length(), 7);
+    EXPECT_EQ(our_seventh_board->length(), (unsigned)7);
+    EXPECT_EQ(their_seventh_board->length(), (unsigned)7);
     // ours
     auto our_seventh_rockpool = our_seventh_board->get_cards()[0];
     auto our_seventh_salty_looter = our_seventh_board->get_cards()[1];
@@ -302,8 +302,8 @@ TEST(BobsBuddy, CanGetBattleBoardsFromLog) {
     // Turn 8, 10 gold
     auto our_eighth_board = battle_boards[7].first;
     auto their_eighth_board = battle_boards[7].second;
-    EXPECT_EQ(our_eighth_board->length(), 7);
-    EXPECT_EQ(their_eighth_board->length(), 7);
+    EXPECT_EQ(our_eighth_board->length(), (unsigned)7);
+    EXPECT_EQ(their_eighth_board->length(), (unsigned)7);
     // ours
     auto our_eighth_rockpool = our_eighth_board->get_cards()[0];
     auto our_eighth_salty_looter1 = our_eighth_board->get_cards()[1];

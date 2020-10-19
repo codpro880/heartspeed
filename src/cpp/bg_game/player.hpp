@@ -23,8 +23,8 @@ public:
 	board = b;
     }
 private:
-    Board* original_board; // Read-only board
     Board* board;
+    Board* original_board; // Read-only board
     std::string name;
     int tech_level;
 };

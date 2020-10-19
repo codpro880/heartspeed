@@ -52,29 +52,29 @@ public:
     // Triggered on death
     // (ex: stat-buffs that die)
     // Note: Actual deathrattle cards handled by DeathrattleCard class
-    virtual void do_deathrattle(Board* b1, Board* b2) {}
+    virtual void do_deathrattle(Board*, Board*) {}
     virtual void deathrattle(Board* b1, Board* b2) { do_deathrattle(b1, b2); }
     
     // Triggered before every attack (ex: glyph gaurdian mechanic)
-    virtual void do_preattack(std::shared_ptr<BgBaseCard> defender,
-			      Board* b1,
-			      Board* b2) {}
+    virtual void do_preattack(std::shared_ptr<BgBaseCard>,
+			      Board*,
+			      Board*) {}
     // Triggered once before combat starts (ex: red whelp, stat-buffs)
-    virtual void do_precombat(Board* b1, Board* b2) {}
+    virtual void do_precombat(Board*, Board*) {}
     // Triggered after attack (ex: overkill mechanic)
-    virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
-			       int def_pos,
-			       Board* b1,
-			       Board* b2) {}
+    virtual void do_postattack(std::shared_ptr<BgBaseCard>,
+			       int,
+			       Board*,
+			       Board*) {}
     // Triggered after attack for defender (ex: yo-ho-ogre)
-    virtual void do_postdefense(std::shared_ptr<BgBaseCard> attacker,
-				Board* b1,
-				Board* b2) {}
+    virtual void do_postdefense(std::shared_ptr<BgBaseCard>,
+				Board*,
+				Board*) {}
     // Triggered after deaths of each dmg exchange (ex: scavaging hyena)
-    virtual void do_postbattle(Board* b1, Board* b2, std::vector<std::shared_ptr<BgBaseCard> > dead_b1, std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {}
+    virtual void do_postbattle(Board*, Board*, std::vector<std::shared_ptr<BgBaseCard>>, std::vector<std::shared_ptr<BgBaseCard>>) {}
 
     // Triggered after a summon occurs
-    virtual void mod_summoned(std::shared_ptr<BgBaseCard> card) { }
+    virtual void mod_summoned(std::shared_ptr<BgBaseCard>) { }
     
     virtual std::shared_ptr<BgBaseCard> get_copy();
     
@@ -155,6 +155,4 @@ protected:
     std::string type;
     int death_pos = -2;
     std::string last_dmg_race;
-private:
-    void deal_with_death(Board* b1, Board* b2);
 };

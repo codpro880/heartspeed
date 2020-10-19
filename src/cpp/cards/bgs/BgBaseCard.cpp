@@ -43,16 +43,6 @@ std::shared_ptr<BgBaseCard> BgBaseCard::get_copy() {
     return std::make_shared<BgBaseCard>(*this);
 }
 
-void BgBaseCard::deal_with_death(Board* b1, Board* b2) {
-    // std::cerr << "Checking if dead." << std::endl;
-    // if (this->is_dead()) {
-    // 	death_pos = b1->get_pos(this);
-    // 	std::cerr << "Dead." << std::endl;
-    // 	b1->remove(this);
-    // 	do_deathrattle(b1, b2);
-    // }
-}
-
 std::shared_ptr<BgBaseCard> BgBaseCard::do_summon(Board* b1) {
     auto summoned = summon();
     for (auto c : b1->get_cards()) {

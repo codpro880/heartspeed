@@ -19,7 +19,7 @@ std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>> BobsBuddy
 	std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> pair = parse_chunk(chunk);	
 	res.push_back(pair);
 	count++;
-	if (count == 8) break;
+	if (count == 10) break;
     }
     return res;
 }
@@ -112,9 +112,17 @@ std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> BobsBuddy::parse_chunk
     std::map<int, std::shared_ptr<BgBaseCard>> our_id_to_card;
     std::map<int, std::shared_ptr<BgBaseCard>> their_id_to_card;
 
+    // TAG_CHANGE Entity=[entityName=Rabid Saurolisk id=3868 zone=PLAY zonePos=4 cardId=BGS_075 player=16] tag=TAUNT value=1
+
     auto our_zone_pos = 0;
     auto their_zone_pos = 0;
+    if (debug) {
+	std::cerr << std::endl;
+	std::cerr << std::endl;
+	std::cerr << "CHUNK :" << std::endl;
+    }
     for (auto line : chunk) {
+	if (debug) std::cerr << line << std::endl;
 	if (line.find("FULL_ENTITY - Updating") != std::string::npos) {
 	    auto is_golden = pystr.get_str_between(line, "cardId=", " player=").find("BaconUps") != std::string::npos;
 	    auto card_name = pystr.get_str_between(line, "entityName=", " id=");
@@ -151,7 +159,7 @@ std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> BobsBuddy::parse_chunk
 		}
 	    }
 	    else if (tag == "ATK") {
-		auto zone_pos = atoi(pystr.get_str_between(line, "zonePos=", " cardId").c_str());
+		// auto zone_pos = atoi(pystr.get_str_between(line, "zonePos=", " cardId").c_str());
 		auto player = pystr.get_str_between(line, "player=", "]");
 		auto attack = atoi(pystr.get_str_between(line, "value=", " ").c_str());
 		if (player == "8") {
@@ -160,6 +168,16 @@ std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> BobsBuddy::parse_chunk
 		else {
 		    their_id_to_card[their_zone_pos]->set_attack(attack);
 		}
+	    }
+	    else if (tag == "TAUNT") {
+		auto player = pystr.get_str_between(line, "player=", "]");
+		if (player == "8") {
+		    our_id_to_card[our_zone_pos]->set_taunt();
+		}
+		else {
+		    their_id_to_card[their_zone_pos]->set_taunt();
+		}
+		
 	    }
 	}
     }

@@ -36,7 +36,7 @@ private:
 // Takes two players. Simulates one attack. Two new players -> recursively battle
 class Battler {
 public:
-    Battler(Player* p1, Player* p2) : p1(p1), p2(p2) {}
+    Battler(Player* p1, Player* p2, bool debug=false) : p1(p1), p2(p2), debug(debug) {}
     BattleResult sim_battle(std::string goes_first="null");
     BattleResults sim_battles(int num_battles=1000);
 private:
@@ -49,4 +49,5 @@ private:
     Player* p1;
     Player* p2;
     BoardBattler board_battler;
+    bool debug;
 };

@@ -11,7 +11,7 @@ public:
     virtual void apply_hero_power(std::shared_ptr<Board>, int) {};
     std::string get_name() { return _name; }
     virtual std::shared_ptr<Hero> get_copy() { return std::make_shared<Hero>(*this); } // copy boilerplate
-    virtual ~Hero();
+    virtual ~Hero() {};
 private:
     std::string _name;
 };

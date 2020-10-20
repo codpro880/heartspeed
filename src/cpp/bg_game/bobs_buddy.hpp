@@ -43,7 +43,7 @@ public:
 // ... BLOCK_END
 class BobsBuddy {
 public:
-    BobsBuddy(std::string power_log) : _power_log(power_log) {}
+    BobsBuddy(std::string power_log, bool debug=false) : _power_log(power_log), debug(debug) {}
     std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>> parse_full_log();
 private:
     std::string _power_log;
@@ -54,4 +54,5 @@ private:
     int get_their_hero_power_pos(std::shared_ptr<Hero> h, std::vector<std::string> chunk);
     PyString pystr;
     BgCardFactory card_factory;
+    bool debug;
 };

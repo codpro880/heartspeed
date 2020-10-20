@@ -12,6 +12,13 @@ struct BattleResult {
     int damage_taken;
 };
 
+struct BattleResults {
+    double p1_win;
+    double draw;
+    double p2_win;
+};
+
+
 class BoardBattler {
 public:
     BoardBattler() : first_combat(true) {}
@@ -29,8 +36,9 @@ private:
 // Takes two players. Simulates one attack. Two new players -> recursively battle
 class Battler {
 public:
-    Battler(Player* p1, Player* p2) : p1(p1), p2(p2) {}
+    Battler(Player* p1, Player* p2, bool debug=false) : p1(p1), p2(p2), debug(debug) {}
     BattleResult sim_battle(std::string goes_first="null");
+    BattleResults sim_battles(int num_battles=1000);
 private:
     BattleResult sim_battle(Player* p1, Player* p2, std::string goes_first);
     std::string decide_who_goes_first(Board* b1, Board* b2);
@@ -41,4 +49,5 @@ private:
     Player* p1;
     Player* p2;
     BoardBattler board_battler;
+    bool debug;
 };

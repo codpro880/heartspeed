@@ -440,8 +440,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("King Bagurgle (Golden)", std::make_shared<KingBagurgleGolden>());
 
     // L
-    cards.emplace("Lightfang", std::make_shared<BgBaseCard>(2, "NEUTRAL", 6, 2, "Lightfang Enforcer",
-							    "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION"));
+    cards.emplace("Lightfang Enforcer", std::make_shared<BgBaseCard>(2, "NEUTRAL", 6, 2, "Lightfang Enforcer",
+								     "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION"));
     cards.emplace("Lightfang Enforcer (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", 6, 4, "Lightfang Enforcer (Golden)",
 									      "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION"));
     cards.emplace("Lil' Rag", std::make_shared<BgBaseCard>(4, "NEUTRAL", 4, 4, "Lil' Rag",
@@ -555,11 +555,11 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> nath_overseer_gold(new BgBaseCard(4, "NEUTRAL", 3, 6, "Nathrezim Overseer (Golden)",
 								  "['BATTLECRY']", "DEMON", "RARE", 2, "MINION"));
     cards.emplace("Nathrezim Overseer (Golden)", nath_overseer_gold);
-    cards.emplace("Nomi", std::make_shared<BgBaseCard>(4, "NEUTRAL", 7, 4, "Nomi",
-						       "", "ELEMENTAL", "", 5, "MINION"));
-    cards.emplace("Nomi (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", 7, 4, "Nomi (Golden)",
-								"", "ELEMENTAL", "", 5, "MINION"));
-
+    cards.emplace("Nomi, Kitchen Nightmare", std::make_shared<BgBaseCard>(4, "NEUTRAL", 7, 4, "Nomi, Kitchen Nightmare",
+									  "", "ELEMENTAL", "", 5, "MINION"));
+    cards.emplace("Nomi, Kitchen Nightmare (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", 7, 4, "Nomi, Kitchen Nightmare (Golden)",
+										   "", "ELEMENTAL", "", 5, "MINION"));
+    
     // O
     cards.emplace("Old Murkeye", std::make_shared<OldMurkeye>());
     cards.emplace("Old Murkeye (Golden)", std::make_shared<OldMurkeyeGolden>());

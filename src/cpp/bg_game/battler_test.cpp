@@ -1930,6 +1930,6 @@ TEST(Battler, Zapp) {
     std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
-    EXPECT_EQ(board2->get_cards().size(), 1); // Barons should all be dead
+    EXPECT_EQ(board2->get_cards().size(), (unsigned)1); // Barons should all be dead
     EXPECT_EQ(res.who_won, "Edwin");
 }

@@ -16,6 +16,16 @@ public:
 	    card_names.insert(c->get_name());
 	}
     }
+    Board(Board* b) {
+	// std::vector<std::shared_ptr<BgBaseCard> > cards_copy;
+	cards.clear();
+	card_names.clear();
+	for (auto c : b->get_cards()) {
+	    cards.push_back(c->get_copy());
+	    card_names.insert(c->get_name());
+	}
+	//return Board(cards_copy);
+    }
     int calculate_damage();
     auto empty() { return cards.empty(); }
     auto length() { return cards.size(); }
@@ -63,7 +73,7 @@ public:
     }
     bool contains(std::shared_ptr<BgBaseCard> c) {
 	auto pos = get_pos(c);
-	return pos != -1 && pos != cards.size();
+	return pos != -1 && (unsigned)pos != cards.size();
     }
     // auto get_pos(BgBaseCard* card) {
     // 	auto pos = 0;
@@ -89,7 +99,6 @@ public:
 	    auto front = to_remove.front();
 	    this->remove(front);
 	    if (front->has_reborn()) {
-		std::cerr << "REBORN!" << std::endl;
 		front->reborn_self(this);
 	    }
 	    _has_died.push_back(front);
@@ -113,7 +122,7 @@ public:
 	}
     }
     void insert_card(int pos, std::shared_ptr<BgBaseCard> c) {
-	if (pos >= cards.size()) {
+	if ((unsigned)pos >= cards.size()) {
 	    // This case can occur w/ certain deathrattle interactions
 	    // TODO: Fix this case...if unstable ghoul nearly wipes board execpt one survivor,
 	    // and mecharoo was to left of surviving card, then we want it in front.

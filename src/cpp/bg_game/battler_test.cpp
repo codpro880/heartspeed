@@ -11,10 +11,10 @@ TEST(Battler, CalculatesWinWhenOppEmptyBoard) {
     auto tidecaller = f.get_card("Murloc Tidecaller (Golden)");
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { tidecaller };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards;
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));    
-    std::unique_ptr<Player> p1(new Player(board1.get(), "HookTusk"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Pyramad"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));    
+    std::unique_ptr<Player> p1(new Player(board1, "HookTusk"));
+    std::unique_ptr<Player> p2(new Player(board2, "Pyramad"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "HookTusk");
@@ -25,10 +25,10 @@ TEST(Battler, CanCalculateDrawWithEmptyBoards) {
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards;
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards;
     //auto board1 = std::unique_ptr<Board(p1_cards)>;
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));    
-    std::unique_ptr<Player> p1(new Player(board1.get(), "HookTusk"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Pyramad"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));    
+    std::unique_ptr<Player> p1(new Player(board1, "HookTusk"));
+    std::unique_ptr<Player> p2(new Player(board2, "Pyramad"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -45,10 +45,10 @@ TEST(Battler, CanCalculateDrawWithCardsThatImmediatelyDieToEachOther) {
     auto tidecaller6 = f.get_card("Murloc Tidehunter (Golden)");
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { tidecaller1, tidecaller2, tidecaller3 };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { tidecaller4, tidecaller5, tidecaller6 };
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "HookTusk"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Pyramad"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "HookTusk"));
+    std::unique_ptr<Player> p2(new Player(board2, "Pyramad"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -64,10 +64,10 @@ TEST(Battler, WinsIfWinIs100PercentGuaranteed) {
     auto gambler2 = f.get_card("Freedealing Gambler (Golden)");
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { tidecaller1, tidecaller2, tidecaller3 };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { gambler1, gambler2 };
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));    
-    std::unique_ptr<Player> p1(new Player(board1.get(), "HookTusk"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Pyramad"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));    
+    std::unique_ptr<Player> p1(new Player(board1, "HookTusk"));
+    std::unique_ptr<Player> p2(new Player(board2, "Pyramad"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Pyramad");
@@ -87,10 +87,10 @@ TEST(Battler, CanHandlePoisonCorrectly) {
     auto gambler2 = f.get_card("Freedealing Gambler (Golden)");
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { tidecaller1, tidecaller2, tidecaller3 };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { gambler1, gambler2 };
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));    
-    std::unique_ptr<Player> p1(new Player(board1.get(), "HookTusk"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Pyramad"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));    
+    std::unique_ptr<Player> p1(new Player(board1, "HookTusk"));
+    std::unique_ptr<Player> p2(new Player(board2, "Pyramad"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "HookTusk");
@@ -112,10 +112,10 @@ TEST(Battler, CanHandleDivineShieldCorrectly) {
     // deflecto2->set_divine_shield();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { tidecaller1, tidecaller2, tidecaller3 };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { deflecto1, deflecto2 };
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));    
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Eudora"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));    
+    std::unique_ptr<Player> p1(new Player(board1, "Eudora"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Edwin");
@@ -133,10 +133,10 @@ TEST(Battler, CanHandleBasicDeathrattles) {
 	      gambler1->get_attack());
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { fiendish_serv, micro_machine };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { gambler1 };
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -157,10 +157,10 @@ TEST(Battler, Baron) {
 	{
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -181,10 +181,10 @@ TEST(Battler, Bolvar) {
 	{
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -204,10 +204,10 @@ TEST(Battler, BronzeWarden) {
 	 f.get_card("Murloc Tidehunter"),
 	 f.get_card("Murloc Tidehunter")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -225,10 +225,10 @@ TEST(Battler, CaveHydra) {
 	 f.get_card("Murloc Tidehunter"),
 	 f.get_card("Murloc Tidehunter")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -247,10 +247,10 @@ TEST(Battler, DjinniDrattle) {
 	{
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Tess");
@@ -276,10 +276,10 @@ TEST(Battler, DrakonidEnforcer) {
 	{
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -299,10 +299,10 @@ TEST(Battler, DreadAdmiralEliza) {
 	{
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -319,8 +319,8 @@ TEST(Battler, FiendishServantGoldenDrattle) {
 	 f.get_card("Micro Machine (Golden)"),
     };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards;
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));    
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));    
     auto fiendish = p1_cards[0];
     fiendish->set_attack(10);
     BoardBattler b;
@@ -349,9 +349,9 @@ TEST(Battler, GhastcoilerDrattle) {
 	{
 	 f.get_card("Ghastcoiler (Golden)")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    BoardBattler().battle_boards(0, board1.get(), board2.get());
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    BoardBattler().battle_boards(0, board1, board2);
 
     auto b1_cards = board1->get_cards();
     auto b2_cards = board2->get_cards();
@@ -379,10 +379,10 @@ TEST(Battler, GlyphGuardian) {
 	 f.get_card("Alleycat"),
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Pyramad"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Murgle"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Pyramad"));
+    std::unique_ptr<Player> p2(new Player(board2, "Murgle"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -394,10 +394,10 @@ TEST(Battler, HarvestGolemDrattle) {
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { f.get_card("Harvest Golem") };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { f.get_card("Murloc Tidehunter (Golden)") };
     // Should have the 1 damaged golem left on board
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Pyramad"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Murgle"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Pyramad"));
+    std::unique_ptr<Player> p2(new Player(board2, "Murgle"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Pyramad");
@@ -415,10 +415,10 @@ TEST(Battler, HarvestGolemGoldenDrattle) {
     th->set_attack(6); // ENough to kill the golem
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { th };
     // Should have the 1 damaged golem left on board
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Pyramad"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Murgle"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Pyramad"));
+    std::unique_ptr<Player> p2(new Player(board2, "Murgle"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Pyramad");
@@ -445,10 +445,10 @@ TEST(Battler, HeraldOfFlame) {
 	 f.get_card("Murloc Tidehunter"),
 	 f.get_card("Murloc Tidehunter")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     // Herald will chain overkill all the tidehunters
@@ -467,10 +467,10 @@ TEST(Battler, ImprisonerDrattle) {
 	 f.get_card("Imprisoner")
 	};
     // Should have the 1 damaged golem left on board
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2, "Tess"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     // 3/3 taunt kills 4/2 murloc, 1/1 drattle wins
@@ -495,10 +495,10 @@ TEST(Battler, ImprisonerGoldenDrattle) {
 	 f.get_card("Imprisoner (Golden)")
 	};
     // Should have the 1 damaged golem left on board
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2, "Tess"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     // 6/6 taunt kills 10/2 murloc, 2/2 drattle wins
@@ -520,10 +520,10 @@ TEST(Battler, ImpGangBoss) {
 	{
 	 f.get_card("Murloc Tidehunter"),
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Tess");
@@ -542,10 +542,10 @@ TEST(Battler, ImpMama) {
 	{
 	 f.get_card("Murloc Tidehunter")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Tess");
@@ -570,10 +570,10 @@ TEST(Battler, IronhideDirehorn) {
 	 f.get_card("Murloc Tidehunter"),
 	 f.get_card("Murloc Tidehunter")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(board1->get_cards().size(), (unsigned)2);
@@ -603,10 +603,10 @@ TEST(Battler, Junkbot) {
 	{
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -625,10 +625,10 @@ TEST(Battler, KaboomBotDrattle) {
 	 f.get_card("Murloc Tidehunter (Golden)")
 	};
     // Should have the 1 damaged golem left on board
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Pyramad"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Murgle"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Pyramad"));
+    std::unique_ptr<Player> p2(new Player(board2, "Murgle"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     // 2/2 kills 4/2, bomb kills other 4/2
@@ -649,10 +649,10 @@ TEST(Battler, KaboomBotGoldenDrattle) {
 	 f.get_card("Murloc Tidehunter (Golden)")
 	};
     // Should have the 1 damaged golem left on board
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Pyramad"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Murgle"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Pyramad"));
+    std::unique_ptr<Player> p2(new Player(board2, "Murgle"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     // 4/4 kills 4/2, bombs kills other 4/2s
@@ -671,10 +671,10 @@ TEST(Battler, Khadgar) {
 	{
 	 f.get_card("Murloc Tidehunter"),
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Tess");
@@ -694,10 +694,10 @@ TEST(Battler, KindlyGrandmotherDrattle) {
 	 f.get_card("Kindly Grandmother")
 	};
     // Should have the 1 damaged golem left on board
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2, "Tess"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     // 1/1 kills 2/1, 3/2 drattle wins
@@ -720,10 +720,10 @@ TEST(Battler, KindlyGrandmotherGoldenDrattle) {
 	 f.get_card("Kindly Grandmother (Golden)")
 	};
     // Should have the 1 damaged golem left on board
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2, "Tess"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     // 2/2 kills 2/1, 6/4 drattle wins
@@ -745,10 +745,10 @@ TEST(Battler, KangorNoMechDeathsDeathrattle) {
 	{
 	 f.get_card("King Bagurgle")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2, "Tess"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -771,10 +771,10 @@ TEST(Battler, KangorOneMechDeathrattle) {
 	{
 	 replicating_menace
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2, "Tess"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -800,10 +800,10 @@ TEST(Battler, KangorTwoMechDeathrattle) {
 	{
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2, "Tess"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Edwin");
@@ -831,10 +831,10 @@ TEST(Battler, KingBagurgleDeathrattle) {
 	{
 	 high_attack
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2, "Tess"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     auto battled_p1_cards = p1->get_board()->get_cards();
@@ -871,10 +871,10 @@ TEST(Battler, KingBagurgleGoldenDeathrattle) {
 	{
 	 high_attack
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2, "Tess"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     auto battled_p1_cards = p1->get_board()->get_cards();
@@ -914,10 +914,10 @@ TEST(Battler, MamaBear) {
 	{
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -937,10 +937,10 @@ TEST(Battler, MecharooDrattle) {
     // These should draw since mecharoo summons a 1/1 token as a drattle
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { mecharoo, tidehunter };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { gambler1 };
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -955,10 +955,10 @@ TEST(Battler, MecharooGoldenDrattle) {
     // These should draw since mecharoo summons a 2/2 token as a drattle
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { mecharoo, tidehunter };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { gambler1 };
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -979,10 +979,10 @@ TEST(Battler, MonstrousMacaw) {
 	{
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -1002,10 +1002,10 @@ TEST(Battler, MurlocWarleader) {
 	{
 	 gambler
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -1027,10 +1027,10 @@ TEST(Battler, OldMurkey) {
 	{
 	 gambler
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -1055,10 +1055,10 @@ TEST(Battler, OldMurkeyProperDamage) {
 	{
 	 gambler
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Edwin");
@@ -1079,10 +1079,10 @@ TEST(Battler, NadinaDrattle) {
 	{
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -1103,10 +1103,10 @@ TEST(Battler, PackLeader) {
 	{
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -1125,9 +1125,9 @@ TEST(Battler, PilotedShredderDrattle) {
 	{
 	 f.get_card("Piloted Shredder (Golden)")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    BoardBattler().battle_boards(0, board1.get(), board2.get());
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    BoardBattler().battle_boards(0, board1, board2);
 
     auto b1_cards = board1->get_cards();
     auto b2_cards = board2->get_cards();
@@ -1160,10 +1160,10 @@ TEST(Battler, RatPackDrattle) {
 	    rp
 	};
     // Should have the 1 damaged golem left on board
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2, "Tess"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     // One rat should always survive
@@ -1190,10 +1190,10 @@ TEST(Battler, RatPackGoldenDrattle) {
 	    rp
 	};
     // Should have the 1 damaged golem left on board
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2, "Tess"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     // One rat should always survive
@@ -1216,8 +1216,8 @@ TEST(Battler, RatPackDrattleSummonsCorrectNumOfRats) {
 	 rp,
 	 big_guy2
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
     BoardBattler b;
     b.take_dmg_simul(rp, "", 2, board2.get(), board1.get());
     int rat_count = 0;
@@ -1242,10 +1242,10 @@ TEST(Battler, RedWhelpPreBattleCondition) {
 	 f.get_card("Murloc Tidehunter"),
 	 f.get_card("Murloc Tidehunter")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "p1"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "p2"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "p1"));
+    std::unique_ptr<Player> p2(new Player(board2, "p2"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -1263,10 +1263,10 @@ TEST(Battler, RedWhelpGoldenPreBattleCondition) {
 	 f.get_card("Murloc Tidehunter"),
 	 f.get_card("Murloc Tidehunter")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "p1"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "p2"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "p1"));
+    std::unique_ptr<Player> p2(new Player(board2, "p2"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -1286,10 +1286,10 @@ TEST(Battler, RipsnarlWithScallywag) {
 	{
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -1310,10 +1310,10 @@ TEST(Battler, ScavengingHyenaIfBeastDies) {
 	{
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "p1"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "p2"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "p1"));
+    std::unique_ptr<Player> p2(new Player(board2, "p2"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -1333,10 +1333,10 @@ TEST(Battler, ScavengingHyenaIfBeastDiesGolden) {
 	{
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "p1"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "p2"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "p1"));
+    std::unique_ptr<Player> p2(new Player(board2, "p2"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "p1");
@@ -1363,10 +1363,10 @@ TEST(Battler, ScallywagDrattle) {
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { f.get_card("Murloc Tidehunter"),
 							 f.get_card("Murloc Scout") };
     // p1 should be left w/ 6 Scallywags (since 2/1 kills either scout or tidehunter, then 1/1 token immediately kills the other
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "p1"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "p2"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "p1"));
+    std::unique_ptr<Player> p2(new Player(board2, "p2"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "p1");
@@ -1389,10 +1389,10 @@ TEST(Battler, ScallywagGoldenDrattle) {
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { f.get_card("Murloc Tidehunter (Golden)"),
 							 f.get_card("Murloc Tidehunter (Golden)") };
     // p1 should be left w/ 6 Scallywags AND (since 4/2 kills either tidehunter, then 2/2 token immediately kills the other
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "p1"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "p2"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "p1"));
+    std::unique_ptr<Player> p2(new Player(board2, "p2"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "p1");
@@ -1416,10 +1416,10 @@ TEST(Battler, SeabreakerGoliath) {
 	 f.get_card("Murloc Tidehunter"),
 	 f.get_card("Murloc Tidehunter")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     auto b1_cards = board1->get_cards();
@@ -1444,10 +1444,10 @@ TEST(Battler, SecurityRover) {
 	{
 	 f.get_card("Murloc Tidehunter"),
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Tess");
@@ -1465,10 +1465,10 @@ TEST(Battler, SelflessHeroDrattle) {
     // These should draw since mecharoo summons a 1/1 token as a drattle
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { selfless, tidehunter };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { gambler1 };
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     // Selfless will die first, gives tidehunter a divine shield, which then kills gambler and lives.
@@ -1490,10 +1490,10 @@ TEST(Battler, SelflessHeroGoldenDrattle) {
 	{
 	 gambler1
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -1509,10 +1509,10 @@ TEST(Battler, SelflessHeroDrattleDoesntHelpIfDivineAlreadyPresent) {
     // These should draw since mecharoo summons a 1/1 token as a drattle
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { selfless, deflecto };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { gambler1 };
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     // Selfless will die first, gives no shield, gambler pops div sheild, then deflecto and gambler kill each other
@@ -1532,9 +1532,9 @@ TEST(Battler, SneedsOldShredderDrattle) {
 	{
 	 f.get_card("Sneed's Old Shredder (Golden)")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    BoardBattler().battle_boards(0, board1.get(), board2.get());
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    BoardBattler().battle_boards(0, board1, board2);
 
     auto b1_cards = board1->get_cards();
     auto b2_cards = board2->get_cards();
@@ -1571,10 +1571,10 @@ TEST(Battler, SpawnOfNzothDrattle) {
 	 f.get_card("Freedealing Gambler (Golden)")
 	};
     // Should have the 1 damaged golem left on board
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2, "Tess"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Tess");
@@ -1607,10 +1607,10 @@ TEST(Battler, SpawnOfNzothGoldenDrattle) {
 	 f.get_card("Freedealing Gambler (Golden)")
 	};
     // Should have the 1 damaged golem left on board
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2, "Tess"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Tess");
@@ -1634,10 +1634,10 @@ TEST(Battler, SoulJuggler) {
 	{
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -1659,10 +1659,10 @@ TEST(Battler, Taunt) {
 	 f.get_card("Murloc Tidehunter"),
 	 f.get_card("Murloc Tidehunter")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Tess");
@@ -1683,9 +1683,9 @@ TEST(Battler, TheBeastDrattle) {
 	{
 	 f.get_card("The Beast (Golden)")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    BoardBattler().battle_boards(0, board1.get(), board2.get());
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    BoardBattler().battle_boards(0, board1, board2);
 
     auto b1_cards = board1->get_cards();
     auto b2_cards = board2->get_cards();
@@ -1709,10 +1709,10 @@ TEST(Battler, TheTideRazorDrattle) {
 	{
 	 th
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Tess");
@@ -1741,10 +1741,10 @@ TEST(Battler, UnstableGhoulDrattle) {
 	 f.get_card("Unstable Ghoul")
 	};
     // Should have the 1 damaged golem left on board
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2, "Tess"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     // Tidehunters kill ghoul, it explodes, should be a draw
@@ -1768,10 +1768,10 @@ TEST(Battler, UnstableGhoulGoldenDrattle) {
 	{
 	 f.get_card("Unstable Ghoul (Golden)")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Edwin"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Tess"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2, "Tess"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     // Ghoul goes off twice, so kills mecharoos, then all jo-e-bots
@@ -1790,10 +1790,10 @@ TEST(Battler, WaxriderTogwaggle) {
 	{
 	 f.get_card("Alleycat")
 	 };
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Pyramad"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Murgle"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Pyramad"));
+    std::unique_ptr<Player> p2(new Player(board2, "Murgle"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Pyramad");
@@ -1824,10 +1824,10 @@ TEST(Battler, YoHoOgre) {
 	 f.get_card("Murloc Tidehunter"),
 	 f.get_card("Murloc Tidehunter")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle("p2");
     EXPECT_EQ(res.who_won, "Tess");
@@ -1854,10 +1854,10 @@ TEST(Battler, WhirlwindTempest) {
 	 f.get_card("Baron Rivendare"),
 	 f.get_card("Baron Rivendare")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");    
@@ -1875,10 +1875,10 @@ TEST(Battler, WildfireElemental) {
 	 f.get_card("Murloc Tidehunter"),
 	 f.get_card("Murloc Tidehunter")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
@@ -1897,10 +1897,10 @@ TEST(Battler, WildfireElementalGolden) {
 	 f.get_card("Murloc Tidehunter"),
 	 f.get_card("Murloc Tidehunter")
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Tess");
@@ -1924,10 +1924,10 @@ TEST(Battler, Zapp) {
 	 th,
 	 f.get_card("Baron Rivendare"),
 	};
-    std::unique_ptr<Board> board1(new Board(p1_cards));
-    std::unique_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1.get(), "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2.get(), "Edwin"));
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(board2->get_cards().size(), (unsigned)1); // Barons should all be dead

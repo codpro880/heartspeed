@@ -23,6 +23,7 @@ class BoardBattler {
 public:
     BoardBattler() : first_combat(true) {}
     bool battle_boards(int attacker_pos, Board* b1, Board* b2);
+    bool battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
     void pre_combat(Board* b1, Board* b2);
     void post_battle(Board*, Board*, std::vector<std::shared_ptr<BgBaseCard> >, std::vector<std::shared_ptr<BgBaseCard> >);
     void take_dmg_simul(std::shared_ptr<BgBaseCard> card, std::string who_from_race, int dmg, Board* b1, Board* b2);
@@ -42,6 +43,7 @@ public:
 private:
     BattleResult sim_battle(Player* p1, Player* p2, std::string goes_first);
     std::string decide_who_goes_first(Board* b1, Board* b2);
+    std::string decide_who_goes_first(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
     BattleResult battle(Player* p1,
 			Player* p2,
 			int p1_counter=0,

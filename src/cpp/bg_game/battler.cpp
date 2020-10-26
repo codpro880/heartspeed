@@ -232,6 +232,10 @@ void BoardBattler::post_battle(Board* b1,
     }
 }
 
+bool BoardBattler::battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
+    return battle_boards(attacker_pos, b1.get(), b2.get());
+}
+
 bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     auto pre_precom_b1_dead = b1->has_died();
     auto pre_precom_b2_dead = b2->has_died();
@@ -351,6 +355,10 @@ bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     //attacker->do_deathrattle(b1, b2);
     //defender->do_deathrattle(b2, b1); // May modify b1/b2
     return attacker->is_dead();
+}
+
+std::string Battler::decide_who_goes_first(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
+    return decide_who_goes_first(b1.get(), b2.get());
 }
 
 std::string Battler::decide_who_goes_first(Board* b1, Board* b2) {

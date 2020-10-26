@@ -80,7 +80,47 @@ function main() {
     });
       // img.src = url;
       // img.src = '/Users/matt/repos/heart_speed/src/webgui/assets/lil_rag_golden.png';
-      img.src = 'lil_rag_golden.png'
+
+      let sunwell = new Sunwell({
+      			assetFolder: '../assets/',
+      			titleFont: "belwe_fsextrabold",
+      			bodyFontRegular: "franklin_gothic_fsMdCn",
+      			bodyFontItalic: "franklin_gothic_fsMdCnIt",
+      			bodyFontBold: "franklin_gothic_fsDemiCn",
+      			bodyFontBoldItalic: "franklin_gothic_fsDemiCn",
+      			bodyFontSize: 38,
+      			bodyLineHeight: 40,
+      			bodyFontOffset: {x: 0, y: 26},
+      			debug: true
+      		});
+      // let cardCanvas = document.getElementById('cardCanvas')
+      		sunwell.createCard({
+      			//"id": "EX1_116",
+      			"dbfId": 559,
+      			"name": "Leeroy Jenkins",
+      			"text": "<b>Charge</b>. <b>Battlecry:</b> Summon two 1/1 Whelps for your opponent.",
+      			"flavor": "At least he has Angry Chicken.",
+      			"artist": "Gabe from Penny Arcade",
+      			"attack": 10,
+      			"cardClass": "NEUTRAL",
+      			"collectible": true,
+      			"cost": 5,
+      			"elite": true,
+      			"faction": "ALLIANCE",
+      			"health": 3,
+      			"mechanics": [
+      				"BATTLECRY",
+      				"CHARGE"
+      			],
+      			"rarity": "LEGENDARY",
+      			"set": "EXPERT1",
+      			"type": "MINION",
+      			"texture": "../textures/EX1_116.jpg"
+      		}, 256, false, img, function() {
+      			console.log('done')
+      		});
+
+      //img.src = 'lil_rag_golden.png'
 
     return textureInfo;
   }
@@ -93,19 +133,25 @@ function main() {
   ];
 
   var drawInfos = [];
-  var numToDraw = 9;
+    // var numToDraw = 9;
+    var numToDraw = 9;
   var speed = 60;
     for (var ii = 0; ii < numToDraw; ++ii) {
-	// percent = 1.0 / numToDraw;
+	//var percent = 1.0 / numToDraw;
+	var first_row = ii < numToDraw / 2;
+	var percent = .5
 	var drawInfo = {
-	    // x: percent * ii * gl.canvas.width,
-	    // y: percent * ii * gl.canvas.height,
-	    x: Math.random() * gl.canvas.width,
-	    y: Math.random() * gl.canvas.height,
+	    // x: Math.random() * gl.canvas.width,
+	    // y: Math.random() * gl.canvas.height,
+	    x: first_row ? percent * ii * gl.canvas.width : percent * (ii - numToDraw/2) * gl.canvas.width,
+	    y: first_row ? 0 : gl.canvas.height * 2,
+	    // dx: Math.random() > 0.5 ? -1 : 1,
 	    dx: Math.random() > 0.5 ? -1 : 1,
 	    dy: Math.random() > 0.5 ? -1 : 1,
-	    xScale: Math.random() * 0.25 + 0.25,
-	    yScale: Math.random() * 0.25 + 0.25,
+	    // xScale: Math.random() * 0.25 + 0.25,
+	    // yScale: Math.random() * 0.25 + 0.25,
+	    xScale: .5,
+	    yScale: .5,
 	    textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
 	};
 	drawInfos.push(drawInfo);
@@ -113,8 +159,8 @@ function main() {
 
   function update(deltaTime) {
     drawInfos.forEach(function(drawInfo) {
-      drawInfo.x += drawInfo.dx * speed * deltaTime;
-      drawInfo.y += drawInfo.dy * speed * deltaTime;
+      // drawInfo.x += drawInfo.dx * speed * deltaTime;
+      // drawInfo.y += drawInfo.dy * speed * deltaTime;
       if (drawInfo.x < 0) {
         drawInfo.dx = 1;
       }

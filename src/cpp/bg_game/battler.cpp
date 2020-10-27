@@ -15,13 +15,17 @@ BattleResults Battler::sim_battles(int num_battles) {
     int total_draw = 0;
     int total_p2_win = 0;
     for (int bnum = 0; bnum < num_battles; bnum++) {
-	auto res = sim_battle();
-	p1->reset();
-	p2->reset();
-	if (res.who_won == p1->get_name()) {
+	auto player1 = std::make_shared<Player>(p1);
+	auto player2 = std::make_shared<Player>(p2);
+	auto res = sim_battle(player1.get(), player2.get(), "null");
+
+
+	//p1->reset();
+	//p2->reset();
+	if (res.who_won == player1->get_name()) {
 	    total_p1_win++;
 	}
-	else if (res.who_won == p2->get_name()) {
+	else if (res.who_won == player2->get_name()) {
 	    total_p2_win++;
 	}
 	else {

@@ -1,3 +1,8 @@
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
+
 #include "BgBaseCard.hpp"
 #include "BgCardFactory.hpp"
 

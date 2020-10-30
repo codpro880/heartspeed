@@ -1,6 +1,7 @@
 /* Data Class to represent the cards a player currently has in play */
 #pragma once
 
+#include <algorithm>
 #include <iostream>
 #include <queue>
 #include <string>
@@ -28,16 +29,7 @@ public:
 	//return Board(cards_copy);
     }
 
-    Board(std::shared_ptr<Board> b) {
-	// std::vector<std::shared_ptr<BgBaseCard> > cards_copy;
-	cards.clear();
-	card_names.clear();
-	for (auto c : b->get_cards()) {
-	    cards.push_back(c->get_copy());
-	    card_names.insert(c->get_name());
-	}
-	//return Board(cards_copy);
-    }
+    Board(std::shared_ptr<Board> b) : Board(b.get()) {}
     
     int calculate_damage();
     

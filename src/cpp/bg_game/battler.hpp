@@ -40,6 +40,7 @@ public:
     Battler(Player* p1, Player* p2, bool debug=false) : p1(p1), p2(p2), debug(debug) {}
     BattleResult sim_battle(std::string goes_first="null");
     BattleResults sim_battles(int num_battles=1000);
+    BattleResults sim_battles_par(int num_battles=1000);
 private:
     BattleResult sim_battle(Player* p1, Player* p2, std::string goes_first);
     std::string decide_who_goes_first(Board* b1, Board* b2);

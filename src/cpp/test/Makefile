@@ -19,11 +19,19 @@ GTEST_DIR = googletest
 # the compiler doesn't generate warnings in Google Test headers.
 CPPFLAGS += -isystem $(GTEST_DIR)/include
 
+# CXX = /usr/local/opt/llvm/bin/clang
+
 # Flags passed to the C++ compiler.
 CXXFLAGS += -std=c++17 -g -Wall -Wextra -pthread
+# CXXFLAGS += -std=c++17 -g -Wall -Wextra -pthread -L/usr/local/lib -fopenmp
+#CXXFLAGS += -std=c++17 -g -Wall -Wextra -L/usr/local/lib -fopenmp
+# CXXFLAGS += -std=c++17 -g -Wall -Wextra
 
 # GTEST has a warning: I don't want it in the build, so I removed the -Wextra flag...
 CXXFLAGS_GTEST += -std=c++17 -g -Wall -pthread
+#CXXFLAGS_GTEST += -std=c++17 -g -Wall -pthread -L/usr/local/lib -fopenmp
+#CXXFLAGS_GTEST += -std=c++17 -g -Wall -L/usr/local/lib -fopenmp
+#CXXFLAGS_GTEST += -std=c++17 -g -Wall
 
 # All tests produced by this Makefile.  Remember to add new tests you
 # created to the list.

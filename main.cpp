@@ -3,6 +3,7 @@
 
 #include "src/cpp/bg_game/bobs_buddy.hpp"
 #include "src/cpp/bg_game/player.hpp"
+#include "src/cpp/bg_game/battler.hpp"
 
 int main() {
     std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";

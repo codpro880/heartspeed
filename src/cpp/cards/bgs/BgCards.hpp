@@ -1,5 +1,7 @@
+#pragma once
 #include "BgBaseCard.hpp"
 
+#include <memory>
 #include <queue>
 
 /** Class for common deathrattle logic. **/

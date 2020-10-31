@@ -6,8 +6,9 @@
 CARD_CPP_FILES = $(shell find . -name "*.cpp" ! -name "*_test.cpp")
 OBJ_TARGETS = $(CARD_CPP_FILES:.cpp=.o)
 
-#export CXX = /usr/local/opt/llvm/bin/clang
-export CXX = clang
+export CXX = /usr/local/opt/llvm/bin/clang++
+export OPENMP_FLAGS = -fopenmp
+#export CXX = clang
 
 .PHONY: clean help test
 

@@ -13,8 +13,8 @@ all: bg_game cards game
 
 # premain: all
 
-main: $(OBJ_TARGETS)
-	clang -std=c++17 -O3 -o bb_par $^
+# main: $(OBJ_TARGETS)
+# 	clang -std=c++17 -O3 -o bb_par $^
 
 bg_game:
 	cd bg_game; $(MAKE)

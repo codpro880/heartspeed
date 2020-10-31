@@ -22,13 +22,13 @@ CPPFLAGS += -isystem $(GTEST_DIR)/include
 # CXX = /usr/local/opt/llvm/bin/clang
 
 # Flags passed to the C++ compiler.
-CXXFLAGS += -std=c++17 -g -Wall -Wextra -pthread
+CXXFLAGS += -std=c++17 -g -Wall -Wextra -pthread $(OPENMP_FLAGS)
 # CXXFLAGS += -std=c++17 -g -Wall -Wextra -pthread -L/usr/local/lib -fopenmp
 #CXXFLAGS += -std=c++17 -g -Wall -Wextra -L/usr/local/lib -fopenmp
 # CXXFLAGS += -std=c++17 -g -Wall -Wextra
 
 # GTEST has a warning: I don't want it in the build, so I removed the -Wextra flag...
-CXXFLAGS_GTEST += -std=c++17 -g -Wall -pthread
+CXXFLAGS_GTEST += -std=c++17 -g -Wall -pthread $(OPENMP_FLAGS)
 #CXXFLAGS_GTEST += -std=c++17 -g -Wall -pthread -L/usr/local/lib -fopenmp
 #CXXFLAGS_GTEST += -std=c++17 -g -Wall -L/usr/local/lib -fopenmp
 #CXXFLAGS_GTEST += -std=c++17 -g -Wall
@@ -94,7 +94,7 @@ gtest_main.a : gtest-all.o gtest_main.o
 
 # This rule is a bit complex, and it's not autoroping in the deps of the target. Improve it if you can!
 unittest: $(UNIT_TEST_DEPS) $(UNIT_TEST_TARGETS) gtest_main.a
-	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $(UNIT_TEST_DEPS) $(notdir ${UNIT_TEST_TARGETS}) gtest_main.a -o $@
+	$(CXX) $(CPPFLAGS) $(CXXFLAGS) -lpthread $(UNIT_TEST_DEPS) $(notdir ${UNIT_TEST_TARGETS}) gtest_main.a -o $@ $(OPENMP_FLAGS) -L/usr/local/lib
 
 test: unittest
 	./unittest

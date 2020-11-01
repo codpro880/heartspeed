@@ -12,7 +12,7 @@ These are the cards that weren't automatically roped in and should be generated 
 // #include "PreCombatCards.hpp"
 // #include "PostBattleCards.hpp"
 
-std::shared_ptr<BgBaseCard> BgCardFactory::get_card(std::string name) {
+std::shared_ptr<BgBaseCard> BgCardFactory::get_card(std::string name) const {
     auto card_found_it = cards.find(name);
     if (card_found_it == cards.end())  {
     	throw std::runtime_error("No card has name '" + name + "'");
@@ -22,7 +22,7 @@ std::shared_ptr<BgBaseCard> BgCardFactory::get_card(std::string name) {
     }
 }
 
-std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_cost(int cost) {
+std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_cost(int cost) const {
     std::vector<std::shared_ptr<BgBaseCard> > res;
     auto it = cards.begin();
     while (it != cards.end()) {
@@ -37,7 +37,7 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_cost(int c
     return res;
 }
 
-std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_rarity(std::string rarity) {
+std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_rarity(std::string rarity) const {
     std::vector<std::shared_ptr<BgBaseCard> > res;
     auto it = cards.begin();
     while (it != cards.end()) {
@@ -52,7 +52,7 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_rarity(std
     return res;
 }
 
-std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_with_deathrattle() {
+std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_with_deathrattle() const {
     std::vector<std::shared_ptr<BgBaseCard> > res;
     auto it = cards.begin();
     while (it != cards.end()) {
@@ -67,7 +67,7 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_with_deathrat
     return res;
 }
 
-std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_race(std::string race, bool include_golden) {
+std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_race(std::string race, bool include_golden) const {
     std::vector<std::shared_ptr<BgBaseCard> > res;
     auto it = cards.begin();
     while (it != cards.end()) {

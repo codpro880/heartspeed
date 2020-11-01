@@ -146,16 +146,48 @@ BattleResult Battler::battle(Player* p1,
 			     Player* p2,
 			     int p1_counter,
 			     int p2_counter) {
-    // base case
+    // Precondition: p1 goes first
+    bool p1_turn = true;
     auto b1 = p1->get_board();
     auto b2 = p2->get_board();
-    if (debug) {
-	std::cout << "P1 (before): " << std::endl;
-	std::cout << (*p1) << std::endl;
-	std::cout << "Attacker pos: " << p1_counter << std::endl;
-	std::cout << "P2 (before): " << std::endl;
-	std::cout << (*p2) << std::endl;
+    while(!b1->empty() && !b2->empty()) {
+	if (debug) {
+	    std::cout << "P1 (before): " << std::endl;
+	    std::cout << (*p1) << std::endl;
+	    std::cout << "Attacker pos: " << p1_counter << std::endl;
+	    std::cout << "P2 (before): " << std::endl;
+	    std::cout << (*p2) << std::endl;
+	}
+	
+	// b1 always goes first here
+	if (p1_counter >= b1->length()) {
+	    p1_counter = 0;
+	}
+	if (p2_counter >= b2->length()) {
+	    p2_counter = 0;
+	}
+
+	//p1->set_board(b1);
+	//p2->set_board(b2);
+	bool attacker_is_dead;
+	if (p1_turn) {
+	    attacker_is_dead = board_battler.battle_boards(p1_counter, b1, b2); // Modifies b1/b2
+	}
+	else {
+	    attacker_is_dead = board_battler.battle_boards(p2_counter, b2, b1); // Modifies b1/b2
+	}
+	if (!attacker_is_dead) {
+	    if (p1_turn) p1_counter++;
+	    else p2_counter++;
+	}
+	if (debug) {
+	    std::cout << "P1: " << (*p1) << std::endl;
+	    std::cout << "Attacker pos: " << p1_counter << std::endl;
+	    std::cout << "P2: " << (*p2) << std::endl;
+	}
+	p1_turn = !p1_turn;
     }
+
     BattleResult res = BattleResult();
     if (b1->empty() && b2->empty()) {
 	res.who_won = "draw";
@@ -167,29 +199,13 @@ BattleResult Battler::battle(Player* p1,
 	res.damage_taken = p2->calculate_damage();
 	return res;
     }
-    else if (b2->empty()) {
+    else { // b2 empty
 	res.who_won = p1->get_name();
 	res.damage_taken = p1->calculate_damage();
 	return res;
-    }    
-    
-    // b1 always goes first here
-    if (p1_counter >= b1->length()) {
-	p1_counter = 0;
     }
 
-    //p1->set_board(b1);
-    //p2->set_board(b2);
-    auto attacker_is_dead = board_battler.battle_boards(p1_counter, b1, b2); // Modifies b1/b2
-    if (!attacker_is_dead) {
-	p1_counter++;
-    }
-    if (debug) {
-	std::cout << "P1: " << (*p1) << std::endl;
-	std::cout << "Attacker pos: " << p1_counter << std::endl;
-	std::cout << "P2: " << (*p2) << std::endl;
-    }
-    return battle(p2, p1, p2_counter, p1_counter);
+    // return battle(p2, p1, p2_counter, p1_counter);
 }
 
 void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker,

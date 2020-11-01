@@ -8,7 +8,7 @@
 
 #include "../../bg_game/board.hpp"
 
-std::ostream& operator<<(std::ostream& os, BgBaseCard& card) {
+std::ostream& operator<<(std::ostream& os, const BgBaseCard& card) {
     os << "(" << card.get_attack() << "/" << card.get_health() << ")";
     if (card.has_divine_shield()) {
 	os << "D";

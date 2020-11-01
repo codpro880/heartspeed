@@ -79,33 +79,33 @@ public:
     
     virtual std::shared_ptr<BgBaseCard> get_copy();
     
-    int get_attack() { return is_poison ? 999999 : attack; } // Poison is like 'infinite' attack
-    std::string get_card_class() { return card_class; }
-    int get_cost() { return cost; }
-    int get_health() { return health; }
-    std::string get_mechanics() { return mechanics; }
-    std::string get_name() { return name; }
-    std::string get_race() { return race; }
-    std::string get_rarity() { return rarity; }
-    int get_tech_level() { return tech_level; }
-    std::string get_type() { return type; }
+    int get_attack() const { return is_poison ? 999999 : attack; } // Poison is like 'infinite' attack
+    std::string get_card_class() const { return card_class; }
+    int get_cost() const { return cost; }
+    int get_health() const { return health; }
+    std::string get_mechanics() const { return mechanics; }
+    std::string get_name() const { return name; }
+    std::string get_race() const { return race; }
+    std::string get_rarity() const { return rarity; }
+    int get_tech_level() const { return tech_level; }
+    std::string get_type() const { return type; }
 
-    bool has_divine_shield() { return divine_shield; }
-    bool has_deathrattle() { return mechanics.find("DEATHRATTLE") != std::string::npos; }
-    bool has_taunt() {
+    bool has_divine_shield() const { return divine_shield; }
+    bool has_deathrattle() const { return mechanics.find("DEATHRATTLE") != std::string::npos; }
+    bool has_taunt() const {
 	return _has_taunt || mechanics.find("TAUNT") != std::string::npos;
     }
-    bool has_reborn() {
+    bool has_reborn() const {
 	return _has_reborn;
     }
-    bool has_cleave() {
+    bool has_cleave() const {
 	return mechanics.find("CLEAVE") != std::string::npos;
     }
-    bool has_windfury() { return _has_windfury; }
-    bool has_windfury_active() { return _has_windfury_active; }
+    bool has_windfury() const { return _has_windfury; }
+    bool has_windfury_active() const { return _has_windfury_active; }
 
-    bool is_dead() { return health <= 0; }
-    bool is_golden() { return name.find("Golden") != std::string::npos; }
+    bool is_dead() const { return health <= 0; }
+    bool is_golden() const { return name.find("Golden") != std::string::npos; }
 
     void reborn_self(Board* b1);
 
@@ -126,7 +126,7 @@ public:
 
     virtual void take_damage(int damage, std::string who_from_race, Board* b1, Board* b2);
 
-    std::string who_killed_race() {
+    std::string who_killed_race() const {
 	if (is_dead()) {
 	    return last_dmg_race;
 	}
@@ -134,7 +134,7 @@ public:
 	    throw std::runtime_error("Card isn't dead");
 	}
     }
-    friend std::ostream& operator<<(std::ostream& os, BgBaseCard& card);
+    friend std::ostream& operator<<(std::ostream& os, const BgBaseCard& card);
     virtual ~BgBaseCard() {}
     
 protected:

@@ -36,6 +36,8 @@ public:
     auto empty() const { return cards.empty(); }
     
     auto length() const { return cards.size(); }
+
+    auto size() const { return cards.size(); }
     
     auto operator[](const int& i) { return cards[i]; }
     

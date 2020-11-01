@@ -6,10 +6,12 @@
 #include <vector>
 
 #include "player.hpp"
+#include "board.hpp"
 
 struct BattleResult {
     std::string who_won; // player1 or player2 or draw
     int damage_taken;
+    std::vector<std::pair<Board, Board>> frames;
 };
 
 struct BattleResults {

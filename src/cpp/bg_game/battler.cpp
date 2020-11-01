@@ -150,7 +150,9 @@ BattleResult Battler::battle(Player* p1,
     bool p1_turn = true;
     auto b1 = p1->get_board();
     auto b2 = p2->get_board();
+    BattleResult res = BattleResult();
     while(!b1->empty() && !b2->empty()) {
+	res.frames.push_back(std::make_pair(Board(b1), Board(b2)));
 	if (debug) {
 	    std::cout << "P1 (before): " << std::endl;
 	    std::cout << (*p1) << std::endl;
@@ -187,8 +189,8 @@ BattleResult Battler::battle(Player* p1,
 	}
 	p1_turn = !p1_turn;
     }
+    res.frames.push_back(std::make_pair(Board(b1), Board(b2)));
 
-    BattleResult res = BattleResult();
     if (b1->empty() && b2->empty()) {
 	res.who_won = "draw";
 	res.damage_taken = 0;

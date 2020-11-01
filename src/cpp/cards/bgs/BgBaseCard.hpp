@@ -77,7 +77,7 @@ public:
     // Triggered after a summon occurs
     virtual void mod_summoned(std::shared_ptr<BgBaseCard>) { }
     
-    virtual std::shared_ptr<BgBaseCard> get_copy();
+    virtual std::shared_ptr<BgBaseCard> get_copy() const;
     
     int get_attack() const { return is_poison ? 999999 : attack; } // Poison is like 'infinite' attack
     std::string get_card_class() const { return card_class; }

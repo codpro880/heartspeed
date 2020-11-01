@@ -44,7 +44,7 @@ void BgBaseCard::take_damage(int damage, std::string who_from_race, Board* b1, B
     last_dmg_race = who_from_race;
 }
 
-std::shared_ptr<BgBaseCard> BgBaseCard::get_copy() {
+std::shared_ptr<BgBaseCard> BgBaseCard::get_copy() const {
     return std::make_shared<BgBaseCard>(*this);
 }
 

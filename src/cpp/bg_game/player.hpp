@@ -19,19 +19,19 @@ public:
 	tech_level = player->get_tech_level();
     }
     
-    int calculate_damage() { return tech_level + board->calculate_damage(); }
+    int calculate_damage() const { return tech_level + board->calculate_damage(); }
     void inc_tech_level() { tech_level += 1; }
-    std::shared_ptr<Board> get_board() { return board; }
-    std::shared_ptr<Board> get_original_board() { return original_board; }
+    std::shared_ptr<Board> get_board() const { return board; }
+    std::shared_ptr<Board> get_original_board() const { return original_board; }
     void set_board(std::shared_ptr<Board> b) { board = b; }
-    friend std::ostream& operator<<(std::ostream& os, Player& p);
-    std::string get_name() { return name; }
-    int get_tech_level() { return tech_level; }
-    void reset() {
-	// TODO: Make this shared ptr
-	// Board* b = new Board(original_board);
-	board = std::make_shared<Board>(original_board);
-    }
+    friend std::ostream& operator<<(std::ostream& os, const Player& p);
+    std::string get_name() const { return name; }
+    int get_tech_level() const { return tech_level; }
+    // void reset() {
+    // 	// TODO: Make this shared ptr
+    // 	// Board* b = new Board(original_board);
+    // 	board = std::make_shared<Board>(original_board);
+    // }
 private:
     std::shared_ptr<Board> board;
     std::shared_ptr<Board> original_board; // Read-only board

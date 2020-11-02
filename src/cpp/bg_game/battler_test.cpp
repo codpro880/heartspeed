@@ -1,10 +1,12 @@
-#include "battler.hpp"
-#include "../cards/bgs/BgCardFactory.hpp"
-#include "../cards/bgs/BgBaseCard.hpp"
+#include <cstdio>
+#include <fstream>
+#include <memory>
 
 #include "../test/googletest/include/gtest/gtest.h"
 
-#include <memory>
+#include "battler.hpp"
+#include "../cards/bgs/BgCardFactory.hpp"
+#include "../cards/bgs/BgBaseCard.hpp"
 
 TEST(Battler, CalculatesWinWhenOppEmptyBoard) {
     auto f = BgCardFactory();
@@ -75,7 +77,7 @@ TEST(Battler, WinsIfWinIs100PercentGuaranteed) {
     EXPECT_EQ(res.damage_taken, 1+2); 
 }
 
-TEST(Battler, CanGiveBackBattleFrames) {
+TEST(Battler, CanGiveBackBattleFramesAndDumpJson) {
     // Similar to the poison test
     auto f = BgCardFactory();
     auto tidecaller1 = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
@@ -108,7 +110,15 @@ TEST(Battler, CanGiveBackBattleFrames) {
     EXPECT_EQ(p1_board_frame3.size(), 1);
     EXPECT_EQ(p2_board_frame3.size(), 0);
     EXPECT_EQ(res.who_won, "HookTusk");
-    EXPECT_EQ(res.damage_taken, 1+1); 
+    EXPECT_EQ(res.damage_taken, 1+1);
+
+    auto bfjd = BattleFrameJsonDump();
+    //std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
+    std::string filename = "test.json";
+    bfjd.dump_to_json(res.frames, filename);
+    std::ifstream ifs(filename);
+    EXPECT_TRUE(ifs.good());
+    std::remove(filename.c_str());
 }
 
 TEST(Battler, CanHandlePoisonCorrectly) {

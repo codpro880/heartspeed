@@ -257,5 +257,127 @@ function main() {
     gl.drawArrays(gl.TRIANGLES, 0, 6);
   }
 
+    function getCardFrame() {
+	var json = `[
+    {
+        "b1": [
+            {
+                "attack": 999999,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": true,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Murloc Tidehunter (Golden)"
+            },
+            {
+                "attack": 999999,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": true,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Murloc Tidehunter (Golden)"
+            },
+            {
+                "attack": 999999,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": true,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Murloc Tidehunter (Golden)"
+            }
+        ],
+        "b2": [
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 6,
+                "name": "Freedealing Gambler (Golden)"
+            },
+          {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 6,
+                "name": "Freedealing Gambler (Golden)"
+            }
+        ]
+    },
+    {
+        "b1": [
+            {
+                "attack": 999999,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": true,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Murloc Tidehunter (Golden)"
+            },
+            {
+                "attack": 999999,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": true,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Murloc Tidehunter (Golden)"
+            }
+        ],
+        "b2": [
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 6,
+                "name": "Freedealing Gambler (Golden)"
+            }
+        ]
+    },
+    {
+        "b1": [
+            {
+                "attack": 999999,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": true,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Murloc Tidehunter (Golden)"
+            }
+        ]
+    }
+]`;
+	return JSON.parse(json);
+    }
+
 }
+
 main();

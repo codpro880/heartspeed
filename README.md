@@ -10,6 +10,9 @@ You'll need a working installation fo the clang compiler and GNU Make. These shi
 
 ## Valid Build Targets (GNU Make)
 
+NOTE: I recently ruined building for others for the sake of OpenMP. I'll eventually get this building w/ Cmake and in a Docker container...
+For now, you can replace the CXX = ... line in the main Makefile to point to your compiler.
+
 You can simply type "make" in order to build. This will also run the unit tests (googletest) for the project.
 Should see something like:
 

@@ -53,7 +53,7 @@ function main() {
   // creates a texture info { width: w, height: h, texture: tex }
   // The texture will start with 1x1 pixels and be updated
   // when the image has loaded
-  function loadImageAndCreateTextureInfo(url) {
+  function loadImageAndCreateTextureInfo(card_name) {
     var tex = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, tex);
     // Fill the texture with a 1x1 blue pixel.
@@ -98,7 +98,7 @@ function main() {
       		sunwell.createCard({
       			//"id": "EX1_116",
       			//"dbfId": 559,
-      			"name": "Murloc Scout",
+      			"name": card_name,
       			// "text": "<b>Charge</b>. <b>Battlecry:</b> Summon two 1/1 Whelps for your opponent.",
       			// "flavor": "At least he has Angry Chicken.",
       			// "artist": "Gabe from Penny Arcade",
@@ -116,7 +116,7 @@ function main() {
       			"rarity": "COMMON",
       			// "set": "EXPERT1",
       			"type": "MINION",
-      			"texture": "../assets/Murloc Scout.jpg"
+      			"texture": "../assets/" + card_name + ".jpg"
       		}, 256, false, img, function() {
       			console.log('done')
       		});
@@ -127,7 +127,7 @@ function main() {
   }
 
     var textureInfos = [
-	loadImageAndCreateTextureInfo('assets/Murloc Scout.png'),
+	//loadImageAndCreateTextureInfo('assets/Murloc Scout.png'),
     //loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/star.jpg'),
     //loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/leaves.jpg'),
     //loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/keyboard.jpg'),
@@ -141,7 +141,53 @@ function main() {
     // var numToDraw = first_frame.length;
     var numToDraw = first_frame_b1.length + first_frame_b2.length
     var speed = 60;
-    // for (var ii = 0; ii < first_frame_b1; ++ii) {
+    
+    for (var ii = 0; ii < first_frame_b1.length; ++ii) {
+    	//var percent = 1.0 / numToDraw;
+    	var first_row = true;
+    	var percent = .5
+    	var drawInfo = {
+    	    // x: Math.random() * gl.canvas.width,
+    	    // y: Math.random() * gl.canvas.height,
+    	    x: first_row ? percent * ii * gl.canvas.width : percent * (ii - numToDraw/2) * gl.canvas.width,
+    	    y: first_row ? 0 : gl.canvas.height * 2,
+    	    // dx: Math.random() > 0.5 ? -1 : 1,
+    	    dx: Math.random() > 0.5 ? -1 : 1,
+    	    dy: Math.random() > 0.5 ? -1 : 1,
+    	    // xScale: Math.random() * 0.25 + 0.25,
+    	    // yScale: Math.random() * 0.25 + 0.25,
+    	    xScale: .5,
+    	    yScale: .5,
+    	    //textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
+	    textureInfo: loadImageAndCreateTextureInfo('Murloc Scout'),
+    	};
+    	drawInfos.push(drawInfo);
+    }
+
+    for (var jj = 0; jj < first_frame_b2.length; ++jj) {
+    	//var percent = 1.0 / numToDraw;
+    	// var first_row = false;
+	console.log("IN second loop...")
+    	var percent = .5
+    	var drawInfo = {
+    	    // x: Math.random() * gl.canvas.width,
+    	    // y: Math.random() * gl.canvas.height,
+    	    x: percent * jj * gl.canvas.width,
+    	    y: gl.canvas.height * 2,
+    	    // dx: Math.random() > 0.5 ? -1 : 1,
+    	    dx: Math.random() > 0.5 ? -1 : 1,
+    	    dy: Math.random() > 0.5 ? -1 : 1,
+    	    // xScale: Math.random() * 0.25 + 0.25,
+    	    // yScale: Math.random() * 0.25 + 0.25,
+    	    xScale: .5,
+    	    yScale: .5,
+	    //textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
+    	    textureInfo: loadImageAndCreateTextureInfo('Murloc Tidehunter'),
+    	};
+    	drawInfos.push(drawInfo);
+    }
+    
+    // for (var ii = 0; ii < numToDraw; ++ii) {
     // 	//var percent = 1.0 / numToDraw;
     // 	var first_row = ii < numToDraw / 2;
     // 	var percent = .5
@@ -161,27 +207,6 @@ function main() {
     // 	};
     // 	drawInfos.push(drawInfo);
     // }
-    
-    for (var ii = 0; ii < numToDraw; ++ii) {
-	//var percent = 1.0 / numToDraw;
-	var first_row = ii < numToDraw / 2;
-	var percent = .5
-	var drawInfo = {
-	    // x: Math.random() * gl.canvas.width,
-	    // y: Math.random() * gl.canvas.height,
-	    x: first_row ? percent * ii * gl.canvas.width : percent * (ii - numToDraw/2) * gl.canvas.width,
-	    y: first_row ? 0 : gl.canvas.height * 2,
-	    // dx: Math.random() > 0.5 ? -1 : 1,
-	    dx: Math.random() > 0.5 ? -1 : 1,
-	    dy: Math.random() > 0.5 ? -1 : 1,
-	    // xScale: Math.random() * 0.25 + 0.25,
-	    // yScale: Math.random() * 0.25 + 0.25,
-	    xScale: .5,
-	    yScale: .5,
-	    textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
-	};
-	drawInfos.push(drawInfo);
-    }
 
   function update(deltaTime) {
     drawInfos.forEach(function(drawInfo) {

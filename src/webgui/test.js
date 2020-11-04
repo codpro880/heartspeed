@@ -53,7 +53,7 @@ function main() {
   // creates a texture info { width: w, height: h, texture: tex }
   // The texture will start with 1x1 pixels and be updated
   // when the image has loaded
-  function loadImageAndCreateTextureInfo(card_name) {
+  function loadImageAndCreateTextureInfo(card_json) {
     var tex = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, tex);
     // Fill the texture with a 1x1 blue pixel.
@@ -95,30 +95,32 @@ function main() {
       			debug: true
       		});
       // let cardCanvas = document.getElementById('cardCanvas')
+      var card_name_raw = card_json['name'];
+      var card_name = card_name_raw.replace(" (Golden)", "");
       		sunwell.createCard({
-      			//"id": "EX1_116",
-      			//"dbfId": 559,
-      			"name": card_name,
-      			// "text": "<b>Charge</b>. <b>Battlecry:</b> Summon two 1/1 Whelps for your opponent.",
-      			// "flavor": "At least he has Angry Chicken.",
-      			// "artist": "Gabe from Penny Arcade",
-      			"attack": 1,
-      			"cardClass": "MURLOC",
-      			//"collectible": true,
-      			"cost": 1,
-      			// "elite": true,
-      			"faction": "ALLIANCE",
-      			"health": 1,
-      			// "mechanics": [
-      			// 	"BATTLECRY",
-      			// 	"CHARGE"
-      			// ],
-      			"rarity": "COMMON",
-      			// "set": "EXPERT1",
-      			"type": "MINION",
-      			"texture": "../assets/" + card_name + ".jpg"
+      		    //"id": "EX1_116",
+      		    //"dbfId": 559,
+      		    "name": card_name,
+      		    // "text": "<b>Charge</b>. <b>Battlecry:</b> Summon two 1/1 Whelps for your opponent.",
+      		    // "flavor": "At least he has Angry Chicken.",
+      		    // "artist": "Gabe from Penny Arcade",
+      		    "attack": 1,
+      		    "cardClass": "MURLOC",
+      		    //"collectible": true,
+      		    "cost": 1,
+      		    // "elite": true,
+      		    "faction": "ALLIANCE",
+      		    "health": 1,
+      		    // "mechanics": [
+      		    // 	"BATTLECRY",
+      		    // 	"CHARGE"
+      		    // ],
+      		    "rarity": "COMMON",
+      		    // "set": "EXPERT1",
+      		    "type": "MINION",
+      		    "texture": "../assets/" + card_name + ".jpg"
       		}, 256, false, img, function() {
-      			console.log('done')
+      		    console.log('done')
       		});
 
       //img.src = 'lil_rag_golden.png'
@@ -145,8 +147,7 @@ function main() {
     for (var ii = 0; ii < first_frame_b1.length; ++ii) {
     	//var percent = 1.0 / numToDraw;
     	var percent = .5
-	var card_name_raw = first_frame_b1[ii]['name'];
-	var card_name = card_name_raw.replace(" (Golden)", "");
+	var card_json = first_frame_b1[ii]
     	var drawInfo = {
     	    // x: Math.random() * gl.canvas.width,
     	    // y: Math.random() * gl.canvas.height,
@@ -160,15 +161,14 @@ function main() {
     	    xScale: .5,
     	    yScale: .5,
     	    //textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
-	    textureInfo: loadImageAndCreateTextureInfo(card_name),
+	    textureInfo: loadImageAndCreateTextureInfo(card_json),
     	};
     	drawInfos.push(drawInfo);
     }
 
     for (var jj = 0; jj < first_frame_b2.length; ++jj) {
     	var percent = .5
-	var card_name_raw = first_frame_b2[jj]['name'];
-	var card_name = card_name_raw.replace(" (Golden)", "");
+	var card_json = first_frame_b2[jj]
     	var drawInfo = {
     	    // x: Math.random() * gl.canvas.width,
     	    // y: Math.random() * gl.canvas.height,
@@ -183,7 +183,7 @@ function main() {
     	    yScale: .5,
 	    //textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
 	    
-    	    textureInfo: loadImageAndCreateTextureInfo(card_name),
+    	    textureInfo: loadImageAndCreateTextureInfo(card_json),
     	};
     	drawInfos.push(drawInfo);
     }

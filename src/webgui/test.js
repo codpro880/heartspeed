@@ -144,13 +144,14 @@ function main() {
     
     for (var ii = 0; ii < first_frame_b1.length; ++ii) {
     	//var percent = 1.0 / numToDraw;
-    	var first_row = true;
     	var percent = .5
+	var card_name_raw = first_frame_b1[ii]['name'];
+	var card_name = card_name_raw.replace(" (Golden)", "");
     	var drawInfo = {
     	    // x: Math.random() * gl.canvas.width,
     	    // y: Math.random() * gl.canvas.height,
-    	    x: first_row ? percent * ii * gl.canvas.width : percent * (ii - numToDraw/2) * gl.canvas.width,
-    	    y: first_row ? 0 : gl.canvas.height * 2,
+    	    x: percent * ii * gl.canvas.width,
+    	    y: 0,
     	    // dx: Math.random() > 0.5 ? -1 : 1,
     	    dx: Math.random() > 0.5 ? -1 : 1,
     	    dy: Math.random() > 0.5 ? -1 : 1,
@@ -159,16 +160,15 @@ function main() {
     	    xScale: .5,
     	    yScale: .5,
     	    //textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
-	    textureInfo: loadImageAndCreateTextureInfo('Murloc Scout'),
+	    textureInfo: loadImageAndCreateTextureInfo(card_name),
     	};
     	drawInfos.push(drawInfo);
     }
 
     for (var jj = 0; jj < first_frame_b2.length; ++jj) {
-    	//var percent = 1.0 / numToDraw;
-    	// var first_row = false;
-	console.log("IN second loop...")
     	var percent = .5
+	var card_name_raw = first_frame_b2[jj]['name'];
+	var card_name = card_name_raw.replace(" (Golden)", "");
     	var drawInfo = {
     	    // x: Math.random() * gl.canvas.width,
     	    // y: Math.random() * gl.canvas.height,
@@ -182,7 +182,8 @@ function main() {
     	    xScale: .5,
     	    yScale: .5,
 	    //textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
-    	    textureInfo: loadImageAndCreateTextureInfo('Murloc Tidehunter'),
+	    
+    	    textureInfo: loadImageAndCreateTextureInfo(card_name),
     	};
     	drawInfos.push(drawInfo);
     }

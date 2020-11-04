@@ -78,6 +78,7 @@ function main() {
       gl.bindTexture(gl.TEXTURE_2D, textureInfo.texture);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
     });
+      
       // img.src = url;
       // img.src = '/Users/matt/repos/heart_speed/src/webgui/assets/lil_rag_golden.png';
 
@@ -96,26 +97,26 @@ function main() {
       // let cardCanvas = document.getElementById('cardCanvas')
       		sunwell.createCard({
       			//"id": "EX1_116",
-      			"dbfId": 559,
-      			"name": "Leeroy Jenkins",
-      			"text": "<b>Charge</b>. <b>Battlecry:</b> Summon two 1/1 Whelps for your opponent.",
-      			"flavor": "At least he has Angry Chicken.",
-      			"artist": "Gabe from Penny Arcade",
-      			"attack": 10,
-      			"cardClass": "NEUTRAL",
-      			"collectible": true,
-      			"cost": 5,
-      			"elite": true,
+      			//"dbfId": 559,
+      			"name": "Murloc Scout",
+      			// "text": "<b>Charge</b>. <b>Battlecry:</b> Summon two 1/1 Whelps for your opponent.",
+      			// "flavor": "At least he has Angry Chicken.",
+      			// "artist": "Gabe from Penny Arcade",
+      			"attack": 1,
+      			"cardClass": "MURLOC",
+      			//"collectible": true,
+      			"cost": 1,
+      			// "elite": true,
       			"faction": "ALLIANCE",
-      			"health": 3,
-      			"mechanics": [
-      				"BATTLECRY",
-      				"CHARGE"
-      			],
-      			"rarity": "LEGENDARY",
-      			"set": "EXPERT1",
+      			"health": 1,
+      			// "mechanics": [
+      			// 	"BATTLECRY",
+      			// 	"CHARGE"
+      			// ],
+      			"rarity": "COMMON",
+      			// "set": "EXPERT1",
       			"type": "MINION",
-      			"texture": "../textures/EX1_116.jpg"
+      			"texture": "../assets/Murloc Scout.jpg"
       		}, 256, false, img, function() {
       			console.log('done')
       		});
@@ -126,16 +127,41 @@ function main() {
   }
 
     var textureInfos = [
-	loadImageAndCreateTextureInfo('lil_rag_golden.png'),
+	loadImageAndCreateTextureInfo('assets/Murloc Scout.png'),
     //loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/star.jpg'),
     //loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/leaves.jpg'),
     //loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/keyboard.jpg'),
   ];
 
-  var drawInfos = [];
+    var frame_list = getCardFrame();
+    var first_frame_b1 = frame_list[0]["b1"]
+    var first_frame_b2 = frame_list[0]["b2"]
+    var drawInfos = [];
     // var numToDraw = 9;
-    var numToDraw = 9;
-  var speed = 60;
+    // var numToDraw = first_frame.length;
+    var numToDraw = first_frame_b1.length + first_frame_b2.length
+    var speed = 60;
+    // for (var ii = 0; ii < first_frame_b1; ++ii) {
+    // 	//var percent = 1.0 / numToDraw;
+    // 	var first_row = ii < numToDraw / 2;
+    // 	var percent = .5
+    // 	var drawInfo = {
+    // 	    // x: Math.random() * gl.canvas.width,
+    // 	    // y: Math.random() * gl.canvas.height,
+    // 	    x: first_row ? percent * ii * gl.canvas.width : percent * (ii - numToDraw/2) * gl.canvas.width,
+    // 	    y: first_row ? 0 : gl.canvas.height * 2,
+    // 	    // dx: Math.random() > 0.5 ? -1 : 1,
+    // 	    dx: Math.random() > 0.5 ? -1 : 1,
+    // 	    dy: Math.random() > 0.5 ? -1 : 1,
+    // 	    // xScale: Math.random() * 0.25 + 0.25,
+    // 	    // yScale: Math.random() * 0.25 + 0.25,
+    // 	    xScale: .5,
+    // 	    yScale: .5,
+    // 	    textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
+    // 	};
+    // 	drawInfos.push(drawInfo);
+    // }
+    
     for (var ii = 0; ii < numToDraw; ++ii) {
 	//var percent = 1.0 / numToDraw;
 	var first_row = ii < numToDraw / 2;
@@ -155,7 +181,7 @@ function main() {
 	    textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
 	};
 	drawInfos.push(drawInfo);
-  }
+    }
 
   function update(deltaTime) {
     drawInfos.forEach(function(drawInfo) {

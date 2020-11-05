@@ -15,6 +15,8 @@ struct BattleResult {
     std::string who_won; // player1 or player2 or draw
     int damage_taken;
     std::vector<std::pair<Board, Board>> frames;
+    std::vector<int> attacker_pos;
+    std::vector<int> defender_pos;
 };
 
 struct BattleResults {
@@ -27,8 +29,8 @@ struct BattleResults {
 class BoardBattler {
 public:
     BoardBattler() : first_combat(true) {}
-    bool battle_boards(int attacker_pos, Board* b1, Board* b2);
-    bool battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
+    std::tuple<bool, int, int> battle_boards(int attacker_pos, Board* b1, Board* b2);
+    std::tuple<bool, int, int> battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
     void pre_combat(Board* b1, Board* b2);
     void post_battle(Board*, Board*, std::vector<std::shared_ptr<BgBaseCard> >, std::vector<std::shared_ptr<BgBaseCard> >);
     void take_dmg_simul(std::shared_ptr<BgBaseCard> card, std::string who_from_race, int dmg, Board* b1, Board* b2);

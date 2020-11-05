@@ -172,12 +172,19 @@ BattleResult Battler::battle(Player* p1,
 	//p1->set_board(b1);
 	//p2->set_board(b2);
 	bool attacker_is_dead;
+	std::tuple<bool, int, int> battle_res;
 	if (p1_turn) {
-	    attacker_is_dead = board_battler.battle_boards(p1_counter, b1, b2); // Modifies b1/b2
+	    battle_res = board_battler.battle_boards(p1_counter, b1, b2); // Modifies b1/b2
+	    attacker_is_dead = std::get<0>(battle_res);
 	}
 	else {
-	    attacker_is_dead = board_battler.battle_boards(p2_counter, b2, b1); // Modifies b1/b2
+	    battle_res = board_battler.battle_boards(p2_counter, b2, b1); // Modifies b1/b2
+	    attacker_is_dead = std::get<0>(battle_res);
 	}
+	res.attacker_pos.push_back(std::get<1>(battle_res));
+	res.defender_pos.push_back(std::get<2>(battle_res));
+
+	
 	if (!attacker_is_dead) {
 	    if (p1_turn) p1_counter++;
 	    else p2_counter++;
@@ -324,11 +331,11 @@ void BoardBattler::post_battle(Board* b1,
     }
 }
 
-bool BoardBattler::battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
+std::tuple<bool, int, int> BoardBattler::battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
     return battle_boards(attacker_pos, b1.get(), b2.get());
 }
 
-bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
+std::tuple<bool, int, int> BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     auto pre_precom_b1_dead = b1->has_died();
     auto pre_precom_b2_dead = b2->has_died();
     
@@ -351,7 +358,8 @@ bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     post_battle(b2, b1, precom_dead_b2, precom_dead_b1);
 
     if (b1->length() == 0 || b2->length() == 0) {
-	return true;
+	// TODO: Need to figure out how to show pre_combat victories in the UI
+	return std::make_tuple(true, -1, -1); 
     }
     
     auto attacker = (*b1)[attacker_pos];
@@ -362,12 +370,13 @@ bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
 	}
     }
     std::shared_ptr<BgBaseCard> defender;
+    size_t defender_pos;
     if (!taunts.empty()) {
-	auto defender_pos = rand() % taunts.size();
+	defender_pos = rand() % taunts.size();
 	defender = taunts[defender_pos];
     }
     else {
-	auto defender_pos = rand() % b2->length();
+	defender_pos = rand() % b2->length();
 	defender = (*b2)[defender_pos];
     }
 
@@ -446,7 +455,8 @@ bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     // Handles deathrattles, nothing happens if nothing died
     //attacker->do_deathrattle(b1, b2);
     //defender->do_deathrattle(b2, b1); // May modify b1/b2
-    return attacker->is_dead();
+    return std::make_tuple(attacker->is_dead(), attacker_pos, (int)defender_pos);
+	// return attacker->is_dead();
 }
 
 std::string Battler::decide_who_goes_first(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {

@@ -104,13 +104,13 @@ function main() {
       		    // "text": "<b>Charge</b>. <b>Battlecry:</b> Summon two 1/1 Whelps for your opponent.",
       		    // "flavor": "At least he has Angry Chicken.",
       		    // "artist": "Gabe from Penny Arcade",
-      		    "attack": 1,
+      		    "attack": card_json['attack'],
       		    "cardClass": "MURLOC",
       		    //"collectible": true,
       		    "cost": 1,
       		    // "elite": true,
       		    "faction": "ALLIANCE",
-      		    "health": 1,
+      		    "health": card_json['health'],
       		    // "mechanics": [
       		    // 	"BATTLECRY",
       		    // 	"CHARGE"

@@ -1,15 +1,20 @@
 /* Battler takes two players and simulates the result of the battle */
 #pragma once
 
+#include <fstream>
 #include <memory>
 #include <string>
 #include <vector>
 
+#include "../third_party/json.hpp"
+
 #include "player.hpp"
+#include "board.hpp"
 
 struct BattleResult {
     std::string who_won; // player1 or player2 or draw
     int damage_taken;
+    std::vector<std::pair<Board, Board>> frames;
 };
 
 struct BattleResults {
@@ -23,6 +28,7 @@ class BoardBattler {
 public:
     BoardBattler() : first_combat(true) {}
     bool battle_boards(int attacker_pos, Board* b1, Board* b2);
+    bool battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
     void pre_combat(Board* b1, Board* b2);
     void post_battle(Board*, Board*, std::vector<std::shared_ptr<BgBaseCard> >, std::vector<std::shared_ptr<BgBaseCard> >);
     void take_dmg_simul(std::shared_ptr<BgBaseCard> card, std::string who_from_race, int dmg, Board* b1, Board* b2);
@@ -39,9 +45,11 @@ public:
     Battler(Player* p1, Player* p2, bool debug=false) : p1(p1), p2(p2), debug(debug) {}
     BattleResult sim_battle(std::string goes_first="null");
     BattleResults sim_battles(int num_battles=1000);
+    BattleResults sim_battles_par(int num_battles=1000);
 private:
     BattleResult sim_battle(Player* p1, Player* p2, std::string goes_first);
     std::string decide_who_goes_first(Board* b1, Board* b2);
+    std::string decide_who_goes_first(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
     BattleResult battle(Player* p1,
 			Player* p2,
 			int p1_counter=0,
@@ -50,4 +58,63 @@ private:
     Player* p2;
     BoardBattler board_battler;
     bool debug;
+};
+
+class BattleFrameJsonDump {
+public:
+    void dump_to_json(std::vector<std::pair<Board, Board>> frames, std::string filename) {
+	nlohmann::json j;
+	/**
+	   [
+	       {
+	           "b1": {
+                         "MurlocTH": {
+			      "attack": 1,
+                              "health": 1
+			     }
+                         }
+               }
+	   ]
+	 **/
+	//std::map<std::string, std::map<std::string, std::map<std::string, int>>> backing_data;
+	int frame_ind = 0;
+	for (auto frame : frames) {
+	    auto board1 = frame.first;
+	    int card_ind = 0;
+	    for (auto card : board1.get_cards()) {
+		j[frame_ind]["b1"][card_ind]["name"] = card->get_name();
+		j[frame_ind]["b1"][card_ind]["attack"] = card->get_attack();
+		j[frame_ind]["b1"][card_ind]["health"] = card->get_health();
+		j[frame_ind]["b1"][card_ind]["has_divine_shield"] = card->has_divine_shield();
+		j[frame_ind]["b1"][card_ind]["has_taunt"] = card->has_taunt();
+		// TODO: Add this in
+		// j[frame_ind]["b1"][card_ind]["has_replicating_menace_magnetic"] = card->has_replicating_menace_magnetic();
+		j[frame_ind]["b1"][card_ind]["has_reborn"] = card->has_reborn();
+		j[frame_ind]["b1"][card_ind]["has_cleave"] = card->has_cleave();
+		j[frame_ind]["b1"][card_ind]["has_windfury"] = card->has_windfury();
+		j[frame_ind]["b1"][card_ind]["has_poison"] = card->has_poison();
+		card_ind++;
+	    }
+	    auto board2 = frame.second;
+	    card_ind = 0;
+	    for (auto card : board2.get_cards()) {
+		j[frame_ind]["b2"][card_ind]["name"] = card->get_name();
+		j[frame_ind]["b2"][card_ind]["attack"] = card->get_attack();
+		j[frame_ind]["b2"][card_ind]["health"] = card->get_health();
+		j[frame_ind]["b2"][card_ind]["has_divine_shield"] = card->has_divine_shield();
+		j[frame_ind]["b2"][card_ind]["has_taunt"] = card->has_taunt();
+		// TODO: Add this in
+		// j[frame_ind]["b2"][card_ind]["has_replicating_menace_magnetic"] = card->has_replicating_menace_magnetic();
+		j[frame_ind]["b2"][card_ind]["has_reborn"] = card->has_reborn();
+		j[frame_ind]["b2"][card_ind]["has_cleave"] = card->has_cleave();
+		j[frame_ind]["b2"][card_ind]["has_windfury"] = card->has_windfury();
+		j[frame_ind]["b2"][card_ind]["has_poison"] = card->has_poison();
+		card_ind++;
+	    }
+	    frame_ind++;
+	}
+	//std::cout << j.dump(4) << std::endl;
+	std::ofstream out(filename);
+	out << j.dump(4);
+    }
 };

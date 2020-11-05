@@ -1,8 +1,9 @@
 #include "battler.hpp"
 
-#include <stdlib.h>
 #include <cstdlib>
+#include <execution>
 #include <stdexcept>
+#include <stdlib.h>
 
 #include <iostream>
 
@@ -10,18 +11,91 @@ BattleResult Battler::sim_battle(std::string goes_first) {
     return sim_battle(p1, p2, goes_first);
 }
 
+BattleResults Battler::sim_battles_par(int num_battles) {
+    std::vector<std::pair<std::shared_ptr<Player>, std::shared_ptr<Player>>> players(num_battles);
+    std::cerr << "Copying..." << std::endl;
+    for (int i = 0; i < num_battles; i++) {
+	players[i].first = std::make_shared<Player>(p1);
+	players[i].second = std::make_shared<Player>(p2);
+    }
+    std::cerr << "Done copying" << std::endl;
+    std::vector<int> results(num_battles);
+
+    #pragma omp parallel for
+    for(size_t i = 0; i < players.size(); ++i) {
+	auto player_pair = players[i];
+	auto player1 = player_pair.first;
+	auto player2 = player_pair.second;
+	auto b = Battler(player1.get(), player2.get());
+	auto res = b.sim_battle();
+	if (res.who_won == player1->get_name()) {
+	    results[i] = -1;
+	}
+	else if (res.who_won == player2->get_name()) {
+	    results[i] = 1;
+	}
+	else {
+	    results[i] = 0;
+	}
+    }
+    
+    // std::vector<int> out(num_battles, 0);
+    // std::transform(std::execution::par_unseq,
+    // 		   players.begin(),
+    // 		   players.end(),
+    // 		   out.begin(),
+    // 		   [](auto player_pair) -> int {
+    // 		       auto player1 = player_pair.first;
+    // 		       auto player2 = player_pair.second;
+    // 		       // auto player1 = std::make_shared<Player>(this->p1);
+    // 		       // auto player2 = std::make_shared<Player>(this->p2);
+    // 		       // auto player3 = std::make_shared<Player>(this->p1);
+    // 		       // auto player4 = std::make_shared<Player>(this->p2);
+    // 		       auto b = Battler(player1.get(), player2.get());
+    // 		       auto res = b.sim_battle();
+    // 		       if (res.who_won == player1->get_name()) {
+    // 			   return -1;
+    // 		       }
+    // 		       else if (res.who_won == player2->get_name()) {
+    // 			   return 1;
+    // 		       }
+    // 		       else {
+    // 			   return 0;
+    // 		       }
+    // 		   });
+    int total_p1_win = 0;
+    int total_draw = 0;
+    int total_p2_win = 0;
+    for (auto i : results) {
+	if (i == -1) total_p1_win++;
+	else if (i == 1) total_p2_win++;
+	else total_draw++;
+    }
+
+    BattleResults full_res = BattleResults();
+    full_res.p1_win = total_p1_win / double(num_battles);
+    full_res.draw = total_draw / double(num_battles);
+    full_res.p2_win = total_p2_win / double(num_battles);
+    
+    return full_res;
+}
+
 BattleResults Battler::sim_battles(int num_battles) {
     int total_p1_win = 0;
     int total_draw = 0;
     int total_p2_win = 0;
     for (int bnum = 0; bnum < num_battles; bnum++) {
-	auto res = sim_battle();
-	p1->reset();
-	p2->reset();
-	if (res.who_won == p1->get_name()) {
+	auto player1 = std::make_shared<Player>(p1);
+	auto player2 = std::make_shared<Player>(p2);
+	auto res = sim_battle(player1.get(), player2.get(), "null");
+
+
+	//p1->reset();
+	//p2->reset();
+	if (res.who_won == player1->get_name()) {
 	    total_p1_win++;
 	}
-	else if (res.who_won == p2->get_name()) {
+	else if (res.who_won == player2->get_name()) {
 	    total_p2_win++;
 	}
 	else {
@@ -72,17 +146,51 @@ BattleResult Battler::battle(Player* p1,
 			     Player* p2,
 			     int p1_counter,
 			     int p2_counter) {
-    // base case
+    // Precondition: p1 goes first
+    bool p1_turn = true;
     auto b1 = p1->get_board();
     auto b2 = p2->get_board();
-    if (debug) {
-	std::cout << "P1 (before): " << std::endl;
-	std::cout << (*p1) << std::endl;
-	std::cout << "Attacker pos: " << p1_counter << std::endl;
-	std::cout << "P2 (before): " << std::endl;
-	std::cout << (*p2) << std::endl;
-    }
     BattleResult res = BattleResult();
+    while(!b1->empty() && !b2->empty()) {
+	res.frames.push_back(std::make_pair(Board(b1), Board(b2)));
+	if (debug) {
+	    std::cout << "P1 (before): " << std::endl;
+	    std::cout << (*p1) << std::endl;
+	    std::cout << "Attacker pos: " << p1_counter << std::endl;
+	    std::cout << "P2 (before): " << std::endl;
+	    std::cout << (*p2) << std::endl;
+	}
+	
+	// b1 always goes first here
+	if (p1_counter >= b1->length()) {
+	    p1_counter = 0;
+	}
+	if (p2_counter >= b2->length()) {
+	    p2_counter = 0;
+	}
+
+	//p1->set_board(b1);
+	//p2->set_board(b2);
+	bool attacker_is_dead;
+	if (p1_turn) {
+	    attacker_is_dead = board_battler.battle_boards(p1_counter, b1, b2); // Modifies b1/b2
+	}
+	else {
+	    attacker_is_dead = board_battler.battle_boards(p2_counter, b2, b1); // Modifies b1/b2
+	}
+	if (!attacker_is_dead) {
+	    if (p1_turn) p1_counter++;
+	    else p2_counter++;
+	}
+	if (debug) {
+	    std::cout << "P1: " << (*p1) << std::endl;
+	    std::cout << "Attacker pos: " << p1_counter << std::endl;
+	    std::cout << "P2: " << (*p2) << std::endl;
+	}
+	p1_turn = !p1_turn;
+    }
+    res.frames.push_back(std::make_pair(Board(b1), Board(b2)));
+
     if (b1->empty() && b2->empty()) {
 	res.who_won = "draw";
 	res.damage_taken = 0;
@@ -93,29 +201,13 @@ BattleResult Battler::battle(Player* p1,
 	res.damage_taken = p2->calculate_damage();
 	return res;
     }
-    else if (b2->empty()) {
+    else { // b2 empty
 	res.who_won = p1->get_name();
 	res.damage_taken = p1->calculate_damage();
 	return res;
-    }    
-    
-    // b1 always goes first here
-    if (p1_counter >= b1->length()) {
-	p1_counter = 0;
     }
 
-    //p1->set_board(b1);
-    //p2->set_board(b2);
-    auto attacker_is_dead = board_battler.battle_boards(p1_counter, b1, b2); // Modifies b1/b2
-    if (!attacker_is_dead) {
-	p1_counter++;
-    }
-    if (debug) {
-	std::cout << "P1: " << (*p1) << std::endl;
-	std::cout << "Attacker pos: " << p1_counter << std::endl;
-	std::cout << "P2: " << (*p2) << std::endl;
-    }
-    return battle(p2, p1, p2_counter, p1_counter);
+    // return battle(p2, p1, p2_counter, p1_counter);
 }
 
 void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker,
@@ -230,6 +322,10 @@ void BoardBattler::post_battle(Board* b1,
     for (auto c : b1->get_cards()) {
 	c->do_postbattle(b1, b2, dead_b1, dead_b2);
     }
+}
+
+bool BoardBattler::battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
+    return battle_boards(attacker_pos, b1.get(), b2.get());
 }
 
 bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
@@ -351,6 +447,10 @@ bool BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
     //attacker->do_deathrattle(b1, b2);
     //defender->do_deathrattle(b2, b1); // May modify b1/b2
     return attacker->is_dead();
+}
+
+std::string Battler::decide_who_goes_first(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
+    return decide_who_goes_first(b1.get(), b2.get());
 }
 
 std::string Battler::decide_who_goes_first(Board* b1, Board* b2) {

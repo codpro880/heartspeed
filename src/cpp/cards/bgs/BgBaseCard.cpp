@@ -1,9 +1,14 @@
+#include <iostream>
+#include <memory>
+#include <string>
+#include <vector>
+
 #include "BgBaseCard.hpp"
 #include "BgCardFactory.hpp"
 
 #include "../../bg_game/board.hpp"
 
-std::ostream& operator<<(std::ostream& os, BgBaseCard& card) {
+std::ostream& operator<<(std::ostream& os, const BgBaseCard& card) {
     os << "(" << card.get_attack() << "/" << card.get_health() << ")";
     if (card.has_divine_shield()) {
 	os << "D";
@@ -39,7 +44,7 @@ void BgBaseCard::take_damage(int damage, std::string who_from_race, Board* b1, B
     last_dmg_race = who_from_race;
 }
 
-std::shared_ptr<BgBaseCard> BgBaseCard::get_copy() {
+std::shared_ptr<BgBaseCard> BgBaseCard::get_copy() const {
     return std::make_shared<BgBaseCard>(*this);
 }
 

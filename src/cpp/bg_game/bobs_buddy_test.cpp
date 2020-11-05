@@ -398,10 +398,11 @@ TEST_F(BobsReader, CanGetBattleBoardsFromLogTurn8) {
     EXPECT_EQ(their_eighth_baron->get_health(), 7);
     // Give some tolerance, but bobs buddy gave:
     // Lethal: 13.6, Win 99.7, Tie .2, Loss .1, Lethal 0
-    std::unique_ptr<Player> p1(new Player(our_eighth_board.get(), "Ours"));
-    std::unique_ptr<Player> p2(new Player(their_eighth_board.get(), "Theirs"));
+    std::unique_ptr<Player> p1(new Player(our_eighth_board, "Ours"));
+    std::unique_ptr<Player> p2(new Player(their_eighth_board, "Theirs"));
     auto battler = Battler(p1.get(), p2.get());
-    auto res = battler.sim_battles(10000);
+    auto res = battler.sim_battles_par(100000);
+    //auto res = battler.sim_battles_par(10000);
     std::cerr << "P1 win: " << res.p1_win << std::endl;
     EXPECT_LT(res.p1_win, 1);
     EXPECT_GT(res.p1_win, .95);

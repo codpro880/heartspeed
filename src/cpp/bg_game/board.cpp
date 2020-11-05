@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int Board::calculate_damage() {
+int Board::calculate_damage() const {
     int res = 0;
     for (auto card : cards) {
 	res += card->get_tech_level();
@@ -11,7 +11,7 @@ int Board::calculate_damage() {
     return res;
 }
 
-std::ostream& operator<<(std::ostream& os, Board& board) {
+std::ostream& operator<<(std::ostream& os, const Board& board) {
     auto cards = board.get_cards();
     for (auto c : cards) {
 	auto card = c.get();

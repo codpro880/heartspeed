@@ -1,6 +1,7 @@
 /* Data Class to represent the cards a player currently has in play */
 #pragma once
 
+#include <algorithm>
 #include <iostream>
 #include <queue>
 #include <string>
@@ -16,6 +17,7 @@ public:
 	    card_names.insert(c->get_name());
 	}
     }
+    
     Board(Board* b) {
 	// std::vector<std::shared_ptr<BgBaseCard> > cards_copy;
 	cards.clear();
@@ -26,11 +28,21 @@ public:
 	}
 	//return Board(cards_copy);
     }
-    int calculate_damage();
-    auto empty() { return cards.empty(); }
-    auto length() { return cards.size(); }
+
+    Board(std::shared_ptr<Board> b) : Board(b.get()) {}
+    
+    int calculate_damage() const;
+    
+    auto empty() const { return cards.empty(); }
+    
+    auto length() const { return cards.size(); }
+
+    auto size() const { return cards.size(); }
+    
     auto operator[](const int& i) { return cards[i]; }
-    friend std::ostream& operator<<(std::ostream& os, Board& board);
+    
+    friend std::ostream& operator<<(std::ostream& os, const Board& board);
+    
     void remove(BgBaseCard* c) {
 	int pos = 0;
 	for (auto card : cards) {
@@ -44,22 +56,26 @@ public:
 	// std::cerr << "Removing pointer." << std::endl;
 	// remove(std::make_shared<BgBaseCard>(*c));	
     }
+    
     void remove(std::shared_ptr<BgBaseCard> c) {
 	auto it = std::find(cards.begin(), cards.end(), c);
 	cards.erase(it);
 	card_names.erase(c->get_name());
     }
+    
     void remove(const int& i) {
 	if (cards.size() > (unsigned)i) {
 	    cards.erase(cards.begin() + i);
 	    card_names.erase(cards[i]->get_name());
 	}
     }
-    auto get_pos(std::shared_ptr<BgBaseCard> c) {	
+    
+    auto get_pos(std::shared_ptr<BgBaseCard> c) const {
     	auto it = std::find(cards.begin(), cards.end(), c);
     	return std::distance(cards.begin(), it);
     }
-    auto get_pos(BgBaseCard* c) {
+    
+    auto get_pos(BgBaseCard* c) const {
 	int pos = 0;
 	for (auto card : cards) {
 	    if (card.get() == c) {
@@ -71,7 +87,8 @@ public:
     	// auto it = std::find(cards.begin(), cards.end(), std::shared_ptr<BgBaseCard>(c));
     	// return std::distance(cards.begin(), it);
     }
-    bool contains(std::shared_ptr<BgBaseCard> c) {
+    
+    bool contains(std::shared_ptr<BgBaseCard> c) const {
 	auto pos = get_pos(c);
 	return pos != -1 && (unsigned)pos != cards.size();
     }
@@ -84,6 +101,7 @@ public:
     // 	}
     // 	return -1;
     // }
+    
     void remove_and_mark_dead() {
 	std::queue<std::shared_ptr<BgBaseCard> > to_remove;
 	for (auto c : cards) {
@@ -105,6 +123,11 @@ public:
 	    to_remove.pop();
 	}
     }
+
+    void do_deathrattles(std::shared_ptr<Board> b) {
+	return do_deathrattles(b.get());
+    }
+    
     void do_deathrattles(Board* other) {
 	bool at_least_one_dead = false;
 	while (!deathrattle_q.empty()) {
@@ -121,6 +144,7 @@ public:
 	    other->do_deathrattles(this);
 	}
     }
+    
     void insert_card(int pos, std::shared_ptr<BgBaseCard> c) {
 	if ((unsigned)pos >= cards.size()) {
 	    // This case can occur w/ certain deathrattle interactions
@@ -136,9 +160,13 @@ public:
 	    card_names.insert(c->get_name());
 	}
     }
-    std::vector<std::shared_ptr<BgBaseCard> > const get_cards() { return cards;  } // TODO: Make this an iterator
-    std::vector<std::shared_ptr<BgBaseCard> > has_died() { return _has_died; }
-    bool contains(std::string card_name) { return card_names.find(card_name) != card_names.end(); }
+    
+    std::vector<std::shared_ptr<BgBaseCard> > const get_cards() const { return cards;  } // TODO: Make this an iterator
+    
+    std::vector<std::shared_ptr<BgBaseCard> > has_died() const { return _has_died; }
+    
+    bool contains(std::string card_name) const { return card_names.find(card_name) != card_names.end(); }
+    
 private:
     std::vector<std::shared_ptr<BgBaseCard> > cards;
     std::queue<std::shared_ptr<BgBaseCard> > deathrattle_q;

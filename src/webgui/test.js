@@ -53,7 +53,7 @@ function main() {
   // creates a texture info { width: w, height: h, texture: tex }
   // The texture will start with 1x1 pixels and be updated
   // when the image has loaded
-  function loadImageAndCreateTextureInfo(url) {
+  function loadImageAndCreateTextureInfo(card_json) {
     var tex = gl.createTexture();
     gl.bindTexture(gl.TEXTURE_2D, tex);
     // Fill the texture with a 1x1 blue pixel.
@@ -78,6 +78,7 @@ function main() {
       gl.bindTexture(gl.TEXTURE_2D, textureInfo.texture);
       gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, img);
     });
+      
       // img.src = url;
       // img.src = '/Users/matt/repos/heart_speed/src/webgui/assets/lil_rag_golden.png';
 
@@ -94,30 +95,32 @@ function main() {
       			debug: true
       		});
       // let cardCanvas = document.getElementById('cardCanvas')
+      var card_name_raw = card_json['name'];
+      var card_name = card_name_raw.replace(" (Golden)", "");
       		sunwell.createCard({
-      			//"id": "EX1_116",
-      			"dbfId": 559,
-      			"name": "Leeroy Jenkins",
-      			"text": "<b>Charge</b>. <b>Battlecry:</b> Summon two 1/1 Whelps for your opponent.",
-      			"flavor": "At least he has Angry Chicken.",
-      			"artist": "Gabe from Penny Arcade",
-      			"attack": 10,
-      			"cardClass": "NEUTRAL",
-      			"collectible": true,
-      			"cost": 5,
-      			"elite": true,
-      			"faction": "ALLIANCE",
-      			"health": 3,
-      			"mechanics": [
-      				"BATTLECRY",
-      				"CHARGE"
-      			],
-      			"rarity": "LEGENDARY",
-      			"set": "EXPERT1",
-      			"type": "MINION",
-      			"texture": "../textures/EX1_116.jpg"
+      		    //"id": "EX1_116",
+      		    //"dbfId": 559,
+      		    "name": card_name,
+      		    // "text": "<b>Charge</b>. <b>Battlecry:</b> Summon two 1/1 Whelps for your opponent.",
+      		    // "flavor": "At least he has Angry Chicken.",
+      		    // "artist": "Gabe from Penny Arcade",
+      		    "attack": card_json['attack'],
+      		    "cardClass": "MURLOC",
+      		    //"collectible": true,
+      		    "cost": 1,
+      		    // "elite": true,
+      		    "faction": "ALLIANCE",
+      		    "health": card_json['health'],
+      		    // "mechanics": [
+      		    // 	"BATTLECRY",
+      		    // 	"CHARGE"
+      		    // ],
+      		    "rarity": "COMMON",
+      		    // "set": "EXPERT1",
+      		    "type": "MINION",
+      		    "texture": "../assets/" + card_name + ".jpg"
       		}, 256, false, img, function() {
-      			console.log('done')
+      		    console.log('done')
       		});
 
       //img.src = 'lil_rag_golden.png'
@@ -126,36 +129,85 @@ function main() {
   }
 
     var textureInfos = [
-	loadImageAndCreateTextureInfo('lil_rag_golden.png'),
+	//loadImageAndCreateTextureInfo('assets/Murloc Scout.png'),
     //loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/star.jpg'),
     //loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/leaves.jpg'),
     //loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/keyboard.jpg'),
   ];
 
-  var drawInfos = [];
+    var frame_list = getCardFrame();
+    var first_frame_b1 = frame_list[0]["b1"]
+    var first_frame_b2 = frame_list[0]["b2"]
+    var drawInfos = [];
     // var numToDraw = 9;
-    var numToDraw = 9;
-  var speed = 60;
-    for (var ii = 0; ii < numToDraw; ++ii) {
-	//var percent = 1.0 / numToDraw;
-	var first_row = ii < numToDraw / 2;
-	var percent = .5
-	var drawInfo = {
-	    // x: Math.random() * gl.canvas.width,
-	    // y: Math.random() * gl.canvas.height,
-	    x: first_row ? percent * ii * gl.canvas.width : percent * (ii - numToDraw/2) * gl.canvas.width,
-	    y: first_row ? 0 : gl.canvas.height * 2,
-	    // dx: Math.random() > 0.5 ? -1 : 1,
-	    dx: Math.random() > 0.5 ? -1 : 1,
-	    dy: Math.random() > 0.5 ? -1 : 1,
-	    // xScale: Math.random() * 0.25 + 0.25,
-	    // yScale: Math.random() * 0.25 + 0.25,
-	    xScale: .5,
-	    yScale: .5,
-	    textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
-	};
-	drawInfos.push(drawInfo);
-  }
+    // var numToDraw = first_frame.length;
+    var numToDraw = first_frame_b1.length + first_frame_b2.length
+    var speed = 60;
+    
+    for (var ii = 0; ii < first_frame_b1.length; ++ii) {
+    	//var percent = 1.0 / numToDraw;
+    	var percent = .5
+	var card_json = first_frame_b1[ii]
+    	var drawInfo = {
+    	    // x: Math.random() * gl.canvas.width,
+    	    // y: Math.random() * gl.canvas.height,
+    	    x: percent * ii * gl.canvas.width,
+    	    y: 0,
+    	    // dx: Math.random() > 0.5 ? -1 : 1,
+    	    dx: Math.random() > 0.5 ? -1 : 1,
+    	    dy: Math.random() > 0.5 ? -1 : 1,
+    	    // xScale: Math.random() * 0.25 + 0.25,
+    	    // yScale: Math.random() * 0.25 + 0.25,
+    	    xScale: .5,
+    	    yScale: .5,
+    	    //textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
+	    textureInfo: loadImageAndCreateTextureInfo(card_json),
+    	};
+    	drawInfos.push(drawInfo);
+    }
+
+    for (var jj = 0; jj < first_frame_b2.length; ++jj) {
+    	var percent = .5
+	var card_json = first_frame_b2[jj]
+    	var drawInfo = {
+    	    // x: Math.random() * gl.canvas.width,
+    	    // y: Math.random() * gl.canvas.height,
+    	    x: percent * jj * gl.canvas.width,
+    	    y: gl.canvas.height * 2,
+    	    // dx: Math.random() > 0.5 ? -1 : 1,
+    	    dx: Math.random() > 0.5 ? -1 : 1,
+    	    dy: Math.random() > 0.5 ? -1 : 1,
+    	    // xScale: Math.random() * 0.25 + 0.25,
+    	    // yScale: Math.random() * 0.25 + 0.25,
+    	    xScale: .5,
+    	    yScale: .5,
+	    //textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
+	    
+    	    textureInfo: loadImageAndCreateTextureInfo(card_json),
+    	};
+    	drawInfos.push(drawInfo);
+    }
+    
+    // for (var ii = 0; ii < numToDraw; ++ii) {
+    // 	//var percent = 1.0 / numToDraw;
+    // 	var first_row = ii < numToDraw / 2;
+    // 	var percent = .5
+    // 	var drawInfo = {
+    // 	    // x: Math.random() * gl.canvas.width,
+    // 	    // y: Math.random() * gl.canvas.height,
+    // 	    x: first_row ? percent * ii * gl.canvas.width : percent * (ii - numToDraw/2) * gl.canvas.width,
+    // 	    y: first_row ? 0 : gl.canvas.height * 2,
+    // 	    // dx: Math.random() > 0.5 ? -1 : 1,
+    // 	    dx: Math.random() > 0.5 ? -1 : 1,
+    // 	    dy: Math.random() > 0.5 ? -1 : 1,
+    // 	    // xScale: Math.random() * 0.25 + 0.25,
+    // 	    // yScale: Math.random() * 0.25 + 0.25,
+    // 	    xScale: .5,
+    // 	    yScale: .5,
+    // 	    textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
+    // 	};
+    // 	drawInfos.push(drawInfo);
+    // }
 
   function update(deltaTime) {
     drawInfos.forEach(function(drawInfo) {
@@ -257,5 +309,127 @@ function main() {
     gl.drawArrays(gl.TRIANGLES, 0, 6);
   }
 
+    function getCardFrame() {
+	var json = `[
+    {
+        "b1": [
+            {
+                "attack": 999999,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": true,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Murloc Tidehunter (Golden)"
+            },
+            {
+                "attack": 999999,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": true,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Murloc Tidehunter (Golden)"
+            },
+            {
+                "attack": 999999,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": true,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Murloc Tidehunter (Golden)"
+            }
+        ],
+        "b2": [
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 6,
+                "name": "Freedealing Gambler (Golden)"
+            },
+          {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 6,
+                "name": "Freedealing Gambler (Golden)"
+            }
+        ]
+    },
+    {
+        "b1": [
+            {
+                "attack": 999999,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": true,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Murloc Tidehunter (Golden)"
+            },
+            {
+                "attack": 999999,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": true,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Murloc Tidehunter (Golden)"
+            }
+        ],
+        "b2": [
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 6,
+                "name": "Freedealing Gambler (Golden)"
+            }
+        ]
+    },
+    {
+        "b1": [
+            {
+                "attack": 999999,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": true,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Murloc Tidehunter (Golden)"
+            }
+        ]
+    }
+]`;
+	return JSON.parse(json);
+    }
+
 }
+
 main();

@@ -64,7 +64,7 @@ private:
 
 class BattleFrameJsonDump {
 public:
-    void dump_to_json(std::vector<std::pair<Board, Board>> frames, std::string filename) {
+    void dump_to_json(BattleResult bres, std::string filename) {
 	nlohmann::json j;
 	/**
 	   [
@@ -79,10 +79,13 @@ public:
 	   ]
 	 **/
 	//std::map<std::string, std::map<std::string, std::map<std::string, int>>> backing_data;
+	std::vector<std::pair<Board, Board>> frames(bres.frames);
 	int frame_ind = 0;
 	for (auto frame : frames) {
 	    auto board1 = frame.first;
 	    int card_ind = 0;
+	    j[frame_ind]["attacker_pos"] = bres.attacker_pos[frame_ind];
+	    j[frame_ind]["defender_pos"] = bres.defender_pos[frame_ind];
 	    for (auto card : board1.get_cards()) {
 		j[frame_ind]["b1"][card_ind]["name"] = card->get_name();
 		j[frame_ind]["b1"][card_ind]["attack"] = card->get_attack();

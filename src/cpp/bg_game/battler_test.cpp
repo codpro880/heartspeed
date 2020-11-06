@@ -115,7 +115,7 @@ TEST(Battler, CanGiveBackBattleFramesAndDumpJson) {
     auto bfjd = BattleFrameJsonDump();
     //std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
     std::string filename = "test.json";
-    bfjd.dump_to_json(res.frames, filename);
+    bfjd.dump_to_json(res, filename);
     std::ifstream ifs(filename);
     EXPECT_TRUE(ifs.good());
     std::remove(filename.c_str());

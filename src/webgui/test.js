@@ -23,7 +23,8 @@ function main() {
 
   // Create a buffer.
   var positionBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
 
   // Put a unit quad in the buffer
   var positions = [
@@ -137,6 +138,8 @@ function main() {
     ];
 
     var drawInfos;
+    var frame_num = 0;
+    var frame_list = getCardFrames();
 
     window.addEventListener("load", function setupWebGL (evt) {
 	"use strict"
@@ -148,50 +151,30 @@ function main() {
 	// Adding the same click event handler to both canvas and
 	// button.
 	var canvas = document.querySelector("#canvas");
-	var button = document.querySelector("#frame-forward");
-	canvas.addEventListener("click", switchColor, false);
-	button.addEventListener("click", switchColor, false);
+	var forward_button = document.querySelector("#frame-forward");
+	var backward_button = document.querySelector("#frame-backward");
+	// canvas.addEventListener("click", switchColor, false);
+	forward_button.addEventListener("click", frameForwardOnClick, false);
+	backward_button.addEventListener("click", frameBackwardOnClick, false);
 
 	// A variable to hold the WebGLRenderingContext.
 	var gl;
 
 	// The click event handler.
-	function switchColor () {
-	    drawInfos = populateDrawInfos(1);
-	    // Referring to the externally defined gl variable.
-	    // If undefined, try to obtain the WebGLRenderingContext.
-	    // If failed, alert user of failure.
-	    // Otherwise, initialize the drawing buffer (the viewport).
-	    // if (!gl) {
-	    // 	gl = canvas.getContext("webgl")
-	    // 	    || canvas.getContext("experimental-webgl");
-	    // 	if (!gl) {
-	    // 	    alert("Failed to get WebGL context.\n"
-	    // 		  + "Your browser or device may not support WebGL.");
-	    // 	    return;
-	    // 	}
-	    // 	gl.viewport(0, 0,
-	    // 		    gl.drawingBufferWidth, gl.drawingBufferHeight);
-	    // }
-	    // // Get a random color value using a helper function.
-	    // var color = getRandomColor();
-	    // // Set the clear color to the random color.
-	    // gl.clearColor(color[0], color[1], color[2], 1.0);
-	    // // Clear the context with the newly set color. This is
-	    // // the function call that actually does the drawing.
-	    // gl.clear(gl.COLOR_BUFFER_BIT);
+	function frameForwardOnClick () {
+	    if (frame_num < frame_list.length) frame_num++;
+	    drawInfos = populateDrawInfos(frame_num);
 	}
-
-	// Random color helper function.
-	function getRandomColor() {
-	    return [Math.random(), Math.random(), Math.random()];
+	function frameBackwardOnClick () {
+	    if (frame_num > 0) frame_num--;	    
+	    drawInfos = populateDrawInfos(frame_num);
 	}
 
     }, false);
 
 
     function populateDrawInfos(frame_num) {
-	var frame_list = getCardFrame();
+	var frame_list = getCardFrames();
 	var first_frame_b1 = frame_list[frame_num]["b1"]
 	var first_frame_b2 = frame_list[frame_num]["b2"]
 	var drawInfos = [];
@@ -357,7 +340,7 @@ function main() {
     gl.drawArrays(gl.TRIANGLES, 0, 6);
   }
 
-    function getCardFrame() {
+    function getCardFrames() {
 	var json = `[
     {
         "attacker_pos": 0,

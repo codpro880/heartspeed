@@ -2,57 +2,6 @@
 
 
 function main() {
-
-    window.addEventListener("load", function setupWebGL (evt) {
-  "use strict"
-
-  // Cleaning after ourselves. The event handler removes
-  // itself, because it only needs to run once.
-  window.removeEventListener(evt.type, setupWebGL, false);
-
-  // Adding the same click event handler to both canvas and
-  // button.
-  var canvas = document.querySelector("#canvas");
-  var button = document.querySelector("#frame-forward");
-  canvas.addEventListener("click", switchColor, false);
-  button.addEventListener("click", switchColor, false);
-
-  // A variable to hold the WebGLRenderingContext.
-  var gl;
-
-  // The click event handler.
-  function switchColor () {
-    // Referring to the externally defined gl variable.
-    // If undefined, try to obtain the WebGLRenderingContext.
-    // If failed, alert user of failure.
-    // Otherwise, initialize the drawing buffer (the viewport).
-    if (!gl) {
-      gl = canvas.getContext("webgl")
-        || canvas.getContext("experimental-webgl");
-      if (!gl) {
-        alert("Failed to get WebGL context.\n"
-          + "Your browser or device may not support WebGL.");
-        return;
-      }
-      gl.viewport(0, 0,
-        gl.drawingBufferWidth, gl.drawingBufferHeight);
-    }
-    // Get a random color value using a helper function.
-    var color = getRandomColor();
-    // Set the clear color to the random color.
-    gl.clearColor(color[0], color[1], color[2], 1.0);
-    // Clear the context with the newly set color. This is
-    // the function call that actually does the drawing.
-    gl.clear(gl.COLOR_BUFFER_BIT);
-  }
-
-  // Random color helper function.
-  function getRandomColor() {
-    return [Math.random(), Math.random(), Math.random()];
-  }
-
-}, false);
-
   // Get A WebGL context
   /** @type {HTMLCanvasElement} */
   var canvas = document.querySelector("#canvas");
@@ -185,81 +134,126 @@ function main() {
     //loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/star.jpg'),
     //loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/leaves.jpg'),
     //loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/keyboard.jpg'),
-  ];
+    ];
 
-    var frame_list = getCardFrame();
-    var first_frame_b1 = frame_list[0]["b1"]
-    var first_frame_b2 = frame_list[0]["b2"]
-    var drawInfos = [];
-    // var numToDraw = 9;
-    // var numToDraw = first_frame.length;
-    var numToDraw = first_frame_b1.length + first_frame_b2.length
-    var speed = 60;
-    
-    for (var ii = 0; ii < first_frame_b1.length; ++ii) {
-    	//var percent = 1.0 / numToDraw;
-    	var percent = .5
-	var card_json = first_frame_b1[ii]
-    	var drawInfo = {
-    	    // x: Math.random() * gl.canvas.width,
-    	    // y: Math.random() * gl.canvas.height,
-    	    x: percent * ii * gl.canvas.width,
-    	    y: 0,
-    	    // dx: Math.random() > 0.5 ? -1 : 1,
-    	    dx: Math.random() > 0.5 ? -1 : 1,
-    	    dy: Math.random() > 0.5 ? -1 : 1,
-    	    // xScale: Math.random() * 0.25 + 0.25,
-    	    // yScale: Math.random() * 0.25 + 0.25,
-    	    xScale: .5,
-    	    yScale: .5,
-    	    //textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
-	    textureInfo: loadImageAndCreateTextureInfo(card_json),
-    	};
-    	drawInfos.push(drawInfo);
-    }
+    var drawInfos;
 
-    for (var jj = 0; jj < first_frame_b2.length; ++jj) {
-    	var percent = .5
-	var card_json = first_frame_b2[jj]
-    	var drawInfo = {
-    	    // x: Math.random() * gl.canvas.width,
-    	    // y: Math.random() * gl.canvas.height,
-    	    x: percent * jj * gl.canvas.width,
-    	    y: gl.canvas.height * 2,
-    	    // dx: Math.random() > 0.5 ? -1 : 1,
-    	    dx: Math.random() > 0.5 ? -1 : 1,
-    	    dy: Math.random() > 0.5 ? -1 : 1,
-    	    // xScale: Math.random() * 0.25 + 0.25,
-    	    // yScale: Math.random() * 0.25 + 0.25,
-    	    xScale: .5,
-    	    yScale: .5,
-	    //textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
-	    
-    	    textureInfo: loadImageAndCreateTextureInfo(card_json),
-    	};
-    	drawInfos.push(drawInfo);
+    window.addEventListener("load", function setupWebGL (evt) {
+	"use strict"
+
+	// Cleaning after ourselves. The event handler removes
+	// itself, because it only needs to run once.
+	window.removeEventListener(evt.type, setupWebGL, false);
+
+	// Adding the same click event handler to both canvas and
+	// button.
+	var canvas = document.querySelector("#canvas");
+	var button = document.querySelector("#frame-forward");
+	canvas.addEventListener("click", switchColor, false);
+	button.addEventListener("click", switchColor, false);
+
+	// A variable to hold the WebGLRenderingContext.
+	var gl;
+
+	// The click event handler.
+	function switchColor () {
+	    drawInfos = populateDrawInfos(1);
+	    // Referring to the externally defined gl variable.
+	    // If undefined, try to obtain the WebGLRenderingContext.
+	    // If failed, alert user of failure.
+	    // Otherwise, initialize the drawing buffer (the viewport).
+	    // if (!gl) {
+	    // 	gl = canvas.getContext("webgl")
+	    // 	    || canvas.getContext("experimental-webgl");
+	    // 	if (!gl) {
+	    // 	    alert("Failed to get WebGL context.\n"
+	    // 		  + "Your browser or device may not support WebGL.");
+	    // 	    return;
+	    // 	}
+	    // 	gl.viewport(0, 0,
+	    // 		    gl.drawingBufferWidth, gl.drawingBufferHeight);
+	    // }
+	    // // Get a random color value using a helper function.
+	    // var color = getRandomColor();
+	    // // Set the clear color to the random color.
+	    // gl.clearColor(color[0], color[1], color[2], 1.0);
+	    // // Clear the context with the newly set color. This is
+	    // // the function call that actually does the drawing.
+	    // gl.clear(gl.COLOR_BUFFER_BIT);
+	}
+
+	// Random color helper function.
+	function getRandomColor() {
+	    return [Math.random(), Math.random(), Math.random()];
+	}
+
+    }, false);
+
+
+    function populateDrawInfos(frame_num) {
+	var frame_list = getCardFrame();
+	var first_frame_b1 = frame_list[frame_num]["b1"]
+	var first_frame_b2 = frame_list[frame_num]["b2"]
+	var drawInfos = [];
+	// var numToDraw = 9;
+	// var numToDraw = first_frame.length;
+	var numToDraw = first_frame_b1.length + first_frame_b2.length
+	var speed = 60;
+	gl.canvas.width = 300;
+	gl.canvas.height = 150;
+	
+	for (var ii = 0; ii < first_frame_b1.length; ++ii) {
+    	    //var percent = 1.0 / numToDraw;
+    	    var percent = .5
+	    var card_json = first_frame_b1[ii]
+	    console.log("ii" + ii);
+	    console.log("gl.canvas.width" + gl.canvas.width);
+	    console.log("gl.canvas.height" + gl.canvas.height);
+	    console.log("X POS: " + (percent * ii * gl.canvas.width));
+	    console.log("Y POS: " + (percent * ii * gl.canvas.height));
+    	    var drawInfo = {
+    		// x: Math.random() * gl.canvas.width,
+    		// y: Math.random() * gl.canvas.height,
+    		x: percent * ii * gl.canvas.width,
+    		y: 0,
+    		// dx: Math.random() > 0.5 ? -1 : 1,
+    		dx: Math.random() > 0.5 ? -1 : 1,
+    		dy: Math.random() > 0.5 ? -1 : 1,
+    		// xScale: Math.random() * 0.25 + 0.25,
+    		// yScale: Math.random() * 0.25 + 0.25,
+    		xScale: .5,
+    		yScale: .5,
+    		//textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
+		textureInfo: loadImageAndCreateTextureInfo(card_json),
+    	    };
+    	    drawInfos.push(drawInfo);
+	}
+
+	for (var jj = 0; jj < first_frame_b2.length; ++jj) {
+    	    var percent = .5
+	    var card_json = first_frame_b2[jj]
+    	    var drawInfo = {
+    		// x: Math.random() * gl.canvas.width,
+    		// y: Math.random() * gl.canvas.height,
+    		x: percent * jj * gl.canvas.width,
+    		y: gl.canvas.height * 2,
+    		// dx: Math.random() > 0.5 ? -1 : 1,
+    		dx: Math.random() > 0.5 ? -1 : 1,
+    		dy: Math.random() > 0.5 ? -1 : 1,
+    		// xScale: Math.random() * 0.25 + 0.25,
+    		// yScale: Math.random() * 0.25 + 0.25,
+    		xScale: .5,
+    		yScale: .5,
+		//textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
+		
+    		textureInfo: loadImageAndCreateTextureInfo(card_json),
+    	    };
+    	    drawInfos.push(drawInfo);
+	}
+	return drawInfos;
     }
+    drawInfos = populateDrawInfos(0);
     
-    // for (var ii = 0; ii < numToDraw; ++ii) {
-    // 	//var percent = 1.0 / numToDraw;
-    // 	var first_row = ii < numToDraw / 2;
-    // 	var percent = .5
-    // 	var drawInfo = {
-    // 	    // x: Math.random() * gl.canvas.width,
-    // 	    // y: Math.random() * gl.canvas.height,
-    // 	    x: first_row ? percent * ii * gl.canvas.width : percent * (ii - numToDraw/2) * gl.canvas.width,
-    // 	    y: first_row ? 0 : gl.canvas.height * 2,
-    // 	    // dx: Math.random() > 0.5 ? -1 : 1,
-    // 	    dx: Math.random() > 0.5 ? -1 : 1,
-    // 	    dy: Math.random() > 0.5 ? -1 : 1,
-    // 	    // xScale: Math.random() * 0.25 + 0.25,
-    // 	    // yScale: Math.random() * 0.25 + 0.25,
-    // 	    xScale: .5,
-    // 	    yScale: .5,
-    // 	    textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
-    // 	};
-    // 	drawInfos.push(drawInfo);
-    // }
 
   function update(deltaTime) {
     drawInfos.forEach(function(drawInfo) {
@@ -288,7 +282,9 @@ function main() {
 
     gl.clear(gl.COLOR_BUFFER_BIT);
 
-    drawInfos.forEach(function(drawInfo) {
+      drawInfos.forEach(function(drawInfo) {
+	  // console.log("X POS: " + drawInfo.x);
+	  // console.log("Y POS: " + drawInfo.y);
       var dstX      = drawInfo.x;
       var dstY      = drawInfo.y;
       var dstWidth  = drawInfo.textureInfo.width  * drawInfo.xScale;

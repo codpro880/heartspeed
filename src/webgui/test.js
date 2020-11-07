@@ -144,9 +144,12 @@ function main() {
     //var update_now = true;
     var update_now = false;
     var dinfo_to_update;// = drawInfos[0];
-    var dinfo_dest = [50, 50];
+    //var dinfo_dest;// = [50, 50];
+    var dinfo_dx;
+    var dinfo_dy;
     var num_frames = 50;
     var flipper = true;
+    var num_frames_animated = 0;
     // end globals
 
     window.addEventListener("load", function setupWebGL (evt) {
@@ -178,11 +181,27 @@ function main() {
 	    }
 	    if (flipper) {
 		update_now = true;
-		dinfo_to_update = drawInfos[0];
+		//var attacker_board;
+		if (frame_list[frame_num]["b1_turn"]) {
+		    var attacker_pos = frame_list[frame_num]['attacker_pos'];
+		    var attacker_board = frame_list[frame_num]["b1"];
+		    var defender_pos = frame_list[frame_num]['defender_pos'] + attacker_board.length;
+		    var defender = drawInfos[defender_pos];
+		    dinfo_to_update = drawInfos[attacker_pos];
+		    var dinfo_dest = [defender.x, defender.y];
+		    dinfo_dx = (defender.x - dinfo_to_update.x) / num_frames / 3;
+		    dinfo_dy = (defender.y - dinfo_to_update.y) / num_frames / 3;
+		}
+		else {
+		    attacker_board = frame_list[frame_num]["b2"];
+		}
+		console.log("dinfo_dx: " + dinfo_dx);
+		console.log("dinfo_dy: " + dinfo_dy);
 		flipper = !flipper;
 		return;
 	    }
 	}
+	
 	function frameBackwardOnClick () {
 	    if (frame_num > 0) frame_num--;	    
 	    drawInfos = populateDrawInfos(frame_num);
@@ -192,7 +211,7 @@ function main() {
 
 
     function populateDrawInfos(frame_num) {
-	var frame_list = getCardFrames();
+	//var frame_list = getCardFrames();
 	var first_frame_b1 = frame_list[frame_num]["b1"]
 	var first_frame_b2 = frame_list[frame_num]["b2"]
 	var drawInfos = [];
@@ -257,9 +276,15 @@ function main() {
 
     function update(deltaTime) {
 	if (update_now) {
-	    dinfo_to_update.x = dinfo_to_update.x + 1;
-	    dinfo_to_update.y = dinfo_to_update.y + 1;
-	    if (dinfo_to_update.x === 50) update_now = false;
+	    dinfo_to_update.x = dinfo_to_update.x + dinfo_dx;
+	    dinfo_to_update.y = dinfo_to_update.y + dinfo_dy;
+	    // dinfo_to_update.x = dinfo_to_update.x + 1;
+	    // dinfo_to_update.y = dinfo_to_update.y + 1;
+	    if (num_frames_animated === num_frames) {
+		update_now = false;
+		num_frames_animated = 0;
+	    }
+	    num_frames_animated++;
 	}
 	
 	// drawInfos.forEach(function(drawInfo) {

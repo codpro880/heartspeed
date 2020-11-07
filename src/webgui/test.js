@@ -236,26 +236,35 @@ function main() {
 	return drawInfos;
     }
     drawInfos = populateDrawInfos(0);
-    
+    var update_now = true;
+    var dinfo_to_update = drawInfos[0];
+    var dinfo_dest = [50, 50];
+    var num_frames = 50;
 
-  function update(deltaTime) {
-    drawInfos.forEach(function(drawInfo) {
-      // drawInfo.x += drawInfo.dx * speed * deltaTime;
-      // drawInfo.y += drawInfo.dy * speed * deltaTime;
-      if (drawInfo.x < 0) {
-        drawInfo.dx = 1;
-      }
-      if (drawInfo.x >= gl.canvas.width) {
-        drawInfo.dx = -1;
-      }
-      if (drawInfo.y < 0) {
-        drawInfo.dy = 1;
-      }
-      if (drawInfo.y >= gl.canvas.height) {
-        drawInfo.dy = -1;
-      }
-    });
-  }
+    function update(deltaTime) {
+	if (update_now) {
+	    dinfo_to_update.x = dinfo_to_update.x + 1;
+	    dinfo_to_update.y = dinfo_to_update.y + 1;
+	    if (dinfo_to_update.x === 50) update_now = false;
+	}
+	
+	// drawInfos.forEach(function(drawInfo) {
+	//     // drawInfo.x += drawInfo.dx * speed * deltaTime;
+	//     // drawInfo.y += drawInfo.dy * speed * deltaTime;
+	//     if (drawInfo.x < 0) {
+	// 	drawInfo.dx = 1;
+	//     }
+	//     if (drawInfo.x >= gl.canvas.width) {
+	// 	drawInfo.dx = -1;
+	//     }
+	//     if (drawInfo.y < 0) {
+	// 	drawInfo.dy = 1;
+	//     }
+	//     if (drawInfo.y >= gl.canvas.height) {
+	// 	drawInfo.dy = -1;
+	//     }
+	// });
+    }
 
   function draw() {
     webglUtils.resizeCanvasToDisplaySize(gl.canvas);

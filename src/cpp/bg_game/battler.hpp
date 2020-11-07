@@ -17,6 +17,7 @@ struct BattleResult {
     std::vector<std::pair<Board, Board>> frames;
     std::vector<int> attacker_pos;
     std::vector<int> defender_pos;
+    std::vector<int> b1_turn;
 };
 
 struct BattleResults {
@@ -84,6 +85,7 @@ public:
 	for (auto frame : frames) {
 	    auto board1 = frame.first;
 	    int card_ind = 0;
+	    j[frame_ind]["b1_turn"] = bres.b1_turn[frame_ind];
 	    j[frame_ind]["attacker_pos"] = bres.attacker_pos[frame_ind];
 	    j[frame_ind]["defender_pos"] = bres.defender_pos[frame_ind];
 	    for (auto card : board1.get_cards()) {

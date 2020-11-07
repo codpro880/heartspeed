@@ -118,7 +118,7 @@ TEST(Battler, CanGiveBackBattleFramesAndDumpJson) {
     bfjd.dump_to_json(res, filename);
     std::ifstream ifs(filename);
     EXPECT_TRUE(ifs.good());
-    std::remove(filename.c_str());
+    //std::remove(filename.c_str());
 }
 
 TEST(Battler, CanHandlePoisonCorrectly) {

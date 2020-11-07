@@ -194,6 +194,7 @@ BattleResult Battler::battle(Player* p1,
 	    std::cout << "Attacker pos: " << p1_counter << std::endl;
 	    std::cout << "P2: " << (*p2) << std::endl;
 	}
+	res.b1_turn.push_back(p1_turn);
 	p1_turn = !p1_turn;
     }
     res.frames.push_back(std::make_pair(Board(b1), Board(b2)));

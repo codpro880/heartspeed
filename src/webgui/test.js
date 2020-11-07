@@ -312,6 +312,7 @@ function main() {
     function getCardFrame() {
 	var json = `[
     {
+        "attacker_pos": 0,
         "b1": [
             {
                 "attack": 999999,
@@ -347,6 +348,7 @@ function main() {
                 "name": "Murloc Tidehunter (Golden)"
             }
         ],
+        "b1_turn": 1,
         "b2": [
             {
                 "attack": 6,
@@ -359,7 +361,7 @@ function main() {
                 "health": 6,
                 "name": "Freedealing Gambler (Golden)"
             },
-          {
+            {
                 "attack": 6,
                 "has_cleave": false,
                 "has_divine_shield": false,
@@ -370,9 +372,11 @@ function main() {
                 "health": 6,
                 "name": "Freedealing Gambler (Golden)"
             }
-        ]
+        ],
+        "defender_pos": 0
     },
     {
+        "attacker_pos": 0,
         "b1": [
             {
                 "attack": 999999,
@@ -397,6 +401,7 @@ function main() {
                 "name": "Murloc Tidehunter (Golden)"
             }
         ],
+        "b1_turn": 0,
         "b2": [
             {
                 "attack": 6,
@@ -409,9 +414,11 @@ function main() {
                 "health": 6,
                 "name": "Freedealing Gambler (Golden)"
             }
-        ]
+        ],
+        "defender_pos": 1
     },
     {
+        "attacker_pos": 0,
         "b1": [
             {
                 "attack": 999999,
@@ -424,7 +431,9 @@ function main() {
                 "health": 2,
                 "name": "Murloc Tidehunter (Golden)"
             }
-        ]
+        ],
+        "b1_turn": 0,
+        "defender_pos": 0
     }
 ]`;
 	return JSON.parse(json);

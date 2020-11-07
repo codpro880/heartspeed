@@ -193,7 +193,18 @@ function main() {
 		    dinfo_dy = (defender.y - dinfo_to_update.y) / num_frames / 3;
 		}
 		else {
-		    attacker_board = frame_list[frame_num]["b2"];
+		    console.log("Frame num: " + frame_num);
+		    //var attacker_board = frame_list[frame_num]["b2"];
+		    var defender_board = frame_list[frame_num]["b1"];
+		    var attacker_pos = frame_list[frame_num]['attacker_pos'] + defender_board.length;
+		    var defender_pos = frame_list[frame_num]['defender_pos'];
+		    console.log("attacker pos: " + attacker_pos);
+		    console.log("defender_pos: " + defender_pos);
+		    var defender = drawInfos[defender_pos];
+		    dinfo_to_update = drawInfos[attacker_pos];
+		    var dinfo_dest = [defender.x, defender.y];
+		    dinfo_dx = (defender.x - dinfo_to_update.x) / num_frames / 3;
+		    dinfo_dy = (defender.y - dinfo_to_update.y) / num_frames / 3;
 		}
 		console.log("dinfo_dx: " + dinfo_dx);
 		console.log("dinfo_dy: " + dinfo_dy);

@@ -137,9 +137,17 @@ function main() {
     //loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/keyboard.jpg'),
     ];
 
+    // Our globals...
     var drawInfos;
     var frame_num = 0;
     var frame_list = getCardFrames();
+    //var update_now = true;
+    var update_now = false;
+    var dinfo_to_update;// = drawInfos[0];
+    var dinfo_dest = [50, 50];
+    var num_frames = 50;
+    var flipper = true;
+    // end globals
 
     window.addEventListener("load", function setupWebGL (evt) {
 	"use strict"
@@ -162,8 +170,18 @@ function main() {
 
 	// The click event handler.
 	function frameForwardOnClick () {
-	    if (frame_num < frame_list.length) frame_num++;
-	    drawInfos = populateDrawInfos(frame_num);
+	    if (!flipper) {
+		if (frame_num < frame_list.length) frame_num++;
+		drawInfos = populateDrawInfos(frame_num);
+		flipper = !flipper;
+		return;
+	    }
+	    if (flipper) {
+		update_now = true;
+		dinfo_to_update = drawInfos[0];
+		flipper = !flipper;
+		return;
+	    }
 	}
 	function frameBackwardOnClick () {
 	    if (frame_num > 0) frame_num--;	    
@@ -236,10 +254,6 @@ function main() {
 	return drawInfos;
     }
     drawInfos = populateDrawInfos(0);
-    var update_now = true;
-    var dinfo_to_update = drawInfos[0];
-    var dinfo_dest = [50, 50];
-    var num_frames = 50;
 
     function update(deltaTime) {
 	if (update_now) {

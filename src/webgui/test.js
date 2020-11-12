@@ -223,12 +223,18 @@ function main() {
 
     function populateDrawInfos(frame_num) {
 	//var frame_list = getCardFrames();
-	var first_frame_b1 = frame_list[frame_num]["b1"]
-	var first_frame_b2 = frame_list[frame_num]["b2"]
+	var first_frame_b1 = frame_list[frame_num]["b1"];
+	var first_frame_b2 = frame_list[frame_num]["b2"];
+	if (typeof first_frame_b1 === 'undefined') {
+	    first_frame_b1 = []
+	}
+	if (typeof first_frame_b2 === 'undefined') {
+	    first_frame_b2 = []
+	}
 	var drawInfos = [];
 	// var numToDraw = 9;
 	// var numToDraw = first_frame.length;
-	var numToDraw = first_frame_b1.length + first_frame_b2.length
+	// var numToDraw = first_frame_b1.length + first_frame_b2.length
 	var speed = 60;
 	gl.canvas.width = 300;
 	gl.canvas.height = 150;

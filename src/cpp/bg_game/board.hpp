@@ -12,13 +12,13 @@
 
 class Board {
 public:
-    Board(std::vector<std::shared_ptr<BgBaseCard> > cards) : cards(cards) {
+    Board(std::vector<std::shared_ptr<BgBaseCard> > cards) : cards(cards), attacker_pos(0) {
 	for (auto c : cards) {
 	    card_names.insert(c->get_name());
 	}
     }
     
-    Board(Board* b) {
+    Board(Board* b) : attacker_pos(0) {
 	// std::vector<std::shared_ptr<BgBaseCard> > cards_copy;
 	cards.clear();
 	card_names.clear();
@@ -166,10 +166,25 @@ public:
     std::vector<std::shared_ptr<BgBaseCard> > has_died() const { return _has_died; }
     
     bool contains(std::string card_name) const { return card_names.find(card_name) != card_names.end(); }
+
+    int get_attacker_pos() { return attacker_pos; }
+
+    void increment_attacker_pos() {
+	attacker_pos++;
+	clip_attacker_pos();
+    }
+
+    void clip_attacker_pos() {
+	if (attacker_pos >= length()) {
+	    attacker_pos = 0;
+	}
+    }
+	
     
 private:
     std::vector<std::shared_ptr<BgBaseCard> > cards;
     std::queue<std::shared_ptr<BgBaseCard> > deathrattle_q;
     std::vector<std::shared_ptr<BgBaseCard> > _has_died;
     std::unordered_set<std::string> card_names;
+    int attacker_pos;
 };

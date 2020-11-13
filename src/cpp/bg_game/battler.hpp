@@ -30,8 +30,8 @@ struct BattleResults {
 class BoardBattler {
 public:
     BoardBattler() : first_combat(true) {}
-    std::tuple<bool, int, int> battle_boards(int attacker_pos, Board* b1, Board* b2);
-    std::tuple<bool, int, int> battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
+    std::tuple<bool, bool, int, int> battle_boards(int attacker_pos, Board* b1, Board* b2);
+    std::tuple<bool, bool, int, int> battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
     void pre_combat(Board* b1, Board* b2);
     void post_battle(Board*, Board*, std::vector<std::shared_ptr<BgBaseCard> >, std::vector<std::shared_ptr<BgBaseCard> >);
     void take_dmg_simul(std::shared_ptr<BgBaseCard> card, std::string who_from_race, int dmg, Board* b1, Board* b2);

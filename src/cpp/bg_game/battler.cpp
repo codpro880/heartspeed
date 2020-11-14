@@ -171,8 +171,6 @@ BattleResult Battler::battle(Player* p1,
 	//     p2_counter = 0;
 	// }
 
-	//p1->set_board(b1);
-	//p2->set_board(b2);
 	std::tuple<bool, bool, int, int> battle_res;
 	if (p1_turn) {
 	    // battle_res = board_battler.battle_boards(p1_counter, b1, b2); // Modifies b1/b2

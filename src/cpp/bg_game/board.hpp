@@ -115,9 +115,14 @@ public:
 	}
 	while (!to_remove.empty()) {
 	    auto front = to_remove.front();
+	    auto death_pos = this->get_pos(front);
+	    if (death_pos < attacker_pos) {
+		attacker_pos--;
+	    }
 	    this->remove(front);
 	    if (front->has_reborn()) {
 		front->reborn_self(this);
+		attacker_pos++;
 	    }
 	    _has_died.push_back(front);
 	    to_remove.pop();

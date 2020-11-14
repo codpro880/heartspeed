@@ -581,10 +581,12 @@ TEST_F(BobsReader, CanGetBattleBoardsFromLogTurn10) {
     std::unique_ptr<Player> p2(new Player(their_board, "Theirs"));
     auto battler = Battler(p1.get(), p2.get());
     std::cerr << "Battlin..." << std::endl;
-    //auto res = battler.sim_battles(10000);
+    // auto res = battler.sim_battles(10000);
     auto res = battler.sim_battle();
+    //res = battler.sim_battle();
     auto bfjd = BattleFrameJsonDump();
-    std::string filename = "bob_no_match.json";
+    std::string filename = "bob_again.json";
+    //import pdb; pdb.set_trace()
     bfjd.dump_to_json(res, filename);
     std::ifstream ifs(filename);
     EXPECT_TRUE(ifs.good());

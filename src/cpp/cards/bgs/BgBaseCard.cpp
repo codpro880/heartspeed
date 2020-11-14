@@ -89,6 +89,8 @@ void BgBaseCard::multi_summon(int num_summons, Board* b1) {
     auto f = BgCardFactory();
     for (int i = 0; i < spots_to_fill; i++) {
 	auto summoned_card = do_summon(b1);
-	b1->insert_card(death_pos + i, summoned_card);
-    }    
+	const int insert_pos = death_pos + i;
+	if (insert_pos < b1->get_attacker_pos()) b1->increment_attacker_pos();
+	b1->insert_card(insert_pos, summoned_card);
+    }
 }

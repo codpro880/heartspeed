@@ -82,6 +82,7 @@ public:
     int get_attack() const { return is_poison ? 999999 : attack; } // Poison is like 'infinite' attack
     std::string get_card_class() const { return card_class; }
     int get_cost() const { return cost; }
+    // int get_death_pos() { return death_pos; }
     int get_health() const { return health; }
     std::string get_mechanics() const { return mechanics; }
     std::string get_name() const { return name; }

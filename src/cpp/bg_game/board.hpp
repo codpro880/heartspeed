@@ -30,6 +30,8 @@ public:
     }
 
     Board(std::shared_ptr<Board> b) : Board(b.get()) {}
+
+    Board() {}
     
     int calculate_damage() const;
     

@@ -1,11 +1,12 @@
-#include "battler.hpp"
-
 #include <cstdlib>
 #include <execution>
 #include <stdexcept>
 #include <stdlib.h>
 
 #include <iostream>
+
+#include "battler.hpp"
+#include "rng_singleton.hpp"
 
 BattleResult Battler::sim_battle(std::string goes_first) {
     return sim_battle(p1, p2, goes_first);
@@ -406,7 +407,7 @@ std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, B
     std::shared_ptr<BgBaseCard> defender;
     size_t defender_pos;
     if (!taunts.empty()) {
-	defender_pos = rand() % taunts.size();
+	defender_pos = RngSingleton::getInstance().get_rand_int() % taunts.size();
 	defender = taunts[defender_pos];
 	// important to have global board position (this value is returned)
 	defender_pos = b2->get_pos(defender);

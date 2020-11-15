@@ -12,7 +12,7 @@ BattleResult Battler::sim_battle(std::string goes_first) {
     return sim_battle(p1, p2, goes_first);
 }
 
-BattleResults Battler::sim_battles_par(int num_battles) {
+BattleResults Battler::sim_battles_par(int num_battles) {    
     std::vector<std::pair<std::shared_ptr<Player>, std::shared_ptr<Player>>> players(num_battles);
     std::cerr << "Copying..." << std::endl;
     for (int i = 0; i < num_battles; i++) {
@@ -22,6 +22,7 @@ BattleResults Battler::sim_battles_par(int num_battles) {
     std::cerr << "Done copying" << std::endl;
     std::vector<int> results(num_battles);
 
+    // TODO: Make thread_local seeding for reproducibility
     #pragma omp parallel for
     for(size_t i = 0; i < players.size(); ++i) {
 	auto player_pair = players[i];

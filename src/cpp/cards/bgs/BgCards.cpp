@@ -1042,7 +1042,6 @@ void WildfireElemental::do_postattack(std::shared_ptr<BgBaseCard> defender,
 				      Board* b2) {
     auto b2_cards = b2->get_cards();
     if (b2_cards.size() == 0) return;
-    std::cerr << "Wildfire post attack..." << std::endl;
     if (defender->get_health() < 0) {
 	auto damage = -1 * defender->get_health();
 	int new_defender_pos = 0;
@@ -1057,8 +1056,6 @@ void WildfireElemental::do_postattack(std::shared_ptr<BgBaseCard> defender,
 		new_defender_pos = std::min(b2_cards.size() - 1, (size_t)def_pos);
 	    }
 	}
-	std::cerr << "New defender pos:" << new_defender_pos << std::endl;
-	std::cerr << "b2_cards size::" << b2_cards.size() << std::endl;
 	auto new_defender = b2_cards[new_defender_pos];
 	BoardBattler().take_dmg_simul(new_defender,
 				      "ELEMENTAL",

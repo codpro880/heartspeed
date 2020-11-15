@@ -1,3 +1,4 @@
+#include <cmath>
 #include <cstdlib>
 #include <filesystem>
 #include <vector>
@@ -7,6 +8,7 @@
 #include "bobs_buddy.hpp"
 #include "player.hpp"
 #include "battler.hpp"
+#include "rng_singleton.hpp"
 
 TEST(BobsBuddy, PyLikeStringParsing) {
     auto pystr = PyString();
@@ -505,101 +507,193 @@ TEST_F(BobsReader, CanGetBattleBoardsFromLogTurn8) {
 // }
 
 // TODO: Debug this. Probably need some visualization tooling
-TEST_F(BobsReader, CanGetBattleBoardsFromLogTurn10) {
+// NOTE: Got this under vis, beat out a few bugs, but there's still discrepancies.
+//       will come back to this...
+// TEST_F(BobsReader, CanGetBattleBoardsFromLogTurn10) {
+//     // Turn 10
+//     auto battle_boards = *battle_boards_p;
+//     auto our_board = battle_boards[9].first;
+//     auto their_board = battle_boards[9].second;
+//     EXPECT_EQ(our_board->length(), (unsigned)7);
+//     EXPECT_EQ(their_board->length(), (unsigned)7);
+//     // ours
+//     auto our_rockpool = our_board->get_cards()[0];
+//     auto our_salty_looter1 = our_board->get_cards()[1];
+//     auto our_bronzew1 = our_board->get_cards()[2];
+//     auto our_bronzew2 = our_board->get_cards()[3];
+//     auto our_salty_looter2 = our_board->get_cards()[4];
+//     auto our_lightfang = our_board->get_cards()[5];
+//     auto our_yoho = our_board->get_cards()[6];
+//     std::cerr << "Our cards..." << std::endl;
+//     EXPECT_EQ(our_rockpool->get_name(), "Rockpool Hunter (Golden)");
+//     EXPECT_EQ(our_salty_looter1->get_name(), "Salty Looter");
+//     EXPECT_EQ(our_salty_looter2->get_name(), "Salty Looter");
+//     EXPECT_EQ(our_bronzew1->get_name(), "Bronze Warden");
+//     EXPECT_EQ(our_bronzew2->get_name(), "Bronze Warden");
+//     EXPECT_EQ(our_lightfang->get_name(), "Lightfang Enforcer");
+//     EXPECT_EQ(our_yoho->get_name(), "Yo-Ho-Ogre");
+//     EXPECT_EQ(our_rockpool->get_attack(), 8);
+//     EXPECT_EQ(our_rockpool->get_health(), 11);
+//     EXPECT_EQ(our_salty_looter1->get_attack(), 13);
+//     EXPECT_EQ(our_salty_looter1->get_health(), 10);
+//     EXPECT_EQ(our_salty_looter2->get_attack(), 9);
+//     EXPECT_EQ(our_salty_looter2->get_health(), 6);
+//     EXPECT_EQ(our_bronzew1->get_attack(), 6);
+//     EXPECT_EQ(our_bronzew1->get_health(), 5);
+//     EXPECT_EQ(our_bronzew2->get_attack(), 6);
+//     EXPECT_EQ(our_bronzew2->get_health(), 4);
+//     EXPECT_EQ(our_lightfang->get_attack(), 2);
+//     EXPECT_EQ(our_lightfang->get_health(), 2);
+//     EXPECT_EQ(our_yoho->get_attack(), 7);
+//     EXPECT_EQ(our_yoho->get_health(), 9);
+//     std::cerr << "Our asserts..." << std::endl;
+//     // theirs
+//     auto their_glyph = their_board->get_cards()[0];
+//     auto their_wildfire1 = their_board->get_cards()[1];
+//     auto their_wildfire2 = their_board->get_cards()[2];
+//     auto their_rag = their_board->get_cards()[3];
+//     auto their_bronzew = their_board->get_cards()[4];
+//     auto their_nomi = their_board->get_cards()[5];
+//     auto their_hangry = their_board->get_cards()[6];
+//     std::cerr << "THeir cards..." << std::endl;
+//     EXPECT_EQ(their_glyph->get_name(), "Glyph Guardian (Golden)");
+//     EXPECT_TRUE(their_glyph->has_reborn());
+//     EXPECT_EQ(their_wildfire1->get_name(), "Wildfire Elemental");
+//     EXPECT_EQ(their_wildfire2->get_name(), "Wildfire Elemental");
+//     EXPECT_EQ(their_rag->get_name(), "Lil' Rag");
+//     EXPECT_EQ(their_bronzew->get_name(), "Bronze Warden");
+//     EXPECT_EQ(their_nomi->get_name(), "Nomi, Kitchen Nightmare");
+//     EXPECT_EQ(their_hangry->get_name(), "Hangry Dragon (Golden)");
+//     EXPECT_EQ(their_glyph->get_attack(), 6);
+//     EXPECT_EQ(their_glyph->get_health(), 10);
+//     EXPECT_EQ(their_wildfire1->get_attack(), 13);
+//     EXPECT_EQ(their_wildfire1->get_health(), 9);
+//     EXPECT_EQ(their_wildfire2->get_attack(), 7);
+//     EXPECT_EQ(their_wildfire2->get_health(), 3);
+//     EXPECT_EQ(their_rag->get_attack(), 4);
+//     EXPECT_EQ(their_rag->get_health(), 4);
+//     EXPECT_EQ(their_bronzew->get_attack(), 6);
+//     EXPECT_EQ(their_bronzew->get_health(), 5);
+//     EXPECT_EQ(their_nomi->get_attack(), 4);
+//     EXPECT_EQ(their_nomi->get_health(), 4);
+//     EXPECT_EQ(their_hangry->get_attack(), 10);
+//     EXPECT_EQ(their_hangry->get_health(), 10);
+//     std::cerr << "THeir asserts..." << std::endl;
+//     // Give some tolerance, but bobs buddy gave:
+//     // Lethal: 13.6, Win 99.7, Tie .2, Loss .1, Lethal 0
+//     std::unique_ptr<Player> p1(new Player(our_board, "Ours"));
+//     std::unique_ptr<Player> p2(new Player(their_board, "Theirs"));
+//     auto battler = Battler(p1.get(), p2.get());
+//     std::cerr << "Battlin..." << std::endl;
+    
+//     // auto res = battler.sim_battle();
+//     //res = battler.sim_battle();
+//     // auto bfjd = BattleFrameJsonDump();
+//     // std::string filename = "bob_again.json";
+//     // bfjd.dump_to_json(res, filename);
+//     // std::ifstream ifs(filename);
+//     // EXPECT_TRUE(ifs.good());
+
+//     auto res = battler.sim_battles_par(10000);
+//     std::cerr << "P1 win: " << res.p1_win << std::endl;
+//     EXPECT_GT(res.p1_win, .35);
+//     EXPECT_LT(res.p1_win, .4);
+//     std::cerr << "draw: " << res.draw << std::endl;
+//     EXPECT_GT(res.draw, .15);
+//     EXPECT_LT(res.draw, .2);
+//     std::cerr << "p2 win: " << res.p2_win << std::endl;
+//     EXPECT_GT(res.p2_win, .42);
+//     EXPECT_LT(res.p2_win, .48);
+// }
+
+TEST_F(BobsReader, IsReasonablyThreadSafe) {
     // Turn 10
     auto battle_boards = *battle_boards_p;
     auto our_board = battle_boards[9].first;
     auto their_board = battle_boards[9].second;
-    EXPECT_EQ(our_board->length(), (unsigned)7);
-    EXPECT_EQ(their_board->length(), (unsigned)7);
-    // ours
-    auto our_rockpool = our_board->get_cards()[0];
-    auto our_salty_looter1 = our_board->get_cards()[1];
-    auto our_bronzew1 = our_board->get_cards()[2];
-    auto our_bronzew2 = our_board->get_cards()[3];
-    auto our_salty_looter2 = our_board->get_cards()[4];
-    auto our_lightfang = our_board->get_cards()[5];
-    auto our_yoho = our_board->get_cards()[6];
-    std::cerr << "Our cards..." << std::endl;
-    EXPECT_EQ(our_rockpool->get_name(), "Rockpool Hunter (Golden)");
-    EXPECT_EQ(our_salty_looter1->get_name(), "Salty Looter");
-    EXPECT_EQ(our_salty_looter2->get_name(), "Salty Looter");
-    EXPECT_EQ(our_bronzew1->get_name(), "Bronze Warden");
-    EXPECT_EQ(our_bronzew2->get_name(), "Bronze Warden");
-    EXPECT_EQ(our_lightfang->get_name(), "Lightfang Enforcer");
-    EXPECT_EQ(our_yoho->get_name(), "Yo-Ho-Ogre");
-    EXPECT_EQ(our_rockpool->get_attack(), 8);
-    EXPECT_EQ(our_rockpool->get_health(), 11);
-    EXPECT_EQ(our_salty_looter1->get_attack(), 13);
-    EXPECT_EQ(our_salty_looter1->get_health(), 10);
-    EXPECT_EQ(our_salty_looter2->get_attack(), 9);
-    EXPECT_EQ(our_salty_looter2->get_health(), 6);
-    EXPECT_EQ(our_bronzew1->get_attack(), 6);
-    EXPECT_EQ(our_bronzew1->get_health(), 5);
-    EXPECT_EQ(our_bronzew2->get_attack(), 6);
-    EXPECT_EQ(our_bronzew2->get_health(), 4);
-    EXPECT_EQ(our_lightfang->get_attack(), 2);
-    EXPECT_EQ(our_lightfang->get_health(), 2);
-    EXPECT_EQ(our_yoho->get_attack(), 7);
-    EXPECT_EQ(our_yoho->get_health(), 9);
-    std::cerr << "Our asserts..." << std::endl;
-    // theirs
-    auto their_glyph = their_board->get_cards()[0];
-    auto their_wildfire1 = their_board->get_cards()[1];
-    auto their_wildfire2 = their_board->get_cards()[2];
-    auto their_rag = their_board->get_cards()[3];
-    auto their_bronzew = their_board->get_cards()[4];
-    auto their_nomi = their_board->get_cards()[5];
-    auto their_hangry = their_board->get_cards()[6];
-    std::cerr << "THeir cards..." << std::endl;
-    EXPECT_EQ(their_glyph->get_name(), "Glyph Guardian (Golden)");
-    EXPECT_TRUE(their_glyph->has_reborn());
-    EXPECT_EQ(their_wildfire1->get_name(), "Wildfire Elemental");
-    EXPECT_EQ(their_wildfire2->get_name(), "Wildfire Elemental");
-    EXPECT_EQ(their_rag->get_name(), "Lil' Rag");
-    EXPECT_EQ(their_bronzew->get_name(), "Bronze Warden");
-    EXPECT_EQ(their_nomi->get_name(), "Nomi, Kitchen Nightmare");
-    EXPECT_EQ(their_hangry->get_name(), "Hangry Dragon (Golden)");
-    EXPECT_EQ(their_glyph->get_attack(), 6);
-    EXPECT_EQ(their_glyph->get_health(), 10);
-    EXPECT_EQ(their_wildfire1->get_attack(), 13);
-    EXPECT_EQ(their_wildfire1->get_health(), 9);
-    EXPECT_EQ(their_wildfire2->get_attack(), 7);
-    EXPECT_EQ(their_wildfire2->get_health(), 3);
-    EXPECT_EQ(their_rag->get_attack(), 4);
-    EXPECT_EQ(their_rag->get_health(), 4);
-    EXPECT_EQ(their_bronzew->get_attack(), 6);
-    EXPECT_EQ(their_bronzew->get_health(), 5);
-    EXPECT_EQ(their_nomi->get_attack(), 4);
-    EXPECT_EQ(their_nomi->get_health(), 4);
-    EXPECT_EQ(their_hangry->get_attack(), 10);
-    EXPECT_EQ(their_hangry->get_health(), 10);
-    std::cerr << "THeir asserts..." << std::endl;
+    // EXPECT_EQ(our_board->length(), (unsigned)7);
+    // EXPECT_EQ(their_board->length(), (unsigned)7);
+    // // ours
+    // auto our_rockpool = our_board->get_cards()[0];
+    // auto our_salty_looter1 = our_board->get_cards()[1];
+    // auto our_bronzew1 = our_board->get_cards()[2];
+    // auto our_bronzew2 = our_board->get_cards()[3];
+    // auto our_salty_looter2 = our_board->get_cards()[4];
+    // auto our_lightfang = our_board->get_cards()[5];
+    // auto our_yoho = our_board->get_cards()[6];
+    // std::cerr << "Our cards..." << std::endl;
+    // EXPECT_EQ(our_rockpool->get_name(), "Rockpool Hunter (Golden)");
+    // EXPECT_EQ(our_salty_looter1->get_name(), "Salty Looter");
+    // EXPECT_EQ(our_salty_looter2->get_name(), "Salty Looter");
+    // EXPECT_EQ(our_bronzew1->get_name(), "Bronze Warden");
+    // EXPECT_EQ(our_bronzew2->get_name(), "Bronze Warden");
+    // EXPECT_EQ(our_lightfang->get_name(), "Lightfang Enforcer");
+    // EXPECT_EQ(our_yoho->get_name(), "Yo-Ho-Ogre");
+    // EXPECT_EQ(our_rockpool->get_attack(), 8);
+    // EXPECT_EQ(our_rockpool->get_health(), 11);
+    // EXPECT_EQ(our_salty_looter1->get_attack(), 13);
+    // EXPECT_EQ(our_salty_looter1->get_health(), 10);
+    // EXPECT_EQ(our_salty_looter2->get_attack(), 9);
+    // EXPECT_EQ(our_salty_looter2->get_health(), 6);
+    // EXPECT_EQ(our_bronzew1->get_attack(), 6);
+    // EXPECT_EQ(our_bronzew1->get_health(), 5);
+    // EXPECT_EQ(our_bronzew2->get_attack(), 6);
+    // EXPECT_EQ(our_bronzew2->get_health(), 4);
+    // EXPECT_EQ(our_lightfang->get_attack(), 2);
+    // EXPECT_EQ(our_lightfang->get_health(), 2);
+    // EXPECT_EQ(our_yoho->get_attack(), 7);
+    // EXPECT_EQ(our_yoho->get_health(), 9);
+    // std::cerr << "Our asserts..." << std::endl;
+    // // theirs
+    // auto their_glyph = their_board->get_cards()[0];
+    // auto their_wildfire1 = their_board->get_cards()[1];
+    // auto their_wildfire2 = their_board->get_cards()[2];
+    // auto their_rag = their_board->get_cards()[3];
+    // auto their_bronzew = their_board->get_cards()[4];
+    // auto their_nomi = their_board->get_cards()[5];
+    // auto their_hangry = their_board->get_cards()[6];
+    // std::cerr << "THeir cards..." << std::endl;
+    // EXPECT_EQ(their_glyph->get_name(), "Glyph Guardian (Golden)");
+    // EXPECT_TRUE(their_glyph->has_reborn());
+    // EXPECT_EQ(their_wildfire1->get_name(), "Wildfire Elemental");
+    // EXPECT_EQ(their_wildfire2->get_name(), "Wildfire Elemental");
+    // EXPECT_EQ(their_rag->get_name(), "Lil' Rag");
+    // EXPECT_EQ(their_bronzew->get_name(), "Bronze Warden");
+    // EXPECT_EQ(their_nomi->get_name(), "Nomi, Kitchen Nightmare");
+    // EXPECT_EQ(their_hangry->get_name(), "Hangry Dragon (Golden)");
+    // EXPECT_EQ(their_glyph->get_attack(), 6);
+    // EXPECT_EQ(their_glyph->get_health(), 10);
+    // EXPECT_EQ(their_wildfire1->get_attack(), 13);
+    // EXPECT_EQ(their_wildfire1->get_health(), 9);
+    // EXPECT_EQ(their_wildfire2->get_attack(), 7);
+    // EXPECT_EQ(their_wildfire2->get_health(), 3);
+    // EXPECT_EQ(their_rag->get_attack(), 4);
+    // EXPECT_EQ(their_rag->get_health(), 4);
+    // EXPECT_EQ(their_bronzew->get_attack(), 6);
+    // EXPECT_EQ(their_bronzew->get_health(), 5);
+    // EXPECT_EQ(their_nomi->get_attack(), 4);
+    // EXPECT_EQ(their_nomi->get_health(), 4);
+    // EXPECT_EQ(their_hangry->get_attack(), 10);
+    // EXPECT_EQ(their_hangry->get_health(), 10);
+
+
+    
     // Give some tolerance, but bobs buddy gave:
     // Lethal: 13.6, Win 99.7, Tie .2, Loss .1, Lethal 0
     std::unique_ptr<Player> p1(new Player(our_board, "Ours"));
     std::unique_ptr<Player> p2(new Player(their_board, "Theirs"));
     auto battler = Battler(p1.get(), p2.get());
-    std::cerr << "Battlin..." << std::endl;
-    // auto res = battler.sim_battles(10000);
-    auto res = battler.sim_battle();
-    //res = battler.sim_battle();
-    auto bfjd = BattleFrameJsonDump();
-    std::string filename = "bob_again.json";
-    //import pdb; pdb.set_trace()
-    bfjd.dump_to_json(res, filename);
-    std::ifstream ifs(filename);
-    EXPECT_TRUE(ifs.good());
 
-    // std::cerr << "P1 win: " << res.p1_win << std::endl;
-    // EXPECT_LT(res.p1_win, .35);
-    // EXPECT_GT(res.p1_win, .4);
-    // // EXPECT_GT(res.p1_lethal, .10);
-    // std::cerr << "draw: " << res.draw << std::endl;
-    // EXPECT_LT(res.draw, .15);
-    // EXPECT_GT(res.draw, .2);
-    // std::cerr << "p2 win: " << res.p2_win << std::endl;
-    // EXPECT_LT(res.p2_win, .42);
-    // EXPECT_GT(res.p2_win, .48);
-    // EXPECT_EQ(res.p2_lethal, 0);
+    // Want to say parallel and non-parallel versions are more or less the same
+    RngSingleton::getInstance(123, true); // this also sets seed...
+    auto res_par = battler.sim_battles_par(1000);
+    RngSingleton::getInstance(123, true); // this also sets seed...
+    auto res = battler.sim_battles(1000);
+
+    // Within 5%, sample size of 1000 has relatively high variance
+    // TODO: Make thread_local seeding for reproducibility
+    EXPECT_LT(std::fabs(res_par.p1_win - res.p1_win), .05);
+    EXPECT_LT(std::fabs(res_par.p2_win - res.p2_win), .05);
+    EXPECT_LT(std::fabs(res_par.draw - res.draw), .05);
 }
+

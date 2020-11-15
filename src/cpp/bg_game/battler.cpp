@@ -413,7 +413,7 @@ std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, B
 	defender_pos = b2->get_pos(defender);
     }
     else {
-	defender_pos = rand() % b2->length();
+	defender_pos = RngSingleton::getInstance().get_rand_int() % b2->length();
 	defender = (*b2)[defender_pos];
     }
 
@@ -443,7 +443,7 @@ std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, B
 		defenders.push_back(c);
 	    }
 	}
-	defender = defenders[rand() % defenders.size()];
+	defender = defenders[RngSingleton::getInstance().get_rand_int() % defenders.size()];
 	defender_pos = b2->get_pos(defender);
     }
     
@@ -509,8 +509,8 @@ std::string Battler::decide_who_goes_first(Board* b1, Board* b2) {
 	return "p2";
     }
     else {
-	auto rng = rand() / RAND_MAX;
-	if (rng > .5) {
+	auto rng = RngSingleton::getInstance().get_rand_int(0, 1);
+	if (rng == 0) {
 	    return "p1";
 	}
 	else {

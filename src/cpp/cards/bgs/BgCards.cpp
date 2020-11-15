@@ -1072,6 +1072,8 @@ void WildfireElementalGolden::do_postattack(std::shared_ptr<BgBaseCard> defender
 					    Board* b1,
 					    Board* b2) {
     auto b2_cards = b2->get_cards();
+    std::cerr << "def pos: " << def_pos << std::endl;
+    std::cerr << "b2 cards size: " << b2_cards.size() << std::endl;
     if (b2_cards.size() == 0) return;
     if (defender->get_health() < 0) {	
 	auto damage = -1 * defender->get_health();
@@ -1083,6 +1085,26 @@ void WildfireElementalGolden::do_postattack(std::shared_ptr<BgBaseCard> defender
 					  damage,
 					  b1,
 					  b2);
+	}
+	else if ((unsigned)def_pos == b2_cards.size()) { // one already dead
+	    // b2_cards.size()-1 b/c end minion already dead
+	    auto new_defender = b2_cards[b2_cards.size()-1];
+	    BoardBattler().take_dmg_simul(new_defender,
+					  "ELEMENTAL",
+					  damage,
+					  b1,
+					  b2);
+
+	}
+	else if ((unsigned)def_pos == 0) {
+	    // index 1 gauranteed to exist, or first if would be hit
+	    auto new_defender = b2_cards[1];
+	    BoardBattler().take_dmg_simul(new_defender,
+					  "ELEMENTAL",
+					  damage,
+					  b1,
+					  b2);
+
 	}
 	else {
 	    auto new_defender_left = b2_cards[def_pos - 1];
@@ -1097,6 +1119,7 @@ void WildfireElementalGolden::do_postattack(std::shared_ptr<BgBaseCard> defender
 					  b2);
 	}
     }
+    std::cerr << "Done post attack." << std::endl;
 }
 
 

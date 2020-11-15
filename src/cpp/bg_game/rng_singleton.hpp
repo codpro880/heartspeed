@@ -33,4 +33,10 @@ public:
     int get_seed() { return seed; }
 
     int get_rand_int() { return int_dist(rng); };
+
+    // Return between start and stop (inclusive)
+    int get_rand_int(int start, int stop) {
+	std::uniform_int_distribution<uint32_t> int_dist_interval(start,stop);
+	return int_dist_interval(rng);
+    }
 };

@@ -1,5 +1,6 @@
 "use strict";
 
+
 function main() {
   // Get A WebGL context
   /** @type {HTMLCanvasElement} */
@@ -22,7 +23,8 @@ function main() {
 
   // Create a buffer.
   var positionBuffer = gl.createBuffer();
-  gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+    gl.bindBuffer(gl.ARRAY_BUFFER, positionBuffer);
+
 
   // Put a unit quad in the buffer
   var positions = [
@@ -96,12 +98,14 @@ function main() {
       		});
       // let cardCanvas = document.getElementById('cardCanvas')
       var card_name_raw = card_json['name'];
+      var card_text = getCardText(card_json);
       var card_name = card_name_raw.replace(" (Golden)", "");
       		sunwell.createCard({
       		    //"id": "EX1_116",
       		    //"dbfId": 559,
       		    "name": card_name,
       		    // "text": "<b>Charge</b>. <b>Battlecry:</b> Summon two 1/1 Whelps for your opponent.",
+		    "text": card_text,
       		    // "flavor": "At least he has Angry Chicken.",
       		    // "artist": "Gabe from Penny Arcade",
       		    "attack": card_json['attack'],
@@ -133,100 +137,192 @@ function main() {
     //loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/star.jpg'),
     //loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/leaves.jpg'),
     //loadImageAndCreateTextureInfo('https://webglfundamentals.org/webgl/resources/keyboard.jpg'),
-  ];
+    ];
 
-    var frame_list = getCardFrame();
-    var first_frame_b1 = frame_list[0]["b1"]
-    var first_frame_b2 = frame_list[0]["b2"]
-    var drawInfos = [];
-    // var numToDraw = 9;
-    // var numToDraw = first_frame.length;
-    var numToDraw = first_frame_b1.length + first_frame_b2.length
-    var speed = 60;
-    
-    for (var ii = 0; ii < first_frame_b1.length; ++ii) {
-    	//var percent = 1.0 / numToDraw;
-    	var percent = .5
-	var card_json = first_frame_b1[ii]
-    	var drawInfo = {
-    	    // x: Math.random() * gl.canvas.width,
-    	    // y: Math.random() * gl.canvas.height,
-    	    x: percent * ii * gl.canvas.width,
-    	    y: 0,
-    	    // dx: Math.random() > 0.5 ? -1 : 1,
-    	    dx: Math.random() > 0.5 ? -1 : 1,
-    	    dy: Math.random() > 0.5 ? -1 : 1,
-    	    // xScale: Math.random() * 0.25 + 0.25,
-    	    // yScale: Math.random() * 0.25 + 0.25,
-    	    xScale: .5,
-    	    yScale: .5,
-    	    //textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
-	    textureInfo: loadImageAndCreateTextureInfo(card_json),
-    	};
-    	drawInfos.push(drawInfo);
+    // Our globals...
+    var drawInfos;
+    var frame_num = 0;
+    var frame_list = getCardFrames();
+    //var update_now = true;
+    var update_now = false;
+    var dinfo_to_update;// = drawInfos[0];
+    //var dinfo_dest;// = [50, 50];
+    var dinfo_dx;
+    var dinfo_dy;
+    var num_frames = 50;
+    var flipper = true;
+    var num_frames_animated = 0;
+    // end globals
+
+    window.addEventListener("load", function setupWebGL (evt) {
+	"use strict"
+
+	// Cleaning after ourselves. The event handler removes
+	// itself, because it only needs to run once.
+	window.removeEventListener(evt.type, setupWebGL, false);
+
+	// Adding the same click event handler to both canvas and
+	// button.
+	var canvas = document.querySelector("#canvas");
+	var forward_button = document.querySelector("#frame-forward");
+	var backward_button = document.querySelector("#frame-backward");
+	// canvas.addEventListener("click", switchColor, false);
+	forward_button.addEventListener("click", frameForwardOnClick, false);
+	backward_button.addEventListener("click", frameBackwardOnClick, false);
+
+	// A variable to hold the WebGLRenderingContext.
+	var gl;
+
+	// The click event handler.
+	function frameForwardOnClick () {
+	    if (!flipper) {
+		if (frame_num < frame_list.length) frame_num++;
+		drawInfos = populateDrawInfos(frame_num);
+		flipper = !flipper;
+		return;
+	    }
+	    if (flipper) {
+		update_now = true;
+		//var attacker_board;
+		if (frame_list[frame_num]["b1_turn"]) {
+		    var attacker_pos = frame_list[frame_num]['attacker_pos'];
+		    var attacker_board = frame_list[frame_num]["b1"];
+		    var defender_pos = frame_list[frame_num]['defender_pos'] + attacker_board.length;
+		    var defender = drawInfos[defender_pos];
+		    dinfo_to_update = drawInfos[attacker_pos];
+		    var dinfo_dest = [defender.x, defender.y];
+		    dinfo_dx = (defender.x - dinfo_to_update.x) / num_frames / 3;
+		    dinfo_dy = (defender.y - dinfo_to_update.y) / num_frames / 3;
+		}
+		else {
+		    console.log("Frame num: " + frame_num);
+		    //var attacker_board = frame_list[frame_num]["b2"];
+		    var defender_board = frame_list[frame_num]["b1"];
+		    var attacker_pos = frame_list[frame_num]['attacker_pos'] + defender_board.length;
+		    var defender_pos = frame_list[frame_num]['defender_pos'];
+		    console.log("attacker pos: " + attacker_pos);
+		    console.log("defender_pos: " + defender_pos);
+		    var defender = drawInfos[defender_pos];
+		    dinfo_to_update = drawInfos[attacker_pos];
+		    var dinfo_dest = [defender.x, defender.y];
+		    dinfo_dx = (defender.x - dinfo_to_update.x) / num_frames / 3;
+		    dinfo_dy = (defender.y - dinfo_to_update.y) / num_frames / 3;
+		}
+		console.log("dinfo_dx: " + dinfo_dx);
+		console.log("dinfo_dy: " + dinfo_dy);
+		flipper = !flipper;
+		return;
+	    }
+	}
+	
+	function frameBackwardOnClick () {
+	    if (frame_num > 0) frame_num--;	    
+	    drawInfos = populateDrawInfos(frame_num);
+	}
+
+    }, false);
+
+
+    function populateDrawInfos(frame_num) {
+	//var frame_list = getCardFrames();
+	var first_frame_b1 = frame_list[frame_num]["b1"];
+	var first_frame_b2 = frame_list[frame_num]["b2"];
+	if (typeof first_frame_b1 === 'undefined') {
+	    first_frame_b1 = []
+	}
+	if (typeof first_frame_b2 === 'undefined') {
+	    first_frame_b2 = []
+	}
+	var drawInfos = [];
+	// var numToDraw = 9;
+	// var numToDraw = first_frame.length;
+	// var numToDraw = first_frame_b1.length + first_frame_b2.length
+	var speed = 60;
+	gl.canvas.width = 300;
+	gl.canvas.height = 150;
+	
+	for (var ii = 0; ii < first_frame_b1.length; ++ii) {
+    	    //var percent = 1.0 / numToDraw;
+    	    var percent = .5
+	    var card_json = first_frame_b1[ii]
+	    console.log("ii" + ii);
+	    console.log("gl.canvas.width" + gl.canvas.width);
+	    console.log("gl.canvas.height" + gl.canvas.height);
+	    console.log("X POS: " + (percent * ii * gl.canvas.width));
+	    console.log("Y POS: " + (percent * ii * gl.canvas.height));
+    	    var drawInfo = {
+    		// x: Math.random() * gl.canvas.width,
+    		// y: Math.random() * gl.canvas.height,
+    		x: percent * ii * gl.canvas.width,
+    		y: 0,
+    		// dx: Math.random() > 0.5 ? -1 : 1,
+    		dx: Math.random() > 0.5 ? -1 : 1,
+    		dy: Math.random() > 0.5 ? -1 : 1,
+    		// xScale: Math.random() * 0.25 + 0.25,
+    		// yScale: Math.random() * 0.25 + 0.25,
+    		xScale: .5,
+    		yScale: .5,
+    		//textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
+		textureInfo: loadImageAndCreateTextureInfo(card_json),
+    	    };
+    	    drawInfos.push(drawInfo);
+	}
+
+	for (var jj = 0; jj < first_frame_b2.length; ++jj) {
+    	    var percent = .5
+	    var card_json = first_frame_b2[jj]
+    	    var drawInfo = {
+    		// x: Math.random() * gl.canvas.width,
+    		// y: Math.random() * gl.canvas.height,
+    		x: percent * jj * gl.canvas.width,
+    		y: gl.canvas.height * 2,
+    		// dx: Math.random() > 0.5 ? -1 : 1,
+    		dx: Math.random() > 0.5 ? -1 : 1,
+    		dy: Math.random() > 0.5 ? -1 : 1,
+    		// xScale: Math.random() * 0.25 + 0.25,
+    		// yScale: Math.random() * 0.25 + 0.25,
+    		xScale: .5,
+    		yScale: .5,
+		//textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
+		
+    		textureInfo: loadImageAndCreateTextureInfo(card_json),
+    	    };
+    	    drawInfos.push(drawInfo);
+	}
+	return drawInfos;
     }
+    drawInfos = populateDrawInfos(0);
 
-    for (var jj = 0; jj < first_frame_b2.length; ++jj) {
-    	var percent = .5
-	var card_json = first_frame_b2[jj]
-    	var drawInfo = {
-    	    // x: Math.random() * gl.canvas.width,
-    	    // y: Math.random() * gl.canvas.height,
-    	    x: percent * jj * gl.canvas.width,
-    	    y: gl.canvas.height * 2,
-    	    // dx: Math.random() > 0.5 ? -1 : 1,
-    	    dx: Math.random() > 0.5 ? -1 : 1,
-    	    dy: Math.random() > 0.5 ? -1 : 1,
-    	    // xScale: Math.random() * 0.25 + 0.25,
-    	    // yScale: Math.random() * 0.25 + 0.25,
-    	    xScale: .5,
-    	    yScale: .5,
-	    //textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
-	    
-    	    textureInfo: loadImageAndCreateTextureInfo(card_json),
-    	};
-    	drawInfos.push(drawInfo);
+    function update(deltaTime) {
+	if (update_now) {
+	    dinfo_to_update.x = dinfo_to_update.x + dinfo_dx;
+	    dinfo_to_update.y = dinfo_to_update.y + dinfo_dy;
+	    // dinfo_to_update.x = dinfo_to_update.x + 1;
+	    // dinfo_to_update.y = dinfo_to_update.y + 1;
+	    if (num_frames_animated === num_frames) {
+		update_now = false;
+		num_frames_animated = 0;
+	    }
+	    num_frames_animated++;
+	}
+	
+	// drawInfos.forEach(function(drawInfo) {
+	//     // drawInfo.x += drawInfo.dx * speed * deltaTime;
+	//     // drawInfo.y += drawInfo.dy * speed * deltaTime;
+	//     if (drawInfo.x < 0) {
+	// 	drawInfo.dx = 1;
+	//     }
+	//     if (drawInfo.x >= gl.canvas.width) {
+	// 	drawInfo.dx = -1;
+	//     }
+	//     if (drawInfo.y < 0) {
+	// 	drawInfo.dy = 1;
+	//     }
+	//     if (drawInfo.y >= gl.canvas.height) {
+	// 	drawInfo.dy = -1;
+	//     }
+	// });
     }
-    
-    // for (var ii = 0; ii < numToDraw; ++ii) {
-    // 	//var percent = 1.0 / numToDraw;
-    // 	var first_row = ii < numToDraw / 2;
-    // 	var percent = .5
-    // 	var drawInfo = {
-    // 	    // x: Math.random() * gl.canvas.width,
-    // 	    // y: Math.random() * gl.canvas.height,
-    // 	    x: first_row ? percent * ii * gl.canvas.width : percent * (ii - numToDraw/2) * gl.canvas.width,
-    // 	    y: first_row ? 0 : gl.canvas.height * 2,
-    // 	    // dx: Math.random() > 0.5 ? -1 : 1,
-    // 	    dx: Math.random() > 0.5 ? -1 : 1,
-    // 	    dy: Math.random() > 0.5 ? -1 : 1,
-    // 	    // xScale: Math.random() * 0.25 + 0.25,
-    // 	    // yScale: Math.random() * 0.25 + 0.25,
-    // 	    xScale: .5,
-    // 	    yScale: .5,
-    // 	    textureInfo: textureInfos[Math.random() * textureInfos.length | 0],
-    // 	};
-    // 	drawInfos.push(drawInfo);
-    // }
-
-  function update(deltaTime) {
-    drawInfos.forEach(function(drawInfo) {
-      // drawInfo.x += drawInfo.dx * speed * deltaTime;
-      // drawInfo.y += drawInfo.dy * speed * deltaTime;
-      if (drawInfo.x < 0) {
-        drawInfo.dx = 1;
-      }
-      if (drawInfo.x >= gl.canvas.width) {
-        drawInfo.dx = -1;
-      }
-      if (drawInfo.y < 0) {
-        drawInfo.dy = 1;
-      }
-      if (drawInfo.y >= gl.canvas.height) {
-        drawInfo.dy = -1;
-      }
-    });
-  }
 
   function draw() {
     webglUtils.resizeCanvasToDisplaySize(gl.canvas);
@@ -236,7 +332,9 @@ function main() {
 
     gl.clear(gl.COLOR_BUFFER_BIT);
 
-    drawInfos.forEach(function(drawInfo) {
+      drawInfos.forEach(function(drawInfo) {
+	  // console.log("X POS: " + drawInfo.x);
+	  // console.log("Y POS: " + drawInfo.y);
       var dstX      = drawInfo.x;
       var dstY      = drawInfo.y;
       var dstWidth  = drawInfo.textureInfo.width  * drawInfo.xScale;
@@ -309,47 +407,137 @@ function main() {
     gl.drawArrays(gl.TRIANGLES, 0, 6);
   }
 
-    function getCardFrame() {
+    function getCardFrames() {
 	var json = `[
     {
+        "attacker_pos": 0,
         "b1": [
             {
-                "attack": 999999,
+                "attack": 6,
                 "has_cleave": false,
                 "has_divine_shield": false,
-                "has_poison": true,
-                "has_reborn": false,
+                "has_poison": false,
+                "has_reborn": true,
                 "has_taunt": false,
                 "has_windfury": false,
-                "health": 2,
-                "name": "Murloc Tidehunter (Golden)"
+                "health": 10,
+                "name": "Glyph Guardian (Golden)"
             },
             {
-                "attack": 999999,
+                "attack": 13,
                 "has_cleave": false,
                 "has_divine_shield": false,
-                "has_poison": true,
+                "has_poison": false,
                 "has_reborn": false,
                 "has_taunt": false,
                 "has_windfury": false,
-                "health": 2,
-                "name": "Murloc Tidehunter (Golden)"
+                "health": 9,
+                "name": "Wildfire Elemental"
             },
             {
-                "attack": 999999,
+                "attack": 7,
                 "has_cleave": false,
                 "has_divine_shield": false,
-                "has_poison": true,
+                "has_poison": false,
                 "has_reborn": false,
                 "has_taunt": false,
                 "has_windfury": false,
-                "health": 2,
-                "name": "Murloc Tidehunter (Golden)"
+                "health": 3,
+                "name": "Wildfire Elemental"
+            },
+            {
+                "attack": 4,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 4,
+                "name": "Lil' Rag"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 5,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 4,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 4,
+                "name": "Nomi, Kitchen Nightmare"
+            },
+            {
+                "attack": 10,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 10,
+                "name": "Hangry Dragon (Golden)"
             }
         ],
+        "b1_turn": 1,
         "b2": [
             {
+                "attack": 8,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 11,
+                "name": "Rockpool Hunter (Golden)"
+            },
+            {
+                "attack": 13,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 10,
+                "name": "Salty Looter"
+            },
+            {
                 "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 5,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 4,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 9,
                 "has_cleave": false,
                 "has_divine_shield": false,
                 "has_poison": false,
@@ -357,49 +545,162 @@ function main() {
                 "has_taunt": false,
                 "has_windfury": false,
                 "health": 6,
-                "name": "Freedealing Gambler (Golden)"
+                "name": "Salty Looter"
             },
-          {
-                "attack": 6,
+            {
+                "attack": 2,
                 "has_cleave": false,
                 "has_divine_shield": false,
                 "has_poison": false,
                 "has_reborn": false,
                 "has_taunt": false,
                 "has_windfury": false,
-                "health": 6,
-                "name": "Freedealing Gambler (Golden)"
-            }
-        ]
-    },
-    {
-        "b1": [
-            {
-                "attack": 999999,
-                "has_cleave": false,
-                "has_divine_shield": false,
-                "has_poison": true,
-                "has_reborn": false,
-                "has_taunt": false,
-                "has_windfury": false,
                 "health": 2,
-                "name": "Murloc Tidehunter (Golden)"
+                "name": "Lightfang Enforcer"
             },
             {
-                "attack": 999999,
+                "attack": 7,
                 "has_cleave": false,
                 "has_divine_shield": false,
-                "has_poison": true,
+                "has_poison": false,
                 "has_reborn": false,
-                "has_taunt": false,
+                "has_taunt": true,
                 "has_windfury": false,
-                "health": 2,
-                "name": "Murloc Tidehunter (Golden)"
+                "health": 9,
+                "name": "Yo-Ho-Ogre"
             }
         ],
-        "b2": [
+        "defender_pos": 6
+    },
+    {
+        "attacker_pos": 0,
+        "b1": [
+            {
+                "attack": 18,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 3,
+                "name": "Glyph Guardian (Golden)"
+            },
+            {
+                "attack": 13,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 9,
+                "name": "Wildfire Elemental"
+            },
+            {
+                "attack": 7,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 3,
+                "name": "Wildfire Elemental"
+            },
+            {
+                "attack": 4,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 4,
+                "name": "Lil' Rag"
+            },
             {
                 "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 5,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 4,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 4,
+                "name": "Nomi, Kitchen Nightmare"
+            },
+            {
+                "attack": 10,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 10,
+                "name": "Hangry Dragon (Golden)"
+            }
+        ],
+        "b1_turn": 0,
+        "b2": [
+            {
+                "attack": 8,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 11,
+                "name": "Rockpool Hunter (Golden)"
+            },
+            {
+                "attack": 13,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 10,
+                "name": "Salty Looter"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 5,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 4,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 9,
                 "has_cleave": false,
                 "has_divine_shield": false,
                 "has_poison": false,
@@ -407,27 +708,953 @@ function main() {
                 "has_taunt": false,
                 "has_windfury": false,
                 "health": 6,
-                "name": "Freedealing Gambler (Golden)"
-            }
-        ]
-    },
-    {
-        "b1": [
+                "name": "Salty Looter"
+            },
             {
-                "attack": 999999,
+                "attack": 2,
                 "has_cleave": false,
                 "has_divine_shield": false,
-                "has_poison": true,
+                "has_poison": false,
                 "has_reborn": false,
                 "has_taunt": false,
                 "has_windfury": false,
                 "health": 2,
-                "name": "Murloc Tidehunter (Golden)"
+                "name": "Lightfang Enforcer"
             }
-        ]
+        ],
+        "defender_pos": 5
+    },
+    {
+        "attacker_pos": 1,
+        "b1": [
+            {
+                "attack": 18,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 3,
+                "name": "Glyph Guardian (Golden)"
+            },
+            {
+                "attack": 13,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 9,
+                "name": "Wildfire Elemental"
+            },
+            {
+                "attack": 7,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 3,
+                "name": "Wildfire Elemental"
+            },
+            {
+                "attack": 4,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 4,
+                "name": "Lil' Rag"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 5,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 10,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 10,
+                "name": "Hangry Dragon (Golden)"
+            }
+        ],
+        "b1_turn": 1,
+        "b2": [
+            {
+                "attack": 8,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 7,
+                "name": "Rockpool Hunter (Golden)"
+            },
+            {
+                "attack": 13,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 10,
+                "name": "Salty Looter"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 5,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 4,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 9,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 6,
+                "name": "Salty Looter"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Lightfang Enforcer"
+            }
+        ],
+        "defender_pos": 4
+    },
+    {
+        "attacker_pos": 1,
+        "b1": [
+            {
+                "attack": 18,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 3,
+                "name": "Glyph Guardian (Golden)"
+            },
+            {
+                "attack": 7,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 3,
+                "name": "Wildfire Elemental"
+            },
+            {
+                "attack": 4,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 4,
+                "name": "Lil' Rag"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 5,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 10,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 10,
+                "name": "Hangry Dragon (Golden)"
+            }
+        ],
+        "b1_turn": 0,
+        "b2": [
+            {
+                "attack": 8,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 7,
+                "name": "Rockpool Hunter (Golden)"
+            },
+            {
+                "attack": 13,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 10,
+                "name": "Salty Looter"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 5,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 4,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Lightfang Enforcer"
+            }
+        ],
+        "defender_pos": 4
+    },
+    {
+        "attacker_pos": 1,
+        "b1": [
+            {
+                "attack": 18,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 3,
+                "name": "Glyph Guardian (Golden)"
+            },
+            {
+                "attack": 7,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 3,
+                "name": "Wildfire Elemental"
+            },
+            {
+                "attack": 4,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 4,
+                "name": "Lil' Rag"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 5,
+                "name": "Bronze Warden"
+            }
+        ],
+        "b1_turn": 1,
+        "b2": [
+            {
+                "attack": 8,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 7,
+                "name": "Rockpool Hunter (Golden)"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 5,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 4,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Lightfang Enforcer"
+            }
+        ],
+        "defender_pos": 1
+    },
+    {
+        "attacker_pos": 1,
+        "b1": [
+            {
+                "attack": 18,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 3,
+                "name": "Glyph Guardian (Golden)"
+            },
+            {
+                "attack": 4,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 4,
+                "name": "Lil' Rag"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 5,
+                "name": "Bronze Warden"
+            }
+        ],
+        "b1_turn": 0,
+        "b2": [
+            {
+                "attack": 8,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 7,
+                "name": "Rockpool Hunter (Golden)"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 5,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 4,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Lightfang Enforcer"
+            }
+        ],
+        "defender_pos": 0
+    },
+    {
+        "attacker_pos": 1,
+        "b1": [
+            {
+                "attack": 4,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Glyph Guardian (Golden)"
+            },
+            {
+                "attack": 4,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 4,
+                "name": "Lil' Rag"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 5,
+                "name": "Bronze Warden"
+            }
+        ],
+        "b1_turn": 1,
+        "b2": [
+            {
+                "attack": 8,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 7,
+                "name": "Rockpool Hunter (Golden)"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 4,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Lightfang Enforcer"
+            }
+        ],
+        "defender_pos": 2
+    },
+    {
+        "attacker_pos": 3,
+        "b1": [
+            {
+                "attack": 4,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Glyph Guardian (Golden)"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 5,
+                "name": "Bronze Warden"
+            }
+        ],
+        "b1_turn": 0,
+        "b2": [
+            {
+                "attack": 8,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 7,
+                "name": "Rockpool Hunter (Golden)"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 2,
+                "name": "Lightfang Enforcer"
+            }
+        ],
+        "defender_pos": 1
+    },
+    {
+        "attacker_pos": 1,
+        "b1": [
+            {
+                "attack": 4,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Glyph Guardian (Golden)"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 5,
+                "name": "Bronze Warden"
+            }
+        ],
+        "b1_turn": 1,
+        "b2": [
+            {
+                "attack": 8,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 7,
+                "name": "Rockpool Hunter (Golden)"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Bronze Warden"
+            }
+        ],
+        "defender_pos": 2
+    },
+    {
+        "attacker_pos": 0,
+        "b1": [
+            {
+                "attack": 4,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Glyph Guardian (Golden)"
+            },
+            {
+                "attack": 6,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 3,
+                "name": "Bronze Warden"
+            }
+        ],
+        "b1_turn": 0,
+        "b2": [
+            {
+                "attack": 8,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 7,
+                "name": "Rockpool Hunter (Golden)"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Bronze Warden"
+            }
+        ],
+        "defender_pos": 1
+    },
+    {
+        "attacker_pos": 1,
+        "b1": [
+            {
+                "attack": 4,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Glyph Guardian (Golden)"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Bronze Warden"
+            }
+        ],
+        "b1_turn": 1,
+        "b2": [
+            {
+                "attack": 8,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Rockpool Hunter (Golden)"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Bronze Warden"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Bronze Warden"
+            }
+        ],
+        "defender_pos": 2
+    },
+    {
+        "attacker_pos": 1,
+        "b1": [
+            {
+                "attack": 4,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Glyph Guardian (Golden)"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Bronze Warden"
+            }
+        ],
+        "b1_turn": 0,
+        "b2": [
+            {
+                "attack": 8,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Rockpool Hunter (Golden)"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": true,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Bronze Warden"
+            }
+        ],
+        "defender_pos": 0
+    },
+    {
+        "attacker_pos": 0,
+        "b1": [
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Bronze Warden"
+            }
+        ],
+        "b1_turn": 1,
+        "b2": [
+            {
+                "attack": 8,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Rockpool Hunter (Golden)"
+            },
+            {
+                "attack": 2,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Bronze Warden"
+            }
+        ],
+        "defender_pos": 1
+    },
+    {
+        "attacker_pos": 2,
+        "b1_turn": 5132105,
+        "b2": [
+            {
+                "attack": 8,
+                "has_cleave": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": false,
+                "has_taunt": false,
+                "has_windfury": false,
+                "health": 1,
+                "name": "Rockpool Hunter (Golden)"
+            }
+        ],
+        "defender_pos": 5132103
     }
 ]`;
 	return JSON.parse(json);
+    }
+
+    function getCardText(card_json) {
+	// "has_cleave": false,
+        // "has_divine_shield": false,
+        // "has_poison": false,
+        // "has_reborn": false,
+        // "has_taunt": false,
+        // "has_windfury": false,
+	var text = "";
+	if (card_json['has_divine_shield']) {
+	    text += "DIVINE ";
+	}
+	if (card_json['has_reborn']) {
+	    text += "REBORN ";
+	}
+	if (card_json['has_taunt']) {
+	    text += "TAUNT ";
+	}
+	return text;
     }
 
 }

@@ -115,10 +115,10 @@ TEST(Battler, CanGiveBackBattleFramesAndDumpJson) {
     auto bfjd = BattleFrameJsonDump();
     //std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
     std::string filename = "test.json";
-    bfjd.dump_to_json(res.frames, filename);
+    bfjd.dump_to_json(res, filename);
     std::ifstream ifs(filename);
     EXPECT_TRUE(ifs.good());
-    std::remove(filename.c_str());
+    //std::remove(filename.c_str());
 }
 
 TEST(Battler, CanHandlePoisonCorrectly) {
@@ -1947,9 +1947,10 @@ TEST(Battler, WildfireElementalGolden) {
     std::shared_ptr<Board> board2(new Board(p2_cards));
     std::unique_ptr<Player> p1(new Player(board1, "Tess"));
     std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
-    auto battler = Battler(p1.get(), p2.get());
+    auto battler = Battler(p1.get(), p2.get(), true);
     auto res = battler.sim_battle();
-    EXPECT_EQ(res.who_won, "Tess");
+    // Draw if it Wildfire hits a murloc on the edge (it only has 6 health)
+    EXPECT_TRUE(res.who_won == "Tess" || res.who_won == "draw");
 }
 
 

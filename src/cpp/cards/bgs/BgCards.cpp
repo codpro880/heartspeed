@@ -6,6 +6,7 @@
 #include "BgCardFactory.hpp"
 #include "../../bg_game/board.hpp"
 #include "../../bg_game/battler.hpp"
+#include "../../bg_game/rng_singleton.hpp"
 
 void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
     if (b1->contains("Baron Rivendare")) {
@@ -68,7 +69,7 @@ std::shared_ptr<BgBaseCard> Djinni::summon() {
 	pos++;
     }
     cards.erase(cards.begin() + pos);
-    auto card = cards[rand() % cards.size()];
+    auto card = cards[RngSingleton::getInstance().get_rand_int() % cards.size()];
     return card;
 }
 
@@ -81,7 +82,7 @@ std::shared_ptr<BgBaseCard> DjinniGolden::summon() {
 }
 
 void FiendishServant::do_deathrattle(Board* b1, Board*b2) {
-    auto buffed_pos = rand() % b1->length();
+    auto buffed_pos = RngSingleton::getInstance().get_rand_int() % b1->length();
     auto card = b1->get_cards()[buffed_pos];
     card->set_attack(card->get_attack() + attack);
 }
@@ -100,7 +101,7 @@ void Ghastcoiler::do_deathrattle(Board* b1, Board* b2) {
 std::shared_ptr<BgBaseCard> Ghastcoiler::summon() {
     auto f = BgCardFactory();
     auto cards = f.get_cards_with_deathrattle();
-    auto card = cards[rand() % cards.size()];
+    auto card = cards[RngSingleton::getInstance().get_rand_int() % cards.size()];
     return card;
 }
 
@@ -227,7 +228,7 @@ void ImpMama::take_damage(int damage, std::string who_from_race, Board* b1, Boar
 std::shared_ptr<BgBaseCard> ImpMama::summon() {
     auto f = BgCardFactory();
     auto demons = f.get_cards_of_race("DEMON");    
-    auto demon = demons[rand() % demons.size()];
+    auto demon = demons[RngSingleton::getInstance().get_rand_int() % demons.size()];
     demon->set_taunt();
     return demon;
 }
@@ -332,7 +333,7 @@ void KaboomBot::do_deathrattle(Board* b1, Board* b2) {
     if (b2->length() == 0) {
 	return;
     }
-    auto bombed_pos = rand() % b2->length();
+    auto bombed_pos = RngSingleton::getInstance().get_rand_int() % b2->length();
     auto bombed_card = b2->get_cards()[bombed_pos];
     BoardBattler b;
     b.take_dmg_simul(bombed_card, this->get_race(), 4, b2, b1);
@@ -510,7 +511,7 @@ void MonstrousMacaw::do_preattack(std::shared_ptr<BgBaseCard> defender,
 	}
     }
     if (!drattles.empty()) {
-	auto random_drattle = drattles[rand() % drattles.size()];
+	auto random_drattle = drattles[RngSingleton::getInstance().get_rand_int() % drattles.size()];
 	random_drattle->do_deathrattle(b1, b2);
     }
 }
@@ -623,7 +624,7 @@ void PilotedShredder::do_deathrattle(Board* b1, Board* b2) {
 std::shared_ptr<BgBaseCard> PilotedShredder::summon() {
     auto f = BgCardFactory();
     auto two_cost_cards = f.get_cards_of_cost(2);
-    auto card = two_cost_cards[rand() % two_cost_cards.size()];
+    auto card = two_cost_cards[RngSingleton::getInstance().get_rand_int() % two_cost_cards.size()];
     return card;
 }
 
@@ -662,7 +663,7 @@ void RedWhelp::do_precombat(Board* b1, Board*b2) {
 	    drag_count++;
 	}
     }
-    auto defender_pos = rand() % b2->length();
+    auto defender_pos = RngSingleton::getInstance().get_rand_int() % b2->length();
     auto defender = (*b2)[defender_pos];
     BoardBattler b;
     b.take_dmg_simul(defender, this->get_race(), drag_count, b2, b1);
@@ -806,7 +807,7 @@ void SelflessHero::do_deathrattle(Board* b1, Board*b2) {
 	}
     }
     if (cards.size() > 0) {
-	auto buffed_pos = rand() % cards.size();
+	auto buffed_pos = RngSingleton::getInstance().get_rand_int() % cards.size();
 	auto card = cards[buffed_pos];
 	card->set_divine_shield();
     }
@@ -855,7 +856,7 @@ void SneedsOldShredder::do_deathrattle(Board* b1, Board* b2) {
 std::shared_ptr<BgBaseCard> SneedsOldShredder::summon() {
     auto f = BgCardFactory();
     auto legendary_cards = f.get_cards_of_rarity("LEGENDARY");
-    auto card = legendary_cards[rand() % legendary_cards.size()];
+    auto card = legendary_cards[RngSingleton::getInstance().get_rand_int() % legendary_cards.size()];
     return card;
 }
 
@@ -883,7 +884,7 @@ void SoulJuggler::do_postbattle(Board* b1,
     }
     auto battler = BoardBattler();
     for (int i = 0; i < dead_demon_count; i++) {
-	auto card = cards[rand() % cards.size()];
+	auto card = cards[RngSingleton::getInstance().get_rand_int() % cards.size()];
 	battler.take_dmg_simul(card, "NEUTRAL", 3, b1, b2);
     }
     
@@ -966,7 +967,7 @@ void TheTideRazor::do_deathrattle(Board* b1, Board* b2) {
 std::shared_ptr<BgBaseCard> TheTideRazor::summon() {
     auto f = BgCardFactory();
     auto cards = f.get_cards_of_race("PIRATE");
-    auto card = cards[rand() % cards.size()];
+    auto card = cards[RngSingleton::getInstance().get_rand_int() % cards.size()];
     return card;
 }
 
@@ -1041,12 +1042,11 @@ void WildfireElemental::do_postattack(std::shared_ptr<BgBaseCard> defender,
 				      Board* b2) {
     auto b2_cards = b2->get_cards();
     if (b2_cards.size() == 0) return;
-    std::cerr << "Wildfire post attack..." << std::endl;
     if (defender->get_health() < 0) {
 	auto damage = -1 * defender->get_health();
 	int new_defender_pos = 0;
 	if (b2_cards.size() > 1) {
-	    auto lor = rand() % 2;
+	    auto lor = RngSingleton::getInstance().get_rand_int() % 2;
 	    if (lor) { // left
 		new_defender_pos = std::max(0, def_pos - 1);
 	    }
@@ -1056,8 +1056,6 @@ void WildfireElemental::do_postattack(std::shared_ptr<BgBaseCard> defender,
 		new_defender_pos = std::min(b2_cards.size() - 1, (size_t)def_pos);
 	    }
 	}
-	std::cerr << "New defender pos:" << new_defender_pos << std::endl;
-	std::cerr << "b2_cards size::" << b2_cards.size() << std::endl;
 	auto new_defender = b2_cards[new_defender_pos];
 	BoardBattler().take_dmg_simul(new_defender,
 				      "ELEMENTAL",
@@ -1083,6 +1081,26 @@ void WildfireElementalGolden::do_postattack(std::shared_ptr<BgBaseCard> defender
 					  damage,
 					  b1,
 					  b2);
+	}
+	else if ((unsigned)def_pos == b2_cards.size()) { // one already dead
+	    // b2_cards.size()-1 b/c end minion already dead
+	    auto new_defender = b2_cards[b2_cards.size()-1];
+	    BoardBattler().take_dmg_simul(new_defender,
+					  "ELEMENTAL",
+					  damage,
+					  b1,
+					  b2);
+
+	}
+	else if ((unsigned)def_pos == 0) {
+	    // index 1 gauranteed to exist, or first if would be hit
+	    auto new_defender = b2_cards[1];
+	    BoardBattler().take_dmg_simul(new_defender,
+					  "ELEMENTAL",
+					  damage,
+					  b1,
+					  b2);
+
 	}
 	else {
 	    auto new_defender_left = b2_cards[def_pos - 1];

@@ -62,6 +62,16 @@ std::shared_ptr<BgBaseCard> Alleycat::summon() {
     return f.get_card("Tabbycat");
 }
 
+void AlleycatGolden::do_battlecry(Board* b1) {
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> AlleycatGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Tabbycat (Golden)");
+}
+
+
 void Djinni::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }

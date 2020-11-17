@@ -48,6 +48,16 @@ public:
     std::shared_ptr<BgBaseCard> summon() override;
 };
 
+class AlleycatGolden : public BattlecryCard {
+public:
+    AlleycatGolden() : BgBaseCard(2, "NEUTRAL", 1, 2, "Alleycat (Golden)",
+			  "['BATTLECRY']", "BEAST", "", 1, "MINION") {}
+    virtual void do_battlecry(Board*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<AlleycatGolden>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+};
+
+
 class Djinni : public DeathrattleCard {
 public:
     Djinni() : BgBaseCard(6, "NEUTRAL", 8, 8, "Djinni",

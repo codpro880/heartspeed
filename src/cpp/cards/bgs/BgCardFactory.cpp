@@ -106,13 +106,8 @@ std::shared_ptr<BgBaseCard> BgCardFactory::init_card(int attack,
 
 void BgCardFactory::init_cards() {
     // A
-    // std::shared_ptr<BgBaseCard> alleycat(new BgBaseCard(1, "HUNTER", 1, 1, "Alleycat",
-    // 							"['BATTLECRY']", "BEAST", "COMMON", 1, "MINION"));
-    // cards.emplace("Alleycat", alleycat);
     cards.emplace("Alleycat", std::make_shared<Alleycat>());
-    std::shared_ptr<BgBaseCard> alleycat_gold(new BgBaseCard(2, "HUNTER", 1, 2, "Alleycat (Golden)",
-							     "['BATTLECRY']", "BEAST", "COMMON", 1, "MINION"));
-    cards.emplace("Alleycat (Golden)", alleycat_gold);
+    cards.emplace("Alleycat (Golden)", std::make_shared<AlleycatGolden>());
     cards.emplace("Amalgadon", std::make_shared<BgBaseCard>(6, "NEUTRAL", 8, 6, "Amalgadon",
 							    "['BATTLECRY']", "ALL", "", 6, "MINION"));
     cards.emplace("Amalgadon (Golden)", std::make_shared<BgBaseCard>(12, "NEUTRAL", 8, 12, "Amalgadon (Golden)",

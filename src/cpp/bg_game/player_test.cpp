@@ -23,21 +23,24 @@ TEST(Player, AlleycatBattlecryBasic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
 	{
-	 f.get_card("Alleycat")
+	 f.get_card("Alleycat"),
+	 f.get_card("Alleycat (Golden)"),
 	};
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
-    EXPECT_EQ(hand.size(), 1);
-    EXPECT_EQ(hand.get_cards()[0]->get_name(), "Alleycat");
+    EXPECT_EQ(hand.size(), 2);
     EXPECT_EQ(player.get_board()->size(), 0);
     
     player.play_card(0, 0);
+    player.play_card(0, 1);
     EXPECT_EQ(player.get_hand().size(), 0);
-    EXPECT_EQ(player.get_board()->size(), 2);
+    EXPECT_EQ(player.get_board()->size(), 4);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Alleycat");
-    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Tabbycat");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Alleycat (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Tabbycat (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Tabbycat");
 }
 
 TEST(Player, MurlocTidecallerAfterMurlocSummoned) {

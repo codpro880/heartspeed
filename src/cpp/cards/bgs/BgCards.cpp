@@ -532,6 +532,13 @@ void MonstrousMacawGolden::do_preattack(std::shared_ptr<BgBaseCard> defender,
     macaw.do_preattack(defender, b1, b2);
 }
 
+void MurlocTidecaller::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+    if (card->get_race() == "MURLOC") {
+	set_attack(get_attack() + 1);
+    }
+}
+
+
 void MurlocWarleader::do_precombat(Board* b1, Board*b2) {
     for (auto card : b1->get_cards()) {
 	if (card->get_race() == "MURLOC") {

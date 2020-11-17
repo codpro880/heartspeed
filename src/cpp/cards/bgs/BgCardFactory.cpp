@@ -525,11 +525,12 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> murloc_scout_gold(new BgBaseCard(2, "NEUTRAL", 1, 2, "Murloc Scout (Golden)",
 								 "", "MURLOC", "COMMON", 1, "MINION"));
     cards.emplace("Murloc Scout (Golden)", murloc_scout_gold);
-    std::shared_ptr<BgBaseCard> tidecaller(new BgBaseCard(1, "NEUTRAL", 1, 2, "Murloc Tidecaller",
-							  "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION"));
-    cards.emplace("Murloc Tidecaller", tidecaller);
+    // std::shared_ptr<BgBaseCard> tidecaller(new BgBaseCard(1, "NEUTRAL", 1, 2, "Murloc Tidecaller",
+    // 							  "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION"));
+    // cards.emplace("Murloc Tidecaller", tidecaller);
+    cards.emplace("Murloc Tidecaller", std::make_shared<MurlocTidecaller>());
     std::shared_ptr<BgBaseCard> tidecaller_gold(new BgBaseCard(2, "NEUTRAL", 1, 4, "Murloc Tidecaller (Golden)",
-							       "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION"));
+    							       "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION"));
     cards.emplace("Murloc Tidecaller (Golden)", tidecaller_gold);
     std::shared_ptr<BgBaseCard> tidehunter(new BgBaseCard(2, "NEUTRAL", 2, 1, "Murloc Tidehunter",
 							  "['BATTLECRY']", "MURLOC", "FREE", 1, "MINION"));

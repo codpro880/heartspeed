@@ -499,6 +499,15 @@ private:
     MonstrousMacaw macaw;
 };
 
+class MurlocTidecaller : public BgBaseCard {
+public:
+    MurlocTidecaller() : BgBaseCard(1, "NEUTRAL", 1, 2, "Murloc Tidecaller",
+				    "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION") {}
+    void mod_summoned(std::shared_ptr<BgBaseCard> card) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MurlocTidecaller>(*this); } // boilerplate that every drattle needs...
+};
+
+
 class MurlocWarleader : public BgBaseCard {
 public:
     MurlocWarleader() : BgBaseCard(3, "NEUTRAL", 3, 3, "Murloc Warleader",

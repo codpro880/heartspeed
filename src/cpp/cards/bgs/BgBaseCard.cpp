@@ -96,7 +96,6 @@ void BgBaseCard::multi_summon(int num_summons, Board* b1) {
 	else {
 	    insert_pos = b1->get_pos(this) + 1;
 	}
-	std::cerr << "insert pos: " << insert_pos << std::endl;
 	if (insert_pos < b1->get_attacker_pos()) b1->increment_attacker_pos();
 	b1->insert_card(insert_pos, summoned_card);
     }

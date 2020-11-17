@@ -525,14 +525,23 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MurlocTidecallerGolden>(*this); } // boilerplate that every drattle needs...
 };
 
-// class MurlocTidehunter : public BattlecryCard {
-// public:
-//     MurlocTidehunter() : BgBaseCard(1, "NEUTRAL", 1, 1, "MurlocTidehunter",
-// 			  "['BATTLECRY']", "BEAST", "", 1, "MINION") {}
-//     virtual void do_battlecry(Board*) override;
-//     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MurlocTidehunter>(*this); } // boilerplate that every drattle needs...
-//     std::shared_ptr<BgBaseCard> summon() override;
-// };
+class MurlocTidehunter : public BattlecryCard {
+public:
+    MurlocTidehunter() : BgBaseCard(2, "NEUTRAL", 2, 1, "Murloc Tidehunter",
+				    "['BATTLECRY']", "MURLOC", "FREE", 1, "MINION") {}
+    virtual void do_battlecry(Board*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MurlocTidehunter>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+};
+
+class MurlocTidehunterGolden : public BattlecryCard {
+public:
+    MurlocTidehunterGolden() : BgBaseCard(4, "NEUTRAL", 2, 2, "Murloc Tidehunter (Golden)",
+					  "['BATTLECRY']", "MURLOC", "FREE", 1, "MINION") {}
+    virtual void do_battlecry(Board*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MurlocTidehunterGolden>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+};
 
 
 class MurlocWarleader : public BgBaseCard {

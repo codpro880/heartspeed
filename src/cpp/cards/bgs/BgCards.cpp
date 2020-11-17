@@ -554,6 +554,23 @@ void MurlocTidecallerGolden::mod_summoned(std::shared_ptr<BgBaseCard> card) {
     }
 }
 
+void MurlocTidehunter::do_battlecry(Board* b1) {
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> MurlocTidehunter::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Murloc Scout");
+}
+
+void MurlocTidehunterGolden::do_battlecry(Board* b1) {
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> MurlocTidehunterGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Murloc Scout (Golden)");
+}
 
 void MurlocWarleader::do_precombat(Board* b1, Board*b2) {
     for (auto card : b1->get_cards()) {

@@ -50,6 +50,7 @@ public:
 					  tech_level(other.tech_level),
 					  type(other.type) {}
 
+    virtual void do_battlecry(Board*) {}
     // Triggered on death
     // (ex: stat-buffs that die)
     // Note: Actual deathrattle cards handled by DeathrattleCard class

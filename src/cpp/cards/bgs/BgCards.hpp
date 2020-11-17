@@ -4,6 +4,11 @@
 #include <memory>
 #include <queue>
 
+class BattlecryCard : virtual public BgBaseCard {
+    virtual void do_battlecry(Board* b1) override = 0;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override = 0; // boilerplate that every card needs...
+};
+
 /** Class for common deathrattle logic. **/
 class DeathrattleCard : virtual public BgBaseCard {
 public:
@@ -32,6 +37,15 @@ public:
     		      Board* b1,
     		      Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override = 0; // boilerplate that every card needs...
+};
+
+class Alleycat : public BattlecryCard {
+public:
+    Alleycat() : BgBaseCard(1, "NEUTRAL", 1, 1, "Alleycat",
+			  "['BATTLECRY']", "BEAST", "", 1, "MINION") {}
+    virtual void do_battlecry(Board*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Alleycat>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
 };
 
 class Djinni : public DeathrattleCard {

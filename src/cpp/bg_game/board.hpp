@@ -161,10 +161,12 @@ public:
 	    // want it in back...
 	    cards.push_back(c);
 	    card_names.insert(c->get_name());
+	    c->do_battlecry(this);
 	}
 	else{
 	    cards.insert(cards.begin() + pos, c);
 	    card_names.insert(c->get_name());
+	    c->do_battlecry(this);
 	}
     }
     

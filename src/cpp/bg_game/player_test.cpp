@@ -4,9 +4,11 @@
 #include "../cards/bgs/BgCardFactory.hpp"
 
 TEST(Player, CanPlayCardFromHand) {
-    auto player = Player("Test");
     auto tidecaller = BgCardFactory().get_card("Murloc Tidecaller");
-    player.buy_card(tidecaller); // TODO: Impl bobs tav
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards { tidecaller };
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     EXPECT_EQ(hand.size(), 1);
     EXPECT_EQ(hand.get_cards()[0]->get_name(), "Murloc Tidecaller");

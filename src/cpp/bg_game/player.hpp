@@ -14,6 +14,8 @@ public:
     Player(std::shared_ptr<Board> board_, std::string name) : board(board_), original_board(std::make_shared<Board>(board_)), name(name), tech_level(1) {}
 
     Player(std::string name) : board(new Board()), original_board(new Board()), name(name), tech_level(1) {}
+
+    Player(Hand hand, std::string name) : hand(hand), board(new Board()), original_board(new Board()), name(name), tech_level(1) {}
     
     Player(Player* player) {
     	board = std::make_shared<Board>(player->get_original_board());
@@ -22,7 +24,8 @@ public:
 	tech_level = player->get_tech_level();
     }
 
-    void buy_card(std::shared_ptr<BgBaseCard> c) { hand.add_card(c); }
+    // TODO: Impl bobs tav
+    // void buy_card(std::shared_ptr<BgBaseCard> c) { hand.add_card(c); }
     int calculate_damage() const { return tech_level + board->calculate_damage(); }
     void inc_tech_level() { tech_level += 1; }
     std::shared_ptr<Board> get_board() const { return board; }

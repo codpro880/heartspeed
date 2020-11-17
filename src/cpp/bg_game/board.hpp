@@ -159,12 +159,17 @@ public:
 	    // and mecharoo was to left of surviving card, then we want it in front.
 	    // Else, if mecharoo was to right of surviving card, we
 	    // want it in back...
+	    for (auto card : this->get_cards()) {
+		card->mod_summoned(c);
+	    }
 	    cards.push_back(c);
 	    card_names.insert(c->get_name());
+	    c->do_battlecry(this);
 	}
 	else{
 	    cards.insert(cards.begin() + pos, c);
 	    card_names.insert(c->get_name());
+	    c->do_battlecry(this);
 	}
     }
     

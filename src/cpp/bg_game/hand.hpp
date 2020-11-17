@@ -1,7 +1,7 @@
 class Hand {
 public:
-    // Hand(std::vector<std::shared_ptr<BgBaseCard>> cards);
-    // Hand()
+    Hand(std::vector<std::shared_ptr<BgBaseCard>> cards) : cards(cards) {}
+    Hand() {}
     void add_card(std::shared_ptr<BgBaseCard> card) { cards.push_back(card); }
     std::vector<std::shared_ptr<BgBaseCard>> get_cards() { return cards; }
     // void play_card(std::shared_ptr<BgBaseCard> card,

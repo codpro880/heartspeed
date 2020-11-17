@@ -53,6 +53,25 @@ void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
     }
 }
 
+void Alleycat::do_battlecry(Board* b1) {
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> Alleycat::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Tabbycat");
+}
+
+void AlleycatGolden::do_battlecry(Board* b1) {
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> AlleycatGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Tabbycat (Golden)");
+}
+
+
 void Djinni::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }
@@ -521,6 +540,36 @@ void MonstrousMacawGolden::do_preattack(std::shared_ptr<BgBaseCard> defender,
 					Board* b2) {
     macaw.do_preattack(defender, b1, b2);
     macaw.do_preattack(defender, b1, b2);
+}
+
+void MurlocTidecaller::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+    if (card->get_race() == "MURLOC") {
+	set_attack(get_attack() + 1);
+    }
+}
+
+void MurlocTidecallerGolden::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+    if (card->get_race() == "MURLOC") {
+	set_attack(get_attack() + 2);
+    }
+}
+
+void MurlocTidehunter::do_battlecry(Board* b1) {
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> MurlocTidehunter::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Murloc Scout");
+}
+
+void MurlocTidehunterGolden::do_battlecry(Board* b1) {
+    basic_summon(b1);
+}
+
+std::shared_ptr<BgBaseCard> MurlocTidehunterGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Murloc Scout (Golden)");
 }
 
 void MurlocWarleader::do_precombat(Board* b1, Board*b2) {

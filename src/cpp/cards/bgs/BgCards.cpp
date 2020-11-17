@@ -538,6 +538,12 @@ void MurlocTidecaller::mod_summoned(std::shared_ptr<BgBaseCard> card) {
     }
 }
 
+void MurlocTidecallerGolden::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+    if (card->get_race() == "MURLOC") {
+	set_attack(get_attack() + 2);
+    }
+}
+
 
 void MurlocWarleader::do_precombat(Board* b1, Board*b2) {
     for (auto card : b1->get_cards()) {

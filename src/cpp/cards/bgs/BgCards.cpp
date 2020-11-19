@@ -742,6 +742,13 @@ std::shared_ptr<BgBaseCard> ReplicatingMenaceGolden::summon() {
     return f.get_card("Microbot (Golden)");
 }
 
+void RockpoolHunter::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "MURLOC") {
+	c->set_attack(c->get_attack() + 1);
+	c->set_health(c->get_health() + 1);
+    }
+}
+
 void SavannahHighmane::do_deathrattle(Board* b1, Board* b2) {
     multi_summon(2, b1);
 }

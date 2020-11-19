@@ -46,6 +46,15 @@ public:
 	board->insert_card(board_pos, card);
 	hand.remove(card);
     }
+
+    void play_card(uint8_t hand_pos, uint8_t target_pos, uint8_t board_pos) {
+	auto card = hand.get_cards()[hand_pos];
+	auto target = board->get_cards()[target_pos];
+	// TODO: Enforce valid targets (e.g. MUST pick valid target if available)
+	board->insert_card(board_pos, card);
+	card->targeted_battlecry(target);
+	hand.remove(card);
+    }
     // void reset() {
     // 	// TODO: Make this shared ptr
     // 	// Board* b = new Board(original_board);

@@ -622,9 +622,10 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> robosaur_gold(new BgBaseCard(16, "PALADIN", 8, 16, "Robosaur (Golden)",
 							     "", "MECHANICAL", "", 1, "MINION"));
     cards.emplace("Robosaur (Golden)", robosaur_gold);
-    std::shared_ptr<BgBaseCard> rockpool(new BgBaseCard(2, "NEUTRAL", 2, 3, "Rockpool Hunter",
-							"['BATTLECRY']", "MURLOC", "COMMON", 1, "MINION"));
-    cards.emplace("Rockpool Hunter", rockpool);
+    // std::shared_ptr<BgBaseCard> rockpool(new BgBaseCard(2, "NEUTRAL", 2, 3, "Rockpool Hunter",
+    // 							"['BATTLECRY']", "MURLOC", "COMMON", 1, "MINION"));
+    // cards.emplace("Rockpool Hunter", rockpool);
+    cards.emplace("Rockpool Hunter", std::make_shared<RockpoolHunter>());
     std::shared_ptr<BgBaseCard> rockpool_gold(new BgBaseCard(4, "NEUTRAL", 2, 6, "Rockpool Hunter (Golden)",
 							     "['BATTLECRY']", "MURLOC", "COMMON", 1, "MINION"));
     cards.emplace("Rockpool Hunter (Golden)", rockpool_gold);

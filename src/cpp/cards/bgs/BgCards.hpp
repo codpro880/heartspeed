@@ -39,6 +39,11 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override = 0; // boilerplate that every card needs...
 };
 
+class TargetedBattlecryCard : virtual public BgBaseCard {
+    virtual void targeted_battlecry(std::shared_ptr<BgBaseCard>) override = 0;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override = 0; // boilerplate that every card needs...
+};
+
 class Alleycat : public BattlecryCard {
 public:
     Alleycat() : BgBaseCard(1, "NEUTRAL", 1, 1, "Alleycat",
@@ -714,6 +719,15 @@ public:
 					 "['TRIGGER_VISUAL']", "PIRATE", "", 4, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RipsnarlCaptainGolden>(*this); } // boilerplate that every drattle needs...
 };
+
+class RockpoolHunter : public TargetedBattlecryCard {
+public:
+    RockpoolHunter() : BgBaseCard(2, "NEUTRAL", 2, 3, "Rockpool Hunter",
+				  "['BATTLECRY']", "MURLOC", "COMMON", 1, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RockpoolHunter>(*this); } // boilerplate that every drattle needs...
+    void targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+};
+
 
 class SavannahHighmane : public DeathrattleCard {
 public:

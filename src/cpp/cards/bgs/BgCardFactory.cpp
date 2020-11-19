@@ -626,9 +626,10 @@ void BgCardFactory::init_cards() {
     // 							"['BATTLECRY']", "MURLOC", "COMMON", 1, "MINION"));
     // cards.emplace("Rockpool Hunter", rockpool);
     cards.emplace("Rockpool Hunter", std::make_shared<RockpoolHunter>());
-    std::shared_ptr<BgBaseCard> rockpool_gold(new BgBaseCard(4, "NEUTRAL", 2, 6, "Rockpool Hunter (Golden)",
-							     "['BATTLECRY']", "MURLOC", "COMMON", 1, "MINION"));
-    cards.emplace("Rockpool Hunter (Golden)", rockpool_gold);
+    // std::shared_ptr<BgBaseCard> rockpool_gold(new BgBaseCard(4, "NEUTRAL", 2, 6, "Rockpool Hunter (Golden)",
+    // 							     "['BATTLECRY']", "MURLOC", "COMMON", 1, "MINION"));
+    // cards.emplace("Rockpool Hunter (Golden)", rockpool_gold);
+    cards.emplace("Rockpool Hunter (Golden)", std::make_shared<RockpoolHunterGolden>());
 
     // S
     std::shared_ptr<BgBaseCard> salty(new BgBaseCard(3, "ROGUE", 4, 3, "Salty Looter",

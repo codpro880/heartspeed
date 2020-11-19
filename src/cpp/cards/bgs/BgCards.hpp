@@ -728,6 +728,13 @@ public:
     void targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
 };
 
+class RockpoolHunterGolden : public TargetedBattlecryCard {
+public:
+    RockpoolHunterGolden() : BgBaseCard(4, "NEUTRAL", 2, 6, "Rockpool Hunter (Golden)",
+					"['BATTLECRY']", "MURLOC", "COMMON", 1, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RockpoolHunterGolden>(*this); } // boilerplate that every drattle needs...
+    void targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+};
 
 class SavannahHighmane : public DeathrattleCard {
 public:

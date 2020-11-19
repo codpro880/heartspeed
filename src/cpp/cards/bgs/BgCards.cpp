@@ -749,6 +749,13 @@ void RockpoolHunter::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     }
 }
 
+void RockpoolHunterGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "MURLOC") {
+	c->set_attack(c->get_attack() + 2);
+	c->set_health(c->get_health() + 2);
+    }
+}
+
 void SavannahHighmane::do_deathrattle(Board* b1, Board* b2) {
     multi_summon(2, b1);
 }

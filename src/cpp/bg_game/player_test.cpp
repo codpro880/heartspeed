@@ -43,6 +43,25 @@ TEST(Player, AlleycatBattlecryBasic) {
     EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Tabbycat");
 }
 
+// TOOD: Impl bobs tav
+// TEST(Player, DeckSwabbieBattlecry) {
+//     auto f = BgCardFactory();
+//     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+// 	{
+// 	 f.get_card("Deck Swabbie"),
+// 	 f.get_card("Deck Swabbie (Golden)")
+// 	};
+//     auto in_hand = Hand(hand_cards);
+//     auto player = Player(in_hand, "Test");
+//     EXPECT_EQ(player.get_board()->size(), 0);
+    
+//     player.play_card(0, 0);
+//     EXPECT_EQ(player.get_board()->size(), 1);
+//     // Turn 1 tav up costs 5.
+//     // Golden swabbie takes away 2, normal swabbie takes away 1
+//     EXPECT_EQ(player->get_bobs_tavern().cost() == 5-2-1);
+// }
+
 TEST(Player, MurlocTidecallerAfterMurlocSummoned) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
@@ -142,15 +161,9 @@ TEST(Player, VulgarHomunculusBattlecry) {
     
     player.play_card(0, 0);
     player.play_card(0, 0);
-    // player.play_card(0, 0, 1); // Hand pos, target pos, board pos
-    // player.play_card(0, 0, 2); // Hand pos, target pos, board pos
     EXPECT_EQ(player.get_hand().size(), 0);
     EXPECT_EQ(player.get_board()->size(), 2);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Vulgar Homunculus (Golden)");
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Vulgar Homunculus");
     EXPECT_EQ(player.get_health(), 34);
-    // EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 6);
-    // EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 5);
-    // EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Rockpool Hunter");
-    // EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Rockpool Hunter (Golden)");
 }

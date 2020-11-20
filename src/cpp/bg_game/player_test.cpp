@@ -145,8 +145,9 @@ TEST(Player, VulgarHomunculusBattlecry) {
     // player.play_card(0, 0, 1); // Hand pos, target pos, board pos
     // player.play_card(0, 0, 2); // Hand pos, target pos, board pos
     EXPECT_EQ(player.get_hand().size(), 0);
-    EXPECT_EQ(player.get_board()->size(), 1);
-    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Vulgar Homunculus");
+    EXPECT_EQ(player.get_board()->size(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Vulgar Homunculus (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Vulgar Homunculus");
     EXPECT_EQ(player.get_health(), 34);
     // EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 6);
     // EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 5);

@@ -768,12 +768,8 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> voidwalker_gold(new BgBaseCard(2, "WARLOCK", 1, 6, "Voidwalker (Golden)",
 							       "['TAUNT']", "DEMON", "FREE", 1, "MINION"));
     cards.emplace("Voidwalker (Golden)", voidwalker_gold);
-    std::shared_ptr<BgBaseCard> vulgar_hom(new BgBaseCard(2, "WARLOCK", 2, 4, "Vulgar Homunculus",
-							  "['TAUNT']", "DEMON", "FREE", 1, "MINION"));
-    cards.emplace("Vulgar Homunculus", vulgar_hom);
-    std::shared_ptr<BgBaseCard> vulgar_hom_gold(new BgBaseCard(4, "WARLOCK", 2, 8, "Vulgar Homunculus (Golden)",
-							       "['TAUNT']", "DEMON", "FREE", 1, "MINION"));
-    cards.emplace("Vulgar Homunculus (Golden)", vulgar_hom_gold);
+    cards.emplace("Vulgar Homunculus", std::make_shared<VulgarHomunculus>());
+    cards.emplace("Vulgar Homunculus (Golden)", std::make_shared<VulgarHomunculusGolden>());
 					   
     // W
     cards.emplace("Waxrider Togwaggle", std::make_shared<WaxriderTogwaggle>());

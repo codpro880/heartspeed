@@ -1025,6 +1025,21 @@ public:
     std::shared_ptr<BgBaseCard> summon() override;
 };
 
+class VulgarHomunculus : public BattlecryCard {
+public:
+    VulgarHomunculus() : BgBaseCard(2, "WARLOCK", 2, 4, "Vulgar Homunculus",
+				    "['TAUNT']", "DEMON", "FREE", 1, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<VulgarHomunculus>(*this); } // boilerplate that every drattle needs...
+};
+
+class VulgarHomunculusGolden : public BattlecryCard {
+public:
+    VulgarHomunculusGolden() : BgBaseCard(4, "WARLOCK", 2, 8, "Vulgar Homunculus (Golden)",
+					  "['TAUNT']", "DEMON", "FREE", 1, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<VulgarHomunculusGolden>(*this); } // boilerplate that every drattle needs...
+};
 
 class UnstableGhoul : public DeathrattleCard {
 public:

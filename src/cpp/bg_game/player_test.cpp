@@ -125,3 +125,31 @@ TEST(Player, RockpoolHunterTargettedBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Rockpool Hunter");
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Rockpool Hunter (Golden)");
 }
+
+TEST(Player, VulgarHomunculusBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Vulgar Homunculus"),
+	 f.get_card("Vulgar Homunculus (Golden)"),
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    //player.buy_card(tidecaller); // TODO: Impl bobs tav
+    // auto hand = player.get_hand();
+    // EXPECT_EQ(hand.size(), 1);
+    EXPECT_EQ(player.get_board()->size(), 0);
+    
+    player.play_card(0, 0);
+    player.play_card(0, 0);
+    // player.play_card(0, 0, 1); // Hand pos, target pos, board pos
+    // player.play_card(0, 0, 2); // Hand pos, target pos, board pos
+    EXPECT_EQ(player.get_hand().size(), 0);
+    EXPECT_EQ(player.get_board()->size(), 1);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Vulgar Homunculus");
+    EXPECT_EQ(player.get_health(), 34);
+    // EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 6);
+    // EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 5);
+    // EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Rockpool Hunter");
+    // EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Rockpool Hunter (Golden)");
+}

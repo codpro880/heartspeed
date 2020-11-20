@@ -6,6 +6,8 @@
 #include <vector>
 
 class Board; // Forward declare for circular dep between cards and board
+class Player; // Forward declare for circular dep between cards and player
+// TODO: Move all boards to be players for consistent-interface purposes
 
 class BgBaseCard {
 public:
@@ -50,7 +52,7 @@ public:
 					  tech_level(other.tech_level),
 					  type(other.type) {}
 
-    virtual void do_battlecry(Board*) {}
+    virtual void do_battlecry(Player*) {}
     virtual void targeted_battlecry(std::shared_ptr<BgBaseCard>) {}
     // Triggered on death
     // (ex: stat-buffs that die)
@@ -126,7 +128,9 @@ public:
     virtual std::shared_ptr<BgBaseCard> summon() {throw std::runtime_error("summon() not implemented");}
     virtual std::shared_ptr<BgBaseCard> do_summon(Board* b1);
     void basic_summon(Board* b1);
+    void basic_summon(Player* p1);
     void multi_summon(int num_summons, Board* b1);
+    void multi_summon(int num_summons, Player* p1);
 
     virtual void take_damage(int damage, std::string who_from_race, Board* b1, Board* b2);
 

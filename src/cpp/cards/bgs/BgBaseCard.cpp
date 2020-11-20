@@ -7,6 +7,7 @@
 #include "BgCardFactory.hpp"
 
 #include "../../bg_game/board.hpp"
+#include "../../bg_game/player.hpp"
 
 std::ostream& operator<<(std::ostream& os, const BgBaseCard& card) {
     os << "(" << card.get_attack() << "/" << card.get_health() << ")";
@@ -56,10 +57,12 @@ std::shared_ptr<BgBaseCard> BgBaseCard::do_summon(Board* b1) {
     return summoned;
 }
 
+void BgBaseCard::basic_summon(Player* p1) {
+    return basic_summon(p1->get_board().get());
+}
+
 void BgBaseCard::basic_summon(Board* b1) {
-    // auto summoned_card = summon();
-    // b1->insert_card(death_pos, summoned_card);
-    multi_summon(1, b1);
+    return multi_summon(1, b1);
 }
 
 void BgBaseCard::reborn_self(Board* b1) {
@@ -72,6 +75,11 @@ void BgBaseCard::reborn_self(Board* b1) {
     summoned_card->set_health(1);
     b1->insert_card(death_pos, summoned_card);
 }
+
+void BgBaseCard::multi_summon(int num_summons, Player* p1) {
+    return multi_summon(num_summons, p1->get_board().get());
+}
+
 
 void BgBaseCard::multi_summon(int num_summons, Board* b1) {
     auto original_num_summons = num_summons;

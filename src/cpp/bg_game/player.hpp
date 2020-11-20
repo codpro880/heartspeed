@@ -61,7 +61,7 @@ public:
     void play_card(uint8_t hand_pos, uint8_t board_pos) {
 	auto card = hand.get_cards()[hand_pos];
 	board->insert_card(board_pos, card);
-	card->do_battlecry(board.get());
+	card->do_battlecry(this);
 	hand.remove(card);
     }
 
@@ -73,6 +73,8 @@ public:
 	card->targeted_battlecry(target);
 	hand.remove(card);
     }
+
+    void take_damage(int dmg) { health -= dmg; }      
     // void reset() {
     // 	// TODO: Make this shared ptr
     // 	// Board* b = new Board(original_board);

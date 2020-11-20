@@ -53,8 +53,8 @@ void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
     }
 }
 
-void Alleycat::do_battlecry(Board* b1) {
-    basic_summon(b1);
+void Alleycat::do_battlecry(Player* p1) {
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> Alleycat::summon() {
@@ -62,8 +62,8 @@ std::shared_ptr<BgBaseCard> Alleycat::summon() {
     return f.get_card("Tabbycat");
 }
 
-void AlleycatGolden::do_battlecry(Board* b1) {
-    basic_summon(b1);
+void AlleycatGolden::do_battlecry(Player* p1) {
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> AlleycatGolden::summon() {
@@ -554,8 +554,8 @@ void MurlocTidecallerGolden::mod_summoned(std::shared_ptr<BgBaseCard> card) {
     }
 }
 
-void MurlocTidehunter::do_battlecry(Board* b1) {
-    basic_summon(b1);
+void MurlocTidehunter::do_battlecry(Player* p1) {
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> MurlocTidehunter::summon() {
@@ -563,8 +563,8 @@ std::shared_ptr<BgBaseCard> MurlocTidehunter::summon() {
     return f.get_card("Murloc Scout");
 }
 
-void MurlocTidehunterGolden::do_battlecry(Board* b1) {
-    basic_summon(b1);
+void MurlocTidehunterGolden::do_battlecry(Player* p1) {
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> MurlocTidehunterGolden::summon() {

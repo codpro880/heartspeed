@@ -44,6 +44,7 @@ public:
     void play_card(uint8_t hand_pos, uint8_t board_pos) {
 	auto card = hand.get_cards()[hand_pos];
 	board->insert_card(board_pos, card);
+	card->do_battlecry(board.get());
 	hand.remove(card);
     }
 

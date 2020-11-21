@@ -195,12 +195,8 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> cobalt_gold(new BgBaseCard(10, "NEUTRAL", 5, 10, "Cobalt Scalebane (Golden)",
 							   "['TRIGGER_VISUAL']", "DRAGON", "COMMON", 4, "MINION"));
     cards.emplace("Cobalt Scalebane (Golden)", cobalt_gold);
-    std::shared_ptr<BgBaseCard> coldlight(new BgBaseCard(2, "NEUTRAL", 3, 3, "Coldlight Seer",
-							 "['BATTLECRY']", "MURLOC", "RARE", 3, "MINION"));
-    cards.emplace("Coldlight Seer", coldlight);
-    std::shared_ptr<BgBaseCard> coldlight_gold(new BgBaseCard(4, "NEUTRAL", 3, 6, "Coldlight Seer (Golden)",
-							      "['BATTLECRY']", "MURLOC", "RARE", 3, "MINION"));
-    cards.emplace("Coldlight Seer (Golden)", coldlight_gold);
+    cards.emplace("Coldlight Seer", std::make_shared<ColdlightSeer>());
+    cards.emplace("Coldlight Seer (Golden)", std::make_shared<ColdlightSeerGolden>());
     std::shared_ptr<BgBaseCard> crackling_cyclone(new BgBaseCard(4, "NEUTRAL", -1, 1, "Crackling Cyclone",
 								 "", "ELEMENTAL", "", 3, "MINION"));
     crackling_cyclone->set_divine_shield();

@@ -62,6 +62,21 @@ public:
     std::shared_ptr<BgBaseCard> summon() override;
 };
 
+class ColdlightSeer : public BattlecryCard {
+public:
+    ColdlightSeer() : BgBaseCard(2, "NEUTRAL", 3, 3, "Coldlight Seer",
+				 "['BATTLECRY']", "MURLOC", "RARE", 3, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ColdlightSeer>(*this); } // boilerplate that every drattle needs...
+};
+
+class ColdlightSeerGolden : public BattlecryCard {
+public:
+    ColdlightSeerGolden() : BgBaseCard(4, "NEUTRAL", 3, 6, "Coldlight Seer (Golden)",
+				       "['BATTLECRY']", "MURLOC", "RARE", 3, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ColdlightSeerGolden>(*this); } // boilerplate that every drattle needs...
+};
 
 class Djinni : public DeathrattleCard {
 public:

@@ -43,6 +43,42 @@ TEST(Player, AlleycatBattlecryBasic) {
     EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Tabbycat");
 }
 
+TEST(Player, ColdlightBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Murloc Scout"),
+	 f.get_card("Murloc Scout"),
+	 f.get_card("Crystalweaver"),
+	 f.get_card("Coldlight Seer (Golden)"),
+	 f.get_card("Coldlight Seer")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    player.play_card(0, 4);
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Murloc Scout");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 1);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 7);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Murloc Scout");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 1);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 7);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Crystalweaver");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 5);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Coldlight Seer (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 8);
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_name(), "Coldlight Seer");
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 3);
+}
+
 // Some extra tests around the mug since it's sort of complicated.
 // This level of testing not necessary for the Jug (since logic will be reused)
 TEST(Player, MenagerieMugBattlecryEmpty) {
@@ -179,8 +215,6 @@ TEST(Player, MenagerieMugBattlecryMix) {
     EXPECT_EQ(total_hand_attack + 9, total_board_attack);
     EXPECT_EQ(total_hand_health + 9, total_board_health);
 }
-
-
 
 TEST(Player, MetaltoothLeaperBattlecry) {
     auto f = BgCardFactory();

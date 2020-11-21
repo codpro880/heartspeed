@@ -71,6 +71,23 @@ std::shared_ptr<BgBaseCard> AlleycatGolden::summon() {
     return f.get_card("Tabbycat (Golden)");
 }
 
+void ColdlightSeer::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "MURLOC") {
+	    card->set_health(card->get_health() + 2);
+	}
+    }
+}
+
+void ColdlightSeerGolden::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "MURLOC") {
+	    card->set_health(card->get_health() + 4);
+	}
+    }
+}
 
 void Djinni::do_deathrattle(Board* b1, Board* b2) {
     std::cerr << "Basic summon..." << std::endl;

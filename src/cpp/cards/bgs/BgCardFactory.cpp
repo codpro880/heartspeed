@@ -780,12 +780,8 @@ void BgCardFactory::init_cards() {
 								       "", "ELEMENTAL", "", 4, "MINION"));
     cards.emplace("Wildfire Elemental", std::make_shared<WildfireElemental>());
     cards.emplace("Wildfire Elemental (Golden)", std::make_shared<WildfireElementalGolden>());
-    std::shared_ptr<BgBaseCard> wrath_weaver(new BgBaseCard(1, "NEUTRAL", 1, 1, "Wrath Weaver",
-							    "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION"));
-    cards.emplace("Wrath Weaver", wrath_weaver);
-    std::shared_ptr<BgBaseCard> wrath_weaver_gold(new BgBaseCard(2, "NEUTRAL", 1, 2, "Wrath Weaver (Golden)",
-								 "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION"));
-    cards.emplace("Wrath Weaver (Golden)", wrath_weaver_gold);
+    cards.emplace("Wrath Weaver", std::make_shared<WrathWeaver>());
+    cards.emplace("Wrath Weaver (Golden)", std::make_shared<WrathWeaverGolden>());
 
     // Y
     cards.emplace("Yo-Ho-Ogre", std::make_shared<YoHoOgre>());

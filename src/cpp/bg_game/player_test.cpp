@@ -167,3 +167,37 @@ TEST(Player, VulgarHomunculusBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Vulgar Homunculus");
     EXPECT_EQ(player.get_health(), 34);
 }
+
+TEST(Player, WrathweaverAfterDemonSummoned) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Wrath Weaver"),
+	 f.get_card("Wrath Weaver (Golden)"),
+	 f.get_card("Vulgar Homunculus"),
+	 f.get_card("Fiendish Servant")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    //player.buy_card(tidecaller); // TODO: Impl bobs tav
+    auto hand = player.get_hand();
+    EXPECT_EQ(hand.size(), 4);
+    EXPECT_EQ(player.get_board()->size(), 0);
+    
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    EXPECT_EQ(player.get_hand().size(), 0);
+    EXPECT_EQ(player.get_board()->size(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Wrath Weaver");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 5);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 7);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Wrath Weaver (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 10);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 14);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Vulgar Homunculus");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Fiendish Servant");
+    // 1*2 for wrathweaver, 1*2 for golden weaver, and 2 from homunculus
+    EXPECT_EQ(player.get_health(), 40 - 1*2 - 1*2 - 2);
+}

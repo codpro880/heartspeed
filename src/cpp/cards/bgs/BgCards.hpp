@@ -1103,6 +1103,21 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<WildfireElementalGolden>(*this); } // boilerplate that every drattle needs...
 };
 
+class WrathWeaver : public BgBaseCard {
+public:
+    WrathWeaver() : BgBaseCard(1, "NEUTRAL", 1, 3, "Wrath Weaver",
+			       "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION") {}
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<WrathWeaver>(*this); } // boilerplate that every drattle needs...
+};
+
+class WrathWeaverGolden : public BgBaseCard {
+public:
+    WrathWeaverGolden() : BgBaseCard(2, "NEUTRAL", 1, 6, "Wrath Weaver (Golden)",
+				     "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION") {}
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<WrathWeaverGolden>(*this); } // boilerplate that every drattle needs...
+};
 
 class YoHoOgre : public PirateCard {
 public:

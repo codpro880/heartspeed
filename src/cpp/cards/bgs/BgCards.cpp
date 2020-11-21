@@ -547,9 +547,7 @@ void MonstrousMacawGolden::do_preattack(std::shared_ptr<BgBaseCard> defender,
 }
 
 int MurlocTidecaller::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
-    std::cerr << "card name (triggered...): " << card->get_name() << std::endl;
     if (card->get_race() == "MURLOC" && from_hand) {
-	std::cerr << "card name: " << card->get_name() << std::endl;
 	set_attack(get_attack() + 1);
     }
     return 0;
@@ -1198,7 +1196,23 @@ void WildfireElementalGolden::do_postattack(std::shared_ptr<BgBaseCard> defender
     }
 }
 
+int WrathWeaver::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+    if (card->get_race() == "DEMON" && from_hand) {
+	set_attack(get_attack() + 2);
+	set_health(get_health() + 2);
+	return 1;
+    }
+    return 0;
+}
 
+int WrathWeaverGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+    if (card->get_race() == "DEMON" && from_hand) {
+	set_attack(get_attack() + 4);
+	set_health(get_health() + 4);
+	return 1;
+    }    
+    return 0;
+}
 
 void YoHoOgre::do_postdefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {
     if (this->is_dead()) {

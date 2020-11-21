@@ -152,7 +152,8 @@ public:
 	}
     }
     
-    void insert_card(int pos, std::shared_ptr<BgBaseCard> c, bool from_hand=false) {
+    int insert_card(int pos, std::shared_ptr<BgBaseCard> c, bool from_hand=false) {
+	int total_dmg = 0;
 	if ((unsigned)pos >= cards.size()) {
 	    // This case can occur w/ certain deathrattle interactions
 	    // TODO: Fix this case...if unstable ghoul nearly wipes board execpt one survivor,
@@ -160,7 +161,7 @@ public:
 	    // Else, if mecharoo was to right of surviving card, we
 	    // want it in back...
 	    for (auto card : this->get_cards()) {
-		card->mod_summoned(c, from_hand);
+		total_dmg += card->mod_summoned(c, from_hand);
 	    }
 	    cards.push_back(c);
 	    card_names.insert(c->get_name());
@@ -168,12 +169,13 @@ public:
 	}
 	else{
 	    for (auto card : this->get_cards()) {
-		card->mod_summoned(c, from_hand);
+		total_dmg += card->mod_summoned(c, from_hand);
 	    }
 	    cards.insert(cards.begin() + pos, c);
 	    card_names.insert(c->get_name());
 	    // c->do_battlecry(this);
 	}
+	return total_dmg;
     }
     
     std::vector<std::shared_ptr<BgBaseCard> > const get_cards() const { return cards;  } // TODO: Make this an iterator

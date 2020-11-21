@@ -526,12 +526,8 @@ void BgCardFactory::init_cards() {
 									    "", "PIRATE", "", 5, "MINION"));
     cards.emplace("Nat Pagle, Extreme Angler (Golden)", std::make_shared<BgBaseCard>(16, "NEUTRAL", 7, 10, "Nat Pagle, Extreme Angler (Golden)",
 										     "", "PIRATE", "", 5, "MINION"));
-    std::shared_ptr<BgBaseCard> nath_overseer(new BgBaseCard(2, "NEUTRAL", 3, 3, "Nathrezim Overseer",
-							     "['BATTLECRY']", "DEMON", "RARE", 2, "MINION"));
-    cards.emplace("Nathrezim Overseer", nath_overseer);
-    std::shared_ptr<BgBaseCard> nath_overseer_gold(new BgBaseCard(4, "NEUTRAL", 3, 6, "Nathrezim Overseer (Golden)",
-								  "['BATTLECRY']", "DEMON", "RARE", 2, "MINION"));
-    cards.emplace("Nathrezim Overseer (Golden)", nath_overseer_gold);
+    cards.emplace("Nathrezim Overseer", std::make_shared<NathrezimOverseer>());
+    cards.emplace("Nathrezim Overseer (Golden)", std::make_shared<NathrezimOverseerGolden>());
     cards.emplace("Nomi, Kitchen Nightmare", std::make_shared<BgBaseCard>(4, "NEUTRAL", 7, 4, "Nomi, Kitchen Nightmare",
 									  "", "ELEMENTAL", "", 5, "MINION"));
     cards.emplace("Nomi, Kitchen Nightmare (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", 7, 4, "Nomi, Kitchen Nightmare (Golden)",

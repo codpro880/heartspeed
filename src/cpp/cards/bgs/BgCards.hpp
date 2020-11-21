@@ -639,6 +639,23 @@ private:
     Nadina bag;
 };
 
+class NathrezimOverseer : public TargetedBattlecryCard {
+public:
+    NathrezimOverseer() : BgBaseCard(2, "NEUTRAL", 3, 3, "Nathrezim Overseer",
+				     "['BATTLECRY']", "DEMON", "RARE", 2, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<NathrezimOverseer>(*this); } // boilerplate that every drattle needs...
+    void targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+};
+
+class NathrezimOverseerGolden : public TargetedBattlecryCard {
+public:
+    NathrezimOverseerGolden() : BgBaseCard(4, "NEUTRAL", 3, 6, "Nathrezim Overseer (Golden)",
+					   "['BATTLECRY']", "DEMON", "RARE", 2, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<NathrezimOverseerGolden>(*this); } // boilerplate that every drattle needs...
+    void targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+};
+
+
 class OldMurkeye : public BgBaseCard {
 public:
     OldMurkeye() : BgBaseCard(2, "NEUTRAL", 4, 4, "Old Murk-Eye",

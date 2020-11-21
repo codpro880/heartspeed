@@ -692,6 +692,20 @@ void NadinaGolden::do_deathrattle(Board* b1, Board* b2) {
     bag.do_deathrattle(b1, b2);
 }
 
+void NathrezimOverseer::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "DEMON") {
+	c->set_attack(c->get_attack() + 2);
+	c->set_health(c->get_health() + 2);
+    }
+}
+
+void NathrezimOverseerGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "DEMON") {
+	c->set_attack(c->get_attack() + 4);
+	c->set_health(c->get_health() + 4);
+    }
+}
+
 void OldMurkeye::do_precombat(Board* b1, Board*b2) {
     int murloc_count = 0;
     for (auto card : b1->get_cards()) {

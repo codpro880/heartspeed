@@ -104,6 +104,82 @@ TEST(Player, MenagerieMugBattlecryOne) {
     EXPECT_EQ(total_hand_health + 3, total_board_health);
 }
 
+TEST(Player, MenagerieMugBattlecryThreeWithTwoSameType) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Foe Reaper 4000"),
+	 f.get_card("Harvest Golem"),
+	 f.get_card("Murloc Tidecaller"),
+	 f.get_card("Menagerie Mug"),
+	 f.get_card("Menagerie Mug (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    int total_hand_attack = 0;
+    int total_hand_health = 0;
+    for (auto card : in_hand.get_cards()) {
+	total_hand_attack += card->get_attack();
+	total_hand_health += card->get_health();
+    }
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    player.play_card(0, 4);
+    int total_board_attack = 0;
+    int total_board_health = 0;
+    for (auto card : player.get_board()->get_cards()) {
+	total_board_attack += card->get_attack();
+	total_board_health += card->get_health();
+    }
+
+    // Should see +6/+6 total stat change
+    EXPECT_EQ(total_hand_attack + 6, total_board_attack);
+    EXPECT_EQ(total_hand_health + 6, total_board_health);
+}
+
+TEST(Player, MenagerieMugBattlecryMix) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Foe Reaper 4000"),
+	 f.get_card("Harvest Golem"),
+	 f.get_card("Murloc Tidecaller"),
+	 f.get_card("Deck Swabbie"),
+	 f.get_card("Imp Gang Boss"),
+	 f.get_card("Menagerie Mug"),
+	 f.get_card("Menagerie Mug (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    int total_hand_attack = 0;
+    int total_hand_health = 0;
+    for (auto card : in_hand.get_cards()) {
+	total_hand_attack += card->get_attack();
+	total_hand_health += card->get_health();
+    }
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    player.play_card(0, 4);
+    player.play_card(0, 5);
+    player.play_card(0, 6);
+    int total_board_attack = 0;
+    int total_board_health = 0;
+    for (auto card : player.get_board()->get_cards()) {
+	total_board_attack += card->get_attack();
+	total_board_health += card->get_health();
+    }
+
+    // Should see +9/+9 total stat change
+    EXPECT_EQ(total_hand_attack + 9, total_board_attack);
+    EXPECT_EQ(total_hand_health + 9, total_board_health);
+}
+
 
 
 TEST(Player, MetaltoothLeaperBattlecry) {

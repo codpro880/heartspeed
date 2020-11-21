@@ -524,7 +524,7 @@ std::shared_ptr<BgBaseCard> MecharooGolden::summon() {
     return f.get_card("Jo-E Bot (Golden)");
 }
 
-void MenagerieMug::do_battlecry(Player* p1) {
+void menagerie_bcry(Player* p1, uint8_t buff_amount) {
     auto board = p1->get_board();
     std::unordered_set<std::string> races;
     std::vector<std::shared_ptr<BgBaseCard>> cards_to_buff;
@@ -544,16 +544,20 @@ void MenagerieMug::do_battlecry(Player* p1) {
     }
 
     for (auto c : cards_to_buff) {
-	c->set_attack(c->get_attack() + 1);
-	c->set_health(c->get_health() + 1);
+	c->set_attack(c->get_attack() + buff_amount);
+	c->set_health(c->get_health() + buff_amount);
     }
-						 
+}
+
+void MenagerieMug::do_battlecry(Player* p1) {
+    menagerie_bcry(p1, 1);
 }
 
 void MenagerieMugGolden::do_battlecry(Player* p1) {
     //auto board = p1->get_board();
-    mug.do_battlecry(p1);
-    mug.do_battlecry(p1);
+    menagerie_bcry(p1, 2);
+    // mug.do_battlecry(p1);
+    // mug.do_battlecry(p1);
 }
 
 

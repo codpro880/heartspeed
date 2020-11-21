@@ -60,7 +60,7 @@ public:
 
     void play_card(uint8_t hand_pos, uint8_t board_pos) {
 	auto card = hand.get_cards()[hand_pos];
-	board->insert_card(board_pos, card);
+	board->insert_card(board_pos, card, true);
 	card->do_battlecry(this);
 	hand.remove(card);
     }
@@ -69,7 +69,7 @@ public:
 	auto card = hand.get_cards()[hand_pos];
 	auto target = board->get_cards()[target_pos];
 	// TODO: Enforce valid targets (e.g. MUST pick valid target if available)
-	board->insert_card(board_pos, card);
+	board->insert_card(board_pos, card, true);
 	card->targeted_battlecry(target);
 	hand.remove(card);
     }

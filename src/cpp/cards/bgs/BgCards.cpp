@@ -54,7 +54,7 @@ void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
 }
 
 void Alleycat::do_battlecry(Player* p1) {
-    basic_summon(p1);
+    basic_summon(p1, true);
 }
 
 std::shared_ptr<BgBaseCard> Alleycat::summon() {
@@ -63,7 +63,7 @@ std::shared_ptr<BgBaseCard> Alleycat::summon() {
 }
 
 void AlleycatGolden::do_battlecry(Player* p1) {
-    basic_summon(p1);
+    basic_summon(p1, true);
 }
 
 std::shared_ptr<BgBaseCard> AlleycatGolden::summon() {
@@ -73,10 +73,12 @@ std::shared_ptr<BgBaseCard> AlleycatGolden::summon() {
 
 
 void Djinni::do_deathrattle(Board* b1, Board* b2) {
+    std::cerr << "Basic summon..." << std::endl;
     basic_summon(b1);
 }
 
 std::shared_ptr<BgBaseCard> Djinni::summon() {
+    std::cerr << "Summoning." << std::endl;
     auto f = BgCardFactory();
     auto cards = f.get_cards_of_race("ELEMENTAL");
     // TOOD: Use a map or something more efficient
@@ -470,17 +472,19 @@ void MalGanisGolden::do_deathrattle(Board* b1, Board*b2) {
     }
 }
 
-void MamaBear::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+int MamaBear::mod_summoned(std::shared_ptr<BgBaseCard> card, bool) {
     if (card->get_race() == "BEAST") {
 	card->set_attack(card->get_attack() + 4);
 	card->set_health(card->get_health() + 4);
     }
+    return 0;
 }
 
-void MamaBearGolden::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+int MamaBearGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool) {
     for (int i = 0; i < 2; i++) {
-	pl.mod_summoned(card);
+	pl.mod_summoned(card, false); // from hand doesn't matter
     }
+    return 0;
 }
 
 
@@ -542,20 +546,24 @@ void MonstrousMacawGolden::do_preattack(std::shared_ptr<BgBaseCard> defender,
     macaw.do_preattack(defender, b1, b2);
 }
 
-void MurlocTidecaller::mod_summoned(std::shared_ptr<BgBaseCard> card) {
-    if (card->get_race() == "MURLOC") {
+int MurlocTidecaller::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+    std::cerr << "card name (triggered...): " << card->get_name() << std::endl;
+    if (card->get_race() == "MURLOC" && from_hand) {
+	std::cerr << "card name: " << card->get_name() << std::endl;
 	set_attack(get_attack() + 1);
     }
+    return 0;
 }
 
-void MurlocTidecallerGolden::mod_summoned(std::shared_ptr<BgBaseCard> card) {
-    if (card->get_race() == "MURLOC") {
+int MurlocTidecallerGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+    if (card->get_race() == "MURLOC" && from_hand) {
 	set_attack(get_attack() + 2);
     }
+    return 0;
 }
 
 void MurlocTidehunter::do_battlecry(Player* p1) {
-    basic_summon(p1);
+    basic_summon(p1, true);
 }
 
 std::shared_ptr<BgBaseCard> MurlocTidehunter::summon() {
@@ -564,7 +572,7 @@ std::shared_ptr<BgBaseCard> MurlocTidehunter::summon() {
 }
 
 void MurlocTidehunterGolden::do_battlecry(Player* p1) {
-    basic_summon(p1);
+    basic_summon(p1, true);
 }
 
 std::shared_ptr<BgBaseCard> MurlocTidehunterGolden::summon() {
@@ -654,16 +662,18 @@ void OldMurkeyeGolden::do_postbattle(Board* b1,
     }
 }
 
-void PackLeader::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+int PackLeader::mod_summoned(std::shared_ptr<BgBaseCard> card, bool) {
     if (card->get_race() == "BEAST") {
 	card->set_attack(card->get_attack() + 3);
     }
+    return 0;
 }
 
-void PackLeaderGolden::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+int PackLeaderGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool) {
     for (int i = 0; i < 2; i++) {
-	pl.mod_summoned(card);
+	pl.mod_summoned(card, false); // from_hand doesn't matter
     }
+    return 0;
 }
 
 void PilotedShredder::do_deathrattle(Board* b1, Board* b2) {

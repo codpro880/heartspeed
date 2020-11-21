@@ -49,20 +49,20 @@ std::shared_ptr<BgBaseCard> BgBaseCard::get_copy() const {
     return std::make_shared<BgBaseCard>(*this);
 }
 
-std::shared_ptr<BgBaseCard> BgBaseCard::do_summon(Board* b1) {
+std::shared_ptr<BgBaseCard> BgBaseCard::do_summon(Board* b1, bool from_hand) {
     auto summoned = summon();
-    for (auto c : b1->get_cards()) {
-	c->mod_summoned(summoned);
-    }
+    // for (auto c : b1->get_cards()) {
+    // 	c->mod_summoned(summoned, from_hand);
+    // }
     return summoned;
 }
 
-void BgBaseCard::basic_summon(Player* p1) {
-    return basic_summon(p1->get_board().get());
+void BgBaseCard::basic_summon(Player* p1, bool from_hand) {
+    return basic_summon(p1->get_board().get(), from_hand);
 }
 
-void BgBaseCard::basic_summon(Board* b1) {
-    return multi_summon(1, b1);
+void BgBaseCard::basic_summon(Board* b1, bool from_hand) {
+    return multi_summon(1, b1, from_hand);
 }
 
 void BgBaseCard::reborn_self(Board* b1) {
@@ -76,12 +76,12 @@ void BgBaseCard::reborn_self(Board* b1) {
     b1->insert_card(death_pos, summoned_card);
 }
 
-void BgBaseCard::multi_summon(int num_summons, Player* p1) {
-    return multi_summon(num_summons, p1->get_board().get());
+void BgBaseCard::multi_summon(int num_summons, Player* p1, bool from_hand) {
+    return multi_summon(num_summons, p1->get_board().get(), from_hand);
 }
 
 
-void BgBaseCard::multi_summon(int num_summons, Board* b1) {
+void BgBaseCard::multi_summon(int num_summons, Board* b1, bool from_hand) {
     auto original_num_summons = num_summons;
     for (auto c : b1->get_cards()) {
 	if (c->get_name() == "Khadgar") {
@@ -96,7 +96,7 @@ void BgBaseCard::multi_summon(int num_summons, Board* b1) {
 
     auto f = BgCardFactory();
     for (int i = 0; i < spots_to_fill; i++) {
-	auto summoned_card = do_summon(b1);
+	auto summoned_card = do_summon(b1, from_hand);
 	int insert_pos;
 	if (this->is_dead()) {
 	    insert_pos = death_pos + i;
@@ -105,6 +105,6 @@ void BgBaseCard::multi_summon(int num_summons, Board* b1) {
 	    insert_pos = b1->get_pos(this) + 1;
 	}
 	if (insert_pos < b1->get_attacker_pos()) b1->increment_attacker_pos();
-	b1->insert_card(insert_pos, summoned_card);
+	b1->insert_card(insert_pos, summoned_card, from_hand);
     }
 }

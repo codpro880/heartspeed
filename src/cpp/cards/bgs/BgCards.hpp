@@ -442,7 +442,7 @@ public:
     MamaBear() : BgBaseCard(4, "NEUTRAL", 8, 4, "Mama Bear",
 			    "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MamaBear>(*this); } // boilerplate that every drattle needs...
-    void mod_summoned(std::shared_ptr<BgBaseCard> card) override;
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) override;
 };
 
 class MamaBearGolden : public BgBaseCard {
@@ -450,7 +450,7 @@ public:
     MamaBearGolden() : BgBaseCard(8, "NEUTRAL", 8, 8, "Mama Bear (Golden)",
 				  "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MamaBearGolden>(*this); } // boilerplate that every drattle needs...
-    void mod_summoned(std::shared_ptr<BgBaseCard> card) override;
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) override;
 private:
     MamaBear pl;
 };
@@ -518,7 +518,7 @@ class MurlocTidecaller : public BgBaseCard {
 public:
     MurlocTidecaller() : BgBaseCard(1, "NEUTRAL", 1, 2, "Murloc Tidecaller",
 				    "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION") {}
-    void mod_summoned(std::shared_ptr<BgBaseCard> card) override;
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MurlocTidecaller>(*this); } // boilerplate that every drattle needs...
 };
 
@@ -526,7 +526,7 @@ class MurlocTidecallerGolden : public BgBaseCard {
 public:
     MurlocTidecallerGolden() : BgBaseCard(2, "NEUTRAL", 1, 4, "Murloc Tidecaller (Golden)",
 					  "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION") {}
-    void mod_summoned(std::shared_ptr<BgBaseCard> card) override;
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MurlocTidecallerGolden>(*this); } // boilerplate that every drattle needs...
 };
 
@@ -618,7 +618,7 @@ public:
     PackLeader() : BgBaseCard(3, "NEUTRAL", 3, 3, "Pack Leader",
 			      "['TRIGGER_VISUAL']", "", "RARE", 2, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<PackLeader>(*this); } // boilerplate that every drattle needs...
-    void mod_summoned(std::shared_ptr<BgBaseCard> card) override;
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) override;
 };
 
 class PackLeaderGolden : public BgBaseCard {
@@ -626,7 +626,7 @@ public:
     PackLeaderGolden() : BgBaseCard(6, "NEUTRAL", 3, 6, "Pack Leader (Golden)",
 				    "['TRIGGER_VISUAL']", "", "RARE", 2, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<PackLeaderGolden>(*this); } // boilerplate that every drattle needs...
-    void mod_summoned(std::shared_ptr<BgBaseCard> card) override;
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) override;
 private:
     PackLeader pl;
 };

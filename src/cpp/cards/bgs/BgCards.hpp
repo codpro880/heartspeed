@@ -383,7 +383,7 @@ private:
 
 class KindlyGrandmother : public DeathrattleCard {
 public:
-    KindlyGrandmother() : BgBaseCard(1, "HUNTER", 2, 1, "Kindly Grandmother (Golden)",
+    KindlyGrandmother() : BgBaseCard(1, "HUNTER", 2, 1, "Kindly Grandmother",
 					  "['DEATHRATTLE']", "BEAST", "COMMON", 2, "MINION") {}
     virtual void do_deathrattle(Board* b1, Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<KindlyGrandmother>(*this); } // boilerplate that every drattle needs...
@@ -490,6 +490,24 @@ public:
     virtual void do_deathrattle(Board* b1, Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MecharooGolden>(*this); } // boilerplate that every drattle needs...
     std::shared_ptr<BgBaseCard> summon() override;
+};
+
+class MetaltoothLeaper : public BattlecryCard {
+public:
+    MetaltoothLeaper() : BgBaseCard(3, "HUNTER", 3, 3, "Metaltooth Leaper",
+				    "['BATTLECRY']", "MECHANICAL", "RARE", 2, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MetaltoothLeaper>(*this); } // boilerplate that every drattle needs...
+};
+
+class MetaltoothLeaperGolden : public BattlecryCard {
+public:
+    MetaltoothLeaperGolden() : BgBaseCard(6, "HUNTER", 3, 6, "Metaltooth Leaper (Golden)",
+					  "['BATTLECRY']", "MECHANICAL", "RARE", 2, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MetaltoothLeaperGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    MetaltoothLeaper leaper;
 };
 
 class MonstrousMacaw : public BgBaseCard {

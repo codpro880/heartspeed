@@ -524,6 +524,34 @@ std::shared_ptr<BgBaseCard> MecharooGolden::summon() {
     return f.get_card("Jo-E Bot (Golden)");
 }
 
+void MetaltoothLeaper::do_battlecry(Player* p1) {
+    auto board = p1->get_board();
+    for (auto card : board->get_cards()) {
+	if (card.get() == this) {
+	    continue;
+	}
+	if (card->get_race() == "MECHANICAL") {
+	    card->set_attack(card->get_attack() + 2);
+	}
+    }
+}
+
+void MetaltoothLeaperGolden::do_battlecry(Player* p1) {
+    auto board = p1->get_board();
+    for (auto card : board->get_cards()) {
+	if (card.get() == this) {
+	    continue;
+	}
+	if (card->get_race() == "MECHANICAL") {
+	    card->set_attack(card->get_attack() + 4);
+	}
+    }
+    // Just do it twice
+    // leaper.do_battlecry(p1);
+    // leaper.do_battlecry(p1);
+}
+
+
 void MonstrousMacaw::do_preattack(std::shared_ptr<BgBaseCard> defender,
 				  Board* b1,
 				  Board* b2) {

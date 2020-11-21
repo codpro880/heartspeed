@@ -43,6 +43,45 @@ TEST(Player, AlleycatBattlecryBasic) {
     EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Tabbycat");
 }
 
+TEST(Player, MetaltoothLeaperBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Harvest Golem"),
+	 f.get_card("Metaltooth Leaper"),
+	 f.get_card("Metaltooth Leaper (Golden)"),
+	 f.get_card("Kindly Grandmother"),
+	 f.get_card("Kaboom Bot")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    //player.buy_card(tidecaller); // TODO: Impl bobs tav
+    auto hand = player.get_hand();
+    EXPECT_EQ(hand.size(), 5);
+    EXPECT_EQ(player.get_board()->size(), 0);
+
+    // Play cards in hand order, only Harvest Golem gets buffed
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    player.play_card(0, 4);
+    EXPECT_EQ(player.get_hand().size(), 0);
+    EXPECT_EQ(player.get_board()->size(), 5);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Harvest Golem");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 8);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Metaltooth Leaper");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 7);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Metaltooth Leaper (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Kindly Grandmother");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 1);
+    // Kaboom bot was played after leapers
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_name(), "Kaboom Bot");
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_attack(), 2);
+}
+
+
 // TOOD: Impl bobs tav
 // TEST(Player, DeckSwabbieBattlecry) {
 //     auto f = BgCardFactory();

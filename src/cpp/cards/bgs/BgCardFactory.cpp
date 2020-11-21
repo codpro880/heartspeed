@@ -482,12 +482,8 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> menagerie_mug_gold(new BgBaseCard(4, "NEUTRAL", 3, 4, "Menagerie Mug (Golden)",
 								  "['BATTLECRY']", "", "COMMON", 2, "MINION"));
     cards.emplace("Menagerie Mug", menagerie_mug_gold);
-    std::shared_ptr<BgBaseCard> metaltooth(new BgBaseCard(3, "HUNTER", 3, 3, "Metaltooth Leaper",
-							  "['BATTLECRY']", "MECHANICAL", "RARE", 2, "MINION"));
-    cards.emplace("Metaltooth Leaper", metaltooth);
-    std::shared_ptr<BgBaseCard> metaltooth_gold(new BgBaseCard(6, "HUNTER", 3, 6, "Metaltooth Leaper (Golden)",
-							       "['BATTLECRY']", "MECHANICAL", "RARE", 2, "MINION"));
-    cards.emplace("Metaltooth Leaper (Golden)", metaltooth_gold);
+    cards.emplace("Metaltooth Leaper", std::make_shared<MetaltoothLeaper>());
+    cards.emplace("Metaltooth Leaper (Golden)", std::make_shared<MetaltoothLeaperGolden>());
     std::shared_ptr<BgBaseCard> micro_machine(new BgBaseCard(1, "NEUTRAL", 2, 2, "Micro Machine",
 							     "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
     cards.emplace("Micro Machine", micro_machine);

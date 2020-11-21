@@ -118,6 +118,28 @@ TEST(Player, MurlocTidehunterBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[4]->get_name(), "Murloc Scout (Golden)");
 }
 
+// TOOD: Impl bobs tav
+// TEST(Player, RefreshingAnomolyBattlecry) {
+//     auto f = BgCardFactory();
+//     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+//     {
+//      f.get_card("Refreshing Anomoly"),
+//      f.get_card("Refreshing Anomoly (Golden)")
+//     };
+//     auto in_hand = Hand(hand_cards);
+//     auto player = Player(in_hand, "Test");
+//     EXPECT_EQ(player.get_board()->size(), 0);
+
+//     // Rerolls would throw if not possible
+//     player.play_card(0, 0);
+//     player.set_gold(0);
+//     player.reroll_tav();
+//     player.play_card(0, 0);
+//     player.reroll_tav();
+//     player.reroll_tav();
+// }
+
+
 TEST(Player, RockpoolHunterTargettedBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

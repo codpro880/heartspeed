@@ -61,7 +61,6 @@ public:
     void play_card(uint8_t hand_pos, uint8_t board_pos) {
 	auto card = hand.get_cards()[hand_pos];
 	auto dmg_taken = board->insert_card(board_pos, card, true);
-	std::cerr << "Taken: " << dmg_taken << std::endl;
 	take_damage(dmg_taken);
 	card->do_battlecry(this);
 	hand.remove(card);

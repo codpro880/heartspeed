@@ -549,15 +549,20 @@ void menagerie_bcry(Player* p1, uint8_t buff_amount) {
     }
 }
 
+void MenagerieJug::do_battlecry(Player* p1) {
+    menagerie_bcry(p1, 2);
+}
+
+void MenagerieJugGolden::do_battlecry(Player* p1) {
+    menagerie_bcry(p1, 4);
+}
+
 void MenagerieMug::do_battlecry(Player* p1) {
     menagerie_bcry(p1, 1);
 }
 
 void MenagerieMugGolden::do_battlecry(Player* p1) {
-    //auto board = p1->get_board();
     menagerie_bcry(p1, 2);
-    // mug.do_battlecry(p1);
-    // mug.do_battlecry(p1);
 }
 
 

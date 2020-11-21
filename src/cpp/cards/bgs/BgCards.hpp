@@ -492,6 +492,25 @@ public:
     std::shared_ptr<BgBaseCard> summon() override;
 };
 
+class MenagerieMug : public BattlecryCard {
+public:
+    MenagerieMug() : BgBaseCard(2, "NEUTRAL", 3, 2, "Menagerie Mug",
+				"['BATTLECRY']", "", "COMMON", 2, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MenagerieMug>(*this); } // boilerplate that every drattle needs...
+};
+
+class MenagerieMugGolden : public BattlecryCard {
+public:
+    MenagerieMugGolden() : BgBaseCard(4, "NEUTRAL", 3, 4, "Menagerie Mug (Golden)",
+				      "['BATTLECRY']", "", "COMMON", 2, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MenagerieMugGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    MenagerieMug mug;
+};
+
+
 class MetaltoothLeaper : public BattlecryCard {
 public:
     MetaltoothLeaper() : BgBaseCard(3, "HUNTER", 3, 3, "Metaltooth Leaper",

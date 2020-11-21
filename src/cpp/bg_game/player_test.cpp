@@ -43,6 +43,69 @@ TEST(Player, AlleycatBattlecryBasic) {
     EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Tabbycat");
 }
 
+// Some extra tests around the mug since it's sort of complicated.
+// This level of testing not necessary for the Jug (since logic will be reused)
+TEST(Player, MenagerieMugBattlecryEmpty) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Menagerie Mug"),
+	 f.get_card("Menagerie Mug (Golden)"),
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    //player.buy_card(tidecaller); // TODO: Impl bobs tav
+    auto hand = player.get_hand();
+    EXPECT_EQ(hand.size(), 2);
+    EXPECT_EQ(player.get_board()->size(), 0);
+
+    // Should be nothing buffed
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    EXPECT_EQ(player.get_hand().size(), 0);
+    EXPECT_EQ(player.get_board()->size(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Menagerie Mug");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Menagerie Mug (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 4);
+}
+
+TEST(Player, MenagerieMugBattlecryOne) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Foe Reaper 4000"),
+	 f.get_card("Menagerie Mug"),
+	 f.get_card("Menagerie Mug (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    int total_hand_attack = 0;
+    int total_hand_health = 0;
+    for (auto card : in_hand.get_cards()) {
+	total_hand_attack += card->get_attack();
+	total_hand_health += card->get_health();
+    }
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    int total_board_attack = 0;
+    int total_board_health = 0;
+    for (auto card : player.get_board()->get_cards()) {
+	total_board_attack += card->get_attack();
+	total_board_health += card->get_health();
+    }
+
+    // Should see +3/+3 total stat change
+    EXPECT_EQ(total_hand_attack + 3, total_board_attack);
+    EXPECT_EQ(total_hand_health + 3, total_board_health);
+}
+
+
+
 TEST(Player, MetaltoothLeaperBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

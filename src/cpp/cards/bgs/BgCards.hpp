@@ -62,6 +62,24 @@ public:
     std::shared_ptr<BgBaseCard> summon() override;
 };
 
+class CrowdFavorite : public BgBaseCard {
+public:
+    CrowdFavorite() : BgBaseCard(4, "NEUTRAL", 4, 4, "Crowd Favorite",
+				 "['TRIGGER_VISUAL']", "", "EPIC", 3, "MINION") {}
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<CrowdFavorite>(*this); } // boilerplate that every drattle needs...
+};
+
+class CrowdFavoriteGolden : public BgBaseCard {
+public:
+    CrowdFavoriteGolden() : BgBaseCard(8, "NEUTRAL", 4, 8, "Crowd Favorite (Golden)",
+				       "['TRIGGER_VISUAL']", "", "EPIC", 3, "MINION") {}
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<CrowdFavoriteGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    CrowdFavorite cf;
+};
+
 class ColdlightSeer : public BattlecryCard {
 public:
     ColdlightSeer() : BgBaseCard(2, "NEUTRAL", 3, 3, "Coldlight Seer",

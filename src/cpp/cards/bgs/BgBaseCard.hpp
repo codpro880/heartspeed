@@ -107,6 +107,9 @@ public:
     bool has_cleave() const {
 	return mechanics.find("CLEAVE") != std::string::npos;
     }
+    bool has_battlecry() const {
+	return mechanics.find("BATTLECRY") != std::string::npos;
+    }
     bool has_windfury() const { return _has_windfury; }
     bool has_windfury_active() const { return _has_windfury_active; }
 

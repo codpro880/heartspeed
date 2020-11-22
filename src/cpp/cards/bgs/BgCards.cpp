@@ -71,6 +71,22 @@ std::shared_ptr<BgBaseCard> AlleycatGolden::summon() {
     return f.get_card("Tabbycat (Golden)");
 }
 
+int CrowdFavorite::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+    if (card->has_battlecry()) {
+	set_attack(get_attack() + 1);
+	set_health(get_health() + 1);
+    }
+    return 0;
+}
+
+int CrowdFavoriteGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+    if (card->has_battlecry()) {
+	set_attack(get_attack() + 2);
+	set_health(get_health() + 2);
+    }
+    return 0;
+}
+
 void ColdlightSeer::do_battlecry(Player* p1) {
     for (auto card : p1->get_board()->get_cards()) {
 	if (card.get() == this) continue;

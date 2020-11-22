@@ -207,13 +207,8 @@ void BgCardFactory::init_cards() {
     crackling_cyclone_golden->set_divine_shield();
     crackling_cyclone_golden->set_windfury();
     cards.emplace("Crackling Cyclone", crackling_cyclone_golden);
-    std::shared_ptr<BgBaseCard> crowd_fav(new BgBaseCard(4, "NEUTRAL", 4, 4, "Crowd Favorite",
-							 "['TRIGGER_VISUAL']", "", "EPIC", 3, "MINION"));
-    cards.emplace("Crowd Favorite", crowd_fav);
-
-    std::shared_ptr<BgBaseCard> crowd_fav_gold(new BgBaseCard(8, "NEUTRAL", 4, 8, "Crowd Favorite (Golden)",
-							      "['TRIGGER_VISUAL']", "", "EPIC", 3, "MINION"));
-    cards.emplace("Crowd Favorite (Golden)", crowd_fav_gold);
+    cards.emplace("Crowd Favorite", std::make_shared<CrowdFavorite>());
+    cards.emplace("Crowd Favorite (Golden)", std::make_shared<CrowdFavoriteGolden>());
     std::shared_ptr<BgBaseCard> crystalweaver(new BgBaseCard(5, "WARLOCK", 4, 4, "Crystalweaver",
 							     "['BATTLECRY']", "", "COMMON", 3, "MINION"));
     cards.emplace("Crystalweaver", crystalweaver);

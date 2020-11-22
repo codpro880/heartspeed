@@ -87,6 +87,21 @@ int CrowdFavoriteGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool fro
     return 0;
 }
 
+void Crystalweaver::do_battlecry(Player* p1) {
+    for (auto c : p1->get_board()->get_cards()) {
+	if (c->get_race() == "DEMON") {
+	    c->set_attack(c->get_attack() + 1);
+	    c->set_health(c->get_health() + 1);
+	}
+    }
+
+}
+
+void CrystalweaverGolden::do_battlecry(Player* p1) {
+    cw.do_battlecry(p1);
+    cw.do_battlecry(p1);
+}
+
 void ColdlightSeer::do_battlecry(Player* p1) {
     for (auto card : p1->get_board()->get_cards()) {
 	if (card.get() == this) continue;

@@ -80,6 +80,24 @@ private:
     CrowdFavorite cf;
 };
 
+class Crystalweaver : public BattlecryCard {
+public:
+    Crystalweaver() : BgBaseCard(5, "WARLOCK", 4, 4, "Crystalweaver",
+				 "['BATTLECRY']", "", "COMMON", 3, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Crystalweaver>(*this); } // boilerplate that every drattle needs...
+    virtual void do_battlecry(Player*) override;    
+};
+
+class CrystalweaverGolden : public BattlecryCard {
+public:
+    CrystalweaverGolden() : BgBaseCard(10, "WARLOCK", 4, 8, "Crystalweaver (Golden)",
+				       "['BATTLECRY']", "", "COMMON", 3, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<CrystalweaverGolden>(*this); } // boilerplate that every drattle needs...
+    virtual void do_battlecry(Player*) override;
+private:
+    Crystalweaver cw;
+};
+
 class ColdlightSeer : public BattlecryCard {
 public:
     ColdlightSeer() : BgBaseCard(2, "NEUTRAL", 3, 3, "Coldlight Seer",

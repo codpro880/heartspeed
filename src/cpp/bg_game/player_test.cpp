@@ -43,6 +43,72 @@ TEST(Player, AlleycatBattlecryBasic) {
     EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Tabbycat");
 }
 
+TEST(Player, CrowdFavoriteReactsToBattlecryCards) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Crowd Favorite"),
+	 f.get_card("Crowd Favorite (Golden)"),
+	 f.get_card("Crystalweaver"),
+	 f.get_card("Coldlight Seer")
+
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Crowd Favorite");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Crowd Favorite (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 12);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 12);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Crystalweaver");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Coldlight Seer");
+}
+
+TEST(Player, CrystalweaverBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Nathrezim Overseer"),
+	 f.get_card("Siegebreaker"),
+	 f.get_card("Crystalweaver (Golden)"),
+	 f.get_card("Coldlight Seer"),
+	 f.get_card("Crystalweaver")
+
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    player.play_card(0, 4);
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Nathrezim Overseer");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 5);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Siegebreaker");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 8);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 11);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Crystalweaver (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 10);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 8);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Coldlight Seer");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 3);    
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_name(), "Crystalweaver");
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_attack(), 5);
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 4);
+}
+
+
 TEST(Player, ColdlightBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
@@ -78,35 +144,6 @@ TEST(Player, ColdlightBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[4]->get_attack(), 2);
     EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 3);
 }
-
-TEST(Player, CrowdFavoriteReactsToBattlecryCards) {
-    auto f = BgCardFactory();
-    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Crowd Favorite"),
-	 f.get_card("Crowd Favorite (Golden)"),
-	 f.get_card("Crystalweaver"),
-	 f.get_card("Coldlight Seer")
-
-	};
-    auto in_hand = Hand(hand_cards);
-    auto player = Player(in_hand, "Test");
-
-    player.play_card(0, 0);
-    player.play_card(0, 1);
-    player.play_card(0, 2);
-    player.play_card(0, 3);
-
-    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Crowd Favorite");
-    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 6);
-    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 6);
-    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Crowd Favorite (Golden)");
-    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 12);
-    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 12);
-    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Crystalweaver");
-    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Coldlight Seer");
-}
-
 
 // Some extra tests around the mug since it's sort of complicated.
 // This level of testing not necessary for the Jug (since logic will be reused)

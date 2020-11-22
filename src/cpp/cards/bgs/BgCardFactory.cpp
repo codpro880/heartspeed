@@ -209,12 +209,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Crackling Cyclone", crackling_cyclone_golden);
     cards.emplace("Crowd Favorite", std::make_shared<CrowdFavorite>());
     cards.emplace("Crowd Favorite (Golden)", std::make_shared<CrowdFavoriteGolden>());
-    std::shared_ptr<BgBaseCard> crystalweaver(new BgBaseCard(5, "WARLOCK", 4, 4, "Crystalweaver",
-							     "['BATTLECRY']", "", "COMMON", 3, "MINION"));
-    cards.emplace("Crystalweaver", crystalweaver);
-    std::shared_ptr<BgBaseCard> crystalweaver_gold(new BgBaseCard(10, "WARLOCK", 4, 8, "Crystalweaver (Golden)",
-								  "['BATTLECRY']", "", "COMMON", 3, "MINION"));
-    cards.emplace("Crystalweaver (Golden)", crystalweaver_gold);
+    cards.emplace("Crystalweaver", std::make_shared<Crystalweaver>());
+    cards.emplace("Crystalweaver (Golden)", std::make_shared<CrystalweaverGolden>());
 
     // D
     std::shared_ptr<BgBaseCard> damaged_golem(new BgBaseCard(2, "NEUTRAL", 1, 1,

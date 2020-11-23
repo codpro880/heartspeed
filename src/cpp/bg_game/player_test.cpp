@@ -189,6 +189,34 @@ TEST(Player, FelfinNavigatorBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[6]->get_health(), 1);    
 }
 
+TEST(Player, HoundmasterBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Mama Bear"),
+	 f.get_card("Houndmaster (Golden)"),
+	 f.get_card("Houndmaster")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 0, 1);
+    player.play_card(0, 0, 2);
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Mama Bear");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 10);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 10);
+    EXPECT_TRUE(player.get_board()->get_cards()[0]->has_taunt());
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Houndmaster (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 8);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Houndmaster");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 3);
+}
+
+
 
 // Some extra tests around the mug since it's sort of complicated.
 // This level of testing not necessary for the Jug (since logic will be reused)

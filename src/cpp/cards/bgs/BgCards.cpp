@@ -281,6 +281,23 @@ void HeraldOfFlameGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
     }
 }
 
+void Houndmaster::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "BEAST") {
+	c->set_attack(c->get_attack() + 2);
+	c->set_health(c->get_health() + 2);
+	c->set_taunt();
+    }
+}
+
+void HoundmasterGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "BEAST") {
+	c->set_attack(c->get_attack() + 4);
+	c->set_health(c->get_health() + 4);
+	c->set_taunt();
+    }
+}
+
+
 void Imprisoner::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }

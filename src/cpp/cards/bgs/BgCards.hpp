@@ -285,6 +285,23 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<HeraldOfFlameGolden>(*this); } // boilerplate that every drattle needs...
 };
 
+class Houndmaster : public TargetedBattlecryCard {
+public:
+    Houndmaster() : BgBaseCard(4, "HUNTER", 4, 3, "Houndmaster",
+			       "['BATTLECRY']", "", "FREE", 3, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Houndmaster>(*this); } // boilerplate that every drattle needs...
+    void targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+};
+
+class HoundmasterGolden : public TargetedBattlecryCard {
+public:
+    HoundmasterGolden() : BgBaseCard(8, "HUNTER", 4, 6, "Houndmaster (Golden)",
+				     "['BATTLECRY']", "", "FREE", 3, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<HoundmasterGolden>(*this); } // boilerplate that every drattle needs...
+    void targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+};
+
+
 class ImpGangBoss : public BgBaseCard {
 public:
     ImpGangBoss() : BgBaseCard(2, "WARLOCK", 3, 4, "Imp Gang Boss",

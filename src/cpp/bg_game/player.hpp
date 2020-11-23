@@ -70,7 +70,7 @@ public:
 	auto card = hand.get_cards()[hand_pos];
 	auto target = board->get_cards()[target_pos];
 	// TODO: Enforce valid targets (e.g. MUST pick valid target if available)
-	auto dmg_taken = board->insert_card(board_pos, card, true);	
+	auto dmg_taken = board->insert_card(board_pos, card, true);
 	take_damage(dmg_taken);
 	card->targeted_battlecry(target);
 	hand.remove(card);

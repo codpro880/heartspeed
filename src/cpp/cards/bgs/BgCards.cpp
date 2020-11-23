@@ -71,6 +71,44 @@ std::shared_ptr<BgBaseCard> AlleycatGolden::summon() {
     return f.get_card("Tabbycat (Golden)");
 }
 
+void ArcaneAssistant::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "ELEMENTAL") {
+	    card->set_attack(card->get_attack() + 1);
+	    card->set_health(card->get_health() + 1);
+	}
+    }
+}
+
+void ArcaneAssistantGolden::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "ELEMENTAL") {
+	    card->set_attack(card->get_attack() + 2);
+	    card->set_health(card->get_health() + 2);
+	}
+    }
+}
+
+void BloodsailCannoneer::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "PIRATE") {
+	    card->set_attack(card->get_attack() + 3);
+	}
+    }
+}
+
+void BloodsailCannoneerGolden::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "PIRATE") {
+	    card->set_attack(card->get_attack() + 6);
+	}
+    }
+}
+
 int CrowdFavorite::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
     if (card->has_battlecry()) {
 	set_attack(get_attack() + 1);

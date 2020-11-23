@@ -62,6 +62,38 @@ public:
     std::shared_ptr<BgBaseCard> summon() override;
 };
 
+class ArcaneAssistant : public BattlecryCard {
+public:
+    ArcaneAssistant() : BgBaseCard(3, "NEUTRAL", -1, 3, "Arcane Assistant",
+				   "", "ELEMENTAL", "", 3, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ArcaneAssistant>(*this); } // boilerplate that every drattle needs...
+};
+
+class ArcaneAssistantGolden : public BattlecryCard {
+public:
+    ArcaneAssistantGolden() : BgBaseCard(6, "NEUTRAL", -1, 6, "Arcane Assistant (Golden)",
+					 "", "ELEMENTAL", "", 3, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ArcaneAssistantGolden>(*this); } // boilerplate that every drattle needs...
+};
+
+class BloodsailCannoneer : public BattlecryCard {
+public:
+    BloodsailCannoneer() : BgBaseCard(4, "NEUTRAL", 4, 3, "Bloodsail Cannoneer",
+				      "", "PIRATE", "", 3, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<BloodsailCannoneer>(*this); } // boilerplate that every drattle needs...
+};
+
+class BloodsailCannoneerGolden : public BattlecryCard {
+public:
+    BloodsailCannoneerGolden() : BgBaseCard(8, "NEUTRAL", 4, 6, "Bloodsail Cannoneer (Golden)",
+					    "", "PIRATE", "", 3,  "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<BloodsailCannoneerGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 class CrowdFavorite : public BgBaseCard {
 public:
     CrowdFavorite() : BgBaseCard(4, "NEUTRAL", 4, 4, "Crowd Favorite",

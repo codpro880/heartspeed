@@ -43,6 +43,64 @@ TEST(Player, AlleycatBattlecryBasic) {
     EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Tabbycat");
 }
 
+TEST(Player, ArcaneAssistantBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Wildfire Elemental"),
+	 f.get_card("Harvest Golem"),
+	 f.get_card("Arcane Assistant (Golden)"),
+	 f.get_card("Arcane Assistant"),
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Wildfire Elemental");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 10);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Harvest Golem");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Arcane Assistant (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 7);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 7);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Arcane Assistant");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 3);
+}
+
+TEST(Player, BloodsailCannoneerBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Goldgrubber"),
+	 f.get_card("Bloodsail Cannoneer (Golden)"),
+	 f.get_card("Bloodsail Cannoneer")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Goldgrubber");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 2+3+6);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Bloodsail Cannoneer (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 8+3);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Bloodsail Cannoneer");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 3);
+}
+
+
 TEST(Player, CrowdFavoriteReactsToBattlecryCards) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

@@ -123,10 +123,8 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> annoyo_gold(new BgBaseCard(4, "PALADIN", 4, 8, "Annoy-o-Module (Golden)",
 							   "['DIVINE_SHIELD', 'MODULAR', 'TAUNT']", "MECHANICAL", "RARE", 4, "MINION"));
     cards.emplace("Annoy-o-Module (Golden)", annoyo_gold);
-    cards.emplace("Arcane Assistant", std::make_shared<BgBaseCard>(3, "NEUTRAL", -1, 2, "Arcane Assistant",
-								   "", "ELEMENTAL", "", 3, "MINION"));
-    cards.emplace("Arcane Assistant (Golden)", std::make_shared<BgBaseCard>(6, "NEUTRAL", -1, 4, "Arcane Assistant (Golden)",
-									    "", "ELEMENTAL", "", 3, "MINION"));
+    cards.emplace("Arcane Assistant", std::make_shared<ArcaneAssistant>());
+    cards.emplace("Arcane Assistant (Golden)", std::make_shared<ArcaneAssistantGolden>());					
     // cards.emplace("Arcane Cannon", BgBaseCard(2, "NEUTRAL", 3, 2, "Arcane Cannon",
     // 					      "['CANT_ATTACK', 'TRIGGER_VISUAL']", "", "", 2, "MINION"));
     // cards.emplace("Arcane Cannon (Golden)", BgBaseCard(4, "NEUTRAL", 3, 4, "Arcane Cannon (Golden)",
@@ -149,12 +147,8 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> big_bad_wolf_gold(new BgBaseCard(6, "HUNTER", 2, 4, "Big Bad Wolf (Golden)",
 								 "", "BEAST", "", 1, "MINION"));
     cards.emplace("Big Bad Wolf (Golden)", big_bad_wolf_gold);
-    std::shared_ptr<BgBaseCard> bloodsail(new BgBaseCard(4, "NEUTRAL", 4, 2, "Bloodsail Cannoneer",
-							 "", "PIRATE", "", 3, "MINION"));
-    cards.emplace("Bloodsail Cannoneer", bloodsail);
-    std::shared_ptr<BgBaseCard> bloodsail_gold(new BgBaseCard(8, "NEUTRAL", 4, 4, "Bloodsail Cannoneer (Golden)",
-							      "", "PIRATE", "", 3,  "MINION"));
-    cards.emplace("Bloodsail Cannoneer (Golden)", bloodsail_gold);
+    cards.emplace("Bloodsail Cannoneer", std::make_shared<BloodsailCannoneer>());
+    cards.emplace("Bloodsail Cannoneer (Golden)", std::make_shared<BloodsailCannoneerGolden>());
     std::shared_ptr<BgBaseCard> bolvar(new BgBaseCard(1, "PALADIN", 5, 7, "Bolvar",
 						      "['DIVINE_SHIELD', 'TRIGGER_VISUAL']", "", "LEGENDARY", 4, "MINION"));
     cards.emplace("Bolvar", bolvar);
@@ -313,7 +307,7 @@ void BgCardFactory::init_cards() {
     cards.emplace("Glyph Guardian (Golden)", std::make_shared<GlyphGuardianGolden>());
     // cards.emplace("Gold Coin", BgBaseCard(-1, "NEUTRAL", 0, -1, "Gold Coin",
     // 					  "", "", "RARE", -1, "SPELL"));
-    std::shared_ptr<BgBaseCard> goldgrubber(new BgBaseCard(4, "NEUTRAL", 5, 4, "Goldgrubber",
+    std::shared_ptr<BgBaseCard> goldgrubber(new BgBaseCard(2, "NEUTRAL", 5, 2, "Goldgrubber",
 							   "['TRIGGER_VISUAL']", "PIRATE", "", 4, "MINION"));
     cards.emplace("Goldgrubber", goldgrubber);
     std::shared_ptr<BgBaseCard> goldgrubber_gold(new BgBaseCard(4, "NEUTRAL", 5, 4, "Goldgrubber (Golden)",

@@ -948,6 +948,22 @@ private:
     ScavengingHyena sh;
 };
 
+class ScrewjankClunker : public TargetedBattlecryCard {
+public:
+    ScrewjankClunker() : BgBaseCard(2, "WARRIOR", 4, 5, "Screwjank Clunker",
+				    "['BATTLECRY']", "MECHANICAL", "RARE", 3, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ScrewjankClunker>(*this); } // boilerplate that every drattle needs...
+    void targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+};
+
+class ScrewjankClunkerGolden : public TargetedBattlecryCard {
+public:
+    ScrewjankClunkerGolden() : BgBaseCard(4, "WARRIOR", 4, 10, "Screwjank Clunker (Golden)",
+					  "['BATTLECRY']", "MECHANICAL", "RARE", 3, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ScrewjankClunkerGolden>(*this); } // boilerplate that every drattle needs...
+    void targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+};
+
 class SeabreakerGoliath : public BgBaseCard {
 public:
     SeabreakerGoliath() : BgBaseCard(6, "NEUTRAL", 7, 7, "Seabreaker Goliath",

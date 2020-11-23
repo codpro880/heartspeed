@@ -994,6 +994,20 @@ void ScavengingHyenaGolden::do_postbattle(Board* b1,
     }
 }
 
+void ScrewjankClunker::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "MECHANICAL") {
+	c->set_attack(c->get_attack() + 2);
+	c->set_health(c->get_health() + 2);
+    }
+}
+
+void ScrewjankClunkerGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "MECHANICAL") {
+	c->set_attack(c->get_attack() + 4);
+	c->set_health(c->get_health() + 4);
+    }
+}
+
 void SeabreakerGoliath::do_postattack(std::shared_ptr<BgBaseCard> defender,
 				      int def_pos,
 				      Board* b1,

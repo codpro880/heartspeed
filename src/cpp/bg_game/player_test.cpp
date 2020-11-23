@@ -518,6 +518,33 @@ TEST(Player, RockpoolHunterTargettedBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Rockpool Hunter (Golden)");
 }
 
+TEST(Player, ScrewjankClunkerBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Foe Reaper 4000"),
+	 f.get_card("Screwjank Clunker (Golden)"),
+	 f.get_card("Screwjank Clunker")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 0, 1);
+    player.play_card(0, 0, 2);
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Foe Reaper 4000");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 12);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 15);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Screwjank Clunker (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 10);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Screwjank Clunker");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 5);
+}
+
+
 TEST(Player, VulgarHomunculusBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

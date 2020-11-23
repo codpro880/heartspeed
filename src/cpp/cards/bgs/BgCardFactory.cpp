@@ -607,12 +607,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Scallywag (Golden)", std::make_shared<ScallywagGolden>());
     cards.emplace("Scavenging Hyena", std::make_shared<ScavengingHyena>());
     cards.emplace("Scavenging Hyena (Golden)", std::make_shared<ScavengingHyenaGolden>());
-    std::shared_ptr<BgBaseCard> screwjank(new BgBaseCard(2, "WARRIOR", 4, 5, "Screwjank Clunker",
-							 "['BATTLECRY']", "MECHANICAL", "RARE", 3, "MINION"));
-    cards.emplace("Screwjank Clunker", screwjank);
-    std::shared_ptr<BgBaseCard> screwjank_gold(new BgBaseCard(4, "WARRIOR", 4, 10, "Screwjank Clunker (Golden)",
-							      "['BATTLECRY']", "MECHANICAL", "RARE", 3, "MINION"));
-    cards.emplace("Screwjank Clunker (Golden)", screwjank_gold);
+    cards.emplace("Screwjank Clunker", std::make_shared<ScrewjankClunker>());
+    cards.emplace("Screwjank Clunker (Golden)", std::make_shared<ScrewjankClunkerGolden>());
     auto seabreaker = std::make_shared<SeabreakerGoliath>();
     seabreaker->set_windfury();
     cards.emplace("Seabreaker Goliath", seabreaker);

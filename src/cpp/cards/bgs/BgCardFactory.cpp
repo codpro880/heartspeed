@@ -272,12 +272,8 @@ void BgCardFactory::init_cards() {
     // 				       "['SECRET']", "", "RARE", -1, "SPELL"));
 
     // F
-    std::shared_ptr<BgBaseCard> felfin(new BgBaseCard(4, "NEUTRAL", 4, 4, "Felfin Navigator",
-						      "['BATTLECRY']", "MURLOC", "COMMON", 3, "MINION"));
-    cards.emplace("Felfin Navigator", felfin);
-    std::shared_ptr<BgBaseCard> felfin_gold(new BgBaseCard(8, "NEUTRAL", 4, 8, "Felfin Navigator (Golden)",
-							   "['BATTLECRY']", "MURLOC", "COMMON", 3, "MINION"));
-    cards.emplace("Felfin Navigator (Golden)", felfin_gold);
+    cards.emplace("Felfin Navigator", std::make_shared<FelfinNavigator>());
+    cards.emplace("Felfin Navigator (Golden)", std::make_shared<FelfinNavigatorGolden>());
     cards.emplace("Fiendish Servant", std::make_shared<FiendishServant>());
     cards.emplace("Fiendish Servant (Golden)", std::make_shared<FiendishServantGolden>());
     std::shared_ptr<BgBaseCard> finkle_einhorn(new BgBaseCard(3, "NEUTRAL", 3, 3, "Finkle Einhorn",

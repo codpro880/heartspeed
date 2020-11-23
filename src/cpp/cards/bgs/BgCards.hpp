@@ -149,6 +149,23 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<DreadAdmiralElizaGolden>(*this); } // boilerplate that every drattle needs...
 };
 
+class FelfinNavigator : public BattlecryCard {
+public:
+    FelfinNavigator() : BgBaseCard(4, "NEUTRAL", 4, 4, "Felfin Navigator",
+				   "['BATTLECRY']", "MURLOC", "COMMON", 3, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<FelfinNavigator>(*this); } // boilerplate that every drattle needs...
+};
+
+class FelfinNavigatorGolden : public BattlecryCard {
+public:
+    FelfinNavigatorGolden() : BgBaseCard(8, "NEUTRAL", 4, 8, "Felfin Navigator (Golden)",
+					 "['BATTLECRY']", "MURLOC", "COMMON", 3, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<FelfinNavigatorGolden>(*this); } // boilerplate that every drattle needs...
+};
+
+
 class FiendishServant : public DeathrattleCard {
 public:
     FiendishServant() : BgBaseCard(2, "WARLOCK", 1, 1, "Fiendish Servant",

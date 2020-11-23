@@ -150,6 +150,27 @@ std::shared_ptr<BgBaseCard> DjinniGolden::summon() {
     return dj.summon();
 }
 
+void FelfinNavigator::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "MURLOC") {
+	    card->set_attack(card->get_attack() + 1);
+	    card->set_health(card->get_health() + 1);
+	}
+    }
+}
+
+void FelfinNavigatorGolden::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "MURLOC") {
+	    card->set_attack(card->get_attack() + 2);
+	    card->set_health(card->get_health() + 2);
+	}
+    }
+}
+
+
 void FiendishServant::do_deathrattle(Board* b1, Board*b2) {
     auto buffed_pos = RngSingleton::getInstance().get_rand_int() % b1->length();
     auto card = b1->get_cards()[buffed_pos];

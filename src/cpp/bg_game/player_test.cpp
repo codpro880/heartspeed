@@ -145,6 +145,51 @@ TEST(Player, ColdlightBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 3);
 }
 
+TEST(Player, FelfinNavigatorBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Coldlight Seer"),
+	 f.get_card("Mama Bear"),
+	 f.get_card("Felfin Navigator"),
+	 f.get_card("Felfin Navigator (Golden)"),
+	 f.get_card("Coldlight Seer"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    player.play_card(0, 4);
+    player.play_card(0, 5);
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Coldlight Seer");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 5);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 8);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Mama Bear");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Felfin Navigator");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 8);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Felfin Navigator (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 8);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 10);
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_name(), "Coldlight Seer");
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[5]->get_name(), "Murloc Tidehunter");
+    EXPECT_EQ(player.get_board()->get_cards()[5]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[5]->get_health(), 1);
+    EXPECT_EQ(player.get_board()->get_cards()[6]->get_name(), "Murloc Scout");
+    EXPECT_EQ(player.get_board()->get_cards()[6]->get_attack(), 1);
+    EXPECT_EQ(player.get_board()->get_cards()[6]->get_health(), 1);    
+}
+
+
 // Some extra tests around the mug since it's sort of complicated.
 // This level of testing not necessary for the Jug (since logic will be reused)
 TEST(Player, MenagerieMugBattlecryEmpty) {

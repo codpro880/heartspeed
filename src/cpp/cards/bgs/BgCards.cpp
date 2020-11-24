@@ -972,6 +972,22 @@ void RockpoolHunterGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     }
 }
 
+int SaltyLooter::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+    if (card->get_race() == "PIRATE" && from_hand) {
+	set_attack(get_attack() + 1);
+	set_health(get_health() + 1);
+    }
+    return 0;
+}
+
+int SaltyLooterGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+    if (card->get_race() == "PIRATE" && from_hand) {
+	set_attack(get_attack() + 2);
+	set_health(get_health() + 2);
+    }
+    return 0;
+}
+
 void SavannahHighmane::do_deathrattle(Board* b1, Board* b2) {
     multi_summon(2, b1);
 }
@@ -1270,6 +1286,20 @@ void TheTideRazorGolden::do_deathrattle(Board* b1, Board* b2) {
 
 std::shared_ptr<BgBaseCard> TheTideRazorGolden::summon() {
     return ttr.summon();
+}
+
+void TwilightEmissary::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "DRAGON") {
+	c->set_attack(c->get_attack() + 2);
+	c->set_health(c->get_health() + 2);
+    }
+}
+
+void TwilightEmissaryGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "DRAGON") {
+	c->set_attack(c->get_attack() + 4);
+	c->set_health(c->get_health() + 4);
+    }
 }
 
 void Voidlord::do_deathrattle(Board* b1, Board* b2) {

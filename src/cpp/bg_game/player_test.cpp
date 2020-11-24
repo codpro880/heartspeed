@@ -576,6 +576,38 @@ TEST(Player, RockpoolHunterTargettedBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Rockpool Hunter (Golden)");
 }
 
+TEST(Player, SaltyLooterAfterPirateSummoned) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Salty Looter (Golden)"),
+	 f.get_card("Salty Looter"),
+	 f.get_card("Deck Swabbie")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    //player.buy_card(tidecaller); // TODO: Impl bobs tav
+    auto hand = player.get_hand();
+    EXPECT_EQ(hand.size(), 3);
+    EXPECT_EQ(player.get_board()->size(), 0);
+    
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    EXPECT_EQ(player.get_hand().size(), 0);
+    EXPECT_EQ(player.get_board()->size(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Salty Looter (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 12);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 12);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Salty Looter");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 5);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 5);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Deck Swabbie");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 2);
+}
+
+
 TEST(Player, ScrewjankClunkerBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
@@ -600,6 +632,33 @@ TEST(Player, ScrewjankClunkerBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Screwjank Clunker");
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 2);
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 5);
+}
+
+TEST(Player, TwilightEmissaryTargettedBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Cobalt Scalebane"),
+	 f.get_card("Twilight Emissary"),
+	 f.get_card("Twilight Emissary (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    //player.buy_card(tidecaller); // TODO: Impl bobs tav
+    auto hand = player.get_hand();
+    EXPECT_EQ(hand.size(), 3);
+    EXPECT_EQ(player.get_board()->size(), 0);
+    
+    player.play_card(0, 0);
+    player.play_card(0, 0, 1); // Hand pos, target pos, board pos
+    player.play_card(0, 0, 2); // Hand pos, target pos, board pos
+    EXPECT_EQ(player.get_hand().size(), 0);
+    EXPECT_EQ(player.get_board()->size(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Cobalt Scalebane");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 11);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 11);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Twilight Emissary");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Twilight Emissary (Golden)");
 }
 
 

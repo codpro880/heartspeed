@@ -158,6 +158,59 @@ void ColdlightSeerGolden::do_battlecry(Player* p1) {
     }
 }
 
+// <<<<<<< Updated upstream
+// =======
+void defender_of_argus_mod(std::shared_ptr<BgBaseCard> card, uint8_t buff) {
+    card->set_attack(card->get_attack() + buff);
+    card->set_health(card->get_health() + buff);
+    card->set_taunt();
+}
+
+void DefenderOfArgus::do_battlecry(Player* p1) {
+    int pos = 0;
+    const uint8_t buff = 1;
+    auto cards = p1->get_board()->get_cards();
+    for (auto c : cards) {
+	if (c.get() == this) {
+	    if (pos == 0) {
+		defender_of_argus_mod(cards[1], buff);
+	    }
+	    else if ((unsigned)pos == cards.size() - 1) {
+		defender_of_argus_mod(cards[cards.size() - 2], buff);
+	    }
+	    else {
+		defender_of_argus_mod(cards[pos-1], buff);
+		defender_of_argus_mod(cards[pos+1], buff);
+	    }
+	}
+	pos++;
+    }
+}
+
+void DefenderOfArgusGolden::do_battlecry(Player* p1) {
+    int pos = 0;
+    const uint8_t buff = 2;
+    auto cards = p1->get_board()->get_cards();
+    for (auto c : cards) {
+	if (c.get() == this) {
+	    if (pos == 0) {
+		defender_of_argus_mod(cards[1], buff);
+	    }
+	    else if ((unsigned)pos == cards.size() - 1) {
+		defender_of_argus_mod(cards[cards.size() - 2], buff);
+	    }
+	    else {
+		defender_of_argus_mod(cards[pos-1], buff);
+		defender_of_argus_mod(cards[pos+1], buff);
+	    }
+	}
+	pos++;
+    }
+    //doa.do_battlecry(p1, board_pos);
+    //doa.do_battlecry(p1, board_pos);
+}
+
+// >>>>>>> Stashed changes
 void Djinni::do_deathrattle(Board* b1, Board* b2) {
     std::cerr << "Basic summon..." << std::endl;
     basic_summon(b1);

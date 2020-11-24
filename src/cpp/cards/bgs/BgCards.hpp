@@ -146,6 +146,25 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ColdlightSeerGolden>(*this); } // boilerplate that every drattle needs...
 };
 
+// <<<<<<< Updated upstream
+// =======
+class DefenderOfArgus : public BattlecryCard {
+public:
+    DefenderOfArgus() : BgBaseCard(2, "NEUTRAL", 4, 3, "Defender of Argus",
+				   "['BATTLECRY']", "", "RARE", 4, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<DefenderOfArgus>(*this); } // boilerplate that every drattle needs...
+};
+
+class DefenderOfArgusGolden : public BattlecryCard {
+public:
+    DefenderOfArgusGolden() : BgBaseCard(4, "NEUTRAL", 4, 6, "Defender of Argus (Golden)",
+					 "['BATTLECRY']", "", "RARE", 4, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<DefenderOfArgusGolden>(*this); } // boilerplate that every drattle needs...
+};
+
+//>>>>>>> Stashed changes
 class Djinni : public DeathrattleCard {
 public:
     Djinni() : BgBaseCard(6, "NEUTRAL", 8, 8, "Djinni",

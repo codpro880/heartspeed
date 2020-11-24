@@ -203,6 +203,55 @@ TEST(Player, ColdlightBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 3);
 }
 
+// <<<<<<< Updated upstream
+// =======
+TEST(Player, DefenderOfArgusBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Mama Bear"),
+	 f.get_card("Mechano-Egg"),
+	 f.get_card("Murloc Tidecaller"),
+	 f.get_card("Defender of Argus"),
+	 f.get_card("Defender of Argus (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    //player.buy_card(tidecaller); // TODO: Impl bobs tav
+    auto hand = player.get_hand();
+    EXPECT_EQ(hand.size(), 5);
+    EXPECT_EQ(player.get_board()->size(), 0);
+    
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2); 
+    player.play_card(0, 1); // Give mama and egg taunt
+    player.play_card(0, 4); // Give tidecaller taunt
+    EXPECT_EQ(player.get_hand().size(), 0);
+    EXPECT_EQ(player.get_board()->size(), 5);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Mama Bear");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 5);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 5);
+    EXPECT_TRUE(player.get_board()->get_cards()[0]->has_taunt());
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Defender of Argus");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 3);
+    EXPECT_FALSE(player.get_board()->get_cards()[1]->has_taunt());
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Mechano-Egg");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 1);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 6);
+    EXPECT_TRUE(player.get_board()->get_cards()[2]->has_taunt());
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Murloc Tidecaller");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 4);
+    EXPECT_TRUE(player.get_board()->get_cards()[3]->has_taunt());
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_name(), "Defender of Argus (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 6);
+    EXPECT_FALSE(player.get_board()->get_cards()[4]->has_taunt());
+}
+
+//>>>>>>> Stashed changes
 TEST(Player, FelfinNavigatorBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

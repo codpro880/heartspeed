@@ -227,12 +227,8 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> deck_swab_gold(new BgBaseCard(4, "NEUTRAL", 3, 4, "Deck Swabbie (Golden)",
 							      "['BATTLECRY']", "PIRATE", "", 1, "MINION"));
     cards.emplace("Deck Swabbie (Golden)", deck_swab_gold);
-    std::shared_ptr<BgBaseCard> argus(new BgBaseCard(4, "NEUTRAL", 4, 6, "Defender of Argus (Golden)",
-						     "['BATTLECRY']", "", "RARE", 4, "MINION"));
-    cards.emplace("Defender of Argus", argus);
-    std::shared_ptr<BgBaseCard> argus_gold(new BgBaseCard(4, "NEUTRAL", 4, 6, "Defender of Argus (Golden)",
-							  "['BATTLECRY']", "", "RARE", 4, "MINION"));
-    cards.emplace("Defender of Argus (Golden)", argus_gold);
+    cards.emplace("Defender of Argus", std::make_shared<DefenderOfArgus>());
+    cards.emplace("Defender of Argus (Golden)", std::make_shared<DefenderOfArgusGolden>());
     std::shared_ptr<BgBaseCard> deflecto(new BgBaseCard(3, "NEUTRAL", 4, 2, "Deflect-o-Bot (Golden)",
 							"['TRIGGER_VISUAL']", "MECHANICAL", "", 3, "MINION"));
     deflecto->set_divine_shield();

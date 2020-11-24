@@ -6,6 +6,8 @@
 #include <vector>
 
 class Board; // Forward declare for circular dep between cards and board
+class Player; // Forward declare for circular dep between cards and player
+// TODO: Move all boards to be players for consistent-interface purposes
 
 class BgBaseCard {
 public:
@@ -50,7 +52,8 @@ public:
 					  tech_level(other.tech_level),
 					  type(other.type) {}
 
-    virtual void do_battlecry(Board*) {}
+    virtual void do_battlecry(Player*) {}
+    virtual void targeted_battlecry(std::shared_ptr<BgBaseCard>) {}
     // Triggered on death
     // (ex: stat-buffs that die)
     // Note: Actual deathrattle cards handled by DeathrattleCard class
@@ -75,8 +78,8 @@ public:
     // Triggered after deaths of each dmg exchange (ex: scavaging hyena)
     virtual void do_postbattle(Board*, Board*, std::vector<std::shared_ptr<BgBaseCard>>, std::vector<std::shared_ptr<BgBaseCard>>) {}
 
-    // Triggered after a summon occurs
-    virtual void mod_summoned(std::shared_ptr<BgBaseCard>) { }
+    // Triggered after a summon occurs, returns damage taken (wrathweave)
+    virtual int mod_summoned(std::shared_ptr<BgBaseCard>, bool) { return 0; }
     
     virtual std::shared_ptr<BgBaseCard> get_copy() const;
     
@@ -104,6 +107,9 @@ public:
     bool has_cleave() const {
 	return mechanics.find("CLEAVE") != std::string::npos;
     }
+    bool has_battlecry() const {
+	return mechanics.find("BATTLECRY") != std::string::npos;
+    }
     bool has_windfury() const { return _has_windfury; }
     bool has_windfury_active() const { return _has_windfury_active; }
 
@@ -123,9 +129,11 @@ public:
     void set_windfury_active(bool wfa = true) { _has_windfury_active = wfa; }
 
     virtual std::shared_ptr<BgBaseCard> summon() {throw std::runtime_error("summon() not implemented");}
-    virtual std::shared_ptr<BgBaseCard> do_summon(Board* b1);
-    void basic_summon(Board* b1);
-    void multi_summon(int num_summons, Board* b1);
+    virtual std::shared_ptr<BgBaseCard> do_summon(Board* b1, bool from_hand);
+    void basic_summon(Board* b1, bool from_hand = false);
+    void basic_summon(Player* p1, bool from_hand = false);
+    void multi_summon(int num_summons, Board* b1, bool from_hand = false);
+    void multi_summon(int num_summons, Player* p1, bool from_hand = false);
 
     virtual void take_damage(int damage, std::string who_from_race, Board* b1, Board* b2);
 

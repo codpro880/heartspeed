@@ -53,8 +53,8 @@ void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
     }
 }
 
-void Alleycat::do_battlecry(Board* b1) {
-    basic_summon(b1);
+void Alleycat::do_battlecry(Player* p1) {
+    basic_summon(p1, true);
 }
 
 std::shared_ptr<BgBaseCard> Alleycat::summon() {
@@ -62,8 +62,8 @@ std::shared_ptr<BgBaseCard> Alleycat::summon() {
     return f.get_card("Tabbycat");
 }
 
-void AlleycatGolden::do_battlecry(Board* b1) {
-    basic_summon(b1);
+void AlleycatGolden::do_battlecry(Player* p1) {
+    basic_summon(p1, true);
 }
 
 std::shared_ptr<BgBaseCard> AlleycatGolden::summon() {
@@ -71,12 +71,153 @@ std::shared_ptr<BgBaseCard> AlleycatGolden::summon() {
     return f.get_card("Tabbycat (Golden)");
 }
 
+void ArcaneAssistant::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "ELEMENTAL") {
+	    card->set_attack(card->get_attack() + 1);
+	    card->set_health(card->get_health() + 1);
+	}
+    }
+}
 
+void ArcaneAssistantGolden::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "ELEMENTAL") {
+	    card->set_attack(card->get_attack() + 2);
+	    card->set_health(card->get_health() + 2);
+	}
+    }
+}
+
+void BloodsailCannoneer::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "PIRATE") {
+	    card->set_attack(card->get_attack() + 3);
+	}
+    }
+}
+
+void BloodsailCannoneerGolden::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "PIRATE") {
+	    card->set_attack(card->get_attack() + 6);
+	}
+    }
+}
+
+int CrowdFavorite::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+    if (card->has_battlecry()) {
+	set_attack(get_attack() + 1);
+	set_health(get_health() + 1);
+    }
+    return 0;
+}
+
+int CrowdFavoriteGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+    if (card->has_battlecry()) {
+	set_attack(get_attack() + 2);
+	set_health(get_health() + 2);
+    }
+    return 0;
+}
+
+void Crystalweaver::do_battlecry(Player* p1) {
+    for (auto c : p1->get_board()->get_cards()) {
+	if (c->get_race() == "DEMON") {
+	    c->set_attack(c->get_attack() + 1);
+	    c->set_health(c->get_health() + 1);
+	}
+    }
+
+}
+
+void CrystalweaverGolden::do_battlecry(Player* p1) {
+    cw.do_battlecry(p1);
+    cw.do_battlecry(p1);
+}
+
+void ColdlightSeer::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "MURLOC") {
+	    card->set_health(card->get_health() + 2);
+	}
+    }
+}
+
+void ColdlightSeerGolden::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "MURLOC") {
+	    card->set_health(card->get_health() + 4);
+	}
+    }
+}
+
+// <<<<<<< Updated upstream
+// =======
+void defender_of_argus_mod(std::shared_ptr<BgBaseCard> card, uint8_t buff) {
+    card->set_attack(card->get_attack() + buff);
+    card->set_health(card->get_health() + buff);
+    card->set_taunt();
+}
+
+void DefenderOfArgus::do_battlecry(Player* p1) {
+    int pos = 0;
+    const uint8_t buff = 1;
+    auto cards = p1->get_board()->get_cards();
+    for (auto c : cards) {
+	if (c.get() == this) {
+	    if (pos == 0) {
+		defender_of_argus_mod(cards[1], buff);
+	    }
+	    else if ((unsigned)pos == cards.size() - 1) {
+		defender_of_argus_mod(cards[cards.size() - 2], buff);
+	    }
+	    else {
+		defender_of_argus_mod(cards[pos-1], buff);
+		defender_of_argus_mod(cards[pos+1], buff);
+	    }
+	}
+	pos++;
+    }
+}
+
+void DefenderOfArgusGolden::do_battlecry(Player* p1) {
+    int pos = 0;
+    const uint8_t buff = 2;
+    auto cards = p1->get_board()->get_cards();
+    for (auto c : cards) {
+	if (c.get() == this) {
+	    if (pos == 0) {
+		defender_of_argus_mod(cards[1], buff);
+	    }
+	    else if ((unsigned)pos == cards.size() - 1) {
+		defender_of_argus_mod(cards[cards.size() - 2], buff);
+	    }
+	    else {
+		defender_of_argus_mod(cards[pos-1], buff);
+		defender_of_argus_mod(cards[pos+1], buff);
+	    }
+	}
+	pos++;
+    }
+    //doa.do_battlecry(p1, board_pos);
+    //doa.do_battlecry(p1, board_pos);
+}
+
+// >>>>>>> Stashed changes
 void Djinni::do_deathrattle(Board* b1, Board* b2) {
+    std::cerr << "Basic summon..." << std::endl;
     basic_summon(b1);
 }
 
 std::shared_ptr<BgBaseCard> Djinni::summon() {
+    std::cerr << "Summoning." << std::endl;
     auto f = BgCardFactory();
     auto cards = f.get_cards_of_race("ELEMENTAL");
     // TOOD: Use a map or something more efficient
@@ -99,6 +240,27 @@ void DjinniGolden::do_deathrattle(Board* b1, Board* b2) {
 std::shared_ptr<BgBaseCard> DjinniGolden::summon() {
     return dj.summon();
 }
+
+void FelfinNavigator::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "MURLOC") {
+	    card->set_attack(card->get_attack() + 1);
+	    card->set_health(card->get_health() + 1);
+	}
+    }
+}
+
+void FelfinNavigatorGolden::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "MURLOC") {
+	    card->set_attack(card->get_attack() + 2);
+	    card->set_health(card->get_health() + 2);
+	}
+    }
+}
+
 
 void FiendishServant::do_deathrattle(Board* b1, Board*b2) {
     auto buffed_pos = RngSingleton::getInstance().get_rand_int() % b1->length();
@@ -209,6 +371,23 @@ void HeraldOfFlameGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
 	}
     }
 }
+
+void Houndmaster::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "BEAST") {
+	c->set_attack(c->get_attack() + 2);
+	c->set_health(c->get_health() + 2);
+	c->set_taunt();
+    }
+}
+
+void HoundmasterGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "BEAST") {
+	c->set_attack(c->get_attack() + 4);
+	c->set_health(c->get_health() + 4);
+	c->set_taunt();
+    }
+}
+
 
 void Imprisoner::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
@@ -470,17 +649,19 @@ void MalGanisGolden::do_deathrattle(Board* b1, Board*b2) {
     }
 }
 
-void MamaBear::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+int MamaBear::mod_summoned(std::shared_ptr<BgBaseCard> card, bool) {
     if (card->get_race() == "BEAST") {
 	card->set_attack(card->get_attack() + 4);
 	card->set_health(card->get_health() + 4);
     }
+    return 0;
 }
 
-void MamaBearGolden::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+int MamaBearGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool) {
     for (int i = 0; i < 2; i++) {
-	pl.mod_summoned(card);
+	pl.mod_summoned(card, false); // from hand doesn't matter
     }
+    return 0;
 }
 
 
@@ -520,6 +701,76 @@ std::shared_ptr<BgBaseCard> MecharooGolden::summon() {
     return f.get_card("Jo-E Bot (Golden)");
 }
 
+void menagerie_bcry(Player* p1, uint8_t buff_amount) {
+    auto board = p1->get_board();
+    std::unordered_set<std::string> races;
+    std::vector<std::shared_ptr<BgBaseCard>> cards_to_buff;
+    auto cards = board->get_cards();
+    while (!cards.empty()) {
+	auto rand_pos = RngSingleton::getInstance().get_rand_int() % cards.size();
+	auto card = cards[rand_pos];
+	cards.erase(cards.begin() + rand_pos);
+	auto race = card->get_race();
+	if (races.find(race) == races.end() && race != "") {
+	    races.insert(race);
+	    cards_to_buff.push_back(card);
+	}
+	if (races.size() == (unsigned)3) {
+	    break;
+	}
+    }
+
+    for (auto c : cards_to_buff) {
+	c->set_attack(c->get_attack() + buff_amount);
+	c->set_health(c->get_health() + buff_amount);
+    }
+}
+
+void MenagerieJug::do_battlecry(Player* p1) {
+    menagerie_bcry(p1, 2);
+}
+
+void MenagerieJugGolden::do_battlecry(Player* p1) {
+    menagerie_bcry(p1, 4);
+}
+
+void MenagerieMug::do_battlecry(Player* p1) {
+    menagerie_bcry(p1, 1);
+}
+
+void MenagerieMugGolden::do_battlecry(Player* p1) {
+    menagerie_bcry(p1, 2);
+}
+
+
+void MetaltoothLeaper::do_battlecry(Player* p1) {
+    auto board = p1->get_board();
+    for (auto card : board->get_cards()) {
+	if (card.get() == this) {
+	    continue;
+	}
+	if (card->get_race() == "MECHANICAL") {
+	    card->set_attack(card->get_attack() + 2);
+	}
+    }
+}
+
+void MetaltoothLeaperGolden::do_battlecry(Player* p1) {
+    auto board = p1->get_board();
+    for (auto card : board->get_cards()) {
+	if (card.get() == this) {
+	    continue;
+	}
+	if (card->get_race() == "MECHANICAL") {
+	    card->set_attack(card->get_attack() + 4);
+	}
+    }
+    // Just do it twice
+    // leaper.do_battlecry(p1);
+    // leaper.do_battlecry(p1);
+}
+
+
 void MonstrousMacaw::do_preattack(std::shared_ptr<BgBaseCard> defender,
 				  Board* b1,
 				  Board* b2) {
@@ -542,20 +793,22 @@ void MonstrousMacawGolden::do_preattack(std::shared_ptr<BgBaseCard> defender,
     macaw.do_preattack(defender, b1, b2);
 }
 
-void MurlocTidecaller::mod_summoned(std::shared_ptr<BgBaseCard> card) {
-    if (card->get_race() == "MURLOC") {
+int MurlocTidecaller::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+    if (card->get_race() == "MURLOC" && from_hand) {
 	set_attack(get_attack() + 1);
     }
+    return 0;
 }
 
-void MurlocTidecallerGolden::mod_summoned(std::shared_ptr<BgBaseCard> card) {
-    if (card->get_race() == "MURLOC") {
+int MurlocTidecallerGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+    if (card->get_race() == "MURLOC" && from_hand) {
 	set_attack(get_attack() + 2);
     }
+    return 0;
 }
 
-void MurlocTidehunter::do_battlecry(Board* b1) {
-    basic_summon(b1);
+void MurlocTidehunter::do_battlecry(Player* p1) {
+    basic_summon(p1, true);
 }
 
 std::shared_ptr<BgBaseCard> MurlocTidehunter::summon() {
@@ -563,8 +816,8 @@ std::shared_ptr<BgBaseCard> MurlocTidehunter::summon() {
     return f.get_card("Murloc Scout");
 }
 
-void MurlocTidehunterGolden::do_battlecry(Board* b1) {
-    basic_summon(b1);
+void MurlocTidehunterGolden::do_battlecry(Player* p1) {
+    basic_summon(p1, true);
 }
 
 std::shared_ptr<BgBaseCard> MurlocTidehunterGolden::summon() {
@@ -616,6 +869,20 @@ void NadinaGolden::do_deathrattle(Board* b1, Board* b2) {
     bag.do_deathrattle(b1, b2);
 }
 
+void NathrezimOverseer::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "DEMON") {
+	c->set_attack(c->get_attack() + 2);
+	c->set_health(c->get_health() + 2);
+    }
+}
+
+void NathrezimOverseerGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "DEMON") {
+	c->set_attack(c->get_attack() + 4);
+	c->set_health(c->get_health() + 4);
+    }
+}
+
 void OldMurkeye::do_precombat(Board* b1, Board*b2) {
     int murloc_count = 0;
     for (auto card : b1->get_cards()) {
@@ -654,16 +921,18 @@ void OldMurkeyeGolden::do_postbattle(Board* b1,
     }
 }
 
-void PackLeader::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+int PackLeader::mod_summoned(std::shared_ptr<BgBaseCard> card, bool) {
     if (card->get_race() == "BEAST") {
 	card->set_attack(card->get_attack() + 3);
     }
+    return 0;
 }
 
-void PackLeaderGolden::mod_summoned(std::shared_ptr<BgBaseCard> card) {
+int PackLeaderGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool) {
     for (int i = 0; i < 2; i++) {
-	pl.mod_summoned(card);
+	pl.mod_summoned(card, false); // from_hand doesn't matter
     }
+    return 0;
 }
 
 void PilotedShredder::do_deathrattle(Board* b1, Board* b2) {
@@ -742,6 +1011,36 @@ std::shared_ptr<BgBaseCard> ReplicatingMenaceGolden::summon() {
     return f.get_card("Microbot (Golden)");
 }
 
+void RockpoolHunter::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "MURLOC") {
+	c->set_attack(c->get_attack() + 1);
+	c->set_health(c->get_health() + 1);
+    }
+}
+
+void RockpoolHunterGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "MURLOC") {
+	c->set_attack(c->get_attack() + 2);
+	c->set_health(c->get_health() + 2);
+    }
+}
+
+int SaltyLooter::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+    if (card->get_race() == "PIRATE" && from_hand) {
+	set_attack(get_attack() + 1);
+	set_health(get_health() + 1);
+    }
+    return 0;
+}
+
+int SaltyLooterGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+    if (card->get_race() == "PIRATE" && from_hand) {
+	set_attack(get_attack() + 2);
+	set_health(get_health() + 2);
+    }
+    return 0;
+}
+
 void SavannahHighmane::do_deathrattle(Board* b1, Board* b2) {
     multi_summon(2, b1);
 }
@@ -799,6 +1098,20 @@ void ScavengingHyenaGolden::do_postbattle(Board* b1,
 	    set_health(get_health() + 2);
 	    set_attack(get_attack() + 4);
 	}
+    }
+}
+
+void ScrewjankClunker::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "MECHANICAL") {
+	c->set_attack(c->get_attack() + 2);
+	c->set_health(c->get_health() + 2);
+    }
+}
+
+void ScrewjankClunkerGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "MECHANICAL") {
+	c->set_attack(c->get_attack() + 4);
+	c->set_health(c->get_health() + 4);
     }
 }
 
@@ -1028,6 +1341,20 @@ std::shared_ptr<BgBaseCard> TheTideRazorGolden::summon() {
     return ttr.summon();
 }
 
+void TwilightEmissary::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "DRAGON") {
+	c->set_attack(c->get_attack() + 2);
+	c->set_health(c->get_health() + 2);
+    }
+}
+
+void TwilightEmissaryGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "DRAGON") {
+	c->set_attack(c->get_attack() + 4);
+	c->set_health(c->get_health() + 4);
+    }
+}
+
 void Voidlord::do_deathrattle(Board* b1, Board* b2) {
     multi_summon(3, b1);
 }
@@ -1059,6 +1386,14 @@ void UnstableGhoulGolden::do_deathrattle(Board* b1, Board* b2) {
     for (int i = 0; i < 2; i++) {
 	ghoul.do_deathrattle(b1, b2);
     }
+}
+
+void VulgarHomunculus::do_battlecry(Player* p1) {
+    p1->take_damage(2);
+}
+
+void VulgarHomunculusGolden::do_battlecry(Player* p1) {
+    p1->take_damage(4);
 }
 
 void WaxriderTogwaggle::do_postbattle(Board* b1,
@@ -1166,7 +1501,23 @@ void WildfireElementalGolden::do_postattack(std::shared_ptr<BgBaseCard> defender
     }
 }
 
+int WrathWeaver::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+    if (card->get_race() == "DEMON" && from_hand) {
+	set_attack(get_attack() + 2);
+	set_health(get_health() + 2);
+	return 1;
+    }
+    return 0;
+}
 
+int WrathWeaverGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+    if (card->get_race() == "DEMON" && from_hand) {
+	set_attack(get_attack() + 4);
+	set_health(get_health() + 4);
+	return 1;
+    }    
+    return 0;
+}
 
 void YoHoOgre::do_postdefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {
     if (this->is_dead()) {

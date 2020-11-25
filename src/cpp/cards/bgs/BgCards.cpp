@@ -1389,11 +1389,11 @@ void UnstableGhoulGolden::do_deathrattle(Board* b1, Board* b2) {
 }
 
 void VulgarHomunculus::do_battlecry(Player* p1) {
-    p1->take_damage(2);
+    p1->take_damage(2, true);
 }
 
 void VulgarHomunculusGolden::do_battlecry(Player* p1) {
-    p1->take_damage(4);
+    p1->take_damage(4, true);
 }
 
 void WaxriderTogwaggle::do_postbattle(Board* b1,

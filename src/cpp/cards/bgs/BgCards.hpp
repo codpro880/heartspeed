@@ -235,6 +235,8 @@ private:
     FiendishServant serv;
 };
 
+// Floating Watcher handled by player class
+
 class Ghastcoiler : public DeathrattleCard {
 public:
     Ghastcoiler() : BgBaseCard(7, "PRIEST", 6, 7, "Ghastcoiler",

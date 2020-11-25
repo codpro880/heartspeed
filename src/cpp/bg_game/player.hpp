@@ -61,7 +61,10 @@ public:
     void play_card(uint8_t hand_pos, uint8_t board_pos) {
 	auto card = hand.get_cards()[hand_pos];
 	auto dmg_taken = board->insert_card(board_pos, card, true);
-	take_damage(dmg_taken);
+	// Responsible for floating watcher effects...
+	// TODO: Make more efficient, does linear searching
+	//floating_watcher_hook(board.get(), dmg_taken);
+	take_damage(dmg_taken, true);
 	card->do_battlecry(this);
 	hand.remove(card);
     }
@@ -71,22 +74,51 @@ public:
 	auto target = board->get_cards()[target_pos];
 	// TODO: Enforce valid targets (e.g. MUST pick valid target if available)
 	auto dmg_taken = board->insert_card(board_pos, card, true);
+	//floating_watcher_hook(board.get(), dmg_taken);
 	take_damage(dmg_taken);
 	card->targeted_battlecry(target);
 	hand.remove(card);
     }
 
-    void take_damage(int dmg) { health -= dmg; }      
+    void take_damage(int dmg, bool our_turn=false) {
+	health -= dmg;
+	if (our_turn) {
+	    floating_watcher_hook(get_board().get(), dmg);
+	}
+    }      
     // void reset() {
     // 	// TODO: Make this shared ptr
     // 	// Board* b = new Board(original_board);
     // 	board = std::make_shared<Board>(original_board);
     // }
-private:    
+private:
     std::shared_ptr<Board> board;
     Hand hand;
     int health;
     std::string name;
     std::shared_ptr<Board> original_board; // Read-only board
     int tech_level;
+
+    void floating_watcher_hook(Board* b1, int dmg_taken) {
+	std::cerr << "dmg_taken: " << dmg_taken << std::endl;
+	bool floating_watcher_on_board = b1->contains("Floating Watcher") || b1->contains("Floating Watcher (Golden)");
+	std::cerr << "floating_watcher_on_board: " << floating_watcher_on_board << std::endl;
+	if (floating_watcher_on_board) {
+	    bool malganis_on_board = b1->contains("Mal'ganis") || b1->contains("Mal'ganis (Golden)");
+	    std::cerr << "malganis_on_board: " << malganis_on_board << std::endl;
+	    if (dmg_taken > 0 && !malganis_on_board) {
+		for (auto c : b1->get_cards()) {
+		    std::cerr << "c->get_name(): " << c->get_name() << std::endl;
+		    if (c->get_name() == "Floating Watcher") {
+			c->set_attack(c->get_attack() + 2);
+			c->set_health(c->get_health() + 2);
+		    }
+		    else if (c->get_name() == "Floating Watcher (Golden)") {
+			c->set_attack(c->get_attack() + 4);
+			c->set_health(c->get_health() + 4);
+		    }
+		}
+	    }
+	}
+    }
 };

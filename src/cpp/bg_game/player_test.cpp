@@ -203,8 +203,6 @@ TEST(Player, ColdlightBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 3);
 }
 
-// <<<<<<< Updated upstream
-// =======
 TEST(Player, DefenderOfArgusBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
@@ -251,7 +249,6 @@ TEST(Player, DefenderOfArgusBattlecry) {
     EXPECT_FALSE(player.get_board()->get_cards()[4]->has_taunt());
 }
 
-//>>>>>>> Stashed changes
 TEST(Player, FelfinNavigatorBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
@@ -295,6 +292,31 @@ TEST(Player, FelfinNavigatorBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[6]->get_attack(), 1);
     EXPECT_EQ(player.get_board()->get_cards()[6]->get_health(), 1);    
 }
+
+TEST(Player, FloatingWatcherRespondsToDamageBattlecries) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Floating Watcher"),
+	 f.get_card("Floating Watcher (Golden)"),
+	 f.get_card("Vulgar Homunculus")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Floating Watcher");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Floating Watcher (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 12);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 12);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Vulgar Homunculus");
+}
+
 
 TEST(Player, HoundmasterBattlecry) {
     auto f = BgCardFactory();

@@ -1209,6 +1209,23 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SpawnOfNzothGolden>(*this); } // boilerplate that every drattle needs...
 };
 
+class StrongshellScavenger : public BattlecryCard {
+public:
+    StrongshellScavenger() : BgBaseCard(2, "DRUID", 4, 3, "Strongshell Scavenger",
+					"['BATTLECRY']", "", "RARE", 5, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<StrongshellScavenger>(*this); } // boilerplate that every drattle needs...
+};
+
+class StrongshellScavengerGolden : public BattlecryCard {
+public:
+    StrongshellScavengerGolden() : BgBaseCard(4, "DRUID", 4, 6, "Strongshell Scavenger (Golden)",
+					      "['BATTLECRY']", "", "RARE", 5, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<StrongshellScavengerGolden>(*this); } // boilerplate that every drattle needs...
+};
+
+
 class TheTideRazor : public DeathrattleCard {
 public:
     TheTideRazor() : BgBaseCard(6, "NEUTRAL", 7, 4, "The Tide Razor",

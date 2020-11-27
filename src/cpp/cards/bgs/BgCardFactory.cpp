@@ -653,12 +653,12 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> steward_gold(new BgBaseCard(6, "NEUTRAL", 4, 8, "Steward of Time (Golden)",
 							    "", "DRAGON", "", 2, "MINION"));
     cards.emplace("Steward of Time (Golden)", steward_gold);
-    std::shared_ptr<BgBaseCard> strongshell(new BgBaseCard(2, "DRUID", 4, 3, "Strongshell Scavenger",
-							   "['BATTLECRY']", "", "RARE", 5, "MINION"));
-    cards.emplace("Strongshell Scavenger", strongshell);
-    std::shared_ptr<BgBaseCard> strongshell_gold(new BgBaseCard(4, "DRUID", 4, 6, "Strongshell Scavenger (Golden)",
-							   "['BATTLECRY']", "", "RARE", 5, "MINION"));
-    cards.emplace("Strongshell Scavenger (Golden)", strongshell_gold);
+    // std::shared_ptr<BgBaseCard> strongshell(new BgBaseCard(2, "DRUID", 4, 3, "Strongshell Scavenger",
+    // 							   "['BATTLECRY']", "", "RARE", 5, "MINION"));
+    cards.emplace("Strongshell Scavenger", std::make_shared<StrongshellScavenger>());
+    // std::shared_ptr<BgBaseCard> strongshell_gold(new BgBaseCard(4, "DRUID", 4, 6, "Strongshell Scavenger (Golden)",
+    // 							   "['BATTLECRY']", "", "RARE", 5, "MINION"));
+    cards.emplace("Strongshell Scavenger (Golden)", std::make_shared<StrongshellScavengerGolden>());
 
     // T
     std::shared_ptr<BgBaseCard> cat(new BgBaseCard(1, "HUNTER", 1, 1, "Tabbycat",

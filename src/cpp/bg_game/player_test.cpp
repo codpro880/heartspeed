@@ -745,6 +745,37 @@ TEST(Player, ScrewjankClunkerBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 5);
 }
 
+TEST(Player, StrongshellScavengerBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Twilight Emissary"),
+	 f.get_card("Mama Bear"),
+	 f.get_card("Strongshell Scavenger (Golden)"),
+	 f.get_card("Strongshell Scavenger")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Twilight Emissary");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 4+2+4);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 4+2+4);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Mama Bear");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Strongshell Scavenger (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Strongshell Scavenger");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 3);
+}
+
 TEST(Player, ToxfinTargettedBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

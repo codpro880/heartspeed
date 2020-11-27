@@ -1343,6 +1343,26 @@ void SpawnOfNzothGolden::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
+void StrongshellScavenger::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->has_taunt()) {
+	    card->set_attack(card->get_attack() + 2);
+	    card->set_health(card->get_health() + 2);
+	}
+    }
+}
+
+void StrongshellScavengerGolden::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->has_taunt()) {
+	    card->set_attack(card->get_attack() + 4);
+	    card->set_health(card->get_health() + 4);
+	}
+    }
+}
+
 void TheBeast::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b2);
 }

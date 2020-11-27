@@ -65,7 +65,7 @@ public:
 	// TODO: Make more efficient, does linear searching
 	//floating_watcher_hook(board.get(), dmg_taken);
 	take_damage(dmg_taken, true);
-	card->do_battlecry(this);
+	card->battlecry(this);
 	hand.remove(card);
     }
 
@@ -76,7 +76,7 @@ public:
 	auto dmg_taken = board->insert_card(board_pos, card, true);
 	//floating_watcher_hook(board.get(), dmg_taken);
 	take_damage(dmg_taken);
-	card->targeted_battlecry(target);
+	card->targeted_battlecry(target, this);
 	hand.remove(card);
     }
 

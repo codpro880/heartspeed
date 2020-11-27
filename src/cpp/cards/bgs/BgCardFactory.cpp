@@ -155,12 +155,12 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> bolvar_golden(new BgBaseCard(2, "PALADIN", 5, 14, "Bolvar (Golden)",
 							     "['DIVINE_SHIELD', 'TRIGGER_VISUAL']", "", "LEGENDARY", 4, "MINION"));
     cards.emplace("Bolvar (Golden)", bolvar_golden);
-    std::shared_ptr<BgBaseCard> bran(new BgBaseCard(2, "NEUTRAL", 3, 4, "Brann",
+    std::shared_ptr<BgBaseCard> bran(new BgBaseCard(2, "NEUTRAL", 3, 4, "Brann Bronzebeard",
 						    "['AURA']", "", "LEGENDARY", 5, "MINION"));
-    cards.emplace("Brann", bran);
-    std::shared_ptr<BgBaseCard> bran_gold(new BgBaseCard(4, "NEUTRAL", 3, 8, "Brann (Golden)",
+    cards.emplace("Brann Bronzebeard", bran);
+    std::shared_ptr<BgBaseCard> bran_gold(new BgBaseCard(4, "NEUTRAL", 3, 8, "Brann Bronzebeard (Golden)",
 							 "['AURA']", "", "LEGENDARY", 5, "MINION"));
-    cards.emplace("Brann (Golden)", bran_gold);
+    cards.emplace("Brann Bronzebeard (Golden)", bran_gold);
     std::shared_ptr<BgBaseCard> bronze_warden(new BgBaseCard(2, "NEUTRAL", 4, 1, "Bronze Warden",
 							     "['DIVINE_SHIELD', 'REBORN']", "DRAGON", "", 3, "MINION"));
     bronze_warden->set_divine_shield();

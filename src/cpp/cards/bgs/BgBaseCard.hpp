@@ -53,7 +53,9 @@ public:
 					  type(other.type) {}
 
     virtual void do_battlecry(Player*) {}
-    virtual void targeted_battlecry(std::shared_ptr<BgBaseCard>) {}
+    virtual void battlecry(Player*) {}
+    virtual void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) {}
+    virtual void targeted_battlecry(std::shared_ptr<BgBaseCard>, Player*) {}
     // Triggered on death
     // (ex: stat-buffs that die)
     // Note: Actual deathrattle cards handled by DeathrattleCard class

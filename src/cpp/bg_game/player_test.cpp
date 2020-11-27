@@ -100,6 +100,46 @@ TEST(Player, BloodsailCannoneerBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 3);
 }
 
+TEST(Player, BrannMakesBattlecriesGoOffTwiceAndGoldenThrice) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Murloc Scout"),
+	 f.get_card("Brann Bronzebeard"),
+	 f.get_card("Rockpool Hunter (Golden)"),
+	 f.get_card("Brann Bronzebeard (Golden)"),
+	 f.get_card("Felfin Navigator")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    //player.buy_card(tidecaller); // TODO: Impl bobs tav
+    auto hand = player.get_hand();
+    EXPECT_EQ(hand.size(), 5);
+    EXPECT_EQ(player.get_board()->size(), 0);
+    
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 0, 2); // Hand pos, target pos, board pos
+    player.play_card(0, 3);
+    player.play_card(0, 4);
+    EXPECT_EQ(player.get_board()->size(), 5);
+    // 2*2 for golden rockpool and normal brann, 1*3 for felfin and golden brann
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Murloc Scout");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 1 + 2*2 + 1*3);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 1 + 2*2 + 1*3);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Brann Bronzebeard");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Rockpool Hunter (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 4 + 1*3);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 6 + 1*3);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Brann Bronzebeard (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 8);
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_name(), "Felfin Navigator");
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 4);
+}
 
 TEST(Player, CrowdFavoriteReactsToBattlecryCards) {
     auto f = BgCardFactory();

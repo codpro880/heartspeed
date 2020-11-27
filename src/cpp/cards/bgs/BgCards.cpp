@@ -8,13 +8,14 @@
 #include "../../bg_game/battler.hpp"
 #include "../../bg_game/rng_singleton.hpp"
 
+// TODO: Efficiency
 void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
-    if (b1->contains("Baron Rivendare")) {
+    if (b1->contains("Baron Rivendare (Golden)")) {
+	do_deathrattle(b1, b2);
 	do_deathrattle(b1, b2);
 	do_deathrattle(b1, b2);
     }
-    else if (b1->contains("Baron Rivendare (Golden)")) {
-	do_deathrattle(b1, b2);
+    else if (b1->contains("Baron Rivendare")) {
 	do_deathrattle(b1, b2);
 	do_deathrattle(b1, b2);
     }
@@ -22,6 +23,39 @@ void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
 	do_deathrattle(b1, b2);
     }
 }
+
+// TODO: Efficiency
+void BattlecryCard::battlecry(Player* p1) {
+    if (p1->get_board()->contains("Brann Bronzebeard (Golden)")) {
+	do_battlecry(p1);
+	do_battlecry(p1);
+	do_battlecry(p1);
+    }
+    else if (p1->get_board()->contains("Brann Bronzebeard")) {
+	do_battlecry(p1);
+	do_battlecry(p1);
+    }
+    else {
+	do_battlecry(p1);
+    }
+}
+
+// TODO: Efficiency
+void TargetedBattlecryCard::targeted_battlecry(std::shared_ptr<BgBaseCard> c, Player* p1) {
+    if (p1->get_board()->contains("Brann Bronzebeard (Golden)")) {
+	do_targeted_battlecry(c);
+	do_targeted_battlecry(c);
+	do_targeted_battlecry(c);
+    }
+    else if (p1->get_board()->contains("Brann Bronzebeard")) {
+	do_targeted_battlecry(c);
+	do_targeted_battlecry(c);
+    }
+    else {
+	do_targeted_battlecry(c);
+    }
+}
+
 
 void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
 			      Board* b1,
@@ -372,7 +406,7 @@ void HeraldOfFlameGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
     }
 }
 
-void Houndmaster::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+void Houndmaster::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "BEAST") {
 	c->set_attack(c->get_attack() + 2);
 	c->set_health(c->get_health() + 2);
@@ -380,7 +414,7 @@ void Houndmaster::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     }
 }
 
-void HoundmasterGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+void HoundmasterGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "BEAST") {
 	c->set_attack(c->get_attack() + 4);
 	c->set_health(c->get_health() + 4);
@@ -869,14 +903,14 @@ void NadinaGolden::do_deathrattle(Board* b1, Board* b2) {
     bag.do_deathrattle(b1, b2);
 }
 
-void NathrezimOverseer::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+void NathrezimOverseer::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "DEMON") {
 	c->set_attack(c->get_attack() + 2);
 	c->set_health(c->get_health() + 2);
     }
 }
 
-void NathrezimOverseerGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+void NathrezimOverseerGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "DEMON") {
 	c->set_attack(c->get_attack() + 4);
 	c->set_health(c->get_health() + 4);
@@ -1011,14 +1045,14 @@ std::shared_ptr<BgBaseCard> ReplicatingMenaceGolden::summon() {
     return f.get_card("Microbot (Golden)");
 }
 
-void RockpoolHunter::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+void RockpoolHunter::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "MURLOC") {
 	c->set_attack(c->get_attack() + 1);
 	c->set_health(c->get_health() + 1);
     }
 }
 
-void RockpoolHunterGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+void RockpoolHunterGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "MURLOC") {
 	c->set_attack(c->get_attack() + 2);
 	c->set_health(c->get_health() + 2);
@@ -1101,14 +1135,14 @@ void ScavengingHyenaGolden::do_postbattle(Board* b1,
     }
 }
 
-void ScrewjankClunker::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+void ScrewjankClunker::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "MECHANICAL") {
 	c->set_attack(c->get_attack() + 2);
 	c->set_health(c->get_health() + 2);
     }
 }
 
-void ScrewjankClunkerGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+void ScrewjankClunkerGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "MECHANICAL") {
 	c->set_attack(c->get_attack() + 4);
 	c->set_health(c->get_health() + 4);
@@ -1341,24 +1375,24 @@ std::shared_ptr<BgBaseCard> TheTideRazorGolden::summon() {
     return ttr.summon();
 }
 
-void Toxfin::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+void Toxfin::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "MURLOC") {
 	c->set_poison();
     }
 }
 
-void ToxfinGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
-    tf.targeted_battlecry(c);
+void ToxfinGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    tf.do_targeted_battlecry(c);
 }
 
-void TwilightEmissary::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+void TwilightEmissary::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "DRAGON") {
 	c->set_attack(c->get_attack() + 2);
 	c->set_health(c->get_health() + 2);
     }
 }
 
-void TwilightEmissaryGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+void TwilightEmissaryGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "DRAGON") {
 	c->set_attack(c->get_attack() + 4);
 	c->set_health(c->get_health() + 4);
@@ -1398,14 +1432,14 @@ void UnstableGhoulGolden::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
-void VirmenSensei::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+void VirmenSensei::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "BEAST") {
 	c->set_attack(c->get_attack() + 2);
 	c->set_health(c->get_health() + 2);
     }
 }
 
-void VirmenSenseiGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+void VirmenSenseiGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "BEAST") {
 	c->set_attack(c->get_attack() + 4);
 	c->set_health(c->get_health() + 4);

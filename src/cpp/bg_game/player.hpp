@@ -99,16 +99,13 @@ private:
     std::shared_ptr<Board> original_board; // Read-only board
     int tech_level;
 
+    // TODO: Make this more efficient
     void floating_watcher_hook(Board* b1, int dmg_taken) {
-	std::cerr << "dmg_taken: " << dmg_taken << std::endl;
 	bool floating_watcher_on_board = b1->contains("Floating Watcher") || b1->contains("Floating Watcher (Golden)");
-	std::cerr << "floating_watcher_on_board: " << floating_watcher_on_board << std::endl;
 	if (floating_watcher_on_board) {
 	    bool malganis_on_board = b1->contains("Mal'ganis") || b1->contains("Mal'ganis (Golden)");
-	    std::cerr << "malganis_on_board: " << malganis_on_board << std::endl;
 	    if (dmg_taken > 0 && !malganis_on_board) {
 		for (auto c : b1->get_cards()) {
-		    std::cerr << "c->get_name(): " << c->get_name() << std::endl;
 		    if (c->get_name() == "Floating Watcher") {
 			c->set_attack(c->get_attack() + 2);
 			c->set_health(c->get_health() + 2);

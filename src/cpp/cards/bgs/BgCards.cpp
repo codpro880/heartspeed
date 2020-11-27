@@ -1341,6 +1341,16 @@ std::shared_ptr<BgBaseCard> TheTideRazorGolden::summon() {
     return ttr.summon();
 }
 
+void Toxfin::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "MURLOC") {
+	c->set_poison();
+    }
+}
+
+void ToxfinGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    tf.targeted_battlecry(c);
+}
+
 void TwilightEmissary::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "DRAGON") {
 	c->set_attack(c->get_attack() + 2);

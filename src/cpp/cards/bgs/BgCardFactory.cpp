@@ -675,12 +675,12 @@ void BgCardFactory::init_cards() {
     cards.emplace("The Beast (Golden)", std::make_shared<TheBeastGolden>());
     cards.emplace("The Tide Razor", std::make_shared<TheTideRazor>());
     cards.emplace("The Tide Razor (Golden)", std::make_shared<TheTideRazorGolden>());
-    std::shared_ptr<BgBaseCard> toxfin(new BgBaseCard(1, "NEUTRAL", 1, 2, "Toxfin",
-						      "['BATTLECRY']", "MURLOC", "", 4, "MINION"));
-    cards.emplace("Toxfin", toxfin);
-    std::shared_ptr<BgBaseCard> toxfin_gold(new BgBaseCard(2, "NEUTRAL", 1, 4, "Toxfin (Golden)",
-							   "['BATTLECRY']", "MURLOC", "", 4, "MINION"));
-    cards.emplace("Toxfin (Golden)", toxfin_gold);
+    // std::shared_ptr<BgBaseCard> toxfin(new BgBaseCard(1, "NEUTRAL", 1, 2, "Toxfin",
+    // 						      "['BATTLECRY']", "MURLOC", "", 4, "MINION"));
+    cards.emplace("Toxfin", std::make_shared<Toxfin>());
+    // std::shared_ptr<BgBaseCard> toxfin_gold(new BgBaseCard(2, "NEUTRAL", 1, 4, "Toxfin (Golden)",
+    // 							   "['BATTLECRY']", "MURLOC", "", 4, "MINION"));
+    cards.emplace("Toxfin (Golden)", std::make_shared<ToxfinGolden>());
     // cards.emplace("Treasure Chest", BgBaseCard(0, "NEUTRAL", 2, 2, "Treasure Chest",
     // 					       "", "", "", 1, "MINION"));
     // cards.emplace("Treasure Chest (Golden)", BgBaseCard(0, "NEUTRAL", 2, 2, "Treasure Chest (Golden)",

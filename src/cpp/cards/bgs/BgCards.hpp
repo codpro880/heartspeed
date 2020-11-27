@@ -1246,6 +1246,25 @@ private:
     TheBeast the_beast;
 };
 
+class Toxfin : public TargetedBattlecryCard {
+public:
+    Toxfin() : BgBaseCard(1, "NEUTRAL", 1, 2, "Toxfin",
+			  "['BATTLECRY']", "MURLOC", "", 4, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Toxfin>(*this); } // boilerplate that every drattle needs...
+    void targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+};
+
+class ToxfinGolden : public TargetedBattlecryCard {
+public:
+    ToxfinGolden() : BgBaseCard(2, "NEUTRAL", 1, 4, "Toxfin (Golden)",
+				"['BATTLECRY']", "MURLOC", "", 4, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ToxfinGolden>(*this); } // boilerplate that every drattle needs...
+    void targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+private:
+    Toxfin tf;
+};
+
+
 class TwilightEmissary : public TargetedBattlecryCard {
 public:
     TwilightEmissary() : BgBaseCard(4, "NEUTRAL", 6, 4, "Twilight Emissary",

@@ -105,6 +105,15 @@ std::shared_ptr<BgBaseCard> AlleycatGolden::summon() {
     return f.get_card("Tabbycat (Golden)");
 }
 
+
+void AnnihilanBattlemaster::do_battlecry(Player* p1) {
+    set_health(get_health() + p1->get_damage_taken());
+}
+
+void AnnihilanBattlemasterGolden::do_battlecry(Player* p1) {
+    set_health(get_health() + p1->get_damage_taken() * 2);
+}
+
 void ArcaneAssistant::do_battlecry(Player* p1) {
     for (auto card : p1->get_board()->get_cards()) {
 	if (card.get() == this) continue;

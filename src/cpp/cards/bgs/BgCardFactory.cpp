@@ -113,10 +113,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Amalgadon (Golden)", std::make_shared<BgBaseCard>(12, "NEUTRAL", 8, 12, "Amalgadon (Golden)",
 								     "['BATTLECRY']", "ALL", "", 6, "MINION"));
     			       
-    cards.emplace("Annihilan Battlemaster", std::make_shared<BgBaseCard>(3, "NEUTRAL", 8, 1, "Annihilan Battlemaster",
-									 "['BATTLECRY']", "DEMON", "EPIC", 5, "MINION"));
-    cards.emplace("Annihilan Battlemaster (Golden)", std::make_shared<BgBaseCard>(6, "NEUTRAL", 8, 2, "Annihilan Battlemaster (Golden)",
-										  "['BATTLECRY']", "DEMON", "EPIC", 5, "MINION"));
+    cards.emplace("Annihilan Battlemaster", std::make_shared<AnnihilanBattlemaster>());
+    cards.emplace("Annihilan Battlemaster (Golden)", std::make_shared<AnnihilanBattlemasterGolden>());
     std::shared_ptr<BgBaseCard> annoyo(new BgBaseCard(2, "PALADIN", 4, 4, "Annoy-o-Module",
 						      "['DIVINE_SHIELD', 'MODULAR', 'TAUNT']", "MECHANICAL", "RARE", 4, "MINION"));
     cards.emplace("Annoy-o-Module", annoyo);

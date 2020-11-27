@@ -13,12 +13,14 @@ class Player {
 public:
     Player(std::shared_ptr<Board> board_, std::string name) : board(board_),
 							      health(40),
+							      max_health(40),
 							      name(name),
 							      original_board(std::make_shared<Board>(board_)),
 							      tech_level(1) {}
 
     Player(std::string name) : board(new Board()),
 			       health(40),
+			       max_health(40),
 			       name(name),
 			       original_board(new Board()),
 			       tech_level(1) {}
@@ -26,6 +28,7 @@ public:
     Player(Hand hand, std::string name) : board(new Board()),
 					  hand(hand),
 					  health(40),
+					  max_health(40),
 					  name(name),
 					  original_board(new Board()),					  
 					  tech_level(1) {}
@@ -33,7 +36,8 @@ public:
     Player(Player* player) {
     	board = std::make_shared<Board>(player->get_original_board());
 	hand = player->get_hand();
-	health = player->get_health();	
+	health = player->get_health();
+	max_health = player->get_max_health();
 	name = player->get_name();
 	original_board = std::make_shared<Board>(player->get_original_board());
 	tech_level = player->get_tech_level();
@@ -50,6 +54,8 @@ public:
     void set_board(std::shared_ptr<Board> b) { board = b; }
     friend std::ostream& operator<<(std::ostream& os, const Player& p);
     int get_health() const { return health; }
+    int get_max_health() const { return max_health; }
+    int get_damage_taken() const { std::cerr << "Dmg taken: " << max_health - health << std::endl; return max_health - health; }
     std::string get_name() const { return name; }
     int get_tech_level() const { return tech_level; }
     
@@ -95,6 +101,7 @@ private:
     std::shared_ptr<Board> board;
     Hand hand;
     int health;
+    int max_health;
     std::string name;
     std::shared_ptr<Board> original_board; // Read-only board
     int tech_level;

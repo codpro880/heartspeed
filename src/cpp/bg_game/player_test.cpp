@@ -43,6 +43,28 @@ TEST(Player, AlleycatBattlecryBasic) {
     EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Tabbycat");
 }
 
+TEST(Player, AnnihilanBattlemasterBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Annihilan Battlemaster"),
+	 f.get_card("Annihilan Battlemaster (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    player.take_damage(30);
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Annihilan Battlemaster");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 1 + 30);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Annihilan Battlemaster (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 2 + 30 + 30);
+} 
+
 TEST(Player, ArcaneAssistantBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

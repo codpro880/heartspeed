@@ -64,6 +64,22 @@ public:
     std::shared_ptr<BgBaseCard> summon() override;
 };
 
+class AnnihilanBattlemaster : public BattlecryCard {
+public:
+    AnnihilanBattlemaster() : BgBaseCard(3, "NEUTRAL", 8, 1, "Annihilan Battlemaster",
+					 "['BATTLECRY']", "DEMON", "EPIC", 5, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<AnnihilanBattlemaster>(*this); } // boilerplate that every drattle needs...
+};
+
+class AnnihilanBattlemasterGolden : public BattlecryCard {
+public:
+    AnnihilanBattlemasterGolden() : BgBaseCard(6, "NEUTRAL", 8, 2, "Annihilan Battlemaster (Golden)",
+					       "['BATTLECRY']", "DEMON", "EPIC", 5, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<AnnihilanBattlemasterGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 class ArcaneAssistant : public BattlecryCard {
 public:
     ArcaneAssistant() : BgBaseCard(3, "NEUTRAL", -1, 3, "Arcane Assistant",

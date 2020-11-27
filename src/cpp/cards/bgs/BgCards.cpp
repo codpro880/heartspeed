@@ -642,12 +642,32 @@ std::shared_ptr<BgBaseCard> KindlyGrandmotherGolden::summon() {
     return f.get_card("Big Bad Wolf (Golden)");
 }
 
+void KingBagurgle::do_battlecry(Player* p1) {
+    for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "MURLOC") {
+	    card->set_attack(card->get_attack() + 2);
+	    card->set_health(card->get_health() + 2);
+	}
+    }
+}
+
 void KingBagurgle::do_deathrattle(Board* b1, Board* b2) {
     auto cards = b1->get_cards();
     for (auto c : cards) {
 	if (c->get_race() == "MURLOC") {
 	    c->set_health(c->get_health() + 2);
 	    c->set_attack(c->get_attack() + 2);
+	}
+    }
+}
+
+void KingBagurgleGolden::do_battlecry(Player* p1) {
+        for (auto card : p1->get_board()->get_cards()) {
+	if (card.get() == this) continue;
+	if (card->get_race() == "MURLOC") {
+	    card->set_attack(card->get_attack() + 4);
+	    card->set_health(card->get_health() + 4);
 	}
     }
 }

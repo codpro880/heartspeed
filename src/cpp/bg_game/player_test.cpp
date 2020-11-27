@@ -407,6 +407,31 @@ TEST(Player, HoundmasterBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 3);
 }
 
+TEST(Player, KingBagurgleBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Murloc Scout"),
+	 f.get_card("King Bagurgle (Golden)"),
+	 f.get_card("King Bagurgle")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Murloc Scout");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 1 + 2 + 4);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 1 + 2 + 4);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "King Bagurgle (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 12 + 2);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 6 + 2);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "King Bagurgle");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 3);
+} 
 
 
 // Some extra tests around the mug since it's sort of complicated.

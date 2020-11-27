@@ -555,19 +555,21 @@ public:
     std::shared_ptr<BgBaseCard> summon() override;
 };
 
-class KingBagurgle : public DeathrattleCard {
+class KingBagurgle : public DeathrattleCard, public BattlecryCard {
 public:
     KingBagurgle() : BgBaseCard(6, "NEUTRAL", 6, 3, "King Bagurgle",
-				     "['BATTLECRY', 'DEATHRATTLE']", "MURLOC", "LEGENDARY", 5, "MINION") {}
+				"['BATTLECRY', 'DEATHRATTLE']", "MURLOC", "LEGENDARY", 5, "MINION") {}
     virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual void do_battlecry(Player* p1) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<KingBagurgle>(*this); } // boilerplate that every drattle needs...
 };
 
-class KingBagurgleGolden : public DeathrattleCard {
+class KingBagurgleGolden : public DeathrattleCard, public BattlecryCard {
 public:
     KingBagurgleGolden() : BgBaseCard(12, "NEUTRAL", 6, 6, "King Bagurgle (Golden)",
 					   "['BATTLECRY', 'DEATHRATTLE']", "MURLOC", "LEGENDARY", 5, "MINION") {}
     virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual void do_battlecry(Player* p1) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<KingBagurgleGolden>(*this); } // boilerplate that every drattle needs...
 private:
     KingBagurgle bag;

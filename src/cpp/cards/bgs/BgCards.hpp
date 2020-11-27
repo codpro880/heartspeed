@@ -1243,6 +1243,23 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<StrongshellScavengerGolden>(*this); } // boilerplate that every drattle needs...
 };
 
+class TavernTempest : public BattlecryCard {
+public:
+    TavernTempest() : BgBaseCard(4, "NEUTRAL", 5, 4, "Tavern Tempest",
+				 "['BATTLECRY']", "ELEMENTAL", "", 5, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<TavernTempest>(*this); } // boilerplate that every drattle needs...
+};
+
+class TavernTempestGolden : public BattlecryCard {
+public:
+    TavernTempestGolden() : BgBaseCard(8, "NEUTRAL", 5, 8, "Tavern Tempest (Golden)",
+				       "['BATTLECRY']", "ELEMENTAL", "", 5, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<TavernTempestGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    TavernTempest tt;
+};
 
 class TheTideRazor : public DeathrattleCard {
 public:

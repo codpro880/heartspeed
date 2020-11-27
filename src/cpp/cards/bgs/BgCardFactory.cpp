@@ -665,10 +665,8 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> cat_gold(new BgBaseCard(2, "HUNTER", 1, 2, "Tabbycat (Golden)",
 							     "", "BEAST", "COMMON", 1, "MINION"));
     cards.emplace("Tabbycat (Golden)", cat_gold);
-    cards.emplace("Tavern Tempest", std::make_shared<BgBaseCard>(4, "NEUTRAL", 5, 4, "Tavern Tempest",
-								 "['BATTLECRY']", "ELEMENTAL", "", 5, "MINION"));
-    cards.emplace("Tavern Tempest (Golden)", std::make_shared<BgBaseCard>(8, "NEUTRAL", 5, 8, "Tavern Tempest (Golden)",
-									  "['BATTLECRY']", "ELEMENTAL", "", 5, "MINION"));
+    cards.emplace("Tavern Tempest", std::make_shared<TavernTempest>());
+    cards.emplace("Tavern Tempest (Golden)", std::make_shared<TavernTempestGolden>());
     cards.emplace("The Beast", std::make_shared<TheBeast>());
     cards.emplace("The Beast (Golden)", std::make_shared<TheBeastGolden>());
     cards.emplace("The Tide Razor", std::make_shared<TheTideRazor>());

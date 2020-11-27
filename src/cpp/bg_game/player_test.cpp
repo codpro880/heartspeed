@@ -823,6 +823,29 @@ TEST(Player, StrongshellScavengerBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 3);
 }
 
+TEST(Player, TavernTempestBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Tavern Tempest"),
+	 f.get_card("Tavern Tempest (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Tavern Tempest");
+    EXPECT_EQ(player.get_hand().size(), 2);
+    player.play_card(0, 1);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Tavern Tempest (Golden)");
+    EXPECT_EQ(player.get_hand().size(), 3);
+    // TODO; expect this to change to deal with playing golden cards and discover mechanic
+    // EXPECT_EQ(player.get_hand().size(), 4);
+    for (auto c : player.get_hand().get_cards()) {
+	EXPECT_EQ(c->get_race(), "ELEMENTAL");
+    }
+} 
+
 TEST(Player, ToxfinTargettedBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

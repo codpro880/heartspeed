@@ -304,7 +304,6 @@ void FelfinNavigatorGolden::do_battlecry(Player* p1) {
     }
 }
 
-
 void FiendishServant::do_deathrattle(Board* b1, Board*b2) {
     auto buffed_pos = RngSingleton::getInstance().get_rand_int() % b1->length();
     auto card = b1->get_cards()[buffed_pos];
@@ -1390,6 +1389,22 @@ void StrongshellScavengerGolden::do_battlecry(Player* p1) {
 	    card->set_health(card->get_health() + 4);
 	}
     }
+}
+
+void TavernTempest::do_battlecry(Player* p1) {
+    //     auto f = BgCardFactory();
+    // auto two_cost_cards = f.get_cards_of_cost(2);
+    // auto card = two_cost_cards[RngSingleton::getInstance().get_rand_int() % two_cost_cards.size()];
+    // return card;
+    auto f = BgCardFactory();
+    auto elementals = f.get_cards_of_race("ELEMENTAL");
+    auto card = elementals[RngSingleton::getInstance().get_rand_int() % elementals.size()];
+    p1->add_card(card);
+}
+
+void TavernTempestGolden::do_battlecry(Player* p1) {
+    tt.do_battlecry(p1);
+    tt.do_battlecry(p1);
 }
 
 void TheBeast::do_deathrattle(Board* b1, Board* b2) {

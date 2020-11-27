@@ -58,6 +58,10 @@ public:
     int get_damage_taken() const { std::cerr << "Dmg taken: " << max_health - health << std::endl; return max_health - health; }
     std::string get_name() const { return name; }
     int get_tech_level() const { return tech_level; }
+
+    void add_card(std::shared_ptr<BgBaseCard> card) {
+	hand.add_card(card);
+    }
     
     void play_card(std::shared_ptr<BgBaseCard> card, uint8_t board_pos) {
 	auto pos = hand.get_pos(card);

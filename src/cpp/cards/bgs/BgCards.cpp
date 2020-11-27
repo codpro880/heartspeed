@@ -1398,6 +1398,20 @@ void UnstableGhoulGolden::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
+void VirmenSensei::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "BEAST") {
+	c->set_attack(c->get_attack() + 2);
+	c->set_health(c->get_health() + 2);
+    }
+}
+
+void VirmenSenseiGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "BEAST") {
+	c->set_attack(c->get_attack() + 4);
+	c->set_health(c->get_health() + 4);
+    }
+}
+
 void VulgarHomunculus::do_battlecry(Player* p1) {
     p1->take_damage(2, true);
 }

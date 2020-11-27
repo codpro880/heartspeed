@@ -759,6 +759,32 @@ TEST(Player, TwilightEmissaryTargettedBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Twilight Emissary (Golden)");
 }
 
+TEST(Player, VirmenSenseiTargettedBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Mama Bear"),
+	 f.get_card("Virmen Sensei (Golden)"),
+	 f.get_card("Virmen Sensei")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    //player.buy_card(tidecaller); // TODO: Impl bobs tav
+    auto hand = player.get_hand();
+    EXPECT_EQ(hand.size(), 3);
+    EXPECT_EQ(player.get_board()->size(), 0);
+    
+    player.play_card(0, 0);
+    player.play_card(0, 0, 1); // Hand pos, target pos, board pos
+    player.play_card(0, 0, 2); // Hand pos, target pos, board pos
+    EXPECT_EQ(player.get_hand().size(), 0);
+    EXPECT_EQ(player.get_board()->size(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Mama Bear");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 10);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 10);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Virmen Sensei (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Virmen Sensei");
+}
 
 TEST(Player, VulgarHomunculusBattlecry) {
     auto f = BgCardFactory();

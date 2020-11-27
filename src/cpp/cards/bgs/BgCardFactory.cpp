@@ -675,11 +675,7 @@ void BgCardFactory::init_cards() {
     cards.emplace("The Beast (Golden)", std::make_shared<TheBeastGolden>());
     cards.emplace("The Tide Razor", std::make_shared<TheTideRazor>());
     cards.emplace("The Tide Razor (Golden)", std::make_shared<TheTideRazorGolden>());
-    // std::shared_ptr<BgBaseCard> toxfin(new BgBaseCard(1, "NEUTRAL", 1, 2, "Toxfin",
-    // 						      "['BATTLECRY']", "MURLOC", "", 4, "MINION"));
     cards.emplace("Toxfin", std::make_shared<Toxfin>());
-    // std::shared_ptr<BgBaseCard> toxfin_gold(new BgBaseCard(2, "NEUTRAL", 1, 4, "Toxfin (Golden)",
-    // 							   "['BATTLECRY']", "MURLOC", "", 4, "MINION"));
     cards.emplace("Toxfin (Golden)", std::make_shared<ToxfinGolden>());
     // cards.emplace("Treasure Chest", BgBaseCard(0, "NEUTRAL", 2, 2, "Treasure Chest",
     // 					       "", "", "", 1, "MINION"));
@@ -695,12 +691,10 @@ void BgCardFactory::init_cards() {
     // V
     // cards.emplace("Venomstrike Trap", BgBaseCard(-1, "HUNTER", 2, -1, "Venomstrike Trap",
     // 						 "['SECRET']", "", "RARE", -1, "SPELL"));
-    std::shared_ptr<BgBaseCard> virmen_sensei(new BgBaseCard(4, "DRUID", 5, 5, "Virmen Sensei",
-								  "['BATTLECRY']", "", "RARE", 4, "MINION"));
-    cards.emplace("Virmen Sensei", virmen_sensei);
-    std::shared_ptr<BgBaseCard> virmen_sensei_gold(new BgBaseCard(8, "DRUID", 5, 10, "Virmen Sensei (Golden)",
-								  "['BATTLECRY']", "", "RARE", 4, "MINION"));
-    cards.emplace("Virmen Sensei (Golden)", virmen_sensei_gold);
+    // std::shared_ptr<BgBaseCard> virmen_sensei(new BgBaseCard(4, "DRUID", 5, 5, "Virmen Sensei",
+    // 								  "['BATTLECRY']", "", "RARE", 4, "MINION"));
+    cards.emplace("Virmen Sensei", std::make_shared<VirmenSensei>());
+    cards.emplace("Virmen Sensei (Golden)", std::make_shared<VirmenSenseiGolden>());
     cards.emplace("Voidlord", std::make_shared<Voidlord>());
     cards.emplace("Voidlord (Golden)", std::make_shared<Voidlord>());
     std::shared_ptr<BgBaseCard> voidwalker(new BgBaseCard(1, "WARLOCK", 1, 3, "Voidwalker",

@@ -1281,6 +1281,38 @@ public:
     void targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
 };
 
+class UnstableGhoul : public DeathrattleCard {
+public:
+    UnstableGhoul() : BgBaseCard(1, "NEUTRAL", 2, 3, "Unstable Ghoul",	"['DEATHRATTLE', 'TAUNT']", "", "COMMON", 2, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<UnstableGhoul>(*this); } // boilerplate that every drattle needs...
+};
+
+class UnstableGhoulGolden : public DeathrattleCard {
+public:
+    UnstableGhoulGolden() : BgBaseCard(2, "NEUTRAL", 2, 6, "Unstable Ghoul (Golden)",	"['DEATHRATTLE', 'TAUNT']", "", "COMMON", 2, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<UnstableGhoulGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    UnstableGhoul ghoul;
+};
+
+class VirmenSensei : public TargetedBattlecryCard {
+public:
+    VirmenSensei() : BgBaseCard(4, "DRUID", 5, 5, "Virmen Sensei",
+				"['BATTLECRY']", "", "RARE", 4, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<VirmenSensei>(*this); } // boilerplate that every drattle needs...
+    void targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+};
+
+class VirmenSenseiGolden : public TargetedBattlecryCard {
+public:
+    VirmenSenseiGolden() : BgBaseCard(8, "DRUID", 5, 10, "Virmen Sensei (Golden)",
+				      "['BATTLECRY']", "", "RARE", 4, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<VirmenSenseiGolden>(*this); } // boilerplate that every drattle needs...
+    void targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+};
+
 class Voidlord : public DeathrattleCard {
 public:
     Voidlord() : BgBaseCard(3, "WARLOCK", 9, 9, "Voidlord",
@@ -1313,22 +1345,6 @@ public:
 					  "['TAUNT']", "DEMON", "FREE", 1, "MINION") {}
     virtual void do_battlecry(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<VulgarHomunculusGolden>(*this); } // boilerplate that every drattle needs...
-};
-
-class UnstableGhoul : public DeathrattleCard {
-public:
-    UnstableGhoul() : BgBaseCard(1, "NEUTRAL", 2, 3, "Unstable Ghoul",	"['DEATHRATTLE', 'TAUNT']", "", "COMMON", 2, "MINION") {}
-    virtual void do_deathrattle(Board* b1, Board* b2) override;
-    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<UnstableGhoul>(*this); } // boilerplate that every drattle needs...
-};
-
-class UnstableGhoulGolden : public DeathrattleCard {
-public:
-    UnstableGhoulGolden() : BgBaseCard(2, "NEUTRAL", 2, 6, "Unstable Ghoul (Golden)",	"['DEATHRATTLE', 'TAUNT']", "", "COMMON", 2, "MINION") {}
-    virtual void do_deathrattle(Board* b1, Board* b2) override;
-    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<UnstableGhoulGolden>(*this); } // boilerplate that every drattle needs...
-private:
-    UnstableGhoul ghoul;
 };
 
 class WaxriderTogwaggle : public BgBaseCard {

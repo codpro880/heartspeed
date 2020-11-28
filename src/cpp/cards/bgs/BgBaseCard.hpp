@@ -60,7 +60,7 @@ public:
 	std::cerr << "WARNING! Adapt only partially working." << std::endl;
 	std::vector<std::string> adapts = {"Crackling Shield",
 					   "Flaming Claws",
-					   "Living Spores",
+					   // "Living Spores",
 					   "Lightning Speed",
 					   "Massive",
 					   "Volcanic Might",
@@ -74,8 +74,8 @@ public:
 	    set_attack(get_attack() + 3);
 	}
 	// else if (adaptation == "Living Spores") {
-	    // TODO: Set deathrattle...
-	    // set_deathrattle(lambda b1, b2: ...);
+	//     TODO: Set deathrattle...
+	//     set_deathrattle(lambda b1, b2: ...);
 	// }
 	else if (adaptation == "Lightning Speed") {
 	    set_windfury();

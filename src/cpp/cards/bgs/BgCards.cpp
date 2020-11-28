@@ -112,6 +112,7 @@ void Amalgadon::do_battlecry(Player* p1) {
 	races.insert(c->get_race());
     }
     races.erase("");
+    std::cerr << "races.size()" << races.size() << std::endl;
     for (size_t i = 0; i < races.size(); ++i) {	
 	adapt();
     }
@@ -120,6 +121,7 @@ void Amalgadon::do_battlecry(Player* p1) {
 void AmalgadonGolden::do_battlecry(Player* p1) {
     am.do_battlecry(p1);
     am.do_battlecry(p1);
+    adapt_count += am.get_adapt_count();
 }
 
 void AnnihilanBattlemaster::do_battlecry(Player* p1) {

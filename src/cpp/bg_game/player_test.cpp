@@ -64,6 +64,31 @@ TEST(Player, AmalgadonLoneBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_adapt_count(), 0);
 }
 
+TEST(Player, AmalgadonMultiBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Murloc Scout"),
+	 f.get_card("Deck Swabbie"),
+	 f.get_card("Baron Rivendare"),
+	 f.get_card("Amalgadon"),
+	 f.get_card("Amalgadon (Golden)"),
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    player.play_card(0, 4);    
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Amalgadon");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_adapt_count(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_name(), "Amalgadon (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_adapt_count(), 3*2);
+}
+
+
 TEST(Player, AnnihilanBattlemasterBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

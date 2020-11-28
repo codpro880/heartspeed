@@ -384,10 +384,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Kaboom Bot (Golden)", std::make_shared<KaboomBotGolden>());
     cards.emplace("Kangor", std::make_shared<Kangor>());
     cards.emplace("Kangor (Golden)", std::make_shared<KangorGolden>());
-    cards.emplace("Kalecgos, Arcane Aspect", std::make_shared<BgBaseCard>(4, "NEUTRAL", 8, 12, "Kalecgos, Arcane Aspect",
-									  "['TRIGGER_VISUAL']", "DRAGON", "", 6, "MINION"));
-    cards.emplace("Kalecgos, Arcane Aspect (Golden)", std::make_shared<BgBaseCard>(8, "NEUTRAL", 8, 24, "Kalecgos, Arcane Aspect (Golden)",
-										   "['TRIGGER_VISUAL']", "DRAGON", "", 6, "MINION"));
+    cards.emplace("Kalecgos, Arcane Aspect", std::make_shared<Kalecgos>());
+    cards.emplace("Kalecgos, Arcane Aspect (Golden)", std::make_shared<KalecgosGolden>());
     // Khadgar's effect is hardcoded in the summoning logic, not handled by the card itself
     std::shared_ptr<BgBaseCard> khadgar(new BgBaseCard(2, "MAGE", 2, 2,  "Khadgar",
 						       "['TRIGGER_VISUAL']", "", "LEGENDARY", 3, "MINION"));

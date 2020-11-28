@@ -532,21 +532,23 @@ private:
     KaboomBot kbot;
 };
 
-// class Kalecgos : public BgBaseCard {
-// public:
-//     Kalecgos() : BgBaseCard(4, "NEUTRAL", 8, 12, "Kalecgos, Arcane Aspect",
-// 			    "['TRIGGER_VISUAL']", "DRAGON", "", 6, "MINION") {}
-//     int mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) override;
-//     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Kalecgos>(*this); } // boilerplate that every drattle needs...
-// };
+class Kalecgos : public BgBaseCard {
+public:
+    Kalecgos() : BgBaseCard(4, "NEUTRAL", 8, 12, "Kalecgos, Arcane Aspect",
+			    "['TRIGGER_VISUAL']", "DRAGON", "", 6, "MINION") {}
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Kalecgos>(*this); } // boilerplate that every drattle needs...
+};
 
-// class KalecgosGolden : public BgBaseCard {
-// public:
-//     KalecgosGolden() : BgBaseCard(8, "NEUTRAL", 8, 24, "Kalecgos, Arcane Aspect (Golden)",
-// 				  "['TRIGGER_VISUAL']", "DRAGON", "", 6, "MINION") {}
-//     int mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) override;
-//     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<KalecgosGolden>(*this); } // boilerplate that every drattle needs...
-// };
+class KalecgosGolden : public BgBaseCard {
+public:
+    KalecgosGolden() : BgBaseCard(8, "NEUTRAL", 8, 24, "Kalecgos, Arcane Aspect (Golden)",
+				  "['TRIGGER_VISUAL']", "DRAGON", "", 6, "MINION") {}
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<KalecgosGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    Kalecgos k;
+};
 
 class Kangor : public DeathrattleCard {
 public:

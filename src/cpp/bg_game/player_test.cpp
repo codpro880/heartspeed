@@ -529,7 +529,7 @@ TEST(Player, LieutenantGarrBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
 	{
-	 //f.get_card("Lieutenant Garr (Golden)"),
+	 f.get_card("Lieutenant Garr (Golden)"),
 	 f.get_card("Lieutenant Garr"),
 	 f.get_card("Cobalt Scalebane"),
 	 f.get_card("Sellemental"),
@@ -540,20 +540,20 @@ TEST(Player, LieutenantGarrBattlecry) {
     player.play_card(0, 0);
     player.play_card(0, 1);
     player.play_card(0, 2);
-    // player.play_card(0, 3);
+    player.play_card(0, 3);
     
-    // EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Lieutenant Garr (Golden)");    
-    // EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 10);
-    // EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 2 + 2*2 + 2*3);
-    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Lieutenant Garr");    
-    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 5);
-    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 1+2);
-    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Cobalt Scalebane");    
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Lieutenant Garr (Golden)");    
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 10);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 2 + 2*2 + 2*3);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Lieutenant Garr");    
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 5);
-    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 5);
-    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Sellemental");
-    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 2);
-    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 1+3);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Cobalt Scalebane");    
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 5);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 5);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Sellemental");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 2);
 }
 
 // Some extra tests around the mug since it's sort of complicated.

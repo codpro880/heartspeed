@@ -750,22 +750,25 @@ void KingBagurgleGolden::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
-int LieutenantGarr::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
-    std::cerr << "GARR MOD CALLED" << std::endl;
+void lt_gar_mod_sum(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand, int buff_factor, BgBaseCard* to_buff) {
     if (card->get_race() == "ELEMENTAL" && from_hand) {
 	int num_elementals = 1; // Already have one that we're playing
 	for (auto c : b1->get_cards()) {
 	    if (c->get_race() == "ELEMENTAL") num_elementals++;
 	}
-	std::cerr << "Num elementals: " << num_elementals << std::endl;
-	set_health(get_health() + num_elementals);
+	to_buff->set_health(to_buff->get_health() + num_elementals * buff_factor);
     }
+}
+
+int LieutenantGarr::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
+    lt_gar_mod_sum(card, b1, from_hand, 1, this);
     return 0;
 }
 
 int LieutenantGarrGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
-    lt.mod_summoned(card, b1, from_hand);
-    lt.mod_summoned(card, b1, from_hand);
+    lt_gar_mod_sum(card, b1, from_hand, 2, this);
+    // lt.mod_summoned(card, b1, from_hand);
+    // lt.mod_summoned(card, b1, from_hand);
     return 0;
 }
 

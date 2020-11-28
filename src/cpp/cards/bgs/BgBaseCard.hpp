@@ -21,7 +21,7 @@ public:
 	       std::string mechanics,
 	       std::string race,
 	       std::string rarity,
-	       int tech_level,
+	       int tavern_tier,
 	       std::string type) : attack(attack),
 				   card_class(card_class),
 				   cost(cost),
@@ -35,7 +35,7 @@ public:
 				   name(name),
 				   race(race),
 				   rarity(rarity),
-				   tech_level(tech_level),
+				   tavern_tier(tavern_tier),
 				   type(type),
 				   adapt_count(0) {}
     
@@ -52,7 +52,7 @@ public:
 					  name(other.name),
 					  race(other.race),
 					  rarity(other.rarity),
-					  tech_level(other.tech_level),
+					  tavern_tier(other.tavern_tier),
 					  type(other.type),
 					  adapt_count(0) {}
 
@@ -144,7 +144,7 @@ public:
     std::string get_name() const { return name; }
     std::string get_race() const { return race; }
     std::string get_rarity() const { return rarity; }
-    int get_tech_level() const { return tech_level; }
+    int get_tavern_tier() const { return tavern_tier; }
     std::string get_type() const { return type; }
 
     bool has_divine_shield() const { return divine_shield; }
@@ -215,7 +215,7 @@ protected:
     std::string name;
     std::string race;
     std::string rarity;
-    int tech_level;
+    int tavern_tier;
     std::string type;
     int death_pos = -2;
     std::string last_dmg_race;

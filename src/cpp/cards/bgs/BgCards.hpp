@@ -614,7 +614,7 @@ private:
 class LieutenantGarr : public BgBaseCard {
 public:
     LieutenantGarr() : BgBaseCard(5, "NEUTRAL", 8, 1, "Lieutenant Garr",
-				  "", "ELEMENTAL", "", 5, "MINION") {}
+				  "", "ELEMENTAL", "", 6, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<LieutenantGarr>(*this); } // boilerplate that every drattle needs...
 };
@@ -622,11 +622,29 @@ public:
 class LieutenantGarrGolden : public BgBaseCard {
 public:
     LieutenantGarrGolden() : BgBaseCard(10, "NEUTRAL", 8, 2, "Lieutenant Garr (Golden)",
-					"", "ELEMENTAL", "", 5, "MINION") {}
+					"", "ELEMENTAL", "", 6, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<LieutenantGarrGolden>(*this); } // boilerplate that every drattle needs...
 private:
     LieutenantGarr lt;
+};
+
+class LilRag : public BgBaseCard {
+public:
+    LilRag() : BgBaseCard(4, "NEUTRAL", 4, 4, "Lil' Rag",
+			  "", "ELEMENTAL", "", 6, "MINION") {}
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<LilRag>(*this); } // boilerplate that every drattle needs...
+};
+
+class LilRagGolden : public BgBaseCard {
+public:
+    LilRagGolden() : BgBaseCard(8, "NEUTRAL", 4, 8, "Lil' Rag (Golden)",
+				"", "ELEMENTAL", "", 6, "MINION") {}
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<LilRagGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    LilRag lr;
 };
 
 class MalGanis : public BgBaseCard {

@@ -401,10 +401,8 @@ void BgCardFactory::init_cards() {
 								     "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION"));
     cards.emplace("Lightfang Enforcer (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", 6, 4, "Lightfang Enforcer (Golden)",
 									      "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION"));
-    cards.emplace("Lil' Rag", std::make_shared<BgBaseCard>(4, "NEUTRAL", 4, 4, "Lil' Rag",
-							   "", "ELEMENTAL", "", 5, "MINION"));
-    cards.emplace("Lil' Rag (Golden)", std::make_shared<BgBaseCard>(8, "NEUTRAL", 4, 8, "Lil' Rag (Golden)",
-								    "", "ELEMENTAL", "", 5, "MINION"));
+    cards.emplace("Lil' Rag", std::make_shared<LilRag>());
+    cards.emplace("Lil' Rag (Golden)", std::make_shared<LilRagGolden>());
 
 
     // M

@@ -772,6 +772,28 @@ int LieutenantGarrGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* 
     return 0;
 }
 
+int LilRag::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
+    if (card->get_race() == "ELEMENTAL" && from_hand) {
+	auto all_elem_cards = b1->get_cards();
+	all_elem_cards.clear();
+	all_elem_cards.push_back(card);
+	for (auto c : b1->get_cards()) {
+	    if (c->get_race() == "ELEMENTAL") all_elem_cards.push_back(c);
+	}
+	auto card_to_buff =  all_elem_cards[RngSingleton::getInstance().get_rand_int() % all_elem_cards.size()];
+	card_to_buff->set_attack(card_to_buff->get_attack() + card->get_tavern_tier());
+	card_to_buff->set_health(card_to_buff->get_health() + card->get_tavern_tier());
+    }
+    return 0;
+}
+
+int LilRagGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
+    lr.mod_summoned(card, b1, from_hand);
+    lr.mod_summoned(card, b1, from_hand);
+    return 0;
+}
+
+
 void MalGanis::do_precombat(Board* b1, Board*b2) {
     for (auto card : b1->get_cards()) {
 	if (card->get_race() == "DEMON") {

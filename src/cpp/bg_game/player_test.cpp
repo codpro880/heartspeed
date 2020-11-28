@@ -556,6 +556,49 @@ TEST(Player, LieutenantGarrBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 2);
 }
 
+TEST(Player, LilRagBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Lil' Rag"),
+	 f.get_card("Lil' Rag (Golden)"), // +6/+6 total
+	 f.get_card("Sellemental"), // +3/+3 total
+	 f.get_card("Cave Hydra"), // does nothing
+	 f.get_card("Lieutenant Garr") // +18/+18 total
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    int hand_total_attack = 0;
+    int hand_total_health = 0;
+    for (auto c : player.get_hand().get_cards()) {
+	hand_total_attack += c->get_attack();
+	hand_total_health += c->get_health();
+    }
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    player.play_card(0, 4);
+    
+    // Assert cave hydra the same
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Cave Hydra");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 4);
+
+    // Assert stats changed by 6+3+18
+    int board_total_attack = 0;
+    int board_total_health = 0;
+    for (auto c : player.get_board()->get_cards()) {
+	board_total_attack += c->get_attack();
+	board_total_health += c->get_health();
+    }
+    const int expected_buff = 6 + 3 + 18;
+    EXPECT_EQ(board_total_attack, hand_total_attack + expected_buff);
+    EXPECT_EQ(board_total_health, hand_total_health + expected_buff);
+}
+
 // Some extra tests around the mug since it's sort of complicated.
 // This level of testing not necessary for the Jug (since logic will be reused)
 TEST(Player, MenagerieMugBattlecryEmpty) {

@@ -6,7 +6,7 @@ using namespace std;
 int Board::calculate_damage() const {
     int res = 0;
     for (auto card : cards) {
-	res += card->get_tech_level();
+	res += card->get_tavern_tier();
     }
     return res;
 }

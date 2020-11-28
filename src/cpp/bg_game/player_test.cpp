@@ -2,6 +2,7 @@
 
 #include "player.hpp"
 #include "../cards/bgs/BgCardFactory.hpp"
+#include "../cards/bgs/BgCards.hpp"
 
 TEST(Player, CanPlayCardFromHandBasic) {
     auto tidecaller = BgCardFactory().get_card("Murloc Tidecaller");
@@ -42,6 +43,73 @@ TEST(Player, AlleycatBattlecryBasic) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Tabbycat (Golden)");
     EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Tabbycat");
 }
+
+TEST(Player, AmalgadonLoneBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Brann Bronzebeard"),
+	 f.get_card("Baron Rivendare"),
+	 f.get_card("Amalgadon")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Amalgadon");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_adapt_count(), 0);
+}
+
+TEST(Player, AmalgadonMultiBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Murloc Scout"),
+	 f.get_card("Deck Swabbie"),
+	 f.get_card("Baron Rivendare"),
+	 f.get_card("Amalgadon"),
+	 f.get_card("Amalgadon (Golden)"),
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    player.play_card(0, 4);    
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Amalgadon");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_adapt_count(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_name(), "Amalgadon (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_adapt_count(), 3*2);
+}
+
+
+TEST(Player, AnnihilanBattlemasterBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Annihilan Battlemaster"),
+	 f.get_card("Annihilan Battlemaster (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    player.take_damage(30);
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Annihilan Battlemaster");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 1 + 30);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Annihilan Battlemaster (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 2 + 30 + 30);
+} 
 
 TEST(Player, ArcaneAssistantBattlecry) {
     auto f = BgCardFactory();
@@ -100,6 +168,46 @@ TEST(Player, BloodsailCannoneerBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 3);
 }
 
+TEST(Player, BrannMakesBattlecriesGoOffTwiceAndGoldenThrice) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Murloc Scout"),
+	 f.get_card("Brann Bronzebeard"),
+	 f.get_card("Rockpool Hunter (Golden)"),
+	 f.get_card("Brann Bronzebeard (Golden)"),
+	 f.get_card("Felfin Navigator")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    //player.buy_card(tidecaller); // TODO: Impl bobs tav
+    auto hand = player.get_hand();
+    EXPECT_EQ(hand.size(), 5);
+    EXPECT_EQ(player.get_board()->size(), 0);
+    
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 0, 2); // Hand pos, target pos, board pos
+    player.play_card(0, 3);
+    player.play_card(0, 4);
+    EXPECT_EQ(player.get_board()->size(), 5);
+    // 2*2 for golden rockpool and normal brann, 1*3 for felfin and golden brann
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Murloc Scout");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 1 + 2*2 + 1*3);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 1 + 2*2 + 1*3);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Brann Bronzebeard");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Rockpool Hunter (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 4 + 1*3);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 6 + 1*3);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Brann Bronzebeard (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 8);
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_name(), "Felfin Navigator");
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 4);
+}
 
 TEST(Player, CrowdFavoriteReactsToBattlecryCards) {
     auto f = BgCardFactory();
@@ -203,8 +311,6 @@ TEST(Player, ColdlightBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 3);
 }
 
-// <<<<<<< Updated upstream
-// =======
 TEST(Player, DefenderOfArgusBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
@@ -251,7 +357,6 @@ TEST(Player, DefenderOfArgusBattlecry) {
     EXPECT_FALSE(player.get_board()->get_cards()[4]->has_taunt());
 }
 
-//>>>>>>> Stashed changes
 TEST(Player, FelfinNavigatorBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
@@ -296,6 +401,31 @@ TEST(Player, FelfinNavigatorBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[6]->get_health(), 1);    
 }
 
+TEST(Player, FloatingWatcherRespondsToDamageBattlecries) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Floating Watcher"),
+	 f.get_card("Floating Watcher (Golden)"),
+	 f.get_card("Vulgar Homunculus")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Floating Watcher");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Floating Watcher (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 12);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 12);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Vulgar Homunculus");
+}
+
+
 TEST(Player, HoundmasterBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
@@ -323,7 +453,151 @@ TEST(Player, HoundmasterBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 3);
 }
 
+TEST(Player, KalecgosBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Kalecgos, Arcane Aspect"),
+	 f.get_card("Kalecgos, Arcane Aspect (Golden)"),
+	 f.get_card("Cobalt Scalebane"),
+	 f.get_card("Red Whelp"),
+	 f.get_card("Brann Bronzebeard"),
+	 f.get_card("Coldlight Seer"),
+	 f.get_card("Twilight Emissary")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
 
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    player.play_card(0, 4);
+    player.play_card(0, 5);
+    player.play_card(0, 0, 6);
+    // Assert dragons got +6/+6
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Kalecgos, Arcane Aspect");    
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 4+6+2*2);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 12+6+2*2);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Kalecgos, Arcane Aspect (Golden)");    
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 8+6);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 24+6);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Cobalt Scalebane");    
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 5+6);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 5+6);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Red Whelp");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 1+6);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 2+6);
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_name(), "Brann Bronzebeard");
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[5]->get_name(), "Coldlight Seer");
+    EXPECT_EQ(player.get_board()->get_cards()[5]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[5]->get_health(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[6]->get_name(), "Twilight Emissary");
+    EXPECT_EQ(player.get_board()->get_cards()[6]->get_attack(), 4+3);
+    EXPECT_EQ(player.get_board()->get_cards()[6]->get_health(), 4+3);
+}
+
+TEST(Player, KingBagurgleBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Murloc Scout"),
+	 f.get_card("King Bagurgle (Golden)"),
+	 f.get_card("King Bagurgle")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Murloc Scout");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 1 + 2 + 4);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 1 + 2 + 4);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "King Bagurgle (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 12 + 2);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 6 + 2);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "King Bagurgle");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 3);
+} 
+
+TEST(Player, LieutenantGarrBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Lieutenant Garr (Golden)"),
+	 f.get_card("Lieutenant Garr"),
+	 f.get_card("Cobalt Scalebane"),
+	 f.get_card("Sellemental"),
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Lieutenant Garr (Golden)");    
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 10);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 2 + 2*2 + 2*3);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Lieutenant Garr");    
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 5);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 1+3);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Cobalt Scalebane");    
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 5);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 5);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Sellemental");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 2);
+}
+
+TEST(Player, LilRagBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Lil' Rag"),
+	 f.get_card("Lil' Rag (Golden)"), // +6/+6 total
+	 f.get_card("Sellemental"), // +3/+3 total
+	 f.get_card("Cave Hydra"), // does nothing
+	 f.get_card("Lieutenant Garr") // +18/+18 total
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    int hand_total_attack = 0;
+    int hand_total_health = 0;
+    for (auto c : player.get_hand().get_cards()) {
+	hand_total_attack += c->get_attack();
+	hand_total_health += c->get_health();
+    }
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    player.play_card(0, 4);
+    
+    // Assert cave hydra the same
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Cave Hydra");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 4);
+
+    // Assert stats changed by 6+3+18
+    int board_total_attack = 0;
+    int board_total_health = 0;
+    for (auto c : player.get_board()->get_cards()) {
+	board_total_attack += c->get_attack();
+	board_total_health += c->get_health();
+    }
+    const int expected_buff = 6 + 3 + 18;
+    EXPECT_EQ(board_total_attack, hand_total_attack + expected_buff);
+    EXPECT_EQ(board_total_health, hand_total_health + expected_buff);
+}
 
 // Some extra tests around the mug since it's sort of complicated.
 // This level of testing not necessary for the Jug (since logic will be reused)
@@ -683,6 +957,87 @@ TEST(Player, ScrewjankClunkerBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 5);
 }
 
+TEST(Player, StrongshellScavengerBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Twilight Emissary"),
+	 f.get_card("Mama Bear"),
+	 f.get_card("Strongshell Scavenger (Golden)"),
+	 f.get_card("Strongshell Scavenger")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Twilight Emissary");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 4+2+4);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 4+2+4);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Mama Bear");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Strongshell Scavenger (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Strongshell Scavenger");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 3);
+}
+
+TEST(Player, TavernTempestBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Tavern Tempest"),
+	 f.get_card("Tavern Tempest (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Tavern Tempest");
+    EXPECT_EQ(player.get_hand().size(), 2);
+    player.play_card(0, 1);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Tavern Tempest (Golden)");
+    EXPECT_EQ(player.get_hand().size(), 3);
+    // TODO; expect this to change to deal with playing golden cards and discover mechanic
+    // EXPECT_EQ(player.get_hand().size(), 4);
+    for (auto c : player.get_hand().get_cards()) {
+	EXPECT_EQ(c->get_race(), "ELEMENTAL");
+    }
+} 
+
+TEST(Player, ToxfinTargettedBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Murloc Tidecaller"),
+	 f.get_card("Toxfin"),
+	 f.get_card("Toxfin (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    //player.buy_card(tidecaller); // TODO: Impl bobs tav
+    auto hand = player.get_hand();
+    EXPECT_EQ(hand.size(), 3);
+    EXPECT_EQ(player.get_board()->size(), 0);
+    
+    player.play_card(0, 0);
+    player.play_card(0, 0, 1); // Hand pos, target pos, board pos
+    player.play_card(0, 1, 2); // Hand pos, target pos, board pos
+    EXPECT_EQ(player.get_hand().size(), 0);
+    EXPECT_EQ(player.get_board()->size(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Murloc Tidecaller");
+    EXPECT_TRUE(player.get_board()->get_cards()[0]->has_poison());
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Toxfin");
+    EXPECT_TRUE(player.get_board()->get_cards()[1]->has_poison());
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Toxfin (Golden)");
+}
+
 TEST(Player, TwilightEmissaryTargettedBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
@@ -710,6 +1065,32 @@ TEST(Player, TwilightEmissaryTargettedBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Twilight Emissary (Golden)");
 }
 
+TEST(Player, VirmenSenseiTargettedBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Mama Bear"),
+	 f.get_card("Virmen Sensei (Golden)"),
+	 f.get_card("Virmen Sensei")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    //player.buy_card(tidecaller); // TODO: Impl bobs tav
+    auto hand = player.get_hand();
+    EXPECT_EQ(hand.size(), 3);
+    EXPECT_EQ(player.get_board()->size(), 0);
+    
+    player.play_card(0, 0);
+    player.play_card(0, 0, 1); // Hand pos, target pos, board pos
+    player.play_card(0, 0, 2); // Hand pos, target pos, board pos
+    EXPECT_EQ(player.get_hand().size(), 0);
+    EXPECT_EQ(player.get_board()->size(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Mama Bear");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 10);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 10);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Virmen Sensei (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Virmen Sensei");
+}
 
 TEST(Player, VulgarHomunculusBattlecry) {
     auto f = BgCardFactory();

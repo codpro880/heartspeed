@@ -5,6 +5,8 @@
 #include <string>
 #include <vector>
 
+#include "../../bg_game/rng_singleton.hpp"
+
 class Board; // Forward declare for circular dep between cards and board
 class Player; // Forward declare for circular dep between cards and player
 // TODO: Move all boards to be players for consistent-interface purposes
@@ -34,7 +36,8 @@ public:
 				   race(race),
 				   rarity(rarity),
 				   tech_level(tech_level),
-				   type(type) {}
+				   type(type),
+				   adapt_count(0) {}
     
     BgBaseCard(const BgBaseCard& other) : attack(other.attack),
 					  card_class(other.card_class),
@@ -50,7 +53,53 @@ public:
 					  race(other.race),
 					  rarity(other.rarity),
 					  tech_level(other.tech_level),
-					  type(other.type) {}
+					  type(other.type),
+					  adapt_count(0) {}
+
+    void adapt() {
+	std::cerr << "WARNING! Adapt only partially working." << std::endl;
+	std::vector<std::string> adapts = {"Crackling Shield",
+					   "Flaming Claws",
+					   "Living Spores",
+					   "Lightning Speed",
+					   "Massive",
+					   "Volcanic Might",
+					   "Rocky Carapace",
+					   "Poison Spit"};
+	auto adaptation = adapts[RngSingleton::getInstance().get_rand_int() % adapts.size()];
+	if (adaptation == "Crackling Shield") {
+	    set_divine_shield();
+	}
+	else if (adaptation == "Flaming Claws") {
+	    set_attack(get_attack() + 3);
+	}
+	// else if (adaptation == "Living Spores") {
+	    // TODO: Set deathrattle...
+	    // set_deathrattle(lambda b1, b2: ...);
+	// }
+	else if (adaptation == "Lightning Speed") {
+	    set_windfury();
+	}
+	else if (adaptation == "Massive") {
+	    set_taunt();
+	}
+	else if (adaptation == "Volcanic Might") {
+	    set_attack(get_attack() + 1);
+	    set_health(get_health() + 1);
+	}
+	else if (adaptation == "Rocky Carapace") {
+	    set_health(get_health() + 3);
+	}
+	else if (adaptation == "Poison Spit") {
+	    set_poison();
+	}
+	else {
+	    throw std::runtime_error("Unknown adapt");
+	}
+	std::cerr << "Adapt count: " << adapt_count << std::endl;
+	adapt_count++;
+	std::cerr << "Adapt count (after): " << adapt_count << std::endl;
+    }
 
     virtual void do_battlecry(Player*) {}
     virtual void battlecry(Player*) {}
@@ -84,7 +133,8 @@ public:
     virtual int mod_summoned(std::shared_ptr<BgBaseCard>, bool) { return 0; }
     
     virtual std::shared_ptr<BgBaseCard> get_copy() const;
-    
+
+    int get_adapt_count() const { return adapt_count; }
     int get_attack() const { return is_poison ? 999999 : attack; } // Poison is like 'infinite' attack
     std::string get_card_class() const { return card_class; }
     int get_cost() const { return cost; }
@@ -169,4 +219,6 @@ protected:
     std::string type;
     int death_pos = -2;
     std::string last_dmg_race;
+    // int adapt_count = 0; // Mostly used for testing only
+    int adapt_count; // Mostly used for testing only
 };

@@ -105,6 +105,22 @@ std::shared_ptr<BgBaseCard> AlleycatGolden::summon() {
     return f.get_card("Tabbycat (Golden)");
 }
 
+void Amalgadon::do_battlecry(Player* p1) {
+    std::unordered_set<std::string> races;
+    for (auto c : p1->get_board()->get_cards()) {
+	if (c.get() == this) continue;
+	races.insert(c->get_race());
+    }
+    races.erase("");
+    for (size_t i = 0; i < races.size(); ++i) {	
+	adapt();
+    }
+}
+
+void AmalgadonGolden::do_battlecry(Player* p1) {
+    am.do_battlecry(p1);
+    am.do_battlecry(p1);
+}
 
 void AnnihilanBattlemaster::do_battlecry(Player* p1) {
     set_health(get_health() + p1->get_damage_taken());
@@ -1392,10 +1408,6 @@ void StrongshellScavengerGolden::do_battlecry(Player* p1) {
 }
 
 void TavernTempest::do_battlecry(Player* p1) {
-    //     auto f = BgCardFactory();
-    // auto two_cost_cards = f.get_cards_of_cost(2);
-    // auto card = two_cost_cards[RngSingleton::getInstance().get_rand_int() % two_cost_cards.size()];
-    // return card;
     auto f = BgCardFactory();
     auto elementals = f.get_cards_of_race("ELEMENTAL");
     auto card = elementals[RngSingleton::getInstance().get_rand_int() % elementals.size()];

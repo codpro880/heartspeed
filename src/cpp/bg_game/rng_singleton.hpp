@@ -1,3 +1,5 @@
+#pragma once
+
 #include <random>
 
 // Special thanks to Scott Meyers

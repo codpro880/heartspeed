@@ -2,6 +2,7 @@
 
 #include "player.hpp"
 #include "../cards/bgs/BgCardFactory.hpp"
+#include "../cards/bgs/BgCards.hpp"
 
 TEST(Player, CanPlayCardFromHandBasic) {
     auto tidecaller = BgCardFactory().get_card("Murloc Tidecaller");
@@ -41,6 +42,26 @@ TEST(Player, AlleycatBattlecryBasic) {
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Alleycat (Golden)");
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Tabbycat (Golden)");
     EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Tabbycat");
+}
+
+TEST(Player, AmalgadonLoneBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Brann Bronzebeard"),
+	 f.get_card("Baron Rivendare"),
+	 f.get_card("Amalgadon")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Amalgadon");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_adapt_count(), 0);
 }
 
 TEST(Player, AnnihilanBattlemasterBattlecry) {

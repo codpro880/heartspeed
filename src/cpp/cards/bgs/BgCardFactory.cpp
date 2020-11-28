@@ -108,11 +108,8 @@ void BgCardFactory::init_cards() {
     // A
     cards.emplace("Alleycat", std::make_shared<Alleycat>());
     cards.emplace("Alleycat (Golden)", std::make_shared<AlleycatGolden>());
-    cards.emplace("Amalgadon", std::make_shared<BgBaseCard>(6, "NEUTRAL", 8, 6, "Amalgadon",
-							    "['BATTLECRY']", "ALL", "", 6, "MINION"));
-    cards.emplace("Amalgadon (Golden)", std::make_shared<BgBaseCard>(12, "NEUTRAL", 8, 12, "Amalgadon (Golden)",
-								     "['BATTLECRY']", "ALL", "", 6, "MINION"));
-    			       
+    cards.emplace("Amalgadon", std::make_shared<Amalgadon>());
+    cards.emplace("Amalgadon (Golden)", std::make_shared<AmalgadonGolden>());   			       
     cards.emplace("Annihilan Battlemaster", std::make_shared<AnnihilanBattlemaster>());
     cards.emplace("Annihilan Battlemaster (Golden)", std::make_shared<AnnihilanBattlemasterGolden>());
     std::shared_ptr<BgBaseCard> annoyo(new BgBaseCard(2, "PALADIN", 4, 4, "Annoy-o-Module",

@@ -689,9 +689,9 @@ TEST_F(BobsReader, IsReasonablyThreadSafe) {
 
     // Want to say parallel and non-parallel versions are more or less the same
     RngSingleton::getInstance(123, true); // this also sets seed...
-    auto res_par = battler.sim_battles_par(1000);
+    auto res_par = battler.sim_battles_par(2000);
     RngSingleton::getInstance(123, true); // this also sets seed...
-    auto res = battler.sim_battles(1000);
+    auto res = battler.sim_battles(2000);
 
     // Within 5%, sample size of 1000 has relatively high variance
     // TODO: Make thread_local seeding for reproducibility

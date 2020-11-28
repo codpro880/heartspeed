@@ -750,19 +750,24 @@ void KingBagurgleGolden::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
-// int LieutenantGarr::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
-//     if (card->get_race() == "ELEMENTAL" && from_hand) {
-// 	set_attack(get_attack() + 1);
-//     }
-//     return 0;
-// }
+int LieutenantGarr::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
+    std::cerr << "GARR MOD CALLED" << std::endl;
+    if (card->get_race() == "ELEMENTAL" && from_hand) {
+	int num_elementals = 1; // Already have one that we're playing
+	for (auto c : b1->get_cards()) {
+	    if (c->get_race() == "ELEMENTAL") num_elementals++;
+	}
+	std::cerr << "Num elementals: " << num_elementals << std::endl;
+	set_health(get_health() + num_elementals);
+    }
+    return 0;
+}
 
-// int LieutenantGarrGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
-//     if (card->get_race() == "MURLOC" && from_hand) {
-// 	set_attack(get_attack() + 2);
-//     }
-//     return 0;
-// }
+int LieutenantGarrGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
+    lt.mod_summoned(card, b1, from_hand);
+    lt.mod_summoned(card, b1, from_hand);
+    return 0;
+}
 
 void MalGanis::do_precombat(Board* b1, Board*b2) {
     for (auto card : b1->get_cards()) {

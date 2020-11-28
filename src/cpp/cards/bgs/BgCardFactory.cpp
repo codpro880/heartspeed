@@ -278,10 +278,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Foe Reaper 4000 (Golden)", foe_reaper_gold);
 
     // G
-    cards.emplace("Lieutenant Garr", std::make_shared<BgBaseCard>(5, "NEUTRAL", 8, 1, "Garr",
-						       "", "ELEMENTAL", "", 5, "MINION"));
-    cards.emplace("Lieutenant Garr (Golden)", std::make_shared<BgBaseCard>(10, "NEUTRAL", 8, 2, "Garr (Golden)",
-								"", "ELEMENTAL", "", 5, "MINION"));
+    cards.emplace("Lieutenant Garr", std::make_shared<LieutenantGarr>());
+    cards.emplace("Lieutenant Garr (Golden)", std::make_shared<LieutenantGarrGolden>());
     std::shared_ptr<BgBaseCard> gambler(new BgBaseCard(3, "NEUTRAL", 3, 3, "Freedealing Gambler",
 						       "", "PIRATE", "", 2, "MINION"));
     cards.emplace("Freedealing Gambler", gambler);

@@ -8,6 +8,26 @@
 #include "../../bg_game/battler.hpp"
 #include "../../bg_game/rng_singleton.hpp"
 
+void kalecgos_mods(Player* p1, BgBaseCard* tis) {
+    std::cerr << "IN MODS" << std::endl;
+    std::cerr << "NAME: " << tis->get_name() << std::endl;
+    std::cerr << "HAS BCRY: " << tis->has_battlecry() << std::endl;
+    if (!tis->has_battlecry()) return;
+    std::cerr << "BATTLECRY!" << std::endl;
+    int num_kalecgos = 0;
+    for (auto c : p1->get_board()->get_cards()) {
+	if (c->get_name() == "Kalecgos, Arcane Aspect") num_kalecgos++;
+	if (c->get_name() == "Kalecgos, Arcane Aspect (Golden)") num_kalecgos += 2;
+    }
+    std::cerr << "Num kalecgos: " << num_kalecgos << std::endl;
+    for (auto c : p1->get_board()->get_cards()) {
+	if (c->get_race() == "DRAGON") {
+	    c->set_attack(c->get_attack() + num_kalecgos);
+	    c->set_health(c->get_health() + num_kalecgos);
+	}
+    }
+}
+
 // TODO: Efficiency
 void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
     if (b1->contains("Baron Rivendare (Golden)")) {
@@ -26,6 +46,7 @@ void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
 
 // TODO: Efficiency
 void BattlecryCard::battlecry(Player* p1) {
+    kalecgos_mods(p1, this);
     if (p1->get_board()->contains("Brann Bronzebeard (Golden)")) {
 	do_battlecry(p1);
 	do_battlecry(p1);
@@ -40,8 +61,9 @@ void BattlecryCard::battlecry(Player* p1) {
     }
 }
 
-// TODO: Efficiency
+// TODO: Efficiency...and design issues...
 void TargetedBattlecryCard::targeted_battlecry(std::shared_ptr<BgBaseCard> c, Player* p1) {
+    kalecgos_mods(p1, this);
     if (p1->get_board()->contains("Brann Bronzebeard (Golden)")) {
 	do_targeted_battlecry(c);
 	do_targeted_battlecry(c);
@@ -606,6 +628,23 @@ void KaboomBotGolden::do_deathrattle(Board* b1, Board* b2) {
     b1->do_deathrattles(b2);
     b2->do_deathrattles(b2);
 }
+
+// void Kalecgos::mod_summoned(std::shared_ptr<BgBaseCard> c, bool from_hand) {
+//     if (!from_hand) return;
+//     if (c->has_battlecry()) {
+// 	for (auto card : p1->get_board()->get_cards()) {
+// 	    if (card->get_race() == "DRAGON") {
+// 		card->set_attack(card->get_attack() + 1);
+// 		card->set_health(card->get_health() + 1);
+// 	    }
+// 	}
+//     }
+// }
+
+// void KalecgosGolden::mod_summoned(std::shared_ptr<BgBaseCard> c, bool from_hand) {
+//     k.mod_summoned(p1);
+//     k.mod_summoned(p1);
+// }
 
 void Kangor::do_deathrattle(Board* b1, Board* b2) {
     reset_mech_queue(b1);

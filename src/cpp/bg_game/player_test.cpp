@@ -453,6 +453,52 @@ TEST(Player, HoundmasterBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 3);
 }
 
+TEST(Player, KalecgosBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Kalecgos, Arcane Aspect"),
+	 f.get_card("Kalecgos, Arcane Aspect (Golden)"),
+	 f.get_card("Cobalt Scalebane"),
+	 f.get_card("Red Whelp"),
+	 f.get_card("Brann Bronzebeard"),
+	 f.get_card("Coldlight Seer"),
+	 f.get_card("Twilight Emissary")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    player.play_card(0, 4);
+    player.play_card(0, 5);
+    player.play_card(0, 0, 6);
+    // Assert dragons got +6/+6
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Kalecgos, Arcane Aspect");    
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 4+6+2*2);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 12+6+2*2);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Kalecgos, Arcane Aspect (Golden)");    
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 8+6);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 24+6);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Cobalt Scalebane");    
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 5+6);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 5+6);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Red Whelp");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 1+6);
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 2+6);
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_name(), "Brann Bronzebeard");
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[5]->get_name(), "Coldlight Seer");
+    EXPECT_EQ(player.get_board()->get_cards()[5]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[5]->get_health(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[6]->get_name(), "Twilight Emissary");
+    EXPECT_EQ(player.get_board()->get_cards()[6]->get_attack(), 4+3);
+    EXPECT_EQ(player.get_board()->get_cards()[6]->get_health(), 4+3);
+}
+
 TEST(Player, KingBagurgleBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

@@ -130,7 +130,7 @@ public:
     virtual void do_postbattle(Board*, Board*, std::vector<std::shared_ptr<BgBaseCard>>, std::vector<std::shared_ptr<BgBaseCard>>) {}
 
     // Triggered after a summon occurs, returns damage taken (wrathweave)
-    virtual int mod_summoned(std::shared_ptr<BgBaseCard>, bool) { return 0; }
+    virtual int mod_summoned(std::shared_ptr<BgBaseCard>, Board*, bool) { return 0; }
     
     virtual std::shared_ptr<BgBaseCard> get_copy() const;
 

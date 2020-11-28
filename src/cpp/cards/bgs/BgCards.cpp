@@ -8,18 +8,14 @@
 #include "../../bg_game/battler.hpp"
 #include "../../bg_game/rng_singleton.hpp"
 
+// TODO: Add Player* to mod summoned interface?
 void kalecgos_mods(Player* p1, BgBaseCard* tis) {
-    std::cerr << "IN MODS" << std::endl;
-    std::cerr << "NAME: " << tis->get_name() << std::endl;
-    std::cerr << "HAS BCRY: " << tis->has_battlecry() << std::endl;
     if (!tis->has_battlecry()) return;
-    std::cerr << "BATTLECRY!" << std::endl;
     int num_kalecgos = 0;
     for (auto c : p1->get_board()->get_cards()) {
 	if (c->get_name() == "Kalecgos, Arcane Aspect") num_kalecgos++;
 	if (c->get_name() == "Kalecgos, Arcane Aspect (Golden)") num_kalecgos += 2;
     }
-    std::cerr << "Num kalecgos: " << num_kalecgos << std::endl;
     for (auto c : p1->get_board()->get_cards()) {
 	if (c->get_race() == "DRAGON") {
 	    c->set_attack(c->get_attack() + num_kalecgos);
@@ -27,6 +23,20 @@ void kalecgos_mods(Player* p1, BgBaseCard* tis) {
 	}
     }
 }
+
+// void lt_garr_mods(Player* p1, BgBaseCard* tis) {
+//     if (!tis->get_race() != "ELEMENTAL") return;
+//     int num_elementals = 0;
+//     for (auto c : p1->get_board()->get_cards()) {
+// 	if (c->get_race() == "ELEMENTAL") num_elementals++;
+//     }
+//     for (auto c : p1->get_board()->get_cards()) {
+// 	if (c->get_race() == "DRAGON") {
+// 	    c->set_attack(c->get_attack() + num_kalecgos);
+// 	    c->set_health(c->get_health() + num_kalecgos);
+// 	}
+//     }
+// }
 
 // TODO: Efficiency
 void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
@@ -192,7 +202,7 @@ void BloodsailCannoneerGolden::do_battlecry(Player* p1) {
     }
 }
 
-int CrowdFavorite::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+int CrowdFavorite::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
     if (card->has_battlecry()) {
 	set_attack(get_attack() + 1);
 	set_health(get_health() + 1);
@@ -200,7 +210,7 @@ int CrowdFavorite::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand
     return 0;
 }
 
-int CrowdFavoriteGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+int CrowdFavoriteGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
     if (card->has_battlecry()) {
 	set_attack(get_attack() + 2);
 	set_health(get_health() + 2);
@@ -734,6 +744,20 @@ void KingBagurgleGolden::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
+// int LieutenantGarr::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+//     if (card->get_race() == "ELEMENTAL" && from_hand) {
+// 	set_attack(get_attack() + 1);
+//     }
+//     return 0;
+// }
+
+// int LieutenantGarrGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+//     if (card->get_race() == "MURLOC" && from_hand) {
+// 	set_attack(get_attack() + 2);
+//     }
+//     return 0;
+// }
+
 void MalGanis::do_precombat(Board* b1, Board*b2) {
     for (auto card : b1->get_cards()) {
 	if (card->get_race() == "DEMON") {
@@ -768,7 +792,7 @@ void MalGanisGolden::do_deathrattle(Board* b1, Board*b2) {
     }
 }
 
-int MamaBear::mod_summoned(std::shared_ptr<BgBaseCard> card, bool) {
+int MamaBear::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool) {
     if (card->get_race() == "BEAST") {
 	card->set_attack(card->get_attack() + 4);
 	card->set_health(card->get_health() + 4);
@@ -776,9 +800,9 @@ int MamaBear::mod_summoned(std::shared_ptr<BgBaseCard> card, bool) {
     return 0;
 }
 
-int MamaBearGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool) {
+int MamaBearGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool) {
     for (int i = 0; i < 2; i++) {
-	pl.mod_summoned(card, false); // from hand doesn't matter
+	pl.mod_summoned(card, b1, false); // from hand doesn't matter
     }
     return 0;
 }
@@ -912,14 +936,14 @@ void MonstrousMacawGolden::do_preattack(std::shared_ptr<BgBaseCard> defender,
     macaw.do_preattack(defender, b1, b2);
 }
 
-int MurlocTidecaller::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+int MurlocTidecaller::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
     if (card->get_race() == "MURLOC" && from_hand) {
 	set_attack(get_attack() + 1);
     }
     return 0;
 }
 
-int MurlocTidecallerGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+int MurlocTidecallerGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
     if (card->get_race() == "MURLOC" && from_hand) {
 	set_attack(get_attack() + 2);
     }
@@ -1040,16 +1064,16 @@ void OldMurkeyeGolden::do_postbattle(Board* b1,
     }
 }
 
-int PackLeader::mod_summoned(std::shared_ptr<BgBaseCard> card, bool) {
+int PackLeader::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool) {
     if (card->get_race() == "BEAST") {
 	card->set_attack(card->get_attack() + 3);
     }
     return 0;
 }
 
-int PackLeaderGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool) {
+int PackLeaderGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool) {
     for (int i = 0; i < 2; i++) {
-	pl.mod_summoned(card, false); // from_hand doesn't matter
+	pl.mod_summoned(card, b1, false); // from_hand doesn't matter
     }
     return 0;
 }
@@ -1144,7 +1168,7 @@ void RockpoolHunterGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) 
     }
 }
 
-int SaltyLooter::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+int SaltyLooter::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
     if (card->get_race() == "PIRATE" && from_hand) {
 	set_attack(get_attack() + 1);
 	set_health(get_health() + 1);
@@ -1152,7 +1176,7 @@ int SaltyLooter::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) 
     return 0;
 }
 
-int SaltyLooterGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+int SaltyLooterGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
     if (card->get_race() == "PIRATE" && from_hand) {
 	set_attack(get_attack() + 2);
 	set_health(get_health() + 2);
@@ -1676,7 +1700,7 @@ void WildfireElementalGolden::do_postattack(std::shared_ptr<BgBaseCard> defender
     }
 }
 
-int WrathWeaver::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+int WrathWeaver::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
     if (card->get_race() == "DEMON" && from_hand) {
 	set_attack(get_attack() + 2);
 	set_health(get_health() + 2);
@@ -1685,7 +1709,7 @@ int WrathWeaver::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) 
     return 0;
 }
 
-int WrathWeaverGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, bool from_hand) {
+int WrathWeaverGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
     if (card->get_race() == "DEMON" && from_hand) {
 	set_attack(get_attack() + 4);
 	set_health(get_health() + 4);

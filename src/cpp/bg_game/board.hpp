@@ -161,7 +161,7 @@ public:
 	    // Else, if mecharoo was to right of surviving card, we
 	    // want it in back...
 	    for (auto card : this->get_cards()) {
-		total_dmg += card->mod_summoned(c, from_hand);
+		total_dmg += card->mod_summoned(c, this, from_hand);
 	    }
 	    cards.push_back(c);
 	    card_names.insert(c->get_name());
@@ -169,7 +169,7 @@ public:
 	}
 	else{
 	    for (auto card : this->get_cards()) {
-		total_dmg += card->mod_summoned(c, from_hand);
+		total_dmg += card->mod_summoned(c, this, from_hand);
 	    }
 	    cards.insert(cards.begin() + pos, c);
 	    card_names.insert(c->get_name());

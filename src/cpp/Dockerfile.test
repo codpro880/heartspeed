@@ -1,0 +1,30 @@
+FROM ubuntu:20.04
+RUN apt-get update
+# RUN apt-get install -y cmake
+RUN apt-get install -y clang-format
+RUN apt-get install -y clang-tidy
+RUN apt-get install -y clang-tools
+RUN apt-get install -y clang
+RUN apt-get install -y libc++-dev
+RUN apt-get install -y libc++1
+RUN apt-get install -y libc++abi-dev
+RUN apt-get install -y libc++abi1
+RUN apt-get install -y libclang-dev
+RUN apt-get install -y libclang1
+RUN apt-get install -y libomp-dev
+RUN apt-get install -y libomp5
+RUN apt-get install -y lld
+# RUN apt-get install -y lldb
+RUN apt-get install -y llvm-dev
+RUN apt-get install -y llvm-runtime
+RUN apt-get install -y llvm
+RUN apt-get install -y build-essential
+    	    	       
+RUN mkdir /app
+WORKDIR /app		      
+COPY . /app
+RUN make -j 8
+
+# CMD python /app/app.py
+# CMD
+CMD make test -j 8

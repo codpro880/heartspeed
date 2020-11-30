@@ -1,9 +1,9 @@
 .PHONY: all clean
 
 all:
-	cd bgs; make $@
+	cd bgs; $(MAKE) $@
 
 test: all
 
 clean:
-	cd bgs; make $@
+	cd bgs; $(MAKE) $@

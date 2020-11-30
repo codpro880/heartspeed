@@ -8,27 +8,45 @@ OBJ_TARGETS = $(CARD_CPP_FILES:.cpp=.o)
 #LIBRARY_PATH=/usr/local/Cellar/tbb/2020_U3_1/lib:$LIBRARY_PATH
 #DYLD_LIBRARY_PATH=/usr/local/Cellar/tbb/2020_U3_1/lib:$LIBRARY_PATH
 
+export CXX = clang++
+export OPENMP_FLAGS = -fopenmp
 
-all: bg_game cards game
+################################################################
+###### You'll mainly want to build with the docker_* rules. ####
+################################################################
+
+all: ## Builds everything (default rule)
+all: bg_game cards game 
 
 # premain: all
 
 # main: $(OBJ_TARGETS)
 # 	clang -std=c++17 -O3 -o bb_par $^
 
-bg_game:
+bg_game: ## Build game
 	cd bg_game; $(MAKE)
 
-cards:
+cards:  ## Build cards
 	cd cards; $(MAKE)
 
-test: cards game bg_game
-	cd test; $(MAKE) $@
-
-test_all: cards game bg_game
-	cd test; $(MAKE) $@
-
-clean:
+clean:  ## Clean up object files and other build artifacts
 	cd cards; $(MAKE) clean
 	cd bg_game; $(MAKE) clean
 	cd test; $(MAKE) clean
+
+docker_build: ## Build inside of docker container
+	docker build -t bgs -f Dockerfile.test .
+
+docker_test: docker_build ## Run automated tests inside of docker container
+	docker run -it bgs
+
+help:  ## Show this help.
+	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
+
+test: ## Run unit tests
+test: cards game bg_game
+	cd test; $(MAKE) $@
+
+test_all: ## Run all tests
+test_all: cards game bg_game
+	cd test; $(MAKE) $@

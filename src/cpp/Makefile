@@ -8,6 +8,9 @@ OBJ_TARGETS = $(CARD_CPP_FILES:.cpp=.o)
 #LIBRARY_PATH=/usr/local/Cellar/tbb/2020_U3_1/lib:$LIBRARY_PATH
 #DYLD_LIBRARY_PATH=/usr/local/Cellar/tbb/2020_U3_1/lib:$LIBRARY_PATH
 
+export CXX = clang++
+export OPENMP_FLAGS = -fopenmp
+
 
 all: bg_game cards game
 
@@ -21,6 +24,12 @@ bg_game:
 
 cards:
 	cd cards; $(MAKE)
+
+docker_build:
+	docker build -t bgs -f Dockerfile.test .
+
+docker_test:
+	docker run -it bgs
 
 test: cards game bg_game
 	cd test; $(MAKE) $@

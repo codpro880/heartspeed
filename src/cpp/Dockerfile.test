@@ -23,7 +23,7 @@ RUN apt-get install -y build-essential
 RUN mkdir /app
 WORKDIR /app		      
 COPY . /app
-RUN make
+RUN make -j 8
 
 # CMD python /app/app.py
 # CMD

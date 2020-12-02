@@ -454,7 +454,7 @@ function main() {
                 "has_taunt": false,
                 "has_windfury": false,
                 "health": 4,
-                "name": "Lil' Rag"
+                "name": "Lil Rag"
             },
             {
                 "attack": 6,
@@ -617,7 +617,7 @@ function main() {
                 "has_taunt": false,
                 "has_windfury": false,
                 "health": 4,
-                "name": "Lil' Rag"
+                "name": "Lil Rag"
             },
             {
                 "attack": 6,
@@ -769,7 +769,7 @@ function main() {
                 "has_taunt": false,
                 "has_windfury": false,
                 "health": 4,
-                "name": "Lil' Rag"
+                "name": "Lil Rag"
             },
             {
                 "attack": 6,
@@ -899,7 +899,7 @@ function main() {
                 "has_taunt": false,
                 "has_windfury": false,
                 "health": 4,
-                "name": "Lil' Rag"
+                "name": "Lil Rag"
             },
             {
                 "attack": 6,
@@ -1018,7 +1018,7 @@ function main() {
                 "has_taunt": false,
                 "has_windfury": false,
                 "health": 4,
-                "name": "Lil' Rag"
+                "name": "Lil Rag"
             },
             {
                 "attack": 6,
@@ -1104,7 +1104,7 @@ function main() {
                 "has_taunt": false,
                 "has_windfury": false,
                 "health": 4,
-                "name": "Lil' Rag"
+                "name": "Lil Rag"
             },
             {
                 "attack": 6,
@@ -1190,7 +1190,7 @@ function main() {
                 "has_taunt": false,
                 "has_windfury": false,
                 "health": 4,
-                "name": "Lil' Rag"
+                "name": "Lil Rag"
             },
             {
                 "attack": 6,

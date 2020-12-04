@@ -13,9 +13,11 @@ public:
     std::vector<std::string> get_current_minions(Player*); // Player arg not necessary for now, but probably will be in future
     void buy_minion(std::string minion, Player*); // Reduces players gold by three, adds minion to hand
 private:
-    std::unordered_map<std::string, int> card_pool;
+    std::unordered_map<int, std::unordered_map<std::string, int>> card_pool;
+    std::unordered_map<int, std::vector<std::string>> tier_to_cards_map;
     std::vector<std::string> current_minions;
     std::vector<std::string> begin_turn;
-    void init_minions();
+    void init_card_pool();
+    void _refresh_minions();
     int tier;
 };

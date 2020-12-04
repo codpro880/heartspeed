@@ -670,7 +670,7 @@ private:
 class MamaBear : public BgBaseCard {
 public:
     MamaBear() : BgBaseCard(4, "NEUTRAL", 8, 4, "Mama Bear",
-			    "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "MINION") {}
+			    "['TRIGGER_VISUAL']", "BEAST", "EPIC", 5, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MamaBear>(*this); } // boilerplate that every drattle needs...
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) override;
 };

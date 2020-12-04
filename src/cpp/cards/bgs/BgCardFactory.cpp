@@ -89,6 +89,21 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_race(std::
     return res;
 }
 
+std::unordered_map<int, std::vector<std::string>> BgCardFactory::get_card_names_by_tier() const {
+    std::unordered_map<int, std::vector<std::string>> res;
+    auto it = cards.begin();
+    while (it != cards.end()) {
+	auto card = it->second;
+	// TODO: Not copying here may improve performance.
+	// Maybe only return names?
+	auto tier = card->get_tavern_tier();
+	res[tier].push_back(card->get_name());
+	it++;
+    }
+    return res;
+}
+
+
 std::shared_ptr<BgBaseCard> BgCardFactory::init_card(int attack,
 				      std::string card_class,
 				      int cost,

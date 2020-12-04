@@ -188,35 +188,6 @@ BattleResult Battler::battle(Player* p1,
 	res.defender_pos.push_back(std::get<3>(battle_res));
 	bool attacker_is_dead = std::get<0>(battle_res);
 	bool defender_is_dead = std::get<1>(battle_res);
-
-	// if (p1_turn) {
-	//     b1->increment_attacker_pos();
-	// }
-	// else {
-	//     b2->increment_attacker_pos();
-	// }
-
-	// if (p1_turn) {
-	//     if (!attacker_is_dead) {
-	// 	p1_counter++;
-	//     }
-	//     auto defender_pos = std::get<2>(battle_res);
-	//     // TODO: Deal with summons...
-	//     if (defender_is_dead && defender_pos < p2_counter) {
-	// 	p2_counter--;
-	//     }
-	// }
-	// else {
-	//     if (!attacker_is_dead) {
-	// 	p2_counter++;
-	//     }
-	//     auto defender_pos = std::get<2>(battle_res);
-	//     // TODO: Deal with summons...
-	//     if (defender_is_dead && defender_pos < p1_counter) {
-	// 	p1_counter--;
-	//     }
-	// }
-
 	
 	if (!attacker_is_dead) {
 	    if (p1_turn) b1->increment_attacker_pos(); //p1_counter++;
@@ -265,24 +236,24 @@ void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker,
 	    dmg = {defender->get_attack(), attacker->get_attack(), attacker->get_attack()};
 	    cards = {attacker, defender, b2->get_cards()[def_pos+1]};
 	}
-	else if (def_pos == b2->get_cards().size()) {
+	else if (def_pos == b2->get_cards().size() - 1) {
 	    dmg = {defender->get_attack(), attacker->get_attack(), attacker->get_attack()};
 	    cards = {attacker, defender, b2->get_cards()[def_pos-1]};
-	}
-	else if (b2->get_cards().size() == (unsigned)2) {
-	    dmg = {defender->get_attack(), attacker->get_attack(), attacker->get_attack()};
-	    cards = {attacker, b2->get_cards()[0], b2->get_cards()[1]};
 	}
 	else { // More than 2 and not on ends
 	    dmg = {defender->get_attack(), attacker->get_attack(), attacker->get_attack(), attacker->get_attack()};
 	    cards = {attacker, defender, b2->get_cards()[def_pos+1], b2->get_cards()[def_pos-1]};
 	}
     }
-    else {
+    else { // One defender
 	dmg = {defender->get_attack(), attacker->get_attack()};
 	cards = {attacker, defender};
     }
     std::vector<std::string> who_from_race = {defender->get_race(), attacker->get_race()};
+    auto races_size = who_from_race.size();
+    for (size_t i = 0; i < cards.size() - races_size; i++) {
+	who_from_race.push_back(attacker->get_race());
+    }
     take_dmg_simul(cards, who_from_race, dmg, b1, b2);
     attacker->do_postattack(defender, def_pos, b1, b2);
     defender->do_postdefense(attacker, b2, b1);
@@ -303,6 +274,9 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
 				  int dmg,
 				  Board* b1,
 				  Board* b2) {
+    // auto dmgs = {dmg};
+    // auto who_from_races = {who_from_race};
+    // take_dmg_simul(cards, who_from_races, dmgs, b1,
     for (int i = 0; i < cards.size(); i++) {
 	if (b1->contains(cards[i])) {
 	    cards[i]->take_damage(dmg, who_from_race[i], b1, b2);
@@ -332,8 +306,8 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
 	else {
 	    cards[i]->take_damage(dmg[i], who_from_race[i], b2, b1);
 	}
-    }
-    
+    }    
+
     b1->remove_and_mark_dead();
     b2->remove_and_mark_dead();
 

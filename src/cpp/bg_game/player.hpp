@@ -12,6 +12,7 @@
 class Player {
 public:
     Player(std::shared_ptr<Board> board_, std::string name) : board(board_),
+							      gold(3),
 							      health(40),
 							      max_health(40),
 							      name(name),
@@ -19,6 +20,7 @@ public:
 							      tech_level(1) {}
 
     Player(std::string name) : board(new Board()),
+			       gold(3),
 			       health(40),
 			       max_health(40),
 			       name(name),
@@ -26,6 +28,7 @@ public:
 			       tech_level(1) {}
 
     Player(Hand hand, std::string name) : board(new Board()),
+					  gold(3),
 					  hand(hand),
 					  health(40),
 					  max_health(40),
@@ -95,14 +98,15 @@ public:
 	if (our_turn) {
 	    floating_watcher_hook(get_board().get(), dmg);
 	}
-    }      
-    // void reset() {
-    // 	// TODO: Make this shared ptr
-    // 	// Board* b = new Board(original_board);
-    // 	board = std::make_shared<Board>(original_board);
-    // }
+    }   
+
+    void add_gold(int g) { gold += g; }
+    void lose_gold(int g) { gold -= g; }
+    void set_gold(int g) { gold = g; }
+    int get_gold() { return gold; }
 private:
     std::shared_ptr<Board> board;
+    int gold;
     Hand hand;
     int health;
     int max_health;

@@ -12,6 +12,14 @@ BobsTavern::BobsTavern() : tier(1) {
 // }
 
 std::vector<std::string> BobsTavern::get_current_minions(Player* p1) {
+    // TODO: Make this work on a per-player basis
+    return current_minions;
+}
+
+std::vector<std::string> BobsTavern::refresh_minions(Player* p1) {
+    if (p1->get_gold() == 0) return current_minions;
+    p1->lose_gold(1);
+    _refresh_minions();
     return current_minions;
 }
 

@@ -58,9 +58,11 @@ void BobsTavern::_refresh_minions() {
 
     // Refresh
     std::vector<std::string> cards;
-    for(auto const& imap: card_pool[1]) {
-	for (int i = 0; i < imap.second; i++) {
-	    cards.push_back(imap.first);
+    for (int tt = 1; tt < player->get_tavern_tier() + 1; tt++) {
+	for(auto const& imap: card_pool[tt]) {
+	    for (int i = 0; i < imap.second; i++) {
+		cards.push_back(imap.first);
+	    }
 	}
     }
     std::unordered_set<int> indexes;
@@ -71,8 +73,10 @@ void BobsTavern::_refresh_minions() {
     for (auto const& idx : indexes) {
 	current_minions.push_back(cards[idx]);
     }
+    BgCardFactory f; // TODO: Perf issue, maybe make tav hold bg cards, not strings
     for (auto const& cur_minion : current_minions) {
-	card_pool[1][cur_minion] -= 1;
+	int tav_tier = f.get_card(cur_minion)->get_tavern_tier();
+	card_pool[tav_tier][cur_minion] -= 1;
     }
 }
 

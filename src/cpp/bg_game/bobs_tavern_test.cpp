@@ -80,27 +80,26 @@ TEST(BobsTav, AllowsPlayerToBuyMinionByPosition) { // Probably useful for RL
     EXPECT_EQ(player_cards_in_hand[0]->get_name(), minion);
 }
 
-// TEST(BobsTav, ShowsPlayerHigherTierMinions) { // Probably useful for RL
-//     // Note: Players start w/ 3 gold
-//     auto player = std::make_unique<Player>("Test");
-//     player->set_tavern_tier(3);
-//     auto tav = BobsTavern();
-//     auto avail_minions = tav.get_current_minions(player.get());
-//     EXPECT_EQ(avail_minions.size(), (unsigned)7);
+TEST(BobsTav, ShowsPlayerHigherTierMinions) {
+    auto player = std::make_unique<Player>("Test");
+    player->set_tavern_tier(3);
+    auto tav = BobsTavern(player.get());
+    auto avail_minions = tav.get_current_minions();
+    EXPECT_EQ(avail_minions.size(), (unsigned)5);
     
-//     // Expect that at least one of them is not t1 and none over t3
-//     bool all_tier1 = true;
-//     bool any_greater_than_t3 = false;
-//     BgCardFactory f;
-//     for (auto minion_name : avail_minions) {
-// 	auto tav_tier = f.get_card(minion_name)->get_tavern_tier();
-// 	if (tav_tier != 1) {
-// 	    all_tier1 = false;
-// 	}
-// 	if (tav_tier > 3) {
-// 	    any_greater_than_t3 = true;
-// 	}
-//     }
-//     EXPECT_TRUE(!all_tier1);
-//     EXPECT_TRUE(!any_greater_than_t3);
-// }
+    // Expect that at least one of them is not t1 and none over t3
+    bool all_tier1 = true;
+    bool any_greater_than_t3 = false;
+    BgCardFactory f;
+    for (auto minion_name : avail_minions) {
+	auto tav_tier = f.get_card(minion_name)->get_tavern_tier();
+	if (tav_tier != 1) {
+	    all_tier1 = false;
+	}
+	if (tav_tier > 3) {
+	    any_greater_than_t3 = true;
+	}
+    }
+    EXPECT_TRUE(!all_tier1);
+    EXPECT_TRUE(!any_greater_than_t3);
+}

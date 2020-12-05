@@ -1,7 +1,7 @@
 #include "bobs_tavern.hpp"
 #include "../cards/bgs/BgCardFactory.hpp"
 
-BobsTavern::BobsTavern() : tier(1) {
+BobsTavern::BobsTavern(Player* player) : player(player) {
     init_card_pool();
     _refresh_minions();
     // current_minions = begin_turn();
@@ -11,24 +11,24 @@ BobsTavern::BobsTavern() : tier(1) {
 //     auto num_minions = tier + 2;    
 // }
 
-std::vector<std::string> BobsTavern::get_current_minions(Player* p1) {
+std::vector<std::string> BobsTavern::get_current_minions() {
     // TODO: Make this work on a per-player basis
     return current_minions;
 }
 
-std::vector<std::string> BobsTavern::refresh_minions(Player* p1) {
-    if (p1->get_gold() == 0) return current_minions;
-    p1->lose_gold(1);
+std::vector<std::string> BobsTavern::refresh_minions() {
+    if (player->get_gold() == 0) return current_minions;
+    player->lose_gold(1);
     _refresh_minions();
     return current_minions;
 }
 
-void BobsTavern::buy_minion(int pos, Player* p1) {
+void BobsTavern::buy_minion(int pos) {
     auto minion = current_minions[pos];
-    buy_minion(minion, p1);
+    buy_minion(minion);
 }
 
-void BobsTavern::buy_minion(std::string minion, Player* p1) {
+void BobsTavern::buy_minion(std::string minion) {
     auto it = std::find(current_minions.begin(), current_minions.end(), minion);
     if (it != current_minions.end()) {
 	current_minions.erase(it);
@@ -38,8 +38,9 @@ void BobsTavern::buy_minion(std::string minion, Player* p1) {
     }
     BgCardFactory f;
     auto card = f.get_card(minion);
-    p1->add_card(card);
-    p1->lose_gold(3);
+    player->add_card(card);
+    // TODO: Add special buy mechanics like hogger
+    player->lose_gold(3);
 }
 
 // TODO: Somehow I doubt this is the most efficient way to do this
@@ -63,7 +64,7 @@ void BobsTavern::_refresh_minions() {
 	}
     }
     std::unordered_set<int> indexes;
-    while (indexes.size() != tier + 2) {
+    while (indexes.size() != player->get_tavern_tier() + 2) {
 	auto card_ind = RngSingleton::getInstance().get_rand_int() % cards.size();
 	indexes.insert(card_ind);
     }

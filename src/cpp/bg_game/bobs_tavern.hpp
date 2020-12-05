@@ -13,6 +13,7 @@ public:
     std::vector<std::string> get_current_minions(Player*); // Player arg not necessary for now, but probably will be in future
     void buy_minion(std::string minion, Player*); // Reduces players gold by three, adds minion to hand
     void buy_minion(int pos, Player*); // Reduces players gold by three, adds minion to hand
+    void sell_minion(int board_bos, Player*); // Removes card from board, gives player a gold
 private:
     std::unordered_map<int, std::unordered_map<std::string, int>> card_pool;
     std::unordered_map<int, std::vector<std::string>> tier_to_cards_map;

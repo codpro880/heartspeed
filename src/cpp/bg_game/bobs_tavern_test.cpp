@@ -90,16 +90,22 @@ TEST(BobsTav, ShowsPlayerHigherTierMinions) {
     // Expect that at least one of them is not t1 and none over t3
     bool all_tier1 = true;
     bool any_greater_than_t3 = false;
+    bool any_golden = false;
     BgCardFactory f;
     for (auto minion_name : avail_minions) {
-	auto tav_tier = f.get_card(minion_name)->get_tavern_tier();
+	auto card = f.get_card(minion_name);
+	auto tav_tier = card->get_tavern_tier();
 	if (tav_tier != 1) {
 	    all_tier1 = false;
 	}
 	if (tav_tier > 3) {
 	    any_greater_than_t3 = true;
 	}
+	if (card->is_golden()) {
+	    any_golden = true;
+	}
     }
     EXPECT_TRUE(!all_tier1);
     EXPECT_TRUE(!any_greater_than_t3);
+    EXPECT_TRUE(!any_golden);
 }

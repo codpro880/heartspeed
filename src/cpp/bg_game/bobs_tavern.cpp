@@ -1,7 +1,7 @@
 #include "bobs_tavern.hpp"
 #include "../cards/bgs/BgCardFactory.hpp"
 
-BobsTavern::BobsTavern() : tier(1) {
+BobsTavern::BobsTavern(Player* player) : player(player) {
     init_card_pool();
     _refresh_minions();
     // current_minions = begin_turn();
@@ -11,8 +11,41 @@ BobsTavern::BobsTavern() : tier(1) {
 //     auto num_minions = tier + 2;    
 // }
 
-std::vector<std::string> BobsTavern::get_current_minions(Player* p1) {
+std::vector<std::string> BobsTavern::get_current_minions() {
+    // TODO: Make this work on a per-player basis
     return current_minions;
+}
+
+std::vector<std::string> BobsTavern::refresh_minions() {
+    if (player->get_gold() == 0) return current_minions;
+    player->lose_gold(1);
+    _refresh_minions();
+    return current_minions;
+}
+
+void BobsTavern::buy_minion(int pos) {
+    auto minion = current_minions[pos];
+    buy_minion(minion);
+}
+
+void BobsTavern::buy_minion(std::string minion) {
+    auto it = std::find(current_minions.begin(), current_minions.end(), minion);
+    if (it != current_minions.end()) {
+	current_minions.erase(it);
+    }
+    else {
+	return;
+    }
+    BgCardFactory f;
+    auto card = f.get_card(minion);
+    player->add_card(card);
+    // TODO: Add special buy mechanics like hogger
+    player->lose_gold(3);
+}
+
+void BobsTavern::sell_minion(int pos) {    
+    player->remove_card(pos);
+    player->add_gold(1);
 }
 
 // TODO: Somehow I doubt this is the most efficient way to do this
@@ -30,21 +63,25 @@ void BobsTavern::_refresh_minions() {
 
     // Refresh
     std::vector<std::string> cards;
-    for(auto const& imap: card_pool[1]) {
-	for (int i = 0; i < imap.second; i++) {
-	    cards.push_back(imap.first);
+    for (int tt = 1; tt < player->get_tavern_tier() + 1; tt++) {
+	for(auto const& imap: card_pool[tt]) {
+	    for (int i = 0; i < imap.second; i++) {
+		cards.push_back(imap.first);
+	    }
 	}
     }
     std::unordered_set<int> indexes;
-    while (indexes.size() != tier + 2) {
+    while (indexes.size() != player->get_tavern_tier() + 2) {
 	auto card_ind = RngSingleton::getInstance().get_rand_int() % cards.size();
 	indexes.insert(card_ind);
     }
     for (auto const& idx : indexes) {
 	current_minions.push_back(cards[idx]);
     }
+    BgCardFactory f; // TODO: Perf issue, maybe make tav hold bg cards, not strings
     for (auto const& cur_minion : current_minions) {
-	card_pool[1][cur_minion] -= 1;
+	int tav_tier = f.get_card(cur_minion)->get_tavern_tier();
+	card_pool[tav_tier][cur_minion] -= 1;
     }
 }
 

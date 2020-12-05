@@ -94,10 +94,10 @@ std::unordered_map<int, std::vector<std::string>> BgCardFactory::get_card_names_
     auto it = cards.begin();
     while (it != cards.end()) {
 	auto card = it->second;
-	// TODO: Not copying here may improve performance.
-	// Maybe only return names?
 	auto tier = card->get_tavern_tier();
-	res[tier].push_back(card->get_name());
+	if (!card->is_golden()) {
+	    res[tier].push_back(card->get_name());
+	}
 	it++;
     }
     return res;

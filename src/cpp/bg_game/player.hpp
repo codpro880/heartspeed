@@ -12,26 +12,29 @@
 class Player {
 public:
     Player(std::shared_ptr<Board> board_, std::string name) : board(board_),
+							      gold(3),
 							      health(40),
 							      max_health(40),
 							      name(name),
 							      original_board(std::make_shared<Board>(board_)),
-							      tech_level(1) {}
+							      tavern_tier(1) {}
 
     Player(std::string name) : board(new Board()),
+			       gold(3),
 			       health(40),
 			       max_health(40),
 			       name(name),
 			       original_board(new Board()),
-			       tech_level(1) {}
+			       tavern_tier(1) {}
 
     Player(Hand hand, std::string name) : board(new Board()),
+					  gold(3),
 					  hand(hand),
 					  health(40),
 					  max_health(40),
 					  name(name),
 					  original_board(new Board()),					  
-					  tech_level(1) {}
+					  tavern_tier(1) {}
     
     Player(Player* player) {
     	board = std::make_shared<Board>(player->get_original_board());
@@ -40,14 +43,13 @@ public:
 	max_health = player->get_max_health();
 	name = player->get_name();
 	original_board = std::make_shared<Board>(player->get_original_board());
-	tech_level = player->get_tech_level();
-
+	tavern_tier = player->get_tavern_tier();
     }
 
     // TODO: Impl bobs tav
     // void buy_card(std::shared_ptr<BgBaseCard> c) { hand.add_card(c); }
-    int calculate_damage() const { return tech_level + board->calculate_damage(); }
-    void inc_tech_level() { tech_level += 1; }
+    int calculate_damage() const { return tavern_tier + board->calculate_damage(); }
+    void inc_tavern_tier() { tavern_tier += 1; }
     std::shared_ptr<Board> get_board() const { return board; }
     Hand get_hand() const { return hand; }
     std::shared_ptr<Board> get_original_board() const { return original_board; }
@@ -57,10 +59,15 @@ public:
     int get_max_health() const { return max_health; }
     int get_damage_taken() const { std::cerr << "Dmg taken: " << max_health - health << std::endl; return max_health - health; }
     std::string get_name() const { return name; }
-    int get_tech_level() const { return tech_level; }
+    int get_tavern_tier() const { return tavern_tier; }
+    void set_tavern_tier(int tav_tier) { tavern_tier = tav_tier; }
 
     void add_card(std::shared_ptr<BgBaseCard> card) {
 	hand.add_card(card);
+    }
+
+    void remove_card(int pos) {
+	hand.remove_card(pos);
     }
     
     void play_card(std::shared_ptr<BgBaseCard> card, uint8_t board_pos) {
@@ -95,20 +102,21 @@ public:
 	if (our_turn) {
 	    floating_watcher_hook(get_board().get(), dmg);
 	}
-    }      
-    // void reset() {
-    // 	// TODO: Make this shared ptr
-    // 	// Board* b = new Board(original_board);
-    // 	board = std::make_shared<Board>(original_board);
-    // }
+    }   
+
+    void add_gold(int g) { gold += g; }
+    void lose_gold(int g) { gold -= g; }
+    void set_gold(int g) { gold = g; }
+    int get_gold() { return gold; }
 private:
     std::shared_ptr<Board> board;
+    int gold;
     Hand hand;
     int health;
     int max_health;
     std::string name;
     std::shared_ptr<Board> original_board; // Read-only board
-    int tech_level;
+    int tavern_tier;
 
     // TODO: Make this more efficient
     void floating_watcher_hook(Board* b1, int dmg_taken) {

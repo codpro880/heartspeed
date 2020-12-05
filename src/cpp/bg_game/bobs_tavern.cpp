@@ -43,6 +43,11 @@ void BobsTavern::buy_minion(std::string minion) {
     player->lose_gold(3);
 }
 
+void BobsTavern::sell_minion(int pos) {    
+    player->remove_card(pos);
+    player->add_gold(1);
+}
+
 // TODO: Somehow I doubt this is the most efficient way to do this
 void BobsTavern::_refresh_minions() {
     // Return current minions to card pool

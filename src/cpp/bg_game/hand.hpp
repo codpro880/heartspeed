@@ -3,6 +3,7 @@ public:
     Hand(std::vector<std::shared_ptr<BgBaseCard>> cards) : cards(cards) {}
     Hand() {}
     void add_card(std::shared_ptr<BgBaseCard> card) { cards.push_back(card); }
+    void remove_card(int pos) { cards.erase(cards.begin() + pos); }
     std::vector<std::shared_ptr<BgBaseCard>> get_cards() { return cards; }
     // void play_card(std::shared_ptr<BgBaseCard> card,
 

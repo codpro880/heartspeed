@@ -109,3 +109,15 @@ TEST(BobsTav, ShowsPlayerHigherTierMinions) {
     EXPECT_TRUE(!any_greater_than_t3);
     EXPECT_TRUE(!any_golden);
 }
+
+TEST(BobsTav, AllowsPlayerToSellBack) {
+    // Note: Players start w/ 3 gold
+    auto tidecaller = BgCardFactory().get_card("Murloc Tidecaller");
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards { tidecaller };
+    auto in_hand = Hand(hand_cards);    
+    auto player = std::make_unique<Player>(in_hand, "Test");
+    auto tav = BobsTavern(player.get());
+    tav.sell_minion(0);
+    EXPECT_EQ(player->get_gold(), 4);
+    EXPECT_EQ(player->get_hand().size(), 0);
+}

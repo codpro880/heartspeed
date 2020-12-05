@@ -23,10 +23,18 @@ std::vector<std::string> BobsTavern::refresh_minions(Player* p1) {
     return current_minions;
 }
 
+void BobsTavern::buy_minion(int pos, Player* p1) {
+    auto minion = current_minions[pos];
+    buy_minion(minion, p1);
+}
+
 void BobsTavern::buy_minion(std::string minion, Player* p1) {
     auto it = std::find(current_minions.begin(), current_minions.end(), minion);
     if (it != current_minions.end()) {
 	current_minions.erase(it);
+    }
+    else {
+	return;
     }
     BgCardFactory f;
     auto card = f.get_card(minion);

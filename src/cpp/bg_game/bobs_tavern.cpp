@@ -23,6 +23,17 @@ std::vector<std::string> BobsTavern::refresh_minions(Player* p1) {
     return current_minions;
 }
 
+void BobsTavern::buy_minion(std::string minion, Player* p1) {
+    auto it = std::find(current_minions.begin(), current_minions.end(), minion);
+    if (it != current_minions.end()) {
+	current_minions.erase(it);
+    }
+    BgCardFactory f;
+    auto card = f.get_card(minion);
+    p1->add_card(card);
+    p1->lose_gold(3);
+}
+
 // TODO: Somehow I doubt this is the most efficient way to do this
 void BobsTavern::_refresh_minions() {
     // Return current minions to card pool

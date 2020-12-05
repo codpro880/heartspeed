@@ -53,3 +53,17 @@ TEST(BobsTav, WontRefreshWithZeroGold) {
 
     EXPECT_EQ(avail_minions, refreshed_minions);
 }
+
+TEST(BobsTav, AllowsPlayerToBuyMinionInShop) {
+    // Note: Players start w/ 3 gold
+    auto player = std::make_unique<Player>("Test");
+    auto tav = BobsTavern();
+    auto avail_minions = tav.get_current_minions(player.get());
+    auto minion = avail_minions[0];
+    tav.buy_minion(minion, player.get());
+    EXPECT_EQ(player->get_gold(), 0);
+    EXPECT_EQ(player->get_hand().size(), 1);
+    auto player_cards_in_hand = player->get_hand().get_cards();
+    EXPECT_EQ(player_cards_in_hand[0]->get_name(), minion);
+}
+

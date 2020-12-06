@@ -121,3 +121,18 @@ TEST(BobsTav, AllowsPlayerToSellBack) {
     EXPECT_EQ(player->get_gold(), 4);
     EXPECT_EQ(player->get_hand().size(), 0);
 }
+
+// TEST(BobsTav, GivesSellemental) {
+//     // Note: Players start w/ 3 gold
+//     auto sellemental = BgCardFactory().get_card("Sellemental");
+//     std::vector<std::shared_ptr<BgBaseCard> > hand_cards { sellemental };
+//     auto in_hand = Hand(hand_cards);
+//     auto player = std::make_unique<Player>(in_hand, "Test");
+//     player->play_card(0, 0);
+//     EXPECT_EQ(player->get_hand().size(), 0);
+//     auto tav = BobsTavern(player.get());
+//     tav.sell_minion(0);
+//     EXPECT_EQ(player->get_gold(), 4);
+//     EXPECT_EQ(player->get_hand().size(), 1);
+//     EXPECT_EQ(player->get_hand().get_cards()[0]->get_name(), "Water Droplet");
+// }

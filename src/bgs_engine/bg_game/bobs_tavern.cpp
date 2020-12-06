@@ -44,8 +44,9 @@ void BobsTavern::buy_minion(std::string minion) {
 }
 
 void BobsTavern::sell_minion(int pos) {    
-    player->remove_card(pos);
-    player->add_gold(1);
+    auto card = player->remove_card(pos);
+    card->on_sell(player);
+    // player->add_gold(1);
 }
 
 // TODO: Somehow I doubt this is the most efficient way to do this

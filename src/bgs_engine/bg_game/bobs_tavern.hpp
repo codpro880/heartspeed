@@ -22,5 +22,4 @@ private:
     std::vector<std::string> begin_turn;
     void init_card_pool();
     void _refresh_minions();
-    // int tier;
 };

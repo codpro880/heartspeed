@@ -108,3 +108,7 @@ void BgBaseCard::multi_summon(int num_summons, Board* b1, bool from_hand) {
 	b1->insert_card(insert_pos, summoned_card, from_hand);
     }
 }
+
+void BgBaseCard::on_sell(Player* p1) {
+    p1->add_gold(1);
+}

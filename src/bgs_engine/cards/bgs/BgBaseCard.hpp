@@ -186,6 +186,7 @@ public:
     void basic_summon(Player* p1, bool from_hand = false);
     void multi_summon(int num_summons, Board* b1, bool from_hand = false);
     void multi_summon(int num_summons, Player* p1, bool from_hand = false);
+    void on_sell(Player* p1);
 
     virtual void take_damage(int damage, std::string who_from_race, Board* b1, Board* b2);
 

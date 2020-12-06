@@ -66,8 +66,10 @@ public:
 	hand.add_card(card);
     }
 
-    void remove_card(int pos) {
+    std::shared_ptr<BgBaseCard> remove_card(int pos) {
+	auto card = hand.get_cards()[pos];
 	hand.remove_card(pos);
+	return card;
     }
     
     void play_card(std::shared_ptr<BgBaseCard> card, uint8_t board_pos) {

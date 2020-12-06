@@ -503,8 +503,8 @@ void BgCardFactory::init_cards() {
 										   "", "ELEMENTAL", "", 5, "MINION"));
     
     // O
-    cards.emplace("Old Murkeye", std::make_shared<OldMurkeye>());
-    cards.emplace("Old Murkeye (Golden)", std::make_shared<OldMurkeyeGolden>());
+    cards.emplace("Old Murk-Eye", std::make_shared<OldMurkeye>());
+    cards.emplace("Old Murk-Eye (Golden)", std::make_shared<OldMurkeyeGolden>());
 
     // P
     cards.emplace("Pack Leader", std::make_shared<PackLeader>());

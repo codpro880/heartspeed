@@ -1065,9 +1065,9 @@ TEST(Battler, OldMurkey) {
     gambler->set_attack(4);
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
 	{
-	 f.get_card("Old Murkeye"),
-	 f.get_card("Old Murkeye"),
-	 f.get_card("Old Murkeye")
+	 f.get_card("Old Murk-Eye"),
+	 f.get_card("Old Murk-Eye"),
+	 f.get_card("Old Murk-Eye")
 	};
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
 	{
@@ -1093,9 +1093,9 @@ TEST(Battler, OldMurkeyProperDamage) {
     gambler->set_attack(4);
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
 	{
-	 f.get_card("Old Murkeye"),
-	 f.get_card("Old Murkeye"),
-	 f.get_card("Old Murkeye")
+	 f.get_card("Old Murk-Eye"),
+	 f.get_card("Old Murk-Eye"),
+	 f.get_card("Old Murk-Eye")
 	};
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
 	{

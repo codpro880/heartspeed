@@ -1,3 +1,5 @@
 *~
 *.o
 *.a
+*.pyc
+__pycache__

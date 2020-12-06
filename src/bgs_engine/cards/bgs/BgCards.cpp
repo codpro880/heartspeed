@@ -304,12 +304,10 @@ void DefenderOfArgusGolden::do_battlecry(Player* p1) {
 
 // >>>>>>> Stashed changes
 void Djinni::do_deathrattle(Board* b1, Board* b2) {
-    std::cerr << "Basic summon..." << std::endl;
     basic_summon(b1);
 }
 
 std::shared_ptr<BgBaseCard> Djinni::summon() {
-    std::cerr << "Summoning." << std::endl;
     auto f = BgCardFactory();
     auto cards = f.get_cards_of_race("ELEMENTAL");
     // TOOD: Use a map or something more efficient
@@ -1337,7 +1335,6 @@ std::shared_ptr<BgBaseCard> SecurityRoverGolden::summon() {
     return f.get_card("Guard Bot (Golden)");
 }
 
-
 void SelflessHero::do_deathrattle(Board* b1, Board*b2) {
     // Cards w/o divine shield
     std::vector<std::shared_ptr<BgBaseCard> > cards;
@@ -1357,6 +1354,20 @@ void SelflessHeroGolden::do_deathrattle(Board* b1, Board*b2) {
     for (int i = 0; i < 2; i++) {
 	hero.do_deathrattle(b1, b2);
     }
+}
+
+void Sellemental::on_sell(Player* p1) {
+    BgCardFactory f;
+    auto wd = f.get_card("Water Droplet");
+    p1->add_card_to_hand(wd);
+    p1->add_gold(1);
+}
+
+void SellementalGolden::on_sell(Player* p1) {
+    BgCardFactory f;
+    auto wd = f.get_card("Water Droplet (Golden)");
+    p1->add_card_to_hand(wd);
+    p1->add_gold(1);
 }
 
 void Siegebreaker::do_precombat(Board* b1, Board*b2) {
@@ -1511,7 +1522,7 @@ void TavernTempest::do_battlecry(Player* p1) {
     auto f = BgCardFactory();
     auto elementals = f.get_cards_of_race("ELEMENTAL");
     auto card = elementals[RngSingleton::getInstance().get_rand_int() % elementals.size()];
-    p1->add_card(card);
+    p1->add_card_to_hand(card);
 }
 
 void TavernTempestGolden::do_battlecry(Player* p1) {

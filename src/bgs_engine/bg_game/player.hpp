@@ -62,13 +62,13 @@ public:
     int get_tavern_tier() const { return tavern_tier; }
     void set_tavern_tier(int tav_tier) { tavern_tier = tav_tier; }
 
-    void add_card(std::shared_ptr<BgBaseCard> card) {
+    void add_card_to_hand(std::shared_ptr<BgBaseCard> card) {
 	hand.add_card(card);
     }
 
-    std::shared_ptr<BgBaseCard> remove_card(int pos) {
-	auto card = hand.get_cards()[pos];
-	hand.remove_card(pos);
+    std::shared_ptr<BgBaseCard> remove_card_from_board(int pos) {
+	auto card = board->get_cards()[pos];
+	board->remove(pos);
 	return card;
     }
     

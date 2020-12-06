@@ -38,15 +38,14 @@ void BobsTavern::buy_minion(std::string minion) {
     }
     BgCardFactory f;
     auto card = f.get_card(minion);
-    player->add_card(card);
+    player->add_card_to_hand(card);
     // TODO: Add special buy mechanics like hogger
     player->lose_gold(3);
 }
 
-void BobsTavern::sell_minion(int pos) {    
-    auto card = player->remove_card(pos);
+void BobsTavern::sell_minion(int pos) {
+    auto card = player->remove_card_from_board(pos);
     card->on_sell(player);
-    // player->add_gold(1);
 }
 
 // TODO: Somehow I doubt this is the most efficient way to do this

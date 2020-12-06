@@ -1186,6 +1186,22 @@ private:
     SelflessHero hero;
 };
 
+class Sellemental : public BgBaseCard {
+public:
+    Sellemental() : BgBaseCard(2, "NEUTRAL", -1, 2, "Sellemental",
+			       "", "ELEMENTAL", "", 1, "MINION") {}
+    void on_sell(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Sellemental>(*this); } // boilerplate that every drattle needs...
+};
+
+class SellementalGolden : public BgBaseCard {
+public:
+    SellementalGolden() : BgBaseCard(4, "NEUTRAL", -1, 4, "Sellemental (Golden)",
+				     "", "ELEMENTAL", "", 1, "MINION") {}
+    void on_sell(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SellementalGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 class Siegebreaker : public BgBaseCard {
 public:
     Siegebreaker() : BgBaseCard(5, "WARLOCK", 7, 8,  "Siegebreaker",

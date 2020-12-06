@@ -8,26 +8,28 @@ class BaseCard(ABC):
 
     Properties:
     * Attack (int)
+    * Card Class (str)
     * Cost (int)
     * Health (int)
     * Name (str)
-    * Card Class (str)
     * Mechanics (str)
     * Race (str)
     * Rarity (str)
     * Tavern Tier (int)
+    * Card Type (str)
 
     """
     def __init__(self,
                  attack: int,
+                 card_class: str,
                  cost: int,
                  health: int,
                  name: str,
-                 card_class: str,
                  mechanics: str,
                  race: str,
                  rarity: str,
-                 tavern_tier: str):
+                 tavern_tier: str,
+                 card_type: str):
         self.attack = attack
         self.cost = cost
         self.health = health
@@ -37,6 +39,7 @@ class BaseCard(ABC):
         self.race = race
         self.rarity = rarity
         self.tavern_tier = tavern_tier
+        self.card_type = card_type
         super().__init__()
 
 

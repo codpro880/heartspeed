@@ -273,6 +273,22 @@ private:
 
 // Floating Watcher handled by player class
 
+class FreedealingGambler : public BgBaseCard {
+public:
+    FreedealingGambler() : BgBaseCard(3, "NEUTRAL", 3, 3, "Freedealing Gambler",
+				      "", "PIRATE", "", 2, "MINION") {}
+    void on_sell(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<FreedealingGambler>(*this); } // boilerplate that every drattle needs...
+};
+
+class FreedealingGamblerGolden : public BgBaseCard {
+public:
+    FreedealingGamblerGolden() : BgBaseCard(6, "NEUTRAL", 3, 6, "Freedealing Gambler (Golden)",
+					    "", "PIRATE", "", 2, "MINION") {}
+    void on_sell(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<FreedealingGamblerGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 class Ghastcoiler : public DeathrattleCard {
 public:
     Ghastcoiler() : BgBaseCard(7, "PRIEST", 6, 7, "Ghastcoiler",

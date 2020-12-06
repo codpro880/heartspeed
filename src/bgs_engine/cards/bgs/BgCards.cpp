@@ -364,6 +364,14 @@ void FiendishServantGolden::do_deathrattle(Board* b1, Board*b2) {
     }
 }
 
+void FreedealingGambler::on_sell(Player* p1) {
+    p1->add_gold(3);
+}
+
+void FreedealingGamblerGolden::on_sell(Player* p1) {
+    p1->add_gold(6);
+}
+
 void Ghastcoiler::do_deathrattle(Board* b1, Board* b2) {
     multi_summon(2, b1);
 }

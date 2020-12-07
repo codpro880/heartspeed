@@ -117,7 +117,53 @@ TEST(BobsTav, AllowsPlayerToSellBack) {
     auto in_hand = Hand(hand_cards);    
     auto player = std::make_unique<Player>(in_hand, "Test");
     auto tav = BobsTavern(player.get());
+    player->play_card(0, 0);
     tav.sell_minion(0);
     EXPECT_EQ(player->get_gold(), 4);
     EXPECT_EQ(player->get_hand().size(), 0);
 }
+
+TEST(BobsTav, GivesPlayerWaterDropletCardInHandWhenSellementalSold) {
+    BgCardFactory f;
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Sellemental"),
+	 f.get_card("Sellemental (Golden)")	 
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = std::make_unique<Player>(in_hand, "Test");
+    player->play_card(0, 0);
+    player->play_card(0, 1);
+    EXPECT_EQ(player->get_hand().size(), 0);
+    EXPECT_EQ(player->get_board()->size(), 2);
+    auto tav = BobsTavern(player.get());
+    tav.sell_minion(0);
+    tav.sell_minion(0);
+    // Should have non gold and gold water droplet in hand
+    EXPECT_EQ(player->get_gold(), 5); // Note: Players start w/ 3 gold
+    EXPECT_EQ(player->get_hand().size(), 2);
+    EXPECT_EQ(player->get_hand().get_cards()[0]->get_name(), "Water Droplet");
+    EXPECT_EQ(player->get_hand().get_cards()[1]->get_name(), "Water Droplet (Golden)");
+}
+
+TEST(BobsTav, GivesPlayerALotMoreThanNormalGoldWhenFreedealingGamblerSold) {
+    BgCardFactory f;
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Freedealing Gambler"),
+	 f.get_card("Freedealing Gambler (Golden)")	 
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = std::make_unique<Player>(in_hand, "Test");
+    player->set_gold(0); // Set to 0 so we can test appropriately (10 gold cap)
+    player->play_card(0, 0);
+    player->play_card(0, 1);
+    EXPECT_EQ(player->get_hand().size(), 0);
+    EXPECT_EQ(player->get_board()->size(), 2);
+    auto tav = BobsTavern(player.get());
+    tav.sell_minion(0);
+    tav.sell_minion(0);
+    // 3 from non golden, 6 from golden
+    EXPECT_EQ(player->get_gold(), 9);
+}
+

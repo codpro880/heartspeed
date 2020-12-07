@@ -121,3 +121,50 @@ TEST(BobsTav, AllowsPlayerToSellBack) {
     EXPECT_EQ(player->get_gold(), 4);
     EXPECT_EQ(player->get_hand().size(), 0);
 }
+
+TEST(BobsTav, TavernUpMechanismWorks) {
+    // Note: Players start w/ 3 gold. In this test, however, we give them
+    //       enough to test everything successfully with.
+    auto tidecaller = BgCardFactory().get_card("Murloc Tidecaller");
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards { tidecaller };
+    auto in_hand = Hand(hand_cards);
+    auto player = std::make_unique<Player>(in_hand, "Test");
+    player->set_gold(100);
+    auto tav = BobsTavern(player.get());
+    // NOTE: Players start out at tavern tier 1
+    EXPECT_EQ(player->get_tavern_tier(), 1);
+    auto tier_1to2 = tav.tavern_up();
+    EXPECT_EQ(player->get_tavern_tier(), 2);
+    EXPECT_TRUE(tier_1to2);
+    auto tier_2to3 = tav.tavern_up(); // Tier 3
+    auto tier_3to4 = tav.tavern_up(); // Tier 4
+    auto tier_4to5 = tav.tavern_up(); // Tier 5
+    auto tier_5to6 = tav.tavern_up(); // Tier 6
+    auto tier_oops = tav.tavern_up(); // Oops... Max tier is 6.
+    // Check upper bound
+    EXPECT_EQ(player->get_tavern_tier(), 6);
+    EXPECT_TRUE(!tier_oops);
+}
+
+TEST(BobsTavern, TavernUpMechanismPlayerNotEnoughGold) {
+    // Note: Players start w/ 3 gold
+    auto tidecaller = BgCardFactory().get_card("Murloc Tidecaller");
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards { tidecaller };
+    auto in_hand = Hand(hand_cards);
+    auto player = std::make_unique<Player>(in_hand, "Test");
+    auto tav = BobsTavern(player.get());
+    // Ensure player does not have enough to tavern up
+    auto tier_1to2 = tav.tavern_up();
+    EXPECT_EQ(player->get_tavern_tier(), 1);
+    EXPECT_TRUE(!tier_1to2);
+    // Now give them just enough gold to upgrade and try again.
+    player->add_gold(2);
+    auto tier_1to2_again = tav.tavern_up();
+    EXPECT_EQ(player->get_tavern_tier(), 2);
+    EXPECT_TRUE(tier_1to2_again);
+}
+
+TEST(BobsTavern, TavernUpProducesCorrectCards) {
+    // TODO: Write this test.
+    EXPECT_TRUE(true);
+}

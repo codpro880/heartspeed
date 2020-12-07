@@ -6,9 +6,12 @@ from BaseCard import BaseCard
 #####################
 class PirateCard(BaseCard):
 
-    def __init__(self):
-        # TODO
-        super().__init__()
+    def __init__(self, attack: int, card_class: str,
+                 cost: int, health: int, name: str,
+                 mechanics: str, race: str, rarity: str,
+                 tavern_tier: str, card_type: str):
+        super().__init__(attack, card_class, cost, health, name, mechanics,
+                         race, rarity, tavern_tier, card_type)
 
     def do_preattack(self, defender, board1, board2):
         # TODO

@@ -27,7 +27,7 @@ jobs:
      - run: ls /home/circleci/project
 
      # build the application image
-     - run: cd /home/circleci/project/heartspeed/src/bg_engine && docker build -t bgs -f Dockerfile.test .
+     - run: cd /home/circleci/project/src/bg_engine && docker build -t bgs -f Dockerfile.test .
 
      # deploy the image
      - run: docker run -it bgs

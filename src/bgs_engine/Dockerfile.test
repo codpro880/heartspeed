@@ -1,5 +1,10 @@
 FROM ubuntu:20.04
-RUN apt-get update
+RUN apt-get update \
+  && apt-get install -y python3-pip python3-dev \
+  && cd /usr/local/bin \
+  && ln -s /usr/bin/python3 python \
+  && pip3 install --upgrade pip
+RUN pip3 install pybind11
 # RUN apt-get install -y cmake
 RUN apt-get install -y clang-format
 RUN apt-get install -y clang-tidy
@@ -19,7 +24,7 @@ RUN apt-get install -y llvm-dev
 RUN apt-get install -y llvm-runtime
 RUN apt-get install -y llvm
 RUN apt-get install -y build-essential
-    	    	       
+
 RUN mkdir /app
 WORKDIR /app		      
 COPY . /app

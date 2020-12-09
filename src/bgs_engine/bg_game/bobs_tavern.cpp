@@ -3,6 +3,7 @@
 
 BobsTavern::BobsTavern(Player* player) : player(player) {
     init_card_pool();
+    init_tav_tier_cost();
     _refresh_minions();
     // current_minions = begin_turn();
 }
@@ -41,6 +42,24 @@ void BobsTavern::buy_minion(std::string minion) {
     player->add_card_to_hand(card);
     // TODO: Add special buy mechanics like hogger
     player->lose_gold(3);
+}
+
+bool BobsTavern::tavern_up() {
+    int current_tier = player->get_tavern_tier();
+    if (current_tier < 6) {
+        int player_gold = player->get_gold();
+        // TODO: Implement turn-dependent tavern tier upgrade cost.
+        int upgrade_cost = tav_tier_cost[current_tier + 1];
+        if (player_gold >= upgrade_cost) {
+	    player->lose_gold(upgrade_cost);
+            player->inc_tavern_tier();
+            return true;
+	} else {
+	    return false;
+	}
+    } else {
+        return false;
+  }
 }
 
 void BobsTavern::sell_minion(int pos) {
@@ -83,6 +102,14 @@ void BobsTavern::_refresh_minions() {
 	int tav_tier = f.get_card(cur_minion)->get_tavern_tier();
 	card_pool[tav_tier][cur_minion] -= 1;
     }
+}
+
+void BobsTavern::init_tav_tier_cost() {
+    tav_tier_cost[2] = 5;
+    tav_tier_cost[3] = 7;
+    tav_tier_cost[4] = 8;
+    tav_tier_cost[5] = 9;
+    tav_tier_cost[6] = 11;
 }
 
 void BobsTavern::init_card_pool() {

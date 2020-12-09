@@ -53,7 +53,6 @@ bool BobsTavern::tavern_up() {
         if (player_gold >= upgrade_cost) {
 	    player->lose_gold(upgrade_cost);
             player->inc_tavern_tier();
-	    // TODO: Do we refresh cards here?
             return true;
 	} else {
 	    return false;

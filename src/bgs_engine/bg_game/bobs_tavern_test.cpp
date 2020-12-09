@@ -126,9 +126,6 @@ TEST(BobsTav, AllowsPlayerToSellBack) {
 TEST(BobsTav, TavernUpMechanismWorks) {
     // Note: Players start w/ 3 gold. In this test, however, we give them
     //       enough to test everything successfully with.
-    auto tidecaller = BgCardFactory().get_card("Murloc Tidecaller");
-    std::vector<std::shared_ptr<BgBaseCard> > hand_cards { tidecaller };
-    auto in_hand = Hand(hand_cards);
     auto player = std::make_unique<Player>("Test");
     player->set_gold(100);
     auto tav = BobsTavern(player.get());
@@ -149,10 +146,7 @@ TEST(BobsTav, TavernUpMechanismWorks) {
 
 TEST(BobsTavern, TavernUpMechanismPlayerNotEnoughGold) {
     // Note: Players start w/ 3 gold
-    auto tidecaller = BgCardFactory().get_card("Murloc Tidecaller");
-    std::vector<std::shared_ptr<BgBaseCard> > hand_cards { tidecaller };
-    auto in_hand = Hand(hand_cards);
-    auto player = std::make_unique<Player>(in_hand, "Test");
+    auto player = std::make_unique<Player>("Test");
     auto tav = BobsTavern(player.get());
     // Ensure player does not have enough to tavern up
     auto tier_1to2 = tav.tavern_up();

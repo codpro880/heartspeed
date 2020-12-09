@@ -273,6 +273,22 @@ private:
 
 // Floating Watcher handled by player class
 
+class FreedealingGambler : public BgBaseCard {
+public:
+    FreedealingGambler() : BgBaseCard(3, "NEUTRAL", 3, 3, "Freedealing Gambler",
+				      "", "PIRATE", "", 2, "MINION") {}
+    void on_sell(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<FreedealingGambler>(*this); } // boilerplate that every drattle needs...
+};
+
+class FreedealingGamblerGolden : public BgBaseCard {
+public:
+    FreedealingGamblerGolden() : BgBaseCard(6, "NEUTRAL", 3, 6, "Freedealing Gambler (Golden)",
+					    "", "PIRATE", "", 2, "MINION") {}
+    void on_sell(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<FreedealingGamblerGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 class Ghastcoiler : public DeathrattleCard {
 public:
     Ghastcoiler() : BgBaseCard(7, "PRIEST", 6, 7, "Ghastcoiler",
@@ -1184,6 +1200,22 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SelflessHeroGolden>(*this); } // boilerplate that every drattle needs...
 private:
     SelflessHero hero;
+};
+
+class Sellemental : public BgBaseCard {
+public:
+    Sellemental() : BgBaseCard(2, "NEUTRAL", -1, 2, "Sellemental",
+			       "", "ELEMENTAL", "", 1, "MINION") {}
+    void on_sell(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Sellemental>(*this); } // boilerplate that every drattle needs...
+};
+
+class SellementalGolden : public BgBaseCard {
+public:
+    SellementalGolden() : BgBaseCard(4, "NEUTRAL", -1, 4, "Sellemental (Golden)",
+				     "", "ELEMENTAL", "", 1, "MINION") {}
+    void on_sell(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SellementalGolden>(*this); } // boilerplate that every drattle needs...
 };
 
 class Siegebreaker : public BgBaseCard {

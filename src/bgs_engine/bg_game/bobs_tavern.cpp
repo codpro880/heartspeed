@@ -101,11 +101,12 @@ void BobsTavern::_refresh_minions() {
 }
 
 void BobsTavern::init_tav_tier_cost() {
+    // source: https://hearthstone.gamepedia.com/Battlegrounds
     tav_tier_cost[2] = 5;
     tav_tier_cost[3] = 7;
     tav_tier_cost[4] = 8;
     tav_tier_cost[5] = 9;
-    tav_tier_cost[6] = 11;
+    tav_tier_cost[6] = 10;
 }
 
 void BobsTavern::init_card_pool() {

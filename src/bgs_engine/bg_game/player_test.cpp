@@ -1148,3 +1148,38 @@ TEST(Player, WrathweaverAfterDemonSummoned) {
     // 1*2 for wrathweaver, 1*2 for golden weaver, and 2 from homunculus
     EXPECT_EQ(player.get_health(), 40 - 1*2 - 1*2 - 2);
 }
+
+TEST(Player, CanStartAndEndTurnsAndGoldRefreshesAccordingly) {
+    auto player = Player("Goldy Lochs");
+    
+    // Keep going up to 10 gold...
+    player.end_turn();
+    player.start_turn();
+    EXPECT_EQ(player.get_gold(), 4);
+    player.end_turn();
+    player.start_turn();
+    EXPECT_EQ(player.get_gold(), 5);
+    player.end_turn();
+    player.start_turn();
+    EXPECT_EQ(player.get_gold(), 6);
+    player.end_turn();
+    player.start_turn();
+    EXPECT_EQ(player.get_gold(), 7);
+    player.end_turn();
+    player.start_turn();
+    EXPECT_EQ(player.get_gold(), 8);
+    player.end_turn();
+    player.start_turn();
+    EXPECT_EQ(player.get_gold(), 9);
+    player.end_turn();
+    player.start_turn();
+    EXPECT_EQ(player.get_gold(), 10);
+
+    // Make sure we're maxed at 10
+    player.end_turn();
+    player.start_turn();
+    EXPECT_EQ(player.get_gold(), 10);
+    player.end_turn();
+    player.start_turn();
+    EXPECT_EQ(player.get_gold(), 10);
+}

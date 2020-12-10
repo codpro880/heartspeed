@@ -57,6 +57,7 @@ TEST(BobsTav, AllowsPlayerToBuyMinionInShop) {
     auto player = std::make_unique<Player>("Test");
     auto avail_minions = player->get_tavern_minions();
     auto minion = avail_minions[0];
+    EXPECT_EQ(player->get_gold(), 3);
     player->buy_minion(minion);
     EXPECT_EQ(player->get_gold(), 0);
     EXPECT_EQ(player->get_hand().size(), 1);
@@ -122,16 +123,25 @@ TEST(BobsTav, TavernUpMechanismWorks) {
     // Note: Players start w/ 3 gold. In this test, however, we give them
     //       enough to test everything successfully with.
     auto player = std::make_unique<Player>("Test");
-    player->set_gold(100);
+    player->set_gold(10);
     // NOTE: Players start out at tavern tier 1
     EXPECT_EQ(player->get_tavern_tier(), 1);
     auto tier_1to2 = player->tavern_up();
+    player->set_gold(10);
     EXPECT_EQ(player->get_tavern_tier(), 2);
     EXPECT_TRUE(tier_1to2);
     auto tier_2to3 = player->tavern_up(); // Tier 3
+    EXPECT_TRUE(tier_2to3);
+    player->set_gold(10);
     auto tier_3to4 = player->tavern_up(); // Tier 4
+    EXPECT_TRUE(tier_3to4);
+    player->set_gold(10);
     auto tier_4to5 = player->tavern_up(); // Tier 5
+    EXPECT_TRUE(tier_4to5);
+    player->set_gold(10);
     auto tier_5to6 = player->tavern_up(); // Tier 6
+    EXPECT_TRUE(tier_5to6);
+    player->set_gold(10);
     auto tier_oops = player->tavern_up(); // Oops... Max tier is 6.
     // Check upper bound
     EXPECT_EQ(player->get_tavern_tier(), 6);
@@ -193,4 +203,3 @@ TEST(BobsTav, GivesPlayerALotMoreThanNormalGoldWhenFreedealingGamblerSold) {
     // 3 from non golden, 6 from golden
     EXPECT_EQ(player->get_gold(), 9);
 }
-

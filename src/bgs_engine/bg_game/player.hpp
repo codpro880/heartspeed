@@ -8,6 +8,7 @@
 
 #include "board.hpp"
 #include "hand.hpp"
+#include "bobs_tavern.hpp"
 
 class Player {
 public:
@@ -17,7 +18,8 @@ public:
 							      max_health(40),
 							      name(name),
 							      original_board(std::make_shared<Board>(board_)),
-							      tavern_tier(1) {}
+							      tavern(std::make_shared<BobsTavern>(this)),
+							      tavern_tier(1) { }
 
     Player(std::string name) : board(new Board()),
 			       gold(3),
@@ -25,7 +27,8 @@ public:
 			       max_health(40),
 			       name(name),
 			       original_board(new Board()),
-			       tavern_tier(1) {}
+			       tavern(std::make_shared<BobsTavern>(this)),
+			       tavern_tier(1) { }
 
     Player(Hand hand, std::string name) : board(new Board()),
 					  gold(3),
@@ -33,8 +36,9 @@ public:
 					  health(40),
 					  max_health(40),
 					  name(name),
-					  original_board(new Board()),					  
-					  tavern_tier(1) {}
+					  original_board(new Board()),
+					  tavern(std::make_shared<BobsTavern>(this)),
+					  tavern_tier(1) { }
     
     Player(Player* player) {
     	board = std::make_shared<Board>(player->get_original_board());
@@ -99,6 +103,10 @@ public:
 	hand.remove(card);
     }
 
+    std::vector<std::string> refresh_minions() {
+	return tavern->refresh_minions();
+    }
+
     void take_damage(int dmg, bool our_turn=false) {
 	health -= dmg;
 	if (our_turn) {
@@ -119,6 +127,7 @@ private:
     std::string name;
     std::shared_ptr<Board> original_board; // Read-only board
     int tavern_tier;
+    std::shared_ptr<BobsTavern> tavern;
 
     // TODO: Make this more efficient
     void floating_watcher_hook(Board* b1, int dmg_taken) {

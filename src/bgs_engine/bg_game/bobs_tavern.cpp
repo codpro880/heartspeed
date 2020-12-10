@@ -1,4 +1,5 @@
 #include "bobs_tavern.hpp"
+#include "player.hpp"
 #include "../cards/bgs/BgCardFactory.hpp"
 
 BobsTavern::BobsTavern(Player* player) : player(player) {

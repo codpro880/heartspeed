@@ -1,8 +1,12 @@
 #pragma once
 
+#include <string>
+#include <vector>
 #include <unordered_map>
 
-#include "player.hpp"
+// #include "player.hpp"
+
+class Player;
 
 // TODO: Make this work properly multithreaded (i.e. make minion buy/sells atomic)
 //       For now, to simulate, we can let players buy in a random order

@@ -6,12 +6,7 @@ BobsTavern::BobsTavern(Player* player) : player(player) {
     init_card_pool();
     init_tav_tier_cost();
     _refresh_minions();
-    // current_minions = begin_turn();
 }
-
-// std::vector<std::string> BobsTavern::begin_turn() {
-//     auto num_minions = tier + 2;    
-// }
 
 std::vector<std::string> BobsTavern::get_current_minions() {
     // TODO: Make this work on a per-player basis

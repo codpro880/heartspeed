@@ -103,21 +103,41 @@ public:
 	hand.remove(card);
     }
 
-    std::vector<std::string> refresh_minions() {
-	return tavern->refresh_minions();
-    }
-
     void take_damage(int dmg, bool our_turn=false) {
 	health -= dmg;
 	if (our_turn) {
 	    floating_watcher_hook(get_board().get(), dmg);
 	}
-    }   
+    }
 
     void add_gold(int g) { gold += g; }
     void lose_gold(int g) { gold -= g; }
     void set_gold(int g) { gold = g; }
     int get_gold() { return gold; }
+
+    // Tavern wrappers
+    std::vector<std::string> refresh_tavern_minions() {
+	return tavern->refresh_minions();
+    }
+
+    std::vector<std::string> get_tavern_minions() {
+	return tavern->get_current_minions();
+    }
+
+    void buy_minion(std::string minion) {
+	return tavern->buy_minion(minion);
+    }
+    
+    void buy_minion(int pos) {
+	return tavern->buy_minion(pos);
+    }
+    void sell_minion(int board_bos) {
+	return tavern->sell_minion(board_bos);
+    }
+    
+    bool tavern_up() {
+	return tavern->tavern_up();
+    }
 private:
     std::shared_ptr<Board> board;
     int gold;

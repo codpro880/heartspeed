@@ -10,8 +10,8 @@
 
 TEST(BobsTav, AllowsPlayerToSeeMinionsAtStart) {
     auto player = std::make_unique<Player>("Test");
-    auto tav = BobsTavern(player.get());
-    auto avail_minions = tav.get_current_minions();
+    // auto tav = player.get_tavern();
+    auto avail_minions = player->get_tavern_minions();
     EXPECT_EQ(avail_minions.size(), (unsigned)3);
     BgCardFactory f;
     for (auto minion_name : avail_minions) {
@@ -22,19 +22,18 @@ TEST(BobsTav, AllowsPlayerToSeeMinionsAtStart) {
 TEST(BobsTav, AllowsPlayerToRefreshRepeatedly) {
     auto player = std::make_unique<Player>("Test");
     player->set_gold(2);
-    auto tav = BobsTavern(player.get());
     
     // Can refresh and manually get
-    tav.refresh_minions();
+    player->refresh_tavern_minions();
     EXPECT_EQ(player->get_gold(), 1);
-    auto first_refresh_minions = tav.get_current_minions();
+    auto first_refresh_minions = player->get_tavern_minions();
     BgCardFactory f;
     for (auto minion_name : first_refresh_minions) {
 	EXPECT_EQ(f.get_card(minion_name)->get_tavern_tier(), 1);
     }
 
     // Can get minion shop from refresh directly
-    auto second_refresh_minions = tav.refresh_minions();
+    auto second_refresh_minions = player->refresh_tavern_minions();
     EXPECT_EQ(player->get_gold(), 0);
 
     // RNG Seed set to 0 by default, this should always pass
@@ -44,12 +43,11 @@ TEST(BobsTav, AllowsPlayerToRefreshRepeatedly) {
 TEST(BobsTav, WontRefreshWithZeroGold) {
     auto player = std::make_unique<Player>("Test");
     player->set_gold(0);
-    auto tav = BobsTavern(player.get());
 
-    auto avail_minions = tav.get_current_minions();    
+    auto avail_minions = player->get_tavern_minions();    
     
     // Should be a no-op
-    auto refreshed_minions = tav.refresh_minions();
+    auto refreshed_minions = player->refresh_tavern_minions();
 
     EXPECT_EQ(avail_minions, refreshed_minions);
 }
@@ -57,10 +55,9 @@ TEST(BobsTav, WontRefreshWithZeroGold) {
 TEST(BobsTav, AllowsPlayerToBuyMinionInShop) {
     // Note: Players start w/ 3 gold
     auto player = std::make_unique<Player>("Test");
-    auto tav = BobsTavern(player.get());
-    auto avail_minions = tav.get_current_minions();
+    auto avail_minions = player->get_tavern_minions();
     auto minion = avail_minions[0];
-    tav.buy_minion(minion);
+    player->buy_minion(minion);
     EXPECT_EQ(player->get_gold(), 0);
     EXPECT_EQ(player->get_hand().size(), 1);
     auto player_cards_in_hand = player->get_hand().get_cards();
@@ -70,10 +67,9 @@ TEST(BobsTav, AllowsPlayerToBuyMinionInShop) {
 TEST(BobsTav, AllowsPlayerToBuyMinionByPosition) { // Probably useful for RL
     // Note: Players start w/ 3 gold
     auto player = std::make_unique<Player>("Test");
-    auto tav = BobsTavern(player.get());
-    auto avail_minions = tav.get_current_minions();
+    auto avail_minions = player->get_tavern_minions();
     auto minion = avail_minions[0];
-    tav.buy_minion(0);
+    player->buy_minion(0);
     EXPECT_EQ(player->get_gold(), 0);
     EXPECT_EQ(player->get_hand().size(), 1);
     auto player_cards_in_hand = player->get_hand().get_cards();
@@ -83,8 +79,8 @@ TEST(BobsTav, AllowsPlayerToBuyMinionByPosition) { // Probably useful for RL
 TEST(BobsTav, ShowsPlayerHigherTierMinions) {
     auto player = std::make_unique<Player>("Test");
     player->set_tavern_tier(3);
-    auto tav = BobsTavern(player.get());
-    auto avail_minions = tav.get_current_minions();
+    player->refresh_tavern_minions();
+    auto avail_minions = player->get_tavern_minions();
     EXPECT_EQ(avail_minions.size(), (unsigned)5);
     
     // Expect that at least one of them is not t1 and none over t3
@@ -116,9 +112,8 @@ TEST(BobsTav, AllowsPlayerToSellBack) {
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards { tidecaller };
     auto in_hand = Hand(hand_cards);    
     auto player = std::make_unique<Player>(in_hand, "Test");
-    auto tav = BobsTavern(player.get());
     player->play_card(0, 0);
-    tav.sell_minion(0);
+    player->sell_minion(0);
     EXPECT_EQ(player->get_gold(), 4);
     EXPECT_EQ(player->get_hand().size(), 0);
 }
@@ -128,17 +123,16 @@ TEST(BobsTav, TavernUpMechanismWorks) {
     //       enough to test everything successfully with.
     auto player = std::make_unique<Player>("Test");
     player->set_gold(100);
-    auto tav = BobsTavern(player.get());
     // NOTE: Players start out at tavern tier 1
     EXPECT_EQ(player->get_tavern_tier(), 1);
-    auto tier_1to2 = tav.tavern_up();
+    auto tier_1to2 = player->tavern_up();
     EXPECT_EQ(player->get_tavern_tier(), 2);
     EXPECT_TRUE(tier_1to2);
-    auto tier_2to3 = tav.tavern_up(); // Tier 3
-    auto tier_3to4 = tav.tavern_up(); // Tier 4
-    auto tier_4to5 = tav.tavern_up(); // Tier 5
-    auto tier_5to6 = tav.tavern_up(); // Tier 6
-    auto tier_oops = tav.tavern_up(); // Oops... Max tier is 6.
+    auto tier_2to3 = player->tavern_up(); // Tier 3
+    auto tier_3to4 = player->tavern_up(); // Tier 4
+    auto tier_4to5 = player->tavern_up(); // Tier 5
+    auto tier_5to6 = player->tavern_up(); // Tier 6
+    auto tier_oops = player->tavern_up(); // Oops... Max tier is 6.
     // Check upper bound
     EXPECT_EQ(player->get_tavern_tier(), 6);
     EXPECT_TRUE(!tier_oops);
@@ -147,14 +141,13 @@ TEST(BobsTav, TavernUpMechanismWorks) {
 TEST(BobsTavern, TavernUpMechanismPlayerNotEnoughGold) {
     // Note: Players start w/ 3 gold
     auto player = std::make_unique<Player>("Test");
-    auto tav = BobsTavern(player.get());
     // Ensure player does not have enough to tavern up
-    auto tier_1to2 = tav.tavern_up();
+    auto tier_1to2 = player->tavern_up();
     EXPECT_EQ(player->get_tavern_tier(), 1);
     EXPECT_TRUE(!tier_1to2);
     // Now give them just enough gold to upgrade and try again.
     player->add_gold(2);
-    auto tier_1to2_again = tav.tavern_up();
+    auto tier_1to2_again = player->tavern_up();
     EXPECT_EQ(player->get_tavern_tier(), 2);
     EXPECT_TRUE(tier_1to2_again);
 }
@@ -172,9 +165,8 @@ TEST(BobsTav, GivesPlayerWaterDropletCardInHandWhenSellementalSold) {
     player->play_card(0, 1);
     EXPECT_EQ(player->get_hand().size(), 0);
     EXPECT_EQ(player->get_board()->size(), 2);
-    auto tav = BobsTavern(player.get());
-    tav.sell_minion(0);
-    tav.sell_minion(0);
+    player->sell_minion(0);
+    player->sell_minion(0);
     // Should have non gold and gold water droplet in hand
     EXPECT_EQ(player->get_gold(), 5); // Note: Players start w/ 3 gold
     EXPECT_EQ(player->get_hand().size(), 2);
@@ -196,9 +188,8 @@ TEST(BobsTav, GivesPlayerALotMoreThanNormalGoldWhenFreedealingGamblerSold) {
     player->play_card(0, 1);
     EXPECT_EQ(player->get_hand().size(), 0);
     EXPECT_EQ(player->get_board()->size(), 2);
-    auto tav = BobsTavern(player.get());
-    tav.sell_minion(0);
-    tav.sell_minion(0);
+    player->sell_minion(0);
+    player->sell_minion(0);
     // 3 from non golden, 6 from golden
     EXPECT_EQ(player->get_gold(), 9);
 }

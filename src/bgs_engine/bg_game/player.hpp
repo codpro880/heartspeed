@@ -148,8 +148,9 @@ public:
     }
     
     bool tavern_up() {
+	auto res =  tavern->tavern_up(turns_at_current_tier);
 	turns_at_current_tier = 0;
-	return tavern->tavern_up();
+	return res;
     }
 
     void start_turn() {

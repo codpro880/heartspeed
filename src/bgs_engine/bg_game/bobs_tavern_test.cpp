@@ -8,7 +8,7 @@
 //  expect_all_of_tier(std::vector<std::string>> minions, int tier) {
 // }
 
-TEST(BobsTav, AllowsPlayerToSeeMinionsAtStart) {
+TEST(BobsTavern, AllowsPlayerToSeeMinionsAtStart) {
     auto player = std::make_unique<Player>("Test");
     // auto tav = player.get_tavern();
     auto avail_minions = player->get_tavern_minions();
@@ -19,7 +19,7 @@ TEST(BobsTav, AllowsPlayerToSeeMinionsAtStart) {
     }
 }
 
-TEST(BobsTav, AllowsPlayerToRefreshRepeatedly) {
+TEST(BobsTavern, AllowsPlayerToRefreshRepeatedly) {
     auto player = std::make_unique<Player>("Test");
     player->set_gold(2);
     
@@ -40,7 +40,7 @@ TEST(BobsTav, AllowsPlayerToRefreshRepeatedly) {
     EXPECT_TRUE(first_refresh_minions != second_refresh_minions);
 }
 
-TEST(BobsTav, WontRefreshWithZeroGold) {
+TEST(BobsTavern, WontRefreshWithZeroGold) {
     auto player = std::make_unique<Player>("Test");
     player->set_gold(0);
 
@@ -52,7 +52,7 @@ TEST(BobsTav, WontRefreshWithZeroGold) {
     EXPECT_EQ(avail_minions, refreshed_minions);
 }
 
-TEST(BobsTav, AllowsPlayerToBuyMinionInShop) {
+TEST(BobsTavern, AllowsPlayerToBuyMinionInShop) {
     // Note: Players start w/ 3 gold
     auto player = std::make_unique<Player>("Test");
     auto avail_minions = player->get_tavern_minions();
@@ -65,7 +65,7 @@ TEST(BobsTav, AllowsPlayerToBuyMinionInShop) {
     EXPECT_EQ(player_cards_in_hand[0]->get_name(), minion);
 }
 
-TEST(BobsTav, AllowsPlayerToBuyMinionByPosition) { // Probably useful for RL
+TEST(BobsTavern, AllowsPlayerToBuyMinionByPosition) { // Probably useful for RL
     // Note: Players start w/ 3 gold
     auto player = std::make_unique<Player>("Test");
     auto avail_minions = player->get_tavern_minions();
@@ -77,7 +77,7 @@ TEST(BobsTav, AllowsPlayerToBuyMinionByPosition) { // Probably useful for RL
     EXPECT_EQ(player_cards_in_hand[0]->get_name(), minion);
 }
 
-TEST(BobsTav, ShowsPlayerHigherTierMinions) {
+TEST(BobsTavern, ShowsPlayerHigherTierMinions) {
     auto player = std::make_unique<Player>("Test");
     player->set_tavern_tier(3);
     player->refresh_tavern_minions();
@@ -107,7 +107,7 @@ TEST(BobsTav, ShowsPlayerHigherTierMinions) {
     EXPECT_TRUE(!any_golden);
 }
 
-TEST(BobsTav, AllowsPlayerToSellBack) {
+TEST(BobsTavern, AllowsPlayerToSellBack) {
     // Note: Players start w/ 3 gold
     auto tidecaller = BgCardFactory().get_card("Murloc Tidecaller");
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards { tidecaller };
@@ -162,7 +162,38 @@ TEST(BobsTavern, TavernUpMechanismPlayerNotEnoughGold) {
     EXPECT_TRUE(tier_1to2_again);
 }
 
-TEST(BobsTav, GivesPlayerWaterDropletCardInHandWhenSellementalSold) {
+TEST(BobsTavern, TavernUpMechanismDecreasesInCostPerTurn) {
+    // Note: Players start w/ 3 gold
+    auto player = Player("Test");
+    // Ensure player does not have enough to tavern up
+    player.end_turn();
+    player.start_turn();
+    bool tier_1to2 = player.tavern_up();
+    EXPECT_TRUE(tier_1to2);
+    // Tavern up on turn 2 is common
+    EXPECT_EQ(player.get_gold(), 0); 
+    player.end_turn();
+    player.start_turn(); // Turn 3 (5 gold)
+    player.end_turn();
+    player.start_turn(); // Turn 4 (6 gold)
+    player.end_turn();
+    player.start_turn(); // Turn 5 (7 gold)
+    // Tavern up on turn 5 w/ 7 gold to tier3 is common
+    EXPECT_EQ(player.get_gold(), 7);
+    bool tier_2to3 = player.tavern_up();
+    EXPECT_TRUE(tier_2to3);
+    EXPECT_EQ(player.get_gold(), 3);
+    player.end_turn();
+    player.start_turn(); // Turn 6 (8 gold)
+    // Tavern up from 3 to 4 immediately next turn is a fairly greedy strategy,
+    // but the simulator should allow it just like in real game
+    EXPECT_EQ(player.get_gold(), 8);
+    bool tier_3to4 = player.tavern_up();
+    EXPECT_TRUE(tier_3to4);
+    EXPECT_EQ(player.get_gold(), 1);
+}
+
+TEST(BobsTavern, GivesPlayerWaterDropletCardInHandWhenSellementalSold) {
     BgCardFactory f;
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
 	{
@@ -184,7 +215,7 @@ TEST(BobsTav, GivesPlayerWaterDropletCardInHandWhenSellementalSold) {
     EXPECT_EQ(player->get_hand().get_cards()[1]->get_name(), "Water Droplet (Golden)");
 }
 
-TEST(BobsTav, GivesPlayerALotMoreThanNormalGoldWhenFreedealingGamblerSold) {
+TEST(BobsTavern, GivesPlayerALotMoreThanNormalGoldWhenFreedealingGamblerSold) {
     BgCardFactory f;
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
 	{

@@ -40,12 +40,11 @@ void BobsTavern::buy_minion(std::string minion) {
     player->lose_gold(3);
 }
 
-bool BobsTavern::tavern_up() {
+bool BobsTavern::tavern_up(int turns_at_current_tier) {
     int current_tier = player->get_tavern_tier();
     if (current_tier < 6) {
         int player_gold = player->get_gold();
-        // TODO: Implement turn-dependent tavern tier upgrade cost.
-        int upgrade_cost = tav_tier_cost[current_tier + 1];
+        int upgrade_cost = tav_tier_cost[current_tier + 1] - turns_at_current_tier;
         if (player_gold >= upgrade_cost) {
 	    player->lose_gold(upgrade_cost);
             player->inc_tavern_tier();

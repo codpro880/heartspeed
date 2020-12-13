@@ -131,6 +131,12 @@ public:
 
     // Triggered after a summon occurs, returns damage taken (wrathweave)
     virtual int mod_summoned(std::shared_ptr<BgBaseCard>, Board*, bool) { return 0; }
+
+    // Triggered at start of turn
+    virtual void start_turn_mechanic(Player*) {}
+
+    // Triggered at end of turn
+    virtual void end_turn_mechanic(Player*) {}
     
     virtual std::shared_ptr<BgBaseCard> get_copy() const;
 

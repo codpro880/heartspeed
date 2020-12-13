@@ -8,36 +8,6 @@
 #include "../../bg_game/battler.hpp"
 #include "../../bg_game/rng_singleton.hpp"
 
-// TODO: Add Player* to mod summoned interface?
-// void kalecgos_mods(Player* p1, BgBaseCard* tis) {
-//     if (!tis->has_battlecry()) return;
-//     int num_kalecgos = 0;
-//     for (auto c : p1->get_board()->get_cards()) {
-// 	if (c->get_name() == "Kalecgos, Arcane Aspect") num_kalecgos++;
-// 	if (c->get_name() == "Kalecgos, Arcane Aspect (Golden)") num_kalecgos += 2;
-//     }
-//     for (auto c : p1->get_board()->get_cards()) {
-// 	if (c->get_race() == "DRAGON") {
-// 	    c->set_attack(c->get_attack() + num_kalecgos);
-// 	    c->set_health(c->get_health() + num_kalecgos);
-// 	}
-//     }
-// }
-
-// void lt_garr_mods(Player* p1, BgBaseCard* tis) {
-//     if (!tis->get_race() != "ELEMENTAL") return;
-//     int num_elementals = 0;
-//     for (auto c : p1->get_board()->get_cards()) {
-// 	if (c->get_race() == "ELEMENTAL") num_elementals++;
-//     }
-//     for (auto c : p1->get_board()->get_cards()) {
-// 	if (c->get_race() == "DRAGON") {
-// 	    c->set_attack(c->get_attack() + num_kalecgos);
-// 	    c->set_health(c->get_health() + num_kalecgos);
-// 	}
-//     }
-// }
-
 // TODO: Efficiency
 void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
     if (b1->contains("Baron Rivendare (Golden)")) {
@@ -954,6 +924,23 @@ void MetaltoothLeaperGolden::do_battlecry(Player* p1) {
     // leaper.do_battlecry(p1);
 }
 
+void micro_mummy_start_turn(Player* p1, int attack_buff, BgBaseCard* this_) {
+    if (p1->get_board()->get_cards().size() < 1) return;
+    auto cards = p1->get_board()->get_cards();
+    auto card_to_buff =  cards[RngSingleton::getInstance().get_rand_int() % cards.size()];
+    while (card_to_buff.get() == this_) {
+	card_to_buff =  cards[RngSingleton::getInstance().get_rand_int() % cards.size()];
+    }
+    card_to_buff->set_attack(card_to_buff->get_attack() + attack_buff);
+}
+
+void MicroMummy::start_turn_mechanic(Player* p1) {
+    micro_mummy_start_turn(p1, 1, this);
+}
+
+void MicroMummyGolden::start_turn_mechanic(Player* p1) {
+    micro_mummy_start_turn(p1, 2, this);
+}
 
 void MonstrousMacaw::do_preattack(std::shared_ptr<BgBaseCard> defender,
 				  Board* b1,

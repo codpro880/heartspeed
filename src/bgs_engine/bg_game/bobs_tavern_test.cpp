@@ -79,6 +79,8 @@ TEST(BobsTavern, AllowsPlayerToBuyMinionByPosition) { // Probably useful for RL
 
 TEST(BobsTavern, ShowsPlayerHigherTierMinions) {
     auto player = std::make_unique<Player>("Test");
+    // Possible to randomly draw all from tier1 (although unlikely)
+    RngSingleton::getInstance(0, true);
     player->set_tavern_tier(3);
     player->refresh_tavern_minions();
     auto avail_minions = player->get_tavern_minions();

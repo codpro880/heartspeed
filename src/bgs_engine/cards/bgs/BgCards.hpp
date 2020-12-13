@@ -794,7 +794,7 @@ class MicroMummy : public BgBaseCard {
 public:
     MicroMummy() : BgBaseCard(1, "NEUTRAL", 2, 2, "Micro Mummy",
 			      "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION") {}
-    virtual void start_turn_mechanic(Player*) override;
+    virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MicroMummy>(*this); } // boilerplate that every drattle needs...
 };
 
@@ -802,7 +802,7 @@ class MicroMummyGolden : public BgBaseCard {
 public:
     MicroMummyGolden() : BgBaseCard(2, "NEUTRAL", 2, 4, "Micro Mummy (Golden)",
 				    "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION") {}
-    virtual void start_turn_mechanic(Player*) override;
+    virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MicroMummyGolden>(*this); } // boilerplate that every drattle needs...
 };
 

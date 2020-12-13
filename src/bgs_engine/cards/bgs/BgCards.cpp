@@ -924,7 +924,7 @@ void MetaltoothLeaperGolden::do_battlecry(Player* p1) {
     // leaper.do_battlecry(p1);
 }
 
-void micro_mummy_start_turn(Player* p1, int attack_buff, BgBaseCard* this_) {
+void micro_mummy_end_turn(Player* p1, int attack_buff, BgBaseCard* this_) {
     if (p1->get_board()->get_cards().size() < 1) return;
     auto cards = p1->get_board()->get_cards();
     auto card_to_buff =  cards[RngSingleton::getInstance().get_rand_int() % cards.size()];
@@ -934,12 +934,12 @@ void micro_mummy_start_turn(Player* p1, int attack_buff, BgBaseCard* this_) {
     card_to_buff->set_attack(card_to_buff->get_attack() + attack_buff);
 }
 
-void MicroMummy::start_turn_mechanic(Player* p1) {
-    micro_mummy_start_turn(p1, 1, this);
+void MicroMummy::end_turn_mechanic(Player* p1) {
+    micro_mummy_end_turn(p1, 1, this);
 }
 
-void MicroMummyGolden::start_turn_mechanic(Player* p1) {
-    micro_mummy_start_turn(p1, 2, this);
+void MicroMummyGolden::end_turn_mechanic(Player* p1) {
+    micro_mummy_end_turn(p1, 2, this);
 }
 
 void MonstrousMacaw::do_preattack(std::shared_ptr<BgBaseCard> defender,

@@ -745,25 +745,13 @@ TEST(Player, MicroMummyStartTurnMechanic) {
 	};
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
+
+    // Play out a quick turn
     player.start_turn();
-    int total_hand_attack = 0;
-    int total_hand_health = 0;
-    for (auto card : in_hand.get_cards()) {
-	total_hand_attack += card->get_attack();
-	total_hand_health += card->get_health();
-    }
     player.play_card(0, 0);
     player.play_card(0, 1);
-
-    int total_board_attack = 0;
-    int total_board_health = 0;
-    for (auto card : player.get_board()->get_cards()) {
-	total_board_attack += card->get_attack();
-	total_board_health += card->get_health();
-    }
     player.end_turn();
 
-    player.start_turn();
     // Micro Mummies buff each other
     auto micro_mummy = player.get_board()->get_cards()[0];
     auto micro_mummy_golden = player.get_board()->get_cards()[1];

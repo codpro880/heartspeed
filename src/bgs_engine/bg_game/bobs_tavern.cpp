@@ -1,16 +1,12 @@
 #include "bobs_tavern.hpp"
+#include "player.hpp"
 #include "../cards/bgs/BgCardFactory.hpp"
 
 BobsTavern::BobsTavern(Player* player) : player(player) {
     init_card_pool();
     init_tav_tier_cost();
     _refresh_minions();
-    // current_minions = begin_turn();
 }
-
-// std::vector<std::string> BobsTavern::begin_turn() {
-//     auto num_minions = tier + 2;    
-// }
 
 std::vector<std::string> BobsTavern::get_current_minions() {
     // TODO: Make this work on a per-player basis
@@ -44,12 +40,11 @@ void BobsTavern::buy_minion(std::string minion) {
     player->lose_gold(3);
 }
 
-bool BobsTavern::tavern_up() {
+bool BobsTavern::tavern_up(int turns_at_current_tier) {
     int current_tier = player->get_tavern_tier();
     if (current_tier < 6) {
         int player_gold = player->get_gold();
-        // TODO: Implement turn-dependent tavern tier upgrade cost.
-        int upgrade_cost = tav_tier_cost[current_tier + 1];
+        int upgrade_cost = tav_tier_cost[current_tier + 1] - turns_at_current_tier;
         if (player_gold >= upgrade_cost) {
 	    player->lose_gold(upgrade_cost);
             player->inc_tavern_tier();
@@ -105,11 +100,12 @@ void BobsTavern::_refresh_minions() {
 }
 
 void BobsTavern::init_tav_tier_cost() {
+    // source: https://hearthstone.gamepedia.com/Battlegrounds
     tav_tier_cost[2] = 5;
     tav_tier_cost[3] = 7;
     tav_tier_cost[4] = 8;
     tav_tier_cost[5] = 9;
-    tav_tier_cost[6] = 11;
+    tav_tier_cost[6] = 10;
 }
 
 void BobsTavern::init_card_pool() {

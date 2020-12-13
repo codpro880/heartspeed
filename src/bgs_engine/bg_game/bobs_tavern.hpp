@@ -1,8 +1,12 @@
 #pragma once
 
+#include <string>
+#include <vector>
 #include <unordered_map>
 
-#include "player.hpp"
+// #include "player.hpp"
+
+class Player;
 
 // TODO: Make this work properly multithreaded (i.e. make minion buy/sells atomic)
 //       For now, to simulate, we can let players buy in a random order
@@ -14,7 +18,7 @@ public:
     void buy_minion(std::string minion); // Reduces players gold by three, adds minion to hand
     void buy_minion(int pos); // Reduces players gold by three, adds minion to hand
     void sell_minion(int board_bos); // Removes card from board, gives player a gold
-    bool tavern_up(); // Level up tavern tier
+    bool tavern_up(int turns_at_current_tier); // Level up tavern tier
 private:
     Player* player;
     std::unordered_map<int, std::unordered_map<std::string, int>> card_pool;

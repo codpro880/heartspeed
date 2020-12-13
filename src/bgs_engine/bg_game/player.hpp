@@ -8,33 +8,43 @@
 
 #include "board.hpp"
 #include "hand.hpp"
+#include "bobs_tavern.hpp"
 
 class Player {
 public:
     Player(std::shared_ptr<Board> board_, std::string name) : board(board_),
 							      gold(3),
 							      health(40),
+							      max_gold(3),
 							      max_health(40),
 							      name(name),
 							      original_board(std::make_shared<Board>(board_)),
-							      tavern_tier(1) {}
+							      tavern(std::make_shared<BobsTavern>(this)),
+							      tavern_tier(1),
+							      turns_at_current_tier(0) { }
 
     Player(std::string name) : board(new Board()),
 			       gold(3),
 			       health(40),
+			       max_gold(3),
 			       max_health(40),
 			       name(name),
 			       original_board(new Board()),
-			       tavern_tier(1) {}
+			       tavern(std::make_shared<BobsTavern>(this)),
+			       tavern_tier(1),
+			       turns_at_current_tier(0) { }
 
     Player(Hand hand, std::string name) : board(new Board()),
 					  gold(3),
 					  hand(hand),
 					  health(40),
+					  max_gold(3),
 					  max_health(40),
 					  name(name),
-					  original_board(new Board()),					  
-					  tavern_tier(1) {}
+					  original_board(new Board()),
+					  tavern(std::make_shared<BobsTavern>(this)),
+					  tavern_tier(1),
+					  turns_at_current_tier(0) { }
     
     Player(Player* player) {
     	board = std::make_shared<Board>(player->get_original_board());
@@ -44,6 +54,7 @@ public:
 	name = player->get_name();
 	original_board = std::make_shared<Board>(player->get_original_board());
 	tavern_tier = player->get_tavern_tier();
+	turns_at_current_tier = player->get_turns_at_current_tier();
     }
 
     // TODO: Impl bobs tav
@@ -61,6 +72,7 @@ public:
     std::string get_name() const { return name; }
     int get_tavern_tier() const { return tavern_tier; }
     void set_tavern_tier(int tav_tier) { tavern_tier = tav_tier; }
+    int get_turns_at_current_tier() const { return turns_at_current_tier; }
 
     void add_card_to_hand(std::shared_ptr<BgBaseCard> card) {
 	hand.add_card(card);
@@ -104,13 +116,53 @@ public:
 	if (our_turn) {
 	    floating_watcher_hook(get_board().get(), dmg);
 	}
-    }   
+    }
 
-    void add_gold(int g) { gold += g; }
-    void lose_gold(int g) { gold -= g; }
-    void set_gold(int g) { gold = g; }
+    void add_gold(int g) { set_gold(get_gold() + g); }
+    void lose_gold(int g) { set_gold(get_gold() - g); }
+    void set_gold(int g) {
+	if (g < 0) gold = 0;
+	else if (g > 10) gold = 10;
+	else gold = g;
+    }
     int get_gold() { return gold; }
+
+    // Tavern wrappers
+    std::vector<std::string> refresh_tavern_minions() {
+	return tavern->refresh_minions();
+    }
+
+    std::vector<std::string> get_tavern_minions() {
+	return tavern->get_current_minions();
+    }
+
+    void buy_minion(std::string minion) {
+	return tavern->buy_minion(minion);
+    }
+    
+    void buy_minion(int pos) {
+	return tavern->buy_minion(pos);
+    }
+    void sell_minion(int board_bos) {
+	return tavern->sell_minion(board_bos);
+    }
+    
+    bool tavern_up() {
+	auto res =  tavern->tavern_up(turns_at_current_tier);
+	turns_at_current_tier = 0;
+	return res;
+    }
+
+    void start_turn() {
+	gold = max_gold;
+    }
+    
+    void end_turn() {
+	turns_at_current_tier += 1;
+	if (max_gold < 10) max_gold++;
+    }
 private:
+    int max_gold;
     std::shared_ptr<Board> board;
     int gold;
     Hand hand;
@@ -119,6 +171,8 @@ private:
     std::string name;
     std::shared_ptr<Board> original_board; // Read-only board
     int tavern_tier;
+    std::shared_ptr<BobsTavern> tavern;
+    int turns_at_current_tier;
 
     // TODO: Make this more efficient
     void floating_watcher_hook(Board* b1, int dmg_taken) {

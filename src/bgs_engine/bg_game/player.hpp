@@ -154,10 +154,16 @@ public:
     }
 
     void start_turn() {
+	for (auto c : board->get_cards()) {
+	    c->start_turn_mechanic(this);
+	}
 	gold = max_gold;
     }
     
     void end_turn() {
+	for (auto c : board->get_cards()) {
+	    c->end_turn_mechanic(this);
+	}
 	turns_at_current_tier += 1;
 	if (max_gold < 10) max_gold++;
     }

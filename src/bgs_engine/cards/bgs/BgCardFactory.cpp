@@ -451,12 +451,12 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> micro_machine_gold(new BgBaseCard(2, "NEUTRAL", 2, 4, "Micro Machine (Golden)",
 								  "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
     cards.emplace("Micro Machine (Golden)", micro_machine_gold);
-    std::shared_ptr<BgBaseCard> micro_mummy(new BgBaseCard(1, "NEUTRAL", 2, 2, "Micro Mummy",
-							   "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
+    auto micro_mummy = std::make_shared<MicroMummy>();
+    micro_mummy->set_reborn();
     cards.emplace("Micro Mummy", micro_mummy);
-    std::shared_ptr<BgBaseCard> micro_mummy_gold(new BgBaseCard(2, "NEUTRAL", 2, 4, "Micro Mummy (Golden)",
-							   "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
-    cards.emplace("Micro Mummy (Golden)", micro_mummy_gold);
+    auto micro_mummy_golden = std::make_shared<MicroMummyGolden>();
+    micro_mummy_golden->set_reborn();
+    cards.emplace("Micro Mummy (Golden)", micro_mummy_golden);
     std::shared_ptr<BgBaseCard> microbot(new BgBaseCard(1, "NEUTRAL", 1, 1, "Microbot",
 							"", "MECHANICAL", "", 1, "MINION"));
     cards.emplace("Microbot", microbot);

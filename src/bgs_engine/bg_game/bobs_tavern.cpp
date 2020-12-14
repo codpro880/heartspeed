@@ -19,7 +19,6 @@ std::vector<std::string> BobsTavern::refresh_minions(bool is_free) {
     if (!is_free) {
 	player->lose_gold(1);
     }
-    else { std::cerr << "Free refresh!" << std::endl; }
     _refresh_minions();
     return current_minions;
 }

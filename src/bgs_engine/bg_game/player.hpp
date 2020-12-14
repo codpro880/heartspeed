@@ -71,7 +71,7 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Player& p);
     int get_health() const { return health; }
     int get_max_health() const { return max_health; }
-    int get_damage_taken() const { std::cerr << "Dmg taken: " << max_health - health << std::endl; return max_health - health; }
+    int get_damage_taken() const { return max_health - health; }
     std::string get_name() const { return name; }
     int get_tavern_tier() const { return tavern_tier; }
     void set_tavern_tier(int tav_tier) { tavern_tier = tav_tier; }
@@ -135,7 +135,6 @@ public:
     std::vector<std::string> refresh_tavern_minions() {
 	if (num_free_refreshes > 0) {
 	    num_free_refreshes -= 1;
-	    std::cerr << "Free refresh!" << std::endl;
 	    return tavern->refresh_minions(true);
 	}
 	else {

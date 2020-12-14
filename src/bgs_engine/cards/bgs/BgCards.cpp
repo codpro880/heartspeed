@@ -1177,7 +1177,6 @@ void RedWhelpGolden::do_precombat(Board* b1, Board* b2) {
 }
 
 void RefreshingAnomaly::do_battlecry(Player* p1) {
-    std::cerr << "Setting free..." << std::endl;
     p1->set_free_refreshes(1);
 }
 

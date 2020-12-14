@@ -1176,6 +1176,15 @@ void RedWhelpGolden::do_precombat(Board* b1, Board* b2) {
     }
 }
 
+void RefreshingAnomaly::do_battlecry(Player* p1) {
+    std::cerr << "Setting free..." << std::endl;
+    p1->set_free_refreshes(1);
+}
+
+void RefreshingAnomalyGolden::do_battlecry(Player* p1) {
+    p1->set_free_refreshes(2);
+}
+
 void ReplicatingMenace::do_deathrattle(Board* b1, Board* b2) {
     multi_summon(3, b1);
 }

@@ -13,7 +13,7 @@ class Player;
 class BobsTavern {
 public:
     BobsTavern(Player*);
-    std::vector<std::string> refresh_minions(); // Reduce players gold by one
+    std::vector<std::string> refresh_minions(bool is_free = false); // Reduce players gold by one
     std::vector<std::string> get_current_minions(); // Player arg not necessary for now, but probably will be in future
     void buy_minion(std::string minion); // Reduces players gold by three, adds minion to hand
     void buy_minion(int pos); // Reduces players gold by three, adds minion to hand

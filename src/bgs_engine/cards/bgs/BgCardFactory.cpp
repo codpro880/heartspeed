@@ -547,10 +547,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Red Whelp (Golden)", std::make_shared<RedWhelpGolden>());
     // cards.emplace("Redemption", BgBaseCard(-1, "PALADIN", 1, -1, "Redemption",
     // 					   "['SECRET']", "", "COMMON", -1, "SPELL"));
-    cards.emplace("Refreshing Anomaly", std::make_shared<BgBaseCard>(1, "NEUTRAL", -1, 3, "Refreshing Anomaly",
-								     "", "ELEMENTAL", "", 1, "MINION"));
-    cards.emplace("Refreshing Anomaly (Golden)", std::make_shared<BgBaseCard>(2, "NEUTRAL", -1, 6, "Refreshing Anomaly (Golden)",
-									      "", "ELEMENTAL", "", 1, "MINION"));
+    cards.emplace("Refreshing Anomaly", std::make_shared<RefreshingAnomaly>());
+    cards.emplace("Refreshing Anomaly (Golden)", std::make_shared<RefreshingAnomalyGolden>());
     cards.emplace("Replicating Menace", std::make_shared<ReplicatingMenace>());
     cards.emplace("Replicating Menace (Golden)", std::make_shared<ReplicatingMenaceGolden>());
     // std::shared_ptr<BgBaseCard> ripsnarl(new PirateCard(3, "NEUTRAL", 4, 4, "Ripsnarl Captain",

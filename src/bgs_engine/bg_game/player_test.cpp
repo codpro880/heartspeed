@@ -923,6 +923,37 @@ TEST(Player, MurlocTidehunterBattlecry) {
 //     player.reroll_tav();
 // }
 
+TEST(Player, RefreshingAnomalyWorks) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Refreshing Anomaly"),
+	 f.get_card("Refreshing Anomaly (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    // Play out a quick turn
+    player.start_turn();
+    // Non golden version allows one free refresh
+    player.play_card(0, 0);
+    EXPECT_EQ(player.get_gold(), 3);
+    player.refresh_tavern_minions();
+    EXPECT_EQ(player.get_gold(), 3);
+    player.refresh_tavern_minions();
+    EXPECT_EQ(player.get_gold(), 2);
+    // Gold version allows two free refreshes
+    player.play_card(0, 1);
+    EXPECT_EQ(player.get_gold(), 2);
+    player.refresh_tavern_minions();
+    EXPECT_EQ(player.get_gold(), 2);
+    player.refresh_tavern_minions();
+    EXPECT_EQ(player.get_gold(), 2);
+    player.refresh_tavern_minions();
+    EXPECT_EQ(player.get_gold(), 1);
+    player.end_turn();
+}
+
 
 TEST(Player, RockpoolHunterTargettedBattlecry) {
     auto f = BgCardFactory();

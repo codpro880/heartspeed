@@ -1035,6 +1035,22 @@ private:
     RedWhelp rw;
 };
 
+class RefreshingAnomaly : public BattlecryCard {
+public:
+    RefreshingAnomaly() : BgBaseCard(1, "NEUTRAL", -1, 3, "Refreshing Anomaly",
+				     "", "ELEMENTAL", "", 1, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RefreshingAnomaly>(*this); } // boilerplate that every drattle needs...
+};
+
+class RefreshingAnomalyGolden : public BattlecryCard {
+public:
+    RefreshingAnomalyGolden() : BgBaseCard(2, "NEUTRAL", -1, 6, "Refreshing Anomaly (Golden)",
+					   "", "ELEMENTAL", "", 1, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RefreshingAnomalyGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 class ReplicatingMenace : public DeathrattleCard {
 public:
     ReplicatingMenace() : BgBaseCard(3, "NEUTRAL", 4, 1, "Replicating Menace",

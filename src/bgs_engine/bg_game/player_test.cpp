@@ -736,7 +736,34 @@ TEST(Player, MenagerieMugBattlecryMix) {
     EXPECT_EQ(total_hand_health + 9, total_board_health);
 }
 
-TEST(Player, MicroMummyStartTurnMechanic) {
+TEST(Player, MicroMachineStartTurnMechanic) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Micro Machine"),
+	 f.get_card("Micro Machine (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    // Play out a quick turn
+    player.start_turn();
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.end_turn();
+
+    // Start next turn
+    player.start_turn();
+
+    // Micro Mummies buff each other
+    auto micro_machine = player.get_board()->get_cards()[0];
+    auto micro_machine_golden = player.get_board()->get_cards()[1];
+    EXPECT_EQ(micro_machine->get_attack(), 2); // Normally it's 1, but buffed +1
+    EXPECT_EQ(micro_machine_golden->get_attack(), 4); // Normally it's 2, but buffed +2
+}
+
+
+TEST(Player, MicroMummyEndTurnMechanic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
 	{

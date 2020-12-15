@@ -1513,6 +1513,14 @@ void SpawnOfNzothGolden::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
+void StewardOfTime::on_sell(Player* p1) {
+    p1->buff_tav_till_refresh(1, 1);
+}
+
+void StewardOfTimeGolden::on_sell(Player* p1) {
+    p1->buff_tav_till_refresh(2, 2);
+}
+
 void StrongshellScavenger::do_battlecry(Player* p1) {
     for (auto card : p1->get_board()->get_cards()) {
 	if (card.get() == this) continue;

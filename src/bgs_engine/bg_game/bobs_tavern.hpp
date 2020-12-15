@@ -19,6 +19,7 @@ public:
     void buy_minion(int pos); // Reduces players gold by three, adds minion to hand
     void sell_minion(int board_bos); // Removes card from board, gives player a gold
     bool tavern_up(int turns_at_current_tier); // Level up tavern tier
+    void buff_tav_till_refresh(int attack_buff, int health_buff); // Gives buff to current minions till refresh
 private:
     Player* player;
     std::unordered_map<int, std::unordered_map<std::string, int>> card_pool;
@@ -29,4 +30,6 @@ private:
     void init_card_pool();
     void init_tav_tier_cost();
     void _refresh_minions();
+    int till_refresh_attack_buff;
+    int till_refresh_health_buff;
 };

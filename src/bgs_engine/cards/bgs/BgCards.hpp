@@ -273,7 +273,7 @@ private:
 
 // Floating Watcher handled by player class
 
-class FreedealingGambler : public BgBaseCard {
+class FreedealingGambler : public PirateCard {
 public:
     FreedealingGambler() : BgBaseCard(3, "NEUTRAL", 3, 3, "Freedealing Gambler",
 				      "", "PIRATE", "", 2, "MINION") {}
@@ -281,7 +281,7 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<FreedealingGambler>(*this); } // boilerplate that every drattle needs...
 };
 
-class FreedealingGamblerGolden : public BgBaseCard {
+class FreedealingGamblerGolden : public PirateCard {
 public:
     FreedealingGamblerGolden() : BgBaseCard(6, "NEUTRAL", 3, 6, "Freedealing Gambler (Golden)",
 					    "", "PIRATE", "", 2, "MINION") {}
@@ -1377,6 +1377,22 @@ public:
     SpawnOfNzothGolden() : BgBaseCard(4, "NEUTRAL", 4, 2, "Spawn of N'Zoth (Golden)", "['DEATHRATTLE']", "", "COMMON", 2, "MINION") {}
     virtual void do_deathrattle(Board* b1, Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SpawnOfNzothGolden>(*this); } // boilerplate that every drattle needs...
+};
+
+class StewardOfTime : public PirateCard {
+public:
+    StewardOfTime() : BgBaseCard(3, "NEUTRAL", 4, 4, "Steward of Time",
+				 "", "DRAGON", "", 2, "MINION") {}
+    void on_sell(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<StewardOfTime>(*this); } // boilerplate that every drattle needs...
+};
+
+class StewardOfTimeGolden : public PirateCard {
+public:
+    StewardOfTimeGolden() : BgBaseCard(6, "NEUTRAL", 4, 8, "Steward of Time (Golden)",
+				       "", "DRAGON", "", 2, "MINION") {}
+    void on_sell(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<StewardOfTimeGolden>(*this); } // boilerplate that every drattle needs...
 };
 
 class StrongshellScavenger : public BattlecryCard {

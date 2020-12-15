@@ -78,6 +78,11 @@ public:
     int get_turns_at_current_tier() const { return turns_at_current_tier; }
     void set_free_refreshes(int num_free) { num_free_refreshes = num_free; }
 
+    // Used by steward of time, syndragosa, etc
+    void buff_tav_till_refresh(int attack_buff, int health_buff) {
+	return tavern->buff_tav_till_refresh(attack_buff, health_buff);
+    }
+
     void add_card_to_hand(std::shared_ptr<BgBaseCard> card) {
 	hand.add_card(card);
     }

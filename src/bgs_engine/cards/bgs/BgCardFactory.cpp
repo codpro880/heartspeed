@@ -445,12 +445,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Menagerie Mug (Golden)", std::make_shared<MenagerieMugGolden>());
     cards.emplace("Metaltooth Leaper", std::make_shared<MetaltoothLeaper>());
     cards.emplace("Metaltooth Leaper (Golden)", std::make_shared<MetaltoothLeaperGolden>());
-    std::shared_ptr<BgBaseCard> micro_machine(new BgBaseCard(1, "NEUTRAL", 2, 2, "Micro Machine",
-							     "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
-    cards.emplace("Micro Machine", micro_machine);
-    std::shared_ptr<BgBaseCard> micro_machine_gold(new BgBaseCard(2, "NEUTRAL", 2, 4, "Micro Machine (Golden)",
-								  "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION"));
-    cards.emplace("Micro Machine (Golden)", micro_machine_gold);
+    cards.emplace("Micro Machine", std::make_shared<MicroMachine>());
+    cards.emplace("Micro Machine (Golden)", std::make_shared<MicroMachineGolden>());
     auto micro_mummy = std::make_shared<MicroMummy>();
     micro_mummy->set_reborn();
     cards.emplace("Micro Mummy", micro_mummy);
@@ -551,10 +547,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Red Whelp (Golden)", std::make_shared<RedWhelpGolden>());
     // cards.emplace("Redemption", BgBaseCard(-1, "PALADIN", 1, -1, "Redemption",
     // 					   "['SECRET']", "", "COMMON", -1, "SPELL"));
-    cards.emplace("Refreshing Anomaly", std::make_shared<BgBaseCard>(1, "NEUTRAL", -1, 3, "Refreshing Anomaly",
-								     "", "ELEMENTAL", "", 1, "MINION"));
-    cards.emplace("Refreshing Anomaly (Golden)", std::make_shared<BgBaseCard>(2, "NEUTRAL", -1, 6, "Refreshing Anomaly (Golden)",
-									      "", "ELEMENTAL", "", 1, "MINION"));
+    cards.emplace("Refreshing Anomaly", std::make_shared<RefreshingAnomaly>());
+    cards.emplace("Refreshing Anomaly (Golden)", std::make_shared<RefreshingAnomalyGolden>());
     cards.emplace("Replicating Menace", std::make_shared<ReplicatingMenace>());
     cards.emplace("Replicating Menace (Golden)", std::make_shared<ReplicatingMenaceGolden>());
     // std::shared_ptr<BgBaseCard> ripsnarl(new PirateCard(3, "NEUTRAL", 4, 4, "Ripsnarl Captain",

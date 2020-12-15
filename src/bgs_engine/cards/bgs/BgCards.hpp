@@ -790,6 +790,22 @@ private:
     MetaltoothLeaper leaper;
 };
 
+class MicroMachine : public BgBaseCard {
+public:
+    MicroMachine() : BgBaseCard(1, "NEUTRAL", 2, 2, "Micro Machine",
+				"['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION") {}
+    virtual void start_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MicroMachine>(*this); } // boilerplate that every drattle needs...
+};
+
+class MicroMachineGolden : public BgBaseCard {
+public:
+    MicroMachineGolden() : BgBaseCard(2, "NEUTRAL", 2, 4, "Micro Machine (Golden)",
+				      "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION") {}
+    virtual void start_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MicroMachineGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 class MicroMummy : public BgBaseCard {
 public:
     MicroMummy() : BgBaseCard(1, "NEUTRAL", 2, 2, "Micro Mummy",
@@ -1017,6 +1033,22 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RedWhelpGolden>(*this); } // boilerplate that every drattle needs...
 private:
     RedWhelp rw;
+};
+
+class RefreshingAnomaly : public BattlecryCard {
+public:
+    RefreshingAnomaly() : BgBaseCard(1, "NEUTRAL", -1, 3, "Refreshing Anomaly",
+				     "", "ELEMENTAL", "", 1, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RefreshingAnomaly>(*this); } // boilerplate that every drattle needs...
+};
+
+class RefreshingAnomalyGolden : public BattlecryCard {
+public:
+    RefreshingAnomalyGolden() : BgBaseCard(2, "NEUTRAL", -1, 6, "Refreshing Anomaly (Golden)",
+					   "", "ELEMENTAL", "", 1, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RefreshingAnomalyGolden>(*this); } // boilerplate that every drattle needs...
 };
 
 class ReplicatingMenace : public DeathrattleCard {

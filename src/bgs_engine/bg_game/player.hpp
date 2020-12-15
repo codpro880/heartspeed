@@ -18,6 +18,7 @@ public:
 							      max_gold(3),
 							      max_health(40),
 							      name(name),
+							      num_free_refreshes(0),
 							      original_board(std::make_shared<Board>(board_)),
 							      tavern(std::make_shared<BobsTavern>(this)),
 							      tavern_tier(1),
@@ -29,6 +30,7 @@ public:
 			       max_gold(3),
 			       max_health(40),
 			       name(name),
+			       num_free_refreshes(0),
 			       original_board(new Board()),
 			       tavern(std::make_shared<BobsTavern>(this)),
 			       tavern_tier(1),
@@ -41,6 +43,7 @@ public:
 					  max_gold(3),
 					  max_health(40),
 					  name(name),
+					  num_free_refreshes(0),
 					  original_board(new Board()),
 					  tavern(std::make_shared<BobsTavern>(this)),
 					  tavern_tier(1),
@@ -68,11 +71,12 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const Player& p);
     int get_health() const { return health; }
     int get_max_health() const { return max_health; }
-    int get_damage_taken() const { std::cerr << "Dmg taken: " << max_health - health << std::endl; return max_health - health; }
+    int get_damage_taken() const { return max_health - health; }
     std::string get_name() const { return name; }
     int get_tavern_tier() const { return tavern_tier; }
     void set_tavern_tier(int tav_tier) { tavern_tier = tav_tier; }
     int get_turns_at_current_tier() const { return turns_at_current_tier; }
+    void set_free_refreshes(int num_free) { num_free_refreshes = num_free; }
 
     void add_card_to_hand(std::shared_ptr<BgBaseCard> card) {
 	hand.add_card(card);
@@ -129,7 +133,13 @@ public:
 
     // Tavern wrappers
     std::vector<std::string> refresh_tavern_minions() {
-	return tavern->refresh_minions();
+	if (num_free_refreshes > 0) {
+	    num_free_refreshes -= 1;
+	    return tavern->refresh_minions(true);
+	}
+	else {
+	    return tavern->refresh_minions();
+	}
     }
 
     std::vector<std::string> get_tavern_minions() {
@@ -175,6 +185,7 @@ private:
     int health;
     int max_health;
     std::string name;
+    int num_free_refreshes;
     std::shared_ptr<Board> original_board; // Read-only board
     int tavern_tier;
     std::shared_ptr<BobsTavern> tavern;

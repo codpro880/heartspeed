@@ -13,9 +13,12 @@ std::vector<std::string> BobsTavern::get_current_minions() {
     return current_minions;
 }
 
-std::vector<std::string> BobsTavern::refresh_minions() {
+std::vector<std::string> BobsTavern::refresh_minions(bool is_free) {
     if (player->get_gold() == 0) return current_minions;
-    player->lose_gold(1);
+    
+    if (!is_free) {
+	player->lose_gold(1);
+    }
     _refresh_minions();
     return current_minions;
 }

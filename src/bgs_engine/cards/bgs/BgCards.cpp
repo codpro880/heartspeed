@@ -924,6 +924,18 @@ void MetaltoothLeaperGolden::do_battlecry(Player* p1) {
     // leaper.do_battlecry(p1);
 }
 
+void micro_machine_start_turn(Player*, int attack_buff, BgBaseCard* this_) {
+    this_->set_attack(this_->get_attack() + attack_buff);
+}
+
+void MicroMachine::start_turn_mechanic(Player* p1) {
+    micro_machine_start_turn(p1, 1, this);
+}
+
+void MicroMachineGolden::start_turn_mechanic(Player* p1) {
+    micro_machine_start_turn(p1, 2, this);
+}
+
 void micro_mummy_end_turn(Player* p1, int attack_buff, BgBaseCard* this_) {
     if (p1->get_board()->get_cards().size() < 1) return;
     auto cards = p1->get_board()->get_cards();
@@ -1162,6 +1174,14 @@ void RedWhelpGolden::do_precombat(Board* b1, Board* b2) {
     for (int i = 0; i < 2; i++) {
 	rw.do_precombat(b1, b2);
     }
+}
+
+void RefreshingAnomaly::do_battlecry(Player* p1) {
+    p1->set_free_refreshes(1);
+}
+
+void RefreshingAnomalyGolden::do_battlecry(Player* p1) {
+    p1->set_free_refreshes(2);
 }
 
 void ReplicatingMenace::do_deathrattle(Board* b1, Board* b2) {

@@ -242,3 +242,39 @@ TEST(BobsTavern, GivesPlayerALotMoreThanNormalGoldWhenFreedealingGamblerSold) {
     // 3 from non golden, 6 from golden
     EXPECT_EQ(player->get_gold(), 9);
 }
+
+TEST(BobsTavern, CanGiveStewardOfTimeBuffAndBuffIsRemovedOnRefresh) {
+    BgCardFactory f;
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Steward of Time"),
+	 f.get_card("Steward of Time (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = std::make_unique<Player>(in_hand, "Test");
+    player->play_card(0, 0);
+    player->play_card(0, 1);
+
+    // Buff all
+    player->sell_minion(0);
+    player->sell_minion(0);
+    // Buy 2 out of 3 
+    player->set_gold(10); 
+    player->buy_minion(0);
+    player->buy_minion(0);
+    // Refresh
+    player->refresh_tavern_minions();
+    player->buy_minion(0);
+
+    // Expect first two cards in hand to have +3/+3, last one not buffed
+    auto first_card = player->get_hand().get_cards()[0];
+    EXPECT_EQ(first_card->get_attack() - 3, f.get_card(first_card->get_name())->get_attack());
+    EXPECT_EQ(first_card->get_health() - 3, f.get_card(first_card->get_name())->get_health());
+    auto second_card = player->get_hand().get_cards()[1];
+    EXPECT_EQ(second_card->get_attack() - 3, f.get_card(second_card->get_name())->get_attack());
+    EXPECT_EQ(second_card->get_health() - 3, f.get_card(second_card->get_name())->get_health());
+    // Expect third card to be same as original
+    auto third_card = player->get_hand().get_cards()[2];
+    EXPECT_EQ(third_card->get_attack(), f.get_card(third_card->get_name())->get_attack());
+    EXPECT_EQ(third_card->get_health(), f.get_card(third_card->get_name())->get_health());
+}

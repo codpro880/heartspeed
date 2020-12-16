@@ -2,7 +2,9 @@
 #include "player.hpp"
 #include "../cards/bgs/BgCardFactory.hpp"
 
-BobsTavern::BobsTavern(Player* player) : player(player) {
+BobsTavern::BobsTavern(Player* player) : player(player),
+					 till_refresh_attack_buff(0),
+					 till_refresh_health_buff(0) {
     init_card_pool();
     init_tav_tier_cost();
     _refresh_minions();
@@ -23,6 +25,11 @@ std::vector<std::string> BobsTavern::refresh_minions(bool is_free) {
     return current_minions;
 }
 
+void BobsTavern::buff_tav_till_refresh(int attack_buff, int health_buff) {
+    till_refresh_attack_buff += attack_buff;
+    till_refresh_health_buff += health_buff;
+}
+
 void BobsTavern::buy_minion(int pos) {
     auto minion = current_minions[pos];
     buy_minion(minion);
@@ -38,6 +45,8 @@ void BobsTavern::buy_minion(std::string minion) {
     }
     BgCardFactory f;
     auto card = f.get_card(minion);
+    card->set_attack(card->get_attack() + till_refresh_attack_buff);
+    card->set_health(card->get_health() + till_refresh_health_buff);
     player->add_card_to_hand(card);
     // TODO: Add special buy mechanics like hogger
     player->lose_gold(3);
@@ -77,6 +86,8 @@ void BobsTavern::_refresh_minions() {
 	}
     }
     current_minions.clear();
+    till_refresh_health_buff = 0;
+    till_refresh_attack_buff = 0;
 
     // Refresh
     std::vector<std::string> cards;
@@ -133,4 +144,3 @@ void BobsTavern::init_card_pool() {
 	card_pool[6][card_name] = 7;
     }
 }
-

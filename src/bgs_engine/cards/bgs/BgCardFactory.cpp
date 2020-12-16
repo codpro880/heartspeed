@@ -363,12 +363,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Imp Mama (Golden)", std::make_shared<ImpMamaGolden>());
     cards.emplace("Imprisoner", std::make_shared<Imprisoner>());
     cards.emplace("Imprisoner (Golden)", std::make_shared<ImprisonerGolden>());
-    std::shared_ptr<BgBaseCard> iron_sen(new BgBaseCard(4, "ROGUE", 3, 4, "Iron Sensei",
-							"['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 4, "MINION"));
-    cards.emplace("Iron Sensei", iron_sen);
-    std::shared_ptr<BgBaseCard> iron_sen_gold(new BgBaseCard(4, "ROGUE", 3, 4, "Iron Sensei (Golden)",
-							     "['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 4, "MINION"));
-    cards.emplace("Iron Sensei (Golden)", iron_sen_gold);
+    cards.emplace("Iron Sensei", std::make_shared<IronSensei>());
+    cards.emplace("Iron Sensei (Golden)", std::make_shared<IronSenseiGolden>());
     cards.emplace("Ironhide Direhorn", std::make_shared<IronhideDirehorn>());
     cards.emplace("Ironhide Direhorn (Golden)", std::make_shared<IronhideDirehornGolden>());
     std::shared_ptr<BgBaseCard> ironhide_runt(new BgBaseCard(5, "DRUID", 5, 5, "Ironhide Runt",

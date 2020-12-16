@@ -506,6 +506,22 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<IronhideDirehornGolden>(*this); } // boilerplate that every drattle needs...
 };
 
+class IronSensei : public BgBaseCard {
+public:
+    IronSensei() : BgBaseCard(2, "ROGUE", 3, 2, "Iron Sensei",
+			      "['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 2, "MINION") {}
+    virtual void end_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<IronSensei>(*this); } // boilerplate that every drattle needs...
+};
+
+class IronSenseiGolden : public BgBaseCard {
+public:
+    IronSenseiGolden() : BgBaseCard(4, "ROGUE", 3, 4, "Iron Sensei (Golden)",
+				    "['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 3, "MINION") {}
+    virtual void end_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<IronSenseiGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 class Junkbot : public BgBaseCard {
 public:
     Junkbot() : BgBaseCard(1, "NEUTRAL", 5, 5, "Junkbot",

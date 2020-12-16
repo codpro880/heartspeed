@@ -567,6 +567,28 @@ std::shared_ptr<BgBaseCard> IronhideDirehornGolden::summon() {
     return f.get_card("Ironhide Runt (Golden)");
 }
 
+void iron_sensei_end_turn(Player* p1, int buff, BgBaseCard* this_) {
+    std::vector<std::shared_ptr<BgBaseCard>> mech_cards;
+    for (auto c : p1->get_board()->get_cards()) {
+	if (c.get() == this_) continue;
+	if (c->get_race() == "MECHANICAL") {
+	    mech_cards.push_back(c);
+	}
+    }
+    if (mech_cards.size() == 0) return;
+    auto card_to_buff =  mech_cards[RngSingleton::getInstance().get_rand_int() % mech_cards.size()];
+    card_to_buff->set_attack(card_to_buff->get_attack() + buff);
+    card_to_buff->set_health(card_to_buff->get_health() + buff);
+}
+
+void IronSensei::end_turn_mechanic(Player* p1) {
+    iron_sensei_end_turn(p1, 2, this);
+}
+
+void IronSenseiGolden::end_turn_mechanic(Player* p1) {
+    iron_sensei_end_turn(p1, 4, this);
+}
+
 
 void Junkbot::do_postbattle(Board* b1,
 			    Board* b2,

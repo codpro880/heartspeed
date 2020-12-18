@@ -453,6 +453,32 @@ TEST(Player, HoundmasterBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 3);
 }
 
+TEST(Player, IronSenseiEndTurnMechanic) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Iron Sensei"),
+	 f.get_card("Iron Sensei (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    player.start_turn();
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.end_turn();
+
+    // Assert sensei's buff each other
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Iron Sensei");
+    // Originally a 2/2, now should have +4/+4
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Iron Sensei (Golden)");
+    // Originally a 4/4, now should have +2/+2
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 6);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 6);
+}
+
+
 TEST(Player, KalecgosBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

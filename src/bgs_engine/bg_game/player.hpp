@@ -20,6 +20,7 @@ public:
 							      name(name),
 							      num_free_refreshes(0),
 							      original_board(std::make_shared<Board>(board_)),
+							      pirates_bought_this_turn(0),
 							      tavern(std::make_shared<BobsTavern>(this)),
 							      tavern_tier(1),
 							      turns_at_current_tier(0) { }
@@ -32,6 +33,7 @@ public:
 			       name(name),
 			       num_free_refreshes(0),
 			       original_board(new Board()),
+			       pirates_bought_this_turn(0),
 			       tavern(std::make_shared<BobsTavern>(this)),
 			       tavern_tier(1),
 			       turns_at_current_tier(0) { }
@@ -45,6 +47,7 @@ public:
 					  name(name),
 					  num_free_refreshes(0),
 					  original_board(new Board()),
+					  pirates_bought_this_turn(0),
 					  tavern(std::make_shared<BobsTavern>(this)),
 					  tavern_tier(1),
 					  turns_at_current_tier(0) { }
@@ -151,6 +154,10 @@ public:
 	return tavern->get_current_minions();
     }
 
+    void set_tavern_minions(std::vector<std::string> minions) {
+	return tavern->set_current_minions(minions);
+    }
+
     void buy_minion(std::string minion) {
 	return tavern->buy_minion(minion);
     }
@@ -158,6 +165,7 @@ public:
     void buy_minion(int pos) {
 	return tavern->buy_minion(pos);
     }
+    
     void sell_minion(int board_bos) {
 	return tavern->sell_minion(board_bos);
     }
@@ -173,6 +181,7 @@ public:
 	    c->start_turn_mechanic(this);
 	}
 	gold = max_gold;
+	pirates_bought_this_turn = 0;
     }
     
     void end_turn() {
@@ -182,6 +191,16 @@ public:
 	turns_at_current_tier += 1;
 	if (max_gold < 10) max_gold++;
     }
+
+    void inc_pirates_bought_this_turn() {
+	pirates_bought_this_turn++;
+    }
+
+    int get_pirates_bought_this_turn() {
+	return pirates_bought_this_turn;
+    }
+
+
 private:
     int max_gold;
     std::shared_ptr<Board> board;
@@ -192,6 +211,7 @@ private:
     std::string name;
     int num_free_refreshes;
     std::shared_ptr<Board> original_board; // Read-only board
+    int pirates_bought_this_turn;
     int tavern_tier;
     std::shared_ptr<BobsTavern> tavern;
     int turns_at_current_tier;

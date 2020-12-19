@@ -41,6 +41,7 @@ public:
 };
 
 class TargetedBattlecryCard : virtual public BgBaseCard {
+public:
     virtual void targeted_battlecry(std::shared_ptr<BgBaseCard>, Player*) override;
     virtual void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override = 0;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override = 0; // boilerplate that every card needs...
@@ -1379,6 +1380,28 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SouthseaCaptainGolden>(*this); } // boilerplate that every drattle needs...
 private:
     SouthseaCaptain rw;
+};
+
+class SouthseaStrongarm : public TargetedBattlecryCard {
+public:
+    SouthseaStrongarm() : BgBaseCard(4, "NEUTRAL", 5, 3,  "Southsea Strongarm",
+				     "", "PIRATE", "", 3,"MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SouthseaStrongarm>(*this); } // boilerplate that every drattle needs...
+    void targeted_battlecry(std::shared_ptr<BgBaseCard> c, Player* p1) override;
+    void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+private:
+    int pirates_bought_this_turn;
+};
+
+class SouthseaStrongarmGolden : public TargetedBattlecryCard {
+public:
+    SouthseaStrongarmGolden() : BgBaseCard(8, "NEUTRAL", 5, 6, "Southsea Strongarm (Golden)",
+					   "", "PIRATE", "", 3, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SouthseaStrongarmGolden>(*this); } // boilerplate that every drattle needs...
+    void targeted_battlecry(std::shared_ptr<BgBaseCard> c, Player* p1) override;
+    void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+private:
+    int pirates_bought_this_turn;
 };
 
 class SpawnOfNzoth : public DeathrattleCard {

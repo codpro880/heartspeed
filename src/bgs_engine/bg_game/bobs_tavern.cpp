@@ -48,6 +48,9 @@ void BobsTavern::buy_minion(std::string minion) {
     card->set_attack(card->get_attack() + till_refresh_attack_buff);
     card->set_health(card->get_health() + till_refresh_health_buff);
     player->add_card_to_hand(card);
+    if (card->get_race() == "PIRATE") {
+	player->inc_pirates_bought_this_turn();
+    }
     // TODO: Add special buy mechanics like hogger
     player->lose_gold(3);
 }
@@ -143,4 +146,9 @@ void BobsTavern::init_card_pool() {
     for (auto card_name : tier_to_cards_map[6]) {
 	card_pool[6][card_name] = 7;
     }
+}
+
+// Should be used for testing only
+void BobsTavern::set_current_minions(std::vector<std::string> current_minions) {
+    this->current_minions = current_minions;
 }

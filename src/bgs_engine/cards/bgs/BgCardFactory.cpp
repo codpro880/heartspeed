@@ -615,12 +615,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Soul Juggler (Golden)", std::make_shared<SoulJugglerGolden>());
     cards.emplace("Southsea Captain", std::make_shared<SouthseaCaptain>());
     cards.emplace("Southsea Captain (Golden)", std::make_shared<SouthseaCaptainGolden>());
-    std::shared_ptr<BgBaseCard> southsea_strongarm(new BgBaseCard(5, "NEUTRAL", 5, 4,  "Southsea Strongarm",
-								  "", "PIRATE", "", 4,"MINION"));
-    cards.emplace("Southsea Strongarm", southsea_strongarm);
-    std::shared_ptr<BgBaseCard> southsea_strongarm_gold(new BgBaseCard(10, "NEUTRAL", 5, 8, "Southsea Strongarm (Golden)",
-								       "", "PIRATE", "", 4, "MINION"));
-    cards.emplace("Southsea Strongarm (Golden)", southsea_strongarm_gold);
+    cards.emplace("Southsea Strongarm", std::make_shared<SouthseaStrongarm>());
+    cards.emplace("Southsea Strongarm (Golden)", std::make_shared<SouthseaStrongarmGolden>());
     cards.emplace("Spawn of N'Zoth", std::make_shared<SpawnOfNzoth>());
     cards.emplace("Spawn of N'Zoth (Golden)", std::make_shared<SpawnOfNzothGolden>());
     std::shared_ptr<BgBaseCard> spider(new BgBaseCard(1, "HUNTER", 1, 1, "Spider",

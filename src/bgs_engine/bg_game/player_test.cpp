@@ -274,7 +274,6 @@ TEST(Player, CrystalweaverBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 4);
 }
 
-
 TEST(Player, ColdlightBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
@@ -1039,7 +1038,6 @@ TEST(Player, SaltyLooterAfterPirateSummoned) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 2);
 }
 
-
 TEST(Player, ScrewjankClunkerBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
@@ -1064,6 +1062,33 @@ TEST(Player, ScrewjankClunkerBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Screwjank Clunker");
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 2);
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 5);
+}
+
+TEST(Player, SouthseaStrongarmBattlecry) {
+    auto f = BgCardFactory();
+    auto player = Player("Test");
+    // Technically can't buy golden minions, this is just a test
+    std::vector<std::string> minions({"Salty Looter", "Southsea Strongarm", "Southsea Strongarm (Golden)"});
+    player.set_tavern_minions(minions);
+
+    player.buy_minion(0);
+    player.play_card(0, 0);
+    player.buy_minion(0);
+    player.play_card(0, 0, 1);
+    player.buy_minion(0);
+    player.play_card(0, 0, 2);
+
+    // Salty gets +2/+2 from first southsea, then +6/+6 from second southsea
+    // Also gets +2/+2 b/c each southsea is a pirate (salty buffs itself)
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Salty Looter");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 4+2+6+2);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 4+2+6+2);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Southsea Strongarm");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Southsea Strongarm (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 8);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 6);
 }
 
 TEST(Player, StrongshellScavengerBattlecry) {

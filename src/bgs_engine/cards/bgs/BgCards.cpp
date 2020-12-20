@@ -1521,6 +1521,30 @@ void SouthseaCaptainGolden::do_deathrattle(Board* b1, Board*b2) {
     }
 }
 
+void SouthseaStrongarm::targeted_battlecry(std::shared_ptr<BgBaseCard> c, Player* p1) {
+    pirates_bought_this_turn = p1->get_pirates_bought_this_turn();
+    TargetedBattlecryCard::targeted_battlecry(c, p1);
+}
+
+void SouthseaStrongarm::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "PIRATE") {
+	c->set_attack(c->get_attack() + pirates_bought_this_turn);
+	c->set_health(c->get_health() + pirates_bought_this_turn);
+    }
+}
+
+void SouthseaStrongarmGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c, Player* p1) {
+    pirates_bought_this_turn = p1->get_pirates_bought_this_turn();
+    TargetedBattlecryCard::targeted_battlecry(c, p1);
+}
+
+void SouthseaStrongarmGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    if (c->get_race() == "PIRATE") {
+	c->set_attack(c->get_attack() + pirates_bought_this_turn * 2);
+	c->set_health(c->get_health() + pirates_bought_this_turn * 2);
+    }
+}
+
 void SpawnOfNzoth::do_deathrattle(Board* b1, Board* b2) {
     for (auto c : b1->get_cards()) {
 	c->set_attack(c->get_attack() + 1);

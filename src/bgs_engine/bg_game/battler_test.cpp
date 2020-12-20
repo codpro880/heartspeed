@@ -1639,7 +1639,6 @@ TEST(Battler, SpawnOfNzothGoldenDrattle) {
 	 f.get_card("Freedealing Gambler (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)"),
-	 f.get_card("Freedealing Gambler (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)")
 	};
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
@@ -1652,7 +1651,6 @@ TEST(Battler, SpawnOfNzothGoldenDrattle) {
 	 f.get_card("Freedealing Gambler (Golden)"),
 	 f.get_card("Freedealing Gambler (Golden)")
 	};
-    // Should have the 1 damaged golem left on board
     std::shared_ptr<Board> board1(new Board(p1_cards));
     std::shared_ptr<Board> board2(new Board(p2_cards));
     std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
@@ -1660,10 +1658,10 @@ TEST(Battler, SpawnOfNzothGoldenDrattle) {
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "Tess");
-    // Will take at most 2 * 6 = 12
-    // WIll take at least 2 * 3 = 6
-    EXPECT_LE(res.damage_taken, 12);
-    EXPECT_GE(res.damage_taken, 6);
+    // Will take at most 2 * 6 + 1 = 13
+    // WIll take at least 2 * 3 + 1 = 7
+    EXPECT_LE(res.damage_taken, 13);
+    EXPECT_GE(res.damage_taken, 7);
 }
 
 TEST(Battler, SoulJuggler) {

@@ -20,6 +20,33 @@ TEST(Player, CanPlayCardFromHandBasic) {
     EXPECT_EQ(player.get_board()->size(), 1);
 }
 
+TEST(Player, CanAndUnfreezeFreezeTavern) {
+    auto player = Player("Test");
+
+    player.start_turn();
+    auto tavern_minions = player.get_tavern_minions();
+    player.end_turn();
+
+    // Since we weren't frozen last turn, minions should be different
+    player.start_turn();
+    auto tavern_minions_next_turn = player.get_tavern_minions();
+    EXPECT_NE(tavern_minions, tavern_minions_next_turn);
+    player.freeze_tavern(); // Freeze it for following turn
+    player.end_turn();
+
+    // Test we get the same as last turn (frozen)
+    player.start_turn();
+    auto tavern_minions_again = player.get_tavern_minions();
+    EXPECT_EQ(tavern_minions_next_turn, tavern_minions_again);
+    player.end_turn();
+
+    // Tavern should automatically unfreeze at start of turn
+    player.start_turn();
+    auto tavern_minions_last_time = player.get_tavern_minions();
+    EXPECT_NE(tavern_minions_again, tavern_minions_last_time);
+    player.end_turn();    
+}    
+
 TEST(Player, AlleycatBattlecryBasic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

@@ -20,7 +20,7 @@ public:
     void sell_minion(int board_bos); // Removes card from board, gives player a gold
     bool tavern_up(int turns_at_current_tier); // Level up tavern tier
     void buff_tav_till_refresh(int attack_buff, int health_buff); // Gives buff to current minions till refresh
-    void set_current_minions(std::vector<std::string> current_minions); // Testing only...
+    void set_current_minions(std::vector<std::string> current_minions); // Mostly useful for testing, but also used w/ special freeze mechanics
 private:
     Player* player;
     std::unordered_map<int, std::unordered_map<std::string, int>> card_pool;

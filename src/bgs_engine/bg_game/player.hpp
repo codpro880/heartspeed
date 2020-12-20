@@ -196,7 +196,16 @@ public:
 	if (!tavern_is_frozen) {
 	    tavern->refresh_minions(true); // Free refresh at start of turn, unless frozen
 	}
+	if (frozen_minions.size() != 0 && !tavern_is_frozen) {
+	    auto minions = tavern->refresh_minions(true);
+	    minions.insert(minions.end(), frozen_minions.begin(), frozen_minions.end());
+	    while (minions.size() > (unsigned)7) {
+		minions.erase(minions.begin());
+	    }
+	    tavern->set_current_minions(minions);
+	}
 	tavern_is_frozen = false;
+	frozen_minions.clear();
     }
     
     void end_turn() {
@@ -215,10 +224,14 @@ public:
 	return pirates_bought_this_turn;
     }
 
+    void add_to_frozen_minions(std::string minion) {
+	frozen_minions.push_back(minion);
+    }
 
 private:
     int max_gold;
     std::shared_ptr<Board> board;
+    std::vector<std::string> frozen_minions;
     int gold;
     Hand hand;
     int health;

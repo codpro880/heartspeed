@@ -627,10 +627,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Spider (Golden)", spider_gold);
     // cards.emplace("Splitting Image", BgBaseCard(-1, "MAGE", 3, -1, "Splitting Image",
     // 						"['SECRET']", "", "EPIC", -1, "SPELL"));
-    cards.emplace("Stasis Elemental", std::make_shared<BgBaseCard>(4, "NEUTRAL", -1, 4, "Stasis Elemental",
-								   "", "ELEMENTAL", "", 3, "MINION"));
-    cards.emplace("Stasis Elemental (Golden)", std::make_shared<BgBaseCard>(8, "NEUTRAL", -1, 8, "Stasis Elemental (Golden)",
-									    "", "ELEMENTAL", "", 3, "MINION"));
+    cards.emplace("Stasis Elemental", std::make_shared<StasisElemental>());
+    cards.emplace("Stasis Elemental (Golden)", std::make_shared<StasisElementalGolden>());
     cards.emplace("Steward of Time", std::make_shared<StewardOfTime>());
     cards.emplace("Steward of Time (Golden)", std::make_shared<StewardOfTimeGolden>());
     // std::shared_ptr<BgBaseCard> strongshell(new BgBaseCard(2, "DRUID", 4, 3, "Strongshell Scavenger",

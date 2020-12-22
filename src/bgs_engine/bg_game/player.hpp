@@ -22,6 +22,7 @@ public:
 							      original_board(std::make_shared<Board>(board_)),
 							      pirates_bought_this_turn(0),
 							      tavern(std::make_shared<BobsTavern>(this)),
+							      tavern_is_frozen(false),
 							      tavern_tier(1),
 							      turns_at_current_tier(0) { }
 
@@ -35,6 +36,7 @@ public:
 			       original_board(new Board()),
 			       pirates_bought_this_turn(0),
 			       tavern(std::make_shared<BobsTavern>(this)),
+			       tavern_is_frozen(false),
 			       tavern_tier(1),
 			       turns_at_current_tier(0) { }
 
@@ -49,6 +51,7 @@ public:
 					  original_board(new Board()),
 					  pirates_bought_this_turn(0),
 					  tavern(std::make_shared<BobsTavern>(this)),
+					  tavern_is_frozen(false),
 					  tavern_tier(1),
 					  turns_at_current_tier(0) { }
     
@@ -130,6 +133,14 @@ public:
 	}
     }
 
+    void freeze_tavern() {
+	tavern_is_frozen = true;
+    }
+
+    void unfreeze_tavern() {
+	tavern_is_frozen = false;
+    }
+
     void add_gold(int g) { set_gold(get_gold() + g); }
     void lose_gold(int g) { set_gold(get_gold() - g); }
     void set_gold(int g) {
@@ -182,6 +193,19 @@ public:
 	}
 	gold = max_gold;
 	pirates_bought_this_turn = 0;
+	if (!tavern_is_frozen) {
+	    tavern->refresh_minions(true); // Free refresh at start of turn, unless frozen
+	}
+	if (frozen_minions.size() != 0 && !tavern_is_frozen) {
+	    auto minions = tavern->refresh_minions(true);
+	    minions.insert(minions.end(), frozen_minions.begin(), frozen_minions.end());
+	    while (minions.size() > (unsigned)7) {
+		minions.erase(minions.begin());
+	    }
+	    tavern->set_current_minions(minions);
+	}
+	tavern_is_frozen = false;
+	frozen_minions.clear();
     }
     
     void end_turn() {
@@ -200,10 +224,14 @@ public:
 	return pirates_bought_this_turn;
     }
 
+    void add_to_frozen_minions(std::string minion) {
+	frozen_minions.push_back(minion);
+    }
 
 private:
     int max_gold;
     std::shared_ptr<Board> board;
+    std::vector<std::string> frozen_minions;
     int gold;
     Hand hand;
     int health;
@@ -214,6 +242,7 @@ private:
     int pirates_bought_this_turn;
     int tavern_tier;
     std::shared_ptr<BobsTavern> tavern;
+    bool tavern_is_frozen;
     int turns_at_current_tier;
 
     // TODO: Make this more efficient

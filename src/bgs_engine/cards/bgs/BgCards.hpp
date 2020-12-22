@@ -1418,6 +1418,24 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SpawnOfNzothGolden>(*this); } // boilerplate that every drattle needs...
 };
 
+class StasisElemental : public BattlecryCard {
+public:
+    StasisElemental() : BgBaseCard(4, "NEUTRAL", -1, 4, "Stasis Elemental",
+				   "", "ELEMENTAL", "", 3, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<StasisElemental>(*this); } // boilerplate that every drattle needs...
+};
+
+class StasisElementalGolden : public BattlecryCard {
+public:
+    StasisElementalGolden() : BgBaseCard(8, "NEUTRAL", -1, 8, "Stasis Elemental (Golden)",
+					 "", "ELEMENTAL", "", 3, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<StasisElementalGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    StasisElemental se;
+};
+
 class StewardOfTime : public PirateCard {
 public:
     StewardOfTime() : BgBaseCard(3, "NEUTRAL", 4, 4, "Steward of Time",

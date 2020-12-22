@@ -1559,6 +1559,24 @@ void SpawnOfNzothGolden::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
+void StasisElemental::do_battlecry(Player* p1) {
+    BgCardFactory f;
+    auto elementals = f.get_cards_of_race("ELEMENTAL");
+    std::vector<std::shared_ptr<BgBaseCard>> elementals_at_or_below_tier;
+    for (auto card : elementals) {
+	if (card->get_tavern_tier() <= p1->get_tavern_tier()) {
+	    elementals_at_or_below_tier.push_back(card);
+	}
+    }
+    auto to_freeze = elementals_at_or_below_tier[RngSingleton::getInstance().get_rand_int() % elementals_at_or_below_tier.size()];
+    p1->add_to_frozen_minions(to_freeze->get_name());
+}
+
+void StasisElementalGolden::do_battlecry(Player* p1) {
+    se.do_battlecry(p1);
+    se.do_battlecry(p1);
+}
+
 void StewardOfTime::on_sell(Player* p1) {
     p1->buff_tav_till_refresh(1, 1);
 }

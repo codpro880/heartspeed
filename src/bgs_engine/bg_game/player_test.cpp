@@ -20,6 +20,33 @@ TEST(Player, CanPlayCardFromHandBasic) {
     EXPECT_EQ(player.get_board()->size(), 1);
 }
 
+TEST(Player, CanAndUnfreezeFreezeTavern) {
+    auto player = Player("Test");
+
+    player.start_turn();
+    auto tavern_minions = player.get_tavern_minions();
+    player.end_turn();
+
+    // Since we weren't frozen last turn, minions should be different
+    player.start_turn();
+    auto tavern_minions_next_turn = player.get_tavern_minions();
+    EXPECT_NE(tavern_minions, tavern_minions_next_turn);
+    player.freeze_tavern(); // Freeze it for following turn
+    player.end_turn();
+
+    // Test we get the same as last turn (frozen)
+    player.start_turn();
+    auto tavern_minions_again = player.get_tavern_minions();
+    EXPECT_EQ(tavern_minions_next_turn, tavern_minions_again);
+    player.end_turn();
+
+    // Tavern should automatically unfreeze at start of turn
+    player.start_turn();
+    auto tavern_minions_last_time = player.get_tavern_minions();
+    EXPECT_NE(tavern_minions_again, tavern_minions_last_time);
+    player.end_turn();    
+}
+
 TEST(Player, AlleycatBattlecryBasic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
@@ -1090,6 +1117,61 @@ TEST(Player, SouthseaStrongarmBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 8);
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 6);
 }
+
+TEST(Player, StasisElementalBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Stasis Elemental"),
+	 f.get_card("Stasis Elemental (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    player.start_turn();
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.end_turn();
+
+    // Should see 3 + 1 + 2 total minions in the tavern.
+    // 3 normally, plus one frozen from statis plus two from golden version
+    player.start_turn();
+    auto tav_minions = player.get_tavern_minions();
+    EXPECT_EQ(tav_minions.size(), (unsigned)6);
+    // Last three should be elementals
+    for (size_t i = tav_minions.size() - 3; i < tav_minions.size(); i++) {
+	EXPECT_EQ(f.get_card(tav_minions[i])->get_race(), "ELEMENTAL");
+    }
+    player.end_turn();
+}
+
+TEST(Player, StasisElementalAtHigherTavernTierBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Stasis Elemental"),
+	 f.get_card("Stasis Elemental (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    player.set_tavern_tier(5);
+    player.start_turn();
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.end_turn();
+
+    // Should see 7 total minions in the tavern.
+    // 6 normally, plus one frozen from statis plus two from golden version
+    // However, tavern capped at 7 minions
+    player.start_turn();
+    auto tav_minions = player.get_tavern_minions();
+    EXPECT_EQ(tav_minions.size(), (unsigned)7);
+    // Last three should be elementals
+    for (size_t i = tav_minions.size() - 3; i < tav_minions.size(); i++) {
+	EXPECT_EQ(f.get_card(tav_minions[i])->get_race(), "ELEMENTAL");
+    }
+    player.end_turn();
+}
+
 
 TEST(Player, StrongshellScavengerBattlecry) {
     auto f = BgCardFactory();

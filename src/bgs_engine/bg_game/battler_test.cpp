@@ -1116,7 +1116,7 @@ TEST(Battler, NadinaDrattle) {
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
 	{
 	 f.get_card("Nadina"),
-	 f.get_card("Razorgore")
+	 f.get_card("Razorgore, the Untamed")
 	};
     auto th = f.get_card("Murloc Tidehunter");
     th->set_attack(4);
@@ -1252,9 +1252,9 @@ TEST(Battler, RatPackDrattleSummonsCorrectNumOfRats) {
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards;
     auto rp = f.get_card("Rat Pack");
     rp->set_attack(7);
-    auto big_guy = f.get_card("Razorgore");
+    auto big_guy = f.get_card("Razorgore, the Untamed");
     big_guy->set_health(100);
-    auto big_guy2 = f.get_card("Razorgore");
+    auto big_guy2 = f.get_card("Razorgore, the Untamed");
     big_guy2->set_health(100);	
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
 	{
@@ -1271,7 +1271,7 @@ TEST(Battler, RatPackDrattleSummonsCorrectNumOfRats) {
     for (auto c : board2->get_cards()) {
 	auto name = c->get_name();
 	if (name == "Rat") rat_count++;
-	if (name.find("Razorgore") != std::string::npos) razor_count++;
+	if (name.find("Razorgore, the Untamed") != std::string::npos) razor_count++;
     }
     EXPECT_EQ(rat_count, 5);
     EXPECT_EQ(razor_count, 2);

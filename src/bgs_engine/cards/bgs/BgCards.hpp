@@ -346,6 +346,22 @@ private:
     GlyphGuardian coiler;
 };
 
+class Goldgrubber : public BgBaseCard {
+public:
+    Goldgrubber() : BgBaseCard(2, "NEUTRAL", 5, 2, "Goldgrubber",
+			       "['TRIGGER_VISUAL']", "PIRATE", "", 4, "MINION") {}
+    virtual void end_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Goldgrubber>(*this); } // boilerplate that every drattle needs...
+};
+
+class GoldgrubberGolden : public BgBaseCard {
+public:
+    GoldgrubberGolden() : BgBaseCard(4, "NEUTRAL", 5, 4, "Goldgrubber (Golden)",
+				     "['TRIGGER_VISUAL']", "PIRATE", "", 4, "MINION") {}
+    virtual void end_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<GoldgrubberGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 class Goldrinn : public DeathrattleCard {
 public:
     Goldrinn() : BgBaseCard(4, "NEUTRAL", 8, 4, "Goldrinn",

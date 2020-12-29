@@ -236,6 +236,29 @@ TEST(Player, BrannMakesBattlecriesGoOffTwiceAndGoldenThrice) {
     EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 4);
 }
 
+TEST(Player, CobaltScalebaneEndTurnMechanic) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Cobalt Scalebane"),
+	 f.get_card("Cobalt Scalebane (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    // Play out a quick turn
+    player.start_turn();
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.end_turn();
+
+    // Scalebanes buff each other
+    auto scalebane = player.get_board()->get_cards()[0];
+    auto scalebane_golden = player.get_board()->get_cards()[1];
+    EXPECT_EQ(scalebane->get_attack(), 5+6); // Normally it's 5, but buffed +6
+    EXPECT_EQ(scalebane_golden->get_attack(), 10+3); // Normally it's 10, but buffed +3
+}
+
 TEST(Player, CrowdFavoriteReactsToBattlecryCards) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

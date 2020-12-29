@@ -193,12 +193,8 @@ void BgCardFactory::init_cards() {
 								"['TRIGGER_VISUAL']", "PIRATE", "", 5, "MINION"));
     cards.emplace("Cap'n Hoggarr (Golden)", std::make_shared<BgBaseCard>(12, "NEUTRAL", 6, 12, "Cap'n Hoggarr (Golden)",
 									 "['TRIGGER_VISUAL']", "PIRATE", "", 5, "MINION"));
-    std::shared_ptr<BgBaseCard> cobalt(new BgBaseCard(5, "NEUTRAL", 5, 5, "Cobalt Scalebane",
-						      "['TRIGGER_VISUAL']", "DRAGON", "COMMON", 4, "MINION"));
-    cards.emplace("Cobalt Scalebane", cobalt);
-    std::shared_ptr<BgBaseCard> cobalt_gold(new BgBaseCard(10, "NEUTRAL", 5, 10, "Cobalt Scalebane (Golden)",
-							   "['TRIGGER_VISUAL']", "DRAGON", "COMMON", 4, "MINION"));
-    cards.emplace("Cobalt Scalebane (Golden)", cobalt_gold);
+    cards.emplace("Cobalt Scalebane", std::make_shared<CobaltScalebane>());
+    cards.emplace("Cobalt Scalebane (Golden)", std::make_shared<CobaltScalebaneGolden>());
     cards.emplace("Coldlight Seer", std::make_shared<ColdlightSeer>());
     cards.emplace("Coldlight Seer (Golden)", std::make_shared<ColdlightSeerGolden>());
     std::shared_ptr<BgBaseCard> crackling_cyclone(new BgBaseCard(4, "NEUTRAL", -1, 1, "Crackling Cyclone",
@@ -535,9 +531,9 @@ void BgCardFactory::init_cards() {
     cards.emplace("Rat (Golden)", rat_gold);
     cards.emplace("Rat Pack", std::make_shared<RatPack>());
     cards.emplace("Rat Pack (Golden)", std::make_shared<RatPackGolden>());
-    cards.emplace("Razorgore", std::make_shared<BgBaseCard>(2, "NEUTRAL", 8, 4, "Razorgore, the Untamed",
+    cards.emplace("Razorgore, the Untamed", std::make_shared<BgBaseCard>(2, "NEUTRAL", 8, 4, "Razorgore, the Untamed",
 							    "['TRIGGER_VISUAL']", "DRAGON", "", 5, "MINION"));
-    cards.emplace("Razorgore (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", 8, 8, "Razorgore, the Untamed (Golden)",
+    cards.emplace("Razorgore, the Untamed (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", 8, 8, "Razorgore, the Untamed (Golden)",
 								     "['TRIGGER_VISUAL']", "DRAGON", "", 5, "MINION"));
     cards.emplace("Red Whelp", std::make_shared<RedWhelp>());
     cards.emplace("Red Whelp (Golden)", std::make_shared<RedWhelpGolden>());

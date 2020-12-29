@@ -131,6 +131,38 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<BloodsailCannoneerGolden>(*this); } // boilerplate that every drattle needs...
 };
 
+class CobaltScalebane : public BgBaseCard {
+public:
+    CobaltScalebane() : BgBaseCard(5, "NEUTRAL", 5, 5, "Cobalt Scalebane",
+				   "['TRIGGER_VISUAL']", "DRAGON", "COMMON", 4, "MINION") {}
+    virtual void end_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<CobaltScalebane>(*this); } // boilerplate that every drattle needs...
+};
+
+class CobaltScalebaneGolden : public BgBaseCard {
+public:
+    CobaltScalebaneGolden() : BgBaseCard(10, "NEUTRAL", 5, 10, "Cobalt Scalebane (Golden)",
+					 "['TRIGGER_VISUAL']", "DRAGON", "COMMON", 4, "MINION") {}
+    virtual void end_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<CobaltScalebaneGolden>(*this); } // boilerplate that every drattle needs...
+};
+
+class ColdlightSeer : public BattlecryCard {
+public:
+    ColdlightSeer() : BgBaseCard(2, "NEUTRAL", 3, 3, "Coldlight Seer",
+				 "['BATTLECRY']", "MURLOC", "RARE", 3, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ColdlightSeer>(*this); } // boilerplate that every drattle needs...
+};
+
+class ColdlightSeerGolden : public BattlecryCard {
+public:
+    ColdlightSeerGolden() : BgBaseCard(4, "NEUTRAL", 3, 6, "Coldlight Seer (Golden)",
+				       "['BATTLECRY']", "MURLOC", "RARE", 3, "MINION") {}
+    virtual void do_battlecry(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ColdlightSeerGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 class CrowdFavorite : public BgBaseCard {
 public:
     CrowdFavorite() : BgBaseCard(4, "NEUTRAL", 4, 4, "Crowd Favorite",
@@ -167,24 +199,6 @@ private:
     Crystalweaver cw;
 };
 
-class ColdlightSeer : public BattlecryCard {
-public:
-    ColdlightSeer() : BgBaseCard(2, "NEUTRAL", 3, 3, "Coldlight Seer",
-				 "['BATTLECRY']", "MURLOC", "RARE", 3, "MINION") {}
-    virtual void do_battlecry(Player*) override;
-    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ColdlightSeer>(*this); } // boilerplate that every drattle needs...
-};
-
-class ColdlightSeerGolden : public BattlecryCard {
-public:
-    ColdlightSeerGolden() : BgBaseCard(4, "NEUTRAL", 3, 6, "Coldlight Seer (Golden)",
-				       "['BATTLECRY']", "MURLOC", "RARE", 3, "MINION") {}
-    virtual void do_battlecry(Player*) override;
-    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ColdlightSeerGolden>(*this); } // boilerplate that every drattle needs...
-};
-
-// <<<<<<< Updated upstream
-// =======
 class DefenderOfArgus : public BattlecryCard {
 public:
     DefenderOfArgus() : BgBaseCard(2, "NEUTRAL", 4, 3, "Defender of Argus",

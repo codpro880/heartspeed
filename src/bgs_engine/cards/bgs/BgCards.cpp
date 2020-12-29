@@ -8,6 +8,18 @@
 #include "../../bg_game/battler.hpp"
 #include "../../bg_game/rng_singleton.hpp"
 
+// Some reusable funcs
+void buff_attack_end_turn(Player* p1, int attack_buff, BgBaseCard* this_) {
+    if (p1->get_board()->get_cards().size() < 1) return;
+    auto cards = p1->get_board()->get_cards();
+    auto card_to_buff =  cards[RngSingleton::getInstance().get_rand_int() % cards.size()];
+    while (card_to_buff.get() == this_) {
+	card_to_buff =  cards[RngSingleton::getInstance().get_rand_int() % cards.size()];
+    }
+    card_to_buff->set_attack(card_to_buff->get_attack() + attack_buff);
+}
+
+// Generic Classes
 // TODO: Efficiency
 void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
     if (b1->contains("Baron Rivendare (Golden)")) {
@@ -88,6 +100,8 @@ void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
 	c->set_health(c->get_health() + total_buff);
     }
 }
+
+// Specific Cards
 
 void Alleycat::do_battlecry(Player* p1) {
     basic_summon(p1, true);
@@ -170,6 +184,15 @@ void BloodsailCannoneerGolden::do_battlecry(Player* p1) {
 	}
     }
 }
+
+void CobaltScalebane::end_turn_mechanic(Player* p1) {
+    buff_attack_end_turn(p1, 3, this);
+}
+
+void CobaltScalebaneGolden::end_turn_mechanic(Player* p1) {
+    buff_attack_end_turn(p1, 6, this);
+}
+
 
 int CrowdFavorite::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
     if (card->has_battlecry()) {
@@ -958,22 +981,12 @@ void MicroMachineGolden::start_turn_mechanic(Player* p1) {
     micro_machine_start_turn(p1, 2, this);
 }
 
-void micro_mummy_end_turn(Player* p1, int attack_buff, BgBaseCard* this_) {
-    if (p1->get_board()->get_cards().size() < 1) return;
-    auto cards = p1->get_board()->get_cards();
-    auto card_to_buff =  cards[RngSingleton::getInstance().get_rand_int() % cards.size()];
-    while (card_to_buff.get() == this_) {
-	card_to_buff =  cards[RngSingleton::getInstance().get_rand_int() % cards.size()];
-    }
-    card_to_buff->set_attack(card_to_buff->get_attack() + attack_buff);
-}
-
 void MicroMummy::end_turn_mechanic(Player* p1) {
-    micro_mummy_end_turn(p1, 1, this);
+    buff_attack_end_turn(p1, 1, this);
 }
 
 void MicroMummyGolden::end_turn_mechanic(Player* p1) {
-    micro_mummy_end_turn(p1, 2, this);
+    buff_attack_end_turn(p1, 2, this);
 }
 
 void MonstrousMacaw::do_preattack(std::shared_ptr<BgBaseCard> defender,

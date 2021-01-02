@@ -413,10 +413,8 @@ void BgCardFactory::init_cards() {
 							   "", "BEAST", "", 6, "MINION"));
     maexxna_gold->set_poison();
     cards.emplace("Maexxna (Golden)", maexxna_gold);
-    cards.emplace("Majordomo Executus", std::make_shared<BgBaseCard>(6, "NEUTRAL", 6, 3, "Majordomo Executus",
-								     "", "", "", 4, "MINION"));
-    cards.emplace("Majordomo Executus (Golden)", std::make_shared<BgBaseCard>(12, "NEUTRAL", 6, 6, "Majordomo Executus (Golden)",
-									      "", "", "", 4, "MINION"));
+    cards.emplace("Majordomo Executus", std::make_shared<MajordomoExecutus>());
+    cards.emplace("Majordomo Executus (Golden)", std::make_shared<MajordomoExecutusGolden>());
     cards.emplace("Mal'Ganis", std::make_shared<MalGanis>());
     cards.emplace("Mal'Ganis (Golden)", std::make_shared<MalGanisGolden>());
     cards.emplace("Mama Bear", std::make_shared<MamaBear>());

@@ -13,6 +13,7 @@
 class Player {
 public:
     Player(std::shared_ptr<Board> board_, std::string name) : board(board_),
+							      elementals_played_this_turn(0),
 							      gold(3),
 							      health(40),
 							      max_gold(3),
@@ -27,6 +28,7 @@ public:
 							      turns_at_current_tier(0) { }
 
     Player(std::string name) : board(new Board()),
+			       elementals_played_this_turn(0),
 			       gold(3),
 			       health(40),
 			       max_gold(3),
@@ -41,6 +43,7 @@ public:
 			       turns_at_current_tier(0) { }
 
     Player(Hand hand, std::string name) : board(new Board()),
+					  elementals_played_this_turn(0),
 					  gold(3),
 					  hand(hand),
 					  health(40),
@@ -106,6 +109,9 @@ public:
 
     void play_card(uint8_t hand_pos, uint8_t board_pos) {
 	auto card = hand.get_cards()[hand_pos];
+	if (card->get_race() == "ELEMENTAL") {
+	    elementals_played_this_turn += 1;
+	}
 	auto dmg_taken = board->insert_card(board_pos, card, true);
 	// Responsible for floating watcher effects...
 	// TODO: Make more efficient, does linear searching
@@ -117,6 +123,9 @@ public:
 
     void play_card(uint8_t hand_pos, uint8_t target_pos, uint8_t board_pos) {
 	auto card = hand.get_cards()[hand_pos];
+	if (card->get_race() == "ELEMENTAL") {
+	    elementals_played_this_turn += 1;
+	}
 	auto target = board->get_cards()[target_pos];
 	// TODO: Enforce valid targets (e.g. MUST pick valid target if available)
 	auto dmg_taken = board->insert_card(board_pos, card, true);
@@ -193,6 +202,7 @@ public:
 	}
 	gold = max_gold;
 	pirates_bought_this_turn = 0;
+	elementals_played_this_turn = 0;
 	if (!tavern_is_frozen) {
 	    tavern->refresh_minions(true); // Free refresh at start of turn, unless frozen
 	}
@@ -224,18 +234,23 @@ public:
 	return pirates_bought_this_turn;
     }
 
+    int get_elementals_played_this_turn() {
+	return elementals_played_this_turn;
+    }
+
     void add_to_frozen_minions(std::string minion) {
 	frozen_minions.push_back(minion);
     }
 
-private:
-    int max_gold;
+private:    
     std::shared_ptr<Board> board;
+    int elementals_played_this_turn;
     std::vector<std::string> frozen_minions;
     int gold;
     Hand hand;
     int health;
-    int max_health;
+    int max_gold;
+    int max_health;    
     std::string name;
     int num_free_refreshes;
     std::shared_ptr<Board> original_board; // Read-only board

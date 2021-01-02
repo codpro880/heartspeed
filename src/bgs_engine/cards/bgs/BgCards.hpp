@@ -710,6 +710,24 @@ private:
     LilRag lr;
 };
 
+class MajordomoExecutus : public BgBaseCard {
+public:
+    MajordomoExecutus() : BgBaseCard(6, "NEUTRAL", 6, 3, "Majordomo Executus",
+				     "", "", "", 4, "MINION") {}
+    virtual void end_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MajordomoExecutus>(*this); } // boilerplate that every drattle needs...
+};
+
+class MajordomoExecutusGolden : public BgBaseCard {
+public:
+    MajordomoExecutusGolden() : BgBaseCard(12, "NEUTRAL", 6, 6, "Majordomo Executus (Golden)",
+					   "", "", "", 4, "MINION") {}
+    virtual void end_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MajordomoExecutusGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    MajordomoExecutus majordomo;
+};
+
 class MalGanis : public BgBaseCard {
 public:
     MalGanis() : BgBaseCard(9, "WARLOCK", 9, 7, "Mal'Ganis",

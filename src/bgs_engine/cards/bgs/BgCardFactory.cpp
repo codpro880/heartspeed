@@ -303,12 +303,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Glyph Guardian (Golden)", std::make_shared<GlyphGuardianGolden>());
     // cards.emplace("Gold Coin", BgBaseCard(-1, "NEUTRAL", 0, -1, "Gold Coin",
     // 					  "", "", "RARE", -1, "SPELL"));
-    std::shared_ptr<BgBaseCard> goldgrubber(new BgBaseCard(2, "NEUTRAL", 5, 2, "Goldgrubber",
-							   "['TRIGGER_VISUAL']", "PIRATE", "", 4, "MINION"));
-    cards.emplace("Goldgrubber", goldgrubber);
-    std::shared_ptr<BgBaseCard> goldgrubber_gold(new BgBaseCard(4, "NEUTRAL", 5, 4, "Goldgrubber (Golden)",
-								"['TRIGGER_VISUAL']", "PIRATE", "", 4, "MINION"));
-    cards.emplace("Goldgrubber (Golden)", goldgrubber_gold);
+    cards.emplace("Goldgrubber", std::make_shared<Goldgrubber>());
+    cards.emplace("Goldgrubber (Golden)", std::make_shared<GoldgrubberGolden>());
     cards.emplace("Goldrinn", std::make_shared<Goldrinn>());
     cards.emplace("Goldrinn (Golden)", std::make_shared<GoldrinnGolden>());
     std::shared_ptr<BgBaseCard> guard_bot(new BgBaseCard(2, "WARRIOR", 2, 3, "Guard Bot",

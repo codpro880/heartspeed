@@ -474,6 +474,31 @@ TEST(Player, FloatingWatcherRespondsToDamageBattlecries) {
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Vulgar Homunculus");
 }
 
+TEST(Player, GoldgrubberEndTurnMechanic) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Goldgrubber"),
+	 f.get_card("Goldgrubber (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    // Play out a quick turn
+    player.start_turn();
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.end_turn();
+
+    // Scalebanes buff each other
+    auto goldgrub = player.get_board()->get_cards()[0];
+    auto goldgrub_golden = player.get_board()->get_cards()[1];
+    EXPECT_EQ(goldgrub->get_attack(), 4); // Normally it's 2/2, but buffed +2/+2
+    EXPECT_EQ(goldgrub->get_health(), 4);
+    EXPECT_EQ(goldgrub_golden->get_attack(), 8); // Normally it's 4/4, but buffed +4/+4
+    EXPECT_EQ(goldgrub_golden->get_health(), 8);
+}
+
 
 TEST(Player, HoundmasterBattlecry) {
     auto f = BgCardFactory();

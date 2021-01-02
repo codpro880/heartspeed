@@ -396,6 +396,28 @@ void GlyphGuardianGolden::do_preattack(std::shared_ptr<BgBaseCard> defender,
     set_attack(get_attack() * 3);
 }
 
+void Goldgrubber::end_turn_mechanic(Player* p1) {
+    int num_gold_cards = 0;
+    for (auto c : p1->get_board()->get_cards()) {
+	if (c->is_golden()) {
+	    num_gold_cards++;
+	}
+    }
+    set_attack(get_attack() + num_gold_cards*2);
+    set_health(get_health() + num_gold_cards*2);
+}
+
+void GoldgrubberGolden::end_turn_mechanic(Player* p1) {
+    int num_gold_cards = 0;
+    for (auto c : p1->get_board()->get_cards()) {
+	if (c->is_golden()) {
+	    num_gold_cards++;
+	}
+    }
+    set_attack(get_attack() + num_gold_cards*4);
+    set_health(get_health() + num_gold_cards*4);
+}
+
 void Goldrinn::do_deathrattle(Board* b1, Board* b2) {
     auto cards = b1->get_cards();
     for (auto c : cards) {

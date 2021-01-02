@@ -10,8 +10,8 @@ OBJ_TARGETS = $(CARD_CPP_FILES:.cpp=.o)
 
 # Matt's local rule for faster builds.
 # I'll work incremental builds in docker when enough people complain...
-export CXX = /usr/local/opt/llvm/bin/clang++
-# export CXX = clang++
+# export CXX = /usr/local/opt/llvm/bin/clang++
+export CXX = clang++
 export OPENMP_FLAGS = -fopenmp
 
 ################################################################

@@ -699,6 +699,48 @@ TEST(Player, LilRagBattlecry) {
     EXPECT_EQ(board_total_health, hand_total_health + expected_buff);
 }
 
+TEST(Player, MajordomoExecutusEndTurnMechanic) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Crackling Cyclone"),
+	 f.get_card("Crackling Cyclone"),
+	 f.get_card("Majordomo Executus"),
+	 f.get_card("Majordomo Executus (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    // Play out a quick turn
+    player.start_turn();
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    player.end_turn();
+
+    // Assert left most cracking gets buffed
+    auto crackling = player.get_board()->get_cards()[0];
+     // Normally it's 4/1, but buffed +3/+3 from majordomo and +6/+6 from golden 
+    EXPECT_EQ(crackling->get_attack(), 4 + 3 + 6);
+    EXPECT_EQ(crackling->get_health(), 1 + 3 + 6);
+    EXPECT_TRUE(crackling->has_divine_shield());
+    EXPECT_TRUE(crackling->has_windfury());
+
+    // Play another turn...
+    player.start_turn();
+    player.end_turn();
+
+    // Make sure crackling got buffed again, but no elems played
+    crackling = player.get_board()->get_cards()[0];
+     // Buffed +1/+1 from majordomo and +2/+2 from gold version
+    EXPECT_EQ(crackling->get_attack(), 4 + 3 + 6 + 1 + 2);
+    EXPECT_EQ(crackling->get_health(), 1 + 3 + 6 + 1 + 2);
+    EXPECT_TRUE(crackling->has_divine_shield());
+    EXPECT_TRUE(crackling->has_windfury());
+}
+
+
 // Some extra tests around the mug since it's sort of complicated.
 // This level of testing not necessary for the Jug (since logic will be reused)
 TEST(Player, MenagerieMugBattlecryEmpty) {

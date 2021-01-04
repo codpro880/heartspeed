@@ -325,8 +325,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Hangry Dragon (Golden)", hangry_gold);
     cards.emplace("Harvest Golem", std::make_shared<HarvestGolem>());
     cards.emplace("Harvest Golem (Golden)", std::make_shared<HarvestGolemGolden>());
-    cards.emplace("Herald Of Flame", std::make_shared<HeraldOfFlame>());
-    cards.emplace("Herald Of Flame (Golden)", std::make_shared<HeraldOfFlameGolden>());
+    cards.emplace("Herald of Flame", std::make_shared<HeraldOfFlame>());
+    cards.emplace("Herald of Flame (Golden)", std::make_shared<HeraldOfFlameGolden>());
     // cards.emplace("Holy Mackerel", BgBaseCard(8, "PALADIN", 8, 4, "Holy Mackerel",
     // 					      "['TRIGGER_VISUAL']", "MURLOC", "", 6, "MINION"));
     cards.emplace("Houndmaster", std::make_shared<Houndmaster>());

@@ -19,6 +19,33 @@ void buff_attack_end_turn(Player* p1, int attack_buff, BgBaseCard* this_) {
     card_to_buff->set_attack(card_to_buff->get_attack() + attack_buff);
 }
 
+void menagerie_bcry(Player* p1,
+		    uint8_t buff_amount,
+		    size_t num_to_buff = 7) { // Default is to buff all
+    auto board = p1->get_board();
+    std::unordered_set<std::string> races;
+    std::vector<std::shared_ptr<BgBaseCard>> cards_to_buff;
+    auto cards = board->get_cards();
+    while (!cards.empty()) {
+	auto rand_pos = RngSingleton::getInstance().get_rand_int() % cards.size();
+	auto card = cards[rand_pos];
+	cards.erase(cards.begin() + rand_pos);
+	auto race = card->get_race();
+	if (races.find(race) == races.end() && race != "") {
+	    races.insert(race);
+	    cards_to_buff.push_back(card);
+	}
+	if (races.size() == num_to_buff) {
+	    break;
+	}
+    }
+
+    for (auto c : cards_to_buff) {
+	c->set_attack(c->get_attack() + buff_amount);
+	c->set_health(c->get_health() + buff_amount);
+    }
+}
+
 // Generic Classes
 // TODO: Efficiency
 void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
@@ -461,7 +488,7 @@ void HeraldOfFlame::do_postattack(std::shared_ptr<BgBaseCard> defender,
 	if (!b2_cards.empty()) {
 	    auto new_defender = b2_cards[0];
 	    auto f = BgCardFactory();
-	    auto hof = f.get_card("Herald Of Flame");
+	    auto hof = f.get_card("Herald of Flame");
 	    hof->set_attack(3);
 	    BoardBattler().take_dmg_simul(hof, new_defender, b1, b2);
 	}
@@ -477,7 +504,7 @@ void HeraldOfFlameGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
 	if (!b2_cards.empty()) {
 	    auto new_defender = b2_cards[0];
 	    auto f = BgCardFactory();
-	    auto hof = f.get_card("Herald Of Flame (Golden)");
+	    auto hof = f.get_card("Herald of Flame (Golden)");
 	    hof->set_attack(6);
 	    BoardBattler().take_dmg_simul(hof, new_defender, b1, b2);
 	}
@@ -814,6 +841,14 @@ int LieutenantGarrGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* 
     return 0;
 }
 
+void LightfangEnforcer::end_turn_mechanic(Player* p1) {
+    menagerie_bcry(p1, 2);
+}
+
+void LightfangEnforcerGolden::end_turn_mechanic(Player* p1) {
+    menagerie_bcry(p1, 4);
+}
+
 int LilRag::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
     if (card->get_race() == "ELEMENTAL" && from_hand) {
 	auto all_elem_cards = b1->get_cards();
@@ -933,45 +968,20 @@ std::shared_ptr<BgBaseCard> MecharooGolden::summon() {
     return f.get_card("Jo-E Bot (Golden)");
 }
 
-void menagerie_bcry(Player* p1, uint8_t buff_amount) {
-    auto board = p1->get_board();
-    std::unordered_set<std::string> races;
-    std::vector<std::shared_ptr<BgBaseCard>> cards_to_buff;
-    auto cards = board->get_cards();
-    while (!cards.empty()) {
-	auto rand_pos = RngSingleton::getInstance().get_rand_int() % cards.size();
-	auto card = cards[rand_pos];
-	cards.erase(cards.begin() + rand_pos);
-	auto race = card->get_race();
-	if (races.find(race) == races.end() && race != "") {
-	    races.insert(race);
-	    cards_to_buff.push_back(card);
-	}
-	if (races.size() == (unsigned)3) {
-	    break;
-	}
-    }
-
-    for (auto c : cards_to_buff) {
-	c->set_attack(c->get_attack() + buff_amount);
-	c->set_health(c->get_health() + buff_amount);
-    }
-}
-
 void MenagerieJug::do_battlecry(Player* p1) {
-    menagerie_bcry(p1, 2);
+    menagerie_bcry(p1, 2, 3);
 }
 
 void MenagerieJugGolden::do_battlecry(Player* p1) {
-    menagerie_bcry(p1, 4);
+    menagerie_bcry(p1, 4, 3);
 }
 
 void MenagerieMug::do_battlecry(Player* p1) {
-    menagerie_bcry(p1, 1);
+    menagerie_bcry(p1, 1, 3);
 }
 
 void MenagerieMugGolden::do_battlecry(Player* p1) {
-    menagerie_bcry(p1, 2);
+    menagerie_bcry(p1, 2, 3);
 }
 
 

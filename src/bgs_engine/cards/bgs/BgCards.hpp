@@ -692,6 +692,22 @@ private:
     LieutenantGarr lt;
 };
 
+class LightfangEnforcer : public BgBaseCard {
+public:
+    LightfangEnforcer() : BgBaseCard(2, "NEUTRAL", 6, 2, "Lightfang Enforcer",
+				     "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION") {}
+    virtual void end_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<LightfangEnforcer>(*this); } // boilerplate that every drattle needs...
+};
+
+class LightfangEnforcerGolden : public BgBaseCard {
+public:
+    LightfangEnforcerGolden() : BgBaseCard(4, "NEUTRAL", 6, 4, "Lightfang Enforcer (Golden)",
+					   "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION") {}
+    virtual void end_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<LightfangEnforcerGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 class LilRag : public BgBaseCard {
 public:
     LilRag() : BgBaseCard(4, "NEUTRAL", 4, 4, "Lil' Rag",

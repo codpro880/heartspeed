@@ -479,7 +479,7 @@ TEST(Battler, HeraldOfFlame) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
 	{
-	 f.get_card("Herald Of Flame")
+	 f.get_card("Herald of Flame")
 	};
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
 	{

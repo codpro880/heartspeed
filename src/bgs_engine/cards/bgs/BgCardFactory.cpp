@@ -325,8 +325,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Hangry Dragon (Golden)", hangry_gold);
     cards.emplace("Harvest Golem", std::make_shared<HarvestGolem>());
     cards.emplace("Harvest Golem (Golden)", std::make_shared<HarvestGolemGolden>());
-    cards.emplace("Herald Of Flame", std::make_shared<HeraldOfFlame>());
-    cards.emplace("Herald Of Flame (Golden)", std::make_shared<HeraldOfFlameGolden>());
+    cards.emplace("Herald of Flame", std::make_shared<HeraldOfFlame>());
+    cards.emplace("Herald of Flame (Golden)", std::make_shared<HeraldOfFlameGolden>());
     // cards.emplace("Holy Mackerel", BgBaseCard(8, "PALADIN", 8, 4, "Holy Mackerel",
     // 					      "['TRIGGER_VISUAL']", "MURLOC", "", 6, "MINION"));
     cards.emplace("Houndmaster", std::make_shared<Houndmaster>());
@@ -396,10 +396,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("King Bagurgle (Golden)", std::make_shared<KingBagurgleGolden>());
 
     // L
-    cards.emplace("Lightfang Enforcer", std::make_shared<BgBaseCard>(2, "NEUTRAL", 6, 2, "Lightfang Enforcer",
-								     "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION"));
-    cards.emplace("Lightfang Enforcer (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", 6, 4, "Lightfang Enforcer (Golden)",
-									      "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION"));
+    cards.emplace("Lightfang Enforcer", std::make_shared<LightfangEnforcer>());
+    cards.emplace("Lightfang Enforcer (Golden)", std::make_shared<LightfangEnforcerGolden>());
     cards.emplace("Lil' Rag", std::make_shared<LilRag>());
     cards.emplace("Lil' Rag (Golden)", std::make_shared<LilRagGolden>());
 

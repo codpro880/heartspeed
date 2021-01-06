@@ -656,6 +656,49 @@ TEST(Player, LieutenantGarrBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 2);
 }
 
+TEST(Player, LightfangMix) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Foe Reaper 4000"),
+	 f.get_card("Harvest Golem"),
+	 f.get_card("Murloc Tidecaller"),
+	 f.get_card("Deck Swabbie"),
+	 f.get_card("Imp Gang Boss"),
+	 f.get_card("Lightfang Enforcer"),
+	 f.get_card("Lightfang Enforcer (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    int total_hand_attack = 0;
+    int total_hand_health = 0;
+    for (auto card : in_hand.get_cards()) {
+	total_hand_attack += card->get_attack();
+	total_hand_health += card->get_health();
+    }
+    
+    player.start_turn();
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    player.play_card(0, 4);
+    player.play_card(0, 5);
+    player.play_card(0, 6);
+    player.end_turn();
+    
+    int total_board_attack = 0;
+    int total_board_health = 0;
+    for (auto card : player.get_board()->get_cards()) {
+	total_board_attack += card->get_attack();
+	total_board_health += card->get_health();
+    }
+
+    // Should see +8/+8 and +16/+16 (golden) total stat change, 4 different types
+    EXPECT_EQ(total_hand_attack + 8 + 16, total_board_attack);
+    EXPECT_EQ(total_hand_health + 8 + 16, total_board_health);
+}
+
 TEST(Player, LilRagBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

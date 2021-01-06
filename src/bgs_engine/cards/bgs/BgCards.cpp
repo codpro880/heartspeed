@@ -1116,6 +1116,26 @@ void MurlocWarleaderGolden::do_deathrattle(Board* b1, Board*b2) {
     }
 }
 
+void mythrax_end_of_turn(Player* p1, int attack_buff_mult, int health_buff_mult, BgBaseCard* this_) {
+    auto board = p1->get_board();
+    std::unordered_set<std::string> races;
+    auto cards = board->get_cards();
+    for (auto c : cards) {
+	races.insert(c->get_race());
+    }
+    // Empty string race doesn't count, so subtract one
+    auto num_different_races = races.size() - 1;
+    this_->set_attack(this_->get_attack() + attack_buff_mult * num_different_races);
+    this_->set_health(this_->get_health() + health_buff_mult * num_different_races);
+}
+
+void MythraxTheUnraveler::end_turn_mechanic(Player* p1) {
+    mythrax_end_of_turn(p1, 1, 2, this);
+}
+
+void MythraxTheUnravelerGolden::end_turn_mechanic(Player* p1) {
+    mythrax_end_of_turn(p1, 2, 4, this);
+}
 
 void Nadina::do_deathrattle(Board* b1, Board* b2) {
     auto cards = b1->get_cards();

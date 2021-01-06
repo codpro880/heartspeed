@@ -980,6 +980,22 @@ private:
     MurlocWarleader rw;
 };
 
+class MythraxTheUnraveler : public BgBaseCard {
+public:
+    MythraxTheUnraveler() : BgBaseCard(4, "NEUTRAL", 5, 4, "Mythrax the Unraveler",
+				     "['TRIGGER_VISUAL']", "", "COMMON", 5, "MINION") {}
+    virtual void end_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MythraxTheUnraveler>(*this); } // boilerplate that every drattle needs...
+};
+
+class MythraxTheUnravelerGolden : public BgBaseCard {
+public:
+    MythraxTheUnravelerGolden() : BgBaseCard(8, "NEUTRAL", 5, 8, "Mythrax the Unraveler (Golden)",
+					     "['TRIGGER_VISUAL']", "", "COMMON", 5, "MINION") {}
+    virtual void end_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MythraxTheUnravelerGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 class Nadina : public DeathrattleCard {
 public:
     Nadina() : BgBaseCard(7, "NEUTRAL", 6, 4, "Nadina",

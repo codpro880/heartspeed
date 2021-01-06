@@ -1255,6 +1255,26 @@ std::shared_ptr<BgBaseCard> RatPackGolden::summon() {
     return f.get_card("Rat (Golden)");
 }
 
+void razorgore_end_of_turn(Player* p1, int buff_mult, BgBaseCard* this_) {
+    auto board = p1->get_board();
+    int num_dragons = 0;
+    auto cards = board->get_cards();
+    for (auto c : cards) {
+	if (c->get_race() == "DRAGON") num_dragons++;
+    }
+    this_->set_attack(this_->get_attack() + num_dragons * buff_mult);
+    this_->set_health(this_->get_health() + num_dragons * buff_mult);
+}
+
+void Razorgore::end_turn_mechanic(Player* p1) {
+    razorgore_end_of_turn(p1, 1, this);
+}
+
+void RazorgoreGolden::end_turn_mechanic(Player* p1) {
+    razorgore_end_of_turn(p1, 2, this);
+}
+
+
 void RedWhelp::do_precombat(Board* b1, Board*b2) {
     int drag_count = 0;
     for (auto card : b1->get_cards()) {

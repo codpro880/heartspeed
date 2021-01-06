@@ -522,10 +522,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Rat (Golden)", rat_gold);
     cards.emplace("Rat Pack", std::make_shared<RatPack>());
     cards.emplace("Rat Pack (Golden)", std::make_shared<RatPackGolden>());
-    cards.emplace("Razorgore, the Untamed", std::make_shared<BgBaseCard>(2, "NEUTRAL", 8, 4, "Razorgore, the Untamed",
-							    "['TRIGGER_VISUAL']", "DRAGON", "", 5, "MINION"));
-    cards.emplace("Razorgore, the Untamed (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", 8, 8, "Razorgore, the Untamed (Golden)",
-								     "['TRIGGER_VISUAL']", "DRAGON", "", 5, "MINION"));
+    cards.emplace("Razorgore, the Untamed", std::make_shared<Razorgore>());
+    cards.emplace("Razorgore, the Untamed (Golden)", std::make_shared<RazorgoreGolden>());
     cards.emplace("Red Whelp", std::make_shared<RedWhelp>());
     cards.emplace("Red Whelp (Golden)", std::make_shared<RedWhelpGolden>());
     // cards.emplace("Redemption", BgBaseCard(-1, "PALADIN", 1, -1, "Redemption",

@@ -1121,6 +1121,40 @@ TEST(Player, MythraxTheUnravelerEndOfTurnMechanic) {
     EXPECT_EQ(mythrax_golden->get_health(), 8 + 16);
 }
 
+TEST(Player, RazorgoreEndOfTurnMechanic) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Red Whelp"),
+	 f.get_card("Murloc Tidecaller"),
+	 f.get_card("Bronze Warden"),
+	 f.get_card("Imp Mama"),
+	 f.get_card("Razorgore, the Untamed"),
+	 f.get_card("Razorgore, the Untamed (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    
+    player.start_turn();
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    player.play_card(0, 4);
+    player.play_card(0, 5);
+    player.end_turn();
+    
+    // Razorgores get buffed +4/+4 and (golden) +8/+8
+    auto razorgore = player.get_board()->get_cards()[4];
+    auto razorgore_golden = player.get_board()->get_cards()[5];
+    auto razorgore_base_attack = f.get_card("Razorgore, the Untamed")->get_attack();
+    auto razorgore_base_health = f.get_card("Razorgore, the Untamed")->get_health();
+    EXPECT_EQ(razorgore->get_attack(), razorgore_base_attack + 4);
+    EXPECT_EQ(razorgore->get_health(), razorgore_base_health + 4);
+    EXPECT_EQ(razorgore_golden->get_attack(), 2 * razorgore_base_attack + 8);
+    EXPECT_EQ(razorgore_golden->get_health(), 2 * razorgore_base_health + 8);
+}
+
 TEST(Player, RefreshingAnomalyWorks) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

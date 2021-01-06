@@ -1114,6 +1114,22 @@ public:
     std::shared_ptr<BgBaseCard> summon() override;
 };
 
+class Razorgore : public BgBaseCard {
+public:
+    Razorgore() : BgBaseCard(2, "NEUTRAL", 8, 4, "Razorgore, the Untamed",
+				   "['TRIGGER_VISUAL']", "DRAGON", "", 5, "MINION") {}
+    virtual void end_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Razorgore>(*this); } // boilerplate that every drattle needs...
+};
+
+class RazorgoreGolden : public BgBaseCard {
+public:
+    RazorgoreGolden() : BgBaseCard(4, "NEUTRAL", 8, 8, "Razorgore, the Untamed (Golden)",
+				   "['TRIGGER_VISUAL']", "DRAGON", "", 5, "MINION") {}
+    virtual void end_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RazorgoreGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 class RedWhelp : public BgBaseCard {
 public:
     RedWhelp() : BgBaseCard(1, "NEUTRAL", 1, 2, "Red Whelp",

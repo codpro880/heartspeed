@@ -53,13 +53,25 @@ void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
 	do_deathrattle(b1, b2);
 	do_deathrattle(b1, b2);
 	do_deathrattle(b1, b2);
+	for (auto c : deathrattle_cards) {
+	    c->do_deathrattle(b1, b2);
+	    c->do_deathrattle(b1, b2);
+	    c->do_deathrattle(b1, b2);
+	}
     }
     else if (b1->contains("Baron Rivendare")) {
 	do_deathrattle(b1, b2);
 	do_deathrattle(b1, b2);
+	for (auto c : deathrattle_cards) {
+	    c->do_deathrattle(b1, b2);
+	    c->do_deathrattle(b1, b2);
+	}
     }
     else {
 	do_deathrattle(b1, b2);
+	for (auto c : deathrattle_cards) {
+	    c->do_deathrattle(b1, b2);
+	}
     }
 }
 
@@ -868,6 +880,15 @@ int LilRagGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool
     lr.mod_summoned(card, b1, from_hand);
     lr.mod_summoned(card, b1, from_hand);
     return 0;
+}
+
+void LivingSporeDrattle::do_deathrattle(Board* b1, Board* b2) {
+    multi_summon(2, b1);
+}
+
+std::shared_ptr<BgBaseCard> LivingSporeDrattle::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Living Spore");
 }
 
 void MajordomoExecutus::end_turn_mechanic(Player* p1) {

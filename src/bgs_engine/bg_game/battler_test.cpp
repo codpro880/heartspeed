@@ -189,6 +189,32 @@ TEST(Battler, CanHandleBasicDeathrattles) {
     EXPECT_EQ(res.damage_taken, 0); 
 }
 
+TEST(Battler, AmalgadonForcedLivingSporeAdapt) {
+    auto f = BgCardFactory();
+    auto amalgadon = f.get_card("Amalgadon");
+    amalgadon->adapt("Living Spores");
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 amalgadon
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(6);
+    th->set_health(8);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // amagadon deals 6, each spore deals 2, draw
+    EXPECT_EQ(res.who_won, "draw");
+}
+
+
 TEST(Battler, Baron) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards

@@ -497,7 +497,7 @@ public:
 
 class InfestedWolf : public DeathrattleCard {
 public:
-    InfestedWolf() : BgBaseCard(6, "HUNTER", 4, 6, "Infested Wolf",
+    InfestedWolf() : BgBaseCard(3, "HUNTER", 4, 3, "Infested Wolf",
 				"['DEATHRATTLE']", "BEAST", "RARE", 3, "MINION") {}
     virtual void do_deathrattle(Board* b1, Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<InfestedWolf>(*this); } // boilerplate that every drattle needs...

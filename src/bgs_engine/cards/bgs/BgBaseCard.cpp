@@ -66,6 +66,36 @@ void BgBaseCard::adapt(std::string _test_adapt) {
     adapt_count++;
 }
 
+void BgBaseCard::deathrattle(Board* b1, Board* b2) {
+    if (b1->contains("Baron Rivendare (Golden)")) {
+	do_deathrattle(b1, b2);
+	do_deathrattle(b1, b2);
+	do_deathrattle(b1, b2);
+	for (auto c : deathrattle_cards) {
+	    c->set_death_pos(this->death_pos);
+	    c->do_deathrattle(b1, b2);
+	    c->do_deathrattle(b1, b2);
+	    c->do_deathrattle(b1, b2);
+	}
+    }
+    else if (b1->contains("Baron Rivendare")) {
+	do_deathrattle(b1, b2);
+	do_deathrattle(b1, b2);
+	for (auto c : deathrattle_cards) {
+	    c->set_death_pos(this->death_pos);
+	    c->do_deathrattle(b1, b2);
+	    c->do_deathrattle(b1, b2);
+	}
+    }
+    else {
+	do_deathrattle(b1, b2);
+	for (auto c : deathrattle_cards) {
+	    c->set_death_pos(this->death_pos);
+	    c->do_deathrattle(b1, b2);
+	}
+    }
+}
+
 void BgBaseCard::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
     if (divine_shield) {
 	divine_shield = false;

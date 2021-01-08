@@ -214,6 +214,30 @@ TEST(Battler, AmalgadonForcedLivingSporeAdapt) {
     EXPECT_EQ(res.who_won, "draw");
 }
 
+TEST(Battler, AmalgadonForcedLivingSporeAdaptWithBaron) {
+    auto f = BgCardFactory();
+    auto amalgadon = f.get_card("Amalgadon");
+    amalgadon->adapt("Living Spores");
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 amalgadon,
+	 f.get_card("Baron Rivendare")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(7);
+    th->set_health(6 + 4 + 1); // 6 amal, 4 spores, 1 from baron
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+}
 
 TEST(Battler, Baron) {
     auto f = BgCardFactory();

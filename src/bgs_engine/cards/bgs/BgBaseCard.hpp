@@ -66,40 +66,7 @@ public:
     // (ex: stat-buffs that die)
     // Note: Actual deathrattle cards handled by DeathrattleCard class
     virtual void do_deathrattle(Board* b1, Board* b2) { }
-    
-    virtual void deathrattle(Board* b1, Board* b2) {
-	// if (b1->contains("Baron Rivendare (Golden)")) {
-	//     do_deathrattle(b1, b2);
-	//     do_deathrattle(b1, b2);
-	//     do_deathrattle(b1, b2);
-	//     for (auto c : deathrattle_cards) {
-	// 	c->set_death_pos(this->death_pos);
-	// 	c->do_deathrattle(b1, b2);
-	// 	c->do_deathrattle(b1, b2);
-	// 	c->do_deathrattle(b1, b2);
-	//     }
-	// }
-	// else if (b1->contains("Baron Rivendare")) {
-	//     do_deathrattle(b1, b2);
-	//     do_deathrattle(b1, b2);
-	//     for (auto c : deathrattle_cards) {
-	// 	c->set_death_pos(this->death_pos);
-	// 	c->do_deathrattle(b1, b2);
-	// 	c->do_deathrattle(b1, b2);
-	//     }
-	// }
-	// else {
-	//     do_deathrattle(b1, b2);
-	//     for (auto c : deathrattle_cards) {
-	// 	c->set_death_pos(this->death_pos);
-	// 	c->do_deathrattle(b1, b2);
-	//     }
-	// }
-	do_deathrattle(b1, b2);
-	for (auto c : deathrattle_cards) {
-	    c->do_deathrattle(b1, b2);
-	}
-    }
+    virtual void deathrattle(Board* b1, Board* b2);
     
     // Triggered before every attack (ex: glyph gaurdian mechanic)
     virtual void do_preattack(std::shared_ptr<BgBaseCard>,

@@ -1631,6 +1631,22 @@ private:
     TheBeast the_beast;
 };
 
+class TormentedRitualist : public PirateCard {
+public:
+    TormentedRitualist() : BgBaseCard(2, "NEUTRAL", 3, 3, "Tormented Ritualist",
+				      "['TRIGGER_VISUAL', 'TAUNT']", "", "", 2, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<TormentedRitualist>(*this); } // boilerplate that every drattle needs...
+    void do_predefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) override;
+};
+
+class TormentedRitualistGolden : public PirateCard {
+public:
+    TormentedRitualistGolden() : BgBaseCard(4, "NEUTRAL", 3, 6, "Tormented Ritualist (Golden)",
+					    "['TRIGGER_VISUAL', 'TAUNT']", "", "", 2, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<TormentedRitualistGolden>(*this); } // boilerplate that every drattle needs...
+    void do_predefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) override;
+};
+
 class Toxfin : public TargetedBattlecryCard {
 public:
     Toxfin() : BgBaseCard(1, "NEUTRAL", 1, 2, "Toxfin",

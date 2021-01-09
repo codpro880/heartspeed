@@ -1845,6 +1845,30 @@ TEST(Battler, TheTideRazorDrattle) {
     }
 }
 
+TEST(Battler, TormentedRitualist) {
+    auto f = BgCardFactory();
+    auto gambler = f.get_card("Freedealing Gambler");
+    gambler->set_health(3 + 2 + 3); // Tidehunter deals 3, tormented deals 2, Tidehunter deals 3
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Tormented Ritualist"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 gambler
+	};
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    std::string goes_first = "p2"; // Force gambler to attack first for test purposes
+    auto res = battler.sim_battle(goes_first);
+    EXPECT_EQ(res.who_won, "draw");
+}
+
 TEST(Battler, UnstableGhoulDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards

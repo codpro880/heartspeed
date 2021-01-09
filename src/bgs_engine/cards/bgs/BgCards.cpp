@@ -1769,6 +1769,39 @@ std::shared_ptr<BgBaseCard> TheTideRazorGolden::summon() {
     return ttr.summon();
 }
 
+void tormented_ritualist_postdef(Board* b1, BgBaseCard* this_, int buff) {
+    if (b1->size() <= (unsigned)1) return;
+    auto pos = b1->get_pos(this_);
+    // Give minions on either side +1/+1
+    if (pos == 0) {
+	auto to_buff = b1->get_cards()[pos+1];
+	to_buff->set_attack(to_buff->get_attack() + buff);
+	to_buff->set_health(to_buff->get_health() + buff);
+    }
+    else if (pos == b1->get_cards().size() - 1) {
+	auto to_buff = b1->get_cards()[pos-1];
+	to_buff->set_attack(to_buff->get_attack() + buff);
+	to_buff->set_health(to_buff->get_health() + buff);
+    }
+    else { // More than 2 on board and not on ends
+	auto to_buff_left = b1->get_cards()[pos-1];
+	auto to_buff_right = b1->get_cards()[pos-1];
+	to_buff_left->set_attack(to_buff_left->get_attack() + buff);
+	to_buff_left->set_health(to_buff_left->get_health() + buff);
+	to_buff_right->set_attack(to_buff_right->get_attack() + buff);
+	to_buff_right->set_health(to_buff_right->get_health() + buff);
+    }
+}
+								
+
+void TormentedRitualist::do_predefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {
+    tormented_ritualist_postdef(b1, this, 1);
+}
+
+void TormentedRitualistGolden::do_predefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {
+    tormented_ritualist_postdef(b1, this, 2);
+}
+
 void Toxfin::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "MURLOC") {
 	c->set_poison();

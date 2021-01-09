@@ -459,9 +459,9 @@ void BgCardFactory::init_cards() {
     cards.emplace("Monstrous Macaw" , std::make_shared<MonstrousMacaw>());
     cards.emplace("Monstrous Macaw (Golden)" , std::make_shared<MonstrousMacawGolden>());
     cards.emplace("Molten Rock", std::make_shared<BgBaseCard>(2, "NEUTRAL", -1, 3, "Molten Rock",
-							      "", "ELEMENTAL", "", 2, "MINION"));
+							      "['TAUNT']", "ELEMENTAL", "", 2, "MINION"));
     cards.emplace("Molten Rock (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", -1, 6, "Molten Rock (Golden)",
-								       "", "ELEMENTAL", "", 2, "MINION"));
+								       "['TAUNT']", "ELEMENTAL", "", 2, "MINION"));
     // cards.emplace("Mounted Raptor (Golden)", BgBaseCard(6, "DRUID", 3, 4, "Mounted Raptor (Golden)",
     // 							"['DEATHRATTLE']", "BEAST", "COMMON", 2, "MINION"));
     std::shared_ptr<BgBaseCard> murloc_scout(new BgBaseCard(1, "NEUTRAL", 1, 1, "Murloc Scout",
@@ -652,6 +652,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("The Beast (Golden)", std::make_shared<TheBeastGolden>());
     cards.emplace("The Tide Razor", std::make_shared<TheTideRazor>());
     cards.emplace("The Tide Razor (Golden)", std::make_shared<TheTideRazorGolden>());
+    cards.emplace("Tormented Ritualist", std::make_shared<TormentedRitualist>());
+    cards.emplace("Tormented Ritualist (Golden)", std::make_shared<TormentedRitualistGolden>());
     cards.emplace("Toxfin", std::make_shared<Toxfin>());
     cards.emplace("Toxfin (Golden)", std::make_shared<ToxfinGolden>());
     // cards.emplace("Treasure Chest", BgBaseCard(0, "NEUTRAL", 2, 2, "Treasure Chest",

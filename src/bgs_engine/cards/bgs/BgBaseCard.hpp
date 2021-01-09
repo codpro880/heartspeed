@@ -56,50 +56,7 @@ public:
 					  type(other.type),
 					  adapt_count(0) {}
 
-    void adapt() {
-	std::cerr << "WARNING! Adapt only partially working." << std::endl;
-	std::vector<std::string> adapts = {"Crackling Shield",
-					   "Flaming Claws",
-					   // "Living Spores",
-					   "Lightning Speed",
-					   "Massive",
-					   "Volcanic Might",
-					   "Rocky Carapace",
-					   "Poison Spit"};
-	auto adaptation = adapts[RngSingleton::getInstance().get_rand_int() % adapts.size()];
-	if (adaptation == "Crackling Shield") {
-	    set_divine_shield();
-	}
-	else if (adaptation == "Flaming Claws") {
-	    set_attack(get_attack() + 3);
-	}
-	// else if (adaptation == "Living Spores") {
-	//     TODO: Set deathrattle...
-	//     set_deathrattle(lambda b1, b2: ...);
-	// }
-	else if (adaptation == "Lightning Speed") {
-	    set_windfury();
-	}
-	else if (adaptation == "Massive") {
-	    set_taunt();
-	}
-	else if (adaptation == "Volcanic Might") {
-	    set_attack(get_attack() + 1);
-	    set_health(get_health() + 1);
-	}
-	else if (adaptation == "Rocky Carapace") {
-	    set_health(get_health() + 3);
-	}
-	else if (adaptation == "Poison Spit") {
-	    set_poison();
-	}
-	else {
-	    throw std::runtime_error("Unknown adapt");
-	}
-	std::cerr << "Adapt count: " << adapt_count << std::endl;
-	adapt_count++;
-	std::cerr << "Adapt count (after): " << adapt_count << std::endl;
-    }
+    void adapt(std::string _test_adapt="None");
 
     virtual void do_battlecry(Player*) {}
     virtual void battlecry(Player*) {}
@@ -108,8 +65,8 @@ public:
     // Triggered on death
     // (ex: stat-buffs that die)
     // Note: Actual deathrattle cards handled by DeathrattleCard class
-    virtual void do_deathrattle(Board*, Board*) {}
-    virtual void deathrattle(Board* b1, Board* b2) { do_deathrattle(b1, b2); }
+    virtual void do_deathrattle(Board* b1, Board* b2) { }
+    virtual void deathrattle(Board* b1, Board* b2);
     
     // Triggered before every attack (ex: glyph gaurdian mechanic)
     virtual void do_preattack(std::shared_ptr<BgBaseCard>,
@@ -208,6 +165,7 @@ public:
     virtual ~BgBaseCard() {}
     
 protected:
+    std::vector<std::shared_ptr<BgBaseCard>> deathrattle_cards; // Used for magnetic effects or other deathrattle stacking
     int attack;
     std::string card_class;
     int cost;

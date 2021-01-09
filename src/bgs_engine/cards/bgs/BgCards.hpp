@@ -497,7 +497,7 @@ public:
 
 class InfestedWolf : public DeathrattleCard {
 public:
-    InfestedWolf() : BgBaseCard(6, "HUNTER", 4, 6, "Infested Wolf",
+    InfestedWolf() : BgBaseCard(3, "HUNTER", 4, 3, "Infested Wolf",
 				"['DEATHRATTLE']", "BEAST", "RARE", 3, "MINION") {}
     virtual void do_deathrattle(Board* b1, Board* b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<InfestedWolf>(*this); } // boilerplate that every drattle needs...
@@ -724,6 +724,16 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<LilRagGolden>(*this); } // boilerplate that every drattle needs...
 private:
     LilRag lr;
+};
+
+// Fake card, but can be added to adapt deathrattle_card list, similar to magnetic mechanic
+class LivingSporeDrattle : public DeathrattleCard {
+public:
+    LivingSporeDrattle() : BgBaseCard(0, "N/A", 0, 0, "Living Spore Drattle",
+				      "['DEATHRATTLE']", "", "COMMON", 0, "MINION") {}
+    virtual void do_deathrattle(Board* b1, Board* b2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<LivingSporeDrattle>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
 };
 
 class MajordomoExecutus : public BgBaseCard {

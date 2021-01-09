@@ -18,6 +18,84 @@ std::ostream& operator<<(std::ostream& os, const BgBaseCard& card) {
     return os;
 }
 
+void BgBaseCard::adapt(std::string _test_adapt) {
+    std::string adaptation;
+    if (_test_adapt == "None") {
+	std::vector<std::string> adapts = {"Crackling Shield",
+					   "Flaming Claws",
+					   "Living Spores",
+					   "Lightning Speed",
+					   "Massive",
+					   "Volcanic Might",
+					   "Rocky Carapace",
+					   "Poison Spit"};
+	adaptation = adapts[RngSingleton::getInstance().get_rand_int() % adapts.size()];
+    }
+    else {
+	adaptation = _test_adapt;
+    }
+    if (adaptation == "Crackling Shield") {
+	set_divine_shield();
+    }
+    else if (adaptation == "Flaming Claws") {
+	set_attack(get_attack() + 3);
+    }
+    else if (adaptation == "Living Spores") {
+	auto c = BgCardFactory().get_card("Living Spore Drattle");
+	deathrattle_cards.push_back(c);
+    }
+    else if (adaptation == "Lightning Speed") {
+	set_windfury();
+    }
+    else if (adaptation == "Massive") {
+	set_taunt();
+    }
+    else if (adaptation == "Volcanic Might") {
+	set_attack(get_attack() + 1);
+	set_health(get_health() + 1);
+    }
+    else if (adaptation == "Rocky Carapace") {
+	set_health(get_health() + 3);
+    }
+    else if (adaptation == "Poison Spit") {
+	set_poison();
+    }
+    else {
+	throw std::runtime_error("Unknown adapt");
+    }
+    adapt_count++;
+}
+
+void BgBaseCard::deathrattle(Board* b1, Board* b2) {
+    if (b1->contains("Baron Rivendare (Golden)")) {
+	do_deathrattle(b1, b2);
+	do_deathrattle(b1, b2);
+	do_deathrattle(b1, b2);
+	for (auto c : deathrattle_cards) {
+	    c->set_death_pos(this->death_pos);
+	    c->do_deathrattle(b1, b2);
+	    c->do_deathrattle(b1, b2);
+	    c->do_deathrattle(b1, b2);
+	}
+    }
+    else if (b1->contains("Baron Rivendare")) {
+	do_deathrattle(b1, b2);
+	do_deathrattle(b1, b2);
+	for (auto c : deathrattle_cards) {
+	    c->set_death_pos(this->death_pos);
+	    c->do_deathrattle(b1, b2);
+	    c->do_deathrattle(b1, b2);
+	}
+    }
+    else {
+	do_deathrattle(b1, b2);
+	for (auto c : deathrattle_cards) {
+	    c->set_death_pos(this->death_pos);
+	    c->do_deathrattle(b1, b2);
+	}
+    }
+}
+
 void BgBaseCard::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
     if (divine_shield) {
 	divine_shield = false;

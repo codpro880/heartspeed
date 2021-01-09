@@ -189,6 +189,56 @@ TEST(Battler, CanHandleBasicDeathrattles) {
     EXPECT_EQ(res.damage_taken, 0); 
 }
 
+TEST(Battler, AmalgadonForcedLivingSporeAdapt) {
+    auto f = BgCardFactory();
+    auto amalgadon = f.get_card("Amalgadon");
+    amalgadon->adapt("Living Spores");
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 amalgadon
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(6);
+    th->set_health(8);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // amagadon deals 6, each spore deals 2, draw
+    EXPECT_EQ(res.who_won, "draw");
+}
+
+TEST(Battler, AmalgadonForcedLivingSporeAdaptWithBaron) {
+    auto f = BgCardFactory();
+    auto amalgadon = f.get_card("Amalgadon");
+    amalgadon->adapt("Living Spores");
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 amalgadon,
+	 f.get_card("Baron Rivendare")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(7);
+    th->set_health(6 + 4 + 1); // 6 amal, 4 spores, 1 from baron
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+}
+
 TEST(Battler, Baron) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -626,6 +676,33 @@ TEST(Battler, IronhideDirehorn) {
     EXPECT_EQ(res.who_won, "Tess");
 }
 
+TEST(Battler, InfestedWolfWithBaronForcedLivingSporeAdapt) {
+    // TODO: Small bug here where summons aren't ordered properly.
+    // Should be the 1/1 wolf tokens and then the two spores
+    auto f = BgCardFactory();
+    auto woof = f.get_card("Infested Wolf");    
+    woof->adapt("Living Spores");
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 woof,
+	 f.get_card("Baron Rivendare")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(7);
+    th->set_health(3 + 1 + 6); // 3 from wolf, 1 from baron, 6 from summoned tokens
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // wolf deals 3, baron deals 1, 6 tokens deal 6, has 3 + 1 + 6 hp, draw
+    EXPECT_EQ(res.who_won, "draw");
+}
 
 // So similar to ratpack we skip it for now...
 // TEST(Battler, InfestedWolfDrattle) {

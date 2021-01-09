@@ -397,6 +397,12 @@ void BgCardFactory::init_cards() {
     cards.emplace("Lightfang Enforcer (Golden)", std::make_shared<LightfangEnforcerGolden>());
     cards.emplace("Lil' Rag", std::make_shared<LilRag>());
     cards.emplace("Lil' Rag (Golden)", std::make_shared<LilRagGolden>());
+    std::shared_ptr<BgBaseCard> living_spore(new BgBaseCard(1, "NEUTRAL", 1, 1,  "Living Spore",
+							    "", "", "COMMON", 1, "MINION"));
+    cards.emplace("Living Spore", living_spore);
+    // NOTE: Not a real card, useful for adapt/magnetic mechanic
+    cards.emplace("Living Spore Drattle", std::make_shared<LivingSporeDrattle>());
+    
 
 
     // M

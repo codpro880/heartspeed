@@ -57,6 +57,21 @@ test:  Run unit tests
 test_all:  Run all tests
 ```
 
+# Web Application
+Heartspeed's associated web application is built with a [PostgreSQL](https://www.postgresql.org/) database, [Django](https://www.djangoproject.com/) backend, and [React](https://reactjs.org/) frontend. The frontend and backend layers communicate using the [GraphQL](https://graphql.org/) query language, supported by [Graphene](https://docs.graphene-python.org/projects/django/en/latest/) and [Apollo](https://www.apollographql.com/docs/react/). [Django GraphQL Auth](https://django-graphql-auth.readthedocs.io/en/latest/) is leveraged for ease of user registration and authentication over GraphQL.
+
+## Building
+Each of the database, backend, and frontend layers are encapsulated in their own docker containers. These containers can all be built and started by running `docker-compose up` in the `/web` directory. While these three containers are running, use `docker ps` in a separate window to list all running containers.
+```
+$ docker ps
+CONTAINER ID   IMAGE        COMMAND                  CREATED        STATUS          PORTS                    NAMES
+f8e32170ea1b   postgres     "docker-entrypoint.s…"   25 hours ago   Up 24 seconds   5432/tcp                 web_db_1
+53bd962575b4   web_client   "docker-entrypoint.s…"   26 hours ago   Up 23 seconds   0.0.0.0:3000->3000/tcp   web_client_1
+8bfbc67d5770   web_django   "python manage.py ru…"   26 hours ago   Up 23 seconds   0.0.0.0:8000->8000/tcp   web_django_1
+```
+Connect to any container with `docker exec -it 8bfbc67d5770 bash`, specifying the appropriate container name. On Windows, connect to the React container with `docker exec -it 53bd962575b4 /bin/sh`. While the docker containers are running, connect to the Django app locally at http://localhost:8000/graphql and the React app at http://localhost:3000/. The Django app will not start up the very first time it is built. To fix this, connect to the Django container and make + apply migrations: `python manage.py makemigrations && python  manage.py migrate`. Add some sample users to the database with `python manage.py loaddata fixtures/users.json`. Then stop and rerun the docker-compose command.
+
+
 # Contributing
 
 ## General Contributions

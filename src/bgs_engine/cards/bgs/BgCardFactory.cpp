@@ -117,7 +117,17 @@ std::shared_ptr<BgBaseCard> BgCardFactory::init_card(int attack,
 }
 
 void BgCardFactory::init_cards() {
+    // Vanilla cards are defined inline
+    
     // A
+    std::shared_ptr<BgBaseCard> aco_of_cthun(new BgBaseCard(2, "NEUTRAL", 1, 2, "Acolyte of C'Thun",
+							    "['REBORN', 'TAUNT']", "", "COMMON", 1, "MINION"));
+    aco_of_cthun->set_reborn();
+    cards.emplace("Acolyte of C'Thun", aco_of_cthun);
+    std::shared_ptr<BgBaseCard> aco_of_cthun_golden(new BgBaseCard(4, "NEUTRAL", 1, 4, "Acolyte of C'Thun (Golden)",
+								   "['REBORN', 'TAUNT']", "", "COMMON", 1, "MINION"));
+    aco_of_cthun_golden->set_reborn();
+    cards.emplace("Acolyte of C'Thun (Golden)", aco_of_cthun_golden);
     cards.emplace("Alleycat", std::make_shared<Alleycat>());
     cards.emplace("Alleycat (Golden)", std::make_shared<AlleycatGolden>());
     cards.emplace("Amalgadon", std::make_shared<Amalgadon>());

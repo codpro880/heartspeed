@@ -1056,6 +1056,20 @@ void MicroMummyGolden::end_turn_mechanic(Player* p1) {
     buff_attack_end_turn(p1, 2, this);
 }
 
+int MoltenRock::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
+    if (from_hand && card->get_race() == "ELEMENTAL") {
+	set_health(get_health() + 1);
+    }
+    return 0;
+}
+
+int MoltenRockGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
+    if (from_hand && card->get_race() == "ELEMENTAL") {
+	set_health(get_health() + 2);
+    }
+    return 0;
+}
+
 void MonstrousMacaw::do_preattack(std::shared_ptr<BgBaseCard> defender,
 				  Board* b1,
 				  Board* b2) {
@@ -1238,6 +1252,31 @@ int PackLeaderGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, 
 	pl.mod_summoned(card, b1, false); // from_hand doesn't matter
     }
     return 0;
+}
+
+int party_elemental_mod_sum(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand, int buff, BgBaseCard* this_) {
+    if (!from_hand || card->get_race() != "ELEMENTAL") return 0;
+    
+    std::vector<std::shared_ptr<BgBaseCard>> elementals;
+    for (auto c : b1->get_cards()) {
+	if (c->get_race() == "ELEMENTAL") {	    
+	    elementals.push_back(c);
+	}
+    }
+    
+    auto card_to_buff =  elementals[RngSingleton::getInstance().get_rand_int() % elementals.size()];
+    card_to_buff->set_attack(card_to_buff->get_attack() + buff);
+    card_to_buff->set_health(card_to_buff->get_health() + buff);
+
+    return 0;
+}
+
+int PartyElemental::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
+    return party_elemental_mod_sum(card, b1, from_hand, 1, this);
+}
+
+int PartyElementalGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
+    return party_elemental_mod_sum(card, b1, from_hand, 2, this);
 }
 
 void PilotedShredder::do_deathrattle(Board* b1, Board* b2) {

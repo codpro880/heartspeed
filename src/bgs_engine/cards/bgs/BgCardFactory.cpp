@@ -458,12 +458,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Microbot (Golden)", microbot_gold);
     cards.emplace("Monstrous Macaw" , std::make_shared<MonstrousMacaw>());
     cards.emplace("Monstrous Macaw (Golden)" , std::make_shared<MonstrousMacawGolden>());
-    cards.emplace("Molten Rock", std::make_shared<BgBaseCard>(2, "NEUTRAL", -1, 3, "Molten Rock",
-							      "['TAUNT']", "ELEMENTAL", "", 2, "MINION"));
-    cards.emplace("Molten Rock (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", -1, 6, "Molten Rock (Golden)",
-								       "['TAUNT']", "ELEMENTAL", "", 2, "MINION"));
-    // cards.emplace("Mounted Raptor (Golden)", BgBaseCard(6, "DRUID", 3, 4, "Mounted Raptor (Golden)",
-    // 							"['DEATHRATTLE']", "BEAST", "COMMON", 2, "MINION"));
+    cards.emplace("Molten Rock", std::make_shared<MoltenRock>());
+    cards.emplace("Molten Rock (Golden)", std::make_shared<MoltenRockGolden>());
     std::shared_ptr<BgBaseCard> murloc_scout(new BgBaseCard(1, "NEUTRAL", 1, 1, "Murloc Scout",
 							    "", "MURLOC", "COMMON", 1, "MINION"));
     cards.emplace("Murloc Scout", murloc_scout);
@@ -504,10 +500,8 @@ void BgCardFactory::init_cards() {
     // P
     cards.emplace("Pack Leader", std::make_shared<PackLeader>());
     cards.emplace("Pack Leader (Golden)", std::make_shared<PackLeaderGolden>());
-    cards.emplace("Party Elemental", std::make_shared<BgBaseCard>(2, "NEUTRAL", -1, 2, "Party Elemental",
-								  "", "ELEMENTAL", "", 2, "MINION"));
-    cards.emplace("Party Elemental (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", -1, 4, "Party Elemental (Golden)",
-									   "", "ELEMENTAL", "", 2, "MINION"));
+    cards.emplace("Party Elemental", std::make_shared<PartyElemental>());
+    cards.emplace("Party Elemental (Golden)", std::make_shared<PartyElementalGolden>());
     cards.emplace("Piloted Shredder", std::make_shared<PilotedShredder>());
     cards.emplace("Piloted Shredder (Golden)", std::make_shared<PilotedShredderGolden>());
     std::shared_ptr<BgBaseCard> pogo(new BgBaseCard(1, "ROGUE", 1, 1, "Pogo-Hopper",

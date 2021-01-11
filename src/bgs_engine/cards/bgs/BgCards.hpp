@@ -1141,6 +1141,24 @@ private:
     PilotedShredder shredder;
 };
 
+class RabidSaurolisk : public BgBaseCard {
+public:
+    RabidSaurolisk() : BgBaseCard(4, "HUNTER", 3, 2, "Rabid Saurolisk",
+				  "['TRIGGER_VISUAL']", "BEAST", "", 2, "MINION") {}
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RabidSaurolisk>(*this); } // boilerplate that every drattle needs...
+};
+
+class RabidSauroliskGolden : public BgBaseCard {
+public:
+    RabidSauroliskGolden() : BgBaseCard(8, "HUNTER", 3, 4, "Rabid Saurolisk (Golden)",
+					"['TRIGGER_VISUAL']", "BEAST", "", 2, "MINION") {}
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RabidSauroliskGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    RabidSaurolisk cf;
+};
+
 class RatPack : public DeathrattleCard {
 public:
     RatPack() : BgBaseCard(2, "HUNTER", 3, 2, "Rat Pack",

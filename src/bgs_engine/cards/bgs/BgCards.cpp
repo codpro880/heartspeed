@@ -1298,6 +1298,21 @@ std::shared_ptr<BgBaseCard> PilotedShredderGolden::summon() {
     return shredder.summon();
 }
 
+int rabid_sauro_mod_sum(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand, int buff, BgBaseCard* this_) {
+    if (!from_hand || !card->has_deathrattle()) return 0;
+    this_->set_attack(this_->get_attack() + buff);
+    this_->set_health(this_->get_health() + buff);
+    return 0;
+}
+
+int RabidSaurolisk::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
+    return rabid_sauro_mod_sum(card, b1, from_hand, 1, this);
+}
+
+int RabidSauroliskGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
+    return rabid_sauro_mod_sum(card, b1, from_hand, 2, this);
+}
+
 void RatPack::do_deathrattle(Board* b1, Board* b2) {
     auto attack = get_attack();
     multi_summon(attack, b1);

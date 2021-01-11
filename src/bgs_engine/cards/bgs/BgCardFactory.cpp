@@ -518,12 +518,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Primalfin Lookout (Golden)", primalfin_gold);
 
     // R
-    std::shared_ptr<BgBaseCard> rabid_saur(new BgBaseCard(3, "HUNTER", 3, 2, "Rabid Saurolisk",
-    						"['TRIGGER_VISUAL']", "BEAST", "", 2, "MINION"));
-    cards.emplace("Rabid Saurolisk", rabid_saur);
-    std::shared_ptr<BgBaseCard> rabid_saur_gold(new BgBaseCard(6, "HUNTER", 3, 4, "Rabid Saurolisk (Golden)",
-							       "['TRIGGER_VISUAL']", "BEAST", "", 2, "MINION"));
-    cards.emplace("Rabid Saurolisk (Golden)", rabid_saur_gold);
+    cards.emplace("Rabid Saurolisk", std::make_shared<RabidSaurolisk>());
+    cards.emplace("Rabid Saurolisk (Golden)", std::make_shared<RabidSauroliskGolden>());
     std::shared_ptr<BgBaseCard> rat(new BgBaseCard(1, "HUNTER", 1, 1, "Rat",
 						   "", "BEAST", "", 1, "MINION"));
     cards.emplace("Rat", rat);

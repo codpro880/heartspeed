@@ -1,0 +1,88 @@
+[
+  {
+      "model": "users.HeartUser",
+      "pk": 1,
+      "fields": {
+          "password": "pbkdf2_sha256$180000$nFcBtiqGnWN9$hf58wNg77oT1BlNKRdATVVvBIa69+dz22fL1JKOKTaA=",
+          "last_login": null,
+          "is_superuser": false,
+          "first_name": "Michael",
+          "last_name": "Jordan",
+          "email": "mb123@hotmail.com",
+          "is_staff": false,
+          "is_active": true
+      }
+  },
+  {
+      "model": "users.HeartUser",
+      "pk": 2,
+      "fields": {
+          "password": "pbkdf2_sha256$180000$nFcBtiqGnWN9$hf58wNg77oT1BlNKRdATVVvBIa69+dz22fL1JKOKTaA=",
+          "last_login": null,
+          "is_superuser": false,
+          "first_name": "John",
+          "last_name": "Adams",
+          "email": "foundingfather1735@aol.com",
+          "is_staff": false,
+          "is_active": true
+      }
+  },
+  {
+      "model": "graphql_auth.userstatus",
+      "pk": 2,
+      "fields": {
+          "user": 2,
+          "verified": true,
+          "archived": false,
+          "secondary_email": null
+      }
+  },
+  {
+      "model": "users.HeartUser",
+      "pk": 3,
+      "fields": {
+          "password": "pbkdf2_sha256$180000$nFcBtiqGnWN9$hf58wNg77oT1BlNKRdATVVvBIa69+dz22fL1JKOKTaA=",
+          "last_login": null,
+          "is_superuser": false,
+          "first_name": "Barack",
+          "last_name": "Obama",
+          "email": "therealbarack@us.gov",
+          "is_staff": false,
+          "is_active": true
+      }
+  },
+  {
+      "model": "graphql_auth.userstatus",
+      "pk": 3,
+      "fields": {
+          "user": 3,
+          "verified": true,
+          "archived": true,
+          "secondary_email": null
+      }
+  },
+  {
+      "model": "users.HeartUser",
+      "pk": 4,
+      "fields": {
+          "password": "pbkdf2_sha256$180000$nFcBtiqGnWN9$hf58wNg77oT1BlNKRdATVVvBIa69+dz22fL1JKOKTaA=",
+          "last_login": null,
+          "is_superuser": false,
+          "first_name": "Harry",
+          "last_name": "Potter",
+          "email": "boywholived123@yahoo.com",
+          "is_staff": false,
+          "is_active": true
+      }
+  },
+  {
+      "model": "graphql_auth.userstatus",
+      "pk": 4,
+      "fields": {
+          "user": 4,
+          "verified": true,
+          "archived": false,
+          "secondary_email": "secondary@email.com"
+      }
+  }
+]

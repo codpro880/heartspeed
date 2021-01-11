@@ -1,0 +1,28 @@
+version: "3.8"
+
+services:
+  db:
+    image: postgres
+    environment:
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+  django:
+    build:
+      context: ./django
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:8000
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./django:/code
+  client:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    command: yarn run start
+    ports:
+      - "3000:3000"
+    volumes:
+      - "/app/node_modules"
+      - "./client:/app"

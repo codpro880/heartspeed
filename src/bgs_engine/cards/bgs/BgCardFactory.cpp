@@ -141,7 +141,12 @@ void BgCardFactory::init_cards() {
 							   "['DIVINE_SHIELD', 'MODULAR', 'TAUNT']", "MECHANICAL", "RARE", 4, "MINION"));
     cards.emplace("Annoy-o-Module (Golden)", annoyo_gold);
     cards.emplace("Arcane Assistant", std::make_shared<ArcaneAssistant>());
-    cards.emplace("Arcane Assistant (Golden)", std::make_shared<ArcaneAssistantGolden>());					
+    cards.emplace("Arcane Assistant (Golden)", std::make_shared<ArcaneAssistantGolden>());
+    // Mechanic handled in BgBaseCard
+    cards.emplace("Arm of the Empire", std::make_shared<BgBaseCard>(4, "NEUTRAL", 5, 5, "Arm of the Empire",
+								    "['TRIGGER_VISUAL']", "", "COMMON", 4, "MINION"));
+    cards.emplace("Arm of the Empire (Golden)", std::make_shared<BgBaseCard>(8, "NEUTRAL", 5, 10, "Arm of the Empire (Golden)",
+									     "['TRIGGER_VISUAL']", "", "COMMON", 4, "MINION"));
     // cards.emplace("Arcane Cannon", BgBaseCard(2, "NEUTRAL", 3, 2, "Arcane Cannon",
     // 					      "['CANT_ATTACK', 'TRIGGER_VISUAL']", "", "", 2, "MINION"));
     // cards.emplace("Arcane Cannon (Golden)", BgBaseCard(4, "NEUTRAL", 3, 4, "Arcane Cannon (Golden)",

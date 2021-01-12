@@ -1823,7 +1823,7 @@ std::shared_ptr<BgBaseCard> TheTideRazorGolden::summon() {
     return ttr.summon();
 }
 
-void tormented_ritualist_postdef(Board* b1, BgBaseCard* this_, int buff) {
+void tormented_ritualist_predefense(Board* b1, BgBaseCard* this_, int buff) {
     if (b1->size() <= (unsigned)1) return;
     auto pos = b1->get_pos(this_);
     // Give minions on either side +1/+1
@@ -1849,11 +1849,13 @@ void tormented_ritualist_postdef(Board* b1, BgBaseCard* this_, int buff) {
 								
 
 void TormentedRitualist::do_predefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {
-    tormented_ritualist_postdef(b1, this, 1);
+    BgBaseCard::do_predefense(attacker, b1, b2);
+    tormented_ritualist_predefense(b1, this, 1);
 }
 
 void TormentedRitualistGolden::do_predefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {
-    tormented_ritualist_postdef(b1, this, 2);
+    BgBaseCard::do_predefense(attacker, b1, b2);
+    tormented_ritualist_predefense(b1, this, 2);
 }
 
 void Toxfin::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {

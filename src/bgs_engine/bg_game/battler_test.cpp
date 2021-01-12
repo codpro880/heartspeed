@@ -239,6 +239,31 @@ TEST(Battler, AmalgadonForcedLivingSporeAdaptWithBaron) {
     EXPECT_EQ(res.who_won, "draw");
 }
 
+TEST(Battler, ArmOfTheEmpire) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Arm of the Empire"),
+	 f.get_card("Arm of the Empire (Golden)"),
+	 f.get_card("Dragonspawn Lieutenant")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(10);
+    th->set_health(2 + 4 + 8 + 3 + 6); // 2 base attack, 3 from non-gold 3 from gold
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th,
+	};
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
+    auto battler = Battler(p1.get(), p2.get(), true);
+    std::string goes_first = "p2";  
+    auto res = battler.sim_battle(goes_first);
+    EXPECT_EQ(res.who_won, "draw");
+}
+
 TEST(Battler, Baron) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards

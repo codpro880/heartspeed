@@ -46,7 +46,7 @@ private:
 class Battler {
 public:
     Battler(Player* p1, Player* p2, bool debug=false) : p1(p1), p2(p2), debug(debug) {}
-    BattleResult sim_battle(std::string goes_first="null");
+    BattleResult sim_battle(std::string goes_first="null"); // specify "p1" or "p2" for goes_first
     BattleResults sim_battles(int num_battles=1000);
     BattleResults sim_battles_par(int num_battles=1000);
 private:

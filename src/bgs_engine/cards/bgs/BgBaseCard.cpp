@@ -96,6 +96,21 @@ void BgBaseCard::deathrattle(Board* b1, Board* b2) {
     }
 }
 
+void BgBaseCard::do_predefense(std::shared_ptr<BgBaseCard> attacker,
+			       Board* b1,
+			       Board* b2) {
+    int total_attack_buff = 0;
+    for (auto c : b1->get_cards()) {
+	if (c->get_name() == "Arm of the Empire") {
+	    total_attack_buff += 3;
+	}
+	else if (c->get_name() == "Arm of the Empire (Golden)") {
+	    total_attack_buff += 6;
+	}
+    }
+    set_attack(get_attack() + total_attack_buff);
+}
+
 void BgBaseCard::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
     if (divine_shield) {
 	divine_shield = false;

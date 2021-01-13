@@ -1056,6 +1056,20 @@ void MicroMummyGolden::end_turn_mechanic(Player* p1) {
     buff_attack_end_turn(p1, 2, this);
 }
 
+int MoltenRock::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
+    if (from_hand && card->get_race() == "ELEMENTAL") {
+	set_health(get_health() + 1);
+    }
+    return 0;
+}
+
+int MoltenRockGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
+    if (from_hand && card->get_race() == "ELEMENTAL") {
+	set_health(get_health() + 2);
+    }
+    return 0;
+}
+
 void MonstrousMacaw::do_preattack(std::shared_ptr<BgBaseCard> defender,
 				  Board* b1,
 				  Board* b2) {
@@ -1240,6 +1254,31 @@ int PackLeaderGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, 
     return 0;
 }
 
+int party_elemental_mod_sum(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand, int buff, BgBaseCard* this_) {
+    if (!from_hand || card->get_race() != "ELEMENTAL") return 0;
+    
+    std::vector<std::shared_ptr<BgBaseCard>> elementals;
+    for (auto c : b1->get_cards()) {
+	if (c->get_race() == "ELEMENTAL") {	    
+	    elementals.push_back(c);
+	}
+    }
+    
+    auto card_to_buff =  elementals[RngSingleton::getInstance().get_rand_int() % elementals.size()];
+    card_to_buff->set_attack(card_to_buff->get_attack() + buff);
+    card_to_buff->set_health(card_to_buff->get_health() + buff);
+
+    return 0;
+}
+
+int PartyElemental::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
+    return party_elemental_mod_sum(card, b1, from_hand, 1, this);
+}
+
+int PartyElementalGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
+    return party_elemental_mod_sum(card, b1, from_hand, 2, this);
+}
+
 void PilotedShredder::do_deathrattle(Board* b1, Board* b2) {
     multi_summon(1, b1);
 }
@@ -1257,6 +1296,21 @@ void PilotedShredderGolden::do_deathrattle(Board* b1, Board* b2) {
 
 std::shared_ptr<BgBaseCard> PilotedShredderGolden::summon() {
     return shredder.summon();
+}
+
+int rabid_sauro_mod_sum(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand, int buff, BgBaseCard* this_) {
+    if (!from_hand || !card->has_deathrattle()) return 0;
+    this_->set_attack(this_->get_attack() + buff);
+    this_->set_health(this_->get_health() + buff);
+    return 0;
+}
+
+int RabidSaurolisk::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
+    return rabid_sauro_mod_sum(card, b1, from_hand, 1, this);
+}
+
+int RabidSauroliskGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
+    return rabid_sauro_mod_sum(card, b1, from_hand, 2, this);
 }
 
 void RatPack::do_deathrattle(Board* b1, Board* b2) {
@@ -1767,6 +1821,41 @@ void TheTideRazorGolden::do_deathrattle(Board* b1, Board* b2) {
 
 std::shared_ptr<BgBaseCard> TheTideRazorGolden::summon() {
     return ttr.summon();
+}
+
+void tormented_ritualist_predefense(Board* b1, BgBaseCard* this_, int buff) {
+    if (b1->size() <= (unsigned)1) return;
+    auto pos = b1->get_pos(this_);
+    // Give minions on either side +1/+1
+    if (pos == 0) {
+	auto to_buff = b1->get_cards()[pos+1];
+	to_buff->set_attack(to_buff->get_attack() + buff);
+	to_buff->set_health(to_buff->get_health() + buff);
+    }
+    else if (pos == b1->get_cards().size() - 1) {
+	auto to_buff = b1->get_cards()[pos-1];
+	to_buff->set_attack(to_buff->get_attack() + buff);
+	to_buff->set_health(to_buff->get_health() + buff);
+    }
+    else { // More than 2 on board and not on ends
+	auto to_buff_left = b1->get_cards()[pos-1];
+	auto to_buff_right = b1->get_cards()[pos-1];
+	to_buff_left->set_attack(to_buff_left->get_attack() + buff);
+	to_buff_left->set_health(to_buff_left->get_health() + buff);
+	to_buff_right->set_attack(to_buff_right->get_attack() + buff);
+	to_buff_right->set_health(to_buff_right->get_health() + buff);
+    }
+}
+								
+
+void TormentedRitualist::do_predefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {
+    BgBaseCard::do_predefense(attacker, b1, b2);
+    tormented_ritualist_predefense(b1, this, 1);
+}
+
+void TormentedRitualistGolden::do_predefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {
+    BgBaseCard::do_predefense(attacker, b1, b2);
+    tormented_ritualist_predefense(b1, this, 2);
 }
 
 void Toxfin::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {

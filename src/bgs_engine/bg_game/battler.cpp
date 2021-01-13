@@ -228,6 +228,7 @@ void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker,
 				  Board* b1,
 				  Board* b2) {
     attacker->do_preattack(defender, b1, b2);
+    defender->do_predefense(attacker, b2, b1);
     std::vector<int> dmg;
     std::vector<std::shared_ptr<BgBaseCard> > cards;
     auto def_pos = b2->get_pos(defender);

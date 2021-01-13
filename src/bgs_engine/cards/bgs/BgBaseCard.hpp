@@ -72,6 +72,10 @@ public:
     virtual void do_preattack(std::shared_ptr<BgBaseCard>,
 			      Board*,
 			      Board*) {}
+    // Triggered before defense (Tormented Ritualist)
+    virtual void do_predefense(std::shared_ptr<BgBaseCard>,
+			       Board*,
+			       Board*);
     // Triggered once before combat starts (ex: red whelp, stat-buffs)
     virtual void do_precombat(Board*, Board*) {}
     // Triggered after attack (ex: overkill mechanic)

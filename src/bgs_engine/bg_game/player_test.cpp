@@ -1031,6 +1031,35 @@ TEST(Player, MetaltoothLeaperBattlecry) {
 //     EXPECT_EQ(player->get_bobs_tavern().cost() == 5-2-1);
 // }
 
+TEST(Player, MoltenRockReactsToElementalCards) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Molten Rock"),
+	 f.get_card("Molten Rock (Golden)"),
+	 f.get_card("Sellemental"),
+	 f.get_card("Coldlight Seer")
+
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    
+    auto original_health = f.get_card("Molten Rock")->get_health();
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Molten Rock");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 2);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), original_health + 2); // Gets +2 (from golden and selle)
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Molten Rock (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 4);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 2 * original_health + 2); // Gets +2 (from selle)
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Sellemental");
+    EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Coldlight Seer");
+}
+
 TEST(Player, MurlocTidecallerAfterMurlocSummoned) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
@@ -1119,6 +1148,83 @@ TEST(Player, MythraxTheUnravelerEndOfTurnMechanic) {
     EXPECT_EQ(mythrax->get_health(), 4 + 8);
     EXPECT_EQ(mythrax_golden->get_attack(), 8 + 8); // Starts as a 8/8
     EXPECT_EQ(mythrax_golden->get_health(), 8 + 16);
+}
+
+TEST(Player, PartyElementalReactsToElementalCards) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Party Elemental"),
+	 f.get_card("Party Elemental (Golden)"),
+	 f.get_card("Sellemental"),
+	 f.get_card("Coldlight Seer"),
+	 f.get_card("Molten Rock")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");    
+
+    int total_hand_attack = 0;
+    int total_hand_health = 0;
+    for (auto card : in_hand.get_cards()) {
+	total_hand_attack += card->get_attack();
+	total_hand_health += card->get_health();
+    }
+
+    player.play_card(0, 0); // Nothing
+    player.play_card(0, 1); // +1/+1 buff
+    player.play_card(0, 2); // +3/+3 buff
+    player.play_card(0, 3); // Nothing
+    player.play_card(0, 4); // +3/+3 buff
+                            // +7/+7 buff total
+
+    // Assert total of +7/+7 buff
+    int total_board_attack = 0;
+    int total_board_health = 0;
+    for (auto card : player.get_board()->get_cards()) {
+	total_board_attack += card->get_attack();
+	total_board_health += card->get_health();
+    }
+    EXPECT_EQ(total_hand_attack + 7, total_board_attack);
+    EXPECT_EQ(total_hand_health + 7, total_board_health);
+    
+    // Coldlight should not have gotten any buffs
+    auto coldlight = player.get_board()->get_cards()[3];
+    EXPECT_EQ(coldlight->get_name(), "Coldlight Seer");
+    EXPECT_EQ(coldlight->get_attack(), 2);
+    EXPECT_EQ(coldlight->get_health(), 3);
+}
+
+TEST(Player, RabidSauroliskReactsToDeathrattleCards) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Rabid Saurolisk"),
+	 f.get_card("Rabid Saurolisk (Golden)"),
+	 f.get_card("Harvest Golem"), // drattle
+	 f.get_card("Foe Reaper 4000"),
+	 f.get_card("Molten Rock"),
+	 f.get_card("Fiendish Servant"), // drattle
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");    
+
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2);
+    player.play_card(0, 3);
+    player.play_card(0, 4);
+    player.play_card(0, 5);
+
+    // Nongold should have +2/+2, gold should have +4/+4
+    auto sauro = player.get_board()->get_cards()[0];
+    auto sauro_gold = player.get_board()->get_cards()[1];
+    auto original_card = f.get_card("Rabid Saurolisk");
+    auto original_attack = original_card->get_attack();
+    auto original_health = original_card->get_health();
+    EXPECT_EQ(sauro->get_attack(), original_attack + 2);
+    EXPECT_EQ(sauro->get_health(), original_health + 2);
+    EXPECT_EQ(sauro_gold->get_attack(), 2 * original_attack + 4);
+    EXPECT_EQ(sauro_gold->get_health(), 2 * original_health + 4);   
 }
 
 TEST(Player, RazorgoreEndOfTurnMechanic) {

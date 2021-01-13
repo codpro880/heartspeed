@@ -108,6 +108,10 @@ public:
     }
 
     void play_card(uint8_t hand_pos, uint8_t board_pos) {
+	if (get_board()->get_cards().size() == (unsigned)7) {
+	    std::cerr << "WARNING: Board is full" << std::endl;
+	    return;
+	}
 	auto card = hand.get_cards()[hand_pos];
 	if (card->get_race() == "ELEMENTAL") {
 	    elementals_played_this_turn += 1;
@@ -122,6 +126,10 @@ public:
     }
 
     void play_card(uint8_t hand_pos, uint8_t target_pos, uint8_t board_pos) {
+	if (get_board()->get_cards().size() == (unsigned)7) {
+	    std::cerr << "WARNING: Board is full" << std::endl;
+	    return;
+	}
 	auto card = hand.get_cards()[hand_pos];
 	if (card->get_race() == "ELEMENTAL") {
 	    elementals_played_this_turn += 1;

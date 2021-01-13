@@ -1,6 +1,7 @@
 #include "../test/googletest/include/gtest/gtest.h"
 
 #include "player.hpp"
+#include "battler.hpp"
 #include "../cards/bgs/BgCardFactory.hpp"
 #include "../cards/bgs/BgCards.hpp"
 
@@ -1292,6 +1293,47 @@ TEST(Player, RefreshingAnomalyWorks) {
     player.end_turn();
 }
 
+TEST(Player, ReplicatingMenaceMagnetic) {
+    auto f = BgCardFactory();
+    auto golem = f.get_card("Harvest Golem");
+    auto repl_men = f.get_card("Replicating Menace");
+    auto repl_men_gold = f.get_card("Replicating Menace (Golden)");
+    EXPECT_EQ(golem->is_magnetic(), false);
+    EXPECT_EQ(repl_men->is_magnetic(), true);
+    EXPECT_EQ(repl_men_gold->is_magnetic(), true);
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 golem,
+	 repl_men,
+	 repl_men_gold
+	};
+    auto in_hand = Hand(hand_cards);
+    std::unique_ptr<Player> p1(new Player(in_hand, "Eudora"));
+    // auto p1 = Player(in_hand, "Test");
+
+    p1->play_card(0, 0);
+    p1->play_card(0, 0);
+    p1->play_card(0, 2);
+    
+    // Assert cave hydra the same
+    golem = p1->get_board()->get_cards()[0];
+    EXPECT_EQ(p1->get_board()->get_cards().size(), (unsigned)2); // One should have been magneticized
+    EXPECT_EQ(golem->get_attack(), 2 + 3); // 2 base, 3 from replicating
+    EXPECT_EQ(golem->get_health(), 3 + 1); // 3 base, 1 from replicating
+
+    // std::vector<std::shared_ptr<BgBaseCard> > p1_cards { tidecaller1, tidecaller2, tidecaller3 };
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(10);
+    th->set_health(2 + 3 + 6 + 1*1 + 1*3 + 2*3); // base attacks for all, plus one 2/1, 3 1/1s, and 3 2/2s
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards { th };
+    // std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));    
+    // std::unique_ptr<Player> p1(new Player(board1, "Eudora"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+}
 
 TEST(Player, RockpoolHunterTargettedBattlecry) {
     auto f = BgCardFactory();

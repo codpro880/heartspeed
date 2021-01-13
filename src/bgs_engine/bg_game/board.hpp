@@ -171,8 +171,17 @@ public:
 	    for (auto card : this->get_cards()) {
 		total_dmg += card->mod_summoned(c, this, from_hand);
 	    }
+	    if (c->is_magnetic() && pos < cards.size()) {
+		auto card_to_mag = cards[pos];
+		if (card_to_mag->get_race() == "MECHANICAL") {
+		    card_to_mag->set_attack(card_to_mag->get_attack() + c->get_attack());
+		    card_to_mag->set_health(card_to_mag->get_health() + c->get_health());
+		    card_to_mag->add_to_deathrattle_cards(c);
+		    return total_dmg; // Short circuit this, don't want to insert
+		}
+	    }
 	    cards.insert(cards.begin() + pos, c);
-	    card_names.insert(c->get_name());
+	    card_names.insert(c->get_name());   
 	    // c->do_battlecry(this);
 	}
 	return total_dmg;

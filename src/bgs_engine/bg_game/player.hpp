@@ -112,7 +112,7 @@ public:
 	if (card->get_race() == "ELEMENTAL") {
 	    elementals_played_this_turn += 1;
 	}
-	auto dmg_taken = board->insert_card(board_pos, card, true);
+	auto dmg_taken = board->insert_card(board_pos, card, true);	
 	// Responsible for floating watcher effects...
 	// TODO: Make more efficient, does linear searching
 	//floating_watcher_hook(board.get(), dmg_taken);

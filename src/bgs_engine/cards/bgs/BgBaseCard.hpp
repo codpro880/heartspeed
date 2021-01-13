@@ -134,6 +134,7 @@ public:
 
     bool is_dead() const { return health <= 0; }
     bool is_golden() const { return name.find("Golden") != std::string::npos; }
+    bool is_magnetic() const { return mechanics.find("MODULAR") != std::string::npos; }
 
     void reborn_self(Board* b1);
 
@@ -154,6 +155,9 @@ public:
     void multi_summon(int num_summons, Board* b1, bool from_hand = false);
     void multi_summon(int num_summons, Player* p1, bool from_hand = false);
     virtual void on_sell(Player* p1);
+    void add_to_deathrattle_cards(std::shared_ptr<BgBaseCard> c) {
+	deathrattle_cards.push_back(c);
+    }
 
     virtual void take_damage(int damage, std::string who_from_race, Board* b1, Board* b2);
 

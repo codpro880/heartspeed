@@ -476,6 +476,22 @@ void GoldrinnGolden::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
+void HangryDragon::start_turn_mechanic(Player* p1) {
+    if (p1->won_last_turn()) {
+	set_base_attack(get_base_attack() + 2);
+	std::cerr << "Settin health to: " << get_health() + 2 << std::endl;
+	set_base_health(get_base_health() + 2);
+    }
+}
+
+void HangryDragonGolden::start_turn_mechanic(Player* p1) {
+    if (p1->won_last_turn()) {
+	set_base_attack(get_base_attack() + 4);
+	set_base_health(get_base_health() + 4);
+    }
+}
+
+
 void HarvestGolem::do_deathrattle(Board* b1, Board* b2) {
     basic_summon(b1);
 }

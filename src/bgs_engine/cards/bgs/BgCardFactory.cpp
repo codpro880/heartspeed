@@ -329,12 +329,8 @@ void BgCardFactory::init_cards() {
     // H
     // cards.emplace("Hand of Salvation", BgBaseCard(-1, "PALADIN", 1, -1, "Hand of Salvation",
     // 						  "['SECRET']", "", "FREE", -1, "SPELL"));
-    std::shared_ptr<BgBaseCard> hangry(new BgBaseCard(4, "NEUTRAL", 5, 4, "Hangry Dragon",
-						      "['TRIGGER_VISUAL']", "DRAGON", "", 3, "MINION"));
-    cards.emplace("Hangry Dragon", hangry);
-    std::shared_ptr<BgBaseCard> hangry_gold(new BgBaseCard(8, "NEUTRAL", 5, 8, "Hangry Dragon (Golden)",
-							   "['TRIGGER_VISUAL']", "DRAGON", "", 3, "MINION"));
-    cards.emplace("Hangry Dragon (Golden)", hangry_gold);
+    cards.emplace("Hangry Dragon", std::make_shared<HangryDragon>());
+    cards.emplace("Hangry Dragon (Golden)", std::make_shared<HangryDragonGolden>());
     cards.emplace("Harvest Golem", std::make_shared<HarvestGolem>());
     cards.emplace("Harvest Golem (Golden)", std::make_shared<HarvestGolemGolden>());
     cards.emplace("Herald of Flame", std::make_shared<HeraldOfFlame>());

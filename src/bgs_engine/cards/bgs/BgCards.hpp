@@ -399,6 +399,22 @@ public:
     std::shared_ptr<BgBaseCard> summon() override;
 };
 
+class HangryDragon : public BgBaseCard {
+public:
+    HangryDragon() : BgBaseCard(4, "NEUTRAL", 5, 4, "Hangry Dragon",
+				"['TRIGGER_VISUAL']", "DRAGON", "", 3, "MINION") {}
+    virtual void start_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<HangryDragon>(*this); } // boilerplate that every drattle needs...
+};
+
+class HangryDragonGolden : public BgBaseCard {
+public:
+    HangryDragonGolden() : BgBaseCard(8, "NEUTRAL", 5, 8, "Hangry Dragon (Golden)",
+				      "['TRIGGER_VISUAL']", "DRAGON", "", 3, "MINION") {}
+    virtual void start_turn_mechanic(Player*) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<HangryDragonGolden>(*this); } // boilerplate that every drattle needs...
+};
+
 class HeraldOfFlame : public BgBaseCard {
 public:
     HeraldOfFlame() : BgBaseCard(5, "WARRIOR", 5, 6, "Herald of Flame",

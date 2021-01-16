@@ -9,7 +9,14 @@
 #include "rng_singleton.hpp"
 
 BattleResult Battler::sim_battle(std::string goes_first) {
-    return sim_battle(p1, p2, goes_first);
+    auto res = sim_battle(p1, p2, goes_first);
+    if (res.who_won == p1->get_name()) {
+	p1->set_won_last_turn();
+    }
+    else if (res.who_won == p2->get_name()) {
+	p2->set_won_last_turn();
+    }
+    return res;
 }
 
 BattleResults Battler::sim_battles_par(int num_battles) {    

@@ -23,6 +23,7 @@ public:
 	       std::string rarity,
 	       int tavern_tier,
 	       std::string type) : attack(attack),
+				   base_attack(attack),
 				   card_class(card_class),
 				   cost(cost),
 				   divine_shield(false),
@@ -30,6 +31,7 @@ public:
 				   _has_windfury(false),
 				   _has_windfury_active(false),
 				   health(health),
+				   base_health(health),
 				   is_poison(false),
 				   mechanics(mechanics),
 				   name(name),
@@ -40,6 +42,7 @@ public:
 				   adapt_count(0) {}
     
     BgBaseCard(const BgBaseCard& other) : attack(other.attack),
+					  base_attack(other.attack),
 					  card_class(other.card_class),
 					  cost(other.cost),
 					  divine_shield(other.divine_shield),
@@ -47,6 +50,7 @@ public:
 					  _has_windfury(other._has_windfury),
 					  _has_windfury_active(other._has_windfury_active),
 					  health(other.health),
+					  base_health(other.health),
 					  is_poison(other.is_poison),
 					  mechanics(other.mechanics),
 					  name(other.name),
@@ -103,10 +107,12 @@ public:
 
     int get_adapt_count() const { return adapt_count; }
     int get_attack() const { return is_poison ? 999999 : attack; } // Poison is like 'infinite' attack
+    int get_base_attack() const { return base_attack; }
     std::string get_card_class() const { return card_class; }
     int get_cost() const { return cost; }
     // int get_death_pos() { return death_pos; }
     int get_health() const { return health; }
+    int get_base_health() const { return base_health; }
     std::string get_mechanics() const { return mechanics; }
     std::string get_name() const { return name; }
     std::string get_race() const { return race; }
@@ -139,8 +145,12 @@ public:
     void reborn_self(Board* b1);
 
     void set_attack(int att) { attack = att; }
+    // Base stats can't be affected during combat
+    void set_base_attack(int att) { base_attack = att; attack = att; }
     void set_death_pos(int dp) { death_pos = dp; }
     void set_health(int hth) { health = hth; }
+    // Base stats can't be affected during combat
+    void set_base_health(int hth) { base_health = hth; health = hth; }
     void set_poison() { is_poison = true; }
     void set_divine_shield() { divine_shield = true; }
     void set_taunt() { _has_taunt = true; }
@@ -175,6 +185,7 @@ public:
 protected:
     std::vector<std::shared_ptr<BgBaseCard>> deathrattle_cards; // Used for magnetic effects or other deathrattle stacking
     int attack;
+    int base_attack;
     std::string card_class;
     int cost;
     bool divine_shield;
@@ -183,6 +194,7 @@ protected:
     bool _has_windfury = false; // attribute
     bool _has_windfury_active = false; // Whether or not we can attack again
     int health;
+    int base_health;
     bool is_poison;
     std::string mechanics;
     std::string name;

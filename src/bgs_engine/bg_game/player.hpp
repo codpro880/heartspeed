@@ -232,6 +232,7 @@ public:
 	}
 	turns_at_current_tier += 1;
 	if (max_gold < 10) max_gold++;
+	_won_last_turn = false;
     }
 
     void inc_pirates_bought_this_turn() {
@@ -248,6 +249,14 @@ public:
 
     void add_to_frozen_minions(std::string minion) {
 	frozen_minions.push_back(minion);
+    }
+
+    void set_won_last_turn() {
+	_won_last_turn = true;
+    }
+
+    bool won_last_turn() {
+	return _won_last_turn;
     }
 
 private:    
@@ -267,6 +276,7 @@ private:
     std::shared_ptr<BobsTavern> tavern;
     bool tavern_is_frozen;
     int turns_at_current_tier;
+    bool _won_last_turn;
 
     // TODO: Make this more efficient
     void floating_watcher_hook(Board* b1, int dmg_taken) {

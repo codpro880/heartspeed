@@ -183,12 +183,14 @@ BattleResult Battler::battle(Player* p1,
 	std::tuple<bool, bool, int, int> battle_res;
 	if (p1_turn) {
 	    // battle_res = board_battler.battle_boards(p1_counter, b1, b2); // Modifies b1/b2
-	    battle_res = board_battler.battle_boards(b1->get_attacker_pos(), b1, b2); // Modifies b1/b2
+	    // battle_res = board_battler.battle_boards(b1->get_attacker_pos(), b1, b2); // Modifies b1/b2
+	    battle_res = board_battler.battle_boards(b1->get_attacker_pos(), p1, p2); // Modifies b1/b2
 	    //attacker_is_dead = std::get<0>(battle_res);
 	}
 	else {
 	    // battle_res = board_battler.battle_boards(p2_counter, b2, b1); // Modifies b1/b2
-	    battle_res = board_battler.battle_boards(b2->get_attacker_pos(), b2, b1); // Modifies b1/b2
+	    // battle_res = board_battler.battle_boards(b2->get_attacker_pos(), b2, b1); // Modifies b1/b2
+	    battle_res = board_battler.battle_boards(b2->get_attacker_pos(), p2, p1); // Modifies b1/b2
 	    //attacker_is_dead = std::get<0>(battle_res);
 	}
 	res.attacker_pos.push_back(std::get<2>(battle_res));
@@ -348,8 +350,16 @@ void BoardBattler::post_battle(Board* b1,
     }
 }
 
+std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, std::shared_ptr<Player> p1, std::shared_ptr<Player> p2) {
+    return battle_boards(attacker_pos, p1->get_board().get(), p2->get_board().get());
+}
+
 std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
     return battle_boards(attacker_pos, b1.get(), b2.get());
+}
+
+std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, Player* p1, Player* p2) {
+    return battle_boards(attacker_pos, p1->get_board().get(), p2->get_board().get());
 }
 
 std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {

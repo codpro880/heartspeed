@@ -1949,6 +1949,35 @@ TEST(Battler, UnstableGhoulGoldenDrattle) {
     EXPECT_LE(res.damage_taken, 0);
 }
 
+// TEST(Battler, WardenOfOldDrattle) {
+//     auto f = BgCardFactory();
+//     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+// 	{
+// 	 f.get_card("Warden Of Old"),
+// 	 f.get_card("Warden Of Old (Golden)")
+// 	};
+//     auto th = f.get_card("Muclor Tidehunter");
+//     th->set_health(9);
+//     th->set_attack(10);
+//     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+// 	{
+// 	 th
+// 	};
+//     // Should have the 1 damaged golem left on board
+//     std::shared_ptr<Board> board1(new Board(p1_cards));
+//     std::shared_ptr<Board> board2(new Board(p2_cards));
+//     std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+//     std::unique_ptr<Player> p2(new Player(board2, "Tess"));
+//     auto battler = Battler(p1.get(), p2.get());
+//     auto res = battler.sim_battle();
+//     EXPECT_EQ(res.who_won, "draw");
+
+//     EXPECT_EQ(p1->get_hand().get_cards()size(), 3);
+//     for (auto card : p1->get_hand().get_cards()) {
+// 	EXPECT_EQ(card->get_name(), "Gold Coin");
+//     }
+// }
+
 TEST(Battler, WaxriderTogwaggle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -1980,29 +2009,6 @@ TEST(Battler, WaxriderTogwaggle) {
 	    EXPECT_EQ(true, false);
 	}
     }
-}
-
-TEST(Battler, YoHoOgre) {
-    auto f = BgCardFactory();
-    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
-	{
-	 f.get_card("Murloc Tidehunter"),
-	 f.get_card("Yo-Ho-Ogre")
-	};
-    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
-	{
-	 f.get_card("Murloc Tidehunter"),
-	 f.get_card("Murloc Tidehunter")
-	};
-    std::shared_ptr<Board> board1(new Board(p1_cards));
-    std::shared_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
-    auto battler = Battler(p1.get(), p2.get());
-    auto res = battler.sim_battle("p2");
-    EXPECT_EQ(res.who_won, "Tess");
-    // Murloc tidehunter never attacks since yo-ho attacks back immediately
-    EXPECT_EQ(board1->get_cards().size(), (unsigned)2);
 }
 
 TEST(Battler, WhirlwindTempest) {
@@ -2077,6 +2083,28 @@ TEST(Battler, WildfireElementalGolden) {
     EXPECT_TRUE(res.who_won == "Tess" || res.who_won == "draw");
 }
 
+TEST(Battler, YoHoOgre) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Yo-Ho-Ogre")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle("p2");
+    EXPECT_EQ(res.who_won, "Tess");
+    // Murloc tidehunter never attacks since yo-ho attacks back immediately
+    EXPECT_EQ(board1->get_cards().size(), (unsigned)2);
+}
 
 TEST(Battler, Zapp) {
     auto f = BgCardFactory();

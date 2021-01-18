@@ -441,12 +441,14 @@ TEST(Battler, FiendishServantGoldenDrattle) {
     };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards;
     std::shared_ptr<Board> board1(new Board(p1_cards));
-    std::shared_ptr<Board> board2(new Board(p2_cards));    
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::shared_ptr<Player> p1(new Player(board1, "p1"));
+    std::shared_ptr<Player> p2(new Player(board2, "p2"));
     auto fiendish = p1_cards[0];
     fiendish->set_attack(10);
     BoardBattler b;
     // who_from (fiendish) doesn't matter here
-    b.take_dmg_simul(fiendish, "", 10, board1.get(), board2.get());
+    b.take_dmg_simul(fiendish, "", 10, p1.get(), p2.get());
     int total_attack = 0;
     // TODO: Looks like p1_cards getting copied, probably not great for
     // performace...fix when profiler setup
@@ -472,7 +474,9 @@ TEST(Battler, GhastcoilerDrattle) {
 	};
     std::shared_ptr<Board> board1(new Board(p1_cards));
     std::shared_ptr<Board> board2(new Board(p2_cards));
-    BoardBattler().battle_boards(0, board1, board2);
+    std::shared_ptr<Player> p1(new Player(board1, "p1"));
+    std::shared_ptr<Player> p2(new Player(board2, "p2"));
+    BoardBattler().battle_boards(0, p1, p2);
 
     auto b1_cards = board1->get_cards();
     auto b2_cards = board2->get_cards();
@@ -1275,7 +1279,9 @@ TEST(Battler, PilotedShredderDrattle) {
 	};
     std::shared_ptr<Board> board1(new Board(p1_cards));
     std::shared_ptr<Board> board2(new Board(p2_cards));
-    BoardBattler().battle_boards(0, board1, board2);
+    std::shared_ptr<Player> p1(new Player(board1, "p1"));
+    std::shared_ptr<Player> p2(new Player(board2, "p2"));
+    BoardBattler().battle_boards(0, p1, p2);
 
     auto b1_cards = board1->get_cards();
     auto b2_cards = board2->get_cards();
@@ -1366,8 +1372,10 @@ TEST(Battler, RatPackDrattleSummonsCorrectNumOfRats) {
 	};
     std::shared_ptr<Board> board1(new Board(p1_cards));
     std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::shared_ptr<Player> p1(new Player(board1, "p1"));
+    std::shared_ptr<Player> p2(new Player(board2, "p2"));
     BoardBattler b;
-    b.take_dmg_simul(rp, "", 2, board2.get(), board1.get());
+    b.take_dmg_simul(rp, "", 2, p1.get(), p2.get());
     int rat_count = 0;
     int razor_count = 0;
     for (auto c : board2->get_cards()) {
@@ -1682,7 +1690,9 @@ TEST(Battler, SneedsOldShredderDrattle) {
 	};
     std::shared_ptr<Board> board1(new Board(p1_cards));
     std::shared_ptr<Board> board2(new Board(p2_cards));
-    BoardBattler().battle_boards(0, board1, board2);
+    std::shared_ptr<Player> p1(new Player(board1, "p1"));
+    std::shared_ptr<Player> p2(new Player(board2, "p2"));
+    BoardBattler().battle_boards(0, p1, p2);
 
     auto b1_cards = board1->get_cards();
     auto b2_cards = board2->get_cards();
@@ -1831,7 +1841,9 @@ TEST(Battler, TheBeastDrattle) {
 	};
     std::shared_ptr<Board> board1(new Board(p1_cards));
     std::shared_ptr<Board> board2(new Board(p2_cards));
-    BoardBattler().battle_boards(0, board1, board2);
+    std::shared_ptr<Player> p1(new Player(board1, "p1"));
+    std::shared_ptr<Player> p2(new Player(board2, "p2"));
+    BoardBattler().battle_boards(0, p1, p2);
 
     auto b1_cards = board1->get_cards();
     auto b2_cards = board2->get_cards();

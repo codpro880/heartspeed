@@ -234,10 +234,12 @@ BattleResult Battler::battle(Player* p1,
 
 void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker,
 				  std::shared_ptr<BgBaseCard> defender,
-				  Board* b1,
-				  Board* b2) {
-    attacker->do_preattack(defender, b1, b2);
-    defender->do_predefense(attacker, b2, b1);
+				  Player* p1,
+				  Player* p2) {
+    Board* b1 = p1->get_board().get();
+    Board* b2 = p2->get_board().get();
+    attacker->do_preattack(defender, p1, p2);
+    defender->do_predefense(attacker, p2, p1);
     std::vector<int> dmg;
     std::vector<std::shared_ptr<BgBaseCard> > cards;
     auto def_pos = b2->get_pos(defender);
@@ -264,35 +266,37 @@ void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker,
     for (size_t i = 0; i < cards.size() - races_size; i++) {
 	who_from_race.push_back(attacker->get_race());
     }
-    take_dmg_simul(cards, who_from_race, dmg, b1, b2);
-    attacker->do_postattack(defender, def_pos, b1, b2);
-    defender->do_postdefense(attacker, b2, b1);
+    take_dmg_simul(cards, who_from_race, dmg, p1, p2);
+    attacker->do_postattack(defender, def_pos, p1, p2);
+    defender->do_postdefense(attacker, p2, p1);
 }
 
 void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> card,
 				  std::string who_from_race,
 				  int dmg,
-				  Board* b1,
-				  Board* b2) {
+				  Player* p1,
+				  Player* p2) {
     auto cards = {card};
     auto who_from_races = {who_from_race};
-    take_dmg_simul(cards, who_from_races, dmg, b1, b2);
+    take_dmg_simul(cards, who_from_races, dmg, p1, p2);
 }
 
 void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards,
 				  std::vector<std::string> who_from_race,
 				  int dmg,
-				  Board* b1,
-				  Board* b2) {
+				  Player* p1,
+				  Player* p2) {
     // auto dmgs = {dmg};
     // auto who_from_races = {who_from_race};
     // take_dmg_simul(cards, who_from_races, dmgs, b1,
+    Board* b1 = p1->get_board().get();
+    Board* b2 = p2->get_board().get();
     for (int i = 0; i < cards.size(); i++) {
 	if (b1->contains(cards[i])) {
-	    cards[i]->take_damage(dmg, who_from_race[i], b1, b2);
+	    cards[i]->take_damage(dmg, who_from_race[i], p1, p2);
 	}
 	else {
-	    cards[i]->take_damage(dmg, who_from_race[i], b2, b1);
+	    cards[i]->take_damage(dmg, who_from_race[i], p2, p1);
 	}
     }
     
@@ -300,21 +304,23 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
     b2->remove_and_mark_dead();
 
     // TODO: Ordering seems to be a coin flip?
-    b1->do_deathrattles(b2);
-    b2->do_deathrattles(b1);
+    b1->do_deathrattles(p1, p2, b2);
+    b2->do_deathrattles(p2, p1, b1);
 }
 
 void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards,
 				  std::vector<std::string> who_from_race,
 				  std::vector<int> dmg,
-				  Board* b1,
-				  Board* b2) {
+				  Player* p1,
+				  Player* p2) {
+    Board* b1 = p1->get_board().get();
+    Board* b2 = p2->get_board().get();
     for (int i = 0; i < cards.size(); i++) {
 	if (b1->contains(cards[i])) {
-	    cards[i]->take_damage(dmg[i], who_from_race[i], b1, b2);
+	    cards[i]->take_damage(dmg[i], who_from_race[i], p1, p2);
 	}
 	else {
-	    cards[i]->take_damage(dmg[i], who_from_race[i], b2, b1);
+	    cards[i]->take_damage(dmg[i], who_from_race[i], p2, p1);
 	}
     }    
 
@@ -322,51 +328,52 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
     b2->remove_and_mark_dead();
 
     // TODO: Ordering seems to be a coin flip?
-    b1->do_deathrattles(b2);
-    b2->do_deathrattles(b1);
+    b1->do_deathrattles(p1, p2, b2);
+    b2->do_deathrattles(p2, p1, b1);
 }
 
-void BoardBattler::pre_combat(Board* b1, Board* b2) {
+void BoardBattler::pre_combat(Player* p1, Player* p2) {
     if (!first_combat) {
 	return;
     }
+    Board* b1 = p1->get_board().get();
+    Board* b2 = p2->get_board().get();
     first_combat = false;
     // TODO: randomize order
     for (auto c : b1->get_cards()) {
-	c->do_precombat(b1, b2);
+	c->do_precombat(p1, p2);
     }
     for (auto c : b2->get_cards()) {
-	c->do_precombat(b2, b1);
+	c->do_precombat(p2, p1);
     }
 }
 
-void BoardBattler::post_battle(Board* b1,
-			       Board* b2,
+void BoardBattler::post_battle(Player* p1,
+			       Player* p2,
 			       std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
 			       std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
     if (dead_b1.empty() && dead_b2.empty()) return;
+    Board* b1 = p1->get_board().get();
     for (auto c : b1->get_cards()) {
-	c->do_postbattle(b1, b2, dead_b1, dead_b2);
+	c->do_postbattle(p1, p2, dead_b1, dead_b2);
     }
 }
 
 std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, std::shared_ptr<Player> p1, std::shared_ptr<Player> p2) {
-    return battle_boards(attacker_pos, p1->get_board().get(), p2->get_board().get());
+    return battle_boards(attacker_pos, p1.get(), p2.get());
 }
 
-std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
-    return battle_boards(attacker_pos, b1.get(), b2.get());
-}
+// std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
+//     return battle_boards(attacker_pos, b1.get(), b2.get());
+// }
 
 std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, Player* p1, Player* p2) {
-    return battle_boards(attacker_pos, p1->get_board().get(), p2->get_board().get());
-}
-
-std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
+    Board* b1 = p1->get_board().get();
+    Board* b2 = p2->get_board().get();
     auto pre_precom_b1_dead = b1->has_died();
     auto pre_precom_b2_dead = b2->has_died();
     
-    pre_combat(b1, b2); // Special case: Red Whelp start of combat mechanic. Illidan, too.
+    pre_combat(p1, p2); // Special case: Red Whelp start of combat mechanic. Illidan, too.
 
     auto post_precom_b1_dead = b1->has_died();
     auto post_precom_b2_dead = b2->has_died();
@@ -381,8 +388,8 @@ std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, B
     std::vector<std::shared_ptr<BgBaseCard> > precom_dead_b2(firstb2_precom, lastb2_precom);
 
     // Handles things like Scavenging Hyena
-    post_battle(b1, b2, precom_dead_b1, precom_dead_b2);
-    post_battle(b2, b1, precom_dead_b2, precom_dead_b1);
+    post_battle(p1, p2, precom_dead_b1, precom_dead_b2);
+    post_battle(p2, p1, precom_dead_b2, precom_dead_b1);
 
     if (b1->length() == 0 || b2->length() == 0) {
 	// TODO: Need to figure out how to show pre_combat victories in the UI
@@ -445,7 +452,7 @@ std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, B
     auto pre_b2_dead = b2->has_died();
     
     // Handles drattles
-    take_dmg_simul(attacker, defender, b1, b2);
+    take_dmg_simul(attacker, defender, p1, p2);
 
     auto post_b1_dead = b1->has_died();
     auto post_b2_dead = b2->has_died();
@@ -460,21 +467,21 @@ std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, B
     std::vector<std::shared_ptr<BgBaseCard> > new_dead_b2(firstb2, lastb2);
 
     // Handles things like Scavenging Hyena
-    post_battle(b1, b2, new_dead_b1, new_dead_b2);
-    post_battle(b2, b1, new_dead_b2, new_dead_b1);
+    post_battle(p1, p2, new_dead_b1, new_dead_b2);
+    post_battle(p2, p1, new_dead_b2, new_dead_b1);
 
     if (!attacker->is_dead() && attacker->has_windfury_active()) {
 	// Need to turn off windfury, or we'll infinitely recurse
 	attacker->set_windfury_active(false);
-	battle_boards(attacker_pos, b1, b2);
+	battle_boards(attacker_pos, p1, p2);
 	if (b1->contains("Whirlwind Tempest")) {
 	    if (!attacker->is_dead()) {
 		attacker->set_windfury_active(false);
-		battle_boards(attacker_pos, b1, b2);
+		battle_boards(attacker_pos, p1, p2);
 	    }
 	    if (!attacker->is_dead()) {
 		attacker->set_windfury_active(false);
-		battle_boards(attacker_pos, b1, b2);
+		battle_boards(attacker_pos, p1, p2);
 	    }
 	}
     }
@@ -489,6 +496,134 @@ std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, B
     return std::make_tuple(attacker->is_dead(), defender->is_dead(), attacker_pos, (int)defender_pos);
 	// return attacker->is_dead();
 }
+
+// std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
+//     auto pre_precom_b1_dead = b1->has_died();
+//     auto pre_precom_b2_dead = b2->has_died();
+    
+//     pre_combat(b1, b2); // Special case: Red Whelp start of combat mechanic. Illidan, too.
+
+//     auto post_precom_b1_dead = b1->has_died();
+//     auto post_precom_b2_dead = b2->has_died();
+
+//     // TODO: Refactor to have new dead for b1/b2 calculated here
+//     auto firstb1_precom = post_precom_b1_dead.begin() + pre_precom_b1_dead.size();
+//     auto lastb1_precom = post_precom_b1_dead.end();
+//     std::vector<std::shared_ptr<BgBaseCard> > precom_dead_b1(firstb1_precom, lastb1_precom);
+
+//     auto firstb2_precom = post_precom_b2_dead.begin() + pre_precom_b2_dead.size();
+//     auto lastb2_precom = post_precom_b2_dead.end();
+//     std::vector<std::shared_ptr<BgBaseCard> > precom_dead_b2(firstb2_precom, lastb2_precom);
+
+//     // Handles things like Scavenging Hyena
+//     post_battle(b1, b2, precom_dead_b1, precom_dead_b2);
+//     post_battle(b2, b1, precom_dead_b2, precom_dead_b1);
+
+//     if (b1->length() == 0 || b2->length() == 0) {
+// 	// TODO: Need to figure out how to show pre_combat victories in the UI
+// 	return std::make_tuple(false, false, -1, -1);
+//     }
+    
+//     auto attacker = (*b1)[attacker_pos];
+//     std::vector<std::shared_ptr<BgBaseCard>> taunts;
+//     for (auto c : b2->get_cards()) {
+// 	if (c->has_taunt()) {
+// 	    taunts.push_back(c);
+// 	}
+//     }
+    
+//     std::shared_ptr<BgBaseCard> defender;
+//     size_t defender_pos;
+//     if (!taunts.empty()) {
+// 	defender_pos = RngSingleton::getInstance().get_rand_int() % taunts.size();
+// 	defender = taunts[defender_pos];
+// 	// important to have global board position (this value is returned)
+// 	defender_pos = b2->get_pos(defender);
+//     }
+//     else {
+// 	defender_pos = RngSingleton::getInstance().get_rand_int() % b2->length();
+// 	defender = (*b2)[defender_pos];
+//     }
+
+//     // Zapp special case, ignores taunts
+//     if (attacker->get_name() == "Zapp" || attacker->get_name() == "Zapp (Golden)") {
+// 	// No Idea why this isn't working, tried w/ and w/o const& in lambda
+// 	// auto min_elt_it = std::min_element(b2->get_cards().begin(),
+// 	// 				   b2->get_cards().end(),
+// 	// 				   [](std::shared_ptr<BgBaseCard> a, std::shared_ptr<BgBaseCard> b)
+// 	// 				   {
+// 	// 				       return a->get_attack() < b->get_attack();
+// 	// 				   }
+// 	// 				   );
+// 	// std::cerr << "GOt here..." << std::endl;
+// 	// auto idx = std::distance(b2->get_cards().begin(), min_elt_it);
+// 	// std::cerr << "Index: " << idx << std::endl;
+// 	// defender = b2->get_cards()[idx];
+// 	int min_attack = b2->get_cards()[0]->get_attack();
+// 	std::vector<std::shared_ptr<BgBaseCard>> defenders;
+// 	for (auto c : b2->get_cards()) {
+// 	    if (c->get_attack() < min_attack) {
+// 		min_attack = c->get_attack();
+// 	    }
+// 	}
+// 	for (auto c : b2->get_cards()) {
+// 	    if (c->get_attack() == min_attack) {
+// 		defenders.push_back(c);
+// 	    }
+// 	}
+// 	defender = defenders[RngSingleton::getInstance().get_rand_int() % defenders.size()];
+// 	defender_pos = b2->get_pos(defender);
+//     }
+    
+
+//     auto pre_b1_dead = b1->has_died();
+//     auto pre_b2_dead = b2->has_died();
+    
+//     // Handles drattles
+//     take_dmg_simul(attacker, defender, b1, b2);
+
+//     auto post_b1_dead = b1->has_died();
+//     auto post_b2_dead = b2->has_died();
+
+//     // TODO: Refactor to have new dead for b1/b2 calculated here
+//     auto firstb1 = post_b1_dead.begin() + pre_b1_dead.size();
+//     auto lastb1 = post_b1_dead.end();
+//     std::vector<std::shared_ptr<BgBaseCard> > new_dead_b1(firstb1, lastb1);
+
+//     auto firstb2 = post_b2_dead.begin() + pre_b2_dead.size();
+//     auto lastb2 = post_b2_dead.end();
+//     std::vector<std::shared_ptr<BgBaseCard> > new_dead_b2(firstb2, lastb2);
+
+//     // Handles things like Scavenging Hyena
+//     post_battle(b1, b2, new_dead_b1, new_dead_b2);
+//     post_battle(b2, b1, new_dead_b2, new_dead_b1);
+
+//     if (!attacker->is_dead() && attacker->has_windfury_active()) {
+// 	// Need to turn off windfury, or we'll infinitely recurse
+// 	attacker->set_windfury_active(false);
+// 	battle_boards(attacker_pos, b1, b2);
+// 	if (b1->contains("Whirlwind Tempest")) {
+// 	    if (!attacker->is_dead()) {
+// 		attacker->set_windfury_active(false);
+// 		battle_boards(attacker_pos, b1, b2);
+// 	    }
+// 	    if (!attacker->is_dead()) {
+// 		attacker->set_windfury_active(false);
+// 		battle_boards(attacker_pos, b1, b2);
+// 	    }
+// 	}
+//     }
+
+//     if (attacker->has_windfury()) {
+// 	attacker->set_windfury_active();
+//     }
+
+//     // Handles deathrattles, nothing happens if nothing died
+//     //attacker->do_deathrattle(b1, b2);
+//     //defender->do_deathrattle(b2, b1); // May modify b1/b2
+//     return std::make_tuple(attacker->is_dead(), defender->is_dead(), attacker_pos, (int)defender_pos);
+// 	// return attacker->is_dead();
+// }
 
 std::string Battler::decide_who_goes_first(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
     return decide_who_goes_first(b1.get(), b2.get());

@@ -259,6 +259,29 @@ public:
 	return _won_last_turn;
     }
 
+    void do_deathrattles(std::shared_ptr<Player> p) {
+	return do_deathrattles(p.get());
+    }
+    
+    void do_deathrattles(Player* other) {
+	Board* b1 = get_board().get();
+	b1->do_deathrattles(this, other, other->get_board().get());
+	// bool at_least_one_dead = false;
+	// while (!deathrattle_q.empty()) {
+	//     at_least_one_dead = true;
+	//     auto card = deathrattle_q.front();
+	//     deathrattle_q.pop();
+	//     card->deathrattle(this, other);
+	// }
+	// if (at_least_one_dead) {
+	//     // Deathrattles can cause other deaths to occur
+	//     remove_and_mark_dead();
+	//     other->remove_and_mark_dead();
+	//     do_deathrattles(other);
+	//     other->do_deathrattles(this);
+	// }
+    }
+
 private:    
     std::shared_ptr<Board> board;
     int elementals_played_this_turn;

@@ -131,25 +131,25 @@ public:
 	}
     }
 
-    void do_deathrattles(std::shared_ptr<Board> b) {
-	return do_deathrattles(b.get());
-    }
+    // void do_deathrattles(std::shared_ptr<Board> b) {
+    // 	return do_deathrattles(b.get());
+    // }
     
-    void do_deathrattles(Board* other) {
-	bool at_least_one_dead = false;
-	while (!deathrattle_q.empty()) {
-	    at_least_one_dead = true;
-	    auto card = deathrattle_q.front();
-	    deathrattle_q.pop();
-	    card->deathrattle(this, other);
-	}
-	if (at_least_one_dead) {
-	    // Deathrattles can cause other deaths to occur
-	    remove_and_mark_dead();
-	    other->remove_and_mark_dead();
-	    do_deathrattles(other);
-	    other->do_deathrattles(this);
-	}
+    void do_deathrattles(Player* p1, Player* p2, Board* b2) {
+    	bool at_least_one_dead = false;
+    	while (!deathrattle_q.empty()) {
+    	    at_least_one_dead = true;
+    	    auto card = deathrattle_q.front();
+    	    deathrattle_q.pop();
+    	    card->deathrattle(p1, p2);
+    	}
+    	if (at_least_one_dead) {
+    	    // Deathrattles can cause other deaths to occur
+    	    remove_and_mark_dead();
+    	    b2->remove_and_mark_dead();
+    	    do_deathrattles(p1, p2, b2);
+    	    b2->do_deathrattles(p2, p1, this);
+    	}
     }
     
     int insert_card(int pos, std::shared_ptr<BgBaseCard> c, bool from_hand=false) {

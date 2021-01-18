@@ -69,30 +69,30 @@ public:
     // Triggered on death
     // (ex: stat-buffs that die)
     // Note: Actual deathrattle cards handled by DeathrattleCard class
-    virtual void do_deathrattle(Board* b1, Board* b2) { }
-    virtual void deathrattle(Board* b1, Board* b2);
+    virtual void do_deathrattle(Player*, Player*) { }
+    virtual void deathrattle(Player*, Player*);
     
     // Triggered before every attack (ex: glyph gaurdian mechanic)
     virtual void do_preattack(std::shared_ptr<BgBaseCard>,
-			      Board*,
-			      Board*) {}
+			      Player*,
+			      Player*) {}
     // Triggered before defense (Tormented Ritualist)
     virtual void do_predefense(std::shared_ptr<BgBaseCard>,
-			       Board*,
-			       Board*);
+			       Player*,
+			       Player*);
     // Triggered once before combat starts (ex: red whelp, stat-buffs)
-    virtual void do_precombat(Board*, Board*) {}
+    virtual void do_precombat(Player*, Player*) {}
     // Triggered after attack (ex: overkill mechanic)
     virtual void do_postattack(std::shared_ptr<BgBaseCard>,
 			       int,
-			       Board*,
-			       Board*) {}
+			       Player*,
+			       Player*) {}
     // Triggered after attack for defender (ex: yo-ho-ogre)
     virtual void do_postdefense(std::shared_ptr<BgBaseCard>,
-				Board*,
-				Board*) {}
+				Player*,
+				Player*) {}
     // Triggered after deaths of each dmg exchange (ex: scavaging hyena)
-    virtual void do_postbattle(Board*, Board*, std::vector<std::shared_ptr<BgBaseCard>>, std::vector<std::shared_ptr<BgBaseCard>>) {}
+    virtual void do_postbattle(Player*, Player*, std::vector<std::shared_ptr<BgBaseCard>>, std::vector<std::shared_ptr<BgBaseCard>>) {}
 
     // Triggered after a summon occurs, returns damage taken (wrathweave)
     virtual int mod_summoned(std::shared_ptr<BgBaseCard>, Board*, bool) { return 0; }
@@ -142,7 +142,7 @@ public:
     bool is_golden() const { return name.find("Golden") != std::string::npos; }
     bool is_magnetic() const { return mechanics.find("MODULAR") != std::string::npos; }
 
-    void reborn_self(Board* b1);
+    void reborn_self(Board*);
 
     void set_attack(int att) { attack = att; }
     // Base stats can't be affected during combat
@@ -159,17 +159,17 @@ public:
     void set_windfury_active(bool wfa = true) { _has_windfury_active = wfa; }
 
     virtual std::shared_ptr<BgBaseCard> summon() {throw std::runtime_error("summon() not implemented");}
-    virtual std::shared_ptr<BgBaseCard> do_summon(Board* b1, bool from_hand);
-    void basic_summon(Board* b1, bool from_hand = false);
+    virtual std::shared_ptr<BgBaseCard> do_summon(Player*, bool from_hand);
+    // void basic_summon(Board* b1, bool from_hand = false);
     void basic_summon(Player* p1, bool from_hand = false);
-    void multi_summon(int num_summons, Board* b1, bool from_hand = false);
+    // void multi_summon(int num_summons, Board* b1, bool from_hand = false);
     void multi_summon(int num_summons, Player* p1, bool from_hand = false);
     virtual void on_sell(Player* p1);
     void add_to_deathrattle_cards(std::shared_ptr<BgBaseCard> c) {
 	deathrattle_cards.push_back(c);
     }
 
-    virtual void take_damage(int damage, std::string who_from_race, Board* b1, Board* b2);
+    virtual void take_damage(int damage, std::string who_from_race, Player*, Player*);
 
     std::string who_killed_race() const {
 	if (is_dead()) {

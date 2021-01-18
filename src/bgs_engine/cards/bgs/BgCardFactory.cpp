@@ -49,7 +49,7 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_rarity(std
     return res;
 }
 
-std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_with_deathrattle() const {
+std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_with_deathrattle(bool include_golden) const {
     std::vector<std::shared_ptr<BgBaseCard> > res;
     auto it = cards.begin();
     while (it != cards.end()) {
@@ -57,7 +57,15 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_with_deathrat
 	if (card->has_deathrattle()) {
 	    // TODO: Not copying here may improve performance.
 	    // Maybe only return names?
-	    res.push_back(card->get_copy());
+	    if (include_golden) {
+		res.push_back(card->get_copy());
+	    }
+	    else {
+		if (!card->is_golden()) {
+		    res.push_back(card->get_copy());
+		}
+	    }
+	    // res.push_back(card->get_copy());
 	}
 	it++;
     }

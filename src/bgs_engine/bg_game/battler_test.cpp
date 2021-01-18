@@ -478,8 +478,8 @@ TEST(Battler, GhastcoilerDrattle) {
     std::shared_ptr<Player> p2(new Player(board2, "p2"));
     BoardBattler().battle_boards(0, p1, p2);
 
-    auto b1_cards = board1->get_cards();
-    auto b2_cards = board2->get_cards();
+    auto b1_cards = p1->get_board()->get_cards();
+    auto b2_cards = p2->get_board()->get_cards();
     EXPECT_EQ(b1_cards.size(), (unsigned)2);
     EXPECT_EQ(b2_cards.size(), (unsigned)4);
     for (auto c : b1_cards) {

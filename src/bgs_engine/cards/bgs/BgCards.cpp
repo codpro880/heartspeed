@@ -2004,16 +2004,15 @@ void WaxriderTogwaggle::do_postbattle(Player*,
     }
 }
 
-// TODO: Need a player reference.......
-// void WardenOfOld::do_deathrattle(Player* p1, Player* p2) {
-//     f = BgCardFactory();
-//     p1->add_card_to_hand(f.get_card("Gold Coin"));
-// }
+void WardenOfOld::do_deathrattle(Player* p1, Player* p2) {
+    auto f = BgCardFactory();
+    p1->add_card_to_hand(f.get_card("Gold Coin"));
+}
 
-// void WardenOfOldGolden::do_deathrattle(Player* p1, Player* p2) {
-//     woo->do_deathrattle(p1, p2);
-//     woo->do_deathrattle(p1, p2);
-// }
+void WardenOfOldGolden::do_deathrattle(Player* p1, Player* p2) {
+    woo.do_deathrattle(p1, p2);
+    woo.do_deathrattle(p1, p2);
+}
 
 void WaxriderTogwaggleGolden::do_postbattle(Player*,
 					    Player*,

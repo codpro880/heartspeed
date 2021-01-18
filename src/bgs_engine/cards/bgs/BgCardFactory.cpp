@@ -677,8 +677,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Vulgar Homunculus (Golden)", std::make_shared<VulgarHomunculusGolden>());
 					   
     // W
-    // cards.emplace("Warden of Old", std::make_shared<WardenOfOld>());
-    // cards.emplace("Warden of Old (Golden)", std::make_shared<WardenOfOldGolden>());
+    cards.emplace("Warden of Old", std::make_shared<WardenOfOld>());
+    cards.emplace("Warden of Old (Golden)", std::make_shared<WardenOfOldGolden>());
     cards.emplace("Water Droplet", std::make_shared<BgBaseCard>(2, "NEUTRAL", 1, 2, "Water Droplet",
 								"", "ELEMENTAL", "", 1, "MINION"));
     cards.emplace("Water Droplet (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", 1, 4, "Water Droplet (Golden)",

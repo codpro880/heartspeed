@@ -1819,21 +1819,23 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<VulgarHomunculusGolden>(*this); } // boilerplate that every drattle needs...
 };
 
-// class WardenOfOld : public DeathrattleCard {
-// public:
-//     WardenOfOld() : BgBaseCard(3, "NEUTRAL", 4, 3, "Warden Of Old",
-// 			       "['DEATHRATTLE']", "", "COMMON", 3, "MINION") {}
-//     virtual void do_deathrattle(Player* p1, Player* p2) override;
-//     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<WardenOfOld>(*this); } // boilerplate that every drattle needs...
-// };
+class WardenOfOld : public DeathrattleCard {
+public:
+    WardenOfOld() : BgBaseCard(3, "NEUTRAL", 4, 3, "Warden Of Old",
+			       "['DEATHRATTLE']", "", "COMMON", 3, "MINION") {}
+    virtual void do_deathrattle(Player* p1, Player* p2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<WardenOfOld>(*this); } // boilerplate that every drattle needs...
+};
 
-// class WardenOfOldGolden : public DeathrattleCard {
-// public:
-//     WardenOfOldGolden() : BgBaseCard(6, "NEUTRAL", 4, 6, "Warden Of Old (Golden)",
-// 				     "['DEATHRATTLE']", "", "COMMON", 3, "MINION") {}
-//     virtual void do_deathrattle(Player* p1, Player* p2) override;
-//     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<WardenOfOldGolden>(*this); } // boilerplate that every drattle needs...
-// };
+class WardenOfOldGolden : public DeathrattleCard {
+public:
+    WardenOfOldGolden() : BgBaseCard(6, "NEUTRAL", 4, 6, "Warden Of Old (Golden)",
+				     "['DEATHRATTLE']", "", "COMMON", 3, "MINION") {}
+    virtual void do_deathrattle(Player* p1, Player* p2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<WardenOfOldGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    WardenOfOld woo;
+};
 
 class WaxriderTogwaggle : public BgBaseCard {
 public:

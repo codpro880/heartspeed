@@ -137,7 +137,38 @@ TEST(Player, AnnihilanBattlemasterBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Annihilan Battlemaster (Golden)");
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 6);
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 2 + 30 + 30);
-} 
+}
+
+TEST(Player, AnnoyoModuleMagnetic) {
+    auto f = BgCardFactory();
+    auto micro_mummy = f.get_card("Micro Mummy");
+    auto annoyo = f.get_card("Annoy-o-Module");
+    auto annoyo_gold = f.get_card("Annoy-o-Module (Golden)");
+    EXPECT_EQ(micro_mummy->is_magnetic(), false);
+    EXPECT_EQ(annoyo->is_magnetic(), true);
+    EXPECT_EQ(annoyo_gold->is_magnetic(), true);
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 micro_mummy,
+	 annoyo,
+	 annoyo_gold
+	};
+    auto in_hand = Hand(hand_cards);
+    std::unique_ptr<Player> p1(new Player(in_hand, "Eudora"));
+
+    p1->play_card(1, 0); // Place annoyo
+    p1->play_card(0, 1); // Place micro mummy
+    p1->play_card(0, 1); // Create magnetic annoyo gold
+
+    // Assert magnetization
+    micro_mummy = p1->get_board()->get_cards()[1];
+    EXPECT_EQ(p1->get_board()->get_cards().size(), (unsigned)2); // One should have been magneticized
+    EXPECT_EQ(micro_mummy->get_attack(), 1 + 4); // 1 base, 4 from golden annoyo
+    EXPECT_EQ(micro_mummy->get_health(), 2 + 8); // 1 base, 8 from replicating
+    EXPECT_TRUE(micro_mummy->has_reborn());
+    EXPECT_TRUE(micro_mummy->has_taunt());
+    EXPECT_TRUE(micro_mummy->has_divine_shield());
+}
 
 TEST(Player, ArcaneAssistantBattlecry) {
     auto f = BgCardFactory();

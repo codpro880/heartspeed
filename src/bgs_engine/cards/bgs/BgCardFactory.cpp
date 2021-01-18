@@ -144,9 +144,11 @@ void BgCardFactory::init_cards() {
     cards.emplace("Annihilan Battlemaster (Golden)", std::make_shared<AnnihilanBattlemasterGolden>());
     std::shared_ptr<BgBaseCard> annoyo(new BgBaseCard(2, "PALADIN", 4, 4, "Annoy-o-Module",
 						      "['DIVINE_SHIELD', 'MODULAR', 'TAUNT']", "MECHANICAL", "RARE", 4, "MINION"));
+    annoyo->set_divine_shield();
     cards.emplace("Annoy-o-Module", annoyo);
     std::shared_ptr<BgBaseCard> annoyo_gold(new BgBaseCard(4, "PALADIN", 4, 8, "Annoy-o-Module (Golden)",
 							   "['DIVINE_SHIELD', 'MODULAR', 'TAUNT']", "MECHANICAL", "RARE", 4, "MINION"));
+    annoyo_gold->set_divine_shield();
     cards.emplace("Annoy-o-Module (Golden)", annoyo_gold);
     cards.emplace("Arcane Assistant", std::make_shared<ArcaneAssistant>());
     cards.emplace("Arcane Assistant (Golden)", std::make_shared<ArcaneAssistantGolden>());

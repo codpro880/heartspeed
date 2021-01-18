@@ -151,9 +151,9 @@ public:
     void set_health(int hth) { health = hth; }
     // Base stats can't be affected during combat
     void set_base_health(int hth) { base_health = hth; health = hth; }
-    void set_poison() { is_poison = true; }
-    void set_divine_shield() { divine_shield = true; }
-    void set_taunt() { _has_taunt = true; }
+    void set_poison(bool p = true) { is_poison = p; }
+    void set_divine_shield(bool s = true) { divine_shield = s; }
+    void set_taunt(bool t = true) { _has_taunt = t; }
     void set_reborn(bool rb = true) {_has_reborn = rb; }
     void set_windfury(bool wf = true) { _has_windfury = wf; _has_windfury_active = wf; }
     void set_windfury_active(bool wfa = true) { _has_windfury_active = wfa; }

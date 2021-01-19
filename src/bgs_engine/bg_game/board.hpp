@@ -131,28 +131,29 @@ public:
 	}
     }
 
-    void do_deathrattles(std::shared_ptr<Board> b) {
-	return do_deathrattles(b.get());
-    }
+    // void do_deathrattles(std::shared_ptr<Board> b) {
+    // 	return do_deathrattles(b.get());
+    // }
     
-    void do_deathrattles(Board* other) {
-	bool at_least_one_dead = false;
-	while (!deathrattle_q.empty()) {
-	    at_least_one_dead = true;
-	    auto card = deathrattle_q.front();
-	    deathrattle_q.pop();
-	    card->deathrattle(this, other);
-	}
-	if (at_least_one_dead) {
-	    // Deathrattles can cause other deaths to occur
-	    remove_and_mark_dead();
-	    other->remove_and_mark_dead();
-	    do_deathrattles(other);
-	    other->do_deathrattles(this);
-	}
+    void do_deathrattles(Player* p1, Player* p2, Board* b2) {
+    	bool at_least_one_dead = false;
+    	while (!deathrattle_q.empty()) {
+    	    at_least_one_dead = true;
+    	    auto card = deathrattle_q.front();
+    	    deathrattle_q.pop();
+    	    card->deathrattle(p1, p2);
+    	}
+    	if (at_least_one_dead) {
+    	    // Deathrattles can cause other deaths to occur
+    	    remove_and_mark_dead();
+    	    b2->remove_and_mark_dead();
+    	    do_deathrattles(p1, p2, b2);
+    	    b2->do_deathrattles(p2, p1, this);
+    	}
     }
     
     int insert_card(int pos, std::shared_ptr<BgBaseCard> c, bool from_hand=false) {
+	if (cards.size() == (unsigned)7) return 0;
 	int total_dmg = 0;
 	if ((unsigned)pos >= cards.size()) {
 	    // This case can occur w/ certain deathrattle interactions
@@ -171,8 +172,17 @@ public:
 	    for (auto card : this->get_cards()) {
 		total_dmg += card->mod_summoned(c, this, from_hand);
 	    }
+	    if (c->is_magnetic() && pos < cards.size()) {
+		auto card_to_mag = cards[pos];
+		if (card_to_mag->get_race() == "MECHANICAL") {
+		    card_to_mag->set_attack(card_to_mag->get_attack() + c->get_attack());
+		    card_to_mag->set_health(card_to_mag->get_health() + c->get_health());
+		    card_to_mag->add_to_deathrattle_cards(c);
+		    return total_dmg; // Short circuit this, don't want to insert
+		}
+	    }
 	    cards.insert(cards.begin() + pos, c);
-	    card_names.insert(c->get_name());
+	    card_names.insert(c->get_name());   
 	    // c->do_battlecry(this);
 	}
 	return total_dmg;

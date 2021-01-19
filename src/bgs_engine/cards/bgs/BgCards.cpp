@@ -48,32 +48,34 @@ void menagerie_bcry(Player* p1,
 
 // Generic Classes
 // TODO: Efficiency
-void DeathrattleCard::deathrattle(Board* b1, Board* b2) {
+void DeathrattleCard::deathrattle(Player* p1, Player* p2) {
+    auto b1 = p1->get_board().get();
+    auto b2 = p2->get_board().get();
     if (b1->contains("Baron Rivendare (Golden)")) {
-	do_deathrattle(b1, b2);
-	do_deathrattle(b1, b2);
-	do_deathrattle(b1, b2);
+	do_deathrattle(p1, p2);
+	do_deathrattle(p1, p2);
+	do_deathrattle(p1, p2);
 	for (auto c : deathrattle_cards) {
 	    c->set_death_pos(this->death_pos);
-	    c->do_deathrattle(b1, b2);
-	    c->do_deathrattle(b1, b2);
-	    c->do_deathrattle(b1, b2);
+	    c->do_deathrattle(p1, p2);
+	    c->do_deathrattle(p1, p2);
+	    c->do_deathrattle(p1, p2);
 	}
     }
     else if (b1->contains("Baron Rivendare")) {
-	do_deathrattle(b1, b2);
-	do_deathrattle(b1, b2);
+	do_deathrattle(p1, p2);
+	do_deathrattle(p1, p2);
 	for (auto c : deathrattle_cards) {
 	    c->set_death_pos(this->death_pos);
-	    c->do_deathrattle(b1, b2);
-	    c->do_deathrattle(b1, b2);
+	    c->do_deathrattle(p1, p2);
+	    c->do_deathrattle(p1, p2);
 	}
     }
     else {
-	do_deathrattle(b1, b2);
+	do_deathrattle(p1, p2);
 	for (auto c : deathrattle_cards) {
 	    c->set_death_pos(this->death_pos);
-	    c->do_deathrattle(b1, b2);
+	    c->do_deathrattle(p1, p2);
 	}
     }
 }
@@ -114,8 +116,10 @@ void TargetedBattlecryCard::targeted_battlecry(std::shared_ptr<BgBaseCard> c, Pl
 
 
 void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
-			      Board* b1,
-			      Board* b2) {
+			      Player* p1,
+			      Player* p2) {
+    auto b1 = p1->get_board().get();
+    auto b2 = p2->get_board().get();
     int num_eliza = 0;
     int num_eliza_gold = 0;
     for (auto c : b1->get_cards()) {
@@ -338,8 +342,8 @@ void DefenderOfArgusGolden::do_battlecry(Player* p1) {
 }
 
 // >>>>>>> Stashed changes
-void Djinni::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon(b1);
+void Djinni::do_deathrattle(Player* p1, Player*) {
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> Djinni::summon() {
@@ -358,8 +362,8 @@ std::shared_ptr<BgBaseCard> Djinni::summon() {
     return card;
 }
 
-void DjinniGolden::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(2, b1);
+void DjinniGolden::do_deathrattle(Player* p1, Player* p2) {
+    multi_summon(2, p1);
 }
 
 std::shared_ptr<BgBaseCard> DjinniGolden::summon() {
@@ -386,16 +390,17 @@ void FelfinNavigatorGolden::do_battlecry(Player* p1) {
     }
 }
 
-void FiendishServant::do_deathrattle(Board* b1, Board*b2) {
+void FiendishServant::do_deathrattle(Player* p1, Player*) {
+    auto b1 = p1->get_board().get();
     auto buffed_pos = RngSingleton::getInstance().get_rand_int() % b1->length();
     auto card = b1->get_cards()[buffed_pos];
     card->set_attack(card->get_attack() + attack);
 }
 
-void FiendishServantGolden::do_deathrattle(Board* b1, Board*b2) {
+void FiendishServantGolden::do_deathrattle(Player* p1, Player* p2) {
     serv.set_attack(this->get_attack());
     for (int i = 0; i < 2; i++) {
-	serv.do_deathrattle(b1, b2);
+	serv.do_deathrattle(p1, p2);
     }
 }
 
@@ -407,8 +412,8 @@ void FreedealingGamblerGolden::on_sell(Player* p1) {
     p1->add_gold(6);
 }
 
-void Ghastcoiler::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(2, b1);
+void Ghastcoiler::do_deathrattle(Player* p1, Player* p2) {
+    multi_summon(2, p1);
 }
 
 std::shared_ptr<BgBaseCard> Ghastcoiler::summon() {
@@ -418,8 +423,8 @@ std::shared_ptr<BgBaseCard> Ghastcoiler::summon() {
     return card;
 }
 
-void GhastcoilerGolden::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(4, b1);
+void GhastcoilerGolden::do_deathrattle(Player* p1, Player* p2) {
+    multi_summon(4, p1);
 }
 
 std::shared_ptr<BgBaseCard> GhastcoilerGolden::summon() {
@@ -427,14 +432,14 @@ std::shared_ptr<BgBaseCard> GhastcoilerGolden::summon() {
 }
 
 void GlyphGuardian::do_preattack(std::shared_ptr<BgBaseCard> defender,
-				 Board* b1,
-				 Board* b2) {
+				 Player* p1,
+				 Player* p2) {
     set_attack(get_attack() * 2);
 }
 
 void GlyphGuardianGolden::do_preattack(std::shared_ptr<BgBaseCard> defender,
-				       Board* b1,
-				       Board* b2) {
+				       Player* p1,
+				       Player* p2) {
     set_attack(get_attack() * 3);
 }
 
@@ -460,7 +465,8 @@ void GoldgrubberGolden::end_turn_mechanic(Player* p1) {
     set_health(get_health() + num_gold_cards*4);
 }
 
-void Goldrinn::do_deathrattle(Board* b1, Board* b2) {
+void Goldrinn::do_deathrattle(Player* p1, Player* p2) {
+    auto b1 = p1->get_board().get();
     auto cards = b1->get_cards();
     for (auto c : cards) {
 	if (c->get_race() == "BEAST") {
@@ -470,14 +476,30 @@ void Goldrinn::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
-void GoldrinnGolden::do_deathrattle(Board* b1, Board* b2) {
+void GoldrinnGolden::do_deathrattle(Player* p1, Player* p2) {
     for (int i = 0; i < 2; i++) {
-	bag.do_deathrattle(b1, b2);
+	bag.do_deathrattle(p1, p2);
     }
 }
 
-void HarvestGolem::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon(b1);
+void HangryDragon::start_turn_mechanic(Player* p1) {
+    if (p1->won_last_turn()) {
+	set_base_attack(get_base_attack() + 2);
+	std::cerr << "Settin health to: " << get_health() + 2 << std::endl;
+	set_base_health(get_base_health() + 2);
+    }
+}
+
+void HangryDragonGolden::start_turn_mechanic(Player* p1) {
+    if (p1->won_last_turn()) {
+	set_base_attack(get_base_attack() + 4);
+	set_base_health(get_base_health() + 4);
+    }
+}
+
+
+void HarvestGolem::do_deathrattle(Player* p1, Player* p2) {
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> HarvestGolem::summon() {
@@ -485,8 +507,8 @@ std::shared_ptr<BgBaseCard> HarvestGolem::summon() {
     return f.get_card("Damaged Golem");
 }
 
-void HarvestGolemGolden::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon(b1);
+void HarvestGolemGolden::do_deathrattle(Player* p1, Player* p2) {
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> HarvestGolemGolden::summon() {
@@ -496,8 +518,9 @@ std::shared_ptr<BgBaseCard> HarvestGolemGolden::summon() {
 
 void HeraldOfFlame::do_postattack(std::shared_ptr<BgBaseCard> defender,
 				  int def_pos,
-				  Board* b1,
-				  Board* b2) {
+				  Player* p1,
+				  Player* p2) {
+    Board* b2 = p2->get_board().get();
     if (defender->get_health() < 0) {
 	auto b2_cards = b2->get_cards();
 	if (!b2_cards.empty()) {
@@ -505,15 +528,16 @@ void HeraldOfFlame::do_postattack(std::shared_ptr<BgBaseCard> defender,
 	    auto f = BgCardFactory();
 	    auto hof = f.get_card("Herald of Flame");
 	    hof->set_attack(3);
-	    BoardBattler().take_dmg_simul(hof, new_defender, b1, b2);
+	    BoardBattler().take_dmg_simul(hof, new_defender, p1, p2);
 	}
     }
 }
 
 void HeraldOfFlameGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
 					int def_pos,
-					Board* b1,
-					Board* b2) {
+					Player* p1,
+					Player* p2) {
+    Board* b2 = p2->get_board().get();
     if (defender->get_health() < 0) {
 	auto b2_cards = b2->get_cards();
 	if (!b2_cards.empty()) {
@@ -521,7 +545,7 @@ void HeraldOfFlameGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
 	    auto f = BgCardFactory();
 	    auto hof = f.get_card("Herald of Flame (Golden)");
 	    hof->set_attack(6);
-	    BoardBattler().take_dmg_simul(hof, new_defender, b1, b2);
+	    BoardBattler().take_dmg_simul(hof, new_defender, p1, p2);
 	}
     }
 }
@@ -542,9 +566,8 @@ void HoundmasterGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     }
 }
 
-
-void Imprisoner::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon(b1);
+void Imprisoner::do_deathrattle(Player* p1, Player* p2) {
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> Imprisoner::summon() {
@@ -552,9 +575,9 @@ std::shared_ptr<BgBaseCard> Imprisoner::summon() {
     return f.get_card("Imp");
 }
 
-void ImpGangBoss::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
-    BgBaseCard::take_damage(damage, who_from_race, b1, b2);
-    basic_summon(b1);
+void ImpGangBoss::take_damage(int damage, std::string who_from_race, Player* p1, Player* p2) {
+    BgBaseCard::take_damage(damage, who_from_race, p1, p2);
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> ImpGangBoss::summon() {
@@ -562,9 +585,9 @@ std::shared_ptr<BgBaseCard> ImpGangBoss::summon() {
     return f.get_card("Imp");
 }
 
-void ImpGangBossGolden::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
-    BgBaseCard::take_damage(damage, who_from_race, b1, b2);
-    basic_summon(b1);
+void ImpGangBossGolden::take_damage(int damage, std::string who_from_race, Player* p1, Player* p2) {
+    BgBaseCard::take_damage(damage, who_from_race, p1, p2);
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> ImpGangBossGolden::summon() {
@@ -572,9 +595,9 @@ std::shared_ptr<BgBaseCard> ImpGangBossGolden::summon() {
     return f.get_card("Imp (Golden)");
 }
 
-void ImpMama::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
-    BgBaseCard::take_damage(damage, who_from_race, b1, b2);
-    basic_summon(b1);
+void ImpMama::take_damage(int damage, std::string who_from_race, Player* p1, Player* p2) {
+    BgBaseCard::take_damage(damage, who_from_race, p1, p2);
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> ImpMama::summon() {
@@ -585,17 +608,17 @@ std::shared_ptr<BgBaseCard> ImpMama::summon() {
     return demon;
 }
 
-void ImpMamaGolden::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
-    BgBaseCard::take_damage(damage, who_from_race, b1, b2);
-    multi_summon(2, b1);    
+void ImpMamaGolden::take_damage(int damage, std::string who_from_race, Player* p1, Player* p2) {
+    BgBaseCard::take_damage(damage, who_from_race, p1, p2);
+    multi_summon(2, p1);
 }
 
 std::shared_ptr<BgBaseCard> ImpMamaGolden::summon() {
     return imp_mama.summon();
 }
 
-void ImprisonerGolden::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon(b1);
+void ImprisonerGolden::do_deathrattle(Player* p1, Player* p2) {
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> ImprisonerGolden::summon() {
@@ -607,8 +630,8 @@ std::shared_ptr<BgBaseCard> ImprisonerGolden::summon() {
 //     basic_summon("Imp (Golden)", b1, b2);
 // }
 
-void InfestedWolf::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(2, b1);
+void InfestedWolf::do_deathrattle(Player* p1, Player* p2) {
+    multi_summon(2, p1);
 }
 
 std::shared_ptr<BgBaseCard> InfestedWolf::summon() {
@@ -616,8 +639,8 @@ std::shared_ptr<BgBaseCard> InfestedWolf::summon() {
     return f.get_card("Spider");
 }
 
-void InfestedWolfGolden::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(2, b1);
+void InfestedWolfGolden::do_deathrattle(Player* p1, Player* p2) {
+    multi_summon(2, p1);
 }
 
 std::shared_ptr<BgBaseCard> InfestedWolfGolden::summon() {
@@ -627,10 +650,10 @@ std::shared_ptr<BgBaseCard> InfestedWolfGolden::summon() {
 
 void IronhideDirehorn::do_postattack(std::shared_ptr<BgBaseCard> defender,
 				     int def_pos,
-				     Board* b1,
-				     Board* b2) {
+				     Player* p1,
+				     Player* p2) {
     if (defender->get_health() < 0) {
-	basic_summon(b1);
+	basic_summon(p1);
     }
 }
 
@@ -642,10 +665,10 @@ std::shared_ptr<BgBaseCard> IronhideDirehorn::summon() {
 
 void IronhideDirehornGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
 					   int def_pos,
-					   Board* b1,
-					   Board* b2) {
+					   Player* p1,
+					   Player* p2) {
     if (defender->get_health() < 0) {
-	basic_summon(b1);
+	basic_summon(p1);
     }
 }
 
@@ -677,8 +700,8 @@ void IronSenseiGolden::end_turn_mechanic(Player* p1) {
 }
 
 
-void Junkbot::do_postbattle(Board* b1,
-			    Board* b2,
+void Junkbot::do_postbattle(Player* p1,
+			    Player* p2,
 			    std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
 			    std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
     int dead_mech_count = 0;
@@ -693,38 +716,42 @@ void Junkbot::do_postbattle(Board* b1,
     }
 }
 
-void JunkbotGolden::do_postbattle(Board* b1,
-				     Board* b2,
-				     std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
-				     std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+void JunkbotGolden::do_postbattle(Player* p1,
+				  Player* p2,
+				  std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+				  std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
     for (int i = 0; i < 2; i++) {
-	junk_bot.do_postbattle(b1, b2, dead_b1, dead_b2);
+	junk_bot.do_postbattle(p1, p2, dead_b1, dead_b2);
     }
 }
 
 
-void KaboomBot::do_deathrattle(Board* b1, Board* b2) {    
+void KaboomBot::do_deathrattle(Player* p1, Player* p2) {
+    Board* b2 = p2->get_board().get();
     if (b2->length() == 0) {
 	return;
     }
     auto bombed_pos = RngSingleton::getInstance().get_rand_int() % b2->length();
     auto bombed_card = b2->get_cards()[bombed_pos];
     BoardBattler b;
-    b.take_dmg_simul(bombed_card, this->get_race(), 4, b2, b1);
+    b.take_dmg_simul(bombed_card, this->get_race(), 4, p2, p1);
 }
 
-void KaboomBotGolden::do_deathrattle(Board* b1, Board* b2) {    
+void KaboomBotGolden::do_deathrattle(Player* p1, Player* p2) {
+    Board* b1 = p1->get_board().get();
+    Board* b2 = p2->get_board().get();
     for (int i = 0; i < 2; i++) {
-	kbot.do_deathrattle(b1, b2);
+	kbot.do_deathrattle(p1, p2);
 	b1->remove_and_mark_dead();
-	b2->remove_and_mark_dead();
+	b1->remove_and_mark_dead();
     }
-    b1->do_deathrattles(b2);
-    b2->do_deathrattles(b2);
+    b1->do_deathrattles(p1, p2, b2);
+    b2->do_deathrattles(p2, p1, b1);
 }
 
 int Kalecgos::mod_summoned(std::shared_ptr<BgBaseCard> c, Board* b1, bool from_hand) {
     if (!from_hand) return 0;
+    // Board* b1 = p1->get_board().get();
     if (c->has_battlecry()) {
 	if (c->get_race() == "DRAGON") {
 	    c->set_attack(c->get_attack() + 1);
@@ -746,11 +773,11 @@ int KalecgosGolden::mod_summoned(std::shared_ptr<BgBaseCard> c, Board* b1, bool 
     return 0;
 }
 
-void Kangor::do_deathrattle(Board* b1, Board* b2) {
-    reset_mech_queue(b1);
+void Kangor::do_deathrattle(Player* p1, Player* p2) {
+    reset_mech_queue(p1->get_board().get());
     //auto available_mechs = std::min(mech_queue.size(), (unsigned)2);
     auto available_mechs = mech_queue.size() < unsigned(2) ? mech_queue.size() : unsigned(2);
-    multi_summon(available_mechs, b1);
+    multi_summon(available_mechs, p1);
 }
 
 std::shared_ptr<BgBaseCard> Kangor::summon() {
@@ -769,10 +796,10 @@ void Kangor::reset_mech_queue(Board* b) {
     }
 }
 
-void KangorGolden::do_deathrattle(Board* b1, Board* b2) {
-    kang.reset_mech_queue(b1);
+void KangorGolden::do_deathrattle(Player* p1, Player* p2) {
+    kang.reset_mech_queue(p1->get_board().get());
     auto available_mechs = kang.mech_queue.size() < unsigned(4) ? kang.mech_queue.size() : unsigned(4);
-    multi_summon(available_mechs, b1);
+    multi_summon(available_mechs, p1);
 }
 
 std::shared_ptr<BgBaseCard> KangorGolden::summon() {
@@ -780,8 +807,8 @@ std::shared_ptr<BgBaseCard> KangorGolden::summon() {
 }
 
 
-void KindlyGrandmother::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon(b1);
+void KindlyGrandmother::do_deathrattle(Player* p1, Player* p2) {
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> KindlyGrandmother::summon() {
@@ -789,8 +816,8 @@ std::shared_ptr<BgBaseCard> KindlyGrandmother::summon() {
     return f.get_card("Big Bad Wolf");
 }
 
-void KindlyGrandmotherGolden::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon(b1);
+void KindlyGrandmotherGolden::do_deathrattle(Player* p1, Player* p2) {
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> KindlyGrandmotherGolden::summon() {
@@ -808,7 +835,8 @@ void KingBagurgle::do_battlecry(Player* p1) {
     }
 }
 
-void KingBagurgle::do_deathrattle(Board* b1, Board* b2) {
+void KingBagurgle::do_deathrattle(Player* p1, Player* p2) {
+    Board* b1 = p1->get_board().get();
     auto cards = b1->get_cards();
     for (auto c : cards) {
 	if (c->get_race() == "MURLOC") {
@@ -828,13 +856,14 @@ void KingBagurgleGolden::do_battlecry(Player* p1) {
     }
 }
 
-void KingBagurgleGolden::do_deathrattle(Board* b1, Board* b2) {
+void KingBagurgleGolden::do_deathrattle(Player* p1, Player* p2) {
     for (int i = 0; i < 2; i++) {
-	bag.do_deathrattle(b1, b2);
+	bag.do_deathrattle(p1, p2);
     }
 }
 
 void lt_gar_mod_sum(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand, int buff_factor, BgBaseCard* to_buff) {
+    // Board* b1 = p1->get_board().get();
     if (card->get_race() == "ELEMENTAL" && from_hand) {
 	int num_elementals = 1; // Already have one that we're playing
 	for (auto c : b1->get_cards()) {
@@ -851,8 +880,6 @@ int LieutenantGarr::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bo
 
 int LieutenantGarrGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
     lt_gar_mod_sum(card, b1, from_hand, 2, this);
-    // lt.mod_summoned(card, b1, from_hand);
-    // lt.mod_summoned(card, b1, from_hand);
     return 0;
 }
 
@@ -866,6 +893,7 @@ void LightfangEnforcerGolden::end_turn_mechanic(Player* p1) {
 
 int LilRag::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand) {
     if (card->get_race() == "ELEMENTAL" && from_hand) {
+	// Board* b1 = p1->get_board().get();
 	auto all_elem_cards = b1->get_cards();
 	all_elem_cards.clear();
 	all_elem_cards.push_back(card);
@@ -885,8 +913,8 @@ int LilRagGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bool
     return 0;
 }
 
-void LivingSporeDrattle::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(2, b1);
+void LivingSporeDrattle::do_deathrattle(Player* p1, Player* p2) {
+    multi_summon(2, p1);
 }
 
 std::shared_ptr<BgBaseCard> LivingSporeDrattle::summon() {
@@ -906,7 +934,8 @@ void MajordomoExecutusGolden::end_turn_mechanic(Player* p1) {
     majordomo.end_turn_mechanic(p1);
 }
 
-void MalGanis::do_precombat(Board* b1, Board*b2) {
+void MalGanis::do_precombat(Player* p1, Player*) {
+    Board* b1 = p1->get_board().get();
     for (auto card : b1->get_cards()) {
 	if (card->get_race() == "DEMON") {
 	    card->set_attack(card->get_attack() + 2);
@@ -917,7 +946,8 @@ void MalGanis::do_precombat(Board* b1, Board*b2) {
     set_health(get_health() - 2); // MalGanis doesn't apply to itself
 }
 
-void MalGanis::do_deathrattle(Board* b1, Board*b2) {
+void MalGanis::do_deathrattle(Player* p1, Player* p2) {
+    Board* b1 = p1->get_board().get();
     for (auto card : b1->get_cards()) {
 	if (card->get_race() == "DEMON") {
 	    card->set_attack(card->get_attack() - 2);
@@ -928,15 +958,15 @@ void MalGanis::do_deathrattle(Board* b1, Board*b2) {
     set_health(get_health() + 2); // Malganis doesn't apply to itself
 }
 
-void MalGanisGolden::do_precombat(Board* b1, Board*b2) {
+void MalGanisGolden::do_precombat(Player* p1, Player* p2) {
     for (int i = 0; i < 2; i++) {
-	rw.do_precombat(b1, b2);
+	rw.do_precombat(p1, p2);
     }
 }
 
-void MalGanisGolden::do_deathrattle(Board* b1, Board*b2) {
+void MalGanisGolden::do_deathrattle(Player* p1, Player* p2) {
     for (int i = 0; i < 2; i++) {
-	rw.do_deathrattle(b1, b2);
+	rw.do_deathrattle(p1, p2);
     }
 }
 
@@ -956,8 +986,8 @@ int MamaBearGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, bo
 }
 
 
-void MechanoEgg::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon(b1);
+void MechanoEgg::do_deathrattle(Player* p1, Player* p2) {
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> MechanoEgg::summon() {
@@ -965,8 +995,8 @@ std::shared_ptr<BgBaseCard> MechanoEgg::summon() {
     return f.get_card("Robosaur");
 }
 
-void MechanoEggGolden::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon(b1);
+void MechanoEggGolden::do_deathrattle(Player* p1, Player* p2) {
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> MechanoEggGolden::summon() {
@@ -974,8 +1004,8 @@ std::shared_ptr<BgBaseCard> MechanoEggGolden::summon() {
     return f.get_card("Robosaur (Golden)");
 }
 
-void Mecharoo::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon(b1);
+void Mecharoo::do_deathrattle(Player* p1, Player* p2) {
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> Mecharoo::summon() {
@@ -983,8 +1013,8 @@ std::shared_ptr<BgBaseCard> Mecharoo::summon() {
     return f.get_card("Jo-E Bot");
 }
 
-void MecharooGolden::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon(b1);
+void MecharooGolden::do_deathrattle(Player* p1, Player*) {
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> MecharooGolden::summon() {
@@ -1071,9 +1101,10 @@ int MoltenRockGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, boo
 }
 
 void MonstrousMacaw::do_preattack(std::shared_ptr<BgBaseCard> defender,
-				  Board* b1,
-				  Board* b2) {
+				  Player* p1,
+				  Player* p2) {
     std::vector<std::shared_ptr<BgBaseCard>> drattles;
+    Board* b1 = p1->get_board().get();
     for (auto c : b1->get_cards()) {
 	if (c->has_deathrattle()) {
 	    drattles.push_back(c);
@@ -1081,15 +1112,15 @@ void MonstrousMacaw::do_preattack(std::shared_ptr<BgBaseCard> defender,
     }
     if (!drattles.empty()) {
 	auto random_drattle = drattles[RngSingleton::getInstance().get_rand_int() % drattles.size()];
-	random_drattle->do_deathrattle(b1, b2);
+	random_drattle->do_deathrattle(p1, p2);
     }
 }
 
 void MonstrousMacawGolden::do_preattack(std::shared_ptr<BgBaseCard> defender,
-					Board* b1,
-					Board* b2) {
-    macaw.do_preattack(defender, b1, b2);
-    macaw.do_preattack(defender, b1, b2);
+					Player* p1,
+					Player* p2) {
+    macaw.do_preattack(defender, p1, p2);
+    macaw.do_preattack(defender, p1, p2);
 }
 
 int MurlocTidecaller::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
@@ -1124,7 +1155,8 @@ std::shared_ptr<BgBaseCard> MurlocTidehunterGolden::summon() {
     return f.get_card("Murloc Scout (Golden)");
 }
 
-void MurlocWarleader::do_precombat(Board* b1, Board*b2) {
+void MurlocWarleader::do_precombat(Player* p1, Player* p2) {
+    Board* b1 = p1->get_board().get();
     for (auto card : b1->get_cards()) {
 	if (card->get_race() == "MURLOC") {
 	    card->set_attack(card->get_attack() + 2);
@@ -1133,7 +1165,8 @@ void MurlocWarleader::do_precombat(Board* b1, Board*b2) {
     set_attack(get_attack() - 2); // Warleader doesn't apply to itself
 }
 
-void MurlocWarleader::do_deathrattle(Board* b1, Board*b2) {
+void MurlocWarleader::do_deathrattle(Player* p1, Player* p2) {
+    Board* b1 = p1->get_board().get();
     for (auto card : b1->get_cards()) {
 	if (card->get_race() == "MURLOC") {
 	    card->set_attack(card->get_attack() - 2);
@@ -1142,15 +1175,15 @@ void MurlocWarleader::do_deathrattle(Board* b1, Board*b2) {
     set_attack(get_attack() + 2); // Warleader doesn't apply to itself
 }
 
-void MurlocWarleaderGolden::do_precombat(Board* b1, Board*b2) {
+void MurlocWarleaderGolden::do_precombat(Player* p1, Player* p2) {
     for (int i = 0; i < 2; i++) {
-	rw.do_precombat(b1, b2);
+	rw.do_precombat(p1, p2);
     }
 }
 
-void MurlocWarleaderGolden::do_deathrattle(Board* b1, Board*b2) {
+void MurlocWarleaderGolden::do_deathrattle(Player* p1, Player* p2) {
     for (int i = 0; i < 2; i++) {
-	rw.do_deathrattle(b1, b2);
+	rw.do_deathrattle(p1, p2);
     }
 }
 
@@ -1175,7 +1208,8 @@ void MythraxTheUnravelerGolden::end_turn_mechanic(Player* p1) {
     mythrax_end_of_turn(p1, 2, 4, this);
 }
 
-void Nadina::do_deathrattle(Board* b1, Board* b2) {
+void Nadina::do_deathrattle(Player* p1, Player* p2) {
+    Board* b1 = p1->get_board().get();
     auto cards = b1->get_cards();
     for (auto c : cards) {
 	if (c->get_race() == "DRAGON") {
@@ -1184,8 +1218,8 @@ void Nadina::do_deathrattle(Board* b1, Board* b2) {
     }
 }
 
-void NadinaGolden::do_deathrattle(Board* b1, Board* b2) {
-    bag.do_deathrattle(b1, b2);
+void NadinaGolden::do_deathrattle(Player* p1, Player* p2) {
+    bag.do_deathrattle(p1, p2);
 }
 
 void NathrezimOverseer::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
@@ -1202,7 +1236,8 @@ void NathrezimOverseerGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> 
     }
 }
 
-void OldMurkeye::do_precombat(Board* b1, Board*b2) {
+void OldMurkeye::do_precombat(Player* p1, Player*) {
+    Board* b1 = p1->get_board().get();
     int murloc_count = 0;
     for (auto card : b1->get_cards()) {
 	if (card->get_race() == "MURLOC") {
@@ -1212,16 +1247,17 @@ void OldMurkeye::do_precombat(Board* b1, Board*b2) {
     set_attack(get_attack() + murloc_count - 1); // Old Murkeye doesn't apply to itself
 }
 
-void OldMurkeyeGolden::do_precombat(Board* b1, Board*b2) {
+void OldMurkeyeGolden::do_precombat(Player* p1, Player* p2) {
     for (int i = 0; i < 2; i++) {
-	rw.do_precombat(b1, b2);
+	rw.do_precombat(p1, p2);
     }
 }
 
-void OldMurkeye::do_postbattle(Board* b1,
-				     Board* b2,
-				     std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
-				     std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+void OldMurkeye::do_postbattle(Player* p1,
+			       Player*,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+			       std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+    Board* b1 = p1->get_board().get();
     int dead_murloc_count = 0;
     for (auto c : dead_b1) {
 	if (c->get_race() == "MURLOC") {
@@ -1231,12 +1267,12 @@ void OldMurkeye::do_postbattle(Board* b1,
     set_attack(get_attack() - dead_murloc_count);
 }
 
-void OldMurkeyeGolden::do_postbattle(Board* b1,
-				     Board* b2,
+void OldMurkeyeGolden::do_postbattle(Player* p1,
+				     Player* p2,
 				     std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
 				     std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
     for (int i = 0; i < 2; i++) {
-	rw.do_postbattle(b1, b2, dead_b1, dead_b2);
+	rw.do_postbattle(p1, p2, dead_b1, dead_b2);
     }
 }
 
@@ -1256,7 +1292,8 @@ int PackLeaderGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* b1, 
 
 int party_elemental_mod_sum(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand, int buff, BgBaseCard* this_) {
     if (!from_hand || card->get_race() != "ELEMENTAL") return 0;
-    
+
+    // Board* b1 = p1->get_board().get();
     std::vector<std::shared_ptr<BgBaseCard>> elementals;
     for (auto c : b1->get_cards()) {
 	if (c->get_race() == "ELEMENTAL") {	    
@@ -1279,8 +1316,8 @@ int PartyElementalGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* 
     return party_elemental_mod_sum(card, b1, from_hand, 2, this);
 }
 
-void PilotedShredder::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(1, b1);
+void PilotedShredder::do_deathrattle(Player* p1, Player* p2) {
+    multi_summon(1, p1);
 }
 
 std::shared_ptr<BgBaseCard> PilotedShredder::summon() {
@@ -1290,15 +1327,15 @@ std::shared_ptr<BgBaseCard> PilotedShredder::summon() {
     return card;
 }
 
-void PilotedShredderGolden::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(2, b1);
+void PilotedShredderGolden::do_deathrattle(Player* p1, Player* p2) {
+    multi_summon(2, p1);
 }
 
 std::shared_ptr<BgBaseCard> PilotedShredderGolden::summon() {
     return shredder.summon();
 }
 
-int rabid_sauro_mod_sum(std::shared_ptr<BgBaseCard> card, Board* b1, bool from_hand, int buff, BgBaseCard* this_) {
+int rabid_sauro_mod_sum(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand, int buff, BgBaseCard* this_) {
     if (!from_hand || !card->has_deathrattle()) return 0;
     this_->set_attack(this_->get_attack() + buff);
     this_->set_health(this_->get_health() + buff);
@@ -1313,9 +1350,9 @@ int RabidSauroliskGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board* 
     return rabid_sauro_mod_sum(card, b1, from_hand, 2, this);
 }
 
-void RatPack::do_deathrattle(Board* b1, Board* b2) {
+void RatPack::do_deathrattle(Player* p1, Player*) {
     auto attack = get_attack();
-    multi_summon(attack, b1);
+    multi_summon(attack, p1);
 }
 
 std::shared_ptr<BgBaseCard> RatPack::summon() {
@@ -1323,9 +1360,9 @@ std::shared_ptr<BgBaseCard> RatPack::summon() {
     return f.get_card("Rat");
 }
 
-void RatPackGolden::do_deathrattle(Board* b1, Board* b2) {
+void RatPackGolden::do_deathrattle(Player* p1, Player*) {
     auto attack = get_attack();
-    multi_summon(attack, b1);
+    multi_summon(attack, p1);
 }
 
 std::shared_ptr<BgBaseCard> RatPackGolden::summon() {
@@ -1353,7 +1390,9 @@ void RazorgoreGolden::end_turn_mechanic(Player* p1) {
 }
 
 
-void RedWhelp::do_precombat(Board* b1, Board*b2) {
+void RedWhelp::do_precombat(Player* p1, Player* p2) {
+    Board* b1 = p1->get_board().get();
+    Board* b2 = p2->get_board().get();
     int drag_count = 0;
     for (auto card : b1->get_cards()) {
 	if (card->get_race() == "DRAGON") {
@@ -1363,12 +1402,12 @@ void RedWhelp::do_precombat(Board* b1, Board*b2) {
     auto defender_pos = RngSingleton::getInstance().get_rand_int() % b2->length();
     auto defender = (*b2)[defender_pos];
     BoardBattler b;
-    b.take_dmg_simul(defender, this->get_race(), drag_count, b2, b1);
+    b.take_dmg_simul(defender, this->get_race(), drag_count, p2, p1);
 }
 
-void RedWhelpGolden::do_precombat(Board* b1, Board* b2) {
+void RedWhelpGolden::do_precombat(Player* p1, Player* p2) {
     for (int i = 0; i < 2; i++) {
-	rw.do_precombat(b1, b2);
+	rw.do_precombat(p1, p2);
     }
 }
 
@@ -1380,8 +1419,8 @@ void RefreshingAnomalyGolden::do_battlecry(Player* p1) {
     p1->set_free_refreshes(2);
 }
 
-void ReplicatingMenace::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(3, b1);
+void ReplicatingMenace::do_deathrattle(Player* p1, Player*) {
+    multi_summon(3, p1);
 }
 
 std::shared_ptr<BgBaseCard> ReplicatingMenace::summon() {
@@ -1389,8 +1428,8 @@ std::shared_ptr<BgBaseCard> ReplicatingMenace::summon() {
     return f.get_card("Microbot");
 }
 
-void ReplicatingMenaceGolden::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(3, b1);
+void ReplicatingMenaceGolden::do_deathrattle(Player* p1, Player*) {
+    multi_summon(3, p1);
 }
 
 std::shared_ptr<BgBaseCard> ReplicatingMenaceGolden::summon() {
@@ -1428,8 +1467,8 @@ int SaltyLooterGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bo
     return 0;
 }
 
-void SavannahHighmane::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(2, b1);
+void SavannahHighmane::do_deathrattle(Player* p1, Player*) {
+    multi_summon(2, p1);
 }
 
 std::shared_ptr<BgBaseCard> SavannahHighmane::summon() {
@@ -1437,8 +1476,8 @@ std::shared_ptr<BgBaseCard> SavannahHighmane::summon() {
     return f.get_card("Hyena");
 }
 
-void SavannahHighmaneGolden::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(2, b1);
+void SavannahHighmaneGolden::do_deathrattle(Player* p1, Player*) {
+    multi_summon(2, p1);
 }
 
 std::shared_ptr<BgBaseCard> SavannahHighmaneGolden::summon() {
@@ -1446,28 +1485,32 @@ std::shared_ptr<BgBaseCard> SavannahHighmaneGolden::summon() {
     return f.get_card("Hyena (Golden)");
 }
 
-void Scallywag::do_deathrattle(Board* b1, Board* b2) {
+void Scallywag::do_deathrattle(Player* p1, Player* p2) {
     auto f = BgCardFactory();
     auto sky_pirate = f.get_card("Sky Pirate");
+    Board* b1 = p1->get_board().get();
+    Board* b2 = p2->get_board().get();
     b1->insert_card(death_pos, sky_pirate);
     if (!b2->empty()) {
-	BoardBattler().battle_boards(death_pos, b1, b2); // Modifies b1/b2
+	BoardBattler().battle_boards(death_pos, p1, p2); // Modifies b1/b2
     }
 }
 
-void ScallywagGolden::do_deathrattle(Board* b1, Board* b2) {
+void ScallywagGolden::do_deathrattle(Player* p1, Player* p2) {
     auto f = BgCardFactory();
     auto sky_pirate = f.get_card("Sky Pirate (Golden)");
+    Board* b1 = p1->get_board().get();
+    Board* b2 = p2->get_board().get();
     b1->insert_card(death_pos, sky_pirate);
     if (!b2->empty()) {
-	BoardBattler().battle_boards(death_pos, b1, b2); // Modifies b1/b2
+	BoardBattler().battle_boards(death_pos, p1, p2); // Modifies b1/b2
     }
 }
 
-void ScavengingHyena::do_postbattle(Board* b1,
-				   Board* b2,
-				   std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
-				   std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+void ScavengingHyena::do_postbattle(Player*,
+				    Player*,
+				    std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+				    std::vector<std::shared_ptr<BgBaseCard> >) {
     for (auto c : dead_b1) {
 	if (c->get_race() == "BEAST") {
 	    set_health(get_health() + 1);
@@ -1476,10 +1519,10 @@ void ScavengingHyena::do_postbattle(Board* b1,
     }
 }
 
-void ScavengingHyenaGolden::do_postbattle(Board* b1,
-					 Board* b2,
-					 std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
-					 std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+void ScavengingHyenaGolden::do_postbattle(Player*,
+					  Player*,
+					  std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+					  std::vector<std::shared_ptr<BgBaseCard> >) {
     for (auto c : dead_b1) {
 	if (c->get_race() == "BEAST") {
 	    set_health(get_health() + 2);
@@ -1503,10 +1546,11 @@ void ScrewjankClunkerGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c
 }
 
 void SeabreakerGoliath::do_postattack(std::shared_ptr<BgBaseCard> defender,
-				      int def_pos,
-				      Board* b1,
-				      Board* b2) {
+				      int,
+				      Player* p1,
+				      Player* ) {
     if (defender->get_health() < 0) {
+	Board* b1 = p1->get_board().get();
 	for (auto c : b1->get_cards()) {
 	    if (c->get_race() == "PIRATE" && c.get() != this) {
 		c->set_attack(c->get_attack() + 2);
@@ -1518,17 +1562,17 @@ void SeabreakerGoliath::do_postattack(std::shared_ptr<BgBaseCard> defender,
 
 void SeabreakerGoliathGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
 					    int def_pos,
-					    Board* b1,
-					    Board* b2) {
+					    Player* p1,
+					    Player* p2) {
     for (int i = 0; i < 2; i++) {
-	sbg.do_postattack(defender, def_pos, b1, b2);
+	sbg.do_postattack(defender, def_pos, p1, p2);
     }
 }
 
 
-void SecurityRover::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
-    BgBaseCard::take_damage(damage, who_from_race, b1, b2);
-    basic_summon(b1);
+void SecurityRover::take_damage(int damage, std::string who_from_race, Player* p1, Player* p2) {
+    BgBaseCard::take_damage(damage, who_from_race, p1, p2);
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> SecurityRover::summon() {
@@ -1536,9 +1580,9 @@ std::shared_ptr<BgBaseCard> SecurityRover::summon() {
     return f.get_card("Guard Bot");
 }
 
-void SecurityRoverGolden::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
-    BgBaseCard::take_damage(damage, who_from_race, b1, b2);
-    basic_summon(b1);
+void SecurityRoverGolden::take_damage(int damage, std::string who_from_race, Player* p1, Player* p2) {
+    BgBaseCard::take_damage(damage, who_from_race, p1, p2);
+    basic_summon(p1);
 }
 
 std::shared_ptr<BgBaseCard> SecurityRoverGolden::summon() {
@@ -1546,9 +1590,10 @@ std::shared_ptr<BgBaseCard> SecurityRoverGolden::summon() {
     return f.get_card("Guard Bot (Golden)");
 }
 
-void SelflessHero::do_deathrattle(Board* b1, Board*b2) {
+void SelflessHero::do_deathrattle(Player* p1, Player*) {
     // Cards w/o divine shield
     std::vector<std::shared_ptr<BgBaseCard> > cards;
+    Board* b1 = p1->get_board().get();
     for (auto card : b1->get_cards()) {
 	if (!card->has_divine_shield()) {
 	    cards.push_back(card);
@@ -1561,9 +1606,9 @@ void SelflessHero::do_deathrattle(Board* b1, Board*b2) {
     }
 }
 
-void SelflessHeroGolden::do_deathrattle(Board* b1, Board*b2) {
+void SelflessHeroGolden::do_deathrattle(Player* p1, Player* p2) {
     for (int i = 0; i < 2; i++) {
-	hero.do_deathrattle(b1, b2);
+	hero.do_deathrattle(p1, p2);
     }
 }
 
@@ -1581,7 +1626,8 @@ void SellementalGolden::on_sell(Player* p1) {
     p1->add_gold(1);
 }
 
-void Siegebreaker::do_precombat(Board* b1, Board*b2) {
+void Siegebreaker::do_precombat(Player* p1, Player*) {
+    Board* b1 = p1->get_board().get();
     for (auto card : b1->get_cards()) {
 	if (card->get_race() == "DEMON") {
 	    card->set_attack(card->get_attack() + 1);
@@ -1590,7 +1636,8 @@ void Siegebreaker::do_precombat(Board* b1, Board*b2) {
     set_attack(get_attack() - 1); // Siegbreaker doesn't apply to itself
 }
 
-void Siegebreaker::do_deathrattle(Board* b1, Board*b2) {
+void Siegebreaker::do_deathrattle(Player* p1, Player*) {
+    Board* b1 = p1->get_board().get();
     for (auto card : b1->get_cards()) {
 	if (card->get_race() == "DEMON") {
 	    card->set_attack(card->get_attack() - 1);
@@ -1599,20 +1646,20 @@ void Siegebreaker::do_deathrattle(Board* b1, Board*b2) {
     set_attack(get_attack() + 1); // Siegebreaker doesn't apply to itself
 }
 
-void SiegebreakerGolden::do_precombat(Board* b1, Board*b2) {
+void SiegebreakerGolden::do_precombat(Player* p1, Player* p2) {
     for (int i = 0; i < 2; i++) {
-	sb.do_precombat(b1, b2);
+	sb.do_precombat(p1, p2);
     }
 }
 
-void SiegebreakerGolden::do_deathrattle(Board* b1, Board*b2) {
+void SiegebreakerGolden::do_deathrattle(Player* p1, Player* p2) {
     for (int i = 0; i < 2; i++) {
-	sb.do_deathrattle(b1, b2);
+	sb.do_deathrattle(p1, p2);
     }
 }
 
-void SneedsOldShredder::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(1, b1);
+void SneedsOldShredder::do_deathrattle(Player* p1, Player*) {
+    multi_summon(1, p1);
 }
 
 std::shared_ptr<BgBaseCard> SneedsOldShredder::summon() {
@@ -1622,24 +1669,25 @@ std::shared_ptr<BgBaseCard> SneedsOldShredder::summon() {
     return card;
 }
 
-void SneedsOldShredderGolden::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(2, b1);
+void SneedsOldShredderGolden::do_deathrattle(Player* p1, Player*) {
+    multi_summon(2, p1);
 }
 
 std::shared_ptr<BgBaseCard> SneedsOldShredderGolden::summon() {
     return shredder.summon();
 }
 
-void SoulJuggler::do_postbattle(Board* b1,
-				Board* b2,
+void SoulJuggler::do_postbattle(Player* p1,
+				Player* p2,
 				std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
-				std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
-    int dead_demon_count = 0;
+				std::vector<std::shared_ptr<BgBaseCard> > ) {
+    int dead_demon_count = 0;    
     for (auto c : dead_b1) {
 	if (c->get_race() == "DEMON") {
 	    dead_demon_count++;
 	}
     }
+    Board* b2 = p2->get_board().get();
     auto cards = b2->get_cards();
     if (cards.empty()) {
 	return;
@@ -1647,21 +1695,22 @@ void SoulJuggler::do_postbattle(Board* b1,
     auto battler = BoardBattler();
     for (int i = 0; i < dead_demon_count; i++) {
 	auto card = cards[RngSingleton::getInstance().get_rand_int() % cards.size()];
-	battler.take_dmg_simul(card, "NEUTRAL", 3, b1, b2);
+	battler.take_dmg_simul(card, "NEUTRAL", 3, p1, p2);
     }
     
 }
 
-void SoulJugglerGolden::do_postbattle(Board* b1,
-				     Board* b2,
-				     std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
-				     std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
+void SoulJugglerGolden::do_postbattle(Player* p1,
+				      Player* p2,
+				      std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+				      std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
     for (int i = 0; i < 2; i++) {
-	soul_juggler.do_postbattle(b1, b2, dead_b1, dead_b2);
+	soul_juggler.do_postbattle(p1, p2, dead_b1, dead_b2);
     }
 }
 
-void SouthseaCaptain::do_precombat(Board* b1, Board*b2) {
+void SouthseaCaptain::do_precombat(Player* p1, Player*) {
+    Board* b1 = p1->get_board().get();
     for (auto card : b1->get_cards()) {
 	if (card->get_race() == "PIRATE") {
 	    card->set_attack(card->get_attack() + 1);
@@ -1672,7 +1721,8 @@ void SouthseaCaptain::do_precombat(Board* b1, Board*b2) {
     set_health(get_health() - 1); // Southsea doesn't apply to itself
 }
 
-void SouthseaCaptain::do_deathrattle(Board* b1, Board*b2) {
+void SouthseaCaptain::do_deathrattle(Player* p1, Player* p2) {
+    Board* b1 = p1->get_board().get();
     for (auto card : b1->get_cards()) {
 	if (card->get_race() == "PIRATE") {
 	    card->set_attack(card->get_attack() - 1);
@@ -1683,15 +1733,15 @@ void SouthseaCaptain::do_deathrattle(Board* b1, Board*b2) {
     set_health(get_health() + 1);  // Southsea doesn't apply to itself
 }
 
-void SouthseaCaptainGolden::do_precombat(Board* b1, Board*b2) {
+void SouthseaCaptainGolden::do_precombat(Player* p1, Player* p2) {
     for (int i = 0; i < 2; i++) {
-	rw.do_precombat(b1, b2);
+	rw.do_precombat(p1, p2);
     }
 }
 
-void SouthseaCaptainGolden::do_deathrattle(Board* b1, Board*b2) {
+void SouthseaCaptainGolden::do_deathrattle(Player* p1, Player* p2) {
     for (int i = 0; i < 2; i++) {
-	rw.do_deathrattle(b1, b2);
+	rw.do_deathrattle(p1, p2);
     }
 }
 
@@ -1719,14 +1769,16 @@ void SouthseaStrongarmGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> 
     }
 }
 
-void SpawnOfNzoth::do_deathrattle(Board* b1, Board* b2) {
+void SpawnOfNzoth::do_deathrattle(Player* p1, Player*) {
+    Board* b1 = p1->get_board().get();
     for (auto c : b1->get_cards()) {
 	c->set_attack(c->get_attack() + 1);
 	c->set_health(c->get_health() + 1);
     }
 }
 
-void SpawnOfNzothGolden::do_deathrattle(Board* b1, Board* b2) {
+void SpawnOfNzothGolden::do_deathrattle(Player* p1, Player*) {
+    Board* b1 = p1->get_board().get();
     for (auto c : b1->get_cards()) {
 	c->set_attack(c->get_attack() + 2);
 	c->set_health(c->get_health() + 2);
@@ -1791,8 +1843,8 @@ void TavernTempestGolden::do_battlecry(Player* p1) {
     tt.do_battlecry(p1);
 }
 
-void TheBeast::do_deathrattle(Board* b1, Board* b2) {
-    basic_summon(b2);
+void TheBeast::do_deathrattle(Player*, Player* p2) {
+    basic_summon(p2);
 }
 
 std::shared_ptr<BgBaseCard> TheBeast::summon() {
@@ -1800,12 +1852,12 @@ std::shared_ptr<BgBaseCard> TheBeast::summon() {
     return f.get_card("Finkle Einhorn");
 }
 
-void TheBeastGolden::do_deathrattle(Board* b1, Board* b2) {
-    the_beast.do_deathrattle(b1, b2);
+void TheBeastGolden::do_deathrattle(Player* p1, Player* p2) {
+    the_beast.do_deathrattle(p1, p2);
 }
 
-void TheTideRazor::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(3, b1);
+void TheTideRazor::do_deathrattle(Player* p1, Player* p2) {
+    multi_summon(3, p1);
 }
 
 std::shared_ptr<BgBaseCard> TheTideRazor::summon() {
@@ -1815,15 +1867,16 @@ std::shared_ptr<BgBaseCard> TheTideRazor::summon() {
     return card;
 }
 
-void TheTideRazorGolden::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(6, b1);
+void TheTideRazorGolden::do_deathrattle(Player* p1, Player* p2) {
+    multi_summon(6, p1);
 }
 
 std::shared_ptr<BgBaseCard> TheTideRazorGolden::summon() {
     return ttr.summon();
 }
 
-void tormented_ritualist_predefense(Board* b1, BgBaseCard* this_, int buff) {
+void tormented_ritualist_predefense(Player* p1, BgBaseCard* this_, int buff) {
+    Board* b1 = p1->get_board().get();
     if (b1->size() <= (unsigned)1) return;
     auto pos = b1->get_pos(this_);
     // Give minions on either side +1/+1
@@ -1848,14 +1901,14 @@ void tormented_ritualist_predefense(Board* b1, BgBaseCard* this_, int buff) {
 }
 								
 
-void TormentedRitualist::do_predefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {
-    BgBaseCard::do_predefense(attacker, b1, b2);
-    tormented_ritualist_predefense(b1, this, 1);
+void TormentedRitualist::do_predefense(std::shared_ptr<BgBaseCard> attacker, Player* p1, Player* p2) {
+    BgBaseCard::do_predefense(attacker, p1, p2);
+    tormented_ritualist_predefense(p1, this, 1);
 }
 
-void TormentedRitualistGolden::do_predefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {
-    BgBaseCard::do_predefense(attacker, b1, b2);
-    tormented_ritualist_predefense(b1, this, 2);
+void TormentedRitualistGolden::do_predefense(std::shared_ptr<BgBaseCard> attacker, Player* p1, Player* p2) {
+    BgBaseCard::do_predefense(attacker, p1, p2);
+    tormented_ritualist_predefense(p1, this, 2);
 }
 
 void Toxfin::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
@@ -1882,8 +1935,8 @@ void TwilightEmissaryGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c
     }
 }
 
-void Voidlord::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(3, b1);
+void Voidlord::do_deathrattle(Player* p1, Player*) {
+    multi_summon(3, p1);
 }
 
 std::shared_ptr<BgBaseCard> Voidlord::summon() {
@@ -1891,8 +1944,8 @@ std::shared_ptr<BgBaseCard> Voidlord::summon() {
     return f.get_card("Voidwalker");
 }
 
-void VoidlordGolden::do_deathrattle(Board* b1, Board* b2) {
-    multi_summon(3, b1);
+void VoidlordGolden::do_deathrattle(Player* p1, Player*) {
+    multi_summon(3, p1);
 }
 
 std::shared_ptr<BgBaseCard> VoidlordGolden::summon() {
@@ -1900,18 +1953,20 @@ std::shared_ptr<BgBaseCard> VoidlordGolden::summon() {
     return f.get_card("Voidwalker (Golden)");
 }
 
-void UnstableGhoul::do_deathrattle(Board* b1, Board* b2) {
+void UnstableGhoul::do_deathrattle(Player* p1, Player* p2) {
+    Board* b1 = p1->get_board().get();
+    Board* b2 = p2->get_board().get();
     auto b1_cards = b1->get_cards();
     auto b2_cards = b2->get_cards();
     b1_cards.insert(b1_cards.end(), b2_cards.begin(), b2_cards.end());
     std::vector<std::string> who_from_race(b1_cards.size(), this->get_race());
     BoardBattler b;
-    b.take_dmg_simul(b1_cards, who_from_race, 1, b1, b2);
+    b.take_dmg_simul(b1_cards, who_from_race, 1, p1, p2);
 }
 
-void UnstableGhoulGolden::do_deathrattle(Board* b1, Board* b2) {
+void UnstableGhoulGolden::do_deathrattle(Player* p1, Player* p2) {
     for (int i = 0; i < 2; i++) {
-	ghoul.do_deathrattle(b1, b2);
+	ghoul.do_deathrattle(p1, p2);
     }
 }
 
@@ -1937,9 +1992,9 @@ void VulgarHomunculusGolden::do_battlecry(Player* p1) {
     p1->take_damage(4, true);
 }
 
-void WaxriderTogwaggle::do_postbattle(Board* b1,
-				      Board* b2,
-				      std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+void WaxriderTogwaggle::do_postbattle(Player*,
+				      Player*,
+				      std::vector<std::shared_ptr<BgBaseCard> >,
 				      std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
     for (auto c : dead_b2) {
 	if (c->who_killed_race() == "DRAGON") {
@@ -1949,9 +2004,19 @@ void WaxriderTogwaggle::do_postbattle(Board* b1,
     }
 }
 
-void WaxriderTogwaggleGolden::do_postbattle(Board* b1,
-					    Board* b2,
-					    std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
+void WardenOfOld::do_deathrattle(Player* p1, Player* p2) {
+    auto f = BgCardFactory();
+    p1->add_card_to_hand(f.get_card("Gold Coin"));
+}
+
+void WardenOfOldGolden::do_deathrattle(Player* p1, Player* p2) {
+    woo.do_deathrattle(p1, p2);
+    woo.do_deathrattle(p1, p2);
+}
+
+void WaxriderTogwaggleGolden::do_postbattle(Player*,
+					    Player*,
+					    std::vector<std::shared_ptr<BgBaseCard> > ,
 					    std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
     for (auto c : dead_b2) {
 	if (c->who_killed_race() == "DRAGON") {
@@ -1963,8 +2028,9 @@ void WaxriderTogwaggleGolden::do_postbattle(Board* b1,
 
 void WildfireElemental::do_postattack(std::shared_ptr<BgBaseCard> defender,
 				      int def_pos,
-				      Board* b1,
-				      Board* b2) {
+				      Player* p1,
+				      Player* p2) {
+    Board* b2 = p2->get_board().get();
     auto b2_cards = b2->get_cards();
     if (b2_cards.size() == 0) return;
     if (defender->get_health() < 0) {
@@ -1985,15 +2051,16 @@ void WildfireElemental::do_postattack(std::shared_ptr<BgBaseCard> defender,
 	BoardBattler().take_dmg_simul(new_defender,
 				      "ELEMENTAL",
 				      damage,
-				      b1,
-				      b2);
+				      p1,
+				      p2);
     }
 }
 
 void WildfireElementalGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
 					    int def_pos,
-					    Board* b1,
-					    Board* b2) {
+					    Player* p1,
+					    Player* p2) {
+    Board* b2 = p2->get_board().get();
     auto b2_cards = b2->get_cards();
     if (b2_cards.size() == 0) return;
     if (defender->get_health() < 0) {	
@@ -2004,8 +2071,8 @@ void WildfireElementalGolden::do_postattack(std::shared_ptr<BgBaseCard> defender
 	    BoardBattler().take_dmg_simul(new_defender,
 					  "ELEMENTAL",
 					  damage,
-					  b1,
-					  b2);
+					  p1,
+					  p2);
 	}
 	else if ((unsigned)def_pos == b2_cards.size()) { // one already dead
 	    // b2_cards.size()-1 b/c end minion already dead
@@ -2013,8 +2080,8 @@ void WildfireElementalGolden::do_postattack(std::shared_ptr<BgBaseCard> defender
 	    BoardBattler().take_dmg_simul(new_defender,
 					  "ELEMENTAL",
 					  damage,
-					  b1,
-					  b2);
+					  p1,
+					  p2);
 
 	}
 	else if ((unsigned)def_pos == 0) {
@@ -2023,8 +2090,8 @@ void WildfireElementalGolden::do_postattack(std::shared_ptr<BgBaseCard> defender
 	    BoardBattler().take_dmg_simul(new_defender,
 					  "ELEMENTAL",
 					  damage,
-					  b1,
-					  b2);
+					  p1,
+					  p2);
 
 	}
 	else {
@@ -2036,8 +2103,8 @@ void WildfireElementalGolden::do_postattack(std::shared_ptr<BgBaseCard> defender
 	    BoardBattler().take_dmg_simul(cards,
 					  race,
 					  dmg,
-					  b1,
-					  b2);
+					  p1,
+					  p2);
 	}
     }
 }
@@ -2060,16 +2127,18 @@ int WrathWeaverGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bo
     return 0;
 }
 
-void YoHoOgre::do_postdefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {
+void YoHoOgre::do_postdefense(std::shared_ptr<BgBaseCard> attacker, Player* p1, Player* p2) {
     if (this->is_dead()) {
 	return;
     }
-    BoardBattler().battle_boards(b1->get_pos(this), b1, b2); // Modifies b1/b2    
+    Board* b1 = p1->get_board().get();
+    BoardBattler().battle_boards(b1->get_pos(this), p1, p2); // Modifies b1/b2    
 }
 
-void YoHoOgreGolden::do_postdefense(std::shared_ptr<BgBaseCard> attacker, Board* b1, Board* b2) {
+void YoHoOgreGolden::do_postdefense(std::shared_ptr<BgBaseCard> attacker, Player* p1, Player* p2) {
     if (this->is_dead()) {
 	return;
     }
-    BoardBattler().battle_boards(b1->get_pos(this), b1, b2); // Modifies b1/b2    
+    Board* b1 = p1->get_board().get();
+    BoardBattler().battle_boards(b1->get_pos(this), p1, p2); // Modifies b1/b2    
 }

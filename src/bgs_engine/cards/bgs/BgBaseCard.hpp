@@ -23,6 +23,7 @@ public:
 	       std::string rarity,
 	       int tavern_tier,
 	       std::string type) : attack(attack),
+				   base_attack(attack),
 				   card_class(card_class),
 				   cost(cost),
 				   divine_shield(false),
@@ -30,6 +31,7 @@ public:
 				   _has_windfury(false),
 				   _has_windfury_active(false),
 				   health(health),
+				   base_health(health),
 				   is_poison(false),
 				   mechanics(mechanics),
 				   name(name),
@@ -40,6 +42,7 @@ public:
 				   adapt_count(0) {}
     
     BgBaseCard(const BgBaseCard& other) : attack(other.attack),
+					  base_attack(other.attack),
 					  card_class(other.card_class),
 					  cost(other.cost),
 					  divine_shield(other.divine_shield),
@@ -47,6 +50,7 @@ public:
 					  _has_windfury(other._has_windfury),
 					  _has_windfury_active(other._has_windfury_active),
 					  health(other.health),
+					  base_health(other.health),
 					  is_poison(other.is_poison),
 					  mechanics(other.mechanics),
 					  name(other.name),
@@ -65,30 +69,30 @@ public:
     // Triggered on death
     // (ex: stat-buffs that die)
     // Note: Actual deathrattle cards handled by DeathrattleCard class
-    virtual void do_deathrattle(Board* b1, Board* b2) { }
-    virtual void deathrattle(Board* b1, Board* b2);
+    virtual void do_deathrattle(Player*, Player*) { }
+    virtual void deathrattle(Player*, Player*);
     
     // Triggered before every attack (ex: glyph gaurdian mechanic)
     virtual void do_preattack(std::shared_ptr<BgBaseCard>,
-			      Board*,
-			      Board*) {}
+			      Player*,
+			      Player*) {}
     // Triggered before defense (Tormented Ritualist)
     virtual void do_predefense(std::shared_ptr<BgBaseCard>,
-			       Board*,
-			       Board*);
+			       Player*,
+			       Player*);
     // Triggered once before combat starts (ex: red whelp, stat-buffs)
-    virtual void do_precombat(Board*, Board*) {}
+    virtual void do_precombat(Player*, Player*) {}
     // Triggered after attack (ex: overkill mechanic)
     virtual void do_postattack(std::shared_ptr<BgBaseCard>,
 			       int,
-			       Board*,
-			       Board*) {}
+			       Player*,
+			       Player*) {}
     // Triggered after attack for defender (ex: yo-ho-ogre)
     virtual void do_postdefense(std::shared_ptr<BgBaseCard>,
-				Board*,
-				Board*) {}
+				Player*,
+				Player*) {}
     // Triggered after deaths of each dmg exchange (ex: scavaging hyena)
-    virtual void do_postbattle(Board*, Board*, std::vector<std::shared_ptr<BgBaseCard>>, std::vector<std::shared_ptr<BgBaseCard>>) {}
+    virtual void do_postbattle(Player*, Player*, std::vector<std::shared_ptr<BgBaseCard>>, std::vector<std::shared_ptr<BgBaseCard>>) {}
 
     // Triggered after a summon occurs, returns damage taken (wrathweave)
     virtual int mod_summoned(std::shared_ptr<BgBaseCard>, Board*, bool) { return 0; }
@@ -103,10 +107,12 @@ public:
 
     int get_adapt_count() const { return adapt_count; }
     int get_attack() const { return is_poison ? 999999 : attack; } // Poison is like 'infinite' attack
+    int get_base_attack() const { return base_attack; }
     std::string get_card_class() const { return card_class; }
     int get_cost() const { return cost; }
     // int get_death_pos() { return death_pos; }
     int get_health() const { return health; }
+    int get_base_health() const { return base_health; }
     std::string get_mechanics() const { return mechanics; }
     std::string get_name() const { return name; }
     std::string get_race() const { return race; }
@@ -134,12 +140,17 @@ public:
 
     bool is_dead() const { return health <= 0; }
     bool is_golden() const { return name.find("Golden") != std::string::npos; }
+    bool is_magnetic() const { return mechanics.find("MODULAR") != std::string::npos; }
 
-    void reborn_self(Board* b1);
+    void reborn_self(Board*);
 
     void set_attack(int att) { attack = att; }
+    // Base stats can't be affected during combat
+    void set_base_attack(int att) { base_attack = att; attack = att; }
     void set_death_pos(int dp) { death_pos = dp; }
     void set_health(int hth) { health = hth; }
+    // Base stats can't be affected during combat
+    void set_base_health(int hth) { base_health = hth; health = hth; }
     void set_poison() { is_poison = true; }
     void set_divine_shield() { divine_shield = true; }
     void set_taunt() { _has_taunt = true; }
@@ -148,14 +159,17 @@ public:
     void set_windfury_active(bool wfa = true) { _has_windfury_active = wfa; }
 
     virtual std::shared_ptr<BgBaseCard> summon() {throw std::runtime_error("summon() not implemented");}
-    virtual std::shared_ptr<BgBaseCard> do_summon(Board* b1, bool from_hand);
-    void basic_summon(Board* b1, bool from_hand = false);
+    virtual std::shared_ptr<BgBaseCard> do_summon(Player*, bool from_hand);
+    // void basic_summon(Board* b1, bool from_hand = false);
     void basic_summon(Player* p1, bool from_hand = false);
-    void multi_summon(int num_summons, Board* b1, bool from_hand = false);
+    // void multi_summon(int num_summons, Board* b1, bool from_hand = false);
     void multi_summon(int num_summons, Player* p1, bool from_hand = false);
     virtual void on_sell(Player* p1);
+    void add_to_deathrattle_cards(std::shared_ptr<BgBaseCard> c) {
+	deathrattle_cards.push_back(c);
+    }
 
-    virtual void take_damage(int damage, std::string who_from_race, Board* b1, Board* b2);
+    virtual void take_damage(int damage, std::string who_from_race, Player*, Player*);
 
     std::string who_killed_race() const {
 	if (is_dead()) {
@@ -171,6 +185,7 @@ public:
 protected:
     std::vector<std::shared_ptr<BgBaseCard>> deathrattle_cards; // Used for magnetic effects or other deathrattle stacking
     int attack;
+    int base_attack;
     std::string card_class;
     int cost;
     bool divine_shield;
@@ -179,6 +194,7 @@ protected:
     bool _has_windfury = false; // attribute
     bool _has_windfury_active = false; // Whether or not we can attack again
     int health;
+    int base_health;
     bool is_poison;
     std::string mechanics;
     std::string name;

@@ -49,7 +49,7 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_of_rarity(std
     return res;
 }
 
-std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_with_deathrattle() const {
+std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_with_deathrattle(bool include_golden) const {
     std::vector<std::shared_ptr<BgBaseCard> > res;
     auto it = cards.begin();
     while (it != cards.end()) {
@@ -57,7 +57,15 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_with_deathrat
 	if (card->has_deathrattle()) {
 	    // TODO: Not copying here may improve performance.
 	    // Maybe only return names?
-	    res.push_back(card->get_copy());
+	    if (include_golden) {
+		res.push_back(card->get_copy());
+	    }
+	    else {
+		if (!card->is_golden()) {
+		    res.push_back(card->get_copy());
+		}
+	    }
+	    // res.push_back(card->get_copy());
 	}
 	it++;
     }
@@ -313,8 +321,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Ghastcoiler (Golden)", std::make_shared<GhastcoilerGolden>());
     cards.emplace("Glyph Guardian", std::make_shared<GlyphGuardian>());
     cards.emplace("Glyph Guardian (Golden)", std::make_shared<GlyphGuardianGolden>());
-    // cards.emplace("Gold Coin", BgBaseCard(-1, "NEUTRAL", 0, -1, "Gold Coin",
-    // 					  "", "", "RARE", -1, "SPELL"));
+    cards.emplace("Gold Coin", std::make_shared<BgBaseCard>(-1, "NEUTRAL", 0, -1, "Gold Coin",
+							    "", "", "RARE", -1, "SPELL"));
     cards.emplace("Goldgrubber", std::make_shared<Goldgrubber>());
     cards.emplace("Goldgrubber (Golden)", std::make_shared<GoldgrubberGolden>());
     cards.emplace("Goldrinn", std::make_shared<Goldrinn>());
@@ -329,12 +337,8 @@ void BgCardFactory::init_cards() {
     // H
     // cards.emplace("Hand of Salvation", BgBaseCard(-1, "PALADIN", 1, -1, "Hand of Salvation",
     // 						  "['SECRET']", "", "FREE", -1, "SPELL"));
-    std::shared_ptr<BgBaseCard> hangry(new BgBaseCard(4, "NEUTRAL", 5, 4, "Hangry Dragon",
-						      "['TRIGGER_VISUAL']", "DRAGON", "", 3, "MINION"));
-    cards.emplace("Hangry Dragon", hangry);
-    std::shared_ptr<BgBaseCard> hangry_gold(new BgBaseCard(8, "NEUTRAL", 5, 8, "Hangry Dragon (Golden)",
-							   "['TRIGGER_VISUAL']", "DRAGON", "", 3, "MINION"));
-    cards.emplace("Hangry Dragon (Golden)", hangry_gold);
+    cards.emplace("Hangry Dragon", std::make_shared<HangryDragon>());
+    cards.emplace("Hangry Dragon (Golden)", std::make_shared<HangryDragonGolden>());
     cards.emplace("Harvest Golem", std::make_shared<HarvestGolem>());
     cards.emplace("Harvest Golem (Golden)", std::make_shared<HarvestGolemGolden>());
     cards.emplace("Herald of Flame", std::make_shared<HeraldOfFlame>());
@@ -681,6 +685,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Vulgar Homunculus (Golden)", std::make_shared<VulgarHomunculusGolden>());
 					   
     // W
+    cards.emplace("Warden of Old", std::make_shared<WardenOfOld>());
+    cards.emplace("Warden of Old (Golden)", std::make_shared<WardenOfOldGolden>());
     cards.emplace("Water Droplet", std::make_shared<BgBaseCard>(2, "NEUTRAL", 1, 2, "Water Droplet",
 								"", "ELEMENTAL", "", 1, "MINION"));
     cards.emplace("Water Droplet (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", 1, 4, "Water Droplet (Golden)",

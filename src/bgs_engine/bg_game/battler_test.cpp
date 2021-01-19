@@ -441,12 +441,14 @@ TEST(Battler, FiendishServantGoldenDrattle) {
     };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards;
     std::shared_ptr<Board> board1(new Board(p1_cards));
-    std::shared_ptr<Board> board2(new Board(p2_cards));    
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::shared_ptr<Player> p1(new Player(board1, "p1"));
+    std::shared_ptr<Player> p2(new Player(board2, "p2"));
     auto fiendish = p1_cards[0];
     fiendish->set_attack(10);
     BoardBattler b;
     // who_from (fiendish) doesn't matter here
-    b.take_dmg_simul(fiendish, "", 10, board1.get(), board2.get());
+    b.take_dmg_simul(fiendish, "", 10, p1.get(), p2.get());
     int total_attack = 0;
     // TODO: Looks like p1_cards getting copied, probably not great for
     // performace...fix when profiler setup
@@ -472,10 +474,12 @@ TEST(Battler, GhastcoilerDrattle) {
 	};
     std::shared_ptr<Board> board1(new Board(p1_cards));
     std::shared_ptr<Board> board2(new Board(p2_cards));
-    BoardBattler().battle_boards(0, board1, board2);
+    std::shared_ptr<Player> p1(new Player(board1, "p1"));
+    std::shared_ptr<Player> p2(new Player(board2, "p2"));
+    BoardBattler().battle_boards(0, p1, p2);
 
-    auto b1_cards = board1->get_cards();
-    auto b2_cards = board2->get_cards();
+    auto b1_cards = p1->get_board()->get_cards();
+    auto b2_cards = p2->get_board()->get_cards();
     EXPECT_EQ(b1_cards.size(), (unsigned)2);
     EXPECT_EQ(b2_cards.size(), (unsigned)4);
     for (auto c : b1_cards) {
@@ -1275,7 +1279,9 @@ TEST(Battler, PilotedShredderDrattle) {
 	};
     std::shared_ptr<Board> board1(new Board(p1_cards));
     std::shared_ptr<Board> board2(new Board(p2_cards));
-    BoardBattler().battle_boards(0, board1, board2);
+    std::shared_ptr<Player> p1(new Player(board1, "p1"));
+    std::shared_ptr<Player> p2(new Player(board2, "p2"));
+    BoardBattler().battle_boards(0, p1, p2);
 
     auto b1_cards = board1->get_cards();
     auto b2_cards = board2->get_cards();
@@ -1366,8 +1372,10 @@ TEST(Battler, RatPackDrattleSummonsCorrectNumOfRats) {
 	};
     std::shared_ptr<Board> board1(new Board(p1_cards));
     std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::shared_ptr<Player> p1(new Player(board1, "p1"));
+    std::shared_ptr<Player> p2(new Player(board2, "p2"));
     BoardBattler b;
-    b.take_dmg_simul(rp, "", 2, board2.get(), board1.get());
+    b.take_dmg_simul(rp, "", 2, p1.get(), p2.get());
     int rat_count = 0;
     int razor_count = 0;
     for (auto c : board2->get_cards()) {
@@ -1682,7 +1690,9 @@ TEST(Battler, SneedsOldShredderDrattle) {
 	};
     std::shared_ptr<Board> board1(new Board(p1_cards));
     std::shared_ptr<Board> board2(new Board(p2_cards));
-    BoardBattler().battle_boards(0, board1, board2);
+    std::shared_ptr<Player> p1(new Player(board1, "p1"));
+    std::shared_ptr<Player> p2(new Player(board2, "p2"));
+    BoardBattler().battle_boards(0, p1, p2);
 
     auto b1_cards = board1->get_cards();
     auto b2_cards = board2->get_cards();
@@ -1831,7 +1841,9 @@ TEST(Battler, TheBeastDrattle) {
 	};
     std::shared_ptr<Board> board1(new Board(p1_cards));
     std::shared_ptr<Board> board2(new Board(p2_cards));
-    BoardBattler().battle_boards(0, board1, board2);
+    std::shared_ptr<Player> p1(new Player(board1, "p1"));
+    std::shared_ptr<Player> p2(new Player(board2, "p2"));
+    BoardBattler().battle_boards(0, p1, p2);
 
     auto b1_cards = board1->get_cards();
     auto b2_cards = board2->get_cards();
@@ -1949,6 +1961,35 @@ TEST(Battler, UnstableGhoulGoldenDrattle) {
     EXPECT_LE(res.damage_taken, 0);
 }
 
+TEST(Battler, WardenOfOldDrattle) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Warden of Old"),
+	 f.get_card("Warden of Old (Golden)")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_health(9);
+    th->set_attack(10);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th
+	};
+    // Should have the 1 damaged golem left on board
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Edwin"));
+    std::unique_ptr<Player> p2(new Player(board2, "Tess"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "draw");
+
+    EXPECT_EQ(p1->get_hand().get_cards().size(), 3);
+    for (auto card : p1->get_hand().get_cards()) {
+	EXPECT_EQ(card->get_name(), "Gold Coin");
+    }
+}
+
 TEST(Battler, WaxriderTogwaggle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -1980,29 +2021,6 @@ TEST(Battler, WaxriderTogwaggle) {
 	    EXPECT_EQ(true, false);
 	}
     }
-}
-
-TEST(Battler, YoHoOgre) {
-    auto f = BgCardFactory();
-    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
-	{
-	 f.get_card("Murloc Tidehunter"),
-	 f.get_card("Yo-Ho-Ogre")
-	};
-    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
-	{
-	 f.get_card("Murloc Tidehunter"),
-	 f.get_card("Murloc Tidehunter")
-	};
-    std::shared_ptr<Board> board1(new Board(p1_cards));
-    std::shared_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
-    auto battler = Battler(p1.get(), p2.get());
-    auto res = battler.sim_battle("p2");
-    EXPECT_EQ(res.who_won, "Tess");
-    // Murloc tidehunter never attacks since yo-ho attacks back immediately
-    EXPECT_EQ(board1->get_cards().size(), (unsigned)2);
 }
 
 TEST(Battler, WhirlwindTempest) {
@@ -2077,6 +2095,28 @@ TEST(Battler, WildfireElementalGolden) {
     EXPECT_TRUE(res.who_won == "Tess" || res.who_won == "draw");
 }
 
+TEST(Battler, YoHoOgre) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Yo-Ho-Ogre")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle("p2");
+    EXPECT_EQ(res.who_won, "Tess");
+    // Murloc tidehunter never attacks since yo-ho attacks back immediately
+    EXPECT_EQ(board1->get_cards().size(), (unsigned)2);
+}
 
 TEST(Battler, Zapp) {
     auto f = BgCardFactory();

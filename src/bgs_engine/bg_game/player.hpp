@@ -108,11 +108,15 @@ public:
     }
 
     void play_card(uint8_t hand_pos, uint8_t board_pos) {
+	if (get_board()->get_cards().size() == (unsigned)7) {
+	    std::cerr << "WARNING: Board is full" << std::endl;
+	    return;
+	}
 	auto card = hand.get_cards()[hand_pos];
 	if (card->get_race() == "ELEMENTAL") {
 	    elementals_played_this_turn += 1;
 	}
-	auto dmg_taken = board->insert_card(board_pos, card, true);
+	auto dmg_taken = board->insert_card(board_pos, card, true);	
 	// Responsible for floating watcher effects...
 	// TODO: Make more efficient, does linear searching
 	//floating_watcher_hook(board.get(), dmg_taken);
@@ -122,6 +126,10 @@ public:
     }
 
     void play_card(uint8_t hand_pos, uint8_t target_pos, uint8_t board_pos) {
+	if (get_board()->get_cards().size() == (unsigned)7) {
+	    std::cerr << "WARNING: Board is full" << std::endl;
+	    return;
+	}
 	auto card = hand.get_cards()[hand_pos];
 	if (card->get_race() == "ELEMENTAL") {
 	    elementals_played_this_turn += 1;
@@ -224,6 +232,7 @@ public:
 	}
 	turns_at_current_tier += 1;
 	if (max_gold < 10) max_gold++;
+	_won_last_turn = false;
     }
 
     void inc_pirates_bought_this_turn() {
@@ -240,6 +249,37 @@ public:
 
     void add_to_frozen_minions(std::string minion) {
 	frozen_minions.push_back(minion);
+    }
+
+    void set_won_last_turn() {
+	_won_last_turn = true;
+    }
+
+    bool won_last_turn() {
+	return _won_last_turn;
+    }
+
+    void do_deathrattles(std::shared_ptr<Player> p) {
+	return do_deathrattles(p.get());
+    }
+    
+    void do_deathrattles(Player* other) {
+	Board* b1 = get_board().get();
+	b1->do_deathrattles(this, other, other->get_board().get());
+	// bool at_least_one_dead = false;
+	// while (!deathrattle_q.empty()) {
+	//     at_least_one_dead = true;
+	//     auto card = deathrattle_q.front();
+	//     deathrattle_q.pop();
+	//     card->deathrattle(this, other);
+	// }
+	// if (at_least_one_dead) {
+	//     // Deathrattles can cause other deaths to occur
+	//     remove_and_mark_dead();
+	//     other->remove_and_mark_dead();
+	//     do_deathrattles(other);
+	//     other->do_deathrattles(this);
+	// }
     }
 
 private:    
@@ -259,6 +299,7 @@ private:
     std::shared_ptr<BobsTavern> tavern;
     bool tavern_is_frozen;
     int turns_at_current_tier;
+    bool _won_last_turn;
 
     // TODO: Make this more efficient
     void floating_watcher_hook(Board* b1, int dmg_taken) {

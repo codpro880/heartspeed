@@ -66,39 +66,40 @@ void BgBaseCard::adapt(std::string _test_adapt) {
     adapt_count++;
 }
 
-void BgBaseCard::deathrattle(Board* b1, Board* b2) {
-    if (b1->contains("Baron Rivendare (Golden)")) {
-	do_deathrattle(b1, b2);
-	do_deathrattle(b1, b2);
-	do_deathrattle(b1, b2);
+void BgBaseCard::deathrattle(Player* p1, Player* p2) {
+    if (p1->get_board()->contains("Baron Rivendare (Golden)")) {
+	do_deathrattle(p1, p2);
+	do_deathrattle(p1, p2);
+	do_deathrattle(p1, p2);
 	for (auto c : deathrattle_cards) {
 	    c->set_death_pos(this->death_pos);
-	    c->do_deathrattle(b1, b2);
-	    c->do_deathrattle(b1, b2);
-	    c->do_deathrattle(b1, b2);
+	    c->do_deathrattle(p1, p2);
+	    c->do_deathrattle(p1, p2);
+	    c->do_deathrattle(p1, p2);
 	}
     }
-    else if (b1->contains("Baron Rivendare")) {
-	do_deathrattle(b1, b2);
-	do_deathrattle(b1, b2);
+    else if (p1->get_board()->contains("Baron Rivendare")) {
+	do_deathrattle(p1, p2);
+	do_deathrattle(p1, p2);
 	for (auto c : deathrattle_cards) {
 	    c->set_death_pos(this->death_pos);
-	    c->do_deathrattle(b1, b2);
-	    c->do_deathrattle(b1, b2);
+	    c->do_deathrattle(p1, p2);
+	    c->do_deathrattle(p1, p2);
 	}
     }
     else {
-	do_deathrattle(b1, b2);
+	do_deathrattle(p1, p2);
 	for (auto c : deathrattle_cards) {
 	    c->set_death_pos(this->death_pos);
-	    c->do_deathrattle(b1, b2);
+	    c->do_deathrattle(p1, p2);
 	}
     }
 }
 
 void BgBaseCard::do_predefense(std::shared_ptr<BgBaseCard> attacker,
-			       Board* b1,
-			       Board* b2) {
+			       Player* p1,
+			       Player* p2) {
+    Board* b1 = p1->get_board().get();
     int total_attack_buff = 0;
     for (auto c : b1->get_cards()) {
 	if (c->get_name() == "Arm of the Empire") {
@@ -111,9 +112,10 @@ void BgBaseCard::do_predefense(std::shared_ptr<BgBaseCard> attacker,
     set_attack(get_attack() + total_attack_buff);
 }
 
-void BgBaseCard::take_damage(int damage, std::string who_from_race, Board* b1, Board* b2) {
+void BgBaseCard::take_damage(int damage, std::string who_from_race, Player* p1, Player* p2) {
     if (divine_shield) {
 	divine_shield = false;
+	Board* b1 = p1->get_board().get();
 	for (auto c : b1->get_cards()) {
 	    // TODO: make "lost_divine_shield" hook...
 	    if (c->get_name() == "Bolvar") {
@@ -142,7 +144,7 @@ std::shared_ptr<BgBaseCard> BgBaseCard::get_copy() const {
     return std::make_shared<BgBaseCard>(*this);
 }
 
-std::shared_ptr<BgBaseCard> BgBaseCard::do_summon(Board* b1, bool from_hand) {
+std::shared_ptr<BgBaseCard> BgBaseCard::do_summon(Player* p1, bool from_hand) {
     auto summoned = summon();
     // for (auto c : b1->get_cards()) {
     // 	c->mod_summoned(summoned, from_hand);
@@ -150,16 +152,16 @@ std::shared_ptr<BgBaseCard> BgBaseCard::do_summon(Board* b1, bool from_hand) {
     return summoned;
 }
 
-void BgBaseCard::basic_summon(Player* p1, bool from_hand) {
-    return basic_summon(p1->get_board().get(), from_hand);
-}
+// void BgBaseCard::basic_summon(Player* p1, bool from_hand) {
+//     return basic_summon(p1->get_board().get(), from_hand);
+// }
 
-void BgBaseCard::basic_summon(Board* b1, bool from_hand) {
-    return multi_summon(1, b1, from_hand);
+void BgBaseCard::basic_summon(Player* p1, bool from_hand) {
+    return multi_summon(1, p1, from_hand);
 }
 
 void BgBaseCard::reborn_self(Board* b1) {
-    auto f = BgCardFactory();
+    auto f = BgCardFactory();    
     auto summoned_card = f.get_card(this->get_name());
     if (summoned_card->get_mechanics().find("DIVINE SHIELD") != std::string::npos) {
 	summoned_card->set_divine_shield();
@@ -169,12 +171,13 @@ void BgBaseCard::reborn_self(Board* b1) {
     b1->insert_card(death_pos, summoned_card);
 }
 
+// void BgBaseCard::multi_summon(int num_summons, Player* p1, bool from_hand) {
+//     return multi_summon(num_summons, p1->get_board().get(), from_hand);
+// }
+
+
 void BgBaseCard::multi_summon(int num_summons, Player* p1, bool from_hand) {
-    return multi_summon(num_summons, p1->get_board().get(), from_hand);
-}
-
-
-void BgBaseCard::multi_summon(int num_summons, Board* b1, bool from_hand) {
+    Board* b1 = p1->get_board().get();
     auto original_num_summons = num_summons;
     for (auto c : b1->get_cards()) {
 	if (c->get_name() == "Khadgar") {
@@ -189,7 +192,7 @@ void BgBaseCard::multi_summon(int num_summons, Board* b1, bool from_hand) {
 
     auto f = BgCardFactory();
     for (int i = 0; i < spots_to_fill; i++) {
-	auto summoned_card = do_summon(b1, from_hand);
+	auto summoned_card = do_summon(p1, from_hand);
 	int insert_pos;
 	if (this->is_dead()) {
 	    insert_pos = death_pos + i;

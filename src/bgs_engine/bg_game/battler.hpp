@@ -30,14 +30,16 @@ struct BattleResults {
 class BoardBattler {
 public:
     BoardBattler() : first_combat(true) {}
-    std::tuple<bool, bool, int, int> battle_boards(int attacker_pos, Board* b1, Board* b2);
-    std::tuple<bool, bool, int, int> battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
-    void pre_combat(Board* b1, Board* b2);
-    void post_battle(Board*, Board*, std::vector<std::shared_ptr<BgBaseCard> >, std::vector<std::shared_ptr<BgBaseCard> >);
-    void take_dmg_simul(std::shared_ptr<BgBaseCard> card, std::string who_from_race, int dmg, Board* b1, Board* b2);
-    void take_dmg_simul(std::shared_ptr<BgBaseCard> attacker, std::shared_ptr<BgBaseCard> defender, Board* b1, Board* b2);
-    void take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards, std::vector<std::string> who_from_race, int dmg, Board* b1, Board* b2);
-    void take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards, std::vector<std::string> who_from_race,  std::vector<int> dmg, Board* b1, Board* b2);
+    std::tuple<bool, bool, int, int> battle_boards(int attacker_pos, Player*, Player*);
+    // std::tuple<bool, bool, int, int> battle_boards(int attacker_pos, Board* b1, Board* b2);
+    std::tuple<bool, bool, int, int> battle_boards(int attacker_pos, std::shared_ptr<Player>, std::shared_ptr<Player>);
+    // std::tuple<bool, bool, int, int> battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
+    void pre_combat(Player* p1, Player* p2);
+    void post_battle(Player*, Player*, std::vector<std::shared_ptr<BgBaseCard> >, std::vector<std::shared_ptr<BgBaseCard> >);
+    void take_dmg_simul(std::shared_ptr<BgBaseCard> card, std::string who_from_race, int dmg, Player*, Player*);
+    void take_dmg_simul(std::shared_ptr<BgBaseCard> attacker, std::shared_ptr<BgBaseCard> defender, Player*, Player*);
+    void take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards, std::vector<std::string> who_from_race, int dmg, Player*, Player*);
+    void take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards, std::vector<std::string> who_from_race,  std::vector<int> dmg, Player*, Player*);
 private:
     bool first_combat;
 };

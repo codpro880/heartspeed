@@ -9,7 +9,14 @@
 #include "rng_singleton.hpp"
 
 BattleResult Battler::sim_battle(std::string goes_first) {
-    return sim_battle(p1, p2, goes_first);
+    auto res = sim_battle(p1, p2, goes_first);
+    if (res.who_won == p1->get_name()) {
+	p1->set_won_last_turn();
+    }
+    else if (res.who_won == p2->get_name()) {
+	p2->set_won_last_turn();
+    }
+    return res;
 }
 
 BattleResults Battler::sim_battles_par(int num_battles) {    
@@ -41,30 +48,6 @@ BattleResults Battler::sim_battles_par(int num_battles) {
 	}
     }
     
-    // std::vector<int> out(num_battles, 0);
-    // std::transform(std::execution::par_unseq,
-    // 		   players.begin(),
-    // 		   players.end(),
-    // 		   out.begin(),
-    // 		   [](auto player_pair) -> int {
-    // 		       auto player1 = player_pair.first;
-    // 		       auto player2 = player_pair.second;
-    // 		       // auto player1 = std::make_shared<Player>(this->p1);
-    // 		       // auto player2 = std::make_shared<Player>(this->p2);
-    // 		       // auto player3 = std::make_shared<Player>(this->p1);
-    // 		       // auto player4 = std::make_shared<Player>(this->p2);
-    // 		       auto b = Battler(player1.get(), player2.get());
-    // 		       auto res = b.sim_battle();
-    // 		       if (res.who_won == player1->get_name()) {
-    // 			   return -1;
-    // 		       }
-    // 		       else if (res.who_won == player2->get_name()) {
-    // 			   return 1;
-    // 		       }
-    // 		       else {
-    // 			   return 0;
-    // 		       }
-    // 		   });
     int total_p1_win = 0;
     int total_draw = 0;
     int total_p2_win = 0;
@@ -91,9 +74,6 @@ BattleResults Battler::sim_battles(int num_battles) {
 	auto player2 = std::make_shared<Player>(p2);
 	auto res = sim_battle(player1.get(), player2.get(), "null");
 
-
-	//p1->reset();
-	//p2->reset();
 	if (res.who_won == player1->get_name()) {
 	    total_p1_win++;
 	}
@@ -166,23 +146,13 @@ BattleResult Battler::battle(Player* p1,
 	// b1 always goes first here
 	b1->clip_attacker_pos();
 	b2->clip_attacker_pos();
-	// if (p1_counter >= b1->length()) {
-	//     p1_counter = 0;
-	// }
-	// if (p2_counter >= b2->length()) {
-	//     p2_counter = 0;
-	// }
 
 	std::tuple<bool, bool, int, int> battle_res;
 	if (p1_turn) {
-	    // battle_res = board_battler.battle_boards(p1_counter, b1, b2); // Modifies b1/b2
-	    battle_res = board_battler.battle_boards(b1->get_attacker_pos(), b1, b2); // Modifies b1/b2
-	    //attacker_is_dead = std::get<0>(battle_res);
+	    battle_res = board_battler.battle_boards(b1->get_attacker_pos(), p1, p2); // Modifies b1/b2
 	}
 	else {
-	    // battle_res = board_battler.battle_boards(p2_counter, b2, b1); // Modifies b1/b2
-	    battle_res = board_battler.battle_boards(b2->get_attacker_pos(), b2, b1); // Modifies b1/b2
-	    //attacker_is_dead = std::get<0>(battle_res);
+	    battle_res = board_battler.battle_boards(b2->get_attacker_pos(), p2, p1); // Modifies b1/b2
 	}
 	res.attacker_pos.push_back(std::get<2>(battle_res));
 	res.defender_pos.push_back(std::get<3>(battle_res));
@@ -225,10 +195,12 @@ BattleResult Battler::battle(Player* p1,
 
 void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker,
 				  std::shared_ptr<BgBaseCard> defender,
-				  Board* b1,
-				  Board* b2) {
-    attacker->do_preattack(defender, b1, b2);
-    defender->do_predefense(attacker, b2, b1);
+				  Player* p1,
+				  Player* p2) {
+    Board* b1 = p1->get_board().get();
+    Board* b2 = p2->get_board().get();
+    attacker->do_preattack(defender, p1, p2);
+    defender->do_predefense(attacker, p2, p1);
     std::vector<int> dmg;
     std::vector<std::shared_ptr<BgBaseCard> > cards;
     auto def_pos = b2->get_pos(defender);
@@ -255,35 +227,34 @@ void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker,
     for (size_t i = 0; i < cards.size() - races_size; i++) {
 	who_from_race.push_back(attacker->get_race());
     }
-    take_dmg_simul(cards, who_from_race, dmg, b1, b2);
-    attacker->do_postattack(defender, def_pos, b1, b2);
-    defender->do_postdefense(attacker, b2, b1);
+    take_dmg_simul(cards, who_from_race, dmg, p1, p2);
+    attacker->do_postattack(defender, def_pos, p1, p2);
+    defender->do_postdefense(attacker, p2, p1);
 }
 
 void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> card,
 				  std::string who_from_race,
 				  int dmg,
-				  Board* b1,
-				  Board* b2) {
+				  Player* p1,
+				  Player* p2) {
     auto cards = {card};
     auto who_from_races = {who_from_race};
-    take_dmg_simul(cards, who_from_races, dmg, b1, b2);
+    take_dmg_simul(cards, who_from_races, dmg, p1, p2);
 }
 
 void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards,
 				  std::vector<std::string> who_from_race,
 				  int dmg,
-				  Board* b1,
-				  Board* b2) {
-    // auto dmgs = {dmg};
-    // auto who_from_races = {who_from_race};
-    // take_dmg_simul(cards, who_from_races, dmgs, b1,
+				  Player* p1,
+				  Player* p2) {
+    Board* b1 = p1->get_board().get();
+    Board* b2 = p2->get_board().get();
     for (int i = 0; i < cards.size(); i++) {
 	if (b1->contains(cards[i])) {
-	    cards[i]->take_damage(dmg, who_from_race[i], b1, b2);
+	    cards[i]->take_damage(dmg, who_from_race[i], p1, p2);
 	}
 	else {
-	    cards[i]->take_damage(dmg, who_from_race[i], b2, b1);
+	    cards[i]->take_damage(dmg, who_from_race[i], p2, p1);
 	}
     }
     
@@ -291,21 +262,23 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
     b2->remove_and_mark_dead();
 
     // TODO: Ordering seems to be a coin flip?
-    b1->do_deathrattles(b2);
-    b2->do_deathrattles(b1);
+    b1->do_deathrattles(p1, p2, b2);
+    b2->do_deathrattles(p2, p1, b1);
 }
 
 void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards,
 				  std::vector<std::string> who_from_race,
 				  std::vector<int> dmg,
-				  Board* b1,
-				  Board* b2) {
+				  Player* p1,
+				  Player* p2) {
+    Board* b1 = p1->get_board().get();
+    Board* b2 = p2->get_board().get();
     for (int i = 0; i < cards.size(); i++) {
 	if (b1->contains(cards[i])) {
-	    cards[i]->take_damage(dmg[i], who_from_race[i], b1, b2);
+	    cards[i]->take_damage(dmg[i], who_from_race[i], p1, p2);
 	}
 	else {
-	    cards[i]->take_damage(dmg[i], who_from_race[i], b2, b1);
+	    cards[i]->take_damage(dmg[i], who_from_race[i], p2, p1);
 	}
     }    
 
@@ -313,43 +286,48 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
     b2->remove_and_mark_dead();
 
     // TODO: Ordering seems to be a coin flip?
-    b1->do_deathrattles(b2);
-    b2->do_deathrattles(b1);
+    b1->do_deathrattles(p1, p2, b2);
+    b2->do_deathrattles(p2, p1, b1);
 }
 
-void BoardBattler::pre_combat(Board* b1, Board* b2) {
+void BoardBattler::pre_combat(Player* p1, Player* p2) {
     if (!first_combat) {
 	return;
     }
+    Board* b1 = p1->get_board().get();
+    Board* b2 = p2->get_board().get();
     first_combat = false;
     // TODO: randomize order
     for (auto c : b1->get_cards()) {
-	c->do_precombat(b1, b2);
+	c->do_precombat(p1, p2);
     }
     for (auto c : b2->get_cards()) {
-	c->do_precombat(b2, b1);
+	c->do_precombat(p2, p1);
     }
 }
 
-void BoardBattler::post_battle(Board* b1,
-			       Board* b2,
+void BoardBattler::post_battle(Player* p1,
+			       Player* p2,
 			       std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
 			       std::vector<std::shared_ptr<BgBaseCard> > dead_b2) {
     if (dead_b1.empty() && dead_b2.empty()) return;
+    Board* b1 = p1->get_board().get();
     for (auto c : b1->get_cards()) {
-	c->do_postbattle(b1, b2, dead_b1, dead_b2);
+	c->do_postbattle(p1, p2, dead_b1, dead_b2);
     }
 }
 
-std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {
-    return battle_boards(attacker_pos, b1.get(), b2.get());
+std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, std::shared_ptr<Player> p1, std::shared_ptr<Player> p2) {
+    return battle_boards(attacker_pos, p1.get(), p2.get());
 }
 
-std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, Board* b1, Board* b2) {
+std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, Player* p1, Player* p2) {
+    Board* b1 = p1->get_board().get();
+    Board* b2 = p2->get_board().get();
     auto pre_precom_b1_dead = b1->has_died();
     auto pre_precom_b2_dead = b2->has_died();
     
-    pre_combat(b1, b2); // Special case: Red Whelp start of combat mechanic. Illidan, too.
+    pre_combat(p1, p2); // Special case: Red Whelp start of combat mechanic. Illidan, too.
 
     auto post_precom_b1_dead = b1->has_died();
     auto post_precom_b2_dead = b2->has_died();
@@ -364,8 +342,8 @@ std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, B
     std::vector<std::shared_ptr<BgBaseCard> > precom_dead_b2(firstb2_precom, lastb2_precom);
 
     // Handles things like Scavenging Hyena
-    post_battle(b1, b2, precom_dead_b1, precom_dead_b2);
-    post_battle(b2, b1, precom_dead_b2, precom_dead_b1);
+    post_battle(p1, p2, precom_dead_b1, precom_dead_b2);
+    post_battle(p2, p1, precom_dead_b2, precom_dead_b1);
 
     if (b1->length() == 0 || b2->length() == 0) {
 	// TODO: Need to figure out how to show pre_combat victories in the UI
@@ -428,7 +406,7 @@ std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, B
     auto pre_b2_dead = b2->has_died();
     
     // Handles drattles
-    take_dmg_simul(attacker, defender, b1, b2);
+    take_dmg_simul(attacker, defender, p1, p2);
 
     auto post_b1_dead = b1->has_died();
     auto post_b2_dead = b2->has_died();
@@ -443,21 +421,21 @@ std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, B
     std::vector<std::shared_ptr<BgBaseCard> > new_dead_b2(firstb2, lastb2);
 
     // Handles things like Scavenging Hyena
-    post_battle(b1, b2, new_dead_b1, new_dead_b2);
-    post_battle(b2, b1, new_dead_b2, new_dead_b1);
+    post_battle(p1, p2, new_dead_b1, new_dead_b2);
+    post_battle(p2, p1, new_dead_b2, new_dead_b1);
 
     if (!attacker->is_dead() && attacker->has_windfury_active()) {
 	// Need to turn off windfury, or we'll infinitely recurse
 	attacker->set_windfury_active(false);
-	battle_boards(attacker_pos, b1, b2);
+	battle_boards(attacker_pos, p1, p2);
 	if (b1->contains("Whirlwind Tempest")) {
 	    if (!attacker->is_dead()) {
 		attacker->set_windfury_active(false);
-		battle_boards(attacker_pos, b1, b2);
+		battle_boards(attacker_pos, p1, p2);
 	    }
 	    if (!attacker->is_dead()) {
 		attacker->set_windfury_active(false);
-		battle_boards(attacker_pos, b1, b2);
+		battle_boards(attacker_pos, p1, p2);
 	    }
 	}
     }
@@ -467,10 +445,7 @@ std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, B
     }
 
     // Handles deathrattles, nothing happens if nothing died
-    //attacker->do_deathrattle(b1, b2);
-    //defender->do_deathrattle(b2, b1); // May modify b1/b2
     return std::make_tuple(attacker->is_dead(), defender->is_dead(), attacker_pos, (int)defender_pos);
-	// return attacker->is_dead();
 }
 
 std::string Battler::decide_who_goes_first(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2) {

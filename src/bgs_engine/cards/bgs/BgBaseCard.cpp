@@ -96,9 +96,11 @@ void BgBaseCard::deathrattle(Player* p1, Player* p2) {
     }
 }
 
+// Deals w/ base taunt-was-attacked effects
 void BgBaseCard::do_predefense(std::shared_ptr<BgBaseCard> attacker,
 			       Player* p1,
 			       Player* p2) {
+    if (!has_taunt()) return;
     Board* b1 = p1->get_board().get();
     int total_attack_buff = 0;
     for (auto c : b1->get_cards()) {
@@ -107,6 +109,14 @@ void BgBaseCard::do_predefense(std::shared_ptr<BgBaseCard> attacker,
 	}
 	else if (c->get_name() == "Arm of the Empire (Golden)") {
 	    total_attack_buff += 6;
+	}
+	else if (c->get_name() == "Champion of Y'Shaarj") {
+	    c->set_base_health(c->get_base_health() + 1);
+	    c->set_base_attack(c->get_base_attack() + 1);
+	}
+	else if (c->get_name() == "Champion of Y'Shaarj (Golden)") {
+	    c->set_base_health(c->get_base_health() + 2);
+	    c->set_base_attack(c->get_base_attack() + 2);
 	}
     }
     set_attack(get_attack() + total_attack_buff);

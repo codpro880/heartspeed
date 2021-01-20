@@ -296,6 +296,48 @@ TEST(Player, BrannMakesBattlecriesGoOffTwiceAndGoldenThrice) {
     EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 4);
 }
 
+TEST(Player, ChampionOfYShaarjRetainsStats) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > board_cards
+	{
+	 f.get_card("Champion of Y'Shaarj"),
+	 f.get_card("Champion of Y'Shaarj (Golden)"),
+	 f.get_card("Dragonspawn Lieutenant")
+	};
+    std::shared_ptr<Board> board1(new Board(board_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "p1"));
+    p1->start_turn();
+
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Scout"),
+	 f.get_card("Murloc Scout"),
+	 f.get_card("Murloc Scout"),
+	 f.get_card("Murloc Scout")
+	};
+    std::shared_ptr<Board> board2(new Board(p2_cards));    
+    std::unique_ptr<Player> p2(new Player(board2, "p2"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "p1");
+    auto yshaarj = p1->get_board()->get_cards()[0];
+    auto yshaarj_gold = p1->get_board()->get_cards()[1];
+    // Tokens would have attacked twice, each yshaarj killed one token took one dmg
+    EXPECT_EQ(yshaarj->get_attack(), 2 + 2);
+    EXPECT_EQ(yshaarj->get_health(), 2 + 1);
+    EXPECT_EQ(yshaarj_gold->get_attack(), 4 + 4);
+    EXPECT_EQ(yshaarj_gold->get_health(), 4 + 3);
+    p1->end_turn();
+
+    // Should now be full health
+    p1->start_turn();
+    EXPECT_EQ(yshaarj->get_attack(), 2 + 2);
+    EXPECT_EQ(yshaarj->get_health(), 2 + 2);
+    EXPECT_EQ(yshaarj_gold->get_attack(), 4 + 4);
+    EXPECT_EQ(yshaarj_gold->get_health(), 4 + 4);
+    p1->end_turn();
+}
+
 TEST(Player, CobaltScalebaneEndTurnMechanic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

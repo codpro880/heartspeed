@@ -925,8 +925,8 @@ std::shared_ptr<BgBaseCard> LivingSporeDrattle::summon() {
 void MajordomoExecutus::end_turn_mechanic(Player* p1) {
     auto left_most_minion = p1->get_board()->get_cards()[0];
     auto buff = p1->get_elementals_played_this_turn() + 1;
-    left_most_minion->set_attack(left_most_minion->get_attack() + buff);
-    left_most_minion->set_health(left_most_minion->get_health() + buff);
+    left_most_minion->set_base_attack(left_most_minion->get_base_attack() + buff);
+    left_most_minion->set_base_health(left_most_minion->get_base_health() + buff);
 }
 
 void MajordomoExecutusGolden::end_turn_mechanic(Player* p1) {

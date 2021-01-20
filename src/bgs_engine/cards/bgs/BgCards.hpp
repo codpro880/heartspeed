@@ -117,6 +117,24 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ArcaneAssistantGolden>(*this); } // boilerplate that every drattle needs...
 };
 
+// class Bigfernal : public BgBaseCard {
+// public:
+//     Bigfernal() : BgBaseCard(4, "NEUTRAL", 4, 4, "Crowd Favorite",
+// 				 "['TRIGGER_VISUAL']", "", "EPIC", 3, "MINION") {}
+//     int mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) override;
+//     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Bigfernal>(*this); } // boilerplate that every drattle needs...
+// };
+
+// class BigfernalGolden : public BgBaseCard {
+// public:
+//     BigfernalGolden() : BgBaseCard(8, "NEUTRAL", 4, 8, "Crowd Favorite (Golden)",
+// 				       "['TRIGGER_VISUAL']", "", "EPIC", 3, "MINION") {}
+//     int mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) override;
+//     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<BigfernalGolden>(*this); } // boilerplate that every drattle needs...
+// private:
+//     Bigfernal cf;
+// };
+
 class BloodsailCannoneer : public BattlecryCard {
 public:
     BloodsailCannoneer() : BgBaseCard(4, "NEUTRAL", 4, 3, "Bloodsail Cannoneer",

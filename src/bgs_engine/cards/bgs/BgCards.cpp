@@ -213,6 +213,22 @@ void ArcaneAssistantGolden::do_battlecry(Player* p1) {
     }
 }
 
+int Bigfernal::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
+    if (card->get_race() == "DEMON") {
+	set_attack(get_attack() + 1);
+	set_health(get_health() + 1);
+    }
+    return 0;
+}
+
+int BigfernalGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
+    if (card->get_race() == "DEMON") {
+	set_attack(get_attack() + 2);
+	set_health(get_health() + 2);
+    }
+    return 0;
+}
+
 void BloodsailCannoneer::do_battlecry(Player* p1) {
     for (auto card : p1->get_board()->get_cards()) {
 	if (card.get() == this) continue;

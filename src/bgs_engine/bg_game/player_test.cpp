@@ -201,33 +201,33 @@ TEST(Player, ArcaneAssistantBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 3);
 }
 
-// TEST(Player, BigfernalReactsToDemonCards) {
-//     auto f = BgCardFactory();
-//     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-// 	{
-// 	 f.get_card("Bigfernal"),
-// 	 f.get_card("Bigfernal (Golden)"),
-// 	 f.get_card("Imprisoner"),
-// 	};
-//     auto in_hand = Hand(hand_cards);
-//     auto player = Player(in_hand, "Test");
+TEST(Player, BigfernalReactsToDemonCards) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Bigfernal"),
+	 f.get_card("Bigfernal (Golden)"),
+	 f.get_card("Imprisoner"),
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
 
-//     player.start_turn();
+    player.start_turn();
     
-//     player.play_card(0, 0);
-//     player.play_card(0, 1);
-//     player.play_card(0, 0);    
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 0);    
 
-//     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Imprisoner");
-//     EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 3);
-//     EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 3);
-//     EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Bigfernal");
-//     EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 4 + 2);
-//     EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 4 + 2);
-//     EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Bigfernal (Golden)");
-//     EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 8 + 2);
-//     EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 8 + 2);
-// }
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Imprisoner");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Bigfernal");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 4 + 2);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 4 + 2);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Bigfernal (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 8 + 2);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 8 + 2);
+}
 
 TEST(Player, BloodsailCannoneerBattlecry) {
     auto f = BgCardFactory();

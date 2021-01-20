@@ -179,8 +179,8 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> big_bad_wolf_gold(new BgBaseCard(6, "HUNTER", 2, 4, "Big Bad Wolf (Golden)",
 								 "", "BEAST", "", 1, "MINION"));
     cards.emplace("Big Bad Wolf (Golden)", big_bad_wolf_gold);
-    // cards.emplace("Bigfernal", std::make_shared<Bigfernal>());
-    // cards.emplace("Bigfernal (Golden)", std::make_shared<BigfernalGolden>());
+    cards.emplace("Bigfernal", std::make_shared<Bigfernal>());
+    cards.emplace("Bigfernal (Golden)", std::make_shared<BigfernalGolden>());
     cards.emplace("Bloodsail Cannoneer", std::make_shared<BloodsailCannoneer>());
     cards.emplace("Bloodsail Cannoneer (Golden)", std::make_shared<BloodsailCannoneerGolden>());
     std::shared_ptr<BgBaseCard> bolvar(new BgBaseCard(1, "PALADIN", 5, 7, "Bolvar",

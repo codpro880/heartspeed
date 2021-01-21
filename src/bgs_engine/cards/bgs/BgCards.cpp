@@ -754,15 +754,8 @@ void KaboomBot::do_deathrattle(Player* p1, Player* p2) {
 }
 
 void KaboomBotGolden::do_deathrattle(Player* p1, Player* p2) {
-    Board* b1 = p1->get_board().get();
-    Board* b2 = p2->get_board().get();
-    for (int i = 0; i < 2; i++) {
-	kbot.do_deathrattle(p1, p2);
-	b1->remove_and_mark_dead();
-	b1->remove_and_mark_dead();
-    }
-    b1->do_deathrattles(p1, p2, b2);
-    b2->do_deathrattles(p2, p1, b1);
+    kbot.do_deathrattle(p1, p2);
+    kbot.do_deathrattle(p1, p2);
 }
 
 int Kalecgos::mod_summoned(std::shared_ptr<BgBaseCard> c, Board* b1, bool from_hand) {

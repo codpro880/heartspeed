@@ -69,7 +69,7 @@ public:
     // Triggered on death
     // (ex: stat-buffs that die)
     // Note: Actual deathrattle cards handled by DeathrattleCard class
-    virtual void do_deathrattle(Player*, Player*) { }
+    virtual void do_deathrattle(Player*, Player*);
     virtual void deathrattle(Player*, Player*);
     
     // Triggered before every attack (ex: glyph gaurdian mechanic)

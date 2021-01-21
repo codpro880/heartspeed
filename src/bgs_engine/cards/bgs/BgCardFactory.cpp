@@ -5,9 +5,6 @@
 #include "BgBaseCard.hpp"
 #include "BgCardFactory.hpp"
 #include "BgCards.hpp"
-// #include "DeathrattleCards.hpp"
-// #include "PreCombatCards.hpp"
-// #include "PostBattleCards.hpp"
 
 std::shared_ptr<BgBaseCard> BgCardFactory::get_card(std::string name) const {
     auto card_found_it = cards.find(name);
@@ -534,6 +531,12 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> primalfin_gold(new BgBaseCard(6, "NEUTRAL", 3, 4, "Primalfin Lookout (Golden)",
 							      "['BATTLECRY', 'DISCOVER']", "MURLOC", "COMMON", 5, "MINION"));
     cards.emplace("Primalfin Lookout (Golden)", primalfin_gold);
+
+    // Q
+    cards.emplace("Qiraji Harbinger", std::make_shared<BgBaseCard>(5, "NEUTRAL", 6, 5, "Qiraji Harbinger",
+								   "", "NEUTRAL", "COMMON", 4, "MINION"));
+    cards.emplace("Qiraji Harbinger (Golden)", std::make_shared<BgBaseCard>(10, "NEUTRAL", 6, 10, "Qiraji Harbinger (Golden)",
+									    "", "NEUTRAL", "COMMON", 4, "MINION"));
 
     // R
     cards.emplace("Rabid Saurolisk", std::make_shared<RabidSaurolisk>());

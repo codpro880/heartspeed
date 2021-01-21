@@ -1295,6 +1295,39 @@ TEST(Battler, PilotedShredderDrattle) {
     }
 }
 
+TEST(Battler, QirajiHarbinger) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Qiraji Harbinger (Golden)"),
+	 f.get_card("Dragonspawn Lieutenant"),
+	 f.get_card("Qiraji Harbinger")
+	};
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(3);
+    th->set_health(2); // Should die immediately
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 th,
+	};
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "p1"));
+    std::unique_ptr<Player> p2(new Player(board2, "p2"));
+    auto battler = Battler(p1.get(), p2.get(), true);
+    std::string goes_first = "p2";
+    auto res = battler.sim_battle(goes_first);
+    EXPECT_EQ(res.who_won, "p1");
+    EXPECT_EQ(p1->get_board()->get_cards().size(), (unsigned)2);
+    auto harbinger_gold = p1->get_board()->get_cards()[0];
+    auto harbinger = p1->get_board()->get_cards()[1];
+    // Both should have recieved +6/+6
+    EXPECT_EQ(harbinger_gold->get_health(), 10 + 6);
+    EXPECT_EQ(harbinger_gold->get_attack(), 10 + 6);
+    EXPECT_EQ(harbinger->get_health(), 5 + 6);
+    EXPECT_EQ(harbinger->get_attack(), 5 + 6);
+}
+
 TEST(Battler, RatPackDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards

@@ -206,6 +206,10 @@ public:
 
     void start_turn() {
 	for (auto c : board->get_cards()) {
+	    c->set_health(c->get_base_health());
+	}
+					   
+	for (auto c : board->get_cards()) {
 	    c->start_turn_mechanic(this);
 	}
 	gold = max_gold;

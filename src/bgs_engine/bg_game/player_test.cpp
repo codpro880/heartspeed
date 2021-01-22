@@ -137,7 +137,38 @@ TEST(Player, AnnihilanBattlemasterBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Annihilan Battlemaster (Golden)");
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 6);
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 2 + 30 + 30);
-} 
+}
+
+TEST(Player, AnnoyoModuleMagnetic) {
+    auto f = BgCardFactory();
+    auto micro_mummy = f.get_card("Micro Mummy");
+    auto annoyo = f.get_card("Annoy-o-Module");
+    auto annoyo_gold = f.get_card("Annoy-o-Module (Golden)");
+    EXPECT_EQ(micro_mummy->is_magnetic(), false);
+    EXPECT_EQ(annoyo->is_magnetic(), true);
+    EXPECT_EQ(annoyo_gold->is_magnetic(), true);
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 micro_mummy,
+	 annoyo,
+	 annoyo_gold
+	};
+    auto in_hand = Hand(hand_cards);
+    std::unique_ptr<Player> p1(new Player(in_hand, "Eudora"));
+
+    p1->play_card(1, 0); // Place annoyo
+    p1->play_card(0, 1); // Place micro mummy
+    p1->play_card(0, 1); // Create magnetic annoyo gold
+
+    // Assert magnetization
+    micro_mummy = p1->get_board()->get_cards()[1];
+    EXPECT_EQ(p1->get_board()->get_cards().size(), (unsigned)2); // One should have been magneticized
+    EXPECT_EQ(micro_mummy->get_attack(), 1 + 4); // 1 base, 4 from golden annoyo
+    EXPECT_EQ(micro_mummy->get_health(), 2 + 8); // 1 base, 8 from replicating
+    EXPECT_TRUE(micro_mummy->has_reborn());
+    EXPECT_TRUE(micro_mummy->has_taunt());
+    EXPECT_TRUE(micro_mummy->has_divine_shield());
+}
 
 TEST(Player, ArcaneAssistantBattlecry) {
     auto f = BgCardFactory();
@@ -168,6 +199,34 @@ TEST(Player, ArcaneAssistantBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[3]->get_name(), "Arcane Assistant");
     EXPECT_EQ(player.get_board()->get_cards()[3]->get_attack(), 3);
     EXPECT_EQ(player.get_board()->get_cards()[3]->get_health(), 3);
+}
+
+TEST(Player, BigfernalReactsToDemonCards) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Bigfernal"),
+	 f.get_card("Bigfernal (Golden)"),
+	 f.get_card("Imprisoner"),
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.start_turn();
+    
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 0);    
+
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Imprisoner");
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 3);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Bigfernal");
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_attack(), 4 + 2);
+    EXPECT_EQ(player.get_board()->get_cards()[1]->get_health(), 4 + 2);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Bigfernal (Golden)");
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_attack(), 8 + 2);
+    EXPECT_EQ(player.get_board()->get_cards()[2]->get_health(), 8 + 2);
 }
 
 TEST(Player, BloodsailCannoneerBattlecry) {
@@ -235,6 +294,48 @@ TEST(Player, BrannMakesBattlecriesGoOffTwiceAndGoldenThrice) {
     EXPECT_EQ(player.get_board()->get_cards()[4]->get_name(), "Felfin Navigator");
     EXPECT_EQ(player.get_board()->get_cards()[4]->get_attack(), 4);
     EXPECT_EQ(player.get_board()->get_cards()[4]->get_health(), 4);
+}
+
+TEST(Player, ChampionOfYShaarjRetainsStats) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > board_cards
+	{
+	 f.get_card("Champion of Y'Shaarj"),
+	 f.get_card("Champion of Y'Shaarj (Golden)"),
+	 f.get_card("Dragonspawn Lieutenant")
+	};
+    std::shared_ptr<Board> board1(new Board(board_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "p1"));
+    p1->start_turn();
+
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Scout"),
+	 f.get_card("Murloc Scout"),
+	 f.get_card("Murloc Scout"),
+	 f.get_card("Murloc Scout")
+	};
+    std::shared_ptr<Board> board2(new Board(p2_cards));    
+    std::unique_ptr<Player> p2(new Player(board2, "p2"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "p1");
+    auto yshaarj = p1->get_board()->get_cards()[0];
+    auto yshaarj_gold = p1->get_board()->get_cards()[1];
+    // Tokens would have attacked twice, each yshaarj killed one token took one dmg
+    EXPECT_EQ(yshaarj->get_attack(), 2 + 2);
+    EXPECT_EQ(yshaarj->get_health(), 2 + 1);
+    EXPECT_EQ(yshaarj_gold->get_attack(), 4 + 4);
+    EXPECT_EQ(yshaarj_gold->get_health(), 4 + 3);
+    p1->end_turn();
+
+    // Should now be full health
+    p1->start_turn();
+    EXPECT_EQ(yshaarj->get_attack(), 2 + 2);
+    EXPECT_EQ(yshaarj->get_health(), 2 + 2);
+    EXPECT_EQ(yshaarj_gold->get_attack(), 4 + 4);
+    EXPECT_EQ(yshaarj_gold->get_health(), 4 + 4);
+    p1->end_turn();
 }
 
 TEST(Player, CobaltScalebaneEndTurnMechanic) {

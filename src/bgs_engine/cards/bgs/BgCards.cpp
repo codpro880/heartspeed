@@ -213,6 +213,22 @@ void ArcaneAssistantGolden::do_battlecry(Player* p1) {
     }
 }
 
+int Bigfernal::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
+    if (card->get_race() == "DEMON") {
+	set_attack(get_attack() + 1);
+	set_health(get_health() + 1);
+    }
+    return 0;
+}
+
+int BigfernalGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) {
+    if (card->get_race() == "DEMON") {
+	set_attack(get_attack() + 2);
+	set_health(get_health() + 2);
+    }
+    return 0;
+}
+
 void BloodsailCannoneer::do_battlecry(Player* p1) {
     for (auto card : p1->get_board()->get_cards()) {
 	if (card.get() == this) continue;
@@ -738,15 +754,8 @@ void KaboomBot::do_deathrattle(Player* p1, Player* p2) {
 }
 
 void KaboomBotGolden::do_deathrattle(Player* p1, Player* p2) {
-    Board* b1 = p1->get_board().get();
-    Board* b2 = p2->get_board().get();
-    for (int i = 0; i < 2; i++) {
-	kbot.do_deathrattle(p1, p2);
-	b1->remove_and_mark_dead();
-	b1->remove_and_mark_dead();
-    }
-    b1->do_deathrattles(p1, p2, b2);
-    b2->do_deathrattles(p2, p1, b1);
+    kbot.do_deathrattle(p1, p2);
+    kbot.do_deathrattle(p1, p2);
 }
 
 int Kalecgos::mod_summoned(std::shared_ptr<BgBaseCard> c, Board* b1, bool from_hand) {
@@ -925,8 +934,8 @@ std::shared_ptr<BgBaseCard> LivingSporeDrattle::summon() {
 void MajordomoExecutus::end_turn_mechanic(Player* p1) {
     auto left_most_minion = p1->get_board()->get_cards()[0];
     auto buff = p1->get_elementals_played_this_turn() + 1;
-    left_most_minion->set_attack(left_most_minion->get_attack() + buff);
-    left_most_minion->set_health(left_most_minion->get_health() + buff);
+    left_most_minion->set_base_attack(left_most_minion->get_base_attack() + buff);
+    left_most_minion->set_base_health(left_most_minion->get_base_health() + buff);
 }
 
 void MajordomoExecutusGolden::end_turn_mechanic(Player* p1) {

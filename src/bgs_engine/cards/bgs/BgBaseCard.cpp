@@ -66,6 +66,41 @@ void BgBaseCard::adapt(std::string _test_adapt) {
     adapt_count++;
 }
 
+void BgBaseCard::do_deathrattle(Player* p1, Player* p2) {
+    if (!has_taunt()) return;
+    auto total_buff = 0;
+    for (auto c : p1->get_board()->get_cards()) {
+	if (c->get_name() == "Qiraji Harbinger") {
+	    total_buff += 2;
+	}
+	else if (c->get_name() == "Qiraji Harbinger (Golden)") {
+	    total_buff += 4;
+	}
+    }
+
+    std::vector<std::shared_ptr<BgBaseCard>> cards_to_buff;
+    if (death_pos == 0) {
+	auto card_to_buff = p1->get_board()->get_cards()[0];
+	cards_to_buff.push_back(card_to_buff);
+    }
+    else if (death_pos == p1->get_board()->get_cards().size()) {
+	auto end_ind = p1->get_board()->get_cards().size() - 1;
+	auto card_to_buff = p1->get_board()->get_cards()[end_ind];
+	cards_to_buff.push_back(card_to_buff);
+    }
+    else {
+	auto left_neighbor = p1->get_board()->get_cards()[death_pos];
+	auto right_neighbor = p1->get_board()->get_cards()[death_pos-1];
+	cards_to_buff.push_back(left_neighbor);
+	cards_to_buff.push_back(right_neighbor);
+    }
+
+    for (auto c : cards_to_buff) {
+	c->set_attack(c->get_attack() + total_buff);
+	c->set_health(c->get_health() + total_buff);
+    }
+}
+
 void BgBaseCard::deathrattle(Player* p1, Player* p2) {
     if (p1->get_board()->contains("Baron Rivendare (Golden)")) {
 	do_deathrattle(p1, p2);
@@ -96,9 +131,11 @@ void BgBaseCard::deathrattle(Player* p1, Player* p2) {
     }
 }
 
+// Deals w/ base taunt-was-attacked effects
 void BgBaseCard::do_predefense(std::shared_ptr<BgBaseCard> attacker,
 			       Player* p1,
 			       Player* p2) {
+    if (!has_taunt()) return;
     Board* b1 = p1->get_board().get();
     int total_attack_buff = 0;
     for (auto c : b1->get_cards()) {
@@ -107,6 +144,14 @@ void BgBaseCard::do_predefense(std::shared_ptr<BgBaseCard> attacker,
 	}
 	else if (c->get_name() == "Arm of the Empire (Golden)") {
 	    total_attack_buff += 6;
+	}
+	else if (c->get_name() == "Champion of Y'Shaarj") {
+	    c->set_base_health(c->get_base_health() + 1);
+	    c->set_base_attack(c->get_base_attack() + 1);
+	}
+	else if (c->get_name() == "Champion of Y'Shaarj (Golden)") {
+	    c->set_base_health(c->get_base_health() + 2);
+	    c->set_base_attack(c->get_base_attack() + 2);
 	}
     }
     set_attack(get_attack() + total_attack_buff);

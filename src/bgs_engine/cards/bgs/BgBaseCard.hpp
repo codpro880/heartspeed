@@ -69,7 +69,7 @@ public:
     // Triggered on death
     // (ex: stat-buffs that die)
     // Note: Actual deathrattle cards handled by DeathrattleCard class
-    virtual void do_deathrattle(Player*, Player*) { }
+    virtual void do_deathrattle(Player*, Player*);
     virtual void deathrattle(Player*, Player*);
     
     // Triggered before every attack (ex: glyph gaurdian mechanic)
@@ -150,10 +150,14 @@ public:
     void set_death_pos(int dp) { death_pos = dp; }
     void set_health(int hth) { health = hth; }
     // Base stats can't be affected during combat
-    void set_base_health(int hth) { base_health = hth; health = hth; }
-    void set_poison() { is_poison = true; }
-    void set_divine_shield() { divine_shield = true; }
-    void set_taunt() { _has_taunt = true; }
+    void set_base_health(int hth) {
+	auto added_health = hth - base_health;
+	health += added_health;
+	base_health = hth;
+    }
+    void set_poison(bool p = true) { is_poison = p; }
+    void set_divine_shield(bool s = true) { divine_shield = s; }
+    void set_taunt(bool t = true) { _has_taunt = t; }
     void set_reborn(bool rb = true) {_has_reborn = rb; }
     void set_windfury(bool wf = true) { _has_windfury = wf; _has_windfury_active = wf; }
     void set_windfury_active(bool wfa = true) { _has_windfury_active = wfa; }

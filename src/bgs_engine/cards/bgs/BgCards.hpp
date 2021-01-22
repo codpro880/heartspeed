@@ -117,6 +117,24 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ArcaneAssistantGolden>(*this); } // boilerplate that every drattle needs...
 };
 
+class Bigfernal : public BgBaseCard {
+public:
+    Bigfernal() : BgBaseCard(4, "NEUTRAL", 4, 4, "Bigfernal",
+			     "['TRIGGER_VISUAL']", "DEMON", "EPIC", 3, "MINION") {}
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Bigfernal>(*this); } // boilerplate that every drattle needs...
+};
+
+class BigfernalGolden : public BgBaseCard {
+public:
+    BigfernalGolden() : BgBaseCard(8, "NEUTRAL", 4, 8, "Bigfernal (Golden)",
+				   "['TRIGGER_VISUAL']", "DEMON", "EPIC", 3, "MINION") {}
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, Board*, bool from_hand) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<BigfernalGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    Bigfernal cf;
+};
+
 class BloodsailCannoneer : public BattlecryCard {
 public:
     BloodsailCannoneer() : BgBaseCard(4, "NEUTRAL", 4, 3, "Bloodsail Cannoneer",
@@ -1821,7 +1839,7 @@ public:
 
 class WardenOfOld : public DeathrattleCard {
 public:
-    WardenOfOld() : BgBaseCard(3, "NEUTRAL", 4, 3, "Warden Of Old",
+    WardenOfOld() : BgBaseCard(3, "NEUTRAL", 4, 3, "Warden of Old",
 			       "['DEATHRATTLE']", "", "COMMON", 3, "MINION") {}
     virtual void do_deathrattle(Player* p1, Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<WardenOfOld>(*this); } // boilerplate that every drattle needs...
@@ -1829,7 +1847,7 @@ public:
 
 class WardenOfOldGolden : public DeathrattleCard {
 public:
-    WardenOfOldGolden() : BgBaseCard(6, "NEUTRAL", 4, 6, "Warden Of Old (Golden)",
+    WardenOfOldGolden() : BgBaseCard(6, "NEUTRAL", 4, 6, "Warden of Old (Golden)",
 				     "['DEATHRATTLE']", "", "COMMON", 3, "MINION") {}
     virtual void do_deathrattle(Player* p1, Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<WardenOfOldGolden>(*this); } // boilerplate that every drattle needs...

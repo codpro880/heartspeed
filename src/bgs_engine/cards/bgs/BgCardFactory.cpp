@@ -5,9 +5,6 @@
 #include "BgBaseCard.hpp"
 #include "BgCardFactory.hpp"
 #include "BgCards.hpp"
-// #include "DeathrattleCards.hpp"
-// #include "PreCombatCards.hpp"
-// #include "PostBattleCards.hpp"
 
 std::shared_ptr<BgBaseCard> BgCardFactory::get_card(std::string name) const {
     auto card_found_it = cards.find(name);
@@ -144,9 +141,11 @@ void BgCardFactory::init_cards() {
     cards.emplace("Annihilan Battlemaster (Golden)", std::make_shared<AnnihilanBattlemasterGolden>());
     std::shared_ptr<BgBaseCard> annoyo(new BgBaseCard(2, "PALADIN", 4, 4, "Annoy-o-Module",
 						      "['DIVINE_SHIELD', 'MODULAR', 'TAUNT']", "MECHANICAL", "RARE", 4, "MINION"));
+    annoyo->set_divine_shield();
     cards.emplace("Annoy-o-Module", annoyo);
     std::shared_ptr<BgBaseCard> annoyo_gold(new BgBaseCard(4, "PALADIN", 4, 8, "Annoy-o-Module (Golden)",
 							   "['DIVINE_SHIELD', 'MODULAR', 'TAUNT']", "MECHANICAL", "RARE", 4, "MINION"));
+    annoyo_gold->set_divine_shield();
     cards.emplace("Annoy-o-Module (Golden)", annoyo_gold);
     cards.emplace("Arcane Assistant", std::make_shared<ArcaneAssistant>());
     cards.emplace("Arcane Assistant (Golden)", std::make_shared<ArcaneAssistantGolden>());
@@ -177,6 +176,8 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> big_bad_wolf_gold(new BgBaseCard(6, "HUNTER", 2, 4, "Big Bad Wolf (Golden)",
 								 "", "BEAST", "", 1, "MINION"));
     cards.emplace("Big Bad Wolf (Golden)", big_bad_wolf_gold);
+    cards.emplace("Bigfernal", std::make_shared<Bigfernal>());
+    cards.emplace("Bigfernal (Golden)", std::make_shared<BigfernalGolden>());
     cards.emplace("Bloodsail Cannoneer", std::make_shared<BloodsailCannoneer>());
     cards.emplace("Bloodsail Cannoneer (Golden)", std::make_shared<BloodsailCannoneerGolden>());
     std::shared_ptr<BgBaseCard> bolvar(new BgBaseCard(1, "PALADIN", 5, 7, "Bolvar",
@@ -213,6 +214,11 @@ void BgCardFactory::init_cards() {
 								"['TRIGGER_VISUAL']", "PIRATE", "", 5, "MINION"));
     cards.emplace("Cap'n Hoggarr (Golden)", std::make_shared<BgBaseCard>(12, "NEUTRAL", 6, 12, "Cap'n Hoggarr (Golden)",
 									 "['TRIGGER_VISUAL']", "PIRATE", "", 5, "MINION"));
+    // Handled in BgBaseCard...TODO: Get better "trigger all" sort of effect going...
+    cards.emplace("Champion of Y'Shaarj", std::make_shared<BgBaseCard>(2, "NEUTRAL", 4, 2,  "Champion of Y'Shaarj",
+								       "['TRIGGER_VISUAL']", "NEUTRAL", "", 4, "MINION"));
+    cards.emplace("Champion of Y'Shaarj (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", 4, 4,  "Champion of Y'Shaarj (Golden)",
+										"['TRIGGER_VISUAL']", "NEUTRAL", "", 4, "MINION"));
     cards.emplace("Cobalt Scalebane", std::make_shared<CobaltScalebane>());
     cards.emplace("Cobalt Scalebane (Golden)", std::make_shared<CobaltScalebaneGolden>());
     cards.emplace("Coldlight Seer", std::make_shared<ColdlightSeer>());
@@ -525,6 +531,12 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> primalfin_gold(new BgBaseCard(6, "NEUTRAL", 3, 4, "Primalfin Lookout (Golden)",
 							      "['BATTLECRY', 'DISCOVER']", "MURLOC", "COMMON", 5, "MINION"));
     cards.emplace("Primalfin Lookout (Golden)", primalfin_gold);
+
+    // Q
+    cards.emplace("Qiraji Harbinger", std::make_shared<BgBaseCard>(5, "NEUTRAL", 6, 5, "Qiraji Harbinger",
+								   "", "NEUTRAL", "COMMON", 4, "MINION"));
+    cards.emplace("Qiraji Harbinger (Golden)", std::make_shared<BgBaseCard>(10, "NEUTRAL", 6, 10, "Qiraji Harbinger (Golden)",
+									    "", "NEUTRAL", "COMMON", 4, "MINION"));
 
     // R
     cards.emplace("Rabid Saurolisk", std::make_shared<RabidSaurolisk>());

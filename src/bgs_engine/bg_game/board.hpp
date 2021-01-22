@@ -175,8 +175,13 @@ public:
 	    if (c->is_magnetic() && pos < cards.size()) {
 		auto card_to_mag = cards[pos];
 		if (card_to_mag->get_race() == "MECHANICAL") {
-		    card_to_mag->set_attack(card_to_mag->get_attack() + c->get_attack());
-		    card_to_mag->set_health(card_to_mag->get_health() + c->get_health());
+		    card_to_mag->set_base_attack(card_to_mag->get_base_attack() + c->get_base_attack());
+		    card_to_mag->set_base_health(card_to_mag->get_base_health() + c->get_base_health());
+		    card_to_mag->set_poison(c->has_poison() || card_to_mag->has_poison());
+		    card_to_mag->set_divine_shield(c->has_divine_shield() || card_to_mag->has_divine_shield());
+		    card_to_mag->set_taunt(c->has_taunt() || card_to_mag->has_taunt());
+		    card_to_mag->set_reborn(c->has_reborn() || card_to_mag->has_reborn());
+		    card_to_mag->set_windfury(c->has_windfury() || card_to_mag->has_windfury());
 		    card_to_mag->add_to_deathrattle_cards(c);
 		    return total_dmg; // Short circuit this, don't want to insert
 		}

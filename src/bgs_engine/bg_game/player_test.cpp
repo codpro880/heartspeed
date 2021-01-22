@@ -1558,7 +1558,7 @@ TEST(Player, SouthseaStrongarmBattlecry) {
     // Technically can't buy golden minions, this is just a test
     std::vector<std::string> minions({"Salty Looter", "Southsea Strongarm", "Southsea Strongarm (Golden)"});
     player.set_tavern_minions(minions);
-
+    player.set_gold(10);
     player.buy_minion(0);
     player.play_card(0, 0);
     player.buy_minion(0);

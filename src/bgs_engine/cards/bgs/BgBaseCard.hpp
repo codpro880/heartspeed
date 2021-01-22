@@ -169,6 +169,7 @@ public:
     // void multi_summon(int num_summons, Board* b1, bool from_hand = false);
     void multi_summon(int num_summons, Player* p1, bool from_hand = false);
     virtual void on_sell(Player* p1);
+    virtual void card_bought_trigger(Player*, std::shared_ptr<BgBaseCard>) { }
     void add_to_deathrattle_cards(std::shared_ptr<BgBaseCard> c) {
 	deathrattle_cards.push_back(c);
     }

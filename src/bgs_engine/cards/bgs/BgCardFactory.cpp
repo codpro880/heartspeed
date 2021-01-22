@@ -210,10 +210,8 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> cave_hydra_golden(new BgBaseCard(4, "BEAST", 3, 8, "Cave Hydra (Golden)",
 								    "['CLEAVE']", "BEAST", "", 4, "MINION"));
     cards.emplace("Cave Hydra (Golden)", cave_hydra_golden);
-    cards.emplace("Cap'n Hoggarr", std::make_shared<BgBaseCard>(6, "NEUTRAL", 6, 6,  "Cap'n Hoggarr",
-								"['TRIGGER_VISUAL']", "PIRATE", "", 5, "MINION"));
-    cards.emplace("Cap'n Hoggarr (Golden)", std::make_shared<BgBaseCard>(12, "NEUTRAL", 6, 12, "Cap'n Hoggarr (Golden)",
-									 "['TRIGGER_VISUAL']", "PIRATE", "", 5, "MINION"));
+    cards.emplace("Cap'n Hoggarr", std::make_shared<CapnHoggarr>());
+    cards.emplace("Cap'n Hoggarr (Golden)", std::make_shared<CapnHoggarrGolden>());
     // Handled in BgBaseCard...TODO: Get better "trigger all" sort of effect going...
     cards.emplace("Champion of Y'Shaarj", std::make_shared<BgBaseCard>(2, "NEUTRAL", 4, 2,  "Champion of Y'Shaarj",
 								       "['TRIGGER_VISUAL']", "NEUTRAL", "", 4, "MINION"));

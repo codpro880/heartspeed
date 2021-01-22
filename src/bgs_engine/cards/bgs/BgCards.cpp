@@ -566,6 +566,17 @@ void HeraldOfFlameGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
     }
 }
 
+void CapnHoggarr::card_bought_trigger(Player* p1, std::shared_ptr<BgBaseCard> card_bought) {
+    if (card_bought->get_race() != "PIRATE") return;
+    p1->add_gold(1);
+}
+
+void CapnHoggarrGolden::card_bought_trigger(Player* p1, std::shared_ptr<BgBaseCard> card_bought) {
+    if (card_bought->get_race() != "PIRATE") return;
+    p1->add_gold(2);
+}
+
+
 void Houndmaster::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "BEAST") {
 	c->set_attack(c->get_attack() + 2);

@@ -508,6 +508,46 @@ TEST(Player, DefenderOfArgusBattlecry) {
     EXPECT_FALSE(player.get_board()->get_cards()[4]->has_taunt());
 }
 
+TEST(Player, FacelessTaverngoerTargettedBattlecry) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Faceless Taverngoer"),
+	 f.get_card("Faceless Taverngoer (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    //player.buy_card(tidecaller); // TODO: Impl bobs tav
+    auto hand = player.get_hand();
+    std::vector<std::string> bobs_minions
+	{
+	 "Bronze Warden",
+	 "Bronze Warden (Golden)"
+	};
+    player.set_tavern_minions(bobs_minions);;
+
+    // It's pretty rare to have a gold minion in bobs tav,
+    // but it can happen w/ the new darkmoon prizes.
+    player.play_card(0, 1, 0); // Non golden faceless targets golden warden, but should stay non golden...
+    player.play_card(0, 0, 1); // Golden faceless targets non-golden warden, but should turn golden
+    EXPECT_EQ(player.get_hand().size(), 0);
+    EXPECT_EQ(player.get_board()->size(), 2);
+    auto bronze_warden = player.get_board()->get_cards()[0];
+    EXPECT_EQ(bronze_warden->get_name(), "Bronze Warden");
+    EXPECT_EQ(bronze_warden->get_attack(), 2);
+    EXPECT_EQ(bronze_warden->get_health(), 1);
+    EXPECT_EQ(bronze_warden->get_tavern_tier(), 3);
+    EXPECT_TRUE(bronze_warden->has_reborn());
+    EXPECT_TRUE(bronze_warden->has_divine_shield());
+    auto bronze_warden_golden = player.get_board()->get_cards()[1];
+    EXPECT_EQ(bronze_warden_golden->get_name(), "Bronze Warden (Golden)");
+    EXPECT_EQ(bronze_warden_golden->get_attack(), 4);
+    EXPECT_EQ(bronze_warden_golden->get_health(), 2);
+    EXPECT_EQ(bronze_warden_golden->get_tavern_tier(), 3);
+    EXPECT_TRUE(bronze_warden_golden->has_reborn());
+    EXPECT_TRUE(bronze_warden_golden->has_divine_shield());
+}
+
 TEST(Player, FelfinNavigatorBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

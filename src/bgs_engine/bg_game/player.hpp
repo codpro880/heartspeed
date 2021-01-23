@@ -5,10 +5,11 @@
 #include <string>
 #include <vector>
 
-
 #include "board.hpp"
 #include "hand.hpp"
 #include "bobs_tavern.hpp"
+
+#include "../cards/bgs/BgCardFactory.hpp"
 
 class Player {
 public:
@@ -134,10 +135,17 @@ public:
 	if (card->get_race() == "ELEMENTAL") {
 	    elementals_played_this_turn += 1;
 	}
-	auto target = board->get_cards()[target_pos];
 	// TODO: Enforce valid targets (e.g. MUST pick valid target if available)
+	std::shared_ptr<BgBaseCard> target;
+	if (card->get_name() == "Faceless Taverngoer" || card->get_name() == "Faceless Taverngoer (Golden)") {
+	    auto minions = tavern->get_current_minions();
+	    BgCardFactory f;
+	    target = f.get_card(minions[target_pos]);
+	}
+	else {
+	    target = board->get_cards()[target_pos];
+	}
 	auto dmg_taken = board->insert_card(board_pos, card, true);
-	//floating_watcher_hook(board.get(), dmg_taken);
 	take_damage(dmg_taken);
 	card->targeted_battlecry(target, this);
 	hand.remove(card);

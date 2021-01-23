@@ -271,6 +271,22 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<DreadAdmiralElizaGolden>(*this); } // boilerplate that every drattle needs...
 };
 
+class FacelessTaverngoer : public TargetedBattlecryCard {
+public:
+    FacelessTaverngoer() : BgBaseCard(4, "NEUTRAL", 4, 4, "Faceless Taverngoer",
+				      "['BATTLECRY']", "", "COMMON", 5, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<FacelessTaverngoer>(*this); } // boilerplate that every drattle needs...
+    void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+};
+
+class FacelessTaverngoerGolden : public TargetedBattlecryCard {
+public:
+    FacelessTaverngoerGolden() : BgBaseCard(8, "NEUTRAL", 4, 8, "Faceless Taverngoer (Golden)",
+					    "['BATTLECRY']", "", "COMMON", 5, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<FacelessTaverngoerGolden>(*this); } // boilerplate that every drattle needs...
+    void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+};
+
 class FelfinNavigator : public BattlecryCard {
 public:
     FelfinNavigator() : BgBaseCard(4, "NEUTRAL", 4, 4, "Felfin Navigator",

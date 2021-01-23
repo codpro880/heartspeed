@@ -292,6 +292,8 @@ void BgCardFactory::init_cards() {
     // 				       "['SECRET']", "", "RARE", -1, "SPELL"));
 
     // F
+    cards.emplace("Faceless Taverngoer", std::make_shared<FacelessTaverngoer>());
+    cards.emplace("Faceless Taverngoer (Golden)", std::make_shared<FacelessTaverngoerGolden>());
     cards.emplace("Felfin Navigator", std::make_shared<FelfinNavigator>());
     cards.emplace("Felfin Navigator (Golden)", std::make_shared<FelfinNavigatorGolden>());
     cards.emplace("Fiendish Servant", std::make_shared<FiendishServant>());

@@ -1,3 +1,5 @@
+#include <string>
+
 #include "../test/googletest/include/gtest/gtest.h"
 
 #include "player.hpp"
@@ -241,6 +243,30 @@ TEST(BobsTavern, GivesPlayerALotMoreThanNormalGoldWhenFreedealingGamblerSold) {
     player->sell_minion(0);
     // 3 from non golden, 6 from golden
     EXPECT_EQ(player->get_gold(), 9);
+}
+
+TEST(BobsTavern, GivesBackOneGoldIfHoggarrOnBoardAndPirateBought) {
+    BgCardFactory f;
+    std::vector<std::string> tav_cards
+	{
+	 "Freedealing Gambler"
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > board_cards
+	{
+	 f.get_card("Cap'n Hoggarr"),
+	 f.get_card("Cap'n Hoggarr (Golden)"),
+	};
+    auto on_board = std::make_shared<Board>(board_cards);
+    auto player = std::make_unique<Player>(on_board, "Test");
+    player->set_gold(2); // Set to 2 to make sure we get refunded, but can't buy
+    player->set_tavern_minions(tav_cards);
+    player->buy_minion(0); // Try to buy freedealing, should fail
+    EXPECT_EQ(player->get_hand().get_cards().size(), 0);
+    player->set_gold(3);
+    player->buy_minion(0);
+    EXPECT_EQ(player->get_gold(), 3); // One from normal hoggarr, two from golden
+    EXPECT_EQ(player->get_hand().get_cards().size(), 1);
+    EXPECT_EQ(player->get_hand().get_cards()[0]->get_race(), "PIRATE");
 }
 
 TEST(BobsTavern, CanGiveStewardOfTimeBuffAndBuffIsRemovedOnRefresh) {

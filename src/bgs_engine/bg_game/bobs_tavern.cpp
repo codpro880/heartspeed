@@ -36,6 +36,7 @@ void BobsTavern::buy_minion(int pos) {
 }
 
 void BobsTavern::buy_minion(std::string minion) {
+    if (player->get_gold() < 3) return;
     auto it = std::find(current_minions.begin(), current_minions.end(), minion);
     if (it != current_minions.end()) {
 	current_minions.erase(it);
@@ -53,6 +54,9 @@ void BobsTavern::buy_minion(std::string minion) {
     }
     // TODO: Add special buy mechanics like hogger
     player->lose_gold(3);
+    for (auto c : player->get_board()->get_cards()) {
+	c->card_bought_trigger(player, card);
+    }
 }
 
 bool BobsTavern::tavern_up(int turns_at_current_tier) {

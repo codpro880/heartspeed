@@ -247,6 +247,17 @@ void BloodsailCannoneerGolden::do_battlecry(Player* p1) {
     }
 }
 
+
+void CapnHoggarr::card_bought_trigger(Player* p1, std::shared_ptr<BgBaseCard> card_bought) {
+    if (card_bought->get_race() != "PIRATE") return;
+    p1->add_gold(1);
+}
+
+void CapnHoggarrGolden::card_bought_trigger(Player* p1, std::shared_ptr<BgBaseCard> card_bought) {
+    if (card_bought->get_race() != "PIRATE") return;
+    p1->add_gold(2);
+}
+
 void CobaltScalebane::end_turn_mechanic(Player* p1) {
     buff_attack_end_turn(p1, 3, this);
 }
@@ -384,6 +395,60 @@ void DjinniGolden::do_deathrattle(Player* p1, Player* p2) {
 
 std::shared_ptr<BgBaseCard> DjinniGolden::summon() {
     return dj.summon();
+}
+
+bool hasEnding (std::string const &fullString, std::string const &ending) {
+    if (fullString.length() >= ending.length()) {
+	std::cerr << fullString << " has ending " << ending << std::endl;
+        return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
+    } else {
+	std::cerr << fullString << " does not have ending " << ending << std::endl;
+        return false;
+    }
+}
+
+void faceless_taverngoer_targeted_battlecry(BgBaseCard* _this,
+					    std::shared_ptr<BgBaseCard> c,
+					    bool golden) {
+    auto name = c->get_name();
+    if (golden && !hasEnding(name, "(Golden)")) {
+	name += " (Golden)";
+    }
+    else if (!golden && hasEnding(name, "(Golden)")) {
+	auto golden_size = std::string(" (Golden)").size();
+	name.erase(name.end() - golden_size, name.end());
+    }
+    BgCardFactory f;
+    auto copy = f.get_card(name);
+
+    // Can't reassign this unfortunately...
+    // TODO: make tooling to have this break/update if new attr is added to baseclass
+    _this->set_base_attack(copy->get_base_attack());
+    _this->set_attack(copy->get_base_attack());
+    _this->set_card_class(copy->get_card_class());
+    _this->set_divine_shield(copy->has_divine_shield());
+    _this->set_base_health(copy->get_base_health());
+    _this->set_health(copy->get_base_health());
+    _this->set_mechanics(copy->get_mechanics());
+    _this->set_name(copy->get_name());
+    _this->set_poison(copy->has_poison());
+    _this->set_race(copy->get_race());
+    _this->set_rarity(copy->get_rarity());
+    _this->set_tavern_tier(copy->get_tavern_tier());
+    _this->set_taunt(copy->has_taunt());
+    _this->set_type(copy->get_type());
+    _this->set_reborn(copy->has_reborn());
+    _this->set_windfury(copy->has_windfury());
+    _this->set_windfury_active(copy->has_windfury_active());
+}
+					    
+
+void FacelessTaverngoer::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    return faceless_taverngoer_targeted_battlecry(this, c, false);
+}
+
+void FacelessTaverngoerGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
+    return faceless_taverngoer_targeted_battlecry(this, c, true);
 }
 
 void FelfinNavigator::do_battlecry(Player* p1) {
@@ -565,17 +630,6 @@ void HeraldOfFlameGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
 	}
     }
 }
-
-void CapnHoggarr::card_bought_trigger(Player* p1, std::shared_ptr<BgBaseCard> card_bought) {
-    if (card_bought->get_race() != "PIRATE") return;
-    p1->add_gold(1);
-}
-
-void CapnHoggarrGolden::card_bought_trigger(Player* p1, std::shared_ptr<BgBaseCard> card_bought) {
-    if (card_bought->get_race() != "PIRATE") return;
-    p1->add_gold(2);
-}
-
 
 void Houndmaster::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "BEAST") {

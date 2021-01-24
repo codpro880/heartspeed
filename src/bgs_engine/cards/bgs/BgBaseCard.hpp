@@ -147,7 +147,9 @@ public:
     void set_attack(int att) { attack = att; }
     // Base stats can't be affected during combat
     void set_base_attack(int att) { base_attack = att; attack = att; }
+    void set_card_class(std::string _card_class) { card_class = _card_class; }
     void set_death_pos(int dp) { death_pos = dp; }
+    void set_divine_shield(bool s = true) { divine_shield = s; }
     void set_health(int hth) { health = hth; }
     // Base stats can't be affected during combat
     void set_base_health(int hth) {
@@ -155,10 +157,15 @@ public:
 	health += added_health;
 	base_health = hth;
     }
+    void set_mechanics(std::string _mechanics) { mechanics = _mechanics; }
+    void set_name(std::string _name) { name = _name; }
     void set_poison(bool p = true) { is_poison = p; }
-    void set_divine_shield(bool s = true) { divine_shield = s; }
-    void set_taunt(bool t = true) { _has_taunt = t; }
+    void set_race(std::string _race) {race = _race; }
+    void set_rarity(std::string _rarity) {rarity = _rarity; }
     void set_reborn(bool rb = true) {_has_reborn = rb; }
+    void set_tavern_tier(int tav_tier) {tavern_tier = tav_tier; }
+    void set_taunt(bool t = true) { _has_taunt = t; }
+    void set_type(std::string _type) { type = _type; }
     void set_windfury(bool wf = true) { _has_windfury = wf; _has_windfury_active = wf; }
     void set_windfury_active(bool wfa = true) { _has_windfury_active = wfa; }
 

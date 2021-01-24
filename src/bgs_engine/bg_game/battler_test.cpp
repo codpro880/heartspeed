@@ -1241,6 +1241,36 @@ TEST(Battler, NadinaDrattle) {
     EXPECT_EQ(res.damage_taken, 0);
 }
 
+TEST(Battler, NatPagle) {    
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Nat Pagle, Extreme Angler"),
+	 f.get_card("Nat Pagle, Extreme Angler (Golden)")
+	};
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "p1"));
+    std::unique_ptr<Player> p2(new Player(board2, "p2"));
+    p1->set_tavern_tier(4);
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+
+    EXPECT_EQ(res.who_won, "p1");
+    EXPECT_EQ(p1->get_hand().get_cards().size(), (unsigned)3);
+    for (auto c : p1->get_hand().get_cards()) {
+	EXPECT_TRUE(c->get_tavern_tier() <= 4);
+	EXPECT_TRUE(!c->is_golden());
+    }
+}
+
 TEST(Battler, PackLeader) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards

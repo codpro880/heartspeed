@@ -1127,6 +1127,30 @@ private:
     Nadina bag;
 };
 
+class NatPagle : public BgBaseCard {
+public:
+    NatPagle() : BgBaseCard(8, "NEUTRAL", 7, 5, "Nat Pagle, Extreme Angler",
+			    "", "PIRATE", "", 5, "MINION") {}
+    virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       int def_pos,
+			       Player* p1,
+			       Player* p2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<NatPagle>(*this); } // boilerplate that every drattle needs...
+};
+
+class NatPagleGolden : public BgBaseCard {
+public:
+    NatPagleGolden() : BgBaseCard(16, "NEUTRAL", 7, 10, "Nat Pagle, Extreme Angler (Golden)",
+				  "", "PIRATE", "", 5, "MINION") {}
+    virtual void do_postattack(std::shared_ptr<BgBaseCard> defender,
+			       int def_pos,
+			       Player* p1,
+			       Player* p2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<NatPagleGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    NatPagle pagle;
+};
+
 class NathrezimOverseer : public TargetedBattlecryCard {
 public:
     NathrezimOverseer() : BgBaseCard(2, "NEUTRAL", 3, 3, "Nathrezim Overseer",

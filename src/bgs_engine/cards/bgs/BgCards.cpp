@@ -1318,6 +1318,28 @@ void NadinaGolden::do_deathrattle(Player* p1, Player* p2) {
     bag.do_deathrattle(p1, p2);
 }
 
+void NatPagle::do_postattack(std::shared_ptr<BgBaseCard> defender,
+				     int def_pos,
+				     Player* p1,
+				     Player* p2) {
+    if (defender->get_health() <= 0) {
+	BgCardFactory f;
+	auto cur_tav_tier = p1->get_tavern_tier();
+	auto tier_to_chose_from = (RngSingleton::getInstance().get_rand_int() % cur_tav_tier) + 1;
+	auto card_names = f.get_card_names_by_tier()[tier_to_chose_from];
+	auto card_name = card_names[RngSingleton::getInstance().get_rand_int() % card_names.size()];
+	p1->add_card_to_hand(f.get_card(card_name));
+    }
+}
+
+void NatPagleGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
+					   int def_pos,
+					   Player* p1,
+					   Player* p2) {
+    pagle.do_postattack(defender, def_pos, p1, p2);
+    pagle.do_postattack(defender, def_pos, p1, p2);
+}
+
 void NathrezimOverseer::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     if (c->get_race() == "DEMON") {
 	c->set_attack(c->get_attack() + 2);

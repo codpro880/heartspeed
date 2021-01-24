@@ -399,10 +399,8 @@ std::shared_ptr<BgBaseCard> DjinniGolden::summon() {
 
 bool hasEnding (std::string const &fullString, std::string const &ending) {
     if (fullString.length() >= ending.length()) {
-	std::cerr << fullString << " has ending " << ending << std::endl;
         return (0 == fullString.compare (fullString.length() - ending.length(), ending.length(), ending));
     } else {
-	std::cerr << fullString << " does not have ending " << ending << std::endl;
         return false;
     }
 }
@@ -566,7 +564,6 @@ void GoldrinnGolden::do_deathrattle(Player* p1, Player* p2) {
 void HangryDragon::start_turn_mechanic(Player* p1) {
     if (p1->won_last_turn()) {
 	set_base_attack(get_base_attack() + 2);
-	std::cerr << "Settin health to: " << get_health() + 2 << std::endl;
 	set_base_health(get_base_health() + 2);
     }
 }
@@ -1272,6 +1269,31 @@ void mythrax_end_of_turn(Player* p1, int attack_buff_mult, int health_buff_mult,
     auto num_different_races = races.size() - 1;
     this_->set_attack(this_->get_attack() + attack_buff_mult * num_different_races);
     this_->set_health(this_->get_health() + health_buff_mult * num_different_races);
+}
+
+void murozond_battlecry(Player* p1, bool golden) {
+    auto opp_board = p1->get_opponents_last_board();
+    auto opp_cards = opp_board->get_cards();
+    auto card_to_copy =  opp_cards[RngSingleton::getInstance().get_rand_int() % opp_cards.size()];
+    std::string name = card_to_copy->get_name();
+    if (golden && !hasEnding(name, "(Golden)")) {
+	name += " (Golden)";
+    }
+    else if (!golden && hasEnding(name, "(Golden)")) {
+	auto golden_size = std::string(" (Golden)").size();
+	name.erase(name.end() - golden_size, name.end());
+    }
+    BgCardFactory f;
+    auto copy = f.get_card(name);
+    p1->add_card_to_hand(copy);
+}
+
+void Murozond::do_battlecry(Player* p1) {
+    murozond_battlecry(p1, false);
+}
+
+void MurozondGolden::do_battlecry(Player* p1) {
+    murozond_battlecry(p1, true);
 }
 
 void MythraxTheUnraveler::end_turn_mechanic(Player* p1) {

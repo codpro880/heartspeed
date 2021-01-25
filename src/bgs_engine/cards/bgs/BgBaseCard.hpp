@@ -95,7 +95,7 @@ public:
     virtual void do_postbattle(Player*, Player*, std::vector<std::shared_ptr<BgBaseCard>>, std::vector<std::shared_ptr<BgBaseCard>>) {}
 
     // Triggered after a summon occurs, returns damage taken (wrathweave)
-    virtual int mod_summoned(std::shared_ptr<BgBaseCard>, Board*, bool) { return 0; }
+    virtual int mod_summoned(std::shared_ptr<BgBaseCard>, Player*, bool) { return 0; }
 
     // Triggered at start of turn
     virtual void start_turn_mechanic(Player*) {}
@@ -142,7 +142,7 @@ public:
     bool is_golden() const { return name.find("Golden") != std::string::npos; }
     bool is_magnetic() const { return mechanics.find("MODULAR") != std::string::npos; }
 
-    void reborn_self(Board*);
+    void reborn_self(Player*);
 
     void set_attack(int att) { attack = att; }
     // Base stats can't be affected during combat

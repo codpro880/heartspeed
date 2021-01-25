@@ -205,7 +205,7 @@ void BgBaseCard::basic_summon(Player* p1, bool from_hand) {
     return multi_summon(1, p1, from_hand);
 }
 
-void BgBaseCard::reborn_self(Board* b1) {
+void BgBaseCard::reborn_self(Player* p1) {
     auto f = BgCardFactory();    
     auto summoned_card = f.get_card(this->get_name());
     if (summoned_card->get_mechanics().find("DIVINE SHIELD") != std::string::npos) {
@@ -213,7 +213,7 @@ void BgBaseCard::reborn_self(Board* b1) {
     }
     summoned_card->set_reborn(false);
     summoned_card->set_health(1);
-    b1->insert_card(death_pos, summoned_card);
+    p1->get_board()->insert_card(death_pos, summoned_card, p1);
 }
 
 // void BgBaseCard::multi_summon(int num_summons, Player* p1, bool from_hand) {
@@ -246,7 +246,7 @@ void BgBaseCard::multi_summon(int num_summons, Player* p1, bool from_hand) {
 	    insert_pos = b1->get_pos(this) + 1;
 	}
 	if (insert_pos < b1->get_attacker_pos()) b1->increment_attacker_pos();
-	b1->insert_card(insert_pos, summoned_card, from_hand);
+	b1->insert_card(insert_pos, summoned_card, p1, from_hand);
     }
 }
 

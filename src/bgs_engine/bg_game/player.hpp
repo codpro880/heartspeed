@@ -294,6 +294,10 @@ public:
 	// }
     }
 
+    void set_opponents_last_board(std::shared_ptr<Board> b) { opponents_last_board = b; }
+    std::shared_ptr<Board> get_opponents_last_board() { return opponents_last_board; }
+    
+
 private:    
     std::shared_ptr<Board> board;
     int elementals_played_this_turn;
@@ -306,6 +310,7 @@ private:
     std::string name;
     int num_free_refreshes;
     std::shared_ptr<Board> original_board; // Read-only board
+    std::shared_ptr<Board> opponents_last_board; // Read-only board
     int pirates_bought_this_turn;
     int tavern_tier;
     std::shared_ptr<BobsTavern> tavern;

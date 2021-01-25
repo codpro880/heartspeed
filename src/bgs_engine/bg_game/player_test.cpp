@@ -1293,6 +1293,67 @@ TEST(Player, MurlocTidehunterBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[4]->get_name(), "Murloc Scout (Golden)");
 }
 
+TEST(Player, MurozondBattlecry) {
+    auto f = BgCardFactory();
+    std::cerr << " In test... " << std::endl;
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Murozond"),
+	 f.get_card("Murozond (Golden)")
+	};
+    auto in_hand = Hand(hand_cards);
+    std::unique_ptr<Player> p1(new Player(in_hand, "p1"));
+    std::cerr << " Start turn. " << std::endl;
+    p1->start_turn();
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Red Whelp"),
+	 f.get_card("Red Whelp (Golden)"),
+	 f.get_card("Bronze Warden"),
+	 f.get_card("Bronze Warden (Golden)"),
+	 f.get_card("Harvest Golem (Golden)")
+	};
+    std::shared_ptr<Board> board2(new Board(p2_cards));    
+    std::unique_ptr<Player> p2(new Player(board2, "p2"));
+    auto battler = Battler(p1.get(), p2.get(), true);
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "p2");
+    p1->end_turn();
+    
+    p1->start_turn();
+    p1->play_card(0, 0);
+    p1->play_card(0, 1);
+    std::vector<std::string> valid_cards =
+	{
+	 "Murloc Tidehunter",
+	 "Red Whelp",
+	 "Bronze Warden",
+	 "Harvest Golem"
+	};
+    auto valid_cards_gold(valid_cards);
+    auto append_gold = [](auto x)->std::string { return x += " (Golden)"; };
+    std::transform(valid_cards.begin(),
+		   valid_cards.end(),
+		   valid_cards_gold.begin(),
+		   append_gold);
+
+    // First card in hand should be non-golden
+    std::cerr << "FIrst card name: " << p1->get_hand().get_cards()[0]->get_name() << std::endl;
+    std::cerr << "Second card name: " << p1->get_hand().get_cards()[1]->get_name() << std::endl;
+    EXPECT_NE(std::find(valid_cards.begin(),
+			valid_cards.end(),
+			p1->get_hand().get_cards()[0]->get_name()),
+	      valid_cards.end());
+    // Second card in hand should be golden
+    EXPECT_NE(std::find(valid_cards_gold.begin(),
+			valid_cards_gold.end(),
+			p1->get_hand().get_cards()[1]->get_name()),
+	      valid_cards_gold.end());    
+    p1->end_turn();
+}
+
+
 TEST(Player, MythraxTheUnravelerEndOfTurnMechanic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

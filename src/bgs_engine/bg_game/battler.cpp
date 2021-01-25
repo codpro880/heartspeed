@@ -10,6 +10,9 @@
 
 BattleResult Battler::sim_battle(std::string goes_first) {
     auto res = sim_battle(p1, p2, goes_first);
+    // For murozond
+    p1->set_opponents_last_board(p2->get_board());
+    p2->set_opponents_last_board(p1->get_board());
     if (res.who_won == p1->get_name()) {
 	p1->set_won_last_turn();
     }
@@ -72,7 +75,9 @@ BattleResults Battler::sim_battles(int num_battles) {
     for (int bnum = 0; bnum < num_battles; bnum++) {
 	auto player1 = std::make_shared<Player>(p1);
 	auto player2 = std::make_shared<Player>(p2);
-	auto res = sim_battle(player1.get(), player2.get(), "null");
+	auto b = Battler(player1.get(), player2.get());
+	auto res = b.sim_battle();
+	// auto res = sim_battle(player1.get(), player2.get(), "null");
 
 	if (res.who_won == player1->get_name()) {
 	    total_p1_win++;
@@ -97,6 +102,7 @@ BattleResult Battler::sim_battle(Player* p1, Player* p2, std::string goes_first)
     auto b1 = p1->get_board();
     auto b2 = p2->get_board();
     BattleResult res = BattleResult();
+    
     if (b1->empty() && b2->empty()) {
 	res.who_won = "draw";
 	res.damage_taken = 0;
@@ -324,6 +330,7 @@ std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, s
 std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, Player* p1, Player* p2) {
     Board* b1 = p1->get_board().get();
     Board* b2 = p2->get_board().get();
+    
     auto pre_precom_b1_dead = b1->has_died();
     auto pre_precom_b2_dead = b2->has_died();
     

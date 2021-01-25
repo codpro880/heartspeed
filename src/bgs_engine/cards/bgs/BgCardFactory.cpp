@@ -487,20 +487,16 @@ void BgCardFactory::init_cards() {
     cards.emplace("Murloc Tidehunter (Golden)", std::make_shared<MurlocTidehunterGolden>());
     cards.emplace("Murloc Warleader", std::make_shared<MurlocWarleader>());
     cards.emplace("Murloc Warleader (Golden)", std::make_shared<MurlocWarleaderGolden>());
-    cards.emplace("Murozond", std::make_shared<BgBaseCard>(5, "NEUTRAL", 7, 5, "Murozond",
-							   "['BATTLECRY']", "DRAGON", "", 5, "MINION"));
-    cards.emplace("Murozond (Golden)", std::make_shared<BgBaseCard>(10, "NEUTRAL", 7, 10, "Murozond (Golden)",
-								    "['BATTLECRY']", "DRAGON", "", 5, "MINION"));
+    cards.emplace("Murozond", std::make_shared<Murozond>());
+    cards.emplace("Murozond (Golden)", std::make_shared<MurozondGolden>());
     cards.emplace("Mythrax the Unraveler", std::make_shared<MythraxTheUnraveler>());
     cards.emplace("Mythrax the Unraveler (Golden)", std::make_shared<MythraxTheUnravelerGolden>());
 							   
     // N
     cards.emplace("Nadina", std::make_shared<Nadina>());
     cards.emplace("Nadina (Golden)", std::make_shared<NadinaGolden>());
-    cards.emplace("Nat Pagle, Extreme Angler", std::make_shared<BgBaseCard>(8, "NEUTRAL", 7, 5, "Nat Pagle, Extreme Angler",
-									    "", "PIRATE", "", 5, "MINION"));
-    cards.emplace("Nat Pagle, Extreme Angler (Golden)", std::make_shared<BgBaseCard>(16, "NEUTRAL", 7, 10, "Nat Pagle, Extreme Angler (Golden)",
-										     "", "PIRATE", "", 5, "MINION"));
+    cards.emplace("Nat Pagle, Extreme Angler", std::make_shared<NatPagle>());
+    cards.emplace("Nat Pagle, Extreme Angler (Golden)", std::make_shared<NatPagleGolden>());
     cards.emplace("Nathrezim Overseer", std::make_shared<NathrezimOverseer>());
     cards.emplace("Nathrezim Overseer (Golden)", std::make_shared<NathrezimOverseerGolden>());
     cards.emplace("Nomi, Kitchen Nightmare", std::make_shared<BgBaseCard>(4, "NEUTRAL", 7, 4, "Nomi, Kitchen Nightmare",

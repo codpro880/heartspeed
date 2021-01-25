@@ -1388,6 +1388,61 @@ TEST(Player, MythraxTheUnravelerEndOfTurnMechanic) {
     EXPECT_EQ(mythrax_golden->get_health(), 8 + 16);
 }
 
+TEST(Player, NomiUpdatesBobsTavernWhenElementalsArePlayed) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+	{
+	 f.get_card("Nomi, Kitchen Nightmare"),
+	 f.get_card("Nomi, Kitchen Nightmare (Golden)"),
+	 f.get_card("Sellemental")
+	};
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+
+    player.start_turn();
+    
+    player.play_card(0, 0);
+    player.play_card(0, 1);
+    player.play_card(0, 2); // Buffs tavern elementals +3/+3 (sellemental played)
+    std::vector<std::string> tavern_minions = {"Crackling Cyclone",
+					       "Mal'Ganis",
+					       "Sellemental"};
+    player.set_tavern_minions(tavern_minions);
+    player.set_gold(10);
+    player.buy_minion(0);
+    player.buy_minion(0);
+    player.buy_minion(0);
+    player.play_card(0, 3);
+    player.play_card(0, 4);
+    player.play_card(0, 5);
+
+    // Assert elementals on board unchanged
+    auto sellemental = player.get_board()->get_cards()[2];
+    EXPECT_EQ(sellemental->get_name(), "Sellemental");
+    EXPECT_EQ(sellemental->get_attack(), 2);
+    EXPECT_EQ(sellemental->get_health(), 2);
+
+    // Assert elementals from tavern got +3/+3
+    auto crackling = player.get_board()->get_cards()[3];
+    EXPECT_EQ(crackling->get_name(), "Crackling Cyclone");
+    EXPECT_EQ(crackling->get_attack(), 4 + 3);
+    EXPECT_EQ(crackling->get_health(), 1 + 3);
+
+    // Malganis should not be buffed, not an elemental
+    auto malganis = player.get_board()->get_cards()[4];
+    EXPECT_EQ(malganis->get_name(), "Mal'Ganis");
+    EXPECT_EQ(malganis->get_attack(), 9);
+    EXPECT_EQ(malganis->get_health(), 7);
+
+    // Sellemental from tavern should be buffed +3/+3
+    auto selle_tav = player.get_board()->get_cards()[5];
+    EXPECT_EQ(selle_tav->get_name(), "Sellemental");
+    EXPECT_EQ(selle_tav->get_attack(), 2 + 3);
+    EXPECT_EQ(selle_tav->get_health(), 2 + 3);
+    
+    player.end_turn();
+}
+
 TEST(Player, PartyElementalReactsToElementalCards) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

@@ -93,6 +93,11 @@ public:
 	return tavern->buff_tav_till_refresh(attack_buff, health_buff);
     }
 
+    // Should only be invoked by the nomi card
+    void add_to_nomi_tav_count() {
+	tavern->inc_nomi_counter();
+    }
+
     void add_card_to_hand(std::shared_ptr<BgBaseCard> card) {
 	hand.add_card(card);
     }

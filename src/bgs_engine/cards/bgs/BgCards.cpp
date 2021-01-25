@@ -1352,6 +1352,18 @@ void NathrezimOverseerGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> 
     }
 }
 
+int Nomi::mod_summoned(std::shared_ptr<BgBaseCard> card, Player* p1, bool from_hand) {
+    if (card->get_race() != "ELEMENTAL") return 0;
+    p1->add_to_nomi_tav_count();
+    return 0;
+}
+
+int NomiGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Player* p1, bool from_hand) {
+    nomi.mod_summoned(card, p1, from_hand);
+    nomi.mod_summoned(card, p1, from_hand);
+    return 0;
+}
+
 void OldMurkeye::do_precombat(Player* p1, Player*) {
     Board* b1 = p1->get_board().get();
     int murloc_count = 0;

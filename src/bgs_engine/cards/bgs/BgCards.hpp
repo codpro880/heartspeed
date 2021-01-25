@@ -1167,6 +1167,23 @@ public:
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
 };
 
+class Nomi : public BgBaseCard {
+public:
+    Nomi() : BgBaseCard(4, "NEUTRAL", 7, 4, "Nomi, Kitchen Nightmare",
+			"", "", "", 5, "MINION") {}
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Nomi>(*this); } // boilerplate that every drattle needs...
+};
+
+class NomiGolden : public BgBaseCard {
+public:
+    NomiGolden() : BgBaseCard(8, "NEUTRAL", 7, 8, "Nomi, Kitchen Nightmare (Golden)",
+			      "", "", "", 5, "MINION") {}
+    int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<NomiGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    Nomi nomi;
+};
 
 class OldMurkeye : public BgBaseCard {
 public:

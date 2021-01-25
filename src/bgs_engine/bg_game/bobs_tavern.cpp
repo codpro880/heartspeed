@@ -3,6 +3,7 @@
 #include "../cards/bgs/BgCardFactory.hpp"
 
 BobsTavern::BobsTavern(Player* player) : player(player),
+					 nomi_counter(0),
 					 till_refresh_attack_buff(0),
 					 till_refresh_health_buff(0) {
     init_card_pool();
@@ -48,6 +49,11 @@ void BobsTavern::buy_minion(std::string minion) {
     auto card = f.get_card(minion);
     card->set_attack(card->get_attack() + till_refresh_attack_buff);
     card->set_health(card->get_health() + till_refresh_health_buff);
+    if (card->get_race() == "ELEMENTAL") {
+	std::cerr << "NOmi counter: " << nomi_counter << std::endl;
+	card->set_attack(card->get_attack() + nomi_counter);
+	card->set_health(card->get_health() + nomi_counter);
+    }
     player->add_card_to_hand(card);
     if (card->get_race() == "PIRATE") {
 	player->inc_pirates_bought_this_turn();
@@ -155,4 +161,8 @@ void BobsTavern::init_card_pool() {
 // Should be used for testing only
 void BobsTavern::set_current_minions(std::vector<std::string> current_minions) {
     this->current_minions = current_minions;
+}
+
+void BobsTavern::inc_nomi_counter() {
+    nomi_counter++;
 }

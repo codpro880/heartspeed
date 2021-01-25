@@ -58,6 +58,7 @@ const REGISTER_MUTATION = gql`
 export default function Registration() {
   const classes = useStyles();
 
+  const [errors, setErrors] = useState(null);
   const [formState, setFormState] = useState({
     firstName: '',
     lastName: '',
@@ -66,15 +67,28 @@ export default function Registration() {
     password2: '',
   });
 
-  const [signup, { loading, error, data } ] = useMutation(REGISTER_MUTATION, {
-    variables: {
-      firstName: formState.firstName,
-      lastName: formState.lastName,
-      email: formState.email,
-      password1: formState.password1,
-      password2: formState.password2,
+  const [signup, { loading, error } ] = useMutation(
+    REGISTER_MUTATION, {
+            onCompleted(data) {
+        if (data.register.errors) {
+          setErrors(data.register.errors);
+        } else {
+          setErrors(null);
+        }
+      }
+    }, {
+      variables: {
+        firstName: formState.firstName,
+        lastName: formState.lastName,
+        email: formState.email,
+        password1: formState.password1,
+        password2: formState.password2,
+      }
     }
-  });
+  );
+
+  // if (loading) alert('loading');
+  // if (error) alert ('error');
 
   return (
     <Container component="main" maxWidth="xs">
@@ -93,11 +107,12 @@ export default function Registration() {
                 autoComplete="fname"
                 name="firstName"
                 variant="outlined"
-                required
                 fullWidth
                 id="firstName"
                 label="First Name"
                 autoFocus
+                error={!!errors?.firstName?.length}
+                helperText={errors?.firstName?.[0].message}
                 onBlur={(e) => setFormState({
                     ...formState,
                     firstName: e.target.value
@@ -108,12 +123,13 @@ export default function Registration() {
             <Grid item xs={12} sm={6}>
               <TextField
                 variant="outlined"
-                required
                 fullWidth
                 id="lastName"
                 label="Last Name"
                 name="lastName"
                 autoComplete="lname"
+                error={!!errors?.lastName?.length}
+                helperText={errors?.lastName?.[0].message}
                 onBlur={(e) => setFormState({
                     ...formState,
                     lastName: e.target.value
@@ -130,6 +146,8 @@ export default function Registration() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
+                error={!!errors?.email?.length}
+                helperText={errors?.email?.[0].message}
                 onBlur={(e) => setFormState({
                     ...formState,
                     email: e.target.value
@@ -147,6 +165,8 @@ export default function Registration() {
                 type="password"
                 id="password1"
                 autoComplete="current-password"
+                error={!!errors?.password1?.length}
+                helperText={errors?.password1?.[0].message}
                 onBlur={(e) => setFormState({
                     ...formState,
                     password1: e.target.value
@@ -164,6 +184,8 @@ export default function Registration() {
                 type="password"
                 id="password2"
                 autoComplete="current-password"
+                error={!!errors?.password2?.length}
+                helperText={errors?.password2?.[0].message}
                 onBlur={(e) => setFormState({
                     ...formState,
                     password2: e.target.value

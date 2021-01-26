@@ -121,7 +121,7 @@ public:
     std::string get_type() const { return type; }
 
     bool has_divine_shield() const { return divine_shield; }
-    bool has_deathrattle() const { return mechanics.find("DEATHRATTLE") != std::string::npos; }
+    virtual bool has_deathrattle() const { return mechanics.find("DEATHRATTLE") != std::string::npos; }
     bool has_poison() const { return is_poison; }
     bool has_taunt() const {
 	return _has_taunt || mechanics.find("TAUNT") != std::string::npos;

@@ -801,6 +801,7 @@ public:
     LivingSporeDrattle() : BgBaseCard(0, "N/A", 0, 0, "Living Spore Drattle",
 				      "['DEATHRATTLE']", "", "COMMON", 0, "MINION") {}
     virtual void do_deathrattle(Player* p1, Player* p2) override;
+    bool has_deathrattle() const override { return false; }
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<LivingSporeDrattle>(*this); } // boilerplate that every drattle needs...
     std::shared_ptr<BgBaseCard> summon() override;
 };

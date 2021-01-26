@@ -411,6 +411,16 @@ std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, P
 
     auto pre_b1_dead = b1->has_died();
     auto pre_b2_dead = b2->has_died();
+
+    // Elistra special case...
+    if (defender->has_taunt() &&
+	(b2->contains("Elistra the Immortal") || b2->contains("Elistra the Immortal (Golden)"))) {
+	for (auto c : b2->get_cards()) {
+	    if (c->get_name() == "Elistra the Immortal" || c->get_name() == "Elistra the Immortal (Golden)") {
+		defender = c;
+	    }
+	}
+    }
     
     // Handles drattles
     take_dmg_simul(attacker, defender, p1, p2);

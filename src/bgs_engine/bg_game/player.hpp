@@ -93,6 +93,11 @@ public:
 	return tavern->buff_tav_till_refresh(attack_buff, health_buff);
     }
 
+    // Should only be invoked by the nomi card
+    void add_to_nomi_tav_count() {
+	tavern->inc_nomi_counter();
+    }
+
     void add_card_to_hand(std::shared_ptr<BgBaseCard> card) {
 	hand.add_card(card);
     }
@@ -117,7 +122,7 @@ public:
 	if (card->get_race() == "ELEMENTAL") {
 	    elementals_played_this_turn += 1;
 	}
-	auto dmg_taken = board->insert_card(board_pos, card, true);	
+	auto dmg_taken = board->insert_card(board_pos, card, this, true);	
 	// Responsible for floating watcher effects...
 	// TODO: Make more efficient, does linear searching
 	//floating_watcher_hook(board.get(), dmg_taken);
@@ -145,7 +150,7 @@ public:
 	else {
 	    target = board->get_cards()[target_pos];
 	}
-	auto dmg_taken = board->insert_card(board_pos, card, true);
+	auto dmg_taken = board->insert_card(board_pos, card, this, true);
 	take_damage(dmg_taken);
 	card->targeted_battlecry(target, this);
 	hand.remove(card);

@@ -499,10 +499,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Nat Pagle, Extreme Angler (Golden)", std::make_shared<NatPagleGolden>());
     cards.emplace("Nathrezim Overseer", std::make_shared<NathrezimOverseer>());
     cards.emplace("Nathrezim Overseer (Golden)", std::make_shared<NathrezimOverseerGolden>());
-    cards.emplace("Nomi, Kitchen Nightmare", std::make_shared<BgBaseCard>(4, "NEUTRAL", 7, 4, "Nomi, Kitchen Nightmare",
-									  "", "ELEMENTAL", "", 5, "MINION"));
-    cards.emplace("Nomi, Kitchen Nightmare (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", 7, 4, "Nomi, Kitchen Nightmare (Golden)",
-										   "", "ELEMENTAL", "", 5, "MINION"));
+    cards.emplace("Nomi, Kitchen Nightmare", std::make_shared<Nomi>());
+    cards.emplace("Nomi, Kitchen Nightmare (Golden)", std::make_shared<NomiGolden>());
     
     // O
     cards.emplace("Old Murk-Eye", std::make_shared<OldMurkeye>());

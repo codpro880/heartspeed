@@ -10,6 +10,8 @@
 
 #include "../cards/bgs/BgBaseCard.hpp"
 
+class Player;
+
 class Board {
 public:
     Board(std::vector<std::shared_ptr<BgBaseCard> > cards) : cards(cards), attacker_pos(0) {
@@ -104,7 +106,7 @@ public:
     // 	return -1;
     // }
     
-    void remove_and_mark_dead() {
+    void remove_and_mark_dead(Player* p1) {
 	std::queue<std::shared_ptr<BgBaseCard> > to_remove;
 	for (auto c : cards) {
 	    if (c->is_dead()) {
@@ -123,7 +125,7 @@ public:
 	    }
 	    this->remove(front);
 	    if (front->has_reborn()) {
-		front->reborn_self(this);
+		front->reborn_self(p1);
 		attacker_pos++;
 	    }
 	    _has_died.push_back(front);
@@ -145,53 +147,17 @@ public:
     	}
     	if (at_least_one_dead) {
     	    // Deathrattles can cause other deaths to occur
-    	    remove_and_mark_dead();
-    	    b2->remove_and_mark_dead();
+    	    remove_and_mark_dead(p1);
+    	    b2->remove_and_mark_dead(p2);
     	    do_deathrattles(p1, p2, b2);
     	    b2->do_deathrattles(p2, p1, this);
     	}
     }
     
-    int insert_card(int pos, std::shared_ptr<BgBaseCard> c, bool from_hand=false) {
-	if (cards.size() == (unsigned)7) return 0;
-	int total_dmg = 0;
-	if ((unsigned)pos >= cards.size()) {
-	    // This case can occur w/ certain deathrattle interactions
-	    // TODO: Fix this case...if unstable ghoul nearly wipes board execpt one survivor,
-	    // and mecharoo was to left of surviving card, then we want it in front.
-	    // Else, if mecharoo was to right of surviving card, we
-	    // want it in back...
-	    for (auto card : this->get_cards()) {
-		total_dmg += card->mod_summoned(c, this, from_hand);
-	    }
-	    cards.push_back(c);
-	    card_names.insert(c->get_name());
-	    // c->do_battlecry(this);
-	}
-	else{
-	    for (auto card : this->get_cards()) {
-		total_dmg += card->mod_summoned(c, this, from_hand);
-	    }
-	    if (c->is_magnetic() && pos < cards.size()) {
-		auto card_to_mag = cards[pos];
-		if (card_to_mag->get_race() == "MECHANICAL") {
-		    card_to_mag->set_base_attack(card_to_mag->get_base_attack() + c->get_base_attack());
-		    card_to_mag->set_base_health(card_to_mag->get_base_health() + c->get_base_health());
-		    card_to_mag->set_poison(c->has_poison() || card_to_mag->has_poison());
-		    card_to_mag->set_divine_shield(c->has_divine_shield() || card_to_mag->has_divine_shield());
-		    card_to_mag->set_taunt(c->has_taunt() || card_to_mag->has_taunt());
-		    card_to_mag->set_reborn(c->has_reborn() || card_to_mag->has_reborn());
-		    card_to_mag->set_windfury(c->has_windfury() || card_to_mag->has_windfury());
-		    card_to_mag->add_to_deathrattle_cards(c);
-		    return total_dmg; // Short circuit this, don't want to insert
-		}
-	    }
-	    cards.insert(cards.begin() + pos, c);
-	    card_names.insert(c->get_name());   
-	    // c->do_battlecry(this);
-	}
-	return total_dmg;
-    }
+    int insert_card(int pos,
+		    std::shared_ptr<BgBaseCard> c,
+		    Player* player,
+		    bool from_hand=false);
     
     std::vector<std::shared_ptr<BgBaseCard> > const get_cards() const { return cards;  } // TODO: Make this an iterator
     

@@ -264,8 +264,8 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
 	}
     }
     
-    b1->remove_and_mark_dead();
-    b2->remove_and_mark_dead();
+    b1->remove_and_mark_dead(p1);
+    b2->remove_and_mark_dead(p2);
 
     // TODO: Ordering seems to be a coin flip?
     b1->do_deathrattles(p1, p2, b2);
@@ -288,8 +288,8 @@ void BoardBattler::take_dmg_simul(std::vector<std::shared_ptr<BgBaseCard>> cards
 	}
     }    
 
-    b1->remove_and_mark_dead();
-    b2->remove_and_mark_dead();
+    b1->remove_and_mark_dead(p1);
+    b2->remove_and_mark_dead(p2);
 
     // TODO: Ordering seems to be a coin flip?
     b1->do_deathrattles(p1, p2, b2);

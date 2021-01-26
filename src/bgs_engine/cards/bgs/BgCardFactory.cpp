@@ -287,9 +287,20 @@ void BgCardFactory::init_cards() {
     // E
     std::shared_ptr<BgBaseCard> effigy(new BgBaseCard(-1, "MAGE", 3, -1, "Effigy",
     						    "['SECRET']", "", "RARE", -1, "SPELL"));
-    cards.emplace("Effigy", effigy);
+    cards.emplace("Effigy", effigy);    
     // cards.emplace("Effigy", BgBaseCard(-1, "MAGE", 3, -1, "Effigy",
     // 				       "['SECRET']", "", "RARE", -1, "SPELL"));
+    auto elistra = std::make_shared<BgBaseCard>(4, "NEUTRAL", 8, 4, "Elistra the Immortal",
+						"", "", "", 6, "MINION");
+    elistra->set_reborn();
+    elistra->set_divine_shield();
+    cards.emplace("Elistra the Immortal", elistra);
+
+    auto elistra_gold = std::make_shared<BgBaseCard>(8, "NEUTRAL", 8, 8, "Elistra the Immortal",
+						     "", "", "", 6, "MINION");
+    elistra_gold->set_reborn();
+    elistra_gold->set_divine_shield();
+    cards.emplace("Elistra the Immortal (Golden)", elistra_gold);
 
     // F
     cards.emplace("Faceless Taverngoer", std::make_shared<FacelessTaverngoer>());

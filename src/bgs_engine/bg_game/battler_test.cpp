@@ -429,6 +429,42 @@ TEST(Battler, DreadAdmiralEliza) {
     EXPECT_EQ(res.who_won, "draw");
 }
 
+TEST(Battler, ElistraTheImmortal) {
+    auto f = BgCardFactory();
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_taunt();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+	{
+	 f.get_card("Elistra the Immortal"),
+	 th
+	};
+    // Set attacks high enough to kill elistra (she has divine and reborn)
+    auto elistra_health = f.get_card("Elistra the Immortal")->get_health();
+    auto th1 = f.get_card("Murloc Tidehunter");
+    th1->set_attack(elistra_health);
+    auto th2 = f.get_card("Murloc Tidehunter");
+    th2->set_attack(elistra_health);
+    auto th3 = f.get_card("Murloc Tidehunter");
+    th3->set_attack(elistra_health);
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+	{
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter")
+	};
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "p1"));
+    std::unique_ptr<Player> p2(new Player(board2, "p2"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+
+    // Murloc and Elistra should both be alive since
+    // Elistra absorbs taunt attacks
+    EXPECT_EQ(res.who_won, "p1");
+    EXPECT_EQ(p1->get_board()->get_cards().size(), (unsigned)2);
+}
+
 TEST(Battler, FiendishServantGoldenDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards

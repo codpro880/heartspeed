@@ -200,11 +200,13 @@ public:
     }
 
     void buy_minion(std::string minion) {
-	return tavern->buy_minion(minion);
+	tavern->buy_minion(minion);
+	check_for_triples();
     }
     
     void buy_minion(int pos) {
-	return tavern->buy_minion(pos);
+	tavern->buy_minion(pos);
+	check_for_triples();
     }
     
     void sell_minion(int board_bos) {
@@ -299,6 +301,36 @@ public:
 	// }
     }
 
+    std::vector<std::shared_ptr<BgBaseCard>> get_board_and_hand() {
+	auto board_and_hand = get_board()->get_cards();
+	auto hand_cards = get_hand().get_cards();
+	// Concat board/hand
+	board_and_hand.insert(board_and_hand.end(),
+			      hand_cards.begin(),
+			      hand_cards.end());
+	return board_and_hand;
+    }
+
+    void check_for_triples() {
+	std::unordered_map<std::string, int> minions_counts;
+	auto board_and_hand = get_board_and_hand();
+	for (auto c : board_and_hand) {
+	    auto it = minions_counts.find(c->get_name());
+	    if (it == minions_counts.end()) {
+		minions_counts[c->get_name()] = 1;
+	    }
+	    else {
+		minions_counts[c->get_name()] += 1;
+	    }
+	}
+
+	for (auto p : minions_counts) {
+	    if (p.second == 3) {
+		_triple_minion(p.first);
+	    }
+	}
+    }
+
     void set_opponents_last_board(std::shared_ptr<Board> b) { opponents_last_board = b; }
     std::shared_ptr<Board> get_opponents_last_board() { return opponents_last_board; }
     
@@ -322,6 +354,38 @@ private:
     bool tavern_is_frozen;
     int turns_at_current_tier;
     bool _won_last_turn;
+
+    void _triple_minion(std::string name) {
+	std::vector<int> hand_indexes;
+	std::vector<int> board_indexes;
+	auto hand_cards = get_hand().get_cards();
+	auto board_cards = get_board()->get_cards();
+	// Typically don't want to remove from a collection that's being iterated over...
+	// so calculate indexes to remove and remove later
+	for (int i = 0; i < hand_cards.size(); i++) {
+	    if (hand_cards[i]->get_name() == name) {
+		hand_indexes.push_back(i);
+	    }
+	}
+	for (int i = 0; i < board_cards.size(); i++) {
+	    if (board_cards[i]->get_name() == name) {
+		board_indexes.push_back(i);
+	    }
+	}
+
+	// Remove by index, not particularly efficient...
+	for (int i = hand_indexes.size() - 1; i >= 0; i--) {
+	    hand.remove(hand_indexes[i]);
+	}
+	for (int i = board_indexes.size() - 1; i >= 0; i--) {
+	    board->remove(i);
+	}
+
+	// Add golden to hand
+	BgCardFactory f;
+	auto gold_card = f.get_card(name + " (Golden)");
+	add_card_to_hand(gold_card);
+    }
 
     // TODO: Make this more efficient
     void floating_watcher_hook(Board* b1, int dmg_taken) {

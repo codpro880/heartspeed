@@ -48,6 +48,19 @@ TEST(Player, CanAndUnfreezeFreezeTavern) {
     player.end_turn();    
 }
 
+TEST(Player, GoldenTripleBasic) {
+    auto player = Player("Test");
+    player.set_gold(9);
+    std::vector<std::string> tavern_minions = {"Sellemental", "Sellemental", "Sellemental"};
+    player.set_tavern_minions(tavern_minions);
+    player.buy_minion(0);
+    player.buy_minion(0);
+    player.buy_minion(0);
+    auto hand_cards = player.get_hand().get_cards();
+    EXPECT_EQ(hand_cards.size(), (unsigned)1);
+    EXPECT_EQ(hand_cards[0]->get_name(), "Sellemental (Golden)");
+}
+
 TEST(Player, AlleycatBattlecryBasic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
@@ -1295,7 +1308,6 @@ TEST(Player, MurlocTidehunterBattlecry) {
 
 TEST(Player, MurozondBattlecry) {
     auto f = BgCardFactory();
-    std::cerr << " In test... " << std::endl;
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
 	{
 	 f.get_card("Murozond"),
@@ -1339,8 +1351,6 @@ TEST(Player, MurozondBattlecry) {
 		   append_gold);
 
     // First card in hand should be non-golden
-    std::cerr << "FIrst card name: " << p1->get_hand().get_cards()[0]->get_name() << std::endl;
-    std::cerr << "Second card name: " << p1->get_hand().get_cards()[1]->get_name() << std::endl;
     EXPECT_NE(std::find(valid_cards.begin(),
 			valid_cards.end(),
 			p1->get_hand().get_cards()[0]->get_name()),

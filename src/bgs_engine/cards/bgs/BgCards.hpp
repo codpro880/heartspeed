@@ -1330,8 +1330,8 @@ public:
 
 class RedWhelpGolden : public BgBaseCard {
 public:
-    RedWhelpGolden() : BgBaseCard(1, "NEUTRAL", 1, 2, "Red Whelp",
-			       "['TRIGGER_VISUAL']", "DRAGON", "", 1, "MINION") {}
+    RedWhelpGolden() : BgBaseCard(2, "NEUTRAL", 1, 4, "Red Whelp (Golden)",
+				  "['TRIGGER_VISUAL']", "DRAGON", "", 1, "MINION") {}
     virtual void do_precombat(Player* p1, Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RedWhelpGolden>(*this); } // boilerplate that every drattle needs...
 private:

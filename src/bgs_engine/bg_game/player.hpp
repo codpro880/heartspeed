@@ -227,6 +227,8 @@ public:
 	for (auto c : board->get_cards()) {
 	    c->start_turn_mechanic(this);
 	}
+	// Effects like Djini can cause tripling
+	check_for_triples();
 	gold = max_gold;
 	pirates_bought_this_turn = 0;
 	elementals_played_this_turn = 0;
@@ -301,13 +303,21 @@ public:
 	// }
     }
 
-    std::vector<std::shared_ptr<BgBaseCard>> get_board_and_hand() {
+    std::vector<std::shared_ptr<BgBaseCard>> get_board_and_hand(bool golden=false) {
 	auto board_and_hand = get_board()->get_cards();
 	auto hand_cards = get_hand().get_cards();
 	// Concat board/hand
 	board_and_hand.insert(board_and_hand.end(),
 			      hand_cards.begin(),
 			      hand_cards.end());
+	if (golden) return board_and_hand;
+	
+	for (int i = board_and_hand.size() - 1; i >= 0; i--) {
+	    auto is_golden = board_and_hand[i]->get_name().find("(Golden)") != std::string::npos;
+	    if (is_golden) {
+		board_and_hand.erase(board_and_hand.begin() + i);
+	    }
+	}
 	return board_and_hand;
     }
 
@@ -360,6 +370,9 @@ private:
 	std::vector<int> board_indexes;
 	auto hand_cards = get_hand().get_cards();
 	auto board_cards = get_board()->get_cards();
+	for (auto c : board_cards) {
+	    std::cerr << "Board before removal: " << c->get_name() << std::endl;
+	}
 	// Typically don't want to remove from a collection that's being iterated over...
 	// so calculate indexes to remove and remove later
 	for (int i = 0; i < hand_cards.size(); i++) {
@@ -375,10 +388,12 @@ private:
 
 	// Remove by index, not particularly efficient...
 	for (int i = hand_indexes.size() - 1; i >= 0; i--) {
+	    std::cerr << "Removing " << i << " from hand" << std::endl;
 	    hand.remove(hand_indexes[i]);
 	}
 	for (int i = board_indexes.size() - 1; i >= 0; i--) {
-	    board->remove(i);
+	    std::cerr << "Removing " << i << " from board" << std::endl;
+	    board->remove(board_indexes[i]);
 	}
 
 	// Add golden to hand

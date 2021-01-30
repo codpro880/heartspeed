@@ -61,6 +61,32 @@ TEST(Player, GoldenTripleBasic) {
     EXPECT_EQ(hand_cards[0]->get_name(), "Sellemental (Golden)");
 }
 
+TEST(Player, GoldenTripleWhenSummoning) {
+    BgCardFactory f;
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+	{
+	 f.get_card("Tabbycat"),
+	 f.get_card("Tabbycat")
+	};
+    std::shared_ptr<Board> board1(new Board(b1_cards));
+    auto player = Player(board1, "Test");
+    player.set_gold(3);
+    std::vector<std::string> tavern_minions = {"Alleycat"};
+    player.set_tavern_minions(tavern_minions);
+    player.buy_minion(0);
+    player.play_card(0, 0);
+    auto hand_cards = player.get_hand().get_cards();
+    auto board_cards = player.get_board()->get_cards();
+    EXPECT_EQ(hand_cards.size(), (unsigned)1);
+    EXPECT_EQ(board_cards.size(), (unsigned)1);
+    EXPECT_EQ(hand_cards[0]->get_name(), "Tabbycat (Golden)");
+    std::cerr << "Board cards size: " << board_cards.size();
+    for (auto c : board_cards) {
+	std::cerr << "Board card after tripling: " << c->get_name() << std::endl;
+    }
+    EXPECT_EQ(board_cards[0]->get_name(), "Alleycat");
+}
+
 TEST(Player, AlleycatBattlecryBasic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards

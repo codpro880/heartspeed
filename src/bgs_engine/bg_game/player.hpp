@@ -287,20 +287,6 @@ public:
     void do_deathrattles(Player* other) {
 	Board* b1 = get_board().get();
 	b1->do_deathrattles(this, other, other->get_board().get());
-	// bool at_least_one_dead = false;
-	// while (!deathrattle_q.empty()) {
-	//     at_least_one_dead = true;
-	//     auto card = deathrattle_q.front();
-	//     deathrattle_q.pop();
-	//     card->deathrattle(this, other);
-	// }
-	// if (at_least_one_dead) {
-	//     // Deathrattles can cause other deaths to occur
-	//     remove_and_mark_dead();
-	//     other->remove_and_mark_dead();
-	//     do_deathrattles(other);
-	//     other->do_deathrattles(this);
-	// }
     }
 
     std::vector<std::shared_ptr<BgBaseCard>> get_board_and_hand(bool golden=false) {
@@ -370,9 +356,6 @@ private:
 	std::vector<int> board_indexes;
 	auto hand_cards = get_hand().get_cards();
 	auto board_cards = get_board()->get_cards();
-	for (auto c : board_cards) {
-	    std::cerr << "Board before removal: " << c->get_name() << std::endl;
-	}
 	// Typically don't want to remove from a collection that's being iterated over...
 	// so calculate indexes to remove and remove later
 	for (int i = 0; i < hand_cards.size(); i++) {
@@ -388,11 +371,9 @@ private:
 
 	// Remove by index, not particularly efficient...
 	for (int i = hand_indexes.size() - 1; i >= 0; i--) {
-	    std::cerr << "Removing " << i << " from hand" << std::endl;
 	    hand.remove(hand_indexes[i]);
 	}
 	for (int i = board_indexes.size() - 1; i >= 0; i--) {
-	    std::cerr << "Removing " << i << " from board" << std::endl;
 	    board->remove(board_indexes[i]);
 	}
 

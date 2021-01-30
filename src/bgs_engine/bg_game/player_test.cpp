@@ -80,10 +80,6 @@ TEST(Player, GoldenTripleWhenSummoning) {
     EXPECT_EQ(hand_cards.size(), (unsigned)1);
     EXPECT_EQ(board_cards.size(), (unsigned)1);
     EXPECT_EQ(hand_cards[0]->get_name(), "Tabbycat (Golden)");
-    std::cerr << "Board cards size: " << board_cards.size();
-    for (auto c : board_cards) {
-	std::cerr << "Board card after tripling: " << c->get_name() << std::endl;
-    }
     EXPECT_EQ(board_cards[0]->get_name(), "Alleycat");
 }
 
@@ -1341,7 +1337,6 @@ TEST(Player, MurozondBattlecry) {
 	};
     auto in_hand = Hand(hand_cards);
     std::unique_ptr<Player> p1(new Player(in_hand, "p1"));
-    std::cerr << " Start turn. " << std::endl;
     p1->start_turn();
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
 	{

@@ -1516,6 +1516,7 @@ TEST(Battler, RedWhelpGoldenPreBattleCondition) {
 	{
 	 f.get_card("Murloc Tidehunter"),
 	 f.get_card("Murloc Tidehunter"),
+	 f.get_card("Murloc Tidehunter"),
 	 f.get_card("Murloc Tidehunter")
 	};
     std::shared_ptr<Board> board1(new Board(p1_cards));

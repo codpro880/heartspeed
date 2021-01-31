@@ -151,6 +151,7 @@ void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
 
 void Alleycat::do_battlecry(Player* p1) {
     basic_summon(p1, true);
+    p1->check_for_triples();
 }
 
 std::shared_ptr<BgBaseCard> Alleycat::summon() {
@@ -1208,6 +1209,7 @@ int MurlocTidecallerGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Playe
 
 void MurlocTidehunter::do_battlecry(Player* p1) {
     basic_summon(p1, true);
+    p1->check_for_triples();
 }
 
 std::shared_ptr<BgBaseCard> MurlocTidehunter::summon() {

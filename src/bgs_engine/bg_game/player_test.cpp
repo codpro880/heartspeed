@@ -48,6 +48,41 @@ TEST(Player, CanAndUnfreezeFreezeTavern) {
     player.end_turn();    
 }
 
+TEST(Player, GoldenTripleBasic) {
+    auto player = Player("Test");
+    player.set_gold(9);
+    std::vector<std::string> tavern_minions = {"Sellemental", "Sellemental", "Sellemental"};
+    player.set_tavern_minions(tavern_minions);
+    player.buy_minion(0);
+    player.buy_minion(0);
+    player.buy_minion(0);
+    auto hand_cards = player.get_hand().get_cards();
+    EXPECT_EQ(hand_cards.size(), (unsigned)1);
+    EXPECT_EQ(hand_cards[0]->get_name(), "Sellemental (Golden)");
+}
+
+TEST(Player, GoldenTripleWhenSummoning) {
+    BgCardFactory f;
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+	{
+	 f.get_card("Tabbycat"),
+	 f.get_card("Tabbycat")
+	};
+    std::shared_ptr<Board> board1(new Board(b1_cards));
+    auto player = Player(board1, "Test");
+    player.set_gold(3);
+    std::vector<std::string> tavern_minions = {"Alleycat"};
+    player.set_tavern_minions(tavern_minions);
+    player.buy_minion(0);
+    player.play_card(0, 0);
+    auto hand_cards = player.get_hand().get_cards();
+    auto board_cards = player.get_board()->get_cards();
+    EXPECT_EQ(hand_cards.size(), (unsigned)1);
+    EXPECT_EQ(board_cards.size(), (unsigned)1);
+    EXPECT_EQ(hand_cards[0]->get_name(), "Tabbycat (Golden)");
+    EXPECT_EQ(board_cards[0]->get_name(), "Alleycat");
+}
+
 TEST(Player, AlleycatBattlecryBasic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
@@ -1295,7 +1330,6 @@ TEST(Player, MurlocTidehunterBattlecry) {
 
 TEST(Player, MurozondBattlecry) {
     auto f = BgCardFactory();
-    std::cerr << " In test... " << std::endl;
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
 	{
 	 f.get_card("Murozond"),
@@ -1303,7 +1337,6 @@ TEST(Player, MurozondBattlecry) {
 	};
     auto in_hand = Hand(hand_cards);
     std::unique_ptr<Player> p1(new Player(in_hand, "p1"));
-    std::cerr << " Start turn. " << std::endl;
     p1->start_turn();
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
 	{
@@ -1339,8 +1372,6 @@ TEST(Player, MurozondBattlecry) {
 		   append_gold);
 
     // First card in hand should be non-golden
-    std::cerr << "FIrst card name: " << p1->get_hand().get_cards()[0]->get_name() << std::endl;
-    std::cerr << "Second card name: " << p1->get_hand().get_cards()[1]->get_name() << std::endl;
     EXPECT_NE(std::find(valid_cards.begin(),
 			valid_cards.end(),
 			p1->get_hand().get_cards()[0]->get_name()),

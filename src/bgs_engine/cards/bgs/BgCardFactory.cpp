@@ -319,10 +319,10 @@ void BgCardFactory::init_cards() {
 								     "['TRIGGER_VISUAL']", "DEMON", "COMMON", 4, "MINION"));
     cards.emplace("Floating Watcher (Golden)", floating_watcher_gold);
     std::shared_ptr<BgBaseCard> foe_reaper(new BgBaseCard(6, "NEUTRAL", 8, 9, "Foe Reaper 4000",
-							  "['CLEAVE']", "MECHANICAL", "LEGENDARY", 6, "Minion"));
+							  "['CLEAVE']", "MECHANICAL", "LEGENDARY", 6, "MINION"));
     cards.emplace("Foe Reaper 4000", foe_reaper);
     std::shared_ptr<BgBaseCard> foe_reaper_gold(new BgBaseCard(12, "NEUTRAL", 8, 18, "Foe Reaper 4000",
-							       "['CLEAVE']", "MECHANICAL", "LEGENDARY", 6, "Minion"));
+							       "['CLEAVE']", "MECHANICAL", "LEGENDARY", 6, "MINION"));
     cards.emplace("Foe Reaper 4000 (Golden)", foe_reaper_gold);
 
     // G
@@ -672,6 +672,7 @@ void BgCardFactory::init_cards() {
     cards.emplace("Tormented Ritualist (Golden)", std::make_shared<TormentedRitualistGolden>());
     cards.emplace("Toxfin", std::make_shared<Toxfin>());
     cards.emplace("Toxfin (Golden)", std::make_shared<ToxfinGolden>());
+    cards.emplace("Triple Discover", std::make_shared<TripleDiscover>());
     // cards.emplace("Treasure Chest", BgBaseCard(0, "NEUTRAL", 2, 2, "Treasure Chest",
     // 					       "", "", "", 1, "MINION"));
     // cards.emplace("Treasure Chest (Golden)", BgBaseCard(0, "NEUTRAL", 2, 2, "Treasure Chest (Golden)",

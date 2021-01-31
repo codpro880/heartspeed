@@ -141,6 +141,8 @@ public:
     bool is_dead() const { return health <= 0; }
     bool is_golden() const { return name.find("Golden") != std::string::npos; }
     bool is_magnetic() const { return mechanics.find("MODULAR") != std::string::npos; }
+    bool is_minion() const { return type.find("MINION") != std::string::npos; }
+    bool is_spell() const { return type.find("SPELL") != std::string::npos; }
 
     void reborn_self(Player*);
 
@@ -182,6 +184,9 @@ public:
     }
 
     virtual void take_damage(int damage, std::string who_from_race, Player*, Player*);
+
+    virtual void cast(Player* p1, uint8_t target) {}
+    virtual std::vector<std::string> get_discover_choices() { return std::vector<std::string>(); }
 
     std::string who_killed_race() const {
 	if (is_dead()) {

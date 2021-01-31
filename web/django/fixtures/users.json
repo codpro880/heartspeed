@@ -6,9 +6,9 @@
           "password": "pbkdf2_sha256$180000$nFcBtiqGnWN9$hf58wNg77oT1BlNKRdATVVvBIa69+dz22fL1JKOKTaA=",
           "last_login": null,
           "is_superuser": false,
-          "first_name": "Michael",
-          "last_name": "Jordan",
-          "email": "mb123@hotmail.com",
+          "first_name": "Ron",
+          "last_name": "Weasley",
+          "email": "weasley91@hotmail.com",
           "is_staff": false,
           "is_active": true
       }
@@ -20,9 +20,9 @@
           "password": "pbkdf2_sha256$180000$nFcBtiqGnWN9$hf58wNg77oT1BlNKRdATVVvBIa69+dz22fL1JKOKTaA=",
           "last_login": null,
           "is_superuser": false,
-          "first_name": "John",
-          "last_name": "Adams",
-          "email": "foundingfather1735@aol.com",
+          "first_name": "Hermione",
+          "last_name": "Granger",
+          "email": "hgranger101@aol.com",
           "is_staff": false,
           "is_active": true
       }
@@ -44,9 +44,8 @@
           "password": "pbkdf2_sha256$180000$nFcBtiqGnWN9$hf58wNg77oT1BlNKRdATVVvBIa69+dz22fL1JKOKTaA=",
           "last_login": null,
           "is_superuser": false,
-          "first_name": "Barack",
-          "last_name": "Obama",
-          "email": "therealbarack@us.gov",
+          "first_name": "Hagrid",
+          "email": "groundskeeper@hogwarts.org",
           "is_staff": false,
           "is_active": true
       }

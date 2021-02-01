@@ -48,7 +48,7 @@ TEST(Player, CanAndUnfreezeFreezeTavern) {
     player.end_turn();    
 }
 
-TEST(Player, GoldenTripleBasic) {
+TEST(Player, GoldenTripleBasicPlaythrough) {
     auto player = Player("Test");
     player.start_turn();
     player.set_gold(9);
@@ -77,9 +77,21 @@ TEST(Player, GoldenTripleBasic) {
 	// Should all be tav 2 since triple was played on tav 1
 	EXPECT_EQ(discover_choice->get_tavern_tier(), 2);
 	discover_choices.insert(choice);
+
+	// Expect that the corresponding choice index has the same name...
+	// TODO: Make a cleaner interface for the RL python/JSON bindings...
+	EXPECT_EQ(discover_choice->get_name(), choice);
     }
     // Expect them all to be unique
     EXPECT_EQ(discover_choices.size(), (unsigned)3);
+
+    // Discover the first one (randomly...?)
+    player.play_card(0, 0);
+    hand_cards = player.get_hand().get_cards();
+    EXPECT_EQ(hand_cards.size(), (unsigned)1);
+    EXPECT_EQ(hand_cards[0]->get_name(),
+	      triple_discover_card->get_discover_choices()[0]);
+    
     player.end_turn();    
 }
 

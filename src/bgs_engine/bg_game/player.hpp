@@ -113,22 +113,20 @@ public:
 	play_card(pos, board_pos);
     }
 
-    void play_card(uint8_t hand_pos, uint8_t board_pos) {
-	if (get_board()->get_cards().size() == (unsigned)7) {
-	    std::cerr << "WARNING: Board is full" << std::endl;
-	    return;
-	}
+    void play_card(uint8_t hand_pos, uint8_t board_pos_or_discover_choice) {
 	auto card = hand.get_cards()[hand_pos];
-	if (card->get_race() == "ELEMENTAL") {
-	    elementals_played_this_turn += 1;
+	if (card->is_minion()) {
+	    play_minion_card(hand_pos, board_pos_or_discover_choice);
 	}
-	auto dmg_taken = board->insert_card(board_pos, card, this, true);	
-	// Responsible for floating watcher effects...
-	// TODO: Make more efficient, does linear searching
-	//floating_watcher_hook(board.get(), dmg_taken);
-	take_damage(dmg_taken, true);
-	card->battlecry(this);
-	hand.remove(card);
+	else {
+	    play_spell_card(hand_pos, board_pos_or_discover_choice);
+	}
+	if (card->is_golden()) {
+	    BgCardFactory f;
+	    auto triple_discover = f.get_card("Triple Discover");
+	    triple_discover->set_tavern_tier(get_tavern_tier());
+	    add_card_to_hand(triple_discover);
+	}
     }
 
     void play_card(uint8_t hand_pos, uint8_t target_pos, uint8_t board_pos) {
@@ -154,6 +152,12 @@ public:
 	take_damage(dmg_taken);
 	card->targeted_battlecry(target, this);
 	hand.remove(card);
+	if (card->is_golden()) {
+	    BgCardFactory f;
+	    auto triple_discover = f.get_card("Triple Discover");
+	    triple_discover->set_tavern_tier(get_tavern_tier());
+	    add_card_to_hand(triple_discover);
+	}
     }
 
     void take_damage(int dmg, bool our_turn=false) {
@@ -402,4 +406,30 @@ private:
 	    }
 	}
     }
+
+        void play_minion_card(uint8_t hand_pos, uint8_t board_pos) {
+	auto card = hand.get_cards()[hand_pos];
+	if (get_board()->get_cards().size() == (unsigned)7) {
+	    std::cerr << "WARNING: Board is full" << std::endl;
+	    return;
+	}
+	if (card->get_race() == "ELEMENTAL") {
+	    elementals_played_this_turn += 1;
+	}
+	auto dmg_taken = board->insert_card(board_pos, card, this, true);	
+	// Responsible for floating watcher effects...
+	// TODO: Make more efficient, does linear searching
+	//floating_watcher_hook(board.get(), dmg_taken);
+	take_damage(dmg_taken, true);
+	card->battlecry(this);
+	hand.remove(card);
+    }
+
+    void play_spell_card(uint8_t hand_pos, uint8_t discover_choice) {
+	auto card = hand.get_cards()[hand_pos];
+    	hand.remove(card);
+    	return card->cast(this, discover_choice);
+	hand.remove(card);
+    }
+
 };

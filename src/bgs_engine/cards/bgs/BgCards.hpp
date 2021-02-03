@@ -42,6 +42,19 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override = 0; // boilerplate that every card needs...
 };
 
+class SpellCard : virtual public BgBaseCard {
+    virtual void cast(Player*, uint8_t target) override = 0;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override = 0; // boilerplate that every card needs...
+};
+
+class DiscoverCard : virtual public SpellCard {
+    virtual void cast(Player*, uint8_t target) override = 0;
+    virtual std::vector<std::string> get_discover_choices() override = 0;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override = 0; // boilerplate that every card needs...
+protected:
+    std::vector<std::string> _choices;
+};
+
 class TargetedBattlecryCard : virtual public BgBaseCard {
 public:
     virtual void targeted_battlecry(std::shared_ptr<BgBaseCard>, Player*) override;
@@ -1843,6 +1856,15 @@ public:
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
 private:
     Toxfin tf;
+};
+
+class TripleDiscover : public DiscoverCard {
+public:
+    TripleDiscover() : BgBaseCard(-1, "NEUTRAL", 0, -1, "Triple Discover",
+				  "['DISCOVER']", "", "", -1, "SPELL") {}
+    void cast(Player* p1, uint8_t choice) override;
+    std::vector<std::string> get_discover_choices() override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<TripleDiscover>(*this); } // boilerplate that every drattle needs...
 };
 
 

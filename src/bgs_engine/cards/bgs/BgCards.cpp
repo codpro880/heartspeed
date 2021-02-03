@@ -23,6 +23,9 @@ void menagerie_bcry(Player* p1,
 		    uint8_t buff_amount,
 		    size_t num_to_buff = 7) { // Default is to buff all
     auto board = p1->get_board();
+    for (auto c : board->get_cards()) {
+	std::cerr << "In bcry, card on board: " << c->get_name() << std::endl;
+    }
     std::unordered_set<std::string> races;
     std::vector<std::shared_ptr<BgBaseCard>> cards_to_buff;
     auto cards = board->get_cards();
@@ -1746,13 +1749,17 @@ void Sellemental::on_sell(Player* p1) {
     auto wd = f.get_card("Water Droplet");
     p1->add_card_to_hand(wd);
     p1->add_gold(1);
+    p1->check_for_triples();
 }
 
 void SellementalGolden::on_sell(Player* p1) {
     BgCardFactory f;
-    auto wd = f.get_card("Water Droplet (Golden)");
-    p1->add_card_to_hand(wd);
+    auto wd1 = f.get_card("Water Droplet");
+    auto wd2 = f.get_card("Water Droplet");
+    p1->add_card_to_hand(wd1);
+    p1->add_card_to_hand(wd2);
     p1->add_gold(1);
+    p1->check_for_triples();
 }
 
 void Siegebreaker::do_precombat(Player* p1, Player*) {
@@ -2048,6 +2055,34 @@ void Toxfin::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
 
 void ToxfinGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     tf.do_targeted_battlecry(c);
+}
+
+void TripleDiscover::cast(Player* p1, uint8_t choice) {
+    set_tavern_tier(p1->get_tavern_tier());
+    auto choice_str = get_discover_choices()[choice];
+    BgCardFactory f;
+    auto choice_card = f.get_card(choice_str);
+    p1->add_card_to_hand(choice_card);
+}
+
+std::vector<std::string> TripleDiscover::get_discover_choices() {
+    if (_choices.size() == 0) {
+	BgCardFactory f;
+	auto cards_by_tier = f.get_card_names_by_tier();
+	auto our_tier = tavern_tier < 6 ? tavern_tier + 1 : tavern_tier;
+	auto choice_cards = cards_by_tier[our_tier];
+
+	std::unordered_set<int> inds;
+	while (inds.size() < 3) {
+	    auto ind = RngSingleton::getInstance().get_rand_int() % choice_cards.size();
+	    inds.insert(ind);
+	}
+
+	for (auto i : inds) {
+	    _choices.push_back(choice_cards[i]);
+	}
+    }
+    return _choices;
 }
 
 void TwilightEmissary::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {

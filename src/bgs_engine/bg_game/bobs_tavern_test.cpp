@@ -214,14 +214,14 @@ TEST(BobsTavern, GivesPlayerWaterDropletCardInHandWhenSellementalSold) {
     auto player = std::make_unique<Player>(in_hand, "Test");
     player->play_card(0, 0);
     player->play_card(0, 1);
-    EXPECT_EQ(player->get_hand().size(), 0);
+    EXPECT_EQ(player->get_hand().size(), 1); // Gold card played
     EXPECT_EQ(player->get_board()->size(), 2);
     player->sell_minion(0);
     player->sell_minion(0);
     // Should have non gold and gold water droplet in hand
     EXPECT_EQ(player->get_gold(), 5); // Note: Players start w/ 3 gold
-    EXPECT_EQ(player->get_hand().size(), 2);
-    EXPECT_EQ(player->get_hand().get_cards()[0]->get_name(), "Water Droplet");
+    EXPECT_EQ(player->get_hand().size(), 2);  // Sellemental should become golden, and discover triple card
+    EXPECT_EQ(player->get_hand().get_cards()[0]->get_name(), "Triple Discover");
     EXPECT_EQ(player->get_hand().get_cards()[1]->get_name(), "Water Droplet (Golden)");
 }
 
@@ -237,7 +237,7 @@ TEST(BobsTavern, GivesPlayerALotMoreThanNormalGoldWhenFreedealingGamblerSold) {
     player->set_gold(0); // Set to 0 so we can test appropriately (10 gold cap)
     player->play_card(0, 0);
     player->play_card(0, 1);
-    EXPECT_EQ(player->get_hand().size(), 0);
+    EXPECT_EQ(player->get_hand().size(), 1); // Gold card played
     EXPECT_EQ(player->get_board()->size(), 2);
     player->sell_minion(0);
     player->sell_minion(0);
@@ -293,14 +293,16 @@ TEST(BobsTavern, CanGiveStewardOfTimeBuffAndBuffIsRemovedOnRefresh) {
     player->buy_minion(0);
 
     // Expect first two cards in hand to have +3/+3, last one not buffed
-    auto first_card = player->get_hand().get_cards()[0];
+    // First card is the discover triple card
+    EXPECT_EQ(player->get_hand().size(), (unsigned)4);
+    auto first_card = player->get_hand().get_cards()[1];
     EXPECT_EQ(first_card->get_attack() - 3, f.get_card(first_card->get_name())->get_attack());
     EXPECT_EQ(first_card->get_health() - 3, f.get_card(first_card->get_name())->get_health());
-    auto second_card = player->get_hand().get_cards()[1];
+    auto second_card = player->get_hand().get_cards()[2];
     EXPECT_EQ(second_card->get_attack() - 3, f.get_card(second_card->get_name())->get_attack());
     EXPECT_EQ(second_card->get_health() - 3, f.get_card(second_card->get_name())->get_health());
     // Expect third card to be same as original
-    auto third_card = player->get_hand().get_cards()[2];
+    auto third_card = player->get_hand().get_cards()[3];
     EXPECT_EQ(third_card->get_attack(), f.get_card(third_card->get_name())->get_attack());
     EXPECT_EQ(third_card->get_health(), f.get_card(third_card->get_name())->get_health());
 }

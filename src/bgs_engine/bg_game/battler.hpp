@@ -56,9 +56,9 @@ private:
     std::string decide_who_goes_first(Board* b1, Board* b2);
     std::string decide_who_goes_first(std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
     BattleResult battle(Player* p1,
-			Player* p2,
-			int p1_counter=0,
-			int p2_counter=0);
+                        Player* p2,
+                        int p1_counter=0,
+                        int p2_counter=0);
     Player* p1;
     Player* p2;
     BoardBattler board_battler;
@@ -68,62 +68,62 @@ private:
 class BattleFrameJsonDump {
 public:
     void dump_to_json(BattleResult bres, std::string filename) {
-	nlohmann::json j;
-	/**
-	   [
-	       {
-	           "b1": {
+        nlohmann::json j;
+        /**
+           [
+               {
+                   "b1": {
                          "MurlocTH": {
-			      "attack": 1,
+                              "attack": 1,
                               "health": 1
-			     }
+                             }
                          }
                }
-	   ]
-	 **/
-	//std::map<std::string, std::map<std::string, std::map<std::string, int>>> backing_data;
-	std::vector<std::pair<Board, Board>> frames(bres.frames);
-	int frame_ind = 0;
-	for (auto frame : frames) {
-	    auto board1 = frame.first;
-	    int card_ind = 0;
-	    j[frame_ind]["b1_turn"] = bres.b1_turn[frame_ind];
-	    j[frame_ind]["attacker_pos"] = bres.attacker_pos[frame_ind];
-	    j[frame_ind]["defender_pos"] = bres.defender_pos[frame_ind];
-	    for (auto card : board1.get_cards()) {
-		j[frame_ind]["b1"][card_ind]["name"] = card->get_name();
-		j[frame_ind]["b1"][card_ind]["attack"] = card->get_attack();
-		j[frame_ind]["b1"][card_ind]["health"] = card->get_health();
-		j[frame_ind]["b1"][card_ind]["has_divine_shield"] = card->has_divine_shield();
-		j[frame_ind]["b1"][card_ind]["has_taunt"] = card->has_taunt();
-		// TODO: Add this in
-		// j[frame_ind]["b1"][card_ind]["has_replicating_menace_magnetic"] = card->has_replicating_menace_magnetic();
-		j[frame_ind]["b1"][card_ind]["has_reborn"] = card->has_reborn();
-		j[frame_ind]["b1"][card_ind]["has_cleave"] = card->has_cleave();
-		j[frame_ind]["b1"][card_ind]["has_windfury"] = card->has_windfury();
-		j[frame_ind]["b1"][card_ind]["has_poison"] = card->has_poison();
-		card_ind++;
-	    }
-	    auto board2 = frame.second;
-	    card_ind = 0;
-	    for (auto card : board2.get_cards()) {
-		j[frame_ind]["b2"][card_ind]["name"] = card->get_name();
-		j[frame_ind]["b2"][card_ind]["attack"] = card->get_attack();
-		j[frame_ind]["b2"][card_ind]["health"] = card->get_health();
-		j[frame_ind]["b2"][card_ind]["has_divine_shield"] = card->has_divine_shield();
-		j[frame_ind]["b2"][card_ind]["has_taunt"] = card->has_taunt();
-		// TODO: Add this in
-		// j[frame_ind]["b2"][card_ind]["has_replicating_menace_magnetic"] = card->has_replicating_menace_magnetic();
-		j[frame_ind]["b2"][card_ind]["has_reborn"] = card->has_reborn();
-		j[frame_ind]["b2"][card_ind]["has_cleave"] = card->has_cleave();
-		j[frame_ind]["b2"][card_ind]["has_windfury"] = card->has_windfury();
-		j[frame_ind]["b2"][card_ind]["has_poison"] = card->has_poison();
-		card_ind++;
-	    }
-	    frame_ind++;
-	}
-	//std::cout << j.dump(4) << std::endl;
-	std::ofstream out(filename);
-	out << j.dump(4);
+           ]
+         **/
+        //std::map<std::string, std::map<std::string, std::map<std::string, int>>> backing_data;
+        std::vector<std::pair<Board, Board>> frames(bres.frames);
+        int frame_ind = 0;
+        for (auto frame : frames) {
+            auto board1 = frame.first;
+            int card_ind = 0;
+            j[frame_ind]["b1_turn"] = bres.b1_turn[frame_ind];
+            j[frame_ind]["attacker_pos"] = bres.attacker_pos[frame_ind];
+            j[frame_ind]["defender_pos"] = bres.defender_pos[frame_ind];
+            for (auto card : board1.get_cards()) {
+                j[frame_ind]["b1"][card_ind]["name"] = card->get_name();
+                j[frame_ind]["b1"][card_ind]["attack"] = card->get_attack();
+                j[frame_ind]["b1"][card_ind]["health"] = card->get_health();
+                j[frame_ind]["b1"][card_ind]["has_divine_shield"] = card->has_divine_shield();
+                j[frame_ind]["b1"][card_ind]["has_taunt"] = card->has_taunt();
+                // TODO: Add this in
+                // j[frame_ind]["b1"][card_ind]["has_replicating_menace_magnetic"] = card->has_replicating_menace_magnetic();
+                j[frame_ind]["b1"][card_ind]["has_reborn"] = card->has_reborn();
+                j[frame_ind]["b1"][card_ind]["has_cleave"] = card->has_cleave();
+                j[frame_ind]["b1"][card_ind]["has_windfury"] = card->has_windfury();
+                j[frame_ind]["b1"][card_ind]["has_poison"] = card->has_poison();
+                card_ind++;
+            }
+            auto board2 = frame.second;
+            card_ind = 0;
+            for (auto card : board2.get_cards()) {
+                j[frame_ind]["b2"][card_ind]["name"] = card->get_name();
+                j[frame_ind]["b2"][card_ind]["attack"] = card->get_attack();
+                j[frame_ind]["b2"][card_ind]["health"] = card->get_health();
+                j[frame_ind]["b2"][card_ind]["has_divine_shield"] = card->has_divine_shield();
+                j[frame_ind]["b2"][card_ind]["has_taunt"] = card->has_taunt();
+                // TODO: Add this in
+                // j[frame_ind]["b2"][card_ind]["has_replicating_menace_magnetic"] = card->has_replicating_menace_magnetic();
+                j[frame_ind]["b2"][card_ind]["has_reborn"] = card->has_reborn();
+                j[frame_ind]["b2"][card_ind]["has_cleave"] = card->has_cleave();
+                j[frame_ind]["b2"][card_ind]["has_windfury"] = card->has_windfury();
+                j[frame_ind]["b2"][card_ind]["has_poison"] = card->has_poison();
+                card_ind++;
+            }
+            frame_ind++;
+        }
+        //std::cout << j.dump(4) << std::endl;
+        std::ofstream out(filename);
+        out << j.dump(4);
     }
 };

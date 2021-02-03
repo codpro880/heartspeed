@@ -72,15 +72,15 @@ TEST(Player, GoldenTripleBasicPlaythrough) {
     EXPECT_EQ(triple_discover_card->get_discover_choices().size(), (unsigned)3);
     std::unordered_set<std::string> discover_choices;
     for (auto choice : triple_discover_card->get_discover_choices()) {
-	BgCardFactory f;	
-	auto discover_choice = f.get_card(choice);
-	// Should all be tav 2 since triple was played on tav 1
-	EXPECT_EQ(discover_choice->get_tavern_tier(), 2);
-	discover_choices.insert(choice);
+        BgCardFactory f;        
+        auto discover_choice = f.get_card(choice);
+        // Should all be tav 2 since triple was played on tav 1
+        EXPECT_EQ(discover_choice->get_tavern_tier(), 2);
+        discover_choices.insert(choice);
 
-	// Expect that the corresponding choice index has the same name...
-	// TODO: Make a cleaner interface for the RL python/JSON bindings...
-	EXPECT_EQ(discover_choice->get_name(), choice);
+        // Expect that the corresponding choice index has the same name...
+        // TODO: Make a cleaner interface for the RL python/JSON bindings...
+        EXPECT_EQ(discover_choice->get_name(), choice);
     }
     // Expect them all to be unique
     EXPECT_EQ(discover_choices.size(), (unsigned)3);
@@ -90,7 +90,7 @@ TEST(Player, GoldenTripleBasicPlaythrough) {
     hand_cards = player.get_hand().get_cards();
     EXPECT_EQ(hand_cards.size(), (unsigned)1);
     EXPECT_EQ(hand_cards[0]->get_name(),
-	      triple_discover_card->get_discover_choices()[0]);
+              triple_discover_card->get_discover_choices()[0]);
     
     player.end_turn();    
 }
@@ -98,10 +98,10 @@ TEST(Player, GoldenTripleBasicPlaythrough) {
 TEST(Player, GoldenTripleWhenSummoning) {
     BgCardFactory f;
     std::vector<std::shared_ptr<BgBaseCard> > b1_cards
-	{
-	 f.get_card("Tabbycat"),
-	 f.get_card("Tabbycat")
-	};
+        {
+         f.get_card("Tabbycat"),
+         f.get_card("Tabbycat")
+        };
     std::shared_ptr<Board> board1(new Board(b1_cards));
     auto player = Player(board1, "Test");
     player.set_gold(3);
@@ -120,10 +120,10 @@ TEST(Player, GoldenTripleWhenSummoning) {
 TEST(Player, AlleycatBattlecryBasic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Alleycat"),
-	 f.get_card("Alleycat (Golden)"),
-	};
+        {
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat (Golden)"),
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     //player.buy_card(tidecaller); // TODO: Impl bobs tav
@@ -144,11 +144,11 @@ TEST(Player, AlleycatBattlecryBasic) {
 TEST(Player, AmalgadonLoneBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Brann Bronzebeard"),
-	 f.get_card("Baron Rivendare"),
-	 f.get_card("Amalgadon")
-	};
+        {
+         f.get_card("Brann Bronzebeard"),
+         f.get_card("Baron Rivendare"),
+         f.get_card("Amalgadon")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -164,13 +164,13 @@ TEST(Player, AmalgadonLoneBattlecry) {
 TEST(Player, AmalgadonMultiBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Murloc Scout"),
-	 f.get_card("Deck Swabbie"),
-	 f.get_card("Baron Rivendare"),
-	 f.get_card("Amalgadon"),
-	 f.get_card("Amalgadon (Golden)"),
-	};
+        {
+         f.get_card("Murloc Scout"),
+         f.get_card("Deck Swabbie"),
+         f.get_card("Baron Rivendare"),
+         f.get_card("Amalgadon"),
+         f.get_card("Amalgadon (Golden)"),
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -189,10 +189,10 @@ TEST(Player, AmalgadonMultiBattlecry) {
 TEST(Player, AnnihilanBattlemasterBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Annihilan Battlemaster"),
-	 f.get_card("Annihilan Battlemaster (Golden)")
-	};
+        {
+         f.get_card("Annihilan Battlemaster"),
+         f.get_card("Annihilan Battlemaster (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     player.take_damage(30);
@@ -217,11 +217,11 @@ TEST(Player, AnnoyoModuleMagnetic) {
     EXPECT_EQ(annoyo->is_magnetic(), true);
     EXPECT_EQ(annoyo_gold->is_magnetic(), true);
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 micro_mummy,
-	 annoyo,
-	 annoyo_gold
-	};
+        {
+         micro_mummy,
+         annoyo,
+         annoyo_gold
+        };
     auto in_hand = Hand(hand_cards);
     std::unique_ptr<Player> p1(new Player(in_hand, "Eudora"));
 
@@ -242,12 +242,12 @@ TEST(Player, AnnoyoModuleMagnetic) {
 TEST(Player, ArcaneAssistantBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Wildfire Elemental"),
-	 f.get_card("Harvest Golem"),
-	 f.get_card("Arcane Assistant (Golden)"),
-	 f.get_card("Arcane Assistant"),
-	};
+        {
+         f.get_card("Wildfire Elemental"),
+         f.get_card("Harvest Golem"),
+         f.get_card("Arcane Assistant (Golden)"),
+         f.get_card("Arcane Assistant"),
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -273,11 +273,11 @@ TEST(Player, ArcaneAssistantBattlecry) {
 TEST(Player, BigfernalReactsToDemonCards) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Bigfernal"),
-	 f.get_card("Bigfernal (Golden)"),
-	 f.get_card("Imprisoner"),
-	};
+        {
+         f.get_card("Bigfernal"),
+         f.get_card("Bigfernal (Golden)"),
+         f.get_card("Imprisoner"),
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -301,11 +301,11 @@ TEST(Player, BigfernalReactsToDemonCards) {
 TEST(Player, BloodsailCannoneerBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Goldgrubber"),
-	 f.get_card("Bloodsail Cannoneer (Golden)"),
-	 f.get_card("Bloodsail Cannoneer")
-	};
+        {
+         f.get_card("Goldgrubber"),
+         f.get_card("Bloodsail Cannoneer (Golden)"),
+         f.get_card("Bloodsail Cannoneer")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -327,13 +327,13 @@ TEST(Player, BloodsailCannoneerBattlecry) {
 TEST(Player, BrannMakesBattlecriesGoOffTwiceAndGoldenThrice) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Murloc Scout"),
-	 f.get_card("Brann Bronzebeard"),
-	 f.get_card("Rockpool Hunter (Golden)"),
-	 f.get_card("Brann Bronzebeard (Golden)"),
-	 f.get_card("Felfin Navigator")
-	};
+        {
+         f.get_card("Murloc Scout"),
+         f.get_card("Brann Bronzebeard"),
+         f.get_card("Rockpool Hunter (Golden)"),
+         f.get_card("Brann Bronzebeard (Golden)"),
+         f.get_card("Felfin Navigator")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     //player.buy_card(tidecaller); // TODO: Impl bobs tav
@@ -368,22 +368,22 @@ TEST(Player, BrannMakesBattlecriesGoOffTwiceAndGoldenThrice) {
 TEST(Player, ChampionOfYShaarjRetainsStats) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > board_cards
-	{
-	 f.get_card("Champion of Y'Shaarj"),
-	 f.get_card("Champion of Y'Shaarj (Golden)"),
-	 f.get_card("Dragonspawn Lieutenant")
-	};
+        {
+         f.get_card("Champion of Y'Shaarj"),
+         f.get_card("Champion of Y'Shaarj (Golden)"),
+         f.get_card("Dragonspawn Lieutenant")
+        };
     std::shared_ptr<Board> board1(new Board(board_cards));
     std::unique_ptr<Player> p1(new Player(board1, "p1"));
     p1->start_turn();
 
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
-	{
-	 f.get_card("Murloc Scout"),
-	 f.get_card("Murloc Scout"),
-	 f.get_card("Murloc Scout"),
-	 f.get_card("Murloc Scout")
-	};
+        {
+         f.get_card("Murloc Scout"),
+         f.get_card("Murloc Scout"),
+         f.get_card("Murloc Scout"),
+         f.get_card("Murloc Scout")
+        };
     std::shared_ptr<Board> board2(new Board(p2_cards));    
     std::unique_ptr<Player> p2(new Player(board2, "p2"));
     auto battler = Battler(p1.get(), p2.get());
@@ -410,10 +410,10 @@ TEST(Player, ChampionOfYShaarjRetainsStats) {
 TEST(Player, CobaltScalebaneEndTurnMechanic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Cobalt Scalebane"),
-	 f.get_card("Cobalt Scalebane (Golden)")
-	};
+        {
+         f.get_card("Cobalt Scalebane"),
+         f.get_card("Cobalt Scalebane (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -433,13 +433,13 @@ TEST(Player, CobaltScalebaneEndTurnMechanic) {
 TEST(Player, CrowdFavoriteReactsToBattlecryCards) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Crowd Favorite"),
-	 f.get_card("Crowd Favorite (Golden)"),
-	 f.get_card("Crystalweaver"),
-	 f.get_card("Coldlight Seer")
+        {
+         f.get_card("Crowd Favorite"),
+         f.get_card("Crowd Favorite (Golden)"),
+         f.get_card("Crystalweaver"),
+         f.get_card("Coldlight Seer")
 
-	};
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -461,14 +461,14 @@ TEST(Player, CrowdFavoriteReactsToBattlecryCards) {
 TEST(Player, CrystalweaverBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Nathrezim Overseer"),
-	 f.get_card("Siegebreaker"),
-	 f.get_card("Crystalweaver (Golden)"),
-	 f.get_card("Coldlight Seer"),
-	 f.get_card("Crystalweaver")
+        {
+         f.get_card("Nathrezim Overseer"),
+         f.get_card("Siegebreaker"),
+         f.get_card("Crystalweaver (Golden)"),
+         f.get_card("Coldlight Seer"),
+         f.get_card("Crystalweaver")
 
-	};
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -498,13 +498,13 @@ TEST(Player, CrystalweaverBattlecry) {
 TEST(Player, ColdlightBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Murloc Scout"),
-	 f.get_card("Murloc Scout"),
-	 f.get_card("Crystalweaver"),
-	 f.get_card("Coldlight Seer (Golden)"),
-	 f.get_card("Coldlight Seer")
-	};
+        {
+         f.get_card("Murloc Scout"),
+         f.get_card("Murloc Scout"),
+         f.get_card("Crystalweaver"),
+         f.get_card("Coldlight Seer (Golden)"),
+         f.get_card("Coldlight Seer")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -534,13 +534,13 @@ TEST(Player, ColdlightBattlecry) {
 TEST(Player, DefenderOfArgusBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Mama Bear"),
-	 f.get_card("Mechano-Egg"),
-	 f.get_card("Murloc Tidecaller"),
-	 f.get_card("Defender of Argus"),
-	 f.get_card("Defender of Argus (Golden)")
-	};
+        {
+         f.get_card("Mama Bear"),
+         f.get_card("Mechano-Egg"),
+         f.get_card("Murloc Tidecaller"),
+         f.get_card("Defender of Argus"),
+         f.get_card("Defender of Argus (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     //player.buy_card(tidecaller); // TODO: Impl bobs tav
@@ -580,19 +580,19 @@ TEST(Player, DefenderOfArgusBattlecry) {
 TEST(Player, FacelessTaverngoerTargettedBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Faceless Taverngoer"),
-	 f.get_card("Faceless Taverngoer (Golden)")
-	};
+        {
+         f.get_card("Faceless Taverngoer"),
+         f.get_card("Faceless Taverngoer (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     std::vector<std::string> bobs_minions
-	{
-	 "Bronze Warden",
-	 "Bronze Warden (Golden)"
-	};
+        {
+         "Bronze Warden",
+         "Bronze Warden (Golden)"
+        };
     player.set_tavern_minions(bobs_minions);;
 
     // It's pretty rare to have a gold minion in bobs tav,
@@ -620,14 +620,14 @@ TEST(Player, FacelessTaverngoerTargettedBattlecry) {
 TEST(Player, FelfinNavigatorBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Coldlight Seer"),
-	 f.get_card("Mama Bear"),
-	 f.get_card("Felfin Navigator"),
-	 f.get_card("Felfin Navigator (Golden)"),
-	 f.get_card("Coldlight Seer"),
-	 f.get_card("Murloc Tidehunter")
-	};
+        {
+         f.get_card("Coldlight Seer"),
+         f.get_card("Mama Bear"),
+         f.get_card("Felfin Navigator"),
+         f.get_card("Felfin Navigator (Golden)"),
+         f.get_card("Coldlight Seer"),
+         f.get_card("Murloc Tidehunter")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -664,11 +664,11 @@ TEST(Player, FelfinNavigatorBattlecry) {
 TEST(Player, FloatingWatcherRespondsToDamageBattlecries) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Floating Watcher"),
-	 f.get_card("Floating Watcher (Golden)"),
-	 f.get_card("Vulgar Homunculus")
-	};
+        {
+         f.get_card("Floating Watcher"),
+         f.get_card("Floating Watcher (Golden)"),
+         f.get_card("Vulgar Homunculus")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -688,10 +688,10 @@ TEST(Player, FloatingWatcherRespondsToDamageBattlecries) {
 TEST(Player, GoldgrubberEndTurnMechanic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Goldgrubber"),
-	 f.get_card("Goldgrubber (Golden)")
-	};
+        {
+         f.get_card("Goldgrubber"),
+         f.get_card("Goldgrubber (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -714,11 +714,11 @@ TEST(Player, GoldgrubberEndTurnMechanic) {
 TEST(Player, HoundmasterBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Mama Bear"),
-	 f.get_card("Houndmaster (Golden)"),
-	 f.get_card("Houndmaster")
-	};
+        {
+         f.get_card("Mama Bear"),
+         f.get_card("Houndmaster (Golden)"),
+         f.get_card("Houndmaster")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -741,10 +741,10 @@ TEST(Player, HoundmasterBattlecry) {
 TEST(Player, HangryDragonStartOfTurnMechanic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Hangry Dragon"),
-	 f.get_card("Hangry Dragon (Golden)"),
-	};
+        {
+         f.get_card("Hangry Dragon"),
+         f.get_card("Hangry Dragon (Golden)"),
+        };
     auto in_hand = Hand(hand_cards);
     std::unique_ptr<Player> p1(new Player(in_hand, "Eudora"));
     
@@ -755,9 +755,9 @@ TEST(Player, HangryDragonStartOfTurnMechanic) {
 
     // If p1 wins, hangries should get buffed
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
-	{
-	 f.get_card("Murloc Tidehunter")
-	};
+        {
+         f.get_card("Murloc Tidehunter")
+        };
     std::shared_ptr<Board> board2(new Board(p2_cards));    
     std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
     auto battler = Battler(p1.get(), p2.get());
@@ -776,10 +776,10 @@ TEST(Player, HangryDragonStartOfTurnMechanic) {
 TEST(Player, IronSenseiEndTurnMechanic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Iron Sensei"),
-	 f.get_card("Iron Sensei (Golden)")
-	};
+        {
+         f.get_card("Iron Sensei"),
+         f.get_card("Iron Sensei (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     player.start_turn();
@@ -802,15 +802,15 @@ TEST(Player, IronSenseiEndTurnMechanic) {
 TEST(Player, KalecgosBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Kalecgos, Arcane Aspect"),
-	 f.get_card("Kalecgos, Arcane Aspect (Golden)"),
-	 f.get_card("Cobalt Scalebane"),
-	 f.get_card("Red Whelp"),
-	 f.get_card("Brann Bronzebeard"),
-	 f.get_card("Coldlight Seer"),
-	 f.get_card("Twilight Emissary")
-	};
+        {
+         f.get_card("Kalecgos, Arcane Aspect"),
+         f.get_card("Kalecgos, Arcane Aspect (Golden)"),
+         f.get_card("Cobalt Scalebane"),
+         f.get_card("Red Whelp"),
+         f.get_card("Brann Bronzebeard"),
+         f.get_card("Coldlight Seer"),
+         f.get_card("Twilight Emissary")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -848,11 +848,11 @@ TEST(Player, KalecgosBattlecry) {
 TEST(Player, KingBagurgleBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Murloc Scout"),
-	 f.get_card("King Bagurgle (Golden)"),
-	 f.get_card("King Bagurgle")
-	};
+        {
+         f.get_card("Murloc Scout"),
+         f.get_card("King Bagurgle (Golden)"),
+         f.get_card("King Bagurgle")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -874,12 +874,12 @@ TEST(Player, KingBagurgleBattlecry) {
 TEST(Player, LieutenantGarrBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Lieutenant Garr (Golden)"),
-	 f.get_card("Lieutenant Garr"),
-	 f.get_card("Cobalt Scalebane"),
-	 f.get_card("Sellemental"),
-	};
+        {
+         f.get_card("Lieutenant Garr (Golden)"),
+         f.get_card("Lieutenant Garr"),
+         f.get_card("Cobalt Scalebane"),
+         f.get_card("Sellemental"),
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -905,22 +905,22 @@ TEST(Player, LieutenantGarrBattlecry) {
 TEST(Player, LightfangMix) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Foe Reaper 4000"),
-	 f.get_card("Harvest Golem"),
-	 f.get_card("Murloc Tidecaller"),
-	 f.get_card("Deck Swabbie"),
-	 f.get_card("Imp Gang Boss"),
-	 f.get_card("Lightfang Enforcer"),
-	 f.get_card("Lightfang Enforcer (Golden)")
-	};
+        {
+         f.get_card("Foe Reaper 4000"),
+         f.get_card("Harvest Golem"),
+         f.get_card("Murloc Tidecaller"),
+         f.get_card("Deck Swabbie"),
+         f.get_card("Imp Gang Boss"),
+         f.get_card("Lightfang Enforcer"),
+         f.get_card("Lightfang Enforcer (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     int total_hand_attack = 0;
     int total_hand_health = 0;
     for (auto card : in_hand.get_cards()) {
-	total_hand_attack += card->get_attack();
-	total_hand_health += card->get_health();
+        total_hand_attack += card->get_attack();
+        total_hand_health += card->get_health();
     }
     
     player.start_turn();
@@ -936,8 +936,8 @@ TEST(Player, LightfangMix) {
     int total_board_attack = 0;
     int total_board_health = 0;
     for (auto card : player.get_board()->get_cards()) {
-	total_board_attack += card->get_attack();
-	total_board_health += card->get_health();
+        total_board_attack += card->get_attack();
+        total_board_health += card->get_health();
     }
 
     // Should see +8/+8 and +16/+16 (golden) total stat change, 4 different types
@@ -948,21 +948,21 @@ TEST(Player, LightfangMix) {
 TEST(Player, LilRagBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Lil' Rag"),
-	 f.get_card("Lil' Rag (Golden)"), // +6/+6 total
-	 f.get_card("Sellemental"), // +3/+3 total
-	 f.get_card("Cave Hydra"), // does nothing
-	 f.get_card("Lieutenant Garr") // +18/+18 total
-	};
+        {
+         f.get_card("Lil' Rag"),
+         f.get_card("Lil' Rag (Golden)"), // +6/+6 total
+         f.get_card("Sellemental"), // +3/+3 total
+         f.get_card("Cave Hydra"), // does nothing
+         f.get_card("Lieutenant Garr") // +18/+18 total
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
     int hand_total_attack = 0;
     int hand_total_health = 0;
     for (auto c : player.get_hand().get_cards()) {
-	hand_total_attack += c->get_attack();
-	hand_total_health += c->get_health();
+        hand_total_attack += c->get_attack();
+        hand_total_health += c->get_health();
     }
 
     player.play_card(0, 0);
@@ -980,8 +980,8 @@ TEST(Player, LilRagBattlecry) {
     int board_total_attack = 0;
     int board_total_health = 0;
     for (auto c : player.get_board()->get_cards()) {
-	board_total_attack += c->get_attack();
-	board_total_health += c->get_health();
+        board_total_attack += c->get_attack();
+        board_total_health += c->get_health();
     }
     const int expected_buff = 6 + 3 + 18;
     EXPECT_EQ(board_total_attack, hand_total_attack + expected_buff);
@@ -991,12 +991,12 @@ TEST(Player, LilRagBattlecry) {
 TEST(Player, MajordomoExecutusEndTurnMechanic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Crackling Cyclone"),
-	 f.get_card("Crackling Cyclone"),
-	 f.get_card("Majordomo Executus"),
-	 f.get_card("Majordomo Executus (Golden)")
-	};
+        {
+         f.get_card("Crackling Cyclone"),
+         f.get_card("Crackling Cyclone"),
+         f.get_card("Majordomo Executus"),
+         f.get_card("Majordomo Executus (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -1035,10 +1035,10 @@ TEST(Player, MajordomoExecutusEndTurnMechanic) {
 TEST(Player, MenagerieMugBattlecryEmpty) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Menagerie Mug"),
-	 f.get_card("Menagerie Mug (Golden)"),
-	};
+        {
+         f.get_card("Menagerie Mug"),
+         f.get_card("Menagerie Mug (Golden)"),
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     //player.buy_card(tidecaller); // TODO: Impl bobs tav
@@ -1062,18 +1062,18 @@ TEST(Player, MenagerieMugBattlecryEmpty) {
 TEST(Player, MenagerieMugBattlecryOne) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Foe Reaper 4000"),
-	 f.get_card("Menagerie Mug"),
-	 f.get_card("Menagerie Mug (Golden)")
-	};
+        {
+         f.get_card("Foe Reaper 4000"),
+         f.get_card("Menagerie Mug"),
+         f.get_card("Menagerie Mug (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     int total_hand_attack = 0;
     int total_hand_health = 0;
     for (auto card : in_hand.get_cards()) {
-	total_hand_attack += card->get_attack();
-	total_hand_health += card->get_health();
+        total_hand_attack += card->get_attack();
+        total_hand_health += card->get_health();
     }
 
     player.play_card(0, 0);
@@ -1082,9 +1082,9 @@ TEST(Player, MenagerieMugBattlecryOne) {
     int total_board_attack = 0;
     int total_board_health = 0;
     for (auto card : player.get_board()->get_cards()) {
-	std::cerr << "Card on board: " << card->get_name() << std::endl;
-	total_board_attack += card->get_attack();
-	total_board_health += card->get_health();
+        std::cerr << "Card on board: " << card->get_name() << std::endl;
+        total_board_attack += card->get_attack();
+        total_board_health += card->get_health();
     }
 
     // Should see +3/+3 total stat change
@@ -1095,20 +1095,20 @@ TEST(Player, MenagerieMugBattlecryOne) {
 TEST(Player, MenagerieMugBattlecryThreeWithTwoSameType) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Foe Reaper 4000"),
-	 f.get_card("Harvest Golem"),
-	 f.get_card("Murloc Tidecaller"),
-	 f.get_card("Menagerie Mug"),
-	 f.get_card("Menagerie Mug (Golden)")
-	};
+        {
+         f.get_card("Foe Reaper 4000"),
+         f.get_card("Harvest Golem"),
+         f.get_card("Murloc Tidecaller"),
+         f.get_card("Menagerie Mug"),
+         f.get_card("Menagerie Mug (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     int total_hand_attack = 0;
     int total_hand_health = 0;
     for (auto card : in_hand.get_cards()) {
-	total_hand_attack += card->get_attack();
-	total_hand_health += card->get_health();
+        total_hand_attack += card->get_attack();
+        total_hand_health += card->get_health();
     }
 
     player.play_card(0, 0);
@@ -1119,8 +1119,8 @@ TEST(Player, MenagerieMugBattlecryThreeWithTwoSameType) {
     int total_board_attack = 0;
     int total_board_health = 0;
     for (auto card : player.get_board()->get_cards()) {
-	total_board_attack += card->get_attack();
-	total_board_health += card->get_health();
+        total_board_attack += card->get_attack();
+        total_board_health += card->get_health();
     }
 
     // Should see +6/+6 total stat change
@@ -1131,22 +1131,22 @@ TEST(Player, MenagerieMugBattlecryThreeWithTwoSameType) {
 TEST(Player, MenagerieMugBattlecryMix) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Foe Reaper 4000"),
-	 f.get_card("Harvest Golem"),
-	 f.get_card("Murloc Tidecaller"),
-	 f.get_card("Deck Swabbie"),
-	 f.get_card("Imp Gang Boss"),
-	 f.get_card("Menagerie Mug"),
-	 f.get_card("Menagerie Mug (Golden)")
-	};
+        {
+         f.get_card("Foe Reaper 4000"),
+         f.get_card("Harvest Golem"),
+         f.get_card("Murloc Tidecaller"),
+         f.get_card("Deck Swabbie"),
+         f.get_card("Imp Gang Boss"),
+         f.get_card("Menagerie Mug"),
+         f.get_card("Menagerie Mug (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     int total_hand_attack = 0;
     int total_hand_health = 0;
     for (auto card : in_hand.get_cards()) {
-	total_hand_attack += card->get_attack();
-	total_hand_health += card->get_health();
+        total_hand_attack += card->get_attack();
+        total_hand_health += card->get_health();
     }
 
     player.play_card(0, 0);
@@ -1159,8 +1159,8 @@ TEST(Player, MenagerieMugBattlecryMix) {
     int total_board_attack = 0;
     int total_board_health = 0;
     for (auto card : player.get_board()->get_cards()) {
-	total_board_attack += card->get_attack();
-	total_board_health += card->get_health();
+        total_board_attack += card->get_attack();
+        total_board_health += card->get_health();
     }
 
     // Should see +9/+9 total stat change
@@ -1171,10 +1171,10 @@ TEST(Player, MenagerieMugBattlecryMix) {
 TEST(Player, MicroMachineStartTurnMechanic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Micro Machine"),
-	 f.get_card("Micro Machine (Golden)")
-	};
+        {
+         f.get_card("Micro Machine"),
+         f.get_card("Micro Machine (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -1198,10 +1198,10 @@ TEST(Player, MicroMachineStartTurnMechanic) {
 TEST(Player, MicroMummyEndTurnMechanic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Micro Mummy"),
-	 f.get_card("Micro Mummy (Golden)")
-	};
+        {
+         f.get_card("Micro Mummy"),
+         f.get_card("Micro Mummy (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -1223,13 +1223,13 @@ TEST(Player, MicroMummyEndTurnMechanic) {
 TEST(Player, MetaltoothLeaperBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Harvest Golem"),
-	 f.get_card("Metaltooth Leaper"),
-	 f.get_card("Metaltooth Leaper (Golden)"),
-	 f.get_card("Kindly Grandmother"),
-	 f.get_card("Kaboom Bot")
-	};
+        {
+         f.get_card("Harvest Golem"),
+         f.get_card("Metaltooth Leaper"),
+         f.get_card("Metaltooth Leaper (Golden)"),
+         f.get_card("Kindly Grandmother"),
+         f.get_card("Kaboom Bot")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     //player.buy_card(tidecaller); // TODO: Impl bobs tav
@@ -1263,10 +1263,10 @@ TEST(Player, MetaltoothLeaperBattlecry) {
 // TEST(Player, DeckSwabbieBattlecry) {
 //     auto f = BgCardFactory();
 //     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-// 	{
-// 	 f.get_card("Deck Swabbie"),
-// 	 f.get_card("Deck Swabbie (Golden)")
-// 	};
+//      {
+//       f.get_card("Deck Swabbie"),
+//       f.get_card("Deck Swabbie (Golden)")
+//      };
 //     auto in_hand = Hand(hand_cards);
 //     auto player = Player(in_hand, "Test");
 //     EXPECT_EQ(player.get_board()->size(), 0);
@@ -1281,13 +1281,13 @@ TEST(Player, MetaltoothLeaperBattlecry) {
 TEST(Player, MoltenRockReactsToElementalCards) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Molten Rock"),
-	 f.get_card("Molten Rock (Golden)"),
-	 f.get_card("Sellemental"),
-	 f.get_card("Coldlight Seer")
+        {
+         f.get_card("Molten Rock"),
+         f.get_card("Molten Rock (Golden)"),
+         f.get_card("Sellemental"),
+         f.get_card("Coldlight Seer")
 
-	};
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -1310,11 +1310,11 @@ TEST(Player, MoltenRockReactsToElementalCards) {
 TEST(Player, MurlocTidecallerAfterMurlocSummoned) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Murloc Tidecaller (Golden)"),
-	 f.get_card("Murloc Tidecaller"),
-	 f.get_card("Murloc Tidecaller")
-	};
+        {
+         f.get_card("Murloc Tidecaller (Golden)"),
+         f.get_card("Murloc Tidecaller"),
+         f.get_card("Murloc Tidecaller")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     //player.buy_card(tidecaller); // TODO: Impl bobs tav
@@ -1338,11 +1338,11 @@ TEST(Player, MurlocTidecallerAfterMurlocSummoned) {
 TEST(Player, MurlocTidehunterBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Murloc Tidecaller"),
-	 f.get_card("Murloc Tidehunter"),
-	 f.get_card("Murloc Tidehunter (Golden)")
-	};
+        {
+         f.get_card("Murloc Tidecaller"),
+         f.get_card("Murloc Tidehunter"),
+         f.get_card("Murloc Tidehunter (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     //player.buy_card(tidecaller); // TODO: Impl bobs tav
@@ -1366,22 +1366,22 @@ TEST(Player, MurlocTidehunterBattlecry) {
 TEST(Player, MurozondBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Murozond"),
-	 f.get_card("Murozond (Golden)")
-	};
+        {
+         f.get_card("Murozond"),
+         f.get_card("Murozond (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     std::unique_ptr<Player> p1(new Player(in_hand, "p1"));
     p1->start_turn();
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
-	{
-	 f.get_card("Murloc Tidehunter"),
-	 f.get_card("Red Whelp"),
-	 f.get_card("Red Whelp (Golden)"),
-	 f.get_card("Bronze Warden"),
-	 f.get_card("Bronze Warden (Golden)"),
-	 f.get_card("Harvest Golem (Golden)")
-	};
+        {
+         f.get_card("Murloc Tidehunter"),
+         f.get_card("Red Whelp"),
+         f.get_card("Red Whelp (Golden)"),
+         f.get_card("Bronze Warden"),
+         f.get_card("Bronze Warden (Golden)"),
+         f.get_card("Harvest Golem (Golden)")
+        };
     std::shared_ptr<Board> board2(new Board(p2_cards));    
     std::unique_ptr<Player> p2(new Player(board2, "p2"));
     auto battler = Battler(p1.get(), p2.get(), true);
@@ -1393,29 +1393,29 @@ TEST(Player, MurozondBattlecry) {
     p1->play_card(0, 0);
     p1->play_card(0, 1);
     std::vector<std::string> valid_cards =
-	{
-	 "Murloc Tidehunter",
-	 "Red Whelp",
-	 "Bronze Warden",
-	 "Harvest Golem"
-	};
+        {
+         "Murloc Tidehunter",
+         "Red Whelp",
+         "Bronze Warden",
+         "Harvest Golem"
+        };
     auto valid_cards_gold(valid_cards);
     auto append_gold = [](auto x)->std::string { return x += " (Golden)"; };
     std::transform(valid_cards.begin(),
-		   valid_cards.end(),
-		   valid_cards_gold.begin(),
-		   append_gold);
+                   valid_cards.end(),
+                   valid_cards_gold.begin(),
+                   append_gold);
 
     // First card in hand should be non-golden
     EXPECT_NE(std::find(valid_cards.begin(),
-			valid_cards.end(),
-			p1->get_hand().get_cards()[0]->get_name()),
-	      valid_cards.end());
+                        valid_cards.end(),
+                        p1->get_hand().get_cards()[0]->get_name()),
+              valid_cards.end());
     // Second card in hand should be golden
     EXPECT_NE(std::find(valid_cards_gold.begin(),
-			valid_cards_gold.end(),
-			p1->get_hand().get_cards()[1]->get_name()),
-	      valid_cards_gold.end());    
+                        valid_cards_gold.end(),
+                        p1->get_hand().get_cards()[1]->get_name()),
+              valid_cards_gold.end());    
     p1->end_turn();
 }
 
@@ -1423,15 +1423,15 @@ TEST(Player, MurozondBattlecry) {
 TEST(Player, MythraxTheUnravelerEndOfTurnMechanic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Foe Reaper 4000"),
-	 f.get_card("Harvest Golem"),
-	 f.get_card("Murloc Tidecaller"),
-	 f.get_card("Deck Swabbie"),
-	 f.get_card("Imp Gang Boss"),
-	 f.get_card("Mythrax the Unraveler"),
-	 f.get_card("Mythrax the Unraveler (Golden)")
-	};
+        {
+         f.get_card("Foe Reaper 4000"),
+         f.get_card("Harvest Golem"),
+         f.get_card("Murloc Tidecaller"),
+         f.get_card("Deck Swabbie"),
+         f.get_card("Imp Gang Boss"),
+         f.get_card("Mythrax the Unraveler"),
+         f.get_card("Mythrax the Unraveler (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     player.start_turn();
@@ -1457,11 +1457,11 @@ TEST(Player, MythraxTheUnravelerEndOfTurnMechanic) {
 TEST(Player, NomiUpdatesBobsTavernWhenElementalsArePlayed) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Nomi, Kitchen Nightmare"),
-	 f.get_card("Nomi, Kitchen Nightmare (Golden)"),
-	 f.get_card("Sellemental")
-	};
+        {
+         f.get_card("Nomi, Kitchen Nightmare"),
+         f.get_card("Nomi, Kitchen Nightmare (Golden)"),
+         f.get_card("Sellemental")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -1471,8 +1471,8 @@ TEST(Player, NomiUpdatesBobsTavernWhenElementalsArePlayed) {
     player.play_card(0, 1);
     player.play_card(0, 2); // Buffs tavern elementals +3/+3 (sellemental played)
     std::vector<std::string> tavern_minions = {"Crackling Cyclone",
-					       "Mal'Ganis",
-					       "Sellemental"};
+                                               "Mal'Ganis",
+                                               "Sellemental"};
     player.set_tavern_minions(tavern_minions);
     player.set_gold(10);
     player.buy_minion(0);
@@ -1514,21 +1514,21 @@ TEST(Player, NomiUpdatesBobsTavernWhenElementalsArePlayed) {
 TEST(Player, PartyElementalReactsToElementalCards) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Party Elemental"),
-	 f.get_card("Party Elemental (Golden)"),
-	 f.get_card("Sellemental"),
-	 f.get_card("Coldlight Seer"),
-	 f.get_card("Molten Rock")
-	};
+        {
+         f.get_card("Party Elemental"),
+         f.get_card("Party Elemental (Golden)"),
+         f.get_card("Sellemental"),
+         f.get_card("Coldlight Seer"),
+         f.get_card("Molten Rock")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");    
 
     int total_hand_attack = 0;
     int total_hand_health = 0;
     for (auto card : in_hand.get_cards()) {
-	total_hand_attack += card->get_attack();
-	total_hand_health += card->get_health();
+        total_hand_attack += card->get_attack();
+        total_hand_health += card->get_health();
     }
 
     player.play_card(0, 0); // Nothing
@@ -1542,8 +1542,8 @@ TEST(Player, PartyElementalReactsToElementalCards) {
     int total_board_attack = 0;
     int total_board_health = 0;
     for (auto card : player.get_board()->get_cards()) {
-	total_board_attack += card->get_attack();
-	total_board_health += card->get_health();
+        total_board_attack += card->get_attack();
+        total_board_health += card->get_health();
     }
     EXPECT_EQ(total_hand_attack + 7, total_board_attack);
     EXPECT_EQ(total_hand_health + 7, total_board_health);
@@ -1558,14 +1558,14 @@ TEST(Player, PartyElementalReactsToElementalCards) {
 TEST(Player, RabidSauroliskReactsToDeathrattleCards) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Rabid Saurolisk"),
-	 f.get_card("Rabid Saurolisk (Golden)"),
-	 f.get_card("Harvest Golem"), // drattle
-	 f.get_card("Foe Reaper 4000"),
-	 f.get_card("Molten Rock"),
-	 f.get_card("Fiendish Servant"), // drattle
-	};
+        {
+         f.get_card("Rabid Saurolisk"),
+         f.get_card("Rabid Saurolisk (Golden)"),
+         f.get_card("Harvest Golem"), // drattle
+         f.get_card("Foe Reaper 4000"),
+         f.get_card("Molten Rock"),
+         f.get_card("Fiendish Servant"), // drattle
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");    
 
@@ -1591,14 +1591,14 @@ TEST(Player, RabidSauroliskReactsToDeathrattleCards) {
 TEST(Player, RazorgoreEndOfTurnMechanic) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Red Whelp"),
-	 f.get_card("Murloc Tidecaller"),
-	 f.get_card("Bronze Warden"),
-	 f.get_card("Imp Mama"),
-	 f.get_card("Razorgore, the Untamed"),
-	 f.get_card("Razorgore, the Untamed (Golden)")
-	};
+        {
+         f.get_card("Red Whelp"),
+         f.get_card("Murloc Tidecaller"),
+         f.get_card("Bronze Warden"),
+         f.get_card("Imp Mama"),
+         f.get_card("Razorgore, the Untamed"),
+         f.get_card("Razorgore, the Untamed (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     
@@ -1625,10 +1625,10 @@ TEST(Player, RazorgoreEndOfTurnMechanic) {
 TEST(Player, RefreshingAnomalyWorks) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Refreshing Anomaly"),
-	 f.get_card("Refreshing Anomaly (Golden)")
-	};
+        {
+         f.get_card("Refreshing Anomaly"),
+         f.get_card("Refreshing Anomaly (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -1662,11 +1662,11 @@ TEST(Player, ReplicatingMenaceMagnetic) {
     EXPECT_EQ(repl_men->is_magnetic(), true);
     EXPECT_EQ(repl_men_gold->is_magnetic(), true);
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 golem,
-	 repl_men,
-	 repl_men_gold
-	};
+        {
+         golem,
+         repl_men,
+         repl_men_gold
+        };
     auto in_hand = Hand(hand_cards);
     std::unique_ptr<Player> p1(new Player(in_hand, "Eudora"));
 
@@ -1695,11 +1695,11 @@ TEST(Player, ReplicatingMenaceMagnetic) {
 TEST(Player, RockpoolHunterTargettedBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Murloc Tidecaller"),
-	 f.get_card("Rockpool Hunter"),
-	 f.get_card("Rockpool Hunter (Golden)")
-	};
+        {
+         f.get_card("Murloc Tidecaller"),
+         f.get_card("Rockpool Hunter"),
+         f.get_card("Rockpool Hunter (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     //player.buy_card(tidecaller); // TODO: Impl bobs tav
@@ -1722,11 +1722,11 @@ TEST(Player, RockpoolHunterTargettedBattlecry) {
 TEST(Player, SaltyLooterAfterPirateSummoned) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Salty Looter (Golden)"),
-	 f.get_card("Salty Looter"),
-	 f.get_card("Deck Swabbie")
-	};
+        {
+         f.get_card("Salty Looter (Golden)"),
+         f.get_card("Salty Looter"),
+         f.get_card("Deck Swabbie")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     //player.buy_card(tidecaller); // TODO: Impl bobs tav
@@ -1753,11 +1753,11 @@ TEST(Player, SaltyLooterAfterPirateSummoned) {
 TEST(Player, ScrewjankClunkerBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Foe Reaper 4000"),
-	 f.get_card("Screwjank Clunker (Golden)"),
-	 f.get_card("Screwjank Clunker")
-	};
+        {
+         f.get_card("Foe Reaper 4000"),
+         f.get_card("Screwjank Clunker (Golden)"),
+         f.get_card("Screwjank Clunker")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -1806,10 +1806,10 @@ TEST(Player, SouthseaStrongarmBattlecry) {
 TEST(Player, StasisElementalBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Stasis Elemental"),
-	 f.get_card("Stasis Elemental (Golden)")
-	};
+        {
+         f.get_card("Stasis Elemental"),
+         f.get_card("Stasis Elemental (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     player.start_turn();
@@ -1824,7 +1824,7 @@ TEST(Player, StasisElementalBattlecry) {
     EXPECT_EQ(tav_minions.size(), (unsigned)6);
     // Last three should be elementals
     for (size_t i = tav_minions.size() - 3; i < tav_minions.size(); i++) {
-	EXPECT_EQ(f.get_card(tav_minions[i])->get_race(), "ELEMENTAL");
+        EXPECT_EQ(f.get_card(tav_minions[i])->get_race(), "ELEMENTAL");
     }
     player.end_turn();
 }
@@ -1832,10 +1832,10 @@ TEST(Player, StasisElementalBattlecry) {
 TEST(Player, StasisElementalAtHigherTavernTierBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Stasis Elemental"),
-	 f.get_card("Stasis Elemental (Golden)")
-	};
+        {
+         f.get_card("Stasis Elemental"),
+         f.get_card("Stasis Elemental (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     player.set_tavern_tier(5);
@@ -1852,7 +1852,7 @@ TEST(Player, StasisElementalAtHigherTavernTierBattlecry) {
     EXPECT_EQ(tav_minions.size(), (unsigned)7);
     // Last three should be elementals
     for (size_t i = tav_minions.size() - 3; i < tav_minions.size(); i++) {
-	EXPECT_EQ(f.get_card(tav_minions[i])->get_race(), "ELEMENTAL");
+        EXPECT_EQ(f.get_card(tav_minions[i])->get_race(), "ELEMENTAL");
     }
     player.end_turn();
 }
@@ -1861,12 +1861,12 @@ TEST(Player, StasisElementalAtHigherTavernTierBattlecry) {
 TEST(Player, StrongshellScavengerBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Twilight Emissary"),
-	 f.get_card("Mama Bear"),
-	 f.get_card("Strongshell Scavenger (Golden)"),
-	 f.get_card("Strongshell Scavenger")
-	};
+        {
+         f.get_card("Twilight Emissary"),
+         f.get_card("Mama Bear"),
+         f.get_card("Strongshell Scavenger (Golden)"),
+         f.get_card("Strongshell Scavenger")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -1892,10 +1892,10 @@ TEST(Player, StrongshellScavengerBattlecry) {
 TEST(Player, TavernTempestBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Tavern Tempest"),
-	 f.get_card("Tavern Tempest (Golden)")
-	};
+        {
+         f.get_card("Tavern Tempest"),
+         f.get_card("Tavern Tempest (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
 
@@ -1906,18 +1906,18 @@ TEST(Player, TavernTempestBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Tavern Tempest (Golden)");
     EXPECT_EQ(player.get_hand().size(), 4);
     for (auto c : player.get_hand().get_cards()) {
-	EXPECT_TRUE(c->get_race() == "ELEMENTAL" || c->get_race() == "");
+        EXPECT_TRUE(c->get_race() == "ELEMENTAL" || c->get_race() == "");
     }
 } 
 
 TEST(Player, ToxfinTargettedBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Murloc Tidecaller"),
-	 f.get_card("Toxfin"),
-	 f.get_card("Toxfin (Golden)")
-	};
+        {
+         f.get_card("Murloc Tidecaller"),
+         f.get_card("Toxfin"),
+         f.get_card("Toxfin (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     //player.buy_card(tidecaller); // TODO: Impl bobs tav
@@ -1940,11 +1940,11 @@ TEST(Player, ToxfinTargettedBattlecry) {
 TEST(Player, TwilightEmissaryTargettedBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Cobalt Scalebane"),
-	 f.get_card("Twilight Emissary"),
-	 f.get_card("Twilight Emissary (Golden)")
-	};
+        {
+         f.get_card("Cobalt Scalebane"),
+         f.get_card("Twilight Emissary"),
+         f.get_card("Twilight Emissary (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     //player.buy_card(tidecaller); // TODO: Impl bobs tav
@@ -1967,11 +1967,11 @@ TEST(Player, TwilightEmissaryTargettedBattlecry) {
 TEST(Player, VirmenSenseiTargettedBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Mama Bear"),
-	 f.get_card("Virmen Sensei (Golden)"),
-	 f.get_card("Virmen Sensei")
-	};
+        {
+         f.get_card("Mama Bear"),
+         f.get_card("Virmen Sensei (Golden)"),
+         f.get_card("Virmen Sensei")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     //player.buy_card(tidecaller); // TODO: Impl bobs tav
@@ -1994,10 +1994,10 @@ TEST(Player, VirmenSenseiTargettedBattlecry) {
 TEST(Player, VulgarHomunculusBattlecry) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Vulgar Homunculus"),
-	 f.get_card("Vulgar Homunculus (Golden)"),
-	};
+        {
+         f.get_card("Vulgar Homunculus"),
+         f.get_card("Vulgar Homunculus (Golden)"),
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     //player.buy_card(tidecaller); // TODO: Impl bobs tav
@@ -2017,12 +2017,12 @@ TEST(Player, VulgarHomunculusBattlecry) {
 TEST(Player, WrathweaverAfterDemonSummoned) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Wrath Weaver"),
-	 f.get_card("Wrath Weaver (Golden)"),
-	 f.get_card("Vulgar Homunculus"),
-	 f.get_card("Fiendish Servant")
-	};
+        {
+         f.get_card("Wrath Weaver"),
+         f.get_card("Wrath Weaver (Golden)"),
+         f.get_card("Vulgar Homunculus"),
+         f.get_card("Fiendish Servant")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     //player.buy_card(tidecaller); // TODO: Impl bobs tav

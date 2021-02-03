@@ -40,21 +40,21 @@ TEST(BobsBuddy, PyLikeStringParsingWorksWithWhitespace) {
 class BobsReader : public ::testing::Test {
 protected:
     void SetUp() override {
-	if (battle_boards_p == nullptr) {
-	    std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
-	    auto bb = BobsBuddy(power_log.string());
-	    auto battle_boards = bb.parse_full_log();
-	    std::cerr << "TEST SUITE SETUP" << std::endl;
-	    battle_boards_p = new std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>>(battle_boards);
-	}
+        if (battle_boards_p == nullptr) {
+            std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
+            auto bb = BobsBuddy(power_log.string());
+            auto battle_boards = bb.parse_full_log();
+            std::cerr << "TEST SUITE SETUP" << std::endl;
+            battle_boards_p = new std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>>(battle_boards);
+        }
     }
 
     static std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>>* battle_boards_p;
 
     // void SetUp() override {
-    // 	std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
-    // 	auto bb = BobsBuddy(power_log.string());
-    // 	battle_boards = bb.parse_full_log();
+    //  std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
+    //  auto bb = BobsBuddy(power_log.string());
+    //  battle_boards = bb.parse_full_log();
     // }
 
 

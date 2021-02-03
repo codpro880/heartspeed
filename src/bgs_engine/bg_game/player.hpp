@@ -14,60 +14,60 @@
 class Player {
 public:
     Player(std::shared_ptr<Board> board_, std::string name) : board(board_),
-							      elementals_played_this_turn(0),
-							      gold(3),
-							      health(40),
-							      max_gold(3),
-							      max_health(40),
-							      name(name),
-							      num_free_refreshes(0),
-							      original_board(std::make_shared<Board>(board_)),
-							      pirates_bought_this_turn(0),
-							      tavern(std::make_shared<BobsTavern>(this)),
-							      tavern_is_frozen(false),
-							      tavern_tier(1),
-							      turns_at_current_tier(0) { }
+                                                              elementals_played_this_turn(0),
+                                                              gold(3),
+                                                              health(40),
+                                                              max_gold(3),
+                                                              max_health(40),
+                                                              name(name),
+                                                              num_free_refreshes(0),
+                                                              original_board(std::make_shared<Board>(board_)),
+                                                              pirates_bought_this_turn(0),
+                                                              tavern(std::make_shared<BobsTavern>(this)),
+                                                              tavern_is_frozen(false),
+                                                              tavern_tier(1),
+                                                              turns_at_current_tier(0) { }
 
     Player(std::string name) : board(new Board()),
-			       elementals_played_this_turn(0),
-			       gold(3),
-			       health(40),
-			       max_gold(3),
-			       max_health(40),
-			       name(name),
-			       num_free_refreshes(0),
-			       original_board(new Board()),
-			       pirates_bought_this_turn(0),
-			       tavern(std::make_shared<BobsTavern>(this)),
-			       tavern_is_frozen(false),
-			       tavern_tier(1),
-			       turns_at_current_tier(0) { }
+                               elementals_played_this_turn(0),
+                               gold(3),
+                               health(40),
+                               max_gold(3),
+                               max_health(40),
+                               name(name),
+                               num_free_refreshes(0),
+                               original_board(new Board()),
+                               pirates_bought_this_turn(0),
+                               tavern(std::make_shared<BobsTavern>(this)),
+                               tavern_is_frozen(false),
+                               tavern_tier(1),
+                               turns_at_current_tier(0) { }
 
     Player(Hand hand, std::string name) : board(new Board()),
-					  elementals_played_this_turn(0),
-					  gold(3),
-					  hand(hand),
-					  health(40),
-					  max_gold(3),
-					  max_health(40),
-					  name(name),
-					  num_free_refreshes(0),
-					  original_board(new Board()),
-					  pirates_bought_this_turn(0),
-					  tavern(std::make_shared<BobsTavern>(this)),
-					  tavern_is_frozen(false),
-					  tavern_tier(1),
-					  turns_at_current_tier(0) { }
+                                          elementals_played_this_turn(0),
+                                          gold(3),
+                                          hand(hand),
+                                          health(40),
+                                          max_gold(3),
+                                          max_health(40),
+                                          name(name),
+                                          num_free_refreshes(0),
+                                          original_board(new Board()),
+                                          pirates_bought_this_turn(0),
+                                          tavern(std::make_shared<BobsTavern>(this)),
+                                          tavern_is_frozen(false),
+                                          tavern_tier(1),
+                                          turns_at_current_tier(0) { }
     
     Player(Player* player) {
-    	board = std::make_shared<Board>(player->get_original_board());
-	hand = player->get_hand();
-	health = player->get_health();
-	max_health = player->get_max_health();
-	name = player->get_name();
-	original_board = std::make_shared<Board>(player->get_original_board());
-	tavern_tier = player->get_tavern_tier();
-	turns_at_current_tier = player->get_turns_at_current_tier();
+        board = std::make_shared<Board>(player->get_original_board());
+        hand = player->get_hand();
+        health = player->get_health();
+        max_health = player->get_max_health();
+        name = player->get_name();
+        original_board = std::make_shared<Board>(player->get_original_board());
+        tavern_tier = player->get_tavern_tier();
+        turns_at_current_tier = player->get_turns_at_current_tier();
     }
 
     // TODO: Impl bobs tav
@@ -90,245 +90,245 @@ public:
 
     // Used by steward of time, syndragosa, etc
     void buff_tav_till_refresh(int attack_buff, int health_buff) {
-	return tavern->buff_tav_till_refresh(attack_buff, health_buff);
+        return tavern->buff_tav_till_refresh(attack_buff, health_buff);
     }
 
     // Should only be invoked by the nomi card
     void add_to_nomi_tav_count() {
-	tavern->inc_nomi_counter();
+        tavern->inc_nomi_counter();
     }
 
     void add_card_to_hand(std::shared_ptr<BgBaseCard> card) {
-	hand.add_card(card);
+        hand.add_card(card);
     }
 
     std::shared_ptr<BgBaseCard> remove_card_from_board(int pos) {
-	auto card = board->get_cards()[pos];
-	board->remove(pos);
-	return card;
+        auto card = board->get_cards()[pos];
+        board->remove(pos);
+        return card;
     }
     
     void play_card(std::shared_ptr<BgBaseCard> card, uint8_t board_pos) {
-	auto pos = hand.get_pos(card);
-	play_card(pos, board_pos);
+        auto pos = hand.get_pos(card);
+        play_card(pos, board_pos);
     }
 
     void play_card(uint8_t hand_pos, uint8_t board_pos_or_discover_choice) {
-	auto card = hand.get_cards()[hand_pos];
-	if (card->is_minion()) {
-	    play_minion_card(hand_pos, board_pos_or_discover_choice);
-	}
-	else {
-	    play_spell_card(hand_pos, board_pos_or_discover_choice);
-	}
-	if (card->is_golden()) {
-	    BgCardFactory f;
-	    auto triple_discover = f.get_card("Triple Discover");
-	    triple_discover->set_tavern_tier(get_tavern_tier());
-	    add_card_to_hand(triple_discover);
-	}
+        auto card = hand.get_cards()[hand_pos];
+        if (card->is_minion()) {
+            play_minion_card(hand_pos, board_pos_or_discover_choice);
+        }
+        else {
+            play_spell_card(hand_pos, board_pos_or_discover_choice);
+        }
+        if (card->is_golden()) {
+            BgCardFactory f;
+            auto triple_discover = f.get_card("Triple Discover");
+            triple_discover->set_tavern_tier(get_tavern_tier());
+            add_card_to_hand(triple_discover);
+        }
     }
 
     void play_card(uint8_t hand_pos, uint8_t target_pos, uint8_t board_pos) {
-	if (get_board()->get_cards().size() == (unsigned)7) {
-	    std::cerr << "WARNING: Board is full" << std::endl;
-	    return;
-	}
-	auto card = hand.get_cards()[hand_pos];
-	if (card->get_race() == "ELEMENTAL") {
-	    elementals_played_this_turn += 1;
-	}
-	// TODO: Enforce valid targets (e.g. MUST pick valid target if available)
-	std::shared_ptr<BgBaseCard> target;
-	if (card->get_name() == "Faceless Taverngoer" || card->get_name() == "Faceless Taverngoer (Golden)") {
-	    auto minions = tavern->get_current_minions();
-	    BgCardFactory f;
-	    target = f.get_card(minions[target_pos]);
-	}
-	else {
-	    target = board->get_cards()[target_pos];
-	}
-	auto dmg_taken = board->insert_card(board_pos, card, this, true);
-	take_damage(dmg_taken);
-	card->targeted_battlecry(target, this);
-	hand.remove(card);
-	if (card->is_golden()) {
-	    BgCardFactory f;
-	    auto triple_discover = f.get_card("Triple Discover");
-	    triple_discover->set_tavern_tier(get_tavern_tier());
-	    add_card_to_hand(triple_discover);
-	}
+        if (get_board()->get_cards().size() == (unsigned)7) {
+            std::cerr << "WARNING: Board is full" << std::endl;
+            return;
+        }
+        auto card = hand.get_cards()[hand_pos];
+        if (card->get_race() == "ELEMENTAL") {
+            elementals_played_this_turn += 1;
+        }
+        // TODO: Enforce valid targets (e.g. MUST pick valid target if available)
+        std::shared_ptr<BgBaseCard> target;
+        if (card->get_name() == "Faceless Taverngoer" || card->get_name() == "Faceless Taverngoer (Golden)") {
+            auto minions = tavern->get_current_minions();
+            BgCardFactory f;
+            target = f.get_card(minions[target_pos]);
+        }
+        else {
+            target = board->get_cards()[target_pos];
+        }
+        auto dmg_taken = board->insert_card(board_pos, card, this, true);
+        take_damage(dmg_taken);
+        card->targeted_battlecry(target, this);
+        hand.remove(card);
+        if (card->is_golden()) {
+            BgCardFactory f;
+            auto triple_discover = f.get_card("Triple Discover");
+            triple_discover->set_tavern_tier(get_tavern_tier());
+            add_card_to_hand(triple_discover);
+        }
     }
 
     void take_damage(int dmg, bool our_turn=false) {
-	health -= dmg;
-	if (our_turn) {
-	    floating_watcher_hook(get_board().get(), dmg);
-	}
+        health -= dmg;
+        if (our_turn) {
+            floating_watcher_hook(get_board().get(), dmg);
+        }
     }
 
     void freeze_tavern() {
-	tavern_is_frozen = true;
+        tavern_is_frozen = true;
     }
 
     void unfreeze_tavern() {
-	tavern_is_frozen = false;
+        tavern_is_frozen = false;
     }
 
     void add_gold(int g) { set_gold(get_gold() + g); }
     void lose_gold(int g) { set_gold(get_gold() - g); }
     void set_gold(int g) {
-	if (g < 0) gold = 0;
-	else if (g > 10) gold = 10;
-	else gold = g;
+        if (g < 0) gold = 0;
+        else if (g > 10) gold = 10;
+        else gold = g;
     }
     int get_gold() { return gold; }
 
     // Tavern wrappers
     std::vector<std::string> refresh_tavern_minions() {
-	if (num_free_refreshes > 0) {
-	    num_free_refreshes -= 1;
-	    return tavern->refresh_minions(true);
-	}
-	else {
-	    return tavern->refresh_minions();
-	}
+        if (num_free_refreshes > 0) {
+            num_free_refreshes -= 1;
+            return tavern->refresh_minions(true);
+        }
+        else {
+            return tavern->refresh_minions();
+        }
     }
 
     std::vector<std::string> get_tavern_minions() {
-	return tavern->get_current_minions();
+        return tavern->get_current_minions();
     }
 
     void set_tavern_minions(std::vector<std::string> minions) {
-	return tavern->set_current_minions(minions);
+        return tavern->set_current_minions(minions);
     }
 
     void buy_minion(std::string minion) {
-	tavern->buy_minion(minion);
-	check_for_triples();
+        tavern->buy_minion(minion);
+        check_for_triples();
     }
     
     void buy_minion(int pos) {
-	tavern->buy_minion(pos);
-	check_for_triples();
+        tavern->buy_minion(pos);
+        check_for_triples();
     }
     
     void sell_minion(int board_bos) {
-	return tavern->sell_minion(board_bos);
+        return tavern->sell_minion(board_bos);
     }
     
     bool tavern_up() {
-	auto res =  tavern->tavern_up(turns_at_current_tier);
-	turns_at_current_tier = 0;
-	return res;
+        auto res =  tavern->tavern_up(turns_at_current_tier);
+        turns_at_current_tier = 0;
+        return res;
     }
 
     void start_turn() {
-	for (auto c : board->get_cards()) {
-	    c->set_health(c->get_base_health());
-	}
-					   
-	for (auto c : board->get_cards()) {
-	    c->start_turn_mechanic(this);
-	}
-	// Effects like Djini can cause tripling
-	check_for_triples();
-	gold = max_gold;
-	pirates_bought_this_turn = 0;
-	elementals_played_this_turn = 0;
-	if (!tavern_is_frozen) {
-	    tavern->refresh_minions(true); // Free refresh at start of turn, unless frozen
-	}
-	if (frozen_minions.size() != 0 && !tavern_is_frozen) {
-	    auto minions = tavern->refresh_minions(true);
-	    minions.insert(minions.end(), frozen_minions.begin(), frozen_minions.end());
-	    while (minions.size() > (unsigned)7) {
-		minions.erase(minions.begin());
-	    }
-	    tavern->set_current_minions(minions);
-	}
-	tavern_is_frozen = false;
-	frozen_minions.clear();
+        for (auto c : board->get_cards()) {
+            c->set_health(c->get_base_health());
+        }
+                                           
+        for (auto c : board->get_cards()) {
+            c->start_turn_mechanic(this);
+        }
+        // Effects like Djini can cause tripling
+        check_for_triples();
+        gold = max_gold;
+        pirates_bought_this_turn = 0;
+        elementals_played_this_turn = 0;
+        if (!tavern_is_frozen) {
+            tavern->refresh_minions(true); // Free refresh at start of turn, unless frozen
+        }
+        if (frozen_minions.size() != 0 && !tavern_is_frozen) {
+            auto minions = tavern->refresh_minions(true);
+            minions.insert(minions.end(), frozen_minions.begin(), frozen_minions.end());
+            while (minions.size() > (unsigned)7) {
+                minions.erase(minions.begin());
+            }
+            tavern->set_current_minions(minions);
+        }
+        tavern_is_frozen = false;
+        frozen_minions.clear();
     }
     
     void end_turn() {
-	for (auto c : board->get_cards()) {
-	    c->end_turn_mechanic(this);
-	}
-	turns_at_current_tier += 1;
-	if (max_gold < 10) max_gold++;
-	_won_last_turn = false;
+        for (auto c : board->get_cards()) {
+            c->end_turn_mechanic(this);
+        }
+        turns_at_current_tier += 1;
+        if (max_gold < 10) max_gold++;
+        _won_last_turn = false;
     }
 
     void inc_pirates_bought_this_turn() {
-	pirates_bought_this_turn++;
+        pirates_bought_this_turn++;
     }
 
     int get_pirates_bought_this_turn() {
-	return pirates_bought_this_turn;
+        return pirates_bought_this_turn;
     }
 
     int get_elementals_played_this_turn() {
-	return elementals_played_this_turn;
+        return elementals_played_this_turn;
     }
 
     void add_to_frozen_minions(std::string minion) {
-	frozen_minions.push_back(minion);
+        frozen_minions.push_back(minion);
     }
 
     void set_won_last_turn() {
-	_won_last_turn = true;
+        _won_last_turn = true;
     }
 
     bool won_last_turn() {
-	return _won_last_turn;
+        return _won_last_turn;
     }
 
     void do_deathrattles(std::shared_ptr<Player> p) {
-	return do_deathrattles(p.get());
+        return do_deathrattles(p.get());
     }
     
     void do_deathrattles(Player* other) {
-	Board* b1 = get_board().get();
-	b1->do_deathrattles(this, other, other->get_board().get());
+        Board* b1 = get_board().get();
+        b1->do_deathrattles(this, other, other->get_board().get());
     }
 
     std::vector<std::shared_ptr<BgBaseCard>> get_board_and_hand(bool golden=false) {
-	auto board_and_hand = get_board()->get_cards();
-	auto hand_cards = get_hand().get_cards();
-	// Concat board/hand
-	board_and_hand.insert(board_and_hand.end(),
-			      hand_cards.begin(),
-			      hand_cards.end());
-	if (golden) return board_and_hand;
-	
-	for (int i = board_and_hand.size() - 1; i >= 0; i--) {
-	    auto is_golden = board_and_hand[i]->get_name().find("(Golden)") != std::string::npos;
-	    if (is_golden) {
-		board_and_hand.erase(board_and_hand.begin() + i);
-	    }
-	}
-	return board_and_hand;
+        auto board_and_hand = get_board()->get_cards();
+        auto hand_cards = get_hand().get_cards();
+        // Concat board/hand
+        board_and_hand.insert(board_and_hand.end(),
+                              hand_cards.begin(),
+                              hand_cards.end());
+        if (golden) return board_and_hand;
+        
+        for (int i = board_and_hand.size() - 1; i >= 0; i--) {
+            auto is_golden = board_and_hand[i]->get_name().find("(Golden)") != std::string::npos;
+            if (is_golden) {
+                board_and_hand.erase(board_and_hand.begin() + i);
+            }
+        }
+        return board_and_hand;
     }
 
     void check_for_triples() {
-	std::unordered_map<std::string, int> minions_counts;
-	auto board_and_hand = get_board_and_hand();
-	for (auto c : board_and_hand) {
-	    auto it = minions_counts.find(c->get_name());
-	    if (it == minions_counts.end()) {
-		minions_counts[c->get_name()] = 1;
-	    }
-	    else {
-		minions_counts[c->get_name()] += 1;
-	    }
-	}
+        std::unordered_map<std::string, int> minions_counts;
+        auto board_and_hand = get_board_and_hand();
+        for (auto c : board_and_hand) {
+            auto it = minions_counts.find(c->get_name());
+            if (it == minions_counts.end()) {
+                minions_counts[c->get_name()] = 1;
+            }
+            else {
+                minions_counts[c->get_name()] += 1;
+            }
+        }
 
-	for (auto p : minions_counts) {
-	    if (p.second == 3) {
-		_triple_minion(p.first);
-	    }
-	}
+        for (auto p : minions_counts) {
+            if (p.second == 3) {
+                _triple_minion(p.first);
+            }
+        }
     }
 
     void set_opponents_last_board(std::shared_ptr<Board> b) { opponents_last_board = b; }
@@ -356,80 +356,80 @@ private:
     bool _won_last_turn;
 
     void _triple_minion(std::string name) {
-	std::vector<int> hand_indexes;
-	std::vector<int> board_indexes;
-	auto hand_cards = get_hand().get_cards();
-	auto board_cards = get_board()->get_cards();
-	// Typically don't want to remove from a collection that's being iterated over...
-	// so calculate indexes to remove and remove later
-	for (int i = 0; i < hand_cards.size(); i++) {
-	    if (hand_cards[i]->get_name() == name) {
-		hand_indexes.push_back(i);
-	    }
-	}
-	for (int i = 0; i < board_cards.size(); i++) {
-	    if (board_cards[i]->get_name() == name) {
-		board_indexes.push_back(i);
-	    }
-	}
+        std::vector<int> hand_indexes;
+        std::vector<int> board_indexes;
+        auto hand_cards = get_hand().get_cards();
+        auto board_cards = get_board()->get_cards();
+        // Typically don't want to remove from a collection that's being iterated over...
+        // so calculate indexes to remove and remove later
+        for (int i = 0; i < hand_cards.size(); i++) {
+            if (hand_cards[i]->get_name() == name) {
+                hand_indexes.push_back(i);
+            }
+        }
+        for (int i = 0; i < board_cards.size(); i++) {
+            if (board_cards[i]->get_name() == name) {
+                board_indexes.push_back(i);
+            }
+        }
 
-	// Remove by index, not particularly efficient...
-	for (int i = hand_indexes.size() - 1; i >= 0; i--) {
-	    hand.remove(hand_indexes[i]);
-	}
-	for (int i = board_indexes.size() - 1; i >= 0; i--) {
-	    board->remove(board_indexes[i]);
-	}
+        // Remove by index, not particularly efficient...
+        for (int i = hand_indexes.size() - 1; i >= 0; i--) {
+            hand.remove(hand_indexes[i]);
+        }
+        for (int i = board_indexes.size() - 1; i >= 0; i--) {
+            board->remove(board_indexes[i]);
+        }
 
-	// Add golden to hand
-	BgCardFactory f;
-	auto gold_card = f.get_card(name + " (Golden)");
-	add_card_to_hand(gold_card);
+        // Add golden to hand
+        BgCardFactory f;
+        auto gold_card = f.get_card(name + " (Golden)");
+        add_card_to_hand(gold_card);
     }
 
     // TODO: Make this more efficient
     void floating_watcher_hook(Board* b1, int dmg_taken) {
-	bool floating_watcher_on_board = b1->contains("Floating Watcher") || b1->contains("Floating Watcher (Golden)");
-	if (floating_watcher_on_board) {
-	    bool malganis_on_board = b1->contains("Mal'ganis") || b1->contains("Mal'ganis (Golden)");
-	    if (dmg_taken > 0 && !malganis_on_board) {
-		for (auto c : b1->get_cards()) {
-		    if (c->get_name() == "Floating Watcher") {
-			c->set_attack(c->get_attack() + 2);
-			c->set_health(c->get_health() + 2);
-		    }
-		    else if (c->get_name() == "Floating Watcher (Golden)") {
-			c->set_attack(c->get_attack() + 4);
-			c->set_health(c->get_health() + 4);
-		    }
-		}
-	    }
-	}
+        bool floating_watcher_on_board = b1->contains("Floating Watcher") || b1->contains("Floating Watcher (Golden)");
+        if (floating_watcher_on_board) {
+            bool malganis_on_board = b1->contains("Mal'ganis") || b1->contains("Mal'ganis (Golden)");
+            if (dmg_taken > 0 && !malganis_on_board) {
+                for (auto c : b1->get_cards()) {
+                    if (c->get_name() == "Floating Watcher") {
+                        c->set_attack(c->get_attack() + 2);
+                        c->set_health(c->get_health() + 2);
+                    }
+                    else if (c->get_name() == "Floating Watcher (Golden)") {
+                        c->set_attack(c->get_attack() + 4);
+                        c->set_health(c->get_health() + 4);
+                    }
+                }
+            }
+        }
     }
 
         void play_minion_card(uint8_t hand_pos, uint8_t board_pos) {
-	auto card = hand.get_cards()[hand_pos];
-	if (get_board()->get_cards().size() == (unsigned)7) {
-	    std::cerr << "WARNING: Board is full" << std::endl;
-	    return;
-	}
-	if (card->get_race() == "ELEMENTAL") {
-	    elementals_played_this_turn += 1;
-	}
-	auto dmg_taken = board->insert_card(board_pos, card, this, true);	
-	// Responsible for floating watcher effects...
-	// TODO: Make more efficient, does linear searching
-	//floating_watcher_hook(board.get(), dmg_taken);
-	take_damage(dmg_taken, true);
-	card->battlecry(this);
-	hand.remove(card);
+        auto card = hand.get_cards()[hand_pos];
+        if (get_board()->get_cards().size() == (unsigned)7) {
+            std::cerr << "WARNING: Board is full" << std::endl;
+            return;
+        }
+        if (card->get_race() == "ELEMENTAL") {
+            elementals_played_this_turn += 1;
+        }
+        auto dmg_taken = board->insert_card(board_pos, card, this, true);       
+        // Responsible for floating watcher effects...
+        // TODO: Make more efficient, does linear searching
+        //floating_watcher_hook(board.get(), dmg_taken);
+        take_damage(dmg_taken, true);
+        card->battlecry(this);
+        hand.remove(card);
     }
 
     void play_spell_card(uint8_t hand_pos, uint8_t discover_choice) {
-	auto card = hand.get_cards()[hand_pos];
-    	hand.remove(card);
-    	return card->cast(this, discover_choice);
-	hand.remove(card);
+        auto card = hand.get_cards()[hand_pos];
+        hand.remove(card);
+        return card->cast(this, discover_choice);
+        hand.remove(card);
     }
 
 };

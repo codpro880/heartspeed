@@ -14,51 +14,51 @@ class Player; // Forward declare for circular dep between cards and player
 class BgBaseCard {
 public:
     BgBaseCard(int attack,
-	       std::string card_class,
-	       int cost,
-	       int health,
-	       std::string name,
-	       std::string mechanics,
-	       std::string race,
-	       std::string rarity,
-	       int tavern_tier,
-	       std::string type) : attack(attack),
-				   base_attack(attack),
-				   card_class(card_class),
-				   cost(cost),
-				   divine_shield(false),
-				   _has_reborn(false),
-				   _has_windfury(false),
-				   _has_windfury_active(false),
-				   health(health),
-				   base_health(health),
-				   is_poison(false),
-				   mechanics(mechanics),
-				   name(name),
-				   race(race),
-				   rarity(rarity),
-				   tavern_tier(tavern_tier),
-				   type(type),
-				   adapt_count(0) {}
+               std::string card_class,
+               int cost,
+               int health,
+               std::string name,
+               std::string mechanics,
+               std::string race,
+               std::string rarity,
+               int tavern_tier,
+               std::string type) : attack(attack),
+                                   base_attack(attack),
+                                   card_class(card_class),
+                                   cost(cost),
+                                   divine_shield(false),
+                                   _has_reborn(false),
+                                   _has_windfury(false),
+                                   _has_windfury_active(false),
+                                   health(health),
+                                   base_health(health),
+                                   is_poison(false),
+                                   mechanics(mechanics),
+                                   name(name),
+                                   race(race),
+                                   rarity(rarity),
+                                   tavern_tier(tavern_tier),
+                                   type(type),
+                                   adapt_count(0) {}
     
     BgBaseCard(const BgBaseCard& other) : attack(other.attack),
-					  base_attack(other.attack),
-					  card_class(other.card_class),
-					  cost(other.cost),
-					  divine_shield(other.divine_shield),
-					  _has_reborn(other._has_reborn),
-					  _has_windfury(other._has_windfury),
-					  _has_windfury_active(other._has_windfury_active),
-					  health(other.health),
-					  base_health(other.health),
-					  is_poison(other.is_poison),
-					  mechanics(other.mechanics),
-					  name(other.name),
-					  race(other.race),
-					  rarity(other.rarity),
-					  tavern_tier(other.tavern_tier),
-					  type(other.type),
-					  adapt_count(0) {}
+                                          base_attack(other.attack),
+                                          card_class(other.card_class),
+                                          cost(other.cost),
+                                          divine_shield(other.divine_shield),
+                                          _has_reborn(other._has_reborn),
+                                          _has_windfury(other._has_windfury),
+                                          _has_windfury_active(other._has_windfury_active),
+                                          health(other.health),
+                                          base_health(other.health),
+                                          is_poison(other.is_poison),
+                                          mechanics(other.mechanics),
+                                          name(other.name),
+                                          race(other.race),
+                                          rarity(other.rarity),
+                                          tavern_tier(other.tavern_tier),
+                                          type(other.type),
+                                          adapt_count(0) {}
 
     void adapt(std::string _test_adapt="None");
 
@@ -74,23 +74,23 @@ public:
     
     // Triggered before every attack (ex: glyph gaurdian mechanic)
     virtual void do_preattack(std::shared_ptr<BgBaseCard>,
-			      Player*,
-			      Player*) {}
+                              Player*,
+                              Player*) {}
     // Triggered before defense (Tormented Ritualist)
     virtual void do_predefense(std::shared_ptr<BgBaseCard>,
-			       Player*,
-			       Player*);
+                               Player*,
+                               Player*);
     // Triggered once before combat starts (ex: red whelp, stat-buffs)
     virtual void do_precombat(Player*, Player*) {}
     // Triggered after attack (ex: overkill mechanic)
     virtual void do_postattack(std::shared_ptr<BgBaseCard>,
-			       int,
-			       Player*,
-			       Player*) {}
+                               int,
+                               Player*,
+                               Player*) {}
     // Triggered after attack for defender (ex: yo-ho-ogre)
     virtual void do_postdefense(std::shared_ptr<BgBaseCard>,
-				Player*,
-				Player*) {}
+                                Player*,
+                                Player*) {}
     // Triggered after deaths of each dmg exchange (ex: scavaging hyena)
     virtual void do_postbattle(Player*, Player*, std::vector<std::shared_ptr<BgBaseCard>>, std::vector<std::shared_ptr<BgBaseCard>>) {}
 
@@ -124,16 +124,16 @@ public:
     virtual bool has_deathrattle() const { return mechanics.find("DEATHRATTLE") != std::string::npos; }
     bool has_poison() const { return is_poison; }
     bool has_taunt() const {
-	return _has_taunt || mechanics.find("TAUNT") != std::string::npos;
+        return _has_taunt || mechanics.find("TAUNT") != std::string::npos;
     }
     bool has_reborn() const {
-	return _has_reborn;
+        return _has_reborn;
     }
     bool has_cleave() const {
-	return mechanics.find("CLEAVE") != std::string::npos;
+        return mechanics.find("CLEAVE") != std::string::npos;
     }
     bool has_battlecry() const {
-	return mechanics.find("BATTLECRY") != std::string::npos;
+        return mechanics.find("BATTLECRY") != std::string::npos;
     }
     bool has_windfury() const { return _has_windfury; }
     bool has_windfury_active() const { return _has_windfury_active; }
@@ -155,9 +155,9 @@ public:
     void set_health(int hth) { health = hth; }
     // Base stats can't be affected during combat
     void set_base_health(int hth) {
-	auto added_health = hth - base_health;
-	health += added_health;
-	base_health = hth;
+        auto added_health = hth - base_health;
+        health += added_health;
+        base_health = hth;
     }
     void set_mechanics(std::string _mechanics) { mechanics = _mechanics; }
     void set_name(std::string _name) { name = _name; }
@@ -180,7 +180,7 @@ public:
     virtual void on_sell(Player* p1);
     virtual void card_bought_trigger(Player*, std::shared_ptr<BgBaseCard>) { }
     void add_to_deathrattle_cards(std::shared_ptr<BgBaseCard> c) {
-	deathrattle_cards.push_back(c);
+        deathrattle_cards.push_back(c);
     }
 
     virtual void take_damage(int damage, std::string who_from_race, Player*, Player*);
@@ -189,12 +189,12 @@ public:
     virtual std::vector<std::string> get_discover_choices() { return std::vector<std::string>(); }
 
     std::string who_killed_race() const {
-	if (is_dead()) {
-	    return last_dmg_race;
-	}
-	else {
-	    throw std::runtime_error("Card isn't dead");
-	}
+        if (is_dead()) {
+            return last_dmg_race;
+        }
+        else {
+            throw std::runtime_error("Card isn't dead");
+        }
     }
     friend std::ostream& operator<<(std::ostream& os, const BgBaseCard& card);
     virtual ~BgBaseCard() {}

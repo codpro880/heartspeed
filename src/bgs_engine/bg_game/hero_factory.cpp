@@ -7,10 +7,10 @@
 std::shared_ptr<Hero> HeroFactory::get_hero(std::string name) {
     auto hero_found_it = heros.find(name);
     if (hero_found_it == heros.end())  {
-    	throw std::runtime_error("No hero has name '" + name + "'");
+        throw std::runtime_error("No hero has name '" + name + "'");
     }
     else {
-	return (hero_found_it->second)->get_copy();
+        return (hero_found_it->second)->get_copy();
     }
 }
 

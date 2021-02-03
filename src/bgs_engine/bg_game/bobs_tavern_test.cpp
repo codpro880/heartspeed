@@ -17,7 +17,7 @@ TEST(BobsTavern, AllowsPlayerToSeeMinionsAtStart) {
     EXPECT_EQ(avail_minions.size(), (unsigned)3);
     BgCardFactory f;
     for (auto minion_name : avail_minions) {
-	EXPECT_EQ(f.get_card(minion_name)->get_tavern_tier(), 1);
+        EXPECT_EQ(f.get_card(minion_name)->get_tavern_tier(), 1);
     }
 }
 
@@ -31,7 +31,7 @@ TEST(BobsTavern, AllowsPlayerToRefreshRepeatedly) {
     auto first_refresh_minions = player->get_tavern_minions();
     BgCardFactory f;
     for (auto minion_name : first_refresh_minions) {
-	EXPECT_EQ(f.get_card(minion_name)->get_tavern_tier(), 1);
+        EXPECT_EQ(f.get_card(minion_name)->get_tavern_tier(), 1);
     }
 
     // Can get minion shop from refresh directly
@@ -94,17 +94,17 @@ TEST(BobsTavern, ShowsPlayerHigherTierMinions) {
     bool any_golden = false;
     BgCardFactory f;
     for (auto minion_name : avail_minions) {
-	auto card = f.get_card(minion_name);
-	auto tav_tier = card->get_tavern_tier();
-	if (tav_tier != 1) {
-	    all_tier1 = false;
-	}
-	if (tav_tier > 3) {
-	    any_greater_than_t3 = true;
-	}
-	if (card->is_golden()) {
-	    any_golden = true;
-	}
+        auto card = f.get_card(minion_name);
+        auto tav_tier = card->get_tavern_tier();
+        if (tav_tier != 1) {
+            all_tier1 = false;
+        }
+        if (tav_tier > 3) {
+            any_greater_than_t3 = true;
+        }
+        if (card->is_golden()) {
+            any_golden = true;
+        }
     }
     EXPECT_TRUE(!all_tier1);
     EXPECT_TRUE(!any_greater_than_t3);
@@ -206,10 +206,10 @@ TEST(BobsTavern, TavernUpMechanismDecreasesInCostPerTurn) {
 TEST(BobsTavern, GivesPlayerWaterDropletCardInHandWhenSellementalSold) {
     BgCardFactory f;
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Sellemental"),
-	 f.get_card("Sellemental (Golden)")	 
-	};
+        {
+         f.get_card("Sellemental"),
+         f.get_card("Sellemental (Golden)")      
+        };
     auto in_hand = Hand(hand_cards);
     auto player = std::make_unique<Player>(in_hand, "Test");
     player->play_card(0, 0);
@@ -228,10 +228,10 @@ TEST(BobsTavern, GivesPlayerWaterDropletCardInHandWhenSellementalSold) {
 TEST(BobsTavern, GivesPlayerALotMoreThanNormalGoldWhenFreedealingGamblerSold) {
     BgCardFactory f;
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Freedealing Gambler"),
-	 f.get_card("Freedealing Gambler (Golden)")	 
-	};
+        {
+         f.get_card("Freedealing Gambler"),
+         f.get_card("Freedealing Gambler (Golden)")      
+        };
     auto in_hand = Hand(hand_cards);
     auto player = std::make_unique<Player>(in_hand, "Test");
     player->set_gold(0); // Set to 0 so we can test appropriately (10 gold cap)
@@ -248,14 +248,14 @@ TEST(BobsTavern, GivesPlayerALotMoreThanNormalGoldWhenFreedealingGamblerSold) {
 TEST(BobsTavern, GivesBackOneGoldIfHoggarrOnBoardAndPirateBought) {
     BgCardFactory f;
     std::vector<std::string> tav_cards
-	{
-	 "Freedealing Gambler"
-	};
+        {
+         "Freedealing Gambler"
+        };
     std::vector<std::shared_ptr<BgBaseCard> > board_cards
-	{
-	 f.get_card("Cap'n Hoggarr"),
-	 f.get_card("Cap'n Hoggarr (Golden)"),
-	};
+        {
+         f.get_card("Cap'n Hoggarr"),
+         f.get_card("Cap'n Hoggarr (Golden)"),
+        };
     auto on_board = std::make_shared<Board>(board_cards);
     auto player = std::make_unique<Player>(on_board, "Test");
     player->set_gold(2); // Set to 2 to make sure we get refunded, but can't buy
@@ -272,10 +272,10 @@ TEST(BobsTavern, GivesBackOneGoldIfHoggarrOnBoardAndPirateBought) {
 TEST(BobsTavern, CanGiveStewardOfTimeBuffAndBuffIsRemovedOnRefresh) {
     BgCardFactory f;
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-	{
-	 f.get_card("Steward of Time"),
-	 f.get_card("Steward of Time (Golden)")
-	};
+        {
+         f.get_card("Steward of Time"),
+         f.get_card("Steward of Time (Golden)")
+        };
     auto in_hand = Hand(hand_cards);
     auto player = std::make_unique<Player>(in_hand, "Test");
     player->play_card(0, 0);

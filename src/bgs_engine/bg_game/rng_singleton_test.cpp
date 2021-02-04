@@ -16,10 +16,10 @@ TEST(RngSingleton, GetRandIntWithbounds) {
     bool one_hit = false;
     bool zero_hit = false;
     for (int i = 0; i < 100; i++) {
-	auto res = rng.get_rand_int(0, 1);
-	if (res == 1) one_hit = true;
-	if (res == 0) zero_hit = true;
-	EXPECT_TRUE(res == 0 || res == 1);
+        auto res = rng.get_rand_int(0, 1);
+        if (res == 1) one_hit = true;
+        if (res == 0) zero_hit = true;
+        EXPECT_TRUE(res == 0 || res == 1);
     }
     EXPECT_TRUE(one_hit);
     EXPECT_TRUE(zero_hit);

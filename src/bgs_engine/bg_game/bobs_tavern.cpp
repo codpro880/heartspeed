@@ -3,9 +3,9 @@
 #include "../cards/bgs/BgCardFactory.hpp"
 
 BobsTavern::BobsTavern(Player* player) : player(player),
-					 nomi_counter(0),
-					 till_refresh_attack_buff(0),
-					 till_refresh_health_buff(0) {
+                                         nomi_counter(0),
+                                         till_refresh_attack_buff(0),
+                                         till_refresh_health_buff(0) {
     init_card_pool();
     init_tav_tier_cost();
     _refresh_minions();
@@ -20,7 +20,7 @@ std::vector<std::string> BobsTavern::refresh_minions(bool is_free) {
     if (player->get_gold() == 0) return current_minions;
     
     if (!is_free) {
-	player->lose_gold(1);
+        player->lose_gold(1);
     }
     _refresh_minions();
     return current_minions;
@@ -40,28 +40,28 @@ void BobsTavern::buy_minion(std::string minion) {
     if (player->get_gold() < 3) return;
     auto it = std::find(current_minions.begin(), current_minions.end(), minion);
     if (it != current_minions.end()) {
-	current_minions.erase(it);
+        current_minions.erase(it);
     }
     else {
-	return;
+        return;
     }
     BgCardFactory f;
     auto card = f.get_card(minion);
     card->set_attack(card->get_attack() + till_refresh_attack_buff);
     card->set_health(card->get_health() + till_refresh_health_buff);
     if (card->get_race() == "ELEMENTAL") {
-	std::cerr << "NOmi counter: " << nomi_counter << std::endl;
-	card->set_attack(card->get_attack() + nomi_counter);
-	card->set_health(card->get_health() + nomi_counter);
+        std::cerr << "NOmi counter: " << nomi_counter << std::endl;
+        card->set_attack(card->get_attack() + nomi_counter);
+        card->set_health(card->get_health() + nomi_counter);
     }
     player->add_card_to_hand(card);
     if (card->get_race() == "PIRATE") {
-	player->inc_pirates_bought_this_turn();
+        player->inc_pirates_bought_this_turn();
     }
     // TODO: Add special buy mechanics like hogger
     player->lose_gold(3);
     for (auto c : player->get_board()->get_cards()) {
-	c->card_bought_trigger(player, card);
+        c->card_bought_trigger(player, card);
     }
 }
 
@@ -71,12 +71,12 @@ bool BobsTavern::tavern_up(int turns_at_current_tier) {
         int player_gold = player->get_gold();
         int upgrade_cost = tav_tier_cost[current_tier + 1] - turns_at_current_tier;
         if (player_gold >= upgrade_cost) {
-	    player->lose_gold(upgrade_cost);
+            player->lose_gold(upgrade_cost);
             player->inc_tavern_tier();
             return true;
-	} else {
-	    return false;
-	}
+        } else {
+            return false;
+        }
     } else {
         return false;
   }
@@ -92,11 +92,11 @@ void BobsTavern::_refresh_minions() {
     // Return current minions to card pool
     const int MAX_TIER = 6;
     for (int i = 0; i < MAX_TIER; i++) {
-	for (auto minion : current_minions) {
-	    if (card_pool[i].find(minion) != card_pool[i].end()) {
-		card_pool[i][minion] += 1;
-	    }
-	}
+        for (auto minion : current_minions) {
+            if (card_pool[i].find(minion) != card_pool[i].end()) {
+                card_pool[i][minion] += 1;
+            }
+        }
     }
     current_minions.clear();
     till_refresh_health_buff = 0;
@@ -105,24 +105,24 @@ void BobsTavern::_refresh_minions() {
     // Refresh
     std::vector<std::string> cards;
     for (int tt = 1; tt < player->get_tavern_tier() + 1; tt++) {
-	for(auto const& imap: card_pool[tt]) {
-	    for (int i = 0; i < imap.second; i++) {
-		cards.push_back(imap.first);
-	    }
-	}
+        for(auto const& imap: card_pool[tt]) {
+            for (int i = 0; i < imap.second; i++) {
+                cards.push_back(imap.first);
+            }
+        }
     }
     std::unordered_set<int> indexes;
     while (indexes.size() != player->get_tavern_tier() + 2) {
-	auto card_ind = RngSingleton::getInstance().get_rand_int() % cards.size();
-	indexes.insert(card_ind);
+        auto card_ind = RngSingleton::getInstance().get_rand_int() % cards.size();
+        indexes.insert(card_ind);
     }
     for (auto const& idx : indexes) {
-	current_minions.push_back(cards[idx]);
+        current_minions.push_back(cards[idx]);
     }
     BgCardFactory f; // TODO: Perf issue, maybe make tav hold bg cards, not strings
     for (auto const& cur_minion : current_minions) {
-	int tav_tier = f.get_card(cur_minion)->get_tavern_tier();
-	card_pool[tav_tier][cur_minion] -= 1;
+        int tav_tier = f.get_card(cur_minion)->get_tavern_tier();
+        card_pool[tav_tier][cur_minion] -= 1;
     }
 }
 
@@ -139,22 +139,22 @@ void BobsTavern::init_card_pool() {
     BgCardFactory f;
     tier_to_cards_map = f.get_card_names_by_tier();
     for (auto card_name : tier_to_cards_map[1]) {
-	card_pool[1][card_name] = 16;
+        card_pool[1][card_name] = 16;
     }
     for (auto card_name : tier_to_cards_map[2]) {
-	card_pool[2][card_name] = 15;
+        card_pool[2][card_name] = 15;
     }
     for (auto card_name : tier_to_cards_map[3]) {
-	card_pool[3][card_name] = 13;
+        card_pool[3][card_name] = 13;
     }
     for (auto card_name : tier_to_cards_map[4]) {
-	card_pool[4][card_name] = 11;
+        card_pool[4][card_name] = 11;
     }
     for (auto card_name : tier_to_cards_map[5]) {
-	card_pool[5][card_name] = 9;
+        card_pool[5][card_name] = 9;
     }
     for (auto card_name : tier_to_cards_map[6]) {
-	card_pool[6][card_name] = 7;
+        card_pool[6][card_name] = 7;
     }
 }
 

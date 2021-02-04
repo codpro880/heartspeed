@@ -14,8 +14,8 @@ void AlAkir::apply_hero_power(std::shared_ptr<Board> board, int pos) {
 void LichKing::apply_hero_power(std::shared_ptr<Board> board, int pos) {
     if (board->length() == 0) return;
     if (pos < 0 || pos >= board->length()) {
-	throw std::runtime_error("Pos must be between 0 and length of board.");
-    }	
+        throw std::runtime_error("Pos must be between 0 and length of board.");
+    }   
     auto cards = board->get_cards();
     cards[pos]->set_reborn();
 }

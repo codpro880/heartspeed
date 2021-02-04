@@ -20,13 +20,13 @@ private:
     void init_cards();
     std::unordered_map<std::string, std::shared_ptr<BgBaseCard> > cards;
     std::shared_ptr<BgBaseCard> init_card(int attack,
-				      std::string card_class,
-				      int cost,
-				      int health,
-				      std::string name,
-				      std::string mechanics,
-				      std::string race,
-				      std::string rarity,
-				      int tech_level,
-				      std::string type);
+                                      std::string card_class,
+                                      int cost,
+                                      int health,
+                                      std::string name,
+                                      std::string mechanics,
+                                      std::string race,
+                                      std::string rarity,
+                                      int tech_level,
+                                      std::string type);
 };

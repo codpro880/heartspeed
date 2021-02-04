@@ -20,16 +20,16 @@ private:
 public:
     static RngSingleton& getInstance(int seed_value=0, bool force_reset=false)
     {
-	// The only instance
-	// Guaranteed to be lazy initialized
-	// Guaranteed that it will be destroyed correctly
-	static RngSingleton instance;
-	if (!instance.initialized || force_reset) {
-	    instance.rng.seed(seed_value);
-	    instance.initialized = true;
-	    instance.seed = seed_value;
-	}
-	return instance;
+        // The only instance
+        // Guaranteed to be lazy initialized
+        // Guaranteed that it will be destroyed correctly
+        static RngSingleton instance;
+        if (!instance.initialized || force_reset) {
+            instance.rng.seed(seed_value);
+            instance.initialized = true;
+            instance.seed = seed_value;
+        }
+        return instance;
     }
 
     int get_seed() { return seed; }
@@ -38,7 +38,7 @@ public:
 
     // Return between start and stop (inclusive)
     int get_rand_int(int start, int stop) {
-	std::uniform_int_distribution<uint32_t> int_dist_interval(start,stop);
-	return int_dist_interval(rng);
+        std::uniform_int_distribution<uint32_t> int_dist_interval(start,stop);
+        return int_dist_interval(rng);
     }
 };

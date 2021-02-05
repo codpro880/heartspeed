@@ -71,7 +71,6 @@ public:
     }
 
     // TODO: Impl bobs tav
-    // void buy_card(std::shared_ptr<BgBaseCard> c) { hand.add_card(c); }
     int calculate_damage() const { return tavern_tier + board->calculate_damage(); }
     void inc_tavern_tier() { tavern_tier += 1; }
     std::shared_ptr<Board> get_board() const { return board; }
@@ -419,7 +418,6 @@ private:
         auto dmg_taken = board->insert_card(board_pos, card, this, true);       
         // Responsible for floating watcher effects...
         // TODO: Make more efficient, does linear searching
-        //floating_watcher_hook(board.get(), dmg_taken);
         take_damage(dmg_taken, true);
         card->battlecry(this);
         hand.remove(card);

@@ -16,22 +16,8 @@ public:
     using BgBaseCard::BgBaseCard;
     virtual void deathrattle(Player* p1, Player* p2) override;
     virtual void do_deathrattle(Player* p1, Player* p2) override = 0;
-    //virtual void deathrattle(Player* p1, Player* p2) override;
-    //virtual void do_deathrattle(Player* p1, Player* p2) override = 0;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override = 0; // boilerplate that every card needs...
-    // TODO: Move summon mechanic to base class
-    // summon() must be overriden if called,
-    // but don't want to force it since not all drattles summon
-    // Think of it as a mutable callback...
-    // virtual std::shared_ptr<BgBaseCard> summon() override {throw std::runtime_error("summon() not implemented"); }    
 };
-
-// class RebornCard : public BgBaseCard {
-// public:
-//     using BgBaseCard::BgBaseCard;
-//     virtual void do_deathrattle(Player* p1, Player* p2) override;
-//     virtual std::shared_ptr<BgBaseCard> get_copy() override = 0; // boilerplate that every card needs...
-// }
 
 class PirateCard : virtual public BgBaseCard {
 public:
@@ -265,7 +251,6 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<DefenderOfArgusGolden>(*this); } // boilerplate that every drattle needs...
 };
 
-//>>>>>>> Stashed changes
 class Djinni : public DeathrattleCard {
 public:
     Djinni() : BgBaseCard(6, "NEUTRAL", 8, 8, "Djinni",

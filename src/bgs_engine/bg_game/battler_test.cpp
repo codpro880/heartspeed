@@ -113,12 +113,10 @@ TEST(Battler, CanGiveBackBattleFramesAndDumpJson) {
     EXPECT_EQ(res.damage_taken, 1+1);
 
     auto bfjd = BattleFrameJsonDump();
-    //std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
     std::string filename = "test.json";
     bfjd.dump_to_json(res, filename);
     std::ifstream ifs(filename);
     EXPECT_TRUE(ifs.good());
-    //std::remove(filename.c_str());
 }
 
 TEST(Battler, CanHandlePoisonCorrectly) {
@@ -154,8 +152,6 @@ TEST(Battler, CanHandleDivineShieldCorrectly) {
     tidecaller3->set_poison();
     auto deflecto1 = f.get_card("Deflect-o-Bot");
     auto deflecto2 = f.get_card("Deflect-o-Bot");
-    // deflecto1->set_divine_shield();
-    // deflecto2->set_divine_shield();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { tidecaller1, tidecaller2, tidecaller3 };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { deflecto1, deflecto2 };
     std::shared_ptr<Board> board1(new Board(p1_cards));

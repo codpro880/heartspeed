@@ -85,7 +85,6 @@ void DeathrattleCard::deathrattle(Player* p1, Player* p2) {
 
 // TODO: Efficiency
 void BattlecryCard::battlecry(Player* p1) {
-    // kalecgos_mods(p1, this);
     if (p1->get_board()->contains("Brann Bronzebeard (Golden)")) {
         do_battlecry(p1);
         do_battlecry(p1);
@@ -102,7 +101,6 @@ void BattlecryCard::battlecry(Player* p1) {
 
 // TODO: Efficiency...and design issues...
 void TargetedBattlecryCard::targeted_battlecry(std::shared_ptr<BgBaseCard> c, Player* p1) {
-    // kalecgos_mods(p1, this);
     if (p1->get_board()->contains("Brann Bronzebeard (Golden)")) {
         do_targeted_battlecry(c);
         do_targeted_battlecry(c);
@@ -320,8 +318,6 @@ void ColdlightSeerGolden::do_battlecry(Player* p1) {
     }
 }
 
-// <<<<<<< Updated upstream
-// =======
 void defender_of_argus_mod(std::shared_ptr<BgBaseCard> card, uint8_t buff) {
     card->set_attack(card->get_attack() + buff);
     card->set_health(card->get_health() + buff);
@@ -368,11 +364,8 @@ void DefenderOfArgusGolden::do_battlecry(Player* p1) {
         }
         pos++;
     }
-    //doa.do_battlecry(p1, board_pos);
-    //doa.do_battlecry(p1, board_pos);
 }
 
-// >>>>>>> Stashed changes
 void Djinni::do_deathrattle(Player* p1, Player*) {
     basic_summon(p1);
 }
@@ -708,10 +701,6 @@ std::shared_ptr<BgBaseCard> ImprisonerGolden::summon() {
     return f.get_card("Imp (Golden)");
 }
 
-// void ImprisonerGolden::do_deathrattle(Board* b1, Board* b2) {
-//     basic_summon("Imp (Golden)", b1, b2);
-// }
-
 void InfestedWolf::do_deathrattle(Player* p1, Player* p2) {
     multi_summon(2, p1);
 }
@@ -849,7 +838,6 @@ int KalecgosGolden::mod_summoned(std::shared_ptr<BgBaseCard> c, Player* p1, bool
 
 void Kangor::do_deathrattle(Player* p1, Player* p2) {
     reset_mech_queue(p1->get_board().get());
-    //auto available_mechs = std::min(mech_queue.size(), (unsigned)2);
     auto available_mechs = mech_queue.size() < unsigned(2) ? mech_queue.size() : unsigned(2);
     multi_summon(available_mechs, p1);
 }
@@ -966,7 +954,6 @@ void LightfangEnforcerGolden::end_turn_mechanic(Player* p1) {
 
 int LilRag::mod_summoned(std::shared_ptr<BgBaseCard> card, Player* p1, bool from_hand) {
     if (card->get_race() == "ELEMENTAL" && from_hand) {
-        // Board* b1 = p1->get_board().get();
         auto all_elem_cards = p1->get_board()->get_cards();
         all_elem_cards.clear();
         all_elem_cards.push_back(card);
@@ -1111,32 +1098,24 @@ void MenagerieMugGolden::do_battlecry(Player* p1) {
     menagerie_bcry(p1, 2, 3);
 }
 
-
-void MetaltoothLeaper::do_battlecry(Player* p1) {
+metaltooth_bcry(Player* p1, int buff, BgBaseCard* _this) {
     auto board = p1->get_board();
     for (auto card : board->get_cards()) {
-        if (card.get() == this) {
+        if (card.get() == _this) {
             continue;
         }
         if (card->get_race() == "MECHANICAL") {
-            card->set_attack(card->get_attack() + 2);
+            card->set_attack(card->get_attack() + buff);
         }
     }
 }
 
+void MetaltoothLeaper::do_battlecry(Player* p1) {
+    metaltooth_bcry(p1, 2, this);
+}
+
 void MetaltoothLeaperGolden::do_battlecry(Player* p1) {
-    auto board = p1->get_board();
-    for (auto card : board->get_cards()) {
-        if (card.get() == this) {
-            continue;
-        }
-        if (card->get_race() == "MECHANICAL") {
-            card->set_attack(card->get_attack() + 4);
-        }
-    }
-    // Just do it twice
-    // leaper.do_battlecry(p1);
-    // leaper.do_battlecry(p1);
+    metaltooth_bcry(p1, 4, this);
 }
 
 void micro_machine_start_turn(Player*, int attack_buff, BgBaseCard* this_) {

@@ -62,7 +62,6 @@ std::vector<std::shared_ptr<BgBaseCard> > BgCardFactory::get_cards_with_deathrat
                     res.push_back(card->get_copy());
                 }
             }
-            // res.push_back(card->get_copy());
         }
         it++;
     }
@@ -154,6 +153,7 @@ void BgCardFactory::init_cards() {
                                                                     "['TRIGGER_VISUAL']", "", "COMMON", 4, "MINION"));
     cards.emplace("Arm of the Empire (Golden)", std::make_shared<BgBaseCard>(8, "NEUTRAL", 5, 10, "Arm of the Empire (Golden)",
                                                                              "['TRIGGER_VISUAL']", "", "COMMON", 4, "MINION"));
+    // TODO: Secrets
     // cards.emplace("Arcane Cannon", BgBaseCard(2, "NEUTRAL", 3, 2, "Arcane Cannon",
     //                                        "['CANT_ATTACK', 'TRIGGER_VISUAL']", "", "", 2, "MINION"));
     // cards.emplace("Arcane Cannon (Golden)", BgBaseCard(4, "NEUTRAL", 3, 4, "Arcane Cannon (Golden)",
@@ -287,7 +287,8 @@ void BgCardFactory::init_cards() {
     // E
     std::shared_ptr<BgBaseCard> effigy(new BgBaseCard(-1, "MAGE", 3, -1, "Effigy",
                                                     "['SECRET']", "", "RARE", -1, "SPELL"));
-    cards.emplace("Effigy", effigy);    
+    cards.emplace("Effigy", effigy);
+    // TODO: Secrets
     // cards.emplace("Effigy", BgBaseCard(-1, "MAGE", 3, -1, "Effigy",
     //                                 "['SECRET']", "", "RARE", -1, "SPELL"));
     auto elistra = std::make_shared<BgBaseCard>(4, "NEUTRAL", 8, 4, "Elistra the Immortal",
@@ -330,10 +331,6 @@ void BgCardFactory::init_cards() {
     cards.emplace("Lieutenant Garr (Golden)", std::make_shared<LieutenantGarrGolden>());
     cards.emplace("Freedealing Gambler", std::make_shared<FreedealingGambler>());
     cards.emplace("Freedealing Gambler (Golden)", std::make_shared<FreedealingGamblerGolden>());
-    // cards.emplace("Gentle Megasaur", BgBaseCard(5, "NEUTRAL", 4, 4, "Gentle Megasaur",
-    //                                          "['BATTLECRY']", "BEAST", "EPIC", 6, "MINION"));
-    // cards.emplace("Gentle Megasaur (Golden)", BgBaseCard(10, "NEUTRAL", 4, 8, "Gentle Megasaur (Golden)",
-    //                                                   "['BATTLECRY']", "BEAST", "EPIC", 6, "MINION"));
     cards.emplace("Ghastcoiler", std::make_shared<Ghastcoiler>());
     cards.emplace("Ghastcoiler (Golden)", std::make_shared<GhastcoilerGolden>());
     cards.emplace("Glyph Guardian", std::make_shared<GlyphGuardian>());
@@ -352,6 +349,7 @@ void BgCardFactory::init_cards() {
     cards.emplace("Guard Bot (Golden)", guard_bot_golden);
 
     // H
+    // TODO: Secrets
     // cards.emplace("Hand of Salvation", BgBaseCard(-1, "PALADIN", 1, -1, "Hand of Salvation",
     //                                            "['SECRET']", "", "FREE", -1, "SPELL"));
     cards.emplace("Hangry Dragon", std::make_shared<HangryDragon>());
@@ -360,8 +358,6 @@ void BgCardFactory::init_cards() {
     cards.emplace("Harvest Golem (Golden)", std::make_shared<HarvestGolemGolden>());
     cards.emplace("Herald of Flame", std::make_shared<HeraldOfFlame>());
     cards.emplace("Herald of Flame (Golden)", std::make_shared<HeraldOfFlameGolden>());
-    // cards.emplace("Holy Mackerel", BgBaseCard(8, "PALADIN", 8, 4, "Holy Mackerel",
-    //                                        "['TRIGGER_VISUAL']", "MURLOC", "", 6, "MINION"));
     cards.emplace("Houndmaster", std::make_shared<Houndmaster>());
     cards.emplace("Houndmaster (Golden)", std::make_shared<HoundmasterGolden>());
     std::shared_ptr<BgBaseCard> hyena(new BgBaseCard(2, "HUNTER", 2, 2, "Hyena",
@@ -372,6 +368,7 @@ void BgCardFactory::init_cards() {
     cards.emplace("Hyena (Golden)", hyena_gold);
 
     // I
+    // TODO: Secrets
     // cards.emplace("Ice Block", BgBaseCard(-1, "MAGE", 3, -1, "Ice Block",
     //                                    "['SECRET']", "", "EPIC", -1, "SPELL"));
     cards.emplace("Infested Wolf", std::make_shared<InfestedWolf>());
@@ -456,8 +453,6 @@ void BgCardFactory::init_cards() {
     cards.emplace("Mal'Ganis (Golden)", std::make_shared<MalGanisGolden>());
     cards.emplace("Mama Bear", std::make_shared<MamaBear>());
     cards.emplace("Mama Bear (Golden)", std::make_shared<MamaBearGolden>());
-    // // cards.emplace("Master Demonologist", BgBaseCard(4, "NEUTRAL", 7, 6, "Master Demonologist",
-    // //                                                   "['TRIGGER_VISUAL']", "DEMON", "", -1, "MINION"));
     cards.emplace("Mechano-Egg", std::make_shared<MechanoEgg>());
     cards.emplace("Mechano-Egg (Golden)", std::make_shared<MechanoEggGolden>());
     cards.emplace("Mecharoo", std::make_shared<Mecharoo>());
@@ -582,13 +577,7 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> robosaur_gold(new BgBaseCard(16, "PALADIN", 8, 16, "Robosaur (Golden)",
                                                              "", "MECHANICAL", "", 1, "MINION"));
     cards.emplace("Robosaur (Golden)", robosaur_gold);
-    // std::shared_ptr<BgBaseCard> rockpool(new BgBaseCard(2, "NEUTRAL", 2, 3, "Rockpool Hunter",
-    //                                                  "['BATTLECRY']", "MURLOC", "COMMON", 1, "MINION"));
-    // cards.emplace("Rockpool Hunter", rockpool);
     cards.emplace("Rockpool Hunter", std::make_shared<RockpoolHunter>());
-    // std::shared_ptr<BgBaseCard> rockpool_gold(new BgBaseCard(4, "NEUTRAL", 2, 6, "Rockpool Hunter (Golden)",
-    //                                                       "['BATTLECRY']", "MURLOC", "COMMON", 1, "MINION"));
-    // cards.emplace("Rockpool Hunter (Golden)", rockpool_gold);
     cards.emplace("Rockpool Hunter (Golden)", std::make_shared<RockpoolHunterGolden>());
 
     // S
@@ -642,17 +631,14 @@ void BgCardFactory::init_cards() {
     std::shared_ptr<BgBaseCard> spider_gold(new BgBaseCard(2, "HUNTER", 1, 2, "Spider",
                                                            "", "BEAST", "", 1, "MINION"));
     cards.emplace("Spider (Golden)", spider_gold);
+    // TODO: Secrets
     // cards.emplace("Splitting Image", BgBaseCard(-1, "MAGE", 3, -1, "Splitting Image",
     //                                          "['SECRET']", "", "EPIC", -1, "SPELL"));
     cards.emplace("Stasis Elemental", std::make_shared<StasisElemental>());
     cards.emplace("Stasis Elemental (Golden)", std::make_shared<StasisElementalGolden>());
     cards.emplace("Steward of Time", std::make_shared<StewardOfTime>());
     cards.emplace("Steward of Time (Golden)", std::make_shared<StewardOfTimeGolden>());
-    // std::shared_ptr<BgBaseCard> strongshell(new BgBaseCard(2, "DRUID", 4, 3, "Strongshell Scavenger",
-    //                                                     "['BATTLECRY']", "", "RARE", 5, "MINION"));
     cards.emplace("Strongshell Scavenger", std::make_shared<StrongshellScavenger>());
-    // std::shared_ptr<BgBaseCard> strongshell_gold(new BgBaseCard(4, "DRUID", 4, 6, "Strongshell Scavenger (Golden)",
-    //                                                     "['BATTLECRY']", "", "RARE", 5, "MINION"));
     cards.emplace("Strongshell Scavenger (Golden)", std::make_shared<StrongshellScavengerGolden>());
 
     // T
@@ -673,10 +659,6 @@ void BgCardFactory::init_cards() {
     cards.emplace("Toxfin", std::make_shared<Toxfin>());
     cards.emplace("Toxfin (Golden)", std::make_shared<ToxfinGolden>());
     cards.emplace("Triple Discover", std::make_shared<TripleDiscover>());
-    // cards.emplace("Treasure Chest", BgBaseCard(0, "NEUTRAL", 2, 2, "Treasure Chest",
-    //                                         "", "", "", 1, "MINION"));
-    // cards.emplace("Treasure Chest (Golden)", BgBaseCard(0, "NEUTRAL", 2, 2, "Treasure Chest (Golden)",
-    //                                                  "", "", "", 1, "MINION"));
     cards.emplace("Twilight Emissary", std::make_shared<TwilightEmissary>());
     cards.emplace("Twilight Emissary (Golden)", std::make_shared<TwilightEmissaryGolden>());
 
@@ -685,10 +667,9 @@ void BgCardFactory::init_cards() {
     cards.emplace("Unstable Ghoul (Golden)", std::make_shared<UnstableGhoulGolden>());
 
     // V
+    // TODO: Secrets
     // cards.emplace("Venomstrike Trap", BgBaseCard(-1, "HUNTER", 2, -1, "Venomstrike Trap",
     //                                           "['SECRET']", "", "RARE", -1, "SPELL"));
-    // std::shared_ptr<BgBaseCard> virmen_sensei(new BgBaseCard(4, "DRUID", 5, 5, "Virmen Sensei",
-    //                                                            "['BATTLECRY']", "", "RARE", 4, "MINION"));
     cards.emplace("Virmen Sensei", std::make_shared<VirmenSensei>());
     cards.emplace("Virmen Sensei (Golden)", std::make_shared<VirmenSenseiGolden>());
     cards.emplace("Voidlord", std::make_shared<Voidlord>());

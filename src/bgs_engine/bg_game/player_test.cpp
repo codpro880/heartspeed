@@ -10,7 +10,6 @@ TEST(Player, CanPlayCardFromHandBasic) {
     std::vector<std::shared_ptr<BgBaseCard> > hand_cards { tidecaller };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     EXPECT_EQ(hand.size(), 1);
     EXPECT_EQ(hand.get_cards()[0]->get_name(), "Murloc Tidecaller");
@@ -126,7 +125,6 @@ TEST(Player, AlleycatBattlecryBasic) {
         };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     EXPECT_EQ(hand.size(), 2);
     EXPECT_EQ(player.get_board()->size(), 0);
@@ -336,7 +334,6 @@ TEST(Player, BrannMakesBattlecriesGoOffTwiceAndGoldenThrice) {
         };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     EXPECT_EQ(hand.size(), 5);
     EXPECT_EQ(player.get_board()->size(), 0);
@@ -543,7 +540,6 @@ TEST(Player, DefenderOfArgusBattlecry) {
         };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     EXPECT_EQ(hand.size(), 5);
     EXPECT_EQ(player.get_board()->size(), 0);
@@ -586,7 +582,6 @@ TEST(Player, FacelessTaverngoerTargettedBattlecry) {
         };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     std::vector<std::string> bobs_minions
         {
@@ -1041,7 +1036,6 @@ TEST(Player, MenagerieMugBattlecryEmpty) {
         };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     EXPECT_EQ(hand.size(), 2);
     EXPECT_EQ(player.get_board()->size(), 0);
@@ -1232,7 +1226,6 @@ TEST(Player, MetaltoothLeaperBattlecry) {
         };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     EXPECT_EQ(hand.size(), 5);
     EXPECT_EQ(player.get_board()->size(), 0);
@@ -1257,26 +1250,6 @@ TEST(Player, MetaltoothLeaperBattlecry) {
     EXPECT_EQ(player.get_board()->get_cards()[4]->get_name(), "Kaboom Bot");
     EXPECT_EQ(player.get_board()->get_cards()[4]->get_attack(), 2);
 }
-
-
-// TOOD: Impl bobs tav
-// TEST(Player, DeckSwabbieBattlecry) {
-//     auto f = BgCardFactory();
-//     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-//      {
-//       f.get_card("Deck Swabbie"),
-//       f.get_card("Deck Swabbie (Golden)")
-//      };
-//     auto in_hand = Hand(hand_cards);
-//     auto player = Player(in_hand, "Test");
-//     EXPECT_EQ(player.get_board()->size(), 0);
-    
-//     player.play_card(0, 0);
-//     EXPECT_EQ(player.get_board()->size(), 1);
-//     // Turn 1 tav up costs 5.
-//     // Golden swabbie takes away 2, normal swabbie takes away 1
-//     EXPECT_EQ(player->get_bobs_tavern().cost() == 5-2-1);
-// }
 
 TEST(Player, MoltenRockReactsToElementalCards) {
     auto f = BgCardFactory();
@@ -1317,7 +1290,6 @@ TEST(Player, MurlocTidecallerAfterMurlocSummoned) {
         };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     EXPECT_EQ(hand.size(), 3);
     EXPECT_EQ(player.get_board()->size(), 0);
@@ -1345,7 +1317,6 @@ TEST(Player, MurlocTidehunterBattlecry) {
         };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     EXPECT_EQ(hand.size(), 3);
     EXPECT_EQ(player.get_board()->size(), 0);
@@ -1702,7 +1673,6 @@ TEST(Player, RockpoolHunterTargettedBattlecry) {
         };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     EXPECT_EQ(hand.size(), 3);
     EXPECT_EQ(player.get_board()->size(), 0);
@@ -1729,7 +1699,6 @@ TEST(Player, SaltyLooterAfterPirateSummoned) {
         };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     EXPECT_EQ(hand.size(), 3);
     EXPECT_EQ(player.get_board()->size(), 0);
@@ -1920,7 +1889,6 @@ TEST(Player, ToxfinTargettedBattlecry) {
         };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     EXPECT_EQ(hand.size(), 3);
     EXPECT_EQ(player.get_board()->size(), 0);
@@ -1947,7 +1915,6 @@ TEST(Player, TwilightEmissaryTargettedBattlecry) {
         };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     EXPECT_EQ(hand.size(), 3);
     EXPECT_EQ(player.get_board()->size(), 0);
@@ -1974,7 +1941,6 @@ TEST(Player, VirmenSenseiTargettedBattlecry) {
         };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     EXPECT_EQ(hand.size(), 3);
     EXPECT_EQ(player.get_board()->size(), 0);
@@ -2000,9 +1966,6 @@ TEST(Player, VulgarHomunculusBattlecry) {
         };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    //player.buy_card(tidecaller); // TODO: Impl bobs tav
-    // auto hand = player.get_hand();
-    // EXPECT_EQ(hand.size(), 1);
     EXPECT_EQ(player.get_board()->size(), 0);
     
     player.play_card(0, 0);
@@ -2025,7 +1988,6 @@ TEST(Player, WrathweaverAfterDemonSummoned) {
         };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    //player.buy_card(tidecaller); // TODO: Impl bobs tav
     auto hand = player.get_hand();
     EXPECT_EQ(hand.size(), 4);
     EXPECT_EQ(player.get_board()->size(), 0);

@@ -1,5 +1,4 @@
 #include <cstdlib>
-// #include <execution>
 #include <stdexcept>
 #include <stdlib.h>
 
@@ -77,7 +76,6 @@ BattleResults Battler::sim_battles(int num_battles) {
         auto player2 = std::make_shared<Player>(p2);
         auto b = Battler(player1.get(), player2.get());
         auto res = b.sim_battle();
-        // auto res = sim_battle(player1.get(), player2.get(), "null");
 
         if (res.who_won == player1->get_name()) {
             total_p1_win++;
@@ -144,7 +142,7 @@ BattleResult Battler::battle(Player* p1,
         if (debug) {
             std::cout << "P1 (before): " << std::endl;
             std::cout << (*p1) << std::endl;
-            // std::cout << "Attacker pos: " << b1->get_attacker_pos() << std::endl;
+            std::cout << "Attacker pos: " << b1->get_attacker_pos() << std::endl;
             std::cout << "P2 (before): " << std::endl;
             std::cout << (*p2) << std::endl;
         }

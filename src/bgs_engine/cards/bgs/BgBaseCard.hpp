@@ -110,7 +110,6 @@ public:
     int get_base_attack() const { return base_attack; }
     std::string get_card_class() const { return card_class; }
     int get_cost() const { return cost; }
-    // int get_death_pos() { return death_pos; }
     int get_health() const { return health; }
     int get_base_health() const { return base_health; }
     std::string get_mechanics() const { return mechanics; }
@@ -173,9 +172,7 @@ public:
 
     virtual std::shared_ptr<BgBaseCard> summon() {throw std::runtime_error("summon() not implemented");}
     virtual std::shared_ptr<BgBaseCard> do_summon(Player*, bool from_hand);
-    // void basic_summon(Board* b1, bool from_hand = false);
     void basic_summon(Player* p1, bool from_hand = false);
-    // void multi_summon(int num_summons, Board* b1, bool from_hand = false);
     void multi_summon(int num_summons, Player* p1, bool from_hand = false);
     virtual void on_sell(Player* p1);
     virtual void card_bought_trigger(Player*, std::shared_ptr<BgBaseCard>) { }
@@ -221,6 +218,5 @@ protected:
     std::string type;
     int death_pos = -2;
     std::string last_dmg_race;
-    // int adapt_count = 0; // Mostly used for testing only
     int adapt_count; // Mostly used for testing only
 };

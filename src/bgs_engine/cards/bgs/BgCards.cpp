@@ -1098,7 +1098,7 @@ void MenagerieMugGolden::do_battlecry(Player* p1) {
     menagerie_bcry(p1, 2, 3);
 }
 
-metaltooth_bcry(Player* p1, int buff, BgBaseCard* _this) {
+void metaltooth_bcry(Player* p1, int buff, BgBaseCard* _this) {
     auto board = p1->get_board();
     for (auto card : board->get_cards()) {
         if (card.get() == _this) {

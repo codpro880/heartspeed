@@ -22,7 +22,7 @@ Should see something like:
 ```
 Matthews-MacBook-Pro:cpp matt$ make docker_test
 docker build -t bgs -f Dockerfile.test .
-[+] Building 541.1s (28/28) FINISHED                                                                                                                          
+[+] Building 541.1s (28/28) FINISHED
  => [internal] load build definition from Dockerfile.test                                                                                                0.0s
  => => transferring dockerfile: 839B                                                                                                                     0.0s
  => [internal] load .dockerignore                                                                                                                        0.0s
@@ -58,7 +58,7 @@ test_all:  Run all tests
 ```
 
 # Web Application
-Heartspeed's associated web application is built with a [PostgreSQL](https://www.postgresql.org/) database, [Django](https://www.djangoproject.com/) backend, and [React](https://reactjs.org/) frontend. The frontend and backend layers communicate using the [GraphQL](https://graphql.org/) query language, supported by [Graphene](https://docs.graphene-python.org/projects/django/en/latest/) and [Apollo](https://www.apollographql.com/docs/react/). [Material-UI](https://material-ui.com/)'s React component library is leveraged for reusable React components. [Django GraphQL Auth](https://django-graphql-auth.readthedocs.io/en/latest/) is used for ease of user registration and authentication over GraphQL.
+Heartspeed's associated web application is built with a [PostgreSQL](https://www.postgresql.org/) database, [Django](https://www.djangoproject.com/) backend, and [React](https://reactjs.org/) frontend. The frontend and backend layers communicate using the [GraphQL](https://graphql.org/) query language, supported by [Graphene](https://docs.graphene-python.org/projects/django/en/latest/) and [Apollo](https://www.apollographql.com/docs/react/). [Material-UI](https://material-ui.com/)'s React component library is leveraged for reusable React components. [Django GraphQL Auth](https://django-graphql-auth.readthedocs.io/en/latest/) is used for ease of user registration and authentication over GraphQL. [Airbnb](https://airbnb.io/javascript)'s implementation of [ESLint](https://eslint.org/) provides static JavaScript linting.
 
 ## Building
 Each of the database, backend, and frontend layers are encapsulated in their own docker containers. These containers can all be built and started by running `docker-compose up` in the `/web` directory. While these three containers are running, use `docker ps` in a separate window to list all running containers.

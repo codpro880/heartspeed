@@ -21,14 +21,12 @@ public:
     }
     
     Board(Board* b) : attacker_pos(0) {
-        // std::vector<std::shared_ptr<BgBaseCard> > cards_copy;
         cards.clear();
         card_names.clear();
         for (auto c : b->get_cards()) {
             cards.push_back(c->get_copy());
             card_names.insert(c->get_name());
         }
-        //return Board(cards_copy);
     }
 
     Board(std::shared_ptr<Board> b) : Board(b.get()) {}
@@ -56,9 +54,6 @@ public:
             }
             pos++;
         }
-        std::cerr << "NOT FOUND" << std::endl;
-        // std::cerr << "Removing pointer." << std::endl;
-        // remove(std::make_shared<BgBaseCard>(*c));    
     }
     
     void remove(std::shared_ptr<BgBaseCard> c) {
@@ -88,29 +83,17 @@ public:
             pos++;
         }
         return -1;
-        // auto it = std::find(cards.begin(), cards.end(), std::shared_ptr<BgBaseCard>(c));
-        // return std::distance(cards.begin(), it);
     }
     
     bool contains(std::shared_ptr<BgBaseCard> c) const {
         auto pos = get_pos(c);
         return pos != -1 && (unsigned)pos != cards.size();
     }
-    // auto get_pos(BgBaseCard* card) {
-    //  auto pos = 0;
-    //  for (auto c : cards) {
-    //      if (c.get() == card) {
-    //          return pos;
-    //      }      
-    //  }
-    //  return -1;
-    // }
     
     void remove_and_mark_dead(Player* p1) {
         std::queue<std::shared_ptr<BgBaseCard> > to_remove;
         for (auto c : cards) {
             if (c->is_dead()) {
-                // auto death_pos = this->get_pos(c.get());
                 auto death_pos = this->get_pos(c);
                 c->set_death_pos(death_pos);
                 deathrattle_q.push(c);
@@ -132,10 +115,6 @@ public:
             to_remove.pop();
         }
     }
-
-    // void do_deathrattles(std::shared_ptr<Board> b) {
-    //  return do_deathrattles(b.get());
-    // }
     
     void do_deathrattles(Player* p1, Player* p2, Board* b2) {
         bool at_least_one_dead = false;
@@ -173,7 +152,7 @@ public:
     }
 
     void clip_attacker_pos() {
-        if (attacker_pos >= length()) {
+        if ((unsigned)attacker_pos >= length()) {
             attacker_pos = 0;
         }
     }

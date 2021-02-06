@@ -23,9 +23,9 @@ public:
                                                               num_free_refreshes(0),
                                                               original_board(std::make_shared<Board>(board_)),
                                                               pirates_bought_this_turn(0),
+                                                              tavern_tier(1),
                                                               tavern(std::make_shared<BobsTavern>(this)),
                                                               tavern_is_frozen(false),
-                                                              tavern_tier(1),
                                                               turns_at_current_tier(0) { }
 
     Player(std::string name) : board(new Board()),
@@ -38,9 +38,9 @@ public:
                                num_free_refreshes(0),
                                original_board(new Board()),
                                pirates_bought_this_turn(0),
+                               tavern_tier(1),
                                tavern(std::make_shared<BobsTavern>(this)),
                                tavern_is_frozen(false),
-                               tavern_tier(1),
                                turns_at_current_tier(0) { }
 
     Player(Hand hand, std::string name) : board(new Board()),
@@ -54,9 +54,9 @@ public:
                                           num_free_refreshes(0),
                                           original_board(new Board()),
                                           pirates_bought_this_turn(0),
+                                          tavern_tier(1),
                                           tavern(std::make_shared<BobsTavern>(this)),
                                           tavern_is_frozen(false),
-                                          tavern_tier(1),
                                           turns_at_current_tier(0) { }
     
     Player(Player* player) {
@@ -71,7 +71,6 @@ public:
     }
 
     // TODO: Impl bobs tav
-    // void buy_card(std::shared_ptr<BgBaseCard> c) { hand.add_card(c); }
     int calculate_damage() const { return tavern_tier + board->calculate_damage(); }
     void inc_tavern_tier() { tavern_tier += 1; }
     std::shared_ptr<Board> get_board() const { return board; }
@@ -362,12 +361,12 @@ private:
         auto board_cards = get_board()->get_cards();
         // Typically don't want to remove from a collection that's being iterated over...
         // so calculate indexes to remove and remove later
-        for (int i = 0; i < hand_cards.size(); i++) {
+        for (int i = 0; (unsigned)i < hand_cards.size(); i++) {
             if (hand_cards[i]->get_name() == name) {
                 hand_indexes.push_back(i);
             }
         }
-        for (int i = 0; i < board_cards.size(); i++) {
+        for (int i = 0; (unsigned)i < board_cards.size(); i++) {
             if (board_cards[i]->get_name() == name) {
                 board_indexes.push_back(i);
             }
@@ -419,7 +418,6 @@ private:
         auto dmg_taken = board->insert_card(board_pos, card, this, true);       
         // Responsible for floating watcher effects...
         // TODO: Make more efficient, does linear searching
-        //floating_watcher_hook(board.get(), dmg_taken);
         take_damage(dmg_taken, true);
         card->battlecry(this);
         hand.remove(card);

@@ -191,15 +191,8 @@ std::shared_ptr<BgBaseCard> BgBaseCard::get_copy() const {
 
 std::shared_ptr<BgBaseCard> BgBaseCard::do_summon(Player* p1, bool from_hand) {
     auto summoned = summon();
-    // for (auto c : b1->get_cards()) {
-    //  c->mod_summoned(summoned, from_hand);
-    // }
     return summoned;
 }
-
-// void BgBaseCard::basic_summon(Player* p1, bool from_hand) {
-//     return basic_summon(p1->get_board().get(), from_hand);
-// }
 
 void BgBaseCard::basic_summon(Player* p1, bool from_hand) {
     return multi_summon(1, p1, from_hand);
@@ -215,11 +208,6 @@ void BgBaseCard::reborn_self(Player* p1) {
     summoned_card->set_health(1);
     p1->get_board()->insert_card(death_pos, summoned_card, p1);
 }
-
-// void BgBaseCard::multi_summon(int num_summons, Player* p1, bool from_hand) {
-//     return multi_summon(num_summons, p1->get_board().get(), from_hand);
-// }
-
 
 void BgBaseCard::multi_summon(int num_summons, Player* p1, bool from_hand) {
     Board* b1 = p1->get_board().get();

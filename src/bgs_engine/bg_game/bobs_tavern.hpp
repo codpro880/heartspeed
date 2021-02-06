@@ -4,8 +4,6 @@
 #include <vector>
 #include <unordered_map>
 
-// #include "player.hpp"
-
 class Player;
 
 // TODO: Make this work properly multithreaded (i.e. make minion buy/sells atomic)

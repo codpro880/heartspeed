@@ -14,7 +14,7 @@ TEST(Battler, CalculatesWinWhenOppEmptyBoard) {
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { tidecaller };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards;
     std::shared_ptr<Board> board1(new Board(p1_cards));
-    std::shared_ptr<Board> board2(new Board(p2_cards));    
+    std::shared_ptr<Board> board2(new Board(p2_cards));
     std::unique_ptr<Player> p1(new Player(board1, "HookTusk"));
     std::unique_ptr<Player> p2(new Player(board2, "Pyramad"));
     auto battler = Battler(p1.get(), p2.get());
@@ -26,7 +26,6 @@ TEST(Battler, CalculatesWinWhenOppEmptyBoard) {
 TEST(Battler, CanCalculateDrawWithEmptyBoards) {
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards;
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards;
-    //auto board1 = std::unique_ptr<Board(p1_cards)>;
     std::shared_ptr<Board> board1(new Board(p1_cards));
     std::shared_ptr<Board> board2(new Board(p2_cards));    
     std::unique_ptr<Player> p1(new Player(board1, "HookTusk"));
@@ -96,29 +95,27 @@ TEST(Battler, CanGiveBackBattleFramesAndDumpJson) {
     std::unique_ptr<Player> p2(new Player(board2, "Pyramad"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
-    EXPECT_EQ(res.frames.size(), 3);
+    EXPECT_EQ(res.frames.size(), (unsigned)3);
     auto p1_board_frame1 = res.frames[0].first;
     auto p2_board_frame1 = res.frames[0].second;
-    EXPECT_EQ(p1_board_frame1.size(), 3);
-    EXPECT_EQ(p2_board_frame1.size(), 2);
+    EXPECT_EQ(p1_board_frame1.size(), (unsigned)3);
+    EXPECT_EQ(p2_board_frame1.size(), (unsigned)2);
     auto p1_board_frame2 = res.frames[1].first;
     auto p2_board_frame2 = res.frames[1].second;
-    EXPECT_EQ(p1_board_frame2.size(), 2);
-    EXPECT_EQ(p2_board_frame2.size(), 1);
+    EXPECT_EQ(p1_board_frame2.size(), (unsigned)2);
+    EXPECT_EQ(p2_board_frame2.size(), (unsigned)1);
     auto p1_board_frame3 = res.frames[2].first;
     auto p2_board_frame3 = res.frames[2].second;
-    EXPECT_EQ(p1_board_frame3.size(), 1);
-    EXPECT_EQ(p2_board_frame3.size(), 0);
+    EXPECT_EQ(p1_board_frame3.size(), (unsigned)1);
+    EXPECT_EQ(p2_board_frame3.size(), (unsigned)0);
     EXPECT_EQ(res.who_won, "HookTusk");
     EXPECT_EQ(res.damage_taken, 1+1);
 
     auto bfjd = BattleFrameJsonDump();
-    //std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
     std::string filename = "test.json";
     bfjd.dump_to_json(res, filename);
     std::ifstream ifs(filename);
     EXPECT_TRUE(ifs.good());
-    //std::remove(filename.c_str());
 }
 
 TEST(Battler, CanHandlePoisonCorrectly) {
@@ -154,8 +151,6 @@ TEST(Battler, CanHandleDivineShieldCorrectly) {
     tidecaller3->set_poison();
     auto deflecto1 = f.get_card("Deflect-o-Bot");
     auto deflecto2 = f.get_card("Deflect-o-Bot");
-    // deflecto1->set_divine_shield();
-    // deflecto2->set_divine_shield();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { tidecaller1, tidecaller2, tidecaller3 };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards { deflecto1, deflecto2 };
     std::shared_ptr<Board> board1(new Board(p1_cards));
@@ -258,7 +253,7 @@ TEST(Battler, ArmOfTheEmpire) {
     std::shared_ptr<Board> board2(new Board(p2_cards));
     std::unique_ptr<Player> p1(new Player(board1, "Tess"));
     std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
-    auto battler = Battler(p1.get(), p2.get(), true);
+    auto battler = Battler(p1.get(), p2.get());
     std::string goes_first = "p2";  
     auto res = battler.sim_battle(goes_first);
     EXPECT_EQ(res.who_won, "draw");
@@ -1380,7 +1375,7 @@ TEST(Battler, QirajiHarbinger) {
     std::shared_ptr<Board> board2(new Board(p2_cards));
     std::unique_ptr<Player> p1(new Player(board1, "p1"));
     std::unique_ptr<Player> p2(new Player(board2, "p2"));
-    auto battler = Battler(p1.get(), p2.get(), true);
+    auto battler = Battler(p1.get(), p2.get());
     std::string goes_first = "p2";
     auto res = battler.sim_battle(goes_first);
     EXPECT_EQ(res.who_won, "p1");
@@ -2084,7 +2079,7 @@ TEST(Battler, WardenOfOldDrattle) {
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "draw");
 
-    EXPECT_EQ(p1->get_hand().get_cards().size(), 3);
+    EXPECT_EQ(p1->get_hand().get_cards().size(), (unsigned)3);
     for (auto card : p1->get_hand().get_cards()) {
         EXPECT_EQ(card->get_name(), "Gold Coin");
     }
@@ -2189,7 +2184,7 @@ TEST(Battler, WildfireElementalGolden) {
     std::shared_ptr<Board> board2(new Board(p2_cards));
     std::unique_ptr<Player> p1(new Player(board1, "Tess"));
     std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
-    auto battler = Battler(p1.get(), p2.get(), true);
+    auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     // Draw if it Wildfire hits a murloc on the edge (it only has 6 health)
     EXPECT_TRUE(res.who_won == "Tess" || res.who_won == "draw");

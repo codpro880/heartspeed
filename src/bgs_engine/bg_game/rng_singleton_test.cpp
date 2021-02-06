@@ -9,6 +9,7 @@ TEST(RngSingleton, CannotResetSeedAfterInit) {
     EXPECT_EQ(rng.get_seed(), 123);
     RngSingleton& rng_again = RngSingleton::getInstance(999);
     EXPECT_EQ(rng.get_seed(), 123);
+    EXPECT_EQ(rng_again.get_seed(), 123);
 }
 
 TEST(RngSingleton, GetRandIntWithbounds) {

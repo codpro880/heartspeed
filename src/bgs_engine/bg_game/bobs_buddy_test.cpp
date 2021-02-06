@@ -44,21 +44,11 @@ protected:
             std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
             auto bb = BobsBuddy(power_log.string());
             auto battle_boards = bb.parse_full_log();
-            std::cerr << "TEST SUITE SETUP" << std::endl;
             battle_boards_p = new std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>>(battle_boards);
         }
     }
 
     static std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>>* battle_boards_p;
-
-    // void SetUp() override {
-    //  std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
-    //  auto bb = BobsBuddy(power_log.string());
-    //  battle_boards = bb.parse_full_log();
-    // }
-
-
-    // std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>> battle_boards;
 };
 
 std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>>* BobsReader::battle_boards_p = nullptr;
@@ -161,8 +151,6 @@ TEST_F(BobsReader, CanGetBattleBoardsFromLogTurn4) {
     EXPECT_EQ(our_fourth_murlocTH2->get_attack(), 2);
     EXPECT_EQ(our_fourth_murlocTH2->get_health(), 1);
     // Default has changed...TODO: Low prio, fix this issue
-    // EXPECT_EQ(our_fourth_salty_looter->get_attack(), 3);
-    // EXPECT_EQ(our_fourth_salty_looter->get_health(), 3);
     EXPECT_EQ(our_fourth_salty_looter->get_attack(), 4);
     EXPECT_EQ(our_fourth_salty_looter->get_health(), 4);
     EXPECT_EQ(our_fourth_drag_lt->get_attack(), 2);
@@ -310,7 +298,6 @@ TEST_F(BobsReader, CanGetBattleBoardsFromLogTurn7) {
     auto their_seventh_hangry = their_seventh_board->get_cards()[4];
     auto their_seventh_stew2 = their_seventh_board->get_cards()[5];
     auto their_seventh_waxrider = their_seventh_board->get_cards()[6];
-    std::cerr << "Past theirs ours" << std::endl;
     EXPECT_EQ(their_seventh_glyph->get_name(), "Glyph Guardian");
     // Special checks for lich king
     EXPECT_EQ(their_seventh_glyph->has_reborn(), true);
@@ -406,19 +393,16 @@ TEST_F(BobsReader, CanGetBattleBoardsFromLogTurn8) {
     std::unique_ptr<Player> p1(new Player(our_eighth_board, "Ours"));
     std::unique_ptr<Player> p2(new Player(their_eighth_board, "Theirs"));
     auto battler = Battler(p1.get(), p2.get());
-    //auto res = battler.sim_battles_par(100000);
     auto res = battler.sim_battles_par(10000);
     std::cerr << "P1 win: " << res.p1_win << std::endl;
     EXPECT_LT(res.p1_win, 1);
     EXPECT_GT(res.p1_win, .95);
-    // EXPECT_GT(res.p1_lethal, .10);
     std::cerr << "draw: " << res.draw << std::endl;
     EXPECT_LT(res.draw, .005);
     EXPECT_GT(res.draw, 0);
     std::cerr << "p2 win: " << res.p2_win << std::endl;
     EXPECT_LT(res.p2_win, .005);
     EXPECT_GT(res.p2_win, 0);
-    // EXPECT_EQ(res.p2_lethal, 0);
 }
 
 // TODO: Debug this. Probably need some visualization tooling
@@ -699,4 +683,3 @@ TEST_F(BobsReader, IsReasonablyThreadSafe) {
     EXPECT_LT(std::fabs(res_par.p2_win - res.p2_win), .05);
     EXPECT_LT(std::fabs(res_par.draw - res.draw), .05);
 }
-

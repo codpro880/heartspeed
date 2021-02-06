@@ -1,5 +1,4 @@
 #include <cstdlib>
-// #include <execution>
 #include <stdexcept>
 #include <stdlib.h>
 
@@ -24,12 +23,10 @@ BattleResult Battler::sim_battle(std::string goes_first) {
 
 BattleResults Battler::sim_battles_par(int num_battles) {    
     std::vector<std::pair<std::shared_ptr<Player>, std::shared_ptr<Player>>> players(num_battles);
-    std::cerr << "Copying..." << std::endl;
     for (int i = 0; i < num_battles; i++) {
         players[i].first = std::make_shared<Player>(p1);
         players[i].second = std::make_shared<Player>(p2);
     }
-    std::cerr << "Done copying" << std::endl;
     std::vector<int> results(num_battles);
 
     // TODO: Make thread_local seeding for reproducibility
@@ -77,7 +74,6 @@ BattleResults Battler::sim_battles(int num_battles) {
         auto player2 = std::make_shared<Player>(p2);
         auto b = Battler(player1.get(), player2.get());
         auto res = b.sim_battle();
-        // auto res = sim_battle(player1.get(), player2.get(), "null");
 
         if (res.who_won == player1->get_name()) {
             total_p1_win++;
@@ -144,7 +140,7 @@ BattleResult Battler::battle(Player* p1,
         if (debug) {
             std::cout << "P1 (before): " << std::endl;
             std::cout << (*p1) << std::endl;
-            // std::cout << "Attacker pos: " << b1->get_attacker_pos() << std::endl;
+            std::cout << "Attacker pos: " << b1->get_attacker_pos() << std::endl;
             std::cout << "P2 (before): " << std::endl;
             std::cout << (*p2) << std::endl;
         }
@@ -195,8 +191,6 @@ BattleResult Battler::battle(Player* p1,
         res.damage_taken = p1->calculate_damage();
         return res;
     }
-
-    // return battle(p2, p1, p2_counter, p1_counter);
 }
 
 void BoardBattler::take_dmg_simul(std::shared_ptr<BgBaseCard> attacker,
@@ -380,18 +374,6 @@ std::tuple<bool, bool, int, int> BoardBattler::battle_boards(int attacker_pos, P
 
     // Zapp special case, ignores taunts
     if (attacker->get_name() == "Zapp" || attacker->get_name() == "Zapp (Golden)") {
-        // No Idea why this isn't working, tried w/ and w/o const& in lambda
-        // auto min_elt_it = std::min_element(b2->get_cards().begin(),
-        //                                 b2->get_cards().end(),
-        //                                 [](std::shared_ptr<BgBaseCard> a, std::shared_ptr<BgBaseCard> b)
-        //                                 {
-        //                                     return a->get_attack() < b->get_attack();
-        //                                 }
-        //                                 );
-        // std::cerr << "GOt here..." << std::endl;
-        // auto idx = std::distance(b2->get_cards().begin(), min_elt_it);
-        // std::cerr << "Index: " << idx << std::endl;
-        // defender = b2->get_cards()[idx];
         int min_attack = b2->get_cards()[0]->get_attack();
         std::vector<std::shared_ptr<BgBaseCard>> defenders;
         for (auto c : b2->get_cards()) {

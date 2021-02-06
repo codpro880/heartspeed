@@ -31,9 +31,7 @@ class BoardBattler {
 public:
     BoardBattler() : first_combat(true) {}
     std::tuple<bool, bool, int, int> battle_boards(int attacker_pos, Player*, Player*);
-    // std::tuple<bool, bool, int, int> battle_boards(int attacker_pos, Board* b1, Board* b2);
     std::tuple<bool, bool, int, int> battle_boards(int attacker_pos, std::shared_ptr<Player>, std::shared_ptr<Player>);
-    // std::tuple<bool, bool, int, int> battle_boards(int attacker_pos, std::shared_ptr<Board> b1, std::shared_ptr<Board> b2);
     void pre_combat(Player* p1, Player* p2);
     void post_battle(Player*, Player*, std::vector<std::shared_ptr<BgBaseCard> >, std::vector<std::shared_ptr<BgBaseCard> >);
     void take_dmg_simul(std::shared_ptr<BgBaseCard> card, std::string who_from_race, int dmg, Player*, Player*);
@@ -81,7 +79,6 @@ public:
                }
            ]
          **/
-        //std::map<std::string, std::map<std::string, std::map<std::string, int>>> backing_data;
         std::vector<std::pair<Board, Board>> frames(bres.frames);
         int frame_ind = 0;
         for (auto frame : frames) {
@@ -122,7 +119,6 @@ public:
             }
             frame_ind++;
         }
-        //std::cout << j.dump(4) << std::endl;
         std::ofstream out(filename);
         out << j.dump(4);
     }

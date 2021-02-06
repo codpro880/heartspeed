@@ -5,7 +5,6 @@ public:
     void add_card(std::shared_ptr<BgBaseCard> card) { cards.push_back(card); }
     void remove(int pos) { cards.erase(cards.begin() + pos); }
     std::vector<std::shared_ptr<BgBaseCard>> get_cards() { return cards; }
-    // void play_card(std::shared_ptr<BgBaseCard> card,
 
     // TOOD: Condense copy/pasta w/ board
     auto get_pos(std::shared_ptr<BgBaseCard> c) const {

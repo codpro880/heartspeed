@@ -29,7 +29,6 @@ int Board::insert_card(int pos,
         }
         cards.push_back(c);
         card_names.insert(c->get_name());
-        // c->do_battlecry(this);
     }
     else{
         for (auto card : this->get_cards()) {
@@ -51,7 +50,6 @@ int Board::insert_card(int pos,
             }
             cards.insert(cards.begin() + pos, c);
             card_names.insert(c->get_name());   
-            // c->do_battlecry(this);
         }
         return total_dmg;
     }

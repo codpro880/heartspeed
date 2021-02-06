@@ -11,13 +11,13 @@ TEST(Player, CanPlayCardFromHandBasic) {
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     auto hand = player.get_hand();
-    EXPECT_EQ(hand.size(), 1);
+    EXPECT_EQ(hand.size(), (unsigned)1);
     EXPECT_EQ(hand.get_cards()[0]->get_name(), "Murloc Tidecaller");
-    EXPECT_EQ(player.get_board()->size(), 0);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)0);
     
     player.play_card(tidecaller, 0);
-    EXPECT_EQ(player.get_hand().size(), 0);
-    EXPECT_EQ(player.get_board()->size(), 1);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)0);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)1);
 }
 
 TEST(Player, CanAndUnfreezeFreezeTavern) {
@@ -126,13 +126,13 @@ TEST(Player, AlleycatBattlecryBasic) {
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     auto hand = player.get_hand();
-    EXPECT_EQ(hand.size(), 2);
-    EXPECT_EQ(player.get_board()->size(), 0);
+    EXPECT_EQ(hand.size(), (unsigned)2);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)0);
     
     player.play_card(0, 0);
     player.play_card(0, 1);
-    EXPECT_EQ(player.get_hand().size(), 1); // Triple discover card created
-    EXPECT_EQ(player.get_board()->size(), 4);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)1); // Triple discover card created
+    EXPECT_EQ(player.get_board()->size(), (unsigned)4);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Alleycat");
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Alleycat (Golden)");
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Tabbycat (Golden)");
@@ -335,15 +335,15 @@ TEST(Player, BrannMakesBattlecriesGoOffTwiceAndGoldenThrice) {
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     auto hand = player.get_hand();
-    EXPECT_EQ(hand.size(), 5);
-    EXPECT_EQ(player.get_board()->size(), 0);
+    EXPECT_EQ(hand.size(), (unsigned)5);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)0);
     
     player.play_card(0, 0);
     player.play_card(0, 1);
     player.play_card(0, 0, 2); // Hand pos, target pos, board pos
     player.play_card(0, 3);
     player.play_card(0, 4);
-    EXPECT_EQ(player.get_board()->size(), 5);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)5);
     // 2*2 for golden rockpool and normal brann, 1*3 for felfin and golden brann
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Murloc Scout");
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 1 + 2*2 + 1*3);
@@ -541,16 +541,16 @@ TEST(Player, DefenderOfArgusBattlecry) {
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     auto hand = player.get_hand();
-    EXPECT_EQ(hand.size(), 5);
-    EXPECT_EQ(player.get_board()->size(), 0);
+    EXPECT_EQ(hand.size(), (unsigned)5);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)0);
     
     player.play_card(0, 0);
     player.play_card(0, 1);
     player.play_card(0, 2); 
     player.play_card(0, 1); // Give mama and egg taunt
     player.play_card(0, 4); // Give tidecaller taunt
-    EXPECT_EQ(player.get_hand().size(), 1); // Triple discover card created
-    EXPECT_EQ(player.get_board()->size(), 5);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)1); // Triple discover card created
+    EXPECT_EQ(player.get_board()->size(), (unsigned)5);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Mama Bear");
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 5);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 5);
@@ -594,8 +594,8 @@ TEST(Player, FacelessTaverngoerTargettedBattlecry) {
     // but it can happen w/ the new darkmoon prizes.
     player.play_card(0, 1, 0); // Non golden faceless targets golden warden, but should stay non golden...
     player.play_card(0, 0, 1); // Golden faceless targets non-golden warden, but should turn golden
-    EXPECT_EQ(player.get_hand().size(), 1); // Gold card played, triple discover card created
-    EXPECT_EQ(player.get_board()->size(), 2);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)1); // Gold card played, triple discover card created
+    EXPECT_EQ(player.get_board()->size(), (unsigned)2);
     auto bronze_warden = player.get_board()->get_cards()[0];
     EXPECT_EQ(bronze_warden->get_name(), "Bronze Warden");
     EXPECT_EQ(bronze_warden->get_attack(), 2);
@@ -1037,14 +1037,14 @@ TEST(Player, MenagerieMugBattlecryEmpty) {
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     auto hand = player.get_hand();
-    EXPECT_EQ(hand.size(), 2);
-    EXPECT_EQ(player.get_board()->size(), 0);
+    EXPECT_EQ(hand.size(), (unsigned)2);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)0);
 
     // Should be nothing buffed
     player.play_card(0, 0);
     player.play_card(0, 1);
-    EXPECT_EQ(player.get_hand().size(), 1); // Triple discover card created
-    EXPECT_EQ(player.get_board()->size(), 2);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)1); // Triple discover card created
+    EXPECT_EQ(player.get_board()->size(), (unsigned)2);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Menagerie Mug");
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 2);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 2);
@@ -1226,8 +1226,8 @@ TEST(Player, MetaltoothLeaperBattlecry) {
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     auto hand = player.get_hand();
-    EXPECT_EQ(hand.size(), 5);
-    EXPECT_EQ(player.get_board()->size(), 0);
+    EXPECT_EQ(hand.size(), (unsigned)5);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)0);
 
     // Play cards in hand order, only Harvest Golem gets buffed
     player.play_card(0, 0);
@@ -1235,8 +1235,8 @@ TEST(Player, MetaltoothLeaperBattlecry) {
     player.play_card(0, 2);
     player.play_card(0, 3);
     player.play_card(0, 4);
-    EXPECT_EQ(player.get_hand().size(), 1); // Triple Discover card created
-    EXPECT_EQ(player.get_board()->size(), 5);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)1); // Triple Discover card created
+    EXPECT_EQ(player.get_board()->size(), (unsigned)5);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Harvest Golem");
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 8);
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Metaltooth Leaper");
@@ -1290,14 +1290,14 @@ TEST(Player, MurlocTidecallerAfterMurlocSummoned) {
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     auto hand = player.get_hand();
-    EXPECT_EQ(hand.size(), 3);
+    EXPECT_EQ(hand.size(), (unsigned)3);
     EXPECT_EQ(player.get_board()->size(), 0);
     
     player.play_card(0, 0);
     player.play_card(0, 1);
     player.play_card(0, 2);
-    EXPECT_EQ(player.get_hand().size(), 1); // Triple discover card created (Gold card played)
-    EXPECT_EQ(player.get_board()->size(), 3);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)1); // Triple discover card created (Gold card played)
+    EXPECT_EQ(player.get_board()->size(), (unsigned)3);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Murloc Tidecaller (Golden)");
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 6);
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Murloc Tidecaller");
@@ -1317,14 +1317,14 @@ TEST(Player, MurlocTidehunterBattlecry) {
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     auto hand = player.get_hand();
-    EXPECT_EQ(hand.size(), 3);
-    EXPECT_EQ(player.get_board()->size(), 0);
+    EXPECT_EQ(hand.size(), (unsigned)3);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)0);
     
     player.play_card(0, 0);
     player.play_card(0, 0);
     player.play_card(0, 3);
-    EXPECT_EQ(player.get_hand().size(), 1); // Triple discover card created (Gold card played)
-    EXPECT_EQ(player.get_board()->size(), 5);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)1); // Triple discover card created (Gold card played)
+    EXPECT_EQ(player.get_board()->size(), (unsigned)5);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Murloc Tidehunter");
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Murloc Scout");
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Murloc Tidecaller");
@@ -1673,14 +1673,14 @@ TEST(Player, RockpoolHunterTargettedBattlecry) {
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     auto hand = player.get_hand();
-    EXPECT_EQ(hand.size(), 3);
-    EXPECT_EQ(player.get_board()->size(), 0);
+    EXPECT_EQ(hand.size(), (unsigned)3);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)0);
     
     player.play_card(0, 0);
     player.play_card(0, 0, 1); // Hand pos, target pos, board pos
     player.play_card(0, 0, 2); // Hand pos, target pos, board pos
-    EXPECT_EQ(player.get_hand().size(), 1); // Gold card played, discover triple card added to hand
-    EXPECT_EQ(player.get_board()->size(), 3);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)1); // Gold card played, discover triple card added to hand
+    EXPECT_EQ(player.get_board()->size(), (unsigned)3);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Murloc Tidecaller");
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 6);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 5);
@@ -1699,14 +1699,14 @@ TEST(Player, SaltyLooterAfterPirateSummoned) {
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     auto hand = player.get_hand();
-    EXPECT_EQ(hand.size(), 3);
-    EXPECT_EQ(player.get_board()->size(), 0);
+    EXPECT_EQ(hand.size(), (unsigned)3);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)0);
     
     player.play_card(0, 0);
     player.play_card(0, 1);
     player.play_card(0, 2);
-    EXPECT_EQ(player.get_hand().size(), 1); // Gold card played
-    EXPECT_EQ(player.get_board()->size(), 3);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)1); // Gold card played
+    EXPECT_EQ(player.get_board()->size(), (unsigned)3);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Salty Looter (Golden)");
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 12);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 12);
@@ -1869,10 +1869,10 @@ TEST(Player, TavernTempestBattlecry) {
 
     player.play_card(0, 0);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Tavern Tempest");
-    EXPECT_EQ(player.get_hand().size(), 2);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)2);
     player.play_card(0, 1);
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Tavern Tempest (Golden)");
-    EXPECT_EQ(player.get_hand().size(), 4);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)4);
     for (auto c : player.get_hand().get_cards()) {
         EXPECT_TRUE(c->get_race() == "ELEMENTAL" || c->get_race() == "");
     }
@@ -1889,14 +1889,14 @@ TEST(Player, ToxfinTargettedBattlecry) {
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     auto hand = player.get_hand();
-    EXPECT_EQ(hand.size(), 3);
-    EXPECT_EQ(player.get_board()->size(), 0);
+    EXPECT_EQ(hand.size(), (unsigned)3);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)0);
     
     player.play_card(0, 0);
     player.play_card(0, 0, 1); // Hand pos, target pos, board pos
     player.play_card(0, 1, 2); // Hand pos, target pos, board pos
-    EXPECT_EQ(player.get_hand().size(), 1); // Gold card played
-    EXPECT_EQ(player.get_board()->size(), 3);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)1); // Gold card played
+    EXPECT_EQ(player.get_board()->size(), (unsigned)3);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Murloc Tidecaller");
     EXPECT_TRUE(player.get_board()->get_cards()[0]->has_poison());
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Toxfin");
@@ -1915,14 +1915,14 @@ TEST(Player, TwilightEmissaryTargettedBattlecry) {
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     auto hand = player.get_hand();
-    EXPECT_EQ(hand.size(), 3);
-    EXPECT_EQ(player.get_board()->size(), 0);
+    EXPECT_EQ(hand.size(), (unsigned)3);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)0);
     
     player.play_card(0, 0);
     player.play_card(0, 0, 1); // Hand pos, target pos, board pos
     player.play_card(0, 0, 2); // Hand pos, target pos, board pos
-    EXPECT_EQ(player.get_hand().size(), 1); // Gold card played
-    EXPECT_EQ(player.get_board()->size(), 3);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)1); // Gold card played
+    EXPECT_EQ(player.get_board()->size(), (unsigned)3);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Cobalt Scalebane");
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 11);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 11);
@@ -1941,14 +1941,14 @@ TEST(Player, VirmenSenseiTargettedBattlecry) {
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     auto hand = player.get_hand();
-    EXPECT_EQ(hand.size(), 3);
-    EXPECT_EQ(player.get_board()->size(), 0);
+    EXPECT_EQ(hand.size(), (unsigned)3);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)0);
     
     player.play_card(0, 0);
     player.play_card(0, 0, 1); // Hand pos, target pos, board pos
     player.play_card(0, 0, 2); // Hand pos, target pos, board pos
-    EXPECT_EQ(player.get_hand().size(), 1); // Gold card played
-    EXPECT_EQ(player.get_board()->size(), 3);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)1); // Gold card played
+    EXPECT_EQ(player.get_board()->size(), (unsigned)3);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Mama Bear");
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 10);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 10);
@@ -1965,12 +1965,12 @@ TEST(Player, VulgarHomunculusBattlecry) {
         };
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
-    EXPECT_EQ(player.get_board()->size(), 0);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)0);
     
     player.play_card(0, 0);
     player.play_card(0, 0);
-    EXPECT_EQ(player.get_hand().size(), 1); // Gold card played
-    EXPECT_EQ(player.get_board()->size(), 2);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)1); // Gold card played
+    EXPECT_EQ(player.get_board()->size(), (unsigned)2);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Vulgar Homunculus (Golden)");
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Vulgar Homunculus");
     EXPECT_EQ(player.get_health(), 34);
@@ -1988,15 +1988,15 @@ TEST(Player, WrathweaverAfterDemonSummoned) {
     auto in_hand = Hand(hand_cards);
     auto player = Player(in_hand, "Test");
     auto hand = player.get_hand();
-    EXPECT_EQ(hand.size(), 4);
-    EXPECT_EQ(player.get_board()->size(), 0);
+    EXPECT_EQ(hand.size(), (unsigned)4);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)0);
     
     player.play_card(0, 0);
     player.play_card(0, 1);
     player.play_card(0, 2);
     player.play_card(0, 3);
-    EXPECT_EQ(player.get_hand().size(), 1); // Gold card played
-    EXPECT_EQ(player.get_board()->size(), 4);
+    EXPECT_EQ(player.get_hand().size(), (unsigned)1); // Gold card played
+    EXPECT_EQ(player.get_board()->size(), (unsigned)4);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Wrath Weaver");
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_attack(), 5);
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_health(), 7);

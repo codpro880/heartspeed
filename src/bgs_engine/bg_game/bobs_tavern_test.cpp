@@ -57,7 +57,7 @@ TEST(BobsTavern, AllowsPlayerToBuyMinionInShop) {
     EXPECT_EQ(player->get_gold(), 3);
     player->buy_minion(minion);
     EXPECT_EQ(player->get_gold(), 0);
-    EXPECT_EQ(player->get_hand().size(), 1);
+    EXPECT_EQ(player->get_hand().size(), (unsigned)1);
     auto player_cards_in_hand = player->get_hand().get_cards();
     EXPECT_EQ(player_cards_in_hand[0]->get_name(), minion);
 }
@@ -69,7 +69,7 @@ TEST(BobsTavern, AllowsPlayerToBuyMinionByPosition) { // Probably useful for RL
     auto minion = avail_minions[0];
     player->buy_minion(0);
     EXPECT_EQ(player->get_gold(), 0);
-    EXPECT_EQ(player->get_hand().size(), 1);
+    EXPECT_EQ(player->get_hand().size(), (unsigned)1);
     auto player_cards_in_hand = player->get_hand().get_cards();
     EXPECT_EQ(player_cards_in_hand[0]->get_name(), minion);
 }
@@ -115,7 +115,7 @@ TEST(BobsTavern, AllowsPlayerToSellBack) {
     player->play_card(0, 0);
     player->sell_minion(0);
     EXPECT_EQ(player->get_gold(), 4);
-    EXPECT_EQ(player->get_hand().size(), 0);
+    EXPECT_EQ(player->get_hand().size(), (unsigned)0);
 }
 
 TEST(BobsTav, TavernUpMechanismWorks) {
@@ -209,13 +209,13 @@ TEST(BobsTavern, GivesPlayerWaterDropletCardInHandWhenSellementalSold) {
     auto player = std::make_unique<Player>(in_hand, "Test");
     player->play_card(0, 0);
     player->play_card(0, 1);
-    EXPECT_EQ(player->get_hand().size(), 1); // Gold card played
-    EXPECT_EQ(player->get_board()->size(), 2);
+    EXPECT_EQ(player->get_hand().size(), (unsigned)1); // Gold card played
+    EXPECT_EQ(player->get_board()->size(), (unsigned)2);
     player->sell_minion(0);
     player->sell_minion(0);
     // Should have non gold and gold water droplet in hand
     EXPECT_EQ(player->get_gold(), 5); // Note: Players start w/ 3 gold
-    EXPECT_EQ(player->get_hand().size(), 2);  // Sellemental should become golden, and discover triple card
+    EXPECT_EQ(player->get_hand().size(), (unsigned)2);  // Sellemental should become golden, and discover triple card
     EXPECT_EQ(player->get_hand().get_cards()[0]->get_name(), "Triple Discover");
     EXPECT_EQ(player->get_hand().get_cards()[1]->get_name(), "Water Droplet (Golden)");
 }
@@ -232,8 +232,8 @@ TEST(BobsTavern, GivesPlayerALotMoreThanNormalGoldWhenFreedealingGamblerSold) {
     player->set_gold(0); // Set to 0 so we can test appropriately (10 gold cap)
     player->play_card(0, 0);
     player->play_card(0, 1);
-    EXPECT_EQ(player->get_hand().size(), 1); // Gold card played
-    EXPECT_EQ(player->get_board()->size(), 2);
+    EXPECT_EQ(player->get_hand().size(), (unsigned)1); // Gold card played
+    EXPECT_EQ(player->get_board()->size(), (unsigned)2);
     player->sell_minion(0);
     player->sell_minion(0);
     // 3 from non golden, 6 from golden
@@ -256,11 +256,11 @@ TEST(BobsTavern, GivesBackOneGoldIfHoggarrOnBoardAndPirateBought) {
     player->set_gold(2); // Set to 2 to make sure we get refunded, but can't buy
     player->set_tavern_minions(tav_cards);
     player->buy_minion(0); // Try to buy freedealing, should fail
-    EXPECT_EQ(player->get_hand().get_cards().size(), 0);
+    EXPECT_EQ(player->get_hand().get_cards().size(), (unsigned)0);
     player->set_gold(3);
     player->buy_minion(0);
     EXPECT_EQ(player->get_gold(), 3); // One from normal hoggarr, two from golden
-    EXPECT_EQ(player->get_hand().get_cards().size(), 1);
+    EXPECT_EQ(player->get_hand().get_cards().size(), (unsigned)1);
     EXPECT_EQ(player->get_hand().get_cards()[0]->get_race(), "PIRATE");
 }
 

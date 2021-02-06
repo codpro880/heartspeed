@@ -361,12 +361,12 @@ private:
         auto board_cards = get_board()->get_cards();
         // Typically don't want to remove from a collection that's being iterated over...
         // so calculate indexes to remove and remove later
-        for (int i = 0; i < hand_cards.size(); i++) {
+        for (int i = 0; (unsigned)i < hand_cards.size(); i++) {
             if (hand_cards[i]->get_name() == name) {
                 hand_indexes.push_back(i);
             }
         }
-        for (int i = 0; i < board_cards.size(); i++) {
+        for (int i = 0; (unsigned)i < board_cards.size(); i++) {
             if (board_cards[i]->get_name() == name) {
                 board_indexes.push_back(i);
             }

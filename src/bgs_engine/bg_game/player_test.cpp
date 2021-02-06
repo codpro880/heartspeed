@@ -2108,3 +2108,35 @@ TEST(Player, CanListRollActions) {
     can_roll = player.list_roll_actions();
     EXPECT_EQ(can_roll.size(), (unsigned)0);
 }
+
+TEST(Player, CanListSellActionsNominalCase) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+        {
+         f.get_card("Alleycat"),
+         f.get_card("Cave Hydra"),
+         f.get_card("Cave Hydra")
+        };
+    std::shared_ptr<Board> board1(new Board(b1_cards));
+    auto player = Player(board1, "Test");
+
+    // Assert we can sell any of the minions on our board
+    auto sellables = player.list_sell_actions();
+    EXPECT_EQ(sellables.size(), (unsigned)3);
+    EXPECT_EQ(sellables[0], "SELL_Alleycat_BOARDPOS_0");
+    EXPECT_EQ(sellables[1], "SELL_Cave Hydra_BOARDPOS_1");
+    EXPECT_EQ(sellables[2], "SELL_Cave Hydra_BOARDPOS_2");
+}
+
+TEST(Player, CanListSellActionsEmptyCase) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+        {
+        };
+    std::shared_ptr<Board> board1(new Board(b1_cards));
+    auto player = Player(board1, "Test");
+
+    // Assert we can sell any of the minions on our board
+    auto sellables = player.list_sell_actions();
+    EXPECT_EQ(sellables.size(), (unsigned)0);
+}

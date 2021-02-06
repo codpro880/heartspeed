@@ -367,6 +367,14 @@ public:
         return res;
     }
 
+    std::vector<std::string> list_sell_actions() {
+        std::vector<std::string> res;
+        auto cards = board->get_cards();
+        for (size_t i = 0; i < cards.size(); i++) {
+            res.push_back("SELL_" + cards[i]->get_name() + "_BOARDPOS_" + std::to_string(i));
+        }
+        return res;
+    }
 
 
     void set_opponents_last_board(std::shared_ptr<Board> b) { opponents_last_board = b; }

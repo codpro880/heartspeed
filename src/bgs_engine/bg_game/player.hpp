@@ -174,6 +174,17 @@ public:
         tavern_is_frozen = false;
     }
 
+    std::vector<std::string> list_freeze_actions() {
+        std::vector<std::string> res;
+        if (tavern_is_frozen) {
+            res.push_back("UNFREEZE");
+        }
+        else {
+            res.push_back("FREEZE");
+        }
+        return res;
+    }
+
     void add_gold(int g) { set_gold(get_gold() + g); }
     void lose_gold(int g) { set_gold(get_gold() - g); }
     void set_gold(int g) {
@@ -328,6 +339,24 @@ public:
                 _triple_minion(p.first);
             }
         }
+    }
+
+    std::vector<std::string> list_available_actions() {
+        // There are 'basic' actions like FREEZE, TAVERNUP
+        // There are positional actions like SELL<CARDNAME>_BOARD<POSITION> or PLAY<CARDNAME>_HAND<POSITION>_BOARD<POSITION>
+        // There are targetted actions like PLAY<CARDNAME>_HAND<POSITION>_BOARD<POSITION>_TARGET<POSITION>
+        std::vector<std::string> res;        
+        // list_sell_actions();
+        // list_buy_actions();
+        // list_roll_actions();
+        // list_freeze_actions();
+        // list_play_from_hand_actions();
+        // list_board_reposition_actions();
+        // list_tavern_up_actions();
+        
+        // TODO
+        // _list_hero_power()
+        return res;
     }
 
     void set_opponents_last_board(std::shared_ptr<Board> b) { opponents_last_board = b; }

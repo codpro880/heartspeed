@@ -2043,3 +2043,24 @@ TEST(Player, CanStartAndEndTurnsAndGoldRefreshesAccordingly) {
     player.start_turn();
     EXPECT_EQ(player.get_gold(), 10);
 }
+
+TEST(Player, CanListBasicFreezeAction) {
+    auto player = Player("Test");
+
+    // Tavern not frozen by default
+    auto can_freeze = player.list_freeze_actions();
+    EXPECT_EQ(can_freeze.size(), (unsigned)1);
+    EXPECT_EQ(can_freeze[0], "FREEZE");
+
+    // Freeze it, check we can unfreeze
+    player.freeze_tavern();
+    auto can_unfreeze = player.list_freeze_actions();
+    EXPECT_EQ(can_unfreeze.size(), (unsigned)1);
+    EXPECT_EQ(can_unfreeze[0], "UNFREEZE");
+
+    // Unfreeze it, check we can freeze
+    player.unfreeze_tavern();
+    auto can_freeze_again = player.list_freeze_actions();
+    EXPECT_EQ(can_freeze_again.size(), (unsigned)1);
+    EXPECT_EQ(can_freeze_again[0], "FREEZE");
+}

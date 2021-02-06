@@ -182,7 +182,7 @@ public:
 
     virtual void take_damage(int damage, std::string who_from_race, Player*, Player*);
 
-    virtual void cast(Player* p1, uint8_t target) {}
+    virtual void cast(Player*, uint8_t) {}
     virtual std::vector<std::string> get_discover_choices() { return std::vector<std::string>(); }
 
     std::string who_killed_race() const {

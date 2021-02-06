@@ -152,7 +152,7 @@ public:
     }
 
     void clip_attacker_pos() {
-        if (attacker_pos >= length()) {
+        if ((unsigned)attacker_pos >= length()) {
             attacker_pos = 0;
         }
     }

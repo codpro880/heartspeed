@@ -1291,7 +1291,7 @@ TEST(Player, MurlocTidecallerAfterMurlocSummoned) {
     auto player = Player(in_hand, "Test");
     auto hand = player.get_hand();
     EXPECT_EQ(hand.size(), (unsigned)3);
-    EXPECT_EQ(player.get_board()->size(), 0);
+    EXPECT_EQ(player.get_board()->size(), (unsigned)0);
     
     player.play_card(0, 0);
     player.play_card(0, 1);

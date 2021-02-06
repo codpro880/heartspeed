@@ -87,8 +87,8 @@ export default function Registration() {
     }
   );
 
-  // if (loading) alert('loading');
-  // if (error) alert ('error');
+  if (loading) console.log('loading');
+  if (error) console.log('error');
 
   return (
     <Container component="main" maxWidth="xs">
@@ -114,10 +114,9 @@ export default function Registration() {
                 error={!!errors?.firstName?.length}
                 helperText={errors?.firstName?.[0].message}
                 onBlur={(e) => setFormState({
-                    ...formState,
-                    firstName: e.target.value
-                  })
-                }
+                  ...formState,
+                  firstName: e.target.value
+                })}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -133,8 +132,7 @@ export default function Registration() {
                 onBlur={(e) => setFormState({
                     ...formState,
                     lastName: e.target.value
-                  })
-                }
+                })}
               />
             </Grid>
             <Grid item xs={12}>
@@ -151,8 +149,7 @@ export default function Registration() {
                 onBlur={(e) => setFormState({
                     ...formState,
                     email: e.target.value
-                  })
-                }
+                })}
               />
             </Grid>
             <Grid item xs={12}>
@@ -170,8 +167,7 @@ export default function Registration() {
                 onBlur={(e) => setFormState({
                     ...formState,
                     password1: e.target.value
-                  })
-                }
+                })}
               />
             </Grid>
             <Grid item xs={12}>
@@ -189,8 +185,7 @@ export default function Registration() {
                 onBlur={(e) => setFormState({
                     ...formState,
                     password2: e.target.value
-                  })
-                }
+                })}
               />
             </Grid>
           </Grid>
@@ -213,7 +208,7 @@ export default function Registration() {
           </Button>
           <Grid container justify="flex-end">
             <Grid item>
-              <Link href="#" variant="body2">
+              <Link href="/login" variant="body2">
                 Already have an account? Sign in
               </Link>
             </Grid>

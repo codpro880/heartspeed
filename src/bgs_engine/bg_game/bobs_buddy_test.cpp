@@ -44,7 +44,6 @@ protected:
             std::filesystem::path power_log = std::filesystem::current_path() / "test_data" / "Power.log";
             auto bb = BobsBuddy(power_log.string());
             auto battle_boards = bb.parse_full_log();
-            std::cerr << "TEST SUITE SETUP" << std::endl;
             battle_boards_p = new std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>>(battle_boards);
         }
     }
@@ -299,7 +298,6 @@ TEST_F(BobsReader, CanGetBattleBoardsFromLogTurn7) {
     auto their_seventh_hangry = their_seventh_board->get_cards()[4];
     auto their_seventh_stew2 = their_seventh_board->get_cards()[5];
     auto their_seventh_waxrider = their_seventh_board->get_cards()[6];
-    std::cerr << "Past theirs ours" << std::endl;
     EXPECT_EQ(their_seventh_glyph->get_name(), "Glyph Guardian");
     // Special checks for lich king
     EXPECT_EQ(their_seventh_glyph->has_reborn(), true);

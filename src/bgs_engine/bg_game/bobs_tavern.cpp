@@ -50,7 +50,6 @@ void BobsTavern::buy_minion(std::string minion) {
     card->set_attack(card->get_attack() + till_refresh_attack_buff);
     card->set_health(card->get_health() + till_refresh_health_buff);
     if (card->get_race() == "ELEMENTAL") {
-        std::cerr << "NOmi counter: " << nomi_counter << std::endl;
         card->set_attack(card->get_attack() + nomi_counter);
         card->set_health(card->get_health() + nomi_counter);
     }

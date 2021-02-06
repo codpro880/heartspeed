@@ -23,9 +23,6 @@ void menagerie_bcry(Player* p1,
                     uint8_t buff_amount,
                     size_t num_to_buff = 7) { // Default is to buff all
     auto board = p1->get_board();
-    for (auto c : board->get_cards()) {
-        std::cerr << "In bcry, card on board: " << c->get_name() << std::endl;
-    }
     std::unordered_set<std::string> races;
     std::vector<std::shared_ptr<BgBaseCard>> cards_to_buff;
     auto cards = board->get_cards();

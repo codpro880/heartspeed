@@ -1076,7 +1076,6 @@ TEST(Player, MenagerieMugBattlecryOne) {
     int total_board_attack = 0;
     int total_board_health = 0;
     for (auto card : player.get_board()->get_cards()) {
-        std::cerr << "Card on board: " << card->get_name() << std::endl;
         total_board_attack += card->get_attack();
         total_board_health += card->get_health();
     }
@@ -1355,7 +1354,7 @@ TEST(Player, MurozondBattlecry) {
         };
     std::shared_ptr<Board> board2(new Board(p2_cards));    
     std::unique_ptr<Player> p2(new Player(board2, "p2"));
-    auto battler = Battler(p1.get(), p2.get(), true);
+    auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "p2");
     p1->end_turn();

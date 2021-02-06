@@ -54,7 +54,6 @@ public:
             }
             pos++;
         }
-        std::cerr << "NOT FOUND" << std::endl;
     }
     
     void remove(std::shared_ptr<BgBaseCard> c) {

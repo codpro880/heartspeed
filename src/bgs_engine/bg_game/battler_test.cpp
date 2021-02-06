@@ -254,7 +254,7 @@ TEST(Battler, ArmOfTheEmpire) {
     std::shared_ptr<Board> board2(new Board(p2_cards));
     std::unique_ptr<Player> p1(new Player(board1, "Tess"));
     std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
-    auto battler = Battler(p1.get(), p2.get(), true);
+    auto battler = Battler(p1.get(), p2.get());
     std::string goes_first = "p2";  
     auto res = battler.sim_battle(goes_first);
     EXPECT_EQ(res.who_won, "draw");
@@ -1376,7 +1376,7 @@ TEST(Battler, QirajiHarbinger) {
     std::shared_ptr<Board> board2(new Board(p2_cards));
     std::unique_ptr<Player> p1(new Player(board1, "p1"));
     std::unique_ptr<Player> p2(new Player(board2, "p2"));
-    auto battler = Battler(p1.get(), p2.get(), true);
+    auto battler = Battler(p1.get(), p2.get());
     std::string goes_first = "p2";
     auto res = battler.sim_battle(goes_first);
     EXPECT_EQ(res.who_won, "p1");
@@ -2185,7 +2185,7 @@ TEST(Battler, WildfireElementalGolden) {
     std::shared_ptr<Board> board2(new Board(p2_cards));
     std::unique_ptr<Player> p1(new Player(board1, "Tess"));
     std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
-    auto battler = Battler(p1.get(), p2.get(), true);
+    auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     // Draw if it Wildfire hits a murloc on the edge (it only has 6 health)
     EXPECT_TRUE(res.who_won == "Tess" || res.who_won == "draw");

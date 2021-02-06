@@ -2044,7 +2044,7 @@ TEST(Player, CanStartAndEndTurnsAndGoldRefreshesAccordingly) {
     EXPECT_EQ(player.get_gold(), 10);
 }
 
-TEST(Player, CanListBasicFreezeAction) {
+TEST(Player, CanListFreezeActions) {
     auto player = Player("Test");
 
     // Tavern not frozen by default
@@ -2063,4 +2063,48 @@ TEST(Player, CanListBasicFreezeAction) {
     auto can_freeze_again = player.list_freeze_actions();
     EXPECT_EQ(can_freeze_again.size(), (unsigned)1);
     EXPECT_EQ(can_freeze_again[0], "FREEZE");
+}
+
+TEST(Player, CanListRollActions) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+        {
+         f.get_card("Refreshing Anomaly")
+        };
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    player.set_gold(3);
+
+    // Tavern not frozen by default
+    auto can_roll = player.list_roll_actions();
+    EXPECT_EQ(can_roll.size(), (unsigned)1);
+    EXPECT_EQ(can_roll[0], "ROLL");
+
+    // Roll, check we can still roll again
+    player.refresh_tavern_minions();
+    can_roll = player.list_roll_actions();
+    EXPECT_EQ(can_roll.size(), (unsigned)1);
+    EXPECT_EQ(can_roll[0], "ROLL");
+
+    // Roll, check we can still roll
+    player.refresh_tavern_minions();
+    can_roll = player.list_roll_actions();
+    EXPECT_EQ(can_roll.size(), (unsigned)1);
+    EXPECT_EQ(can_roll[0], "ROLL");
+
+    // Roll one more time, gold should be 0, can't roll
+    player.refresh_tavern_minions();
+    can_roll = player.list_roll_actions();
+    EXPECT_EQ(can_roll.size(), (unsigned)0);
+
+    // Play refreshing anomaly, can roll again
+    player.play_card(0, 0);
+    can_roll = player.list_roll_actions();
+    EXPECT_EQ(can_roll.size(), (unsigned)1);
+    EXPECT_EQ(can_roll[0], "ROLL");
+
+    // After this roll, make sure we can't roll again
+    player.refresh_tavern_minions();
+    can_roll = player.list_roll_actions();
+    EXPECT_EQ(can_roll.size(), (unsigned)0);
 }

@@ -174,17 +174,6 @@ public:
         tavern_is_frozen = false;
     }
 
-    std::vector<std::string> list_freeze_actions() {
-        std::vector<std::string> res;
-        if (tavern_is_frozen) {
-            res.push_back("UNFREEZE");
-        }
-        else {
-            res.push_back("FREEZE");
-        }
-        return res;
-    }
-
     void add_gold(int g) { set_gold(get_gold() + g); }
     void lose_gold(int g) { set_gold(get_gold() - g); }
     void set_gold(int g) {
@@ -358,6 +347,27 @@ public:
         // _list_hero_power()
         return res;
     }
+
+    std::vector<std::string> list_freeze_actions() {
+        std::vector<std::string> res;
+        if (tavern_is_frozen) {
+            res.push_back("UNFREEZE");
+        }
+        else {
+            res.push_back("FREEZE");
+        }
+        return res;
+    }
+
+    std::vector<std::string> list_roll_actions() {
+        std::vector<std::string> res;
+        if (gold > 0 || num_free_refreshes > 0) {
+            res.push_back("ROLL");
+        }
+        return res;
+    }
+
+
 
     void set_opponents_last_board(std::shared_ptr<Board> b) { opponents_last_board = b; }
     std::shared_ptr<Board> get_opponents_last_board() { return opponents_last_board; }

@@ -14,7 +14,7 @@ TEST(Battler, CalculatesWinWhenOppEmptyBoard) {
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards { tidecaller };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards;
     std::shared_ptr<Board> board1(new Board(p1_cards));
-    std::shared_ptr<Board> board2(new Board(p2_cards));    
+    std::shared_ptr<Board> board2(new Board(p2_cards));
     std::unique_ptr<Player> p1(new Player(board1, "HookTusk"));
     std::unique_ptr<Player> p2(new Player(board2, "Pyramad"));
     auto battler = Battler(p1.get(), p2.get());
@@ -26,7 +26,6 @@ TEST(Battler, CalculatesWinWhenOppEmptyBoard) {
 TEST(Battler, CanCalculateDrawWithEmptyBoards) {
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards;
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards;
-    //auto board1 = std::unique_ptr<Board(p1_cards)>;
     std::shared_ptr<Board> board1(new Board(p1_cards));
     std::shared_ptr<Board> board2(new Board(p2_cards));    
     std::unique_ptr<Player> p1(new Player(board1, "HookTusk"));

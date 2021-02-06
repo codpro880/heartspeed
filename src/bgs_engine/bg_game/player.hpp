@@ -23,9 +23,9 @@ public:
                                                               num_free_refreshes(0),
                                                               original_board(std::make_shared<Board>(board_)),
                                                               pirates_bought_this_turn(0),
+                                                              tavern_tier(1),
                                                               tavern(std::make_shared<BobsTavern>(this)),
                                                               tavern_is_frozen(false),
-                                                              tavern_tier(1),
                                                               turns_at_current_tier(0) { }
 
     Player(std::string name) : board(new Board()),
@@ -38,9 +38,9 @@ public:
                                num_free_refreshes(0),
                                original_board(new Board()),
                                pirates_bought_this_turn(0),
+                               tavern_tier(1),
                                tavern(std::make_shared<BobsTavern>(this)),
                                tavern_is_frozen(false),
-                               tavern_tier(1),
                                turns_at_current_tier(0) { }
 
     Player(Hand hand, std::string name) : board(new Board()),
@@ -54,9 +54,9 @@ public:
                                           num_free_refreshes(0),
                                           original_board(new Board()),
                                           pirates_bought_this_turn(0),
+                                          tavern_tier(1),
                                           tavern(std::make_shared<BobsTavern>(this)),
                                           tavern_is_frozen(false),
-                                          tavern_tier(1),
                                           turns_at_current_tier(0) { }
     
     Player(Player* player) {

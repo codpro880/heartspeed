@@ -5,3 +5,4 @@ graphene-django
 django-graphql-jwt==0.3.0
 django-graphql-auth
 PyJWT==1.7.1
+prospector

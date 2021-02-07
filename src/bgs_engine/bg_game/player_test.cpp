@@ -2179,12 +2179,6 @@ TEST(Player, CanListSellActionsNominalCase) {
                               sell_action) != all_actions.end());
                               
     }
-
-    // auto sell_obs = player.list_sell_observations();
-    // EXPECT_EQ(sell_obs.size(), (unsigned)3);
-    // EXPECT_EQ(sell_obs[0], "Alleycat");
-    // EXPECT_EQ(sell_obs[1], "Cave Hydra");
-    // EXPECT_EQ(sell_obs[2], "Cave Hydra");
 }
 
 TEST(Player, CanListSellActionsEmptyCase) {
@@ -2199,3 +2193,29 @@ TEST(Player, CanListSellActionsEmptyCase) {
     auto sellables = player.list_sell_actions();
     EXPECT_EQ(sellables.size(), (unsigned)0);
 }
+
+TEST(Player, CanListPlayFromHandActionsEmpty) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+        {
+        };
+    std::shared_ptr<Board> board1(new Board(b1_cards));
+    auto player = Player(board1, "Test");
+
+    // Assert we can sell any of the minions on our board
+    auto play_actions = player.list_play_from_hand_actions();
+    EXPECT_EQ(play_actions.size(), (unsigned)0);
+}
+
+// TEST(Player, CanListPlayFromHandActionsEmpty) {
+//     auto f = BgCardFactory();
+//     std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+//         {
+//         };
+//     std::shared_ptr<Board> board1(new Board(b1_cards));
+//     auto player = Player(board1, "Test");
+
+//     // Assert we can sell any of the minions on our board
+//     auto play_actions = player.list_play_from_hand_actions();
+//     EXPECT_EQ(play_actions.size(), (unsigned)0);
+// }

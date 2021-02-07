@@ -385,12 +385,8 @@ public:
         return res;
     }
 
-    std::vector<std::string> list_obs_actions() {
+    std::vector<std::string> list_play_from_hand_actions() {
         std::vector<std::string> res;
-        auto cards = board->get_cards();
-        for (size_t i = 0; i < cards.size(); i++) {
-            res.push_back(cards[i]->get_name());
-        }
         return res;
     }
 
@@ -532,7 +528,7 @@ private:
         }
     }
 
-        void play_minion_card(uint8_t hand_pos, uint8_t board_pos) {
+    void play_minion_card(uint8_t hand_pos, uint8_t board_pos) {
         auto card = hand.get_cards()[hand_pos];
         if (get_board()->get_cards().size() == (unsigned)7) {
             std::cerr << "WARNING: Board is full" << std::endl;

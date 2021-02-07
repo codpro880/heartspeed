@@ -2224,9 +2224,13 @@ TEST(Player, CanListPlayFromHandActionsSingleCard) {
     auto player = Player(hand, "Test");
 
     // Assert we can sell any of the minions on our board
+    auto all_actions = player.list_all_possible_actions();
     auto play_actions = player.list_play_from_hand_actions();
     EXPECT_EQ(play_actions.size(), (unsigned)1);
     EXPECT_EQ(play_actions[0], "PLAY_CARD_FROM_HAND_0_TO_BOARD_0");
+    EXPECT_TRUE(std::find(all_actions.begin(),
+                          all_actions.end(),
+                          play_actions[0]) != all_actions.end());
 }
 
 TEST(Player, CanListPlayFromHandActionsFullBoard) {
@@ -2257,4 +2261,41 @@ TEST(Player, CanListPlayFromHandActionsFullBoard) {
     // Assert we can't play any minions (board is full)
     auto play_actions = player.list_play_from_hand_actions();
     EXPECT_EQ(play_actions.size(), (unsigned)0);
+}
+
+TEST(Player, CanListPlayActionsAlmostFullBoard) {
+    // Board is almost full, so every slot should be available
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+        {
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat")
+        };
+    std::shared_ptr<Board> board1(new Board(b1_cards));
+
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+        {
+         f.get_card("Amalgadon"),
+         f.get_card("Alleycat"),
+         f.get_card("Foe Reaper 4000"),
+         f.get_card("Mal'Ganis (Golden)")
+        };
+    auto hand = Hand(hand_cards);
+    auto player = Player(hand, "Test");
+    player.set_board(board1);
+
+    // Assert we can't play any minions (board is full)
+    auto all_actions = player.list_all_possible_actions();
+    auto play_actions = player.list_play_from_hand_actions();
+    // Four cards, can play them in any slot
+    EXPECT_EQ(play_actions.size(), (unsigned)(4*7));
+    for (const auto& play_action : play_actions) {
+        EXPECT_TRUE(std::find(all_actions.begin(),
+                              all_actions.end(),
+                              play_action) != all_actions.end());
+    }
 }

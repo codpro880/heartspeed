@@ -2058,7 +2058,14 @@ TEST(Player, CanListAllPossibleActions) {
          "PLAY_CARD_FROM_HAND_6_TO_BOARD_6_TARGET_6", // Play seventh card in hand to seventh board slot target 7th
          "REPOSITION_FROM_0_TO_1", // Flip first and second card
          "REPOSITION_FROM_3_TO_5", // Reposition card 3 into slot 5
-         "REPOSITION_FROM_6_TO_5", // Reposition card 3 into slot 5 
+         "REPOSITION_FROM_6_TO_5", // Reposition card 3 into slot 5
+         // TODO: spells
+         // "SPELL_NO_TARGET",
+         // "SPELL_BOARD_TARGET_0",
+         // "SPELL_TAVERN_TARGET_0",
+         // TODO: Hero powers
+         // "HERO_POWER_PYRAMAD",
+         // "HERO_POWER_LICH_KING",
         };    
 
     // Can't reposition to original position, this is a no-op
@@ -2207,15 +2214,47 @@ TEST(Player, CanListPlayFromHandActionsEmpty) {
     EXPECT_EQ(play_actions.size(), (unsigned)0);
 }
 
-// TEST(Player, CanListPlayFromHandActionsEmpty) {
-//     auto f = BgCardFactory();
-//     std::vector<std::shared_ptr<BgBaseCard> > b1_cards
-//         {
-//         };
-//     std::shared_ptr<Board> board1(new Board(b1_cards));
-//     auto player = Player(board1, "Test");
+TEST(Player, CanListPlayFromHandActionsSingleCard) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+        {
+         f.get_card("Alleycat")
+        };
+    Hand hand(b1_cards);
+    auto player = Player(hand, "Test");
 
-//     // Assert we can sell any of the minions on our board
-//     auto play_actions = player.list_play_from_hand_actions();
-//     EXPECT_EQ(play_actions.size(), (unsigned)0);
-// }
+    // Assert we can sell any of the minions on our board
+    auto play_actions = player.list_play_from_hand_actions();
+    EXPECT_EQ(play_actions.size(), (unsigned)1);
+    EXPECT_EQ(play_actions[0], "PLAY_CARD_FROM_HAND_0_TO_BOARD_0");
+}
+
+TEST(Player, CanListPlayFromHandActionsFullBoard) {
+    // Should be no play actions if board is full, except for spells
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+        {
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat")
+        };
+    std::shared_ptr<Board> board1(new Board(b1_cards));
+
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+        {
+         f.get_card("Amalgadon"),
+         f.get_card("Alleycat"),
+         f.get_card("Foe Reaper 4000"),
+        };
+    auto hand = Hand(hand_cards);
+    auto player = Player(hand, "Test");
+    player.set_board(board1);
+
+    // Assert we can't play any minions (board is full)
+    auto play_actions = player.list_play_from_hand_actions();
+    EXPECT_EQ(play_actions.size(), (unsigned)0);
+}

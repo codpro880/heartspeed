@@ -2076,7 +2076,6 @@ TEST(Player, CanListAllPossibleActions) {
     auto player = Player("Test");
     auto all_actions = player.list_all_possible_actions();
     for (auto spot_check : spot_checks) {
-        std::cerr << "Spot check: " << spot_check << std::endl;
         EXPECT_TRUE(std::find(all_actions.begin(),
                               all_actions.end(),
                               spot_check) != all_actions.end());

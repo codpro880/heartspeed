@@ -367,15 +367,94 @@ public:
         return res;
     }
 
+    // std::vector<std::string> list_sell_actions() {
+    //     std::vector<std::string> res;
+    //     auto cards = board->get_cards();
+    //     for (size_t i = 0; i < cards.size(); i++) {
+    //         res.push_back("SELL_" + cards[i]->get_name() + "_BOARDPOS_" + std::to_string(i));
+    //     }
+    //     return res;
+    // }
+
     std::vector<std::string> list_sell_actions() {
         std::vector<std::string> res;
         auto cards = board->get_cards();
         for (size_t i = 0; i < cards.size(); i++) {
-            res.push_back("SELL_" + cards[i]->get_name() + "_BOARDPOS_" + std::to_string(i));
+            res.push_back("SELL_" + std::to_string(i));
         }
         return res;
     }
 
+    std::vector<std::string> list_obs_actions() {
+        std::vector<std::string> res;
+        auto cards = board->get_cards();
+        for (size_t i = 0; i < cards.size(); i++) {
+            res.push_back(cards[i]->get_name());
+        }
+        return res;
+    }
+
+    std::vector<std::string> list_all_possible_actions() {
+        std::vector<std::string> res =
+            {
+             "FREEZE",
+             "UNFREEZE",
+             "ROLL",
+             "BUY_0",
+             "BUY_1",
+             "BUY_2",
+             "BUY_3",
+             "BUY_4",
+             "BUY_5",
+             "BUY_6",
+             "SELL_0",
+             "SELL_1",
+             "SELL_2",
+             "SELL_3",
+             "SELL_4",
+             "SELL_5",
+             "SELL_6",
+             "TAVERN_UP",
+            };
+        
+        // Generates all actions of the form "PLAY_FROM_HAND_<X>_TO_BOARD_<Y>"
+        for (int x = 0; x < 7; x++) {
+            for (int y = 0; y < 7; y++) {
+                res.push_back("PLAY_CARD_FROM_HAND_"
+                              + std::to_string(x)
+                              + "_TO_BOARD_"
+                              + std::to_string(y));
+            }
+        }
+        
+        // Generates all actions of the form "PLAY_FROM_HAND_<X>_TO_BOARD_<Y>_TARGET_<Z>"
+        for (int x = 0; x < 7; x++) {
+            for (int y = 0; y < 7; y++) {
+                for (int z = 0; z < 7; z++) {
+                    res.push_back("PLAY_CARD_FROM_HAND_"
+                                  + std::to_string(x)
+                                  + "_TO_BOARD_"
+                                  + std::to_string(y)
+                                  + "_TARGET_"
+                                  + std::to_string(z));
+                }
+            }
+        }
+
+        // Generates all actions of the form "REPOSITION_FROM_<X>_TO_<Y>"
+        for (int x = 0; x < 7; x++) {
+            for (int y = 0; y < 7; y++) {
+                if (x == y) continue;
+                res.push_back("REPOSITION_FROM_"
+                              + std::to_string(x)
+                              + "_TO_"
+                              + std::to_string(y));
+            }
+        }
+        
+        return res;
+    }
+    
 
     void set_opponents_last_board(std::shared_ptr<Board> b) { opponents_last_board = b; }
     std::shared_ptr<Board> get_opponents_last_board() { return opponents_last_board; }

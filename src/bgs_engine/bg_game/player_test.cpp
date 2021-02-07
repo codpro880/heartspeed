@@ -2044,6 +2044,51 @@ TEST(Player, CanStartAndEndTurnsAndGoldRefreshesAccordingly) {
     EXPECT_EQ(player.get_gold(), 10);
 }
 
+TEST(Player, CanListAllPossibleActions) {
+    // Just does some spot checking...
+    std::vector<std::string> spot_checks =
+        {
+         "BUY_3", // Buy the 4th minion in bobs tav
+         "SELL_6", // Sell the 7th minion on board
+         "PLAY_CARD_FROM_HAND_0_TO_BOARD_0", // Play first card in hand to first board slot
+         "PLAY_CARD_FROM_HAND_5_TO_BOARD_2", // Play fourth card in hand to third board slot
+         "PLAY_CARD_FROM_HAND_6_TO_BOARD_6", // Play seventh card in hand to seventh board slot
+         "PLAY_CARD_FROM_HAND_0_TO_BOARD_0_TARGET_0", // Play first card in hand to first board slot target first
+         "PLAY_CARD_FROM_HAND_5_TO_BOARD_2_TARGET_3", // Play fourth card in hand to third board slot target third
+         "PLAY_CARD_FROM_HAND_6_TO_BOARD_6_TARGET_6", // Play seventh card in hand to seventh board slot target 7th
+         "REPOSITION_FROM_0_TO_1", // Flip first and second card
+         "REPOSITION_FROM_3_TO_5", // Reposition card 3 into slot 5
+         "REPOSITION_FROM_6_TO_5", // Reposition card 3 into slot 5 
+        };    
+
+    // Can't reposition to original position, this is a no-op
+    std::vector<std::string> invalids =
+        {
+         "REPOSITION_FROM_0_TO_0",
+         "REPOSITION_FROM_1_TO_1",
+         "REPOSITION_FROM_2_TO_2",
+         "REPOSITION_FROM_3_TO_3",
+         "REPOSITION_FROM_4_TO_4",
+         "REPOSITION_FROM_5_TO_5",
+         "REPOSITION_FROM_6_TO_6"
+        };
+
+    auto player = Player("Test");
+    auto all_actions = player.list_all_possible_actions();
+    for (auto spot_check : spot_checks) {
+        std::cerr << "Spot check: " << spot_check << std::endl;
+        EXPECT_TRUE(std::find(all_actions.begin(),
+                              all_actions.end(),
+                              spot_check) != all_actions.end());
+    }
+
+    for (auto invalid : invalids) {
+        EXPECT_TRUE(std::find(all_actions.begin(),
+                              all_actions.end(),
+                              invalid) == all_actions.end());
+    }
+}
+
 TEST(Player, CanListFreezeActions) {
     auto player = Player("Test");
 
@@ -2119,13 +2164,28 @@ TEST(Player, CanListSellActionsNominalCase) {
         };
     std::shared_ptr<Board> board1(new Board(b1_cards));
     auto player = Player(board1, "Test");
-
+    
     // Assert we can sell any of the minions on our board
-    auto sellables = player.list_sell_actions();
-    EXPECT_EQ(sellables.size(), (unsigned)3);
-    EXPECT_EQ(sellables[0], "SELL_Alleycat_BOARDPOS_0");
-    EXPECT_EQ(sellables[1], "SELL_Cave Hydra_BOARDPOS_1");
-    EXPECT_EQ(sellables[2], "SELL_Cave Hydra_BOARDPOS_2");
+    auto sell_actions = player.list_sell_actions();
+    EXPECT_EQ(sell_actions.size(), (unsigned)3);
+    EXPECT_EQ(sell_actions[0], "SELL_0");
+    EXPECT_EQ(sell_actions[1], "SELL_1");
+    EXPECT_EQ(sell_actions[2], "SELL_2");
+
+    // All actions should be in the larger pool of possible actions
+    auto all_actions = player.list_all_possible_actions();
+    for (auto sell_action : sell_actions) {
+        EXPECT_TRUE(std::find(all_actions.begin(),
+                              all_actions.end(),
+                              sell_action) != all_actions.end());
+                              
+    }
+
+    // auto sell_obs = player.list_sell_observations();
+    // EXPECT_EQ(sell_obs.size(), (unsigned)3);
+    // EXPECT_EQ(sell_obs[0], "Alleycat");
+    // EXPECT_EQ(sell_obs[1], "Cave Hydra");
+    // EXPECT_EQ(sell_obs[2], "Cave Hydra");
 }
 
 TEST(Player, CanListSellActionsEmptyCase) {

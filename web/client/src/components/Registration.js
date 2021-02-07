@@ -67,15 +67,15 @@ export default function Registration() {
     password2: '',
   });
 
-  const [signup, { loading, error } ] = useMutation(
+  const [signup, { loading, error }] = useMutation(
     REGISTER_MUTATION, {
-            onCompleted(data) {
+      onCompleted(data) {
         if (data.register.errors) {
           setErrors(data.register.errors);
         } else {
           setErrors(null);
         }
-      }
+      },
     }, {
       variables: {
         firstName: formState.firstName,
@@ -83,8 +83,8 @@ export default function Registration() {
         email: formState.email,
         password1: formState.password1,
         password2: formState.password2,
-      }
-    }
+      },
+    },
   );
 
   if (loading) console.log('loading');
@@ -115,7 +115,7 @@ export default function Registration() {
                 helperText={errors?.firstName?.[0].message}
                 onBlur={(e) => setFormState({
                   ...formState,
-                  firstName: e.target.value
+                  firstName: e.target.value,
                 })}
               />
             </Grid>
@@ -130,8 +130,8 @@ export default function Registration() {
                 error={!!errors?.lastName?.length}
                 helperText={errors?.lastName?.[0].message}
                 onBlur={(e) => setFormState({
-                    ...formState,
-                    lastName: e.target.value
+                  ...formState,
+                  lastName: e.target.value,
                 })}
               />
             </Grid>
@@ -147,8 +147,8 @@ export default function Registration() {
                 error={!!errors?.email?.length}
                 helperText={errors?.email?.[0].message}
                 onBlur={(e) => setFormState({
-                    ...formState,
-                    email: e.target.value
+                  ...formState,
+                  email: e.target.value,
                 })}
               />
             </Grid>
@@ -165,8 +165,8 @@ export default function Registration() {
                 error={!!errors?.password1?.length}
                 helperText={errors?.password1?.[0].message}
                 onBlur={(e) => setFormState({
-                    ...formState,
-                    password1: e.target.value
+                  ...formState,
+                  password1: e.target.value,
                 })}
               />
             </Grid>
@@ -183,8 +183,8 @@ export default function Registration() {
                 error={!!errors?.password2?.length}
                 helperText={errors?.password2?.[0].message}
                 onBlur={(e) => setFormState({
-                    ...formState,
-                    password2: e.target.value
+                  ...formState,
+                  password2: e.target.value,
                 })}
               />
             </Grid>
@@ -195,13 +195,15 @@ export default function Registration() {
             color="primary"
             className={classes.submit}
             onClick={() => {
-              signup({ variables: {
-                firstName: formState.firstName,
-                lastName: formState.lastName,
-                email: formState.email,
-                password1: formState.password1,
-                password2: formState.password2
-                }})
+              signup({
+                variables: {
+                  firstName: formState.firstName,
+                  lastName: formState.lastName,
+                  email: formState.email,
+                  password1: formState.password1,
+                  password2: formState.password2,
+                },
+              });
             }}
           >
             Sign Up

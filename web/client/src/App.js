@@ -1,4 +1,4 @@
-import React, { useState }from 'react';
+import React, { useState } from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
 
@@ -15,23 +15,24 @@ const client = new ApolloClient({
 });
 
 export default function App() {
+  // eslint-disable-next-line no-unused-vars
   const [token, setToken] = useState();
   return (
     <ApolloProvider client={client}>
-    <BrowserRouter>
-      <Switch>
-        <Route path="/login">
-          <Login setToken={setToken} />
-        </Route>
-      </Switch>
-    </BrowserRouter>
-    <BrowserRouter>
-      <Switch>
-        <Route path="/register">
-          <Registration />
-        </Route>
-      </Switch>
-    </BrowserRouter>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/login">
+            <Login setToken={setToken} />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/register">
+            <Registration />
+          </Route>
+        </Switch>
+      </BrowserRouter>
       <Container maxWidth="sm">
         <Box my={4}>
           <ProTip />

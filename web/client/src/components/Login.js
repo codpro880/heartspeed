@@ -68,29 +68,30 @@ export default function Login({ setToken }) {
   const [openSnackBar, setSnackBarOpen] = useState(false);
   const [snackBarMessage, setSnackBarMessage] = useState('');
 
-  const handleCloseSnackBar = (event, reason) => {
+  const handleCloseSnackBar = () => {
     setSnackBarOpen(false);
     setSnackBarMessage('');
-  }
+  };
 
   const [login, { loading, error }] = useMutation(
     LOGIN_MUTATION, {
       onCompleted(data) {
         if (!data.tokenAuth.success) {
-          for (var globalError of data.tokenAuth.errors?.nonFieldErrors) {
-            setSnackBarMessage(globalError["message"]);
+          // This will only display first nonFieldError
+          if (data.tokenAuth.errors?.nonFieldErrors) {
+            setSnackBarMessage(data.tokenAuth.errors?.nonFieldErrors[0].message);
             setSnackBarOpen(true);
           }
         }
         setToken(data.tokenAuth.token);
         console.log(data);
-      }
+      },
     }, {
       variables: {
         email: formState.email,
         password: formState.password,
-      }
-    }
+      },
+    },
   );
 
   if (loading) console.log('loading');
@@ -132,7 +133,7 @@ export default function Login({ setToken }) {
             autoFocus
             onBlur={(e) => setFormState({
               ...formState,
-              email: e.target.value
+              email: e.target.value,
             })}
           />
           <TextField
@@ -147,7 +148,7 @@ export default function Login({ setToken }) {
             autoComplete="current-password"
             onBlur={(e) => setFormState({
               ...formState,
-              password: e.target.value
+              password: e.target.value,
             })}
           />
           <FormControlLabel
@@ -162,34 +163,36 @@ export default function Login({ setToken }) {
             className={classes.submit}
             onClick={(e) => {
               e.preventDefault();
-              login({ variables: {
-                email: formState.email,
-                password: formState.password
-              }})
+              login({
+                variables: {
+                  email: formState.email,
+                  password: formState.password,
+                },
+              });
             }}
           >
             Sign In
           </Button>
           <Grid container>
             <Grid item xs>
+              {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
               <Link href="#" variant="body2">
                 Forgot password?
               </Link>
             </Grid>
             <Grid item>
               <Link href="/register" variant="body2">
-                {"Don't have an account? Sign Up"}
+                Don&#39;t have an account? Sign Up
               </Link>
             </Grid>
           </Grid>
         </form>
       </div>
-      <Box mt={8}>
-      </Box>
+      <Box mt={8} />
     </Container>
   );
 }
 
 Login.propTypes = {
-  setToken: PropTypes.func.isRequired
+  setToken: PropTypes.func.isRequired,
 };

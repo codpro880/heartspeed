@@ -1,59 +1,17 @@
 import React, { useState } from 'react';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import Link from '@material-ui/core/Link';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(3),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
-const REGISTER_MUTATION = gql`
-  mutation register(
-    $email: String!
-    $firstName: String!
-    $lastName: String!
-    $password1: String!
-    $password2: String!
-  ) {
-    register(
-      email: $email
-      firstName: $firstName
-      lastName: $lastName
-      password1: $password1
-      password2: $password2
-    ) {
-        success,
-        errors,
-        token,
-        refreshToken
-    }
-  }
-`;
+import { REGISTER_MUTATION } from '../utils/constants';
+import useStyles from '../utils/styles';
 
 export default function Registration() {
   const classes = useStyles();
@@ -70,10 +28,11 @@ export default function Registration() {
   const [signup, { loading, error }] = useMutation(
     REGISTER_MUTATION, {
       onCompleted(data) {
+        setErrors(null);
         if (data.register.errors) {
           setErrors(data.register.errors);
         } else {
-          setErrors(null);
+          window.location.href = '/login';
         }
       },
     }, {
@@ -87,12 +46,11 @@ export default function Registration() {
     },
   );
 
-  if (loading) console.log('loading');
-  if (error) console.log('error');
+  if (loading) return 'loading...';
+  if (error) return 'error';
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />

@@ -45,7 +45,9 @@ class TargetedBattlecryCard : virtual public BgBaseCard {
 public:
     virtual void targeted_battlecry(std::shared_ptr<BgBaseCard>, Player*) override;
     virtual void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override = 0;
-    virtual std::shared_ptr<BgBaseCard> get_copy() const override = 0; // boilerplate that every card needs...
+    virtual std::vector<int> get_valid_target_indexes(Player*) override;
+    virtual bool is_valid_target(std::shared_ptr<BgBaseCard> c) = 0;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override = 0; // boilerplate that every card needs...    
 };
 
 class Alleycat : public BattlecryCard {
@@ -292,6 +294,8 @@ public:
                                       "['BATTLECRY']", "", "COMMON", 5, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<FacelessTaverngoer>(*this); } // boilerplate that every drattle needs...
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    virtual std::vector<int> get_valid_target_indexes(Player*) override;
+    virtual bool is_valid_target(std::shared_ptr<BgBaseCard>) override { return true; };
 };
 
 class FacelessTaverngoerGolden : public TargetedBattlecryCard {
@@ -300,6 +304,10 @@ public:
                                             "['BATTLECRY']", "", "COMMON", 5, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<FacelessTaverngoerGolden>(*this); } // boilerplate that every drattle needs...
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    virtual std::vector<int> get_valid_target_indexes(Player*) override;
+    virtual bool is_valid_target(std::shared_ptr<BgBaseCard>) override { return true; };
+private:
+    FacelessTaverngoer faceless;
 };
 
 class FelfinNavigator : public BattlecryCard {
@@ -494,6 +502,7 @@ public:
                                "['BATTLECRY']", "", "FREE", 3, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Houndmaster>(*this); } // boilerplate that every drattle needs...
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    bool is_valid_target(std::shared_ptr<BgBaseCard> c) override;
 };
 
 class HoundmasterGolden : public TargetedBattlecryCard {
@@ -502,6 +511,9 @@ public:
                                      "['BATTLECRY']", "", "FREE", 3, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<HoundmasterGolden>(*this); } // boilerplate that every drattle needs...
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    bool is_valid_target(std::shared_ptr<BgBaseCard> c) override;
+private:
+    Houndmaster houndmaster;
 };
 
 
@@ -1156,6 +1168,7 @@ public:
                                      "['BATTLECRY']", "DEMON", "RARE", 2, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<NathrezimOverseer>(*this); } // boilerplate that every drattle needs...
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    bool is_valid_target(std::shared_ptr<BgBaseCard> c) override;
 };
 
 class NathrezimOverseerGolden : public TargetedBattlecryCard {
@@ -1164,6 +1177,9 @@ public:
                                            "['BATTLECRY']", "DEMON", "RARE", 2, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<NathrezimOverseerGolden>(*this); } // boilerplate that every drattle needs...
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    bool is_valid_target(std::shared_ptr<BgBaseCard> c) override;
+private:
+    NathrezimOverseer nathrezim_overseer;
 };
 
 class Nomi : public BgBaseCard {
@@ -1390,6 +1406,7 @@ public:
                                   "['BATTLECRY']", "MURLOC", "COMMON", 1, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RockpoolHunter>(*this); } // boilerplate that every drattle needs...
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    bool is_valid_target(std::shared_ptr<BgBaseCard> c) override;
 };
 
 class RockpoolHunterGolden : public TargetedBattlecryCard {
@@ -1398,6 +1415,9 @@ public:
                                         "['BATTLECRY']", "MURLOC", "COMMON", 1, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RockpoolHunterGolden>(*this); } // boilerplate that every drattle needs...
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    bool is_valid_target(std::shared_ptr<BgBaseCard> c) override;
+private:
+    RockpoolHunter rockpool_hunter;
 };
 
 class SaltyLooter : public BgBaseCard {
@@ -1480,6 +1500,7 @@ public:
                                     "['BATTLECRY']", "MECHANICAL", "RARE", 3, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ScrewjankClunker>(*this); } // boilerplate that every drattle needs...
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    bool is_valid_target(std::shared_ptr<BgBaseCard> c) override;
 };
 
 class ScrewjankClunkerGolden : public TargetedBattlecryCard {
@@ -1488,6 +1509,9 @@ public:
                                           "['BATTLECRY']", "MECHANICAL", "RARE", 3, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ScrewjankClunkerGolden>(*this); } // boilerplate that every drattle needs...
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    bool is_valid_target(std::shared_ptr<BgBaseCard> c) override;
+private:
+    ScrewjankClunker screwjank_clunker;
 };
 
 class SeabreakerGoliath : public BgBaseCard {
@@ -1673,6 +1697,7 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SouthseaStrongarm>(*this); } // boilerplate that every drattle needs...
     void targeted_battlecry(std::shared_ptr<BgBaseCard> c, Player* p1) override;
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    bool is_valid_target(std::shared_ptr<BgBaseCard> c) override;
 private:
     int pirates_bought_this_turn;
 };
@@ -1684,6 +1709,7 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SouthseaStrongarmGolden>(*this); } // boilerplate that every drattle needs...
     void targeted_battlecry(std::shared_ptr<BgBaseCard> c, Player* p1) override;
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    bool is_valid_target(std::shared_ptr<BgBaseCard> c) override;
 private:
     int pirates_bought_this_turn;
 };
@@ -1831,6 +1857,7 @@ public:
                           "['BATTLECRY']", "MURLOC", "", 4, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Toxfin>(*this); } // boilerplate that every drattle needs...
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    bool is_valid_target(std::shared_ptr<BgBaseCard> c) override;
 };
 
 class ToxfinGolden : public TargetedBattlecryCard {
@@ -1839,6 +1866,7 @@ public:
                                 "['BATTLECRY']", "MURLOC", "", 4, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ToxfinGolden>(*this); } // boilerplate that every drattle needs...
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    bool is_valid_target(std::shared_ptr<BgBaseCard> c) override;
 private:
     Toxfin tf;
 };
@@ -1859,6 +1887,7 @@ public:
                                     "['BATTLECRY', 'TAUNT']", "DRAGON", "", 3, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<TwilightEmissary>(*this); } // boilerplate that every drattle needs...
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    bool is_valid_target(std::shared_ptr<BgBaseCard> c) override;
 };
 
 class TwilightEmissaryGolden : public TargetedBattlecryCard {
@@ -1867,6 +1896,9 @@ public:
                                           "['BATTLECRY', 'TAUNT']", "DRAGON", "", 3, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<TwilightEmissaryGolden>(*this); } // boilerplate that every drattle needs...
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    bool is_valid_target(std::shared_ptr<BgBaseCard> c) override;
+private:
+    TwilightEmissary twilight_emissary;
 };
 
 class UnstableGhoul : public DeathrattleCard {
@@ -1891,6 +1923,7 @@ public:
                                 "['BATTLECRY']", "", "RARE", 4, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<VirmenSensei>(*this); } // boilerplate that every drattle needs...
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    bool is_valid_target(std::shared_ptr<BgBaseCard> c) override;
 };
 
 class VirmenSenseiGolden : public TargetedBattlecryCard {
@@ -1899,6 +1932,9 @@ public:
                                       "['BATTLECRY']", "", "RARE", 4, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<VirmenSenseiGolden>(*this); } // boilerplate that every drattle needs...
     void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) override;
+    bool is_valid_target(std::shared_ptr<BgBaseCard> c) override;
+private:
+    VirmenSensei virmen_sensei;
 };
 
 class Voidlord : public DeathrattleCard {

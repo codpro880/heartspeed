@@ -2288,10 +2288,9 @@ TEST(Player, CanListPlayActionsAlmostFullBoard) {
     auto player = Player(hand, "Test");
     player.set_board(board1);
 
-    // Assert we can't play any minions (board is full)
     auto all_actions = player.list_all_possible_actions();
     auto play_actions = player.list_play_from_hand_actions();
-    // Four cards, can play them in any slot
+    // Four cards, can play them in any slot (e.g. 4 * 7)
     EXPECT_EQ(play_actions.size(), (unsigned)(4*7));
     for (const auto& play_action : play_actions) {
         EXPECT_TRUE(std::find(all_actions.begin(),
@@ -2299,3 +2298,43 @@ TEST(Player, CanListPlayActionsAlmostFullBoard) {
                               play_action) != all_actions.end());
     }
 }
+
+// TEST(Player, CanListPlayActionsForTargettedBattlecriesFullBoard) {
+//     // Board is almost full, so every slot should be available
+//     auto f = BgCardFactory();
+//     std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+//         {
+//          f.get_card("Murloc Tidehunter"),
+//          f.get_card("Alleycat"),
+//          f.get_card("Vulgar Homunculus"),
+//          f.get_card("Alleycat"),
+//          f.get_card("Alleycat"),
+//          f.get_card("Murloc Tidehunter"),
+//         };
+//     std::shared_ptr<Board> board1(new Board(b1_cards));
+
+//     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+//         {
+//          f.get_card("Vermin Sensei"), // Three targets
+//          f.get_card("Rockpool Hunter"), // Two target
+//          f.get_card("Nathrezim Overseer"), // One target
+//          f.get_card("Mal'Ganis (Golden)") // Not targetted
+//         };
+//     auto hand = Hand(hand_cards);
+//     auto player = Player(hand, "Test");
+//     player.set_board(board1);
+
+//     // Assert we can't play any minions (board is full)
+//     auto all_actions = player.list_all_possible_actions();
+//     auto play_actions = player.list_play_from_hand_actions();
+//     // Vermin can go in any slot, has three targets (3 * 7)
+//     // Rockpool can go in any slot, has two targets (2 * 7)
+//     // Nathrezim can go in any slot, has one target (1 * 7)
+//     // Mal'Ganis can go in any slot, no target (1 * 7)
+//     EXPECT_EQ(play_actions.size(), (unsigned)(3*7 + 2*7 + 1*7 + 7));
+//     for (const auto& play_action : play_actions) {
+//         EXPECT_TRUE(std::find(all_actions.begin(),
+//                               all_actions.end(),
+//                               play_action) != all_actions.end());
+//     }
+// }

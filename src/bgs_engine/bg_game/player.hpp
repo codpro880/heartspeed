@@ -390,12 +390,26 @@ public:
         if (board->get_cards().size() == (unsigned)7) {
             return res;
         }
-        for (size_t hand_ind = 0; hand_ind <  hand.get_cards().size(); hand_ind++) {
+        auto hand_cards = hand.get_cards();
+        for (size_t hand_ind = 0; hand_ind <  hand_cards.size(); hand_ind++) {
             for (size_t board_ind = 0; board_ind <= board->get_cards().size(); board_ind++) {
-                res.push_back("PLAY_CARD_FROM_HAND_"
-                              + std::to_string(hand_ind)
-                              + "_TO_BOARD_"
-                              + std::to_string(board_ind));
+                auto target_indexes = hand_cards[hand_ind]->get_valid_target_indexes(this);
+                // if (target_indexes.size() > 0) {
+                //     for (const auto& target_index : target_indexes) {
+                //         res.push_back("PLAY_CARD_FROM_HAND_"
+                //                       + std::to_string(hand_ind)
+                //                       + "_TO_BOARD_"
+                //                       + std::to_string(board_ind)
+                //                       + "_TARGET_"
+                //                       + std::to_string(target_index));
+                //     }
+                // }
+                // else {
+                    res.push_back("PLAY_CARD_FROM_HAND_"
+                                  + std::to_string(hand_ind)
+                                  + "_TO_BOARD_"
+                                  + std::to_string(board_ind));
+                    // }
             }
         }
         return res;

@@ -98,6 +98,10 @@ void BattlecryCard::battlecry(Player* p1) {
 
 // TODO: Efficiency...and design issues...
 void TargetedBattlecryCard::targeted_battlecry(std::shared_ptr<BgBaseCard> c, Player* p1) {
+    if (!is_valid_target(c)) {
+        throw std::logic_error(c->get_name() + " is an invalid target for Houndmaster.");
+    }
+    
     if (p1->get_board()->contains("Brann Bronzebeard (Golden)")) {
         do_targeted_battlecry(c);
         do_targeted_battlecry(c);
@@ -110,6 +114,17 @@ void TargetedBattlecryCard::targeted_battlecry(std::shared_ptr<BgBaseCard> c, Pl
     else {
         do_targeted_battlecry(c);
     }
+}
+
+std::vector<int> TargetedBattlecryCard::get_valid_target_indexes(Player* p1) {
+    std::vector<int> res;
+    auto board_cards = p1->get_board()->get_cards();
+    for (int i = 0; (unsigned)i < board_cards.size(); i++) {
+        if (is_valid_target(board_cards[i])) {
+            res.push_back(i);
+        }
+    }
+    return res;
 }
 
 
@@ -439,8 +454,20 @@ void FacelessTaverngoer::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     return faceless_taverngoer_targeted_battlecry(this, c, false);
 }
 
+std::vector<int> FacelessTaverngoer::get_valid_target_indexes(Player* p1) {
+    std::vector<int> res;
+    for (int i = 0; (unsigned)i < p1->get_tavern_minions().size(); i++) {
+        res.push_back(i);
+    }
+    return res;
+}
+
 void FacelessTaverngoerGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     return faceless_taverngoer_targeted_battlecry(this, c, true);
+}
+
+std::vector<int> FacelessTaverngoerGolden::get_valid_target_indexes(Player* p1) {
+    return faceless.get_valid_target_indexes(p1);
 }
 
 void FelfinNavigator::do_battlecry(Player* p1) {
@@ -623,19 +650,22 @@ void HeraldOfFlameGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
 }
 
 void Houndmaster::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
-    if (c->get_race() == "BEAST") {
-        c->set_attack(c->get_attack() + 2);
-        c->set_health(c->get_health() + 2);
-        c->set_taunt();
-    }
+    c->set_attack(c->get_attack() + 2);
+    c->set_health(c->get_health() + 2);
+    c->set_taunt();
+}
+
+bool Houndmaster::is_valid_target(std::shared_ptr<BgBaseCard> c) {
+    return c->get_race() == "BEAST";
 }
 
 void HoundmasterGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
-    if (c->get_race() == "BEAST") {
-        c->set_attack(c->get_attack() + 4);
-        c->set_health(c->get_health() + 4);
-        c->set_taunt();
-    }
+    houndmaster.do_targeted_battlecry(c);
+    houndmaster.do_targeted_battlecry(c);
+}
+
+bool HoundmasterGolden::is_valid_target(std::shared_ptr<BgBaseCard> c) {
+    return houndmaster.is_valid_target(c);
 }
 
 void Imprisoner::do_deathrattle(Player* p1, Player* p2) {
@@ -1320,17 +1350,21 @@ void NatPagleGolden::do_postattack(std::shared_ptr<BgBaseCard> defender,
 }
 
 void NathrezimOverseer::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
-    if (c->get_race() == "DEMON") {
-        c->set_attack(c->get_attack() + 2);
-        c->set_health(c->get_health() + 2);
-    }
+    c->set_attack(c->get_attack() + 2);
+    c->set_health(c->get_health() + 2);
 }
 
 void NathrezimOverseerGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
-    if (c->get_race() == "DEMON") {
-        c->set_attack(c->get_attack() + 4);
-        c->set_health(c->get_health() + 4);
-    }
+    nathrezim_overseer.do_targeted_battlecry(c);
+    nathrezim_overseer.do_targeted_battlecry(c);
+}
+
+bool NathrezimOverseer::is_valid_target(std::shared_ptr<BgBaseCard> c) {
+    return c->get_race() == "DEMON";
+}
+
+bool NathrezimOverseerGolden::is_valid_target(std::shared_ptr<BgBaseCard> c) {
+    return nathrezim_overseer.is_valid_target(c);
 }
 
 int Nomi::mod_summoned(std::shared_ptr<BgBaseCard> card, Player* p1, bool from_hand) {
@@ -1546,17 +1580,21 @@ std::shared_ptr<BgBaseCard> ReplicatingMenaceGolden::summon() {
 }
 
 void RockpoolHunter::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
-    if (c->get_race() == "MURLOC") {
-        c->set_attack(c->get_attack() + 1);
-        c->set_health(c->get_health() + 1);
-    }
+    c->set_attack(c->get_attack() + 1);
+    c->set_health(c->get_health() + 1);
 }
 
 void RockpoolHunterGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
-    if (c->get_race() == "MURLOC") {
-        c->set_attack(c->get_attack() + 2);
-        c->set_health(c->get_health() + 2);
-    }
+    rockpool_hunter.do_targeted_battlecry(c);
+    rockpool_hunter.do_targeted_battlecry(c);
+}
+
+bool RockpoolHunter::is_valid_target(std::shared_ptr<BgBaseCard> c) {
+    return c->get_race() == "MURLOC";
+}
+
+bool RockpoolHunterGolden::is_valid_target(std::shared_ptr<BgBaseCard> c) {
+    return rockpool_hunter.is_valid_target(c);
 }
 
 int SaltyLooter::mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) {
@@ -1640,18 +1678,23 @@ void ScavengingHyenaGolden::do_postbattle(Player*,
 }
 
 void ScrewjankClunker::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
-    if (c->get_race() == "MECHANICAL") {
-        c->set_attack(c->get_attack() + 2);
-        c->set_health(c->get_health() + 2);
-    }
+    c->set_attack(c->get_attack() + 2);
+    c->set_health(c->get_health() + 2);
 }
 
 void ScrewjankClunkerGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
-    if (c->get_race() == "MECHANICAL") {
-        c->set_attack(c->get_attack() + 4);
-        c->set_health(c->get_health() + 4);
-    }
+    screwjank_clunker.do_targeted_battlecry(c);
+    screwjank_clunker.do_targeted_battlecry(c);
 }
+
+bool ScrewjankClunker::is_valid_target(std::shared_ptr<BgBaseCard> c) {
+    return c->get_race() == "MECHANICAL";
+}
+
+bool ScrewjankClunkerGolden::is_valid_target(std::shared_ptr<BgBaseCard> c) {
+    return screwjank_clunker.is_valid_target(c);
+}
+
 
 void SeabreakerGoliath::do_postattack(std::shared_ptr<BgBaseCard> defender,
                                       int,
@@ -1869,6 +1912,10 @@ void SouthseaStrongarm::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     }
 }
 
+bool SouthseaStrongarm::is_valid_target(std::shared_ptr<BgBaseCard> c) {
+    return c->get_race() == "PIRATE";
+}
+
 void SouthseaStrongarmGolden::targeted_battlecry(std::shared_ptr<BgBaseCard> c, Player* p1) {
     pirates_bought_this_turn = p1->get_pirates_bought_this_turn();
     TargetedBattlecryCard::targeted_battlecry(c, p1);
@@ -1879,6 +1926,10 @@ void SouthseaStrongarmGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> 
         c->set_attack(c->get_attack() + pirates_bought_this_turn * 2);
         c->set_health(c->get_health() + pirates_bought_this_turn * 2);
     }
+}
+
+bool SouthseaStrongarmGolden::is_valid_target(std::shared_ptr<BgBaseCard> c) {
+    return c->get_race() == "PIRATE";
 }
 
 void SpawnOfNzoth::do_deathrattle(Player* p1, Player*) {
@@ -2024,13 +2075,19 @@ void TormentedRitualistGolden::do_predefense(std::shared_ptr<BgBaseCard> attacke
 }
 
 void Toxfin::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
-    if (c->get_race() == "MURLOC") {
-        c->set_poison();
-    }
+    c->set_poison();
+}
+
+bool Toxfin::is_valid_target(std::shared_ptr<BgBaseCard> c) {
+    return c->get_race() == "MURLOC";
 }
 
 void ToxfinGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     tf.do_targeted_battlecry(c);
+}
+
+bool ToxfinGolden::is_valid_target(std::shared_ptr<BgBaseCard> c) {
+    return tf.is_valid_target(c);
 }
 
 void TripleDiscover::cast(Player* p1, uint8_t choice) {
@@ -2062,17 +2119,21 @@ std::vector<std::string> TripleDiscover::get_discover_choices() {
 }
 
 void TwilightEmissary::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
-    if (c->get_race() == "DRAGON") {
-        c->set_attack(c->get_attack() + 2);
-        c->set_health(c->get_health() + 2);
-    }
+    c->set_attack(c->get_attack() + 2);
+    c->set_health(c->get_health() + 2);
+}
+
+bool TwilightEmissary::is_valid_target(std::shared_ptr<BgBaseCard> c) {
+    return c->get_race() == "DRAGON";
 }
 
 void TwilightEmissaryGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
-    if (c->get_race() == "DRAGON") {
-        c->set_attack(c->get_attack() + 4);
-        c->set_health(c->get_health() + 4);
-    }
+    twilight_emissary.do_targeted_battlecry(c);
+    twilight_emissary.do_targeted_battlecry(c);
+}
+
+bool TwilightEmissaryGolden::is_valid_target(std::shared_ptr<BgBaseCard> c) {
+    return twilight_emissary.is_valid_target(c);
 }
 
 void Voidlord::do_deathrattle(Player* p1, Player*) {
@@ -2111,17 +2172,21 @@ void UnstableGhoulGolden::do_deathrattle(Player* p1, Player* p2) {
 }
 
 void VirmenSensei::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
-    if (c->get_race() == "BEAST") {
-        c->set_attack(c->get_attack() + 2);
-        c->set_health(c->get_health() + 2);
-    }
+    c->set_attack(c->get_attack() + 2);
+    c->set_health(c->get_health() + 2);
+}
+
+bool VirmenSensei::is_valid_target(std::shared_ptr<BgBaseCard> c) {
+    return c->get_race() == "BEAST";
 }
 
 void VirmenSenseiGolden::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
-    if (c->get_race() == "BEAST") {
-        c->set_attack(c->get_attack() + 4);
-        c->set_health(c->get_health() + 4);
-    }
+    virmen_sensei.do_targeted_battlecry(c);
+    virmen_sensei.do_targeted_battlecry(c);    
+}
+
+bool VirmenSenseiGolden::is_valid_target(std::shared_ptr<BgBaseCard> c) {
+    return virmen_sensei.is_valid_target(c);
 }
 
 void VulgarHomunculus::do_battlecry(Player* p1) {

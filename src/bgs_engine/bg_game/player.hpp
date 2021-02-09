@@ -415,6 +415,15 @@ public:
         return res;
     }
 
+    std::vector<std::string> list_buy_actions() {
+        std::vector<std::string> res;
+        if (hand.get_cards().size() == (unsigned)10) return res;
+        for (int i = 0; (unsigned)i < get_tavern_minions().size(); i++) {
+            res.push_back("BUY_" + std::to_string(i));
+        }
+        return res;
+    }
+
     std::vector<std::string> list_all_possible_actions() {
         std::vector<std::string> res =
             {

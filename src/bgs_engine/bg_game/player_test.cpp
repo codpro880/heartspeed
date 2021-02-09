@@ -2338,3 +2338,22 @@ TEST(Player, CanListPlayActionsForTargettedBattlecriesFullBoard) {
                               play_action) != all_actions.end());
     }
 }
+
+TEST(Player, CanListBuyActionsTavern1Default) {
+    auto player = Player("Test");
+    auto buy_actions = player.list_buy_actions();
+
+    // Bobs tavern at tier1 should have 3 minions
+    EXPECT_EQ(buy_actions.size(), (unsigned)3);
+    EXPECT_EQ(buy_actions[0], "BUY_0");
+    EXPECT_EQ(buy_actions[1], "BUY_1");
+    EXPECT_EQ(buy_actions[2], "BUY_2");
+
+    // Assert we can sell any of the minions on our board
+    auto all_actions = player.list_all_possible_actions();
+    for (auto buy_action : buy_actions) {
+        EXPECT_TRUE(std::find(all_actions.begin(),
+                              all_actions.end(),
+                              buy_actions[0]) != all_actions.end());
+    }
+}

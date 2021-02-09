@@ -2357,3 +2357,27 @@ TEST(Player, CanListBuyActionsTavern1Default) {
                               buy_actions[0]) != all_actions.end());
     }
 }
+
+TEST(Player, ListsNoBuyActionsWhenHandFull) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards;
+    for (int i = 0; i < 10; i++) {
+        hand_cards.push_back(f.get_card("Alleycat"));
+    }
+    auto hand = Hand(hand_cards);    
+    auto player = Player(hand, "Test");
+    auto buy_actions = player.list_buy_actions();
+
+    // Can't buy a card if hand is full
+    EXPECT_EQ(buy_actions.size(), (unsigned)0);
+}
+
+TEST(Player, ListsNoRepositionActionsWhenBoardEmpty) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards;
+    auto player = Player("Test");
+    auto reposition_actions = player.list_board_reposition_actions();
+
+    // Can't reposition if no cards are on board
+    EXPECT_EQ(reposition_actions.size(), (unsigned)0);
+}

@@ -385,6 +385,22 @@ public:
         return res;
     }
 
+    std::vector<std::string> list_board_reposition_actions() {
+        std::vector<std::string> res;
+        auto cards = board->get_cards();
+        for (size_t x = 0; x < cards.size(); x++) {
+            for (size_t y = 0; y < cards.size(); y++) {
+                if (x == y) continue;
+                res.push_back("REPOSITION_FROM_"
+                              + std::to_string(x)
+                              + "_TO_"
+                              + std::to_string(y));
+            }
+        }
+        return res;
+    }
+
+
     std::vector<std::string> list_play_from_hand_actions() {
         std::vector<std::string> res;
         if (board->get_cards().size() == (unsigned)7) {

@@ -2373,11 +2373,23 @@ TEST(Player, ListsNoBuyActionsWhenHandFull) {
 }
 
 TEST(Player, ListsNoRepositionActionsWhenBoardEmpty) {
-    auto f = BgCardFactory();
-    std::vector<std::shared_ptr<BgBaseCard> > hand_cards;
     auto player = Player("Test");
     auto reposition_actions = player.list_board_reposition_actions();
 
     // Can't reposition if no cards are on board
     EXPECT_EQ(reposition_actions.size(), (unsigned)0);
+}
+
+TEST(Player, CanListRepositionActionsWhenBoardHas3Minions) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > board_cards;
+    for (int i = 0; i < 3; i++) {
+        board_cards.push_back(f.get_card("Alleycat"));
+    }
+    auto player = Player(std::make_shared<Board>(board_cards), "Test");
+    auto reposition_actions = player.list_board_reposition_actions();
+
+    // Each of the 3 cards can be repositioned to 2 other positions
+    // So, should be 6 actions total
+    EXPECT_EQ(reposition_actions.size(), (unsigned)6);
 }

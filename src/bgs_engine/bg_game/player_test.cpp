@@ -2380,6 +2380,17 @@ TEST(Player, ListsNoRepositionActionsWhenBoardEmpty) {
     EXPECT_EQ(reposition_actions.size(), (unsigned)0);
 }
 
+TEST(Player, ListsNoRepositionActionsWhenOnly1CardOnBoard) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > board_cards;
+    board_cards.push_back(f.get_card("Alleycat"));
+    auto player = Player(std::make_shared<Board>(board_cards), "Test");
+    auto reposition_actions = player.list_board_reposition_actions();
+
+    // Can't reposition if only one card are on board
+    EXPECT_EQ(reposition_actions.size(), (unsigned)0);
+}
+
 TEST(Player, CanListRepositionActionsWhenBoardHas3Minions) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > board_cards;
@@ -2393,3 +2404,46 @@ TEST(Player, CanListRepositionActionsWhenBoardHas3Minions) {
     // So, should be 6 actions total
     EXPECT_EQ(reposition_actions.size(), (unsigned)6);
 }
+
+// TEST(Player, CanListAllAvailableActions) {
+//         // Should be no play actions if board is full, except for spells
+//     auto f = BgCardFactory();
+//     std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+//         {
+//          f.get_card("Alleycat"),
+//          f.get_card("Alleycat"),
+//          f.get_card("Alleycat"),
+//          f.get_card("Alleycat"),
+//          f.get_card("Alleycat"),
+//          f.get_card("Alleycat"),
+//          f.get_card("Alleycat")
+//         };
+//     std::shared_ptr<Board> board1(new Board(b1_cards));
+
+//     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+//         {
+//          f.get_card("Amalgadon"),
+//          f.get_card("Alleycat"),
+//          f.get_card("Foe Reaper 4000"),
+//          f.get_card("Houndmaster")
+//         };
+//     auto hand = Hand(hand_cards);
+//     auto player = Player(hand, "Test");
+//     player.set_board(board1);
+
+//     // Assert we can't play any minions (board is full)
+//     auto buy_actions = player.list_buy_actions();
+//     auto freeze_actions = player.list_freeze_actions();
+//     auto play_actions = player.list_play_from_hand_actions();
+//     auto roll_actions = player.list_roll_actions();
+//     auto sell_actions = player.list_sell_actions();
+//     auto total_size = buy_actions.size()
+//         + freeze_actions.size()
+//         + roll_actions.size()
+//         + play_actions.size()
+//         + sell_actions.size();
+
+//     auto all_avail_actions = player.list_available_actions();
+    
+//     EXPECT_EQ(all_avail_actions.size(), total_size);
+// }

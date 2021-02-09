@@ -334,13 +334,13 @@ public:
         // There are 'basic' actions like FREEZE, TAVERNUP
         // There are positional actions like SELL<CARDNAME>_BOARD<POSITION> or PLAY<CARDNAME>_HAND<POSITION>_BOARD<POSITION>
         // There are targetted actions like PLAY<CARDNAME>_HAND<POSITION>_BOARD<POSITION>_TARGET<POSITION>
-        std::vector<std::string> res;        
-        // list_sell_actions();
+        std::vector<std::string> res;
+        // list_board_reposition_actions();
         // list_buy_actions();
-        // list_roll_actions();
         // list_freeze_actions();
         // list_play_from_hand_actions();
-        // list_board_reposition_actions();
+        // list_roll_actions();
+        // list_sell_actions();
         // list_tavern_up_actions();
         
         // TODO
@@ -366,15 +366,6 @@ public:
         }
         return res;
     }
-
-    // std::vector<std::string> list_sell_actions() {
-    //     std::vector<std::string> res;
-    //     auto cards = board->get_cards();
-    //     for (size_t i = 0; i < cards.size(); i++) {
-    //         res.push_back("SELL_" + cards[i]->get_name() + "_BOARDPOS_" + std::to_string(i));
-    //     }
-    //     return res;
-    // }
 
     std::vector<std::string> list_sell_actions() {
         std::vector<std::string> res;

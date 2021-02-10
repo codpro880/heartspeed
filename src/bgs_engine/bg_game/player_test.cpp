@@ -2354,7 +2354,7 @@ TEST(Player, CanListBuyActionsTavern1Default) {
     for (auto buy_action : buy_actions) {
         EXPECT_TRUE(std::find(all_actions.begin(),
                               all_actions.end(),
-                              buy_actions[0]) != all_actions.end());
+                              buy_action) != all_actions.end());
     }
 }
 
@@ -2405,45 +2405,85 @@ TEST(Player, CanListRepositionActionsWhenBoardHas3Minions) {
     EXPECT_EQ(reposition_actions.size(), (unsigned)6);
 }
 
-// TEST(Player, CanListAllAvailableActions) {
-//         // Should be no play actions if board is full, except for spells
-//     auto f = BgCardFactory();
-//     std::vector<std::shared_ptr<BgBaseCard> > b1_cards
-//         {
-//          f.get_card("Alleycat"),
-//          f.get_card("Alleycat"),
-//          f.get_card("Alleycat"),
-//          f.get_card("Alleycat"),
-//          f.get_card("Alleycat"),
-//          f.get_card("Alleycat"),
-//          f.get_card("Alleycat")
-//         };
-//     std::shared_ptr<Board> board1(new Board(b1_cards));
+TEST(Player, CanListTavernUpActionsStartOfGame) {
+    // Assert no tav up action available at start
+    auto player = Player("Test");
+    auto tav_up_actions = player.list_tavern_up_actions();
 
-//     std::vector<std::shared_ptr<BgBaseCard> > hand_cards
-//         {
-//          f.get_card("Amalgadon"),
-//          f.get_card("Alleycat"),
-//          f.get_card("Foe Reaper 4000"),
-//          f.get_card("Houndmaster")
-//         };
-//     auto hand = Hand(hand_cards);
-//     auto player = Player(hand, "Test");
-//     player.set_board(board1);
+    EXPECT_EQ(tav_up_actions.size(), (unsigned)0);
+}
 
-//     // Assert we can't play any minions (board is full)
-//     auto buy_actions = player.list_buy_actions();
-//     auto freeze_actions = player.list_freeze_actions();
-//     auto play_actions = player.list_play_from_hand_actions();
-//     auto roll_actions = player.list_roll_actions();
-//     auto sell_actions = player.list_sell_actions();
-//     auto total_size = buy_actions.size()
-//         + freeze_actions.size()
-//         + roll_actions.size()
-//         + play_actions.size()
-//         + sell_actions.size();
+TEST(Player, CanListTavernUpActionsTier2) {
+    // Assert no tav up action available at start
+    auto player = Player("Test");
+    player.set_tavern_tier(2);
+    player.set_gold(10);
+    auto tav_up_actions = player.list_tavern_up_actions();
 
-//     auto all_avail_actions = player.list_available_actions();
+    EXPECT_EQ(tav_up_actions.size(), (unsigned)1);
+    EXPECT_EQ(tav_up_actions[0], "TAVERN_UP");
+}
+
+TEST(Player, CanListTavernUpActionsTier6) {
+    // Assert no tav up action available at start
+    auto player = Player("Test");
+    player.set_tavern_tier(6);
+    player.set_gold(10);
+    auto tav_up_actions = player.list_tavern_up_actions();
+
+    EXPECT_EQ(tav_up_actions.size(), (unsigned)0);
+}
+
+TEST(Player, CanListAllAvailableActions) {
+        // Should be no play actions if board is full, except for spells
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+        {
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat")
+        };
+    std::shared_ptr<Board> board1(new Board(b1_cards));
+
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+        {
+         f.get_card("Amalgadon"),
+         f.get_card("Alleycat"),
+         f.get_card("Foe Reaper 4000"),
+         f.get_card("Houndmaster")
+        };
+    auto hand = Hand(hand_cards);
+    auto player = Player(hand, "Test");
+    player.set_board(board1);
+
+    // Assert we can't play any minions (board is full)
+    auto board_reposition_actions = player.list_board_reposition_actions();
+    auto buy_actions = player.list_buy_actions();
+    auto freeze_actions = player.list_freeze_actions();
+    auto play_actions = player.list_play_from_hand_actions();
+    auto roll_actions = player.list_roll_actions();
+    auto sell_actions = player.list_sell_actions();
+    auto tavern_up_actions = player.list_tavern_up_actions();
+    auto total_size = board_reposition_actions.size()
+        + buy_actions.size()
+        + freeze_actions.size()
+        + roll_actions.size()
+        + play_actions.size()
+        + sell_actions.size()
+        + tavern_up_actions.size();
+
+    auto all_avail_actions = player.list_available_actions();
     
-//     EXPECT_EQ(all_avail_actions.size(), total_size);
-// }
+    EXPECT_EQ(all_avail_actions.size(), total_size);
+    
+    auto all_actions = player.list_all_possible_actions();
+    for (auto action : all_avail_actions) {
+        EXPECT_TRUE(std::find(all_actions.begin(),
+                              all_actions.end(),
+                              action) != all_actions.end());
+    }    
+}

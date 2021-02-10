@@ -335,16 +335,25 @@ public:
         // There are positional actions like SELL<CARDNAME>_BOARD<POSITION> or PLAY<CARDNAME>_HAND<POSITION>_BOARD<POSITION>
         // There are targetted actions like PLAY<CARDNAME>_HAND<POSITION>_BOARD<POSITION>_TARGET<POSITION>
         std::vector<std::string> res;
-        // list_board_reposition_actions();
-        // list_buy_actions();
-        // list_freeze_actions();
-        // list_play_from_hand_actions();
-        // list_roll_actions();
-        // list_sell_actions();
-        // list_tavern_up_actions();
+        // One day we'll have "extend" like python...until then...
+        for (auto action : list_board_reposition_actions()) res.push_back(action);
+        for (auto action : list_buy_actions()) res.push_back(action);
+        for (auto action : list_freeze_actions()) res.push_back(action);
+        for (auto action : list_play_from_hand_actions()) res.push_back(action);
+        for (auto action : list_roll_actions()) res.push_back(action);
+        for (auto action : list_sell_actions()) res.push_back(action);
+        for (auto action : list_tavern_up_actions()) res.push_back(action);
         
         // TODO
         // _list_hero_power()
+        return res;
+    }
+
+    std::vector<std::string> list_tavern_up_actions() {
+        std::vector<std::string> res;
+        if (tavern->can_tavern_up(turns_at_current_tier)) {
+            res.push_back("TAVERN_UP");
+        }
         return res;
     }
 

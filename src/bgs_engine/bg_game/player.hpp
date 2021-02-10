@@ -330,6 +330,178 @@ public:
         }
     }
 
+    std::vector<std::string> list_available_actions() {
+        // There are 'basic' actions like FREEZE, TAVERNUP
+        // There are positional actions like SELL<CARDNAME>_BOARD<POSITION> or PLAY<CARDNAME>_HAND<POSITION>_BOARD<POSITION>
+        // There are targetted actions like PLAY<CARDNAME>_HAND<POSITION>_BOARD<POSITION>_TARGET<POSITION>
+        std::vector<std::string> res;
+        // One day we'll have "extend" like python...until then...
+        for (auto action : list_board_reposition_actions()) res.push_back(action);
+        for (auto action : list_buy_actions()) res.push_back(action);
+        for (auto action : list_freeze_actions()) res.push_back(action);
+        for (auto action : list_play_from_hand_actions()) res.push_back(action);
+        for (auto action : list_roll_actions()) res.push_back(action);
+        for (auto action : list_sell_actions()) res.push_back(action);
+        for (auto action : list_tavern_up_actions()) res.push_back(action);
+        
+        // TODO
+        // _list_hero_power()
+        return res;
+    }
+
+    std::vector<std::string> list_tavern_up_actions() {
+        std::vector<std::string> res;
+        if (tavern->can_tavern_up(turns_at_current_tier)) {
+            res.push_back("TAVERN_UP");
+        }
+        return res;
+    }
+
+    std::vector<std::string> list_freeze_actions() {
+        std::vector<std::string> res;
+        if (tavern_is_frozen) {
+            res.push_back("UNFREEZE");
+        }
+        else {
+            res.push_back("FREEZE");
+        }
+        return res;
+    }
+
+    std::vector<std::string> list_roll_actions() {
+        std::vector<std::string> res;
+        if (gold > 0 || num_free_refreshes > 0) {
+            res.push_back("ROLL");
+        }
+        return res;
+    }
+
+    std::vector<std::string> list_sell_actions() {
+        std::vector<std::string> res;
+        auto cards = board->get_cards();
+        for (size_t i = 0; i < cards.size(); i++) {
+            res.push_back("SELL_" + std::to_string(i));
+        }
+        return res;
+    }
+
+    std::vector<std::string> list_board_reposition_actions() {
+        std::vector<std::string> res;
+        auto cards = board->get_cards();
+        for (size_t x = 0; x < cards.size(); x++) {
+            for (size_t y = 0; y < cards.size(); y++) {
+                if (x == y) continue;
+                res.push_back("REPOSITION_FROM_"
+                              + std::to_string(x)
+                              + "_TO_"
+                              + std::to_string(y));
+            }
+        }
+        return res;
+    }
+
+
+    std::vector<std::string> list_play_from_hand_actions() {
+        std::vector<std::string> res;
+        if (board->get_cards().size() == (unsigned)7) {
+            return res;
+        }
+        auto hand_cards = hand.get_cards();
+        for (size_t hand_ind = 0; hand_ind <  hand_cards.size(); hand_ind++) {
+            for (size_t board_ind = 0; board_ind <= board->get_cards().size(); board_ind++) {
+                auto target_indexes = hand_cards[hand_ind]->get_valid_target_indexes(this);
+                if (target_indexes.size() > 0) {
+                    for (const auto& target_index : target_indexes) {
+                        res.push_back("PLAY_CARD_FROM_HAND_"
+                                      + std::to_string(hand_ind)
+                                      + "_TO_BOARD_"
+                                      + std::to_string(board_ind)
+                                      + "_TARGET_"
+                                      + std::to_string(target_index));
+                    }
+                }
+                else {
+                    res.push_back("PLAY_CARD_FROM_HAND_"
+                                  + std::to_string(hand_ind)
+                                  + "_TO_BOARD_"
+                                  + std::to_string(board_ind));
+                }
+            }
+        }
+        return res;
+    }
+
+    std::vector<std::string> list_buy_actions() {
+        std::vector<std::string> res;
+        if (hand.get_cards().size() == (unsigned)10) return res;
+        for (int i = 0; (unsigned)i < get_tavern_minions().size(); i++) {
+            res.push_back("BUY_" + std::to_string(i));
+        }
+        return res;
+    }
+
+    std::vector<std::string> list_all_possible_actions() {
+        std::vector<std::string> res =
+            {
+             "FREEZE",
+             "UNFREEZE",
+             "ROLL",
+             "BUY_0",
+             "BUY_1",
+             "BUY_2",
+             "BUY_3",
+             "BUY_4",
+             "BUY_5",
+             "BUY_6",
+             "SELL_0",
+             "SELL_1",
+             "SELL_2",
+             "SELL_3",
+             "SELL_4",
+             "SELL_5",
+             "SELL_6",
+             "TAVERN_UP",
+            };
+        
+        // Generates all actions of the form "PLAY_FROM_HAND_<X>_TO_BOARD_<Y>"
+        for (int x = 0; x < 7; x++) {
+            for (int y = 0; y < 7; y++) {
+                res.push_back("PLAY_CARD_FROM_HAND_"
+                              + std::to_string(x)
+                              + "_TO_BOARD_"
+                              + std::to_string(y));
+            }
+        }
+        
+        // Generates all actions of the form "PLAY_FROM_HAND_<X>_TO_BOARD_<Y>_TARGET_<Z>"
+        for (int x = 0; x < 7; x++) {
+            for (int y = 0; y < 7; y++) {
+                for (int z = 0; z < 7; z++) {
+                    res.push_back("PLAY_CARD_FROM_HAND_"
+                                  + std::to_string(x)
+                                  + "_TO_BOARD_"
+                                  + std::to_string(y)
+                                  + "_TARGET_"
+                                  + std::to_string(z));
+                }
+            }
+        }
+
+        // Generates all actions of the form "REPOSITION_FROM_<X>_TO_<Y>"
+        for (int x = 0; x < 7; x++) {
+            for (int y = 0; y < 7; y++) {
+                if (x == y) continue;
+                res.push_back("REPOSITION_FROM_"
+                              + std::to_string(x)
+                              + "_TO_"
+                              + std::to_string(y));
+            }
+        }
+        
+        return res;
+    }
+    
+
     void set_opponents_last_board(std::shared_ptr<Board> b) { opponents_last_board = b; }
     std::shared_ptr<Board> get_opponents_last_board() { return opponents_last_board; }
     
@@ -406,7 +578,7 @@ private:
         }
     }
 
-        void play_minion_card(uint8_t hand_pos, uint8_t board_pos) {
+    void play_minion_card(uint8_t hand_pos, uint8_t board_pos) {
         auto card = hand.get_cards()[hand_pos];
         if (get_board()->get_cards().size() == (unsigned)7) {
             std::cerr << "WARNING: Board is full" << std::endl;

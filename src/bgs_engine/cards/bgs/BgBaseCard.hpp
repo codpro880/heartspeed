@@ -118,6 +118,7 @@ public:
     std::string get_rarity() const { return rarity; }
     int get_tavern_tier() const { return tavern_tier; }
     std::string get_type() const { return type; }
+    virtual std::vector<int> get_valid_target_indexes(Player*) { return std::vector<int>(); }
 
     bool has_divine_shield() const { return divine_shield; }
     virtual bool has_deathrattle() const { return mechanics.find("DEATHRATTLE") != std::string::npos; }

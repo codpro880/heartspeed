@@ -64,6 +64,14 @@ void BobsTavern::buy_minion(std::string minion) {
     }
 }
 
+bool BobsTavern::can_tavern_up(int turns_at_current_tier) {
+    auto current_tier = player->get_tavern_tier();
+    if (current_tier == 6) return false;
+    int player_gold = player->get_gold();
+    int upgrade_cost = tav_tier_cost[current_tier + 1] - turns_at_current_tier;
+    return player_gold >= upgrade_cost;
+}
+
 bool BobsTavern::tavern_up(int turns_at_current_tier) {
     int current_tier = player->get_tavern_tier();
     if (current_tier < 6) {

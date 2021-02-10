@@ -2043,3 +2043,447 @@ TEST(Player, CanStartAndEndTurnsAndGoldRefreshesAccordingly) {
     player.start_turn();
     EXPECT_EQ(player.get_gold(), 10);
 }
+
+TEST(Player, CanListAllPossibleActions) {
+    // Just does some spot checking...
+    std::vector<std::string> spot_checks =
+        {
+         "BUY_3", // Buy the 4th minion in bobs tav
+         "SELL_6", // Sell the 7th minion on board
+         "PLAY_CARD_FROM_HAND_0_TO_BOARD_0", // Play first card in hand to first board slot
+         "PLAY_CARD_FROM_HAND_5_TO_BOARD_2", // Play fourth card in hand to third board slot
+         "PLAY_CARD_FROM_HAND_6_TO_BOARD_6", // Play seventh card in hand to seventh board slot
+         "PLAY_CARD_FROM_HAND_0_TO_BOARD_0_TARGET_0", // Play first card in hand to first board slot target first
+         "PLAY_CARD_FROM_HAND_5_TO_BOARD_2_TARGET_3", // Play fourth card in hand to third board slot target third
+         "PLAY_CARD_FROM_HAND_6_TO_BOARD_6_TARGET_6", // Play seventh card in hand to seventh board slot target 7th
+         "REPOSITION_FROM_0_TO_1", // Flip first and second card
+         "REPOSITION_FROM_3_TO_5", // Reposition card 3 into slot 5
+         "REPOSITION_FROM_6_TO_5", // Reposition card 3 into slot 5
+         // TODO: spells
+         // "SPELL_NO_TARGET",
+         // "SPELL_BOARD_TARGET_0",
+         // "SPELL_TAVERN_TARGET_0",
+         // TODO: Hero powers
+         // "HERO_POWER_PYRAMAD",
+         // "HERO_POWER_LICH_KING",
+        };    
+
+    // Can't reposition to original position, this is a no-op
+    std::vector<std::string> invalids =
+        {
+         "REPOSITION_FROM_0_TO_0",
+         "REPOSITION_FROM_1_TO_1",
+         "REPOSITION_FROM_2_TO_2",
+         "REPOSITION_FROM_3_TO_3",
+         "REPOSITION_FROM_4_TO_4",
+         "REPOSITION_FROM_5_TO_5",
+         "REPOSITION_FROM_6_TO_6"
+        };
+
+    auto player = Player("Test");
+    auto all_actions = player.list_all_possible_actions();
+    for (auto spot_check : spot_checks) {
+        EXPECT_TRUE(std::find(all_actions.begin(),
+                              all_actions.end(),
+                              spot_check) != all_actions.end());
+    }
+
+    for (auto invalid : invalids) {
+        EXPECT_TRUE(std::find(all_actions.begin(),
+                              all_actions.end(),
+                              invalid) == all_actions.end());
+    }
+}
+
+TEST(Player, CanListFreezeActions) {
+    auto player = Player("Test");
+
+    // Tavern not frozen by default
+    auto can_freeze = player.list_freeze_actions();
+    EXPECT_EQ(can_freeze.size(), (unsigned)1);
+    EXPECT_EQ(can_freeze[0], "FREEZE");
+
+    // Freeze it, check we can unfreeze
+    player.freeze_tavern();
+    auto can_unfreeze = player.list_freeze_actions();
+    EXPECT_EQ(can_unfreeze.size(), (unsigned)1);
+    EXPECT_EQ(can_unfreeze[0], "UNFREEZE");
+
+    // Unfreeze it, check we can freeze
+    player.unfreeze_tavern();
+    auto can_freeze_again = player.list_freeze_actions();
+    EXPECT_EQ(can_freeze_again.size(), (unsigned)1);
+    EXPECT_EQ(can_freeze_again[0], "FREEZE");
+}
+
+TEST(Player, CanListRollActions) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+        {
+         f.get_card("Refreshing Anomaly")
+        };
+    auto in_hand = Hand(hand_cards);
+    auto player = Player(in_hand, "Test");
+    player.set_gold(3);
+
+    // Tavern not frozen by default
+    auto can_roll = player.list_roll_actions();
+    EXPECT_EQ(can_roll.size(), (unsigned)1);
+    EXPECT_EQ(can_roll[0], "ROLL");
+
+    // Roll, check we can still roll again
+    player.refresh_tavern_minions();
+    can_roll = player.list_roll_actions();
+    EXPECT_EQ(can_roll.size(), (unsigned)1);
+    EXPECT_EQ(can_roll[0], "ROLL");
+
+    // Roll, check we can still roll
+    player.refresh_tavern_minions();
+    can_roll = player.list_roll_actions();
+    EXPECT_EQ(can_roll.size(), (unsigned)1);
+    EXPECT_EQ(can_roll[0], "ROLL");
+
+    // Roll one more time, gold should be 0, can't roll
+    player.refresh_tavern_minions();
+    can_roll = player.list_roll_actions();
+    EXPECT_EQ(can_roll.size(), (unsigned)0);
+
+    // Play refreshing anomaly, can roll again
+    player.play_card(0, 0);
+    can_roll = player.list_roll_actions();
+    EXPECT_EQ(can_roll.size(), (unsigned)1);
+    EXPECT_EQ(can_roll[0], "ROLL");
+
+    // After this roll, make sure we can't roll again
+    player.refresh_tavern_minions();
+    can_roll = player.list_roll_actions();
+    EXPECT_EQ(can_roll.size(), (unsigned)0);
+}
+
+TEST(Player, CanListSellActionsNominalCase) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+        {
+         f.get_card("Alleycat"),
+         f.get_card("Cave Hydra"),
+         f.get_card("Cave Hydra")
+        };
+    std::shared_ptr<Board> board1(new Board(b1_cards));
+    auto player = Player(board1, "Test");
+    
+    // Assert we can sell any of the minions on our board
+    auto sell_actions = player.list_sell_actions();
+    EXPECT_EQ(sell_actions.size(), (unsigned)3);
+    EXPECT_EQ(sell_actions[0], "SELL_0");
+    EXPECT_EQ(sell_actions[1], "SELL_1");
+    EXPECT_EQ(sell_actions[2], "SELL_2");
+
+    // All actions should be in the larger pool of possible actions
+    auto all_actions = player.list_all_possible_actions();
+    for (auto sell_action : sell_actions) {
+        EXPECT_TRUE(std::find(all_actions.begin(),
+                              all_actions.end(),
+                              sell_action) != all_actions.end());
+                              
+    }
+}
+
+TEST(Player, CanListSellActionsEmptyCase) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+        {
+        };
+    std::shared_ptr<Board> board1(new Board(b1_cards));
+    auto player = Player(board1, "Test");
+
+    // Assert we can sell any of the minions on our board
+    auto sellables = player.list_sell_actions();
+    EXPECT_EQ(sellables.size(), (unsigned)0);
+}
+
+TEST(Player, CanListPlayFromHandActionsEmpty) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+        {
+        };
+    std::shared_ptr<Board> board1(new Board(b1_cards));
+    auto player = Player(board1, "Test");
+
+    // Assert we can sell any of the minions on our board
+    auto play_actions = player.list_play_from_hand_actions();
+    EXPECT_EQ(play_actions.size(), (unsigned)0);
+}
+
+TEST(Player, CanListPlayFromHandActionsSingleCard) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+        {
+         f.get_card("Alleycat")
+        };
+    Hand hand(b1_cards);
+    auto player = Player(hand, "Test");
+
+    // Assert we can sell any of the minions on our board
+    auto all_actions = player.list_all_possible_actions();
+    auto play_actions = player.list_play_from_hand_actions();
+    EXPECT_EQ(play_actions.size(), (unsigned)1);
+    EXPECT_EQ(play_actions[0], "PLAY_CARD_FROM_HAND_0_TO_BOARD_0");
+    EXPECT_TRUE(std::find(all_actions.begin(),
+                          all_actions.end(),
+                          play_actions[0]) != all_actions.end());
+}
+
+TEST(Player, CanListPlayFromHandActionsFullBoard) {
+    // Should be no play actions if board is full, except for spells
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+        {
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat")
+        };
+    std::shared_ptr<Board> board1(new Board(b1_cards));
+
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+        {
+         f.get_card("Amalgadon"),
+         f.get_card("Alleycat"),
+         f.get_card("Foe Reaper 4000"),
+        };
+    auto hand = Hand(hand_cards);
+    auto player = Player(hand, "Test");
+    player.set_board(board1);
+
+    // Assert we can't play any minions (board is full)
+    auto play_actions = player.list_play_from_hand_actions();
+    EXPECT_EQ(play_actions.size(), (unsigned)0);
+}
+
+TEST(Player, CanListPlayActionsAlmostFullBoard) {
+    // Board is almost full, so every slot should be available
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+        {
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat")
+        };
+    std::shared_ptr<Board> board1(new Board(b1_cards));
+
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+        {
+         f.get_card("Amalgadon"),
+         f.get_card("Alleycat"),
+         f.get_card("Foe Reaper 4000"),
+         f.get_card("Mal'Ganis (Golden)")
+        };
+    auto hand = Hand(hand_cards);
+    auto player = Player(hand, "Test");
+    player.set_board(board1);
+
+    auto all_actions = player.list_all_possible_actions();
+    auto play_actions = player.list_play_from_hand_actions();
+    // Four cards, can play them in any slot (e.g. 4 * 7)
+    EXPECT_EQ(play_actions.size(), (unsigned)(4*7));
+    for (const auto& play_action : play_actions) {
+        EXPECT_TRUE(std::find(all_actions.begin(),
+                              all_actions.end(),
+                              play_action) != all_actions.end());
+    }
+}
+
+TEST(Player, CanListPlayActionsForTargettedBattlecriesFullBoard) {
+    // Board is almost full, so every slot should be available
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+        {
+         f.get_card("Murloc Tidehunter"),
+         f.get_card("Alleycat"),
+         f.get_card("Vulgar Homunculus"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Murloc Tidehunter"),
+        };
+    std::shared_ptr<Board> board1(new Board(b1_cards));
+
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+        {
+         f.get_card("Virmen Sensei"), // Three targets
+         f.get_card("Rockpool Hunter"), // Two target
+         f.get_card("Nathrezim Overseer"), // One target
+         f.get_card("Mal'Ganis (Golden)") // Not targetted
+        };
+    auto hand = Hand(hand_cards);
+    auto player = Player(hand, "Test");
+    player.set_board(board1);
+
+    // Assert we can't play any minions (board is full)
+    auto all_actions = player.list_all_possible_actions();
+    auto play_actions = player.list_play_from_hand_actions();
+    // Vermin can go in any slot, has three targets (3 * 7)
+    // Rockpool can go in any slot, has two targets (2 * 7)
+    // Nathrezim can go in any slot, has one target (1 * 7)
+    // Mal'Ganis can go in any slot, no target (1 * 7)
+    EXPECT_EQ(play_actions.size(), (unsigned)(3*7 + 2*7 + 1*7 + 7));
+    for (const auto& play_action : play_actions) {
+        EXPECT_TRUE(std::find(all_actions.begin(),
+                              all_actions.end(),
+                              play_action) != all_actions.end());
+    }
+}
+
+TEST(Player, CanListBuyActionsTavern1Default) {
+    auto player = Player("Test");
+    auto buy_actions = player.list_buy_actions();
+
+    // Bobs tavern at tier1 should have 3 minions
+    EXPECT_EQ(buy_actions.size(), (unsigned)3);
+    EXPECT_EQ(buy_actions[0], "BUY_0");
+    EXPECT_EQ(buy_actions[1], "BUY_1");
+    EXPECT_EQ(buy_actions[2], "BUY_2");
+
+    // Assert we can sell any of the minions on our board
+    auto all_actions = player.list_all_possible_actions();
+    for (auto buy_action : buy_actions) {
+        EXPECT_TRUE(std::find(all_actions.begin(),
+                              all_actions.end(),
+                              buy_action) != all_actions.end());
+    }
+}
+
+TEST(Player, ListsNoBuyActionsWhenHandFull) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards;
+    for (int i = 0; i < 10; i++) {
+        hand_cards.push_back(f.get_card("Alleycat"));
+    }
+    auto hand = Hand(hand_cards);    
+    auto player = Player(hand, "Test");
+    auto buy_actions = player.list_buy_actions();
+
+    // Can't buy a card if hand is full
+    EXPECT_EQ(buy_actions.size(), (unsigned)0);
+}
+
+TEST(Player, ListsNoRepositionActionsWhenBoardEmpty) {
+    auto player = Player("Test");
+    auto reposition_actions = player.list_board_reposition_actions();
+
+    // Can't reposition if no cards are on board
+    EXPECT_EQ(reposition_actions.size(), (unsigned)0);
+}
+
+TEST(Player, ListsNoRepositionActionsWhenOnly1CardOnBoard) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > board_cards;
+    board_cards.push_back(f.get_card("Alleycat"));
+    auto player = Player(std::make_shared<Board>(board_cards), "Test");
+    auto reposition_actions = player.list_board_reposition_actions();
+
+    // Can't reposition if only one card are on board
+    EXPECT_EQ(reposition_actions.size(), (unsigned)0);
+}
+
+TEST(Player, CanListRepositionActionsWhenBoardHas3Minions) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > board_cards;
+    for (int i = 0; i < 3; i++) {
+        board_cards.push_back(f.get_card("Alleycat"));
+    }
+    auto player = Player(std::make_shared<Board>(board_cards), "Test");
+    auto reposition_actions = player.list_board_reposition_actions();
+
+    // Each of the 3 cards can be repositioned to 2 other positions
+    // So, should be 6 actions total
+    EXPECT_EQ(reposition_actions.size(), (unsigned)6);
+}
+
+TEST(Player, CanListTavernUpActionsStartOfGame) {
+    // Assert no tav up action available at start
+    auto player = Player("Test");
+    auto tav_up_actions = player.list_tavern_up_actions();
+
+    EXPECT_EQ(tav_up_actions.size(), (unsigned)0);
+}
+
+TEST(Player, CanListTavernUpActionsTier2) {
+    // Assert no tav up action available at start
+    auto player = Player("Test");
+    player.set_tavern_tier(2);
+    player.set_gold(10);
+    auto tav_up_actions = player.list_tavern_up_actions();
+
+    EXPECT_EQ(tav_up_actions.size(), (unsigned)1);
+    EXPECT_EQ(tav_up_actions[0], "TAVERN_UP");
+}
+
+TEST(Player, CanListTavernUpActionsTier6) {
+    // Assert no tav up action available at start
+    auto player = Player("Test");
+    player.set_tavern_tier(6);
+    player.set_gold(10);
+    auto tav_up_actions = player.list_tavern_up_actions();
+
+    EXPECT_EQ(tav_up_actions.size(), (unsigned)0);
+}
+
+TEST(Player, CanListAllAvailableActions) {
+        // Should be no play actions if board is full, except for spells
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+        {
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat"),
+         f.get_card("Alleycat")
+        };
+    std::shared_ptr<Board> board1(new Board(b1_cards));
+
+    std::vector<std::shared_ptr<BgBaseCard> > hand_cards
+        {
+         f.get_card("Amalgadon"),
+         f.get_card("Alleycat"),
+         f.get_card("Foe Reaper 4000"),
+         f.get_card("Houndmaster")
+        };
+    auto hand = Hand(hand_cards);
+    auto player = Player(hand, "Test");
+    player.set_board(board1);
+
+    // Assert we can't play any minions (board is full)
+    auto board_reposition_actions = player.list_board_reposition_actions();
+    auto buy_actions = player.list_buy_actions();
+    auto freeze_actions = player.list_freeze_actions();
+    auto play_actions = player.list_play_from_hand_actions();
+    auto roll_actions = player.list_roll_actions();
+    auto sell_actions = player.list_sell_actions();
+    auto tavern_up_actions = player.list_tavern_up_actions();
+    auto total_size = board_reposition_actions.size()
+        + buy_actions.size()
+        + freeze_actions.size()
+        + roll_actions.size()
+        + play_actions.size()
+        + sell_actions.size()
+        + tavern_up_actions.size();
+
+    auto all_avail_actions = player.list_available_actions();
+    
+    EXPECT_EQ(all_avail_actions.size(), total_size);
+    
+    auto all_actions = player.list_all_possible_actions();
+    for (auto action : all_avail_actions) {
+        EXPECT_TRUE(std::find(all_actions.begin(),
+                              all_actions.end(),
+                              action) != all_actions.end());
+    }    
+}

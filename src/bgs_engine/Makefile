@@ -1,8 +1,8 @@
 .PHONY: bg_game cards game main premain test test_all all clean
 
-CARD_CPP_FILES = $(shell find . -name "*.cpp" ! -name "*_test.cpp")
+CPP_FILES = $(shell find . -name "*.cpp" ! -name "*_test.cpp")
 # $(info $$CARD_CPP_FILES is [${CARD_CPP_FILES}]) # DEBUG
-OBJ_TARGETS = $(CARD_CPP_FILES:.cpp=.o)
+OBJ_FILES = $(CPP_FILES:.cpp=.o)
 # $(info $$CARD_CPP_FILES is [${CARD_CPP_FILES}]) # DEBUG
 
 #LIBRARY_PATH=/usr/local/Cellar/tbb/2020_U3_1/lib:$LIBRARY_PATH
@@ -10,8 +10,8 @@ OBJ_TARGETS = $(CARD_CPP_FILES:.cpp=.o)
 
 # Matt's local rule for faster builds.
 # I'll work incremental builds in docker when enough people complain...
-# export CXX = /usr/local/opt/llvm/bin/clang++
-export CXX = clang++
+export CXX = /usr/local/opt/llvm/bin/clang++
+# export CXX = clang++
 export OPENMP_FLAGS = -fopenmp
 
 ################################################################
@@ -19,7 +19,7 @@ export OPENMP_FLAGS = -fopenmp
 ################################################################
 
 all: ## Builds everything (default rule)
-all: bg_game cards game 
+all: bg_game cards
 
 # premain: all
 
@@ -36,6 +36,14 @@ clean:  ## Clean up object files and other build artifacts
 	cd cards; $(MAKE) clean
 	cd bg_game; $(MAKE) clean
 	cd test; $(MAKE) clean
+
+cli: all
+	$(CXX) -std=c++17 -O3 main.cpp -c
+	$(CXX) -std=c++17 -O3 -o main $(OBJ_FILES) -L/usr/local/lib $(OPENMP_FLAGS)
+
+
+docker_rl_build:
+	docker build -t bgs_rl_cli -f Dockerfile.rl_cli
 
 docker_build: ## Build inside of docker container
 	docker build -t bgs -f Dockerfile.test .

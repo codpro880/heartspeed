@@ -1,0 +1,27 @@
+FROM ubuntu:20.04
+RUN apt-get update --fix-missing
+RUN apt-get install -y build-essential
+RUN apt-get install -y clang-format
+RUN apt-get install -y clang-tidy
+RUN apt-get install -y clang-tools
+RUN apt-get install -y clang
+RUN apt-get install -y libc++-dev
+RUN apt-get install -y libc++1
+RUN apt-get install -y libc++abi-dev
+RUN apt-get install -y libc++abi1
+RUN apt-get install -y libclang-dev
+RUN apt-get install -y libclang1
+RUN apt-get install -y libomp-dev
+RUN apt-get install -y libomp5
+RUN apt-get install -y lld
+RUN apt-get install -y llvm-dev
+RUN apt-get install -y llvm-runtime
+RUN apt-get install -y llvm
+
+RUN mkdir /app
+WORKDIR /app
+COPY . /app
+RUN make cli -j 8
+RUN chmod +x bgscli
+# COPY bgscli /app
+ENTRYPOINT ["/app/bgscli"]

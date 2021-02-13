@@ -10,6 +10,7 @@
 #include "bobs_tavern.hpp"
 
 #include "../cards/bgs/BgCardFactory.hpp"
+#include "../third_party/json.hpp"
 
 class Player {
 public:
@@ -438,6 +439,15 @@ public:
             res.push_back("BUY_" + std::to_string(i));
         }
         return res;
+    }
+
+    void dump_all_possible_actions_json() {
+        nlohmann::json j;
+        auto all_possible_actions = list_all_possible_actions();
+        for (size_t action_ind = 0; action_ind < all_possible_actions.size(); action_ind++) {
+            j["all_possible_actions"][action_ind] = all_possible_actions[action_ind];
+        }
+        std::cout << j.dump(4);
     }
 
     std::vector<std::string> list_all_possible_actions() {

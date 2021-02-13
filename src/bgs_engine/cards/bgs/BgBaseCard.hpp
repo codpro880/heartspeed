@@ -6,6 +6,7 @@
 #include <vector>
 
 #include "../../bg_game/rng_singleton.hpp"
+#include "../../third_party/json.hpp"
 
 class Board; // Forward declare for circular dep between cards and board
 class Player; // Forward declare for circular dep between cards and player
@@ -13,6 +14,9 @@ class Player; // Forward declare for circular dep between cards and player
 
 class BgBaseCard {
 public:
+    // TODO: Remove
+    BgBaseCard() {}
+    
     BgBaseCard(int attack,
                std::string card_class,
                int cost,
@@ -196,6 +200,16 @@ public:
     }
     friend std::ostream& operator<<(std::ostream& os, const BgBaseCard& card);
     virtual ~BgBaseCard() {}
+
+    nlohmann::json to_json() {
+        nlohmann::json j;
+        return j;
+        // TODO: drattles
+    }
+
+    static BgBaseCard from_json(std::string infile) {
+        return BgBaseCard();
+    }
     
 protected:
     std::vector<std::shared_ptr<BgBaseCard>> deathrattle_cards; // Used for magnetic effects or other deathrattle stacking

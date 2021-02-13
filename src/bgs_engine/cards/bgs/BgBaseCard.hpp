@@ -1,5 +1,6 @@
 #pragma once
 
+#include <fstream>
 #include <iostream>
 #include <memory>
 #include <string>
@@ -51,6 +52,7 @@ public:
                                           cost(other.cost),
                                           divine_shield(other.divine_shield),
                                           _has_reborn(other._has_reborn),
+                                          _has_taunt(other._has_taunt),
                                           _has_windfury(other._has_windfury),
                                           _has_windfury_active(other._has_windfury_active),
                                           health(other.health),
@@ -62,7 +64,7 @@ public:
                                           rarity(other.rarity),
                                           tavern_tier(other.tavern_tier),
                                           type(other.type),
-                                          adapt_count(0) {}
+                                          adapt_count(0) { }
 
     void adapt(std::string _test_adapt="None");
 
@@ -202,13 +204,96 @@ public:
     virtual ~BgBaseCard() {}
 
     nlohmann::json to_json() {
+    // std::vector<std::shared_ptr<BgBaseCard>> deathrattle_cards; // Used for magnetic effects or other deathrattle stacking
+    // int attack;
+    // int base_attack;
+    // std::string card_class;
+    // int cost;
+    // bool divine_shield;
+    // bool _has_taunt = false;
+    // bool _has_reborn = false;
+    // bool _has_windfury = false; // attribute
+    // bool _has_windfury_active = false; // Whether or not we can attack again
+    // int health;
+    // int base_health;
+    // bool is_poison;
+    // std::string mechanics;
+    // std::string name;
+    // std::string race;
+    // std::string rarity;
+    // int tavern_tier;
+    // std::string type;
+    // int death_pos = -2;
+    // std::string last_dmg_race;
+    // int adapt_count; // Mostly used for testing only
         nlohmann::json j;
+        for (int i = 0; (unsigned)i < deathrattle_cards.size(); i++) {
+            j["deathrattle_cards"][i] = deathrattle_cards[i]->to_json();
+        }
+        j["attack"] = attack;
+        j["card_class"] = card_class;
+        j["cost"] = cost;
+        j["health"] = health;
+        j["name"] = name;
+        j["mechanics"] = mechanics;
+        j["race"] = race;
+        j["rarity"] = rarity;
+        j["tavern_tier"] = tavern_tier;
+        j["type"] = type;
+
+        j["has_divine_shield"] = has_divine_shield();
+        j["has_poison"] = has_poison();
+        j["has_reborn"] = has_reborn();
+        j["has_taunt"] = has_taunt();
+        j["has_windfury"] = has_windfury();
+
         return j;
-        // TODO: drattles
     }
 
     static BgBaseCard from_json(std::string infile) {
-        return BgBaseCard();
+        std::ifstream i(infile);
+        nlohmann::json j;
+        i >> j;
+
+        int attack = j["attack"];
+        std::string card_class(j["card_class"]);
+        int cost = j["cost"];
+        int health = j["health"];
+        std::string name(j["name"]);
+        std::string mechanics(j["mechanics"]);
+        std::string race(j["race"]);
+        std::string rarity(j["rarity"]);
+        int tavern_tier = j["tavern_tier"];
+        std::string type(j["type"]);
+        auto card =  BgBaseCard(attack,
+                                card_class,
+                                cost,
+                                health,
+                                name,
+                                mechanics,
+                                race,
+                                rarity,
+                                tavern_tier,
+                                type);
+        
+        if (j["has_divine_shield"]) {
+            card.set_divine_shield();
+        }
+        if (j["has_poison"]) {
+            card.set_poison();
+        }
+        if (j["has_reborn"]) {
+            card.set_reborn();
+        }
+        if (j["has_taunt"]) {
+            std::cerr << "SET TAUNT!" << std::endl;
+            card.set_taunt();
+        }
+        if (j["has_windfury"]) {
+            card.set_windfury();
+        }
+        
+        return card;
     }
     
 protected:

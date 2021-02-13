@@ -97,7 +97,6 @@ TEST(BgBaseCard, CanBeSerializedToJsonAndDeserializedAgain) {
     EXPECT_EQ(original_card->has_divine_shield(), desialized->has_divine_shield());
     EXPECT_EQ(original_card->has_poison(), desialized->has_poison());
     EXPECT_EQ(original_card->has_reborn(), desialized->has_reborn());
-    EXPECT_EQ(original_card->has_taunt(), desialized->has_reborn());  
+    EXPECT_EQ(original_card->has_taunt(), desialized->has_taunt());
     EXPECT_EQ(original_card->has_windfury(), desialized->has_windfury());
-    EXPECT_EQ(original_card->has_windfury_active(), desialized->has_windfury_active());
 }

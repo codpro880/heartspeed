@@ -1,43 +1,35 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
+import { ApolloProvider } from '@apollo/client';
+import { apolloClient } from './utils/auth';
 
-import Container from '@material-ui/core/Container';
-import Box from '@material-ui/core/Box';
-
-import ProTip from './components/ProTip';
-import Login from './components/Login';
-import Registration from './components/Registration';
-
-const client = new ApolloClient({
-  uri: 'http://localhost:8000/graphql/',
-  cache: new InMemoryCache(),
-});
+import { LOGIN_PATH, REGISTER_PATH, WELCOME_PATH } from './utils/constants';
+import Login from './pages/Login';
+import Registration from './pages/Registration';
+import Welcome from './pages/Welcome';
 
 export default function App() {
-  // eslint-disable-next-line no-unused-vars
-  const [token, setToken] = useState();
   return (
-    <ApolloProvider client={client}>
+    <ApolloProvider client={apolloClient}>
       <BrowserRouter>
         <Switch>
-          <Route path="/login">
-            <Login setToken={setToken} />
+          <Route path={LOGIN_PATH}>
+            <Login />
           </Route>
         </Switch>
       </BrowserRouter>
       <BrowserRouter>
         <Switch>
-          <Route path="/register">
+          <Route path={REGISTER_PATH}>
             <Registration />
           </Route>
         </Switch>
+        <Switch>
+          <Route path={WELCOME_PATH}>
+            <Welcome />
+          </Route>
+        </Switch>
       </BrowserRouter>
-      <Container maxWidth="sm">
-        <Box my={4}>
-          <ProTip />
-        </Box>
-      </Container>
     </ApolloProvider>
   );
 }

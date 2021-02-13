@@ -1,11 +1,9 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
-import { gql, useMutation } from '@apollo/client';
+import { useMutation } from '@apollo/client';
 
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import Snackbar from '@material-ui/core/Snackbar';
-import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
@@ -14,51 +12,13 @@ import Grid from '@material-ui/core/Grid';
 import Box from '@material-ui/core/Box';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Alert from '@material-ui/lab/Alert';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+import { WELCOME_PATH, LOGIN_MUTATION } from '../utils/constants';
+import useStyles from '../utils/styles';
 
-const LOGIN_MUTATION = gql`
-  mutation login(
-    $email: String!
-    $password: String!
-  ) {
-    tokenAuth(email: $email,
-      password: $password
-    ) {
-      success
-      errors
-      token
-      refreshToken
-      user {
-        id
-        email
-      }
-    }
-  }
-`;
-
-export default function Login({ setToken }) {
+export default function Login() {
   const classes = useStyles();
 
   const [formState, setFormState] = useState({
@@ -82,9 +42,10 @@ export default function Login({ setToken }) {
             setSnackBarMessage(data.tokenAuth.errors?.nonFieldErrors[0].message);
             setSnackBarOpen(true);
           }
+        } else {
+          localStorage.setItem('token', data.tokenAuth.token);
+          window.location.href = WELCOME_PATH;
         }
-        setToken(data.tokenAuth.token);
-        console.log(data);
       },
     }, {
       variables: {
@@ -94,12 +55,11 @@ export default function Login({ setToken }) {
     },
   );
 
-  if (loading) console.log('loading');
-  if (error) console.log('error');
+  if (loading) return 'loading...';
+  if (error) return 'error';
 
   return (
     <Container component="main" maxWidth="xs">
-      <CssBaseline />
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
@@ -192,7 +152,3 @@ export default function Login({ setToken }) {
     </Container>
   );
 }
-
-Login.propTypes = {
-  setToken: PropTypes.func.isRequired,
-};

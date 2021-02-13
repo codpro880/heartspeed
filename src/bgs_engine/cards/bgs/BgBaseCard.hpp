@@ -14,10 +14,7 @@ class Player; // Forward declare for circular dep between cards and player
 // TODO: Move all boards to be players for consistent-interface purposes
 
 class BgBaseCard {
-public:
-    // TODO: Remove
-    BgBaseCard() {}
-    
+public:    
     BgBaseCard(int attack,
                std::string card_class,
                int cost,

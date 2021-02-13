@@ -1,4 +1,4 @@
-.PHONY: bg_game cards game main premain test test_all all clean
+.PHONY: all bg_game cards clean clean_cli cli game main premain test test_all
 
 CPP_FILES = $(shell find . -name "*.cpp" ! -name "*_test.cpp")
 # $(info $$CARD_CPP_FILES is [${CARD_CPP_FILES}]) # DEBUG
@@ -10,8 +10,8 @@ OBJ_FILES = $(CPP_FILES:.cpp=.o)
 
 # Matt's local rule for faster builds.
 # I'll work incremental builds in docker when enough people complain...
-export CXX = /usr/local/opt/llvm/bin/clang++
-# export CXX = clang++
+# export CXX = /usr/local/opt/llvm/bin/clang++
+export CXX = clang++
 export OPENMP_FLAGS = -fopenmp
 
 ################################################################
@@ -37,18 +37,24 @@ clean:  ## Clean up object files and other build artifacts
 	cd bg_game; $(MAKE) clean
 	cd test; $(MAKE) clean
 
+clean_cli:  ## Cleans up the main object file and executable of bgscli
+	rm bgscli
+	rm main.o
+
+cli: ## Build the cli executable (bgscli)
 cli: all
 	$(CXX) -std=c++17 -O3 main.cpp -c
-	$(CXX) -std=c++17 -O3 -o main $(OBJ_FILES) -L/usr/local/lib $(OPENMP_FLAGS)
+	$(CXX) -std=c++17 -O3 -o bgscli $(OBJ_FILES) -L/usr/local/lib $(OPENMP_FLAGS)
 
 
-docker_rl_build:
-	docker build -t bgs_rl_cli -f Dockerfile.rl_cli
+docker_cli: ## Builds Docker image which runs bgscli executable
+	docker build -t bgs_cli -f Dockerfile.cli .
 
 docker_build: ## Build inside of docker container
 	docker build -t bgs -f Dockerfile.test .
 
-docker_test: docker_build ## Run automated tests inside of docker container
+docker_test: ## Run automated tests inside of docker container
+docker_test: docker_build 
 	docker run -it bgs
 
 help:  ## Show this help.

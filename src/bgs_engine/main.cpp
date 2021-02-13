@@ -1,11 +1,12 @@
 #include <iostream>
 
+#include "bg_game/player.hpp"
 #include "third_party/json.hpp"
 
 void dump_usage(char* argv[]) {
     std::cout << "Usage: " << argv[0] << " (specify only one arg):" << std::endl
               << std::endl
-              << "--dump-avail-actions (dumps available actions as JSON)" << std::endl
+              << "--all-possible-actions (dumps all actions as JSON)" << std::endl
               << std::endl;
 }
 
@@ -18,8 +19,11 @@ int main(int argc, char* argv[]) {
         exit(1);
     }
 
-    if (std::string(argv[1]) == "--dump-avail-actions") {
-        std::cout << "Invoked!" << std::endl;
+    if (std::string(argv[1]) == "--all-possible-actions") {
+        // TODO: serialize player, load state
+        Player p = Player("Test");
+        p.dump_all_possible_actions_json();
+        // TODO: Serialize
     }
     else {
         std::cout << "Unknown arg: " << argv[1] << std::endl;

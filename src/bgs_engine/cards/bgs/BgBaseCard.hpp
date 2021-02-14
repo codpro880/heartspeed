@@ -47,7 +47,7 @@ public:
                                           base_attack(other.attack),
                                           card_class(other.card_class),
                                           cost(other.cost),
-                                          divine_shield(other.divine_shield),
+                                          divine_shield(other.divine_shield),                                          
                                           _has_reborn(other._has_reborn),
                                           _has_taunt(other._has_taunt),
                                           _has_windfury(other._has_windfury),
@@ -201,28 +201,6 @@ public:
     virtual ~BgBaseCard() {}
 
     nlohmann::json to_json() {
-    // std::vector<std::shared_ptr<BgBaseCard>> deathrattle_cards; // Used for magnetic effects or other deathrattle stacking
-    // int attack;
-    // int base_attack;
-    // std::string card_class;
-    // int cost;
-    // bool divine_shield;
-    // bool _has_taunt = false;
-    // bool _has_reborn = false;
-    // bool _has_windfury = false; // attribute
-    // bool _has_windfury_active = false; // Whether or not we can attack again
-    // int health;
-    // int base_health;
-    // bool is_poison;
-    // std::string mechanics;
-    // std::string name;
-    // std::string race;
-    // std::string rarity;
-    // int tavern_tier;
-    // std::string type;
-    // int death_pos = -2;
-    // std::string last_dmg_race;
-    // int adapt_count; // Mostly used for testing only
         nlohmann::json j;
         for (int i = 0; (unsigned)i < deathrattle_cards.size(); i++) {
             j["deathrattle_cards"][i] = deathrattle_cards[i]->to_json();
@@ -251,7 +229,10 @@ public:
         std::ifstream i(infile);
         nlohmann::json j;
         i >> j;
+        return BgBaseCard::from_json(j);
+    }
 
+    static BgBaseCard from_json(nlohmann::json j) {
         int attack = j["attack"];
         std::string card_class(j["card_class"]);
         int cost = j["cost"];
@@ -283,7 +264,6 @@ public:
             card.set_reborn();
         }
         if (j["has_taunt"]) {
-            std::cerr << "SET TAUNT!" << std::endl;
             card.set_taunt();
         }
         if (j["has_windfury"]) {
@@ -300,8 +280,8 @@ protected:
     std::string card_class;
     int cost;
     bool divine_shield;
-    bool _has_taunt = false;
     bool _has_reborn = false;
+    bool _has_taunt = false;
     bool _has_windfury = false; // attribute
     bool _has_windfury_active = false; // Whether or not we can attack again
     int health;

@@ -156,6 +156,18 @@ public:
             attacker_pos = 0;
         }
     }
+
+    // void to_json(std::string outfile) {
+    // privates:
+    //     std::vector<std::shared_ptr<BgBaseCard> > cards;
+    //     std::queue<std::shared_ptr<BgBaseCard> > deathrattle_q;
+    //     std::vector<std::shared_ptr<BgBaseCard> > _has_died;
+    //     std::unordered_set<std::string> card_names;
+    //     int attacker_pos;
+    // }
+
+    // Board from_json(std::string infile) {
+    // }
         
     
 private:

@@ -514,6 +514,13 @@ public:
 
     void set_opponents_last_board(std::shared_ptr<Board> b) { opponents_last_board = b; }
     std::shared_ptr<Board> get_opponents_last_board() { return opponents_last_board; }
+
+    // void to_json(std::string outfile) {
+    // }
+
+    // Player from_json(std::string infile) {
+    //     return Player("Test");
+    // }
     
 
 private:    

@@ -15,7 +15,9 @@ import Typography from '@material-ui/core/Typography';
 import Container from '@material-ui/core/Container';
 import Alert from '@material-ui/lab/Alert';
 
-import { WELCOME_PATH, LOGIN_MUTATION } from '../utils/constants';
+import {
+  AUTH_TOKEN, REGISTER_PATH, WELCOME_PATH, LOGIN_MUTATION,
+} from '../utils/constants';
 import useStyles from '../utils/styles';
 
 export default function Login() {
@@ -37,13 +39,13 @@ export default function Login() {
     LOGIN_MUTATION, {
       onCompleted(data) {
         if (!data.tokenAuth.success) {
-          // This will only display first nonFieldError
           if (data.tokenAuth.errors?.nonFieldErrors) {
+            // This will only display first nonFieldError
             setSnackBarMessage(data.tokenAuth.errors?.nonFieldErrors[0].message);
             setSnackBarOpen(true);
           }
         } else {
-          localStorage.setItem('token', data.tokenAuth.token);
+          localStorage.setItem(AUTH_TOKEN, data.tokenAuth.token);
           window.location.href = WELCOME_PATH;
         }
       },
@@ -141,7 +143,7 @@ export default function Login() {
               </Link>
             </Grid>
             <Grid item>
-              <Link href="/register" variant="body2">
+              <Link href={REGISTER_PATH} variant="body2">
                 Don&#39;t have an account? Sign Up
               </Link>
             </Grid>

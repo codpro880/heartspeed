@@ -1,38 +1,47 @@
 import {
-  ApolloClient, ApolloLink, HttpLink, InMemoryCache, // gql, useQuery,
+  ApolloClient, HttpLink, InMemoryCache,
 } from '@apollo/client';
-import { GQL_ENDPOINT } from './constants';
+import { setContext } from '@apollo/client/link/context';
+import { AUTH_TOKEN, TOKEN_QUERY, GQL_ENDPOINT } from './constants';
 
-const token = localStorage.getItem('token');
-const httpLink = new HttpLink({ uri: GQL_ENDPOINT });
-const authMiddleware = new ApolloLink((operation, forward) => {
-  if (token) {
-    operation.setContext({
+let currentApolloClient = null;
+
+const updateAuthHeaders = (apolloClient) => {
+  const httpLink = new HttpLink({ uri: GQL_ENDPOINT });
+  const authLink = setContext((_, { headers }) => {
+    const token = localStorage.getItem(AUTH_TOKEN);
+    if (token == null) return null;
+    return {
       headers: {
-        Authorization: `JWT ${token}`,
+        ...headers,
+        Authorization: token ? `JWT ${token}` : '',
       },
-    });
+    };
+  });
+  apolloClient.setLink(authLink.concat(httpLink));
+};
+
+const genApolloClient = () => {
+  const apolloClient = new ApolloClient({
+    cache: new InMemoryCache(),
+  });
+  updateAuthHeaders(apolloClient);
+  return apolloClient;
+};
+
+const getApolloClient = () => {
+  if (currentApolloClient == null) {
+    currentApolloClient = genApolloClient();
   }
-  return forward(operation);
-});
+  return currentApolloClient;
+};
 
-const apolloClient = new ApolloClient({
-  link: ApolloLink.concat(authMiddleware, httpLink),
-  cache: new InMemoryCache(),
-});
+const setToken = (token) => {
+  const apolloClient = getApolloClient();
+  apolloClient.writeQuery(
+    { query: TOKEN_QUERY, data: { token } },
+  );
+  updateAuthHeaders(apolloClient);
+};
 
-// TODO: make resuable hook here?
-// eslint-disable-next-line no-unused-vars
-// const [queryUser, { loading, error }] = useQuery(gql`
-//     query {
-//       me {
-//         email,
-//         verified
-//       }
-//     }`, {
-//   onCompleted(data) {
-//     console.log(data);
-//   },
-// });
-// eslint-disable-next-line import/prefer-default-export
-export { apolloClient };
+export { getApolloClient, setToken, updateAuthHeaders };

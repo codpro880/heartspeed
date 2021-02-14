@@ -1,16 +1,18 @@
 import React from 'react';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import { ApolloProvider } from '@apollo/client';
-import { apolloClient } from './utils/auth';
 
-import { LOGIN_PATH, REGISTER_PATH, WELCOME_PATH } from './utils/constants';
+import NavBar from './components/navbar';
 import Login from './pages/Login';
 import Registration from './pages/Registration';
 import Welcome from './pages/Welcome';
+import {
+  LOGIN_PATH, REGISTER_PATH, WELCOME_PATH,
+} from './utils/constants';
 
 export default function App() {
   return (
-    <ApolloProvider client={apolloClient}>
+    <>
+      <NavBar />
       <BrowserRouter>
         <Switch>
           <Route path={LOGIN_PATH}>
@@ -30,6 +32,6 @@ export default function App() {
           </Route>
         </Switch>
       </BrowserRouter>
-    </ApolloProvider>
+    </>
   );
 }

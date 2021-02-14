@@ -9,6 +9,7 @@
 #include <unordered_set>
 
 #include "../cards/bgs/BgBaseCard.hpp"
+#include "../third_party/json.hpp"
 
 class Player;
 
@@ -157,17 +158,20 @@ public:
         }
     }
 
-    // void to_json(std::string outfile) {
-    // privates:
+    nlohmann::json to_json() {
+            // privates:
     //     std::vector<std::shared_ptr<BgBaseCard> > cards;
     //     std::queue<std::shared_ptr<BgBaseCard> > deathrattle_q;
     //     std::vector<std::shared_ptr<BgBaseCard> > _has_died;
     //     std::unordered_set<std::string> card_names;
     //     int attacker_pos;
-    // }
+        nlohmann::json j;
+        return j;
+    }
 
-    // Board from_json(std::string infile) {
-    // }
+    static Board from_json(std::string infile) {
+        return Board();
+    }
         
     
 private:

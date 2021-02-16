@@ -80,7 +80,9 @@ public:
     void set_board(std::shared_ptr<Board> b) { board = b; }
     friend std::ostream& operator<<(std::ostream& os, const Player& p);
     int get_health() const { return health; }
+    void set_health(int _health) { health = _health; }
     int get_max_health() const { return max_health; }
+    void set_max_health(int _max_health) { max_health = _max_health; }
     int get_damage_taken() const { return max_health - health; }
     std::string get_name() const { return name; }
     int get_tavern_tier() const { return tavern_tier; }
@@ -182,7 +184,13 @@ public:
         else if (g > 10) gold = 10;
         else gold = g;
     }
-    int get_gold() { return gold; }
+    void set_max_gold(int g) {
+        if (g < 0) max_gold = 0;
+        else if (g > 10) max_gold = 10;
+        else max_gold = g;
+    }
+    int get_gold() const { return gold; }
+    int get_max_gold() const { return max_gold; }
 
     // Tavern wrappers
     std::vector<std::string> refresh_tavern_minions() {
@@ -515,12 +523,49 @@ public:
     void set_opponents_last_board(std::shared_ptr<Board> b) { opponents_last_board = b; }
     std::shared_ptr<Board> get_opponents_last_board() { return opponents_last_board; }
 
-    // void to_json(std::string outfile) {
-    // }
+    nlohmann::json to_json() {
+        nlohmann::json j;
+        j["board"] = board->to_json();
+        j["hand"] = hand.to_json();
+        j["gold"] = gold;
+        j["max_gold"] = max_gold;
+        j["health"] = health;
+        j["max_health"] = max_health;
+        j["name"] = name;
+        j["tavern_tier"] = tavern_tier;
+        j["tavern_minions"] = get_tavern_minions();
+        return j;
+    }
 
-    // Player from_json(std::string infile) {
-    //     return Player("Test");
-    // }
+    static Player from_json(std::string infile) {
+        std::ifstream i(infile);
+        nlohmann::json j;
+        i >> j;
+        return Player::from_json(j);
+    }
+
+    static Player from_json(nlohmann::json j) {
+        auto board = std::make_shared<Board>(Board::from_json(j["board"]));
+        auto hand = Hand::from_json(j["hand"]);
+        auto gold = j["gold"];
+        auto max_gold = j["max_gold"];
+        auto health = j["health"];
+        auto max_health = j["max_health"];
+        auto name = j["name"];
+        auto tavern_tier = j["tavern_tier"];
+        auto tavern_minions = j["tavern_minions"];
+
+        auto player = Player(hand, name);
+        player.set_board(board);
+        player.set_gold(gold);
+        player.set_max_gold(max_gold);
+        player.set_health(health);
+        player.set_max_health(max_health);
+        player.set_tavern_tier(tavern_tier);
+        player.set_tavern_minions(j["tavern_minions"]);
+
+        return player;
+    }
     
 
 private:    

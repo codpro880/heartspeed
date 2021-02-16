@@ -1,3 +1,5 @@
+#pragma once
+
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -42,7 +44,10 @@ public:
         std::ifstream i(infile);
         nlohmann::json j;
         i >> j;
-        
+        return Hand::from_json(j);
+    }
+
+    static Hand from_json(nlohmann::json j) {
         std::vector<std::shared_ptr<BgBaseCard> > deserialized_cards;
         for (auto card_json : j["cards"]) {
             auto card = std::make_shared<BgBaseCard>(BgBaseCard::from_json(card_json));

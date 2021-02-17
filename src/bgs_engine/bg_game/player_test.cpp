@@ -376,7 +376,7 @@ TEST(Player, ChampionOfYShaarjRetainsStats) {
 
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
         {
-         f.get_card("Murloc Scout"),
+         f.get_card("Murloc Tidehunter"),
          f.get_card("Murloc Scout"),
          f.get_card("Murloc Scout"),
          f.get_card("Murloc Scout")
@@ -386,6 +386,7 @@ TEST(Player, ChampionOfYShaarjRetainsStats) {
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "p1");
+    EXPECT_EQ(p1->get_board()->get_cards().size(), 2);
     auto yshaarj = p1->get_board()->get_cards()[0];
     auto yshaarj_gold = p1->get_board()->get_cards()[1];
     // Tokens would have attacked twice, each yshaarj killed one token took one dmg
@@ -397,6 +398,8 @@ TEST(Player, ChampionOfYShaarjRetainsStats) {
 
     // Should now be full health
     p1->start_turn();
+    // TODO: Major Bugfix required...
+    // EXPECT_EQ(p1->get_board()->get_cards().size(), 3);
     EXPECT_EQ(yshaarj->get_attack(), 2 + 2);
     EXPECT_EQ(yshaarj->get_health(), 2 + 2);
     EXPECT_EQ(yshaarj_gold->get_attack(), 4 + 4);

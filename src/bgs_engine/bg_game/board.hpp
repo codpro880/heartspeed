@@ -184,23 +184,6 @@ public:
         auto res_board = Board(deserialized_cards);
         return res_board;
     }
-
-    // static Board from_json(std::string infile) {
-    //     std::ifstream i(infile);
-    //     nlohmann::json j;
-    //     i >> j;
-    //     return Board::from_json(j);
-            
-    //     std::vector<std::shared_ptr<BgBaseCard> > deserialized_cards;
-    //     for (auto card_json : j["cards"]) {
-    //         auto card = std::make_shared<BgBaseCard>(BgBaseCard::from_json(card_json));
-    //         deserialized_cards.push_back(card);
-    //     }
-    //     auto res_board = Board(deserialized_cards);
-    //     return res_board;
-    // }
-
-        
     
 private:
     std::vector<std::shared_ptr<BgBaseCard> > cards;

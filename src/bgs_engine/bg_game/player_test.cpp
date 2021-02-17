@@ -2501,11 +2501,18 @@ TEST(Player, CanSerializeAndDeserialize) {
     auto tav_minions_deser = player_deserialized.get_tavern_minions();
     EXPECT_EQ(tav_minions, tav_minions_deser);
 
+    EXPECT_EQ(player.get_elementals_played_this_turn(), player_deserialized.get_elementals_played_this_turn());
+    EXPECT_EQ(player.get_frozen_minions(), player_deserialized.get_frozen_minions());
     EXPECT_EQ(player.get_gold(), player_deserialized.get_gold());
     EXPECT_EQ(player.get_max_gold(), player_deserialized.get_max_gold());
     EXPECT_EQ(player.get_health(), player_deserialized.get_health());
     EXPECT_EQ(player.get_max_health(), player_deserialized.get_max_health());
     EXPECT_EQ(player.get_name(), player_deserialized.get_name());
+    EXPECT_EQ(player.get_num_free_refreshes(), player_deserialized.get_num_free_refreshes());
+    EXPECT_EQ(player.get_pirates_bought_this_turn(), player_deserialized.get_pirates_bought_this_turn());
     EXPECT_EQ(player.get_tavern_tier(), player_deserialized.get_tavern_tier());
-    
+    EXPECT_EQ(player.get_tavern_minions(), player_deserialized.get_tavern_minions());
+    EXPECT_EQ(player.is_tavern_frozen(), player_deserialized.is_tavern_frozen());
+    EXPECT_EQ(player.get_turns_at_current_tier(), player_deserialized.get_turns_at_current_tier());
+    EXPECT_EQ(player.won_last_turn(), player_deserialized.won_last_turn());
 }

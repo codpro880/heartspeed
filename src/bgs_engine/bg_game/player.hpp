@@ -23,6 +23,7 @@ public:
                                                               name(name),
                                                               num_free_refreshes(0),
                                                               original_board(std::make_shared<Board>(board_)),
+                                                              opponents_last_board(std::make_shared<Board>()),
                                                               pirates_bought_this_turn(0),
                                                               tavern_tier(1),
                                                               tavern(std::make_shared<BobsTavern>(this)),
@@ -37,7 +38,8 @@ public:
                                max_health(40),
                                name(name),
                                num_free_refreshes(0),
-                               original_board(new Board()),
+                               original_board(std::make_shared<Board>()),
+                               opponents_last_board(std::make_shared<Board>()),
                                pirates_bought_this_turn(0),
                                tavern_tier(1),
                                tavern(std::make_shared<BobsTavern>(this)),
@@ -53,7 +55,8 @@ public:
                                           max_health(40),
                                           name(name),
                                           num_free_refreshes(0),
-                                          original_board(new Board()),
+                                          original_board(std::make_shared<Board>()),
+                                          opponents_last_board(std::make_shared<Board>()),
                                           pirates_bought_this_turn(0),
                                           tavern_tier(1),
                                           tavern(std::make_shared<BobsTavern>(this)),
@@ -88,6 +91,7 @@ public:
     int get_tavern_tier() const { return tavern_tier; }
     void set_tavern_tier(int tav_tier) { tavern_tier = tav_tier; }
     int get_turns_at_current_tier() const { return turns_at_current_tier; }
+    void set_turns_at_current_tier(int t) { turns_at_current_tier = t; }
     void set_free_refreshes(int num_free) { num_free_refreshes = num_free; }
 
     // Used by steward of time, syndragosa, etc
@@ -175,6 +179,14 @@ public:
 
     void unfreeze_tavern() {
         tavern_is_frozen = false;
+    }
+
+    bool is_tavern_frozen() const {
+        return tavern_is_frozen;
+    }
+
+    void set_tavern_frozen(bool t) {
+        tavern_is_frozen = t;
     }
 
     void add_gold(int g) { set_gold(get_gold() + g); }
@@ -272,20 +284,36 @@ public:
         pirates_bought_this_turn++;
     }
 
-    int get_pirates_bought_this_turn() {
+    int get_pirates_bought_this_turn() const {
         return pirates_bought_this_turn;
     }
 
-    int get_elementals_played_this_turn() {
+    void set_pirates_bought_this_turn(int p) {
+        pirates_bought_this_turn = p;
+    }
+
+    int get_elementals_played_this_turn() const {
         return elementals_played_this_turn;
+    }
+
+    void set_elementals_played_this_turn(int e) {
+        elementals_played_this_turn = e;
     }
 
     void add_to_frozen_minions(std::string minion) {
         frozen_minions.push_back(minion);
     }
 
-    void set_won_last_turn() {
-        _won_last_turn = true;
+    std::vector<std::string> get_frozen_minions() const {
+        return frozen_minions;
+    }
+
+    void set_frozen_minions(std::vector<std::string> minions) {
+        frozen_minions = minions;
+    }
+
+    void set_won_last_turn(bool wlt = true) {
+        _won_last_turn = wlt;
     }
 
     bool won_last_turn() {
@@ -520,20 +548,55 @@ public:
     }
     
 
+    std::shared_ptr<Board> get_opponents_last_board() const { return opponents_last_board; }
     void set_opponents_last_board(std::shared_ptr<Board> b) { opponents_last_board = b; }
-    std::shared_ptr<Board> get_opponents_last_board() { return opponents_last_board; }
+    
+
+    int get_num_free_refreshes() const {
+        return num_free_refreshes;
+    }
+
+    void set_num_free_refreshes(int n) {
+        num_free_refreshes = n;
+    }
 
     nlohmann::json to_json() {
+    //         std::shared_ptr<Board> board;
+    // int elementals_played_this_turn;
+    // std::vector<std::string> frozen_minions;
+    // int gold;
+    // Hand hand;
+    // int health;
+    // int max_gold;
+    // int max_health;    
+    // std::string name;
+    // int num_free_refreshes;
+    // std::shared_ptr<Board> original_board; // Read-only board
+    // std::shared_ptr<Board> opponents_last_board; // Read-only board
+    // int pirates_bought_this_turn;
+    // int tavern_tier;
+    // std::shared_ptr<BobsTavern> tavern;
+    // bool tavern_is_frozen;
+    // int turns_at_current_tier;
+    // bool _won_last_turn;
         nlohmann::json j;
         j["board"] = board->to_json();
         j["hand"] = hand.to_json();
+        j["elementals_played_this_turn"] = elementals_played_this_turn;
+        j["frozen_minions"] = frozen_minions;
         j["gold"] = gold;
         j["max_gold"] = max_gold;
         j["health"] = health;
         j["max_health"] = max_health;
         j["name"] = name;
+        j["num_free_refreshes"] = num_free_refreshes;
+        j["opponents_last_board"] = opponents_last_board->to_json();
+        j["pirates_bought_this_turn"] = pirates_bought_this_turn;
         j["tavern_tier"] = tavern_tier;
         j["tavern_minions"] = get_tavern_minions();
+        j["tavern_is_frozen"] = tavern_is_frozen;
+        j["turns_at_current_tier"] = turns_at_current_tier;
+        j["_won_last_turn"] = _won_last_turn;
         return j;
     }
 
@@ -547,22 +610,38 @@ public:
     static Player from_json(nlohmann::json j) {
         auto board = std::make_shared<Board>(Board::from_json(j["board"]));
         auto hand = Hand::from_json(j["hand"]);
+        auto elementals_played_this_turn = j["elementals_played_this_turn"];
+        auto frozen_minions = j["frozen_minions"];
         auto gold = j["gold"];
         auto max_gold = j["max_gold"];
         auto health = j["health"];
         auto max_health = j["max_health"];
         auto name = j["name"];
+        auto num_free_refreshes = j["num_free_refreshes"];
+        auto opponents_last_board = std::make_shared<Board>(Board::from_json(j["opponents_last_board"]));
+        auto pirates_bought_this_turn = j["pirates_bought_this_turn"];
         auto tavern_tier = j["tavern_tier"];
         auto tavern_minions = j["tavern_minions"];
+        auto tavern_is_frozen = j["tavern_is_frozen"];
+        auto turns_at_current_tier = j["turns_at_current_tier"];
+        auto _won_last_turn = j["_won_last_turn"];
 
         auto player = Player(hand, name);
         player.set_board(board);
+        player.set_elementals_played_this_turn(elementals_played_this_turn);
+        player.set_frozen_minions(frozen_minions);
         player.set_gold(gold);
         player.set_max_gold(max_gold);
         player.set_health(health);
         player.set_max_health(max_health);
+        player.set_num_free_refreshes(num_free_refreshes);
+        player.set_opponents_last_board(opponents_last_board);
+        player.set_pirates_bought_this_turn(pirates_bought_this_turn);
         player.set_tavern_tier(tavern_tier);
-        player.set_tavern_minions(j["tavern_minions"]);
+        player.set_tavern_minions(tavern_minions);
+        player.set_tavern_frozen(tavern_is_frozen);
+        player.set_turns_at_current_tier(turns_at_current_tier);
+        player.set_won_last_turn(_won_last_turn);
 
         return player;
     }

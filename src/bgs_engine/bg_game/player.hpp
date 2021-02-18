@@ -32,8 +32,6 @@ public:
                                                               turns_at_current_tier(0) {
         for (int i = 0; (unsigned)i < board->get_cards().size(); i++) {
             auto board_card = board->get_cards()[i];
-            std::cerr << "Setting id " << next_card_id << " for card "
-                      << board_card->get_name() << std::endl;
             auto original_card = original_board->get_cards()[i];
             board_card->set_id(next_card_id);
             original_card->set_id(next_card_id);

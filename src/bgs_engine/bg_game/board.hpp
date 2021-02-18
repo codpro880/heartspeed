@@ -139,9 +139,9 @@ public:
                     Player* player,
                     bool from_hand=false);
     
-    std::vector<std::shared_ptr<BgBaseCard> > const get_cards() const { return cards;  } // TODO: Make this an iterator
+    std::vector<std::shared_ptr<BgBaseCard>> const get_cards() const { return cards;  } // TODO: Make this an iterator
     
-    std::vector<std::shared_ptr<BgBaseCard> > has_died() const { return _has_died; }
+    std::vector<std::shared_ptr<BgBaseCard>> has_died() const { return _has_died; }
     
     bool contains(std::string card_name) const { return card_names.find(card_name) != card_names.end(); }
 
@@ -156,6 +156,15 @@ public:
         if ((unsigned)attacker_pos >= length()) {
             attacker_pos = 0;
         }
+    }
+
+    std::shared_ptr<BgBaseCard> get_card_by_id(int id) {
+        for (auto c : cards) {
+            if (c->get_id() == id) {
+                return c;
+            }
+        }
+        throw std::logic_error("Card with id " + std::to_string(id) + " not found.");
     }
 
     nlohmann::json to_json() {

@@ -21,6 +21,7 @@ public:
                                                               max_gold(3),
                                                               max_health(40),
                                                               name(name),
+                                                              next_card_id(0),
                                                               num_free_refreshes(0),
                                                               original_board(std::make_shared<Board>(board_)),
                                                               opponents_last_board(std::make_shared<Board>()),
@@ -28,7 +29,17 @@ public:
                                                               tavern_tier(1),
                                                               tavern(std::make_shared<BobsTavern>(this)),
                                                               tavern_is_frozen(false),
-                                                              turns_at_current_tier(0) { }
+                                                              turns_at_current_tier(0) {
+        for (int i = 0; (unsigned)i < board->get_cards().size(); i++) {
+            auto board_card = board->get_cards()[i];
+            std::cerr << "Setting id " << next_card_id << " for card "
+                      << board_card->get_name() << std::endl;
+            auto original_card = original_board->get_cards()[i];
+            board_card->set_id(next_card_id);
+            original_card->set_id(next_card_id);
+            next_card_id++;
+        }
+    }
 
     Player(std::string name) : board(new Board()),
                                elementals_played_this_turn(0),
@@ -37,6 +48,7 @@ public:
                                max_gold(3),
                                max_health(40),
                                name(name),
+                               next_card_id(0),
                                num_free_refreshes(0),
                                original_board(std::make_shared<Board>()),
                                opponents_last_board(std::make_shared<Board>()),
@@ -54,6 +66,7 @@ public:
                                           max_gold(3),
                                           max_health(40),
                                           name(name),
+                                          next_card_id(0),
                                           num_free_refreshes(0),
                                           original_board(std::make_shared<Board>()),
                                           opponents_last_board(std::make_shared<Board>()),
@@ -62,13 +75,16 @@ public:
                                           tavern(std::make_shared<BobsTavern>(this)),
                                           tavern_is_frozen(false),
                                           turns_at_current_tier(0) { }
-    
+
+    // Should really only be used by battler parallelized logic,
+    // not a complete copy constructor atm
     Player(Player* player) {
         board = std::make_shared<Board>(player->get_original_board());
         hand = player->get_hand();
         health = player->get_health();
         max_health = player->get_max_health();
         name = player->get_name();
+        next_card_id = player->get_next_card_id();
         original_board = std::make_shared<Board>(player->get_original_board());
         tavern_tier = player->get_tavern_tier();
         turns_at_current_tier = player->get_turns_at_current_tier();
@@ -243,8 +259,27 @@ public:
         return res;
     }
 
+    Board restore_board() {
+        std::vector<std::shared_ptr<BgBaseCard>> restored_cards;
+        auto original_cards = original_board->get_cards();
+        for (int i = 0; (unsigned)i < original_cards.size(); i++) {
+            auto c = original_cards[i];
+            if (c->should_replace_with_base_end_of_turn()) {
+                restored_cards.push_back(c);
+            }
+            else {
+                auto card_to_push = board->get_card_by_id(c->get_id());
+                restored_cards.push_back(card_to_push);
+            }
+        }
+        return Board(restored_cards);
+    }
+
     void start_turn() {
+        board = std::make_shared<Board>(restore_board());
+        
         for (auto c : board->get_cards()) {
+            c->set_attack(c->get_base_attack());
             c->set_health(c->get_base_health());
         }
                                            
@@ -270,7 +305,8 @@ public:
         tavern_is_frozen = false;
         frozen_minions.clear();
     }
-    
+
+    // Should be called right before battle
     void end_turn() {
         for (auto c : board->get_cards()) {
             c->end_turn_mechanic(this);
@@ -278,6 +314,7 @@ public:
         turns_at_current_tier += 1;
         if (max_gold < 10) max_gold++;
         _won_last_turn = false;
+        original_board = std::make_shared<Board>(board);
     }
 
     void inc_pirates_bought_this_turn() {
@@ -560,6 +597,30 @@ public:
         num_free_refreshes = n;
     }
 
+    int get_next_card_id() const {
+        return next_card_id;
+    }
+
+    void set_next_card_id(int _next_id) {
+        next_card_id = _next_id;
+    }
+
+    void inc_next_card_id() {
+        next_card_id++;
+    }
+
+    void replace_card_on_original_board_by_id(BgBaseCard* c) {
+        std::cerr << "Replacing!" << std::endl;
+        for (int i = 0; (unsigned)i < original_board->get_cards().size(); i++) {
+            if (original_board->get_cards()[i]->get_id() == c->get_id()) {
+                // original_board->get_cards()[i] = std::make_shared<BgBaseCard>(*c);
+                auto to_insert = std::make_shared<BgBaseCard>(*c);
+                auto original_cards = original_board->get_cards();
+                original_cards[i] = to_insert;
+            }
+        }
+    }
+
     nlohmann::json to_json() {
     //         std::shared_ptr<Board> board;
     // int elementals_played_this_turn;
@@ -589,6 +650,7 @@ public:
         j["health"] = health;
         j["max_health"] = max_health;
         j["name"] = name;
+        j["next_card_id"] = next_card_id;
         j["num_free_refreshes"] = num_free_refreshes;
         j["opponents_last_board"] = opponents_last_board->to_json();
         j["pirates_bought_this_turn"] = pirates_bought_this_turn;
@@ -617,7 +679,8 @@ public:
         auto health = j["health"];
         auto max_health = j["max_health"];
         auto name = j["name"];
-        auto num_free_refreshes = j["num_free_refreshes"];
+        auto next_card_id = j["next_card_id"];
+        auto num_free_refreshes = j["num_free_refreshes"];        
         auto opponents_last_board = std::make_shared<Board>(Board::from_json(j["opponents_last_board"]));
         auto pirates_bought_this_turn = j["pirates_bought_this_turn"];
         auto tavern_tier = j["tavern_tier"];
@@ -642,6 +705,7 @@ public:
         player.set_tavern_frozen(tavern_is_frozen);
         player.set_turns_at_current_tier(turns_at_current_tier);
         player.set_won_last_turn(_won_last_turn);
+        player.set_next_card_id(next_card_id);
 
         return player;
     }
@@ -657,6 +721,7 @@ private:
     int max_gold;
     int max_health;    
     std::string name;
+    int next_card_id;
     int num_free_refreshes;
     std::shared_ptr<Board> original_board; // Read-only board
     std::shared_ptr<Board> opponents_last_board; // Read-only board

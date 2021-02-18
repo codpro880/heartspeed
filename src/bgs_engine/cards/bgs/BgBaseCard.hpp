@@ -54,6 +54,7 @@ public:
                                           _has_windfury_active(other._has_windfury_active),
                                           health(other.health),
                                           base_health(other.health),
+                                          id(other.id),
                                           is_poison(other.is_poison),
                                           mechanics(other.mechanics),
                                           name(other.name),
@@ -115,6 +116,7 @@ public:
     int get_cost() const { return cost; }
     int get_health() const { return health; }
     int get_base_health() const { return base_health; }
+    int get_id() const { return id; }
     std::string get_mechanics() const { return mechanics; }
     std::string get_name() const { return name; }
     std::string get_race() const { return race; }
@@ -162,6 +164,7 @@ public:
         health += added_health;
         base_health = hth;
     }
+    void set_id(int _id) { id = _id; }
     void set_mechanics(std::string _mechanics) { mechanics = _mechanics; }
     void set_name(std::string _name) { name = _name; }
     void set_poison(bool p = true) { is_poison = p; }
@@ -183,6 +186,8 @@ public:
     void add_to_deathrattle_cards(std::shared_ptr<BgBaseCard> c) {
         deathrattle_cards.push_back(c);
     }
+
+    virtual bool should_replace_with_base_end_of_turn() const { return true; }
 
     virtual void take_damage(int damage, std::string who_from_race, Player*, Player*);
 
@@ -286,6 +291,7 @@ protected:
     bool _has_windfury_active = false; // Whether or not we can attack again
     int health;
     int base_health;
+    int id;
     bool is_poison;
     std::string mechanics;
     std::string name;

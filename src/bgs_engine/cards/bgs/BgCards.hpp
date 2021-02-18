@@ -19,6 +19,17 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override = 0; // boilerplate that every card needs...
 };
 
+// Class for Bigfernal, Y'shaarj and others that keep stats gained
+// after battle phase. Typically stats gained during battle are not
+// permenant.
+class PermenantBattleStatsCard : virtual public BgBaseCard {
+public:
+    using BgBaseCard::BgBaseCard;
+    void deathrattle(Player* p1, Player* p2) override;
+    virtual bool should_replace_with_base_end_of_turn() const override { return is_dead(); }
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override = 0; // boilerplate that every card needs...
+};
+
 class PirateCard : virtual public BgBaseCard {
 public:
     using BgBaseCard::BgBaseCard;
@@ -118,7 +129,7 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ArcaneAssistantGolden>(*this); } // boilerplate that every drattle needs...
 };
 
-class Bigfernal : public BgBaseCard {
+class Bigfernal : public PermenantBattleStatsCard {
 public:
     Bigfernal() : BgBaseCard(4, "NEUTRAL", 4, 4, "Bigfernal",
                              "['TRIGGER_VISUAL']", "DEMON", "EPIC", 3, "MINION") {}
@@ -126,7 +137,7 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Bigfernal>(*this); } // boilerplate that every drattle needs...
 };
 
-class BigfernalGolden : public BgBaseCard {
+class BigfernalGolden : public PermenantBattleStatsCard {
 public:
     BigfernalGolden() : BgBaseCard(8, "NEUTRAL", 4, 8, "Bigfernal (Golden)",
                                    "['TRIGGER_VISUAL']", "DEMON", "EPIC", 3, "MINION") {}
@@ -166,6 +177,22 @@ public:
                                     "['TRIGGER_VISUAL']", "PIRATE", "", 5, "MINION") {}
     void card_bought_trigger(Player*, std::shared_ptr<BgBaseCard>) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<CapnHoggarrGolden>(*this); } // boilerplate that every drattle needs...
+};
+
+class ChampionOfYshaarj : public PermenantBattleStatsCard {
+public:
+    ChampionOfYshaarj() : BgBaseCard(2, "NEUTRAL", 4, 2,  "Champion of Y'Shaarj",
+                                     "['TRIGGER_VISUAL']", "NEUTRAL", "", 4, "MINION") {}    
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ChampionOfYshaarj>(*this); } // boilerplate that every drattle needs...
+};
+
+class ChampionOfYshaarjGolden : public PermenantBattleStatsCard {
+public:
+    ChampionOfYshaarjGolden() : BgBaseCard(4, "NEUTRAL", 4, 4,  "Champion of Y'Shaarj (Golden)",
+                                           "['TRIGGER_VISUAL']", "NEUTRAL", "", 4, "MINION") {}
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ChampionOfYshaarjGolden>(*this); } // boilerplate that every drattle needs...
+private:
+    ChampionOfYshaarj cf;
 };
 
 class CobaltScalebane : public BgBaseCard {

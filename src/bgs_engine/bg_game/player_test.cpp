@@ -376,31 +376,80 @@ TEST(Player, ChampionOfYShaarjRetainsStats) {
 
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
         {
-         f.get_card("Murloc Scout"),
+         f.get_card("Murloc Tidehunter"),
          f.get_card("Murloc Scout"),
          f.get_card("Murloc Scout"),
          f.get_card("Murloc Scout")
         };
     std::shared_ptr<Board> board2(new Board(p2_cards));    
     std::unique_ptr<Player> p2(new Player(board2, "p2"));
+    p1->end_turn();
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
     EXPECT_EQ(res.who_won, "p1");
+    EXPECT_EQ(p1->get_board()->get_cards().size(), 2);
     auto yshaarj = p1->get_board()->get_cards()[0];
     auto yshaarj_gold = p1->get_board()->get_cards()[1];
     // Tokens would have attacked twice, each yshaarj killed one token took one dmg
     EXPECT_EQ(yshaarj->get_attack(), 2 + 2);
+    EXPECT_EQ(yshaarj->get_base_attack(), 2 + 2);
     EXPECT_EQ(yshaarj->get_health(), 2 + 1);
+    EXPECT_EQ(yshaarj->get_base_health(), 2 + 2);
     EXPECT_EQ(yshaarj_gold->get_attack(), 4 + 4);
+    EXPECT_EQ(yshaarj_gold->get_base_attack(), 4 + 4);
     EXPECT_EQ(yshaarj_gold->get_health(), 4 + 3);
-    p1->end_turn();
+    EXPECT_EQ(yshaarj_gold->get_base_health(), 4 + 4);
 
     // Should now be full health
     p1->start_turn();
+    // TODO: Major Bugfix required...
+    EXPECT_EQ(p1->get_board()->get_cards().size(), 3);
+    yshaarj = p1->get_board()->get_cards()[0];
+    yshaarj_gold = p1->get_board()->get_cards()[1];
     EXPECT_EQ(yshaarj->get_attack(), 2 + 2);
     EXPECT_EQ(yshaarj->get_health(), 2 + 2);
     EXPECT_EQ(yshaarj_gold->get_attack(), 4 + 4);
     EXPECT_EQ(yshaarj_gold->get_health(), 4 + 4);
+    p1->end_turn();
+}
+
+TEST(Player, ChampionOfYShaarjRetainsStatsIfDeathDuringBattle) {
+    auto f = BgCardFactory();
+    auto lt = f.get_card("Dragonspawn Lieutenant");
+    lt->set_health(10);
+    lt->set_attack(1);
+    std::vector<std::shared_ptr<BgBaseCard> > board_cards
+        {
+         lt,
+         f.get_card("Champion of Y'Shaarj"),
+        };
+    std::shared_ptr<Board> board1(new Board(board_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "p1"));
+    p1->start_turn();
+
+    auto th = f.get_card("Murloc Tidehunter");
+    th->set_attack(9);
+    th->set_health(2);
+
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+        {
+         th
+        };
+    std::shared_ptr<Board> board2(new Board(p2_cards));    
+    std::unique_ptr<Player> p2(new Player(board2, "p2"));
+    p1->end_turn();
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    EXPECT_EQ(res.who_won, "p1");
+    EXPECT_EQ(p1->get_board()->get_cards().size(), 1);
+
+    // Should now be full health
+    p1->start_turn();
+    // TODO: Major Bugfix required...
+    EXPECT_EQ(p1->get_board()->get_cards().size(), 2);
+    auto yshaarj = p1->get_board()->get_cards()[1];
+    EXPECT_EQ(yshaarj->get_attack(), 1 + 2);
+    EXPECT_EQ(yshaarj->get_health(), 1 + 2);
     p1->end_turn();
 }
 
@@ -2434,16 +2483,19 @@ TEST(Player, CanListTavernUpActionsTier6) {
     EXPECT_EQ(tav_up_actions.size(), (unsigned)0);
 }
 
-TEST(Player, CanListAllAvailableActions) {
-        // Should be no play actions if board is full, except for spells
+TEST(Player, CanSerializeAndDeserialize) {
     auto f = BgCardFactory();
+    auto buffed_cat = f.get_card("Alleycat");
+    buffed_cat->set_divine_shield();
+    buffed_cat->set_base_health(10);
+    buffed_cat->set_base_attack(5);
     std::vector<std::shared_ptr<BgBaseCard> > b1_cards
         {
-         f.get_card("Alleycat"),
-         f.get_card("Alleycat"),
-         f.get_card("Alleycat"),
-         f.get_card("Alleycat"),
-         f.get_card("Alleycat"),
+         buffed_cat,
+         f.get_card("Faceless Taverngoer"),
+         f.get_card("Mama Bear"),
+         f.get_card("Red Whelp"),
+         f.get_card("Kaboom Bot"),
          f.get_card("Alleycat"),
          f.get_card("Alleycat")
         };
@@ -2460,30 +2512,56 @@ TEST(Player, CanListAllAvailableActions) {
     auto player = Player(hand, "Test");
     player.set_board(board1);
 
-    // Assert we can't play any minions (board is full)
-    auto board_reposition_actions = player.list_board_reposition_actions();
-    auto buy_actions = player.list_buy_actions();
-    auto freeze_actions = player.list_freeze_actions();
-    auto play_actions = player.list_play_from_hand_actions();
-    auto roll_actions = player.list_roll_actions();
-    auto sell_actions = player.list_sell_actions();
-    auto tavern_up_actions = player.list_tavern_up_actions();
-    auto total_size = board_reposition_actions.size()
-        + buy_actions.size()
-        + freeze_actions.size()
-        + roll_actions.size()
-        + play_actions.size()
-        + sell_actions.size()
-        + tavern_up_actions.size();
+    // Alter some of the default values (spot check)
+    player.set_gold(4);
+    player.set_max_health(55); // Pretend we're patches
+    player.set_health(1);
+    player.set_tavern_tier(2);
 
-    auto all_avail_actions = player.list_available_actions();
+    // Dump to json
+    std::string json_file = "player.json";
+    auto json_to_dump = player.to_json();
+    std::ofstream out(json_file);
+    out << json_to_dump.dump(4);
+    out.close();
+    auto player_deserialized = Player::from_json(json_file);
+
+    // Assert we deserialize properly
+    // Expect boards are the same
+    auto board1_deserialized = player_deserialized.get_board();
+    auto b1_cards_again = board1->get_cards();
+    auto b1_cards_deser = board1_deserialized->get_cards();
+    EXPECT_EQ(b1_cards_again.size(), b1_cards_deser.size());
+    for (int i = 0; (unsigned)i < b1_cards_again.size(); i++) {
+        EXPECT_EQ(b1_cards_again[i]->get_name(), b1_cards_deser[i]->get_name());
+    }
     
-    EXPECT_EQ(all_avail_actions.size(), total_size);
-    
-    auto all_actions = player.list_all_possible_actions();
-    for (auto action : all_avail_actions) {
-        EXPECT_TRUE(std::find(all_actions.begin(),
-                              all_actions.end(),
-                              action) != all_actions.end());
-    }    
+    // Expect hands are the same
+    auto hand_deserialized = player_deserialized.get_hand();
+    auto hand_cards_again = hand.get_cards();
+    auto hand_cards_deser = hand_deserialized.get_cards();
+    EXPECT_EQ(hand_cards_again.size(), hand_cards_deser.size());
+    for (int i = 0; (unsigned)i < hand_cards_again.size(); i++) {
+        EXPECT_EQ(hand_cards_again[i]->get_name(), hand_cards_deser[i]->get_name());
+    }
+
+    // Expect tavern minions are the same
+    auto tav_minions =  player.get_tavern_minions();
+    auto tav_minions_deser = player_deserialized.get_tavern_minions();
+    EXPECT_EQ(tav_minions, tav_minions_deser);
+
+    EXPECT_EQ(player.get_elementals_played_this_turn(), player_deserialized.get_elementals_played_this_turn());
+    EXPECT_EQ(player.get_frozen_minions(), player_deserialized.get_frozen_minions());
+    EXPECT_EQ(player.get_gold(), player_deserialized.get_gold());
+    EXPECT_EQ(player.get_max_gold(), player_deserialized.get_max_gold());
+    EXPECT_EQ(player.get_health(), player_deserialized.get_health());
+    EXPECT_EQ(player.get_max_health(), player_deserialized.get_max_health());
+    EXPECT_EQ(player.get_name(), player_deserialized.get_name());
+    EXPECT_EQ(player.get_num_free_refreshes(), player_deserialized.get_num_free_refreshes());
+    EXPECT_EQ(player.get_pirates_bought_this_turn(), player_deserialized.get_pirates_bought_this_turn());
+    EXPECT_EQ(player.get_tavern_tier(), player_deserialized.get_tavern_tier());
+    EXPECT_EQ(player.get_tavern_minions(), player_deserialized.get_tavern_minions());
+    EXPECT_EQ(player.is_tavern_frozen(), player_deserialized.is_tavern_frozen());
+    EXPECT_EQ(player.get_turns_at_current_tier(), player_deserialized.get_turns_at_current_tier());
+    EXPECT_EQ(player.won_last_turn(), player_deserialized.won_last_turn());
 }

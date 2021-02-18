@@ -213,10 +213,8 @@ void BgCardFactory::init_cards() {
     cards.emplace("Cap'n Hoggarr", std::make_shared<CapnHoggarr>());
     cards.emplace("Cap'n Hoggarr (Golden)", std::make_shared<CapnHoggarrGolden>());
     // Handled in BgBaseCard...TODO: Get better "trigger all" sort of effect going...
-    cards.emplace("Champion of Y'Shaarj", std::make_shared<BgBaseCard>(2, "NEUTRAL", 4, 2,  "Champion of Y'Shaarj",
-                                                                       "['TRIGGER_VISUAL']", "NEUTRAL", "", 4, "MINION"));
-    cards.emplace("Champion of Y'Shaarj (Golden)", std::make_shared<BgBaseCard>(4, "NEUTRAL", 4, 4,  "Champion of Y'Shaarj (Golden)",
-                                                                                "['TRIGGER_VISUAL']", "NEUTRAL", "", 4, "MINION"));
+    cards.emplace("Champion of Y'Shaarj", std::make_shared<ChampionOfYshaarj>());
+    cards.emplace("Champion of Y'Shaarj (Golden)", std::make_shared<ChampionOfYshaarjGolden>());
     cards.emplace("Cobalt Scalebane", std::make_shared<CobaltScalebane>());
     cards.emplace("Cobalt Scalebane (Golden)", std::make_shared<CobaltScalebaneGolden>());
     cards.emplace("Coldlight Seer", std::make_shared<ColdlightSeer>());

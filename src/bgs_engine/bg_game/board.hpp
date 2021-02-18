@@ -139,9 +139,9 @@ public:
                     Player* player,
                     bool from_hand=false);
     
-    std::vector<std::shared_ptr<BgBaseCard> > const get_cards() const { return cards;  } // TODO: Make this an iterator
+    std::vector<std::shared_ptr<BgBaseCard>> const get_cards() const { return cards;  } // TODO: Make this an iterator
     
-    std::vector<std::shared_ptr<BgBaseCard> > has_died() const { return _has_died; }
+    std::vector<std::shared_ptr<BgBaseCard>> has_died() const { return _has_died; }
     
     bool contains(std::string card_name) const { return card_names.find(card_name) != card_names.end(); }
 
@@ -158,6 +158,15 @@ public:
         }
     }
 
+    std::shared_ptr<BgBaseCard> get_card_by_id(int id) {
+        for (auto c : cards) {
+            if (c->get_id() == id) {
+                return c;
+            }
+        }
+        throw std::logic_error("Card with id " + std::to_string(id) + " not found.");
+    }
+
     nlohmann::json to_json() {
         nlohmann::json j;
         for (int i = 0; (unsigned)i < cards.size(); i++) {
@@ -172,7 +181,10 @@ public:
         std::ifstream i(infile);
         nlohmann::json j;
         i >> j;
-        
+        return Board::from_json(j);
+    }
+
+    static Board from_json(nlohmann::json j) {
         std::vector<std::shared_ptr<BgBaseCard> > deserialized_cards;
         for (auto card_json : j["cards"]) {
             auto card = std::make_shared<BgBaseCard>(BgBaseCard::from_json(card_json));
@@ -181,7 +193,6 @@ public:
         auto res_board = Board(deserialized_cards);
         return res_board;
     }
-        
     
 private:
     std::vector<std::shared_ptr<BgBaseCard> > cards;

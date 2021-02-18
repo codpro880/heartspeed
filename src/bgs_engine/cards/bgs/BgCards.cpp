@@ -127,6 +127,10 @@ std::vector<int> TargetedBattlecryCard::get_valid_target_indexes(Player* p1) {
     return res;
 }
 
+void PermenantBattleStatsCard::deathrattle(Player* p1, Player* p2) {
+    std::cerr << "Replace drattle..." << std::endl;
+    p1->replace_card_on_original_board_by_id(this);
+}
 
 void PirateCard::do_preattack(std::shared_ptr<BgBaseCard> defender,
                               Player* p1,

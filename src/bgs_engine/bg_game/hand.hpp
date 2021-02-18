@@ -1,3 +1,11 @@
+#pragma once
+
+#include <algorithm>
+#include <string>
+#include <vector>
+
+#include "../cards/bgs/BgBaseCard.hpp"
+
 class Hand {
 public:
     Hand(std::vector<std::shared_ptr<BgBaseCard>> cards) : cards(cards) {}
@@ -21,6 +29,33 @@ public:
         auto it = std::find(cards.begin(), cards.end(), c);
         cards.erase(it);
     }
+
+    nlohmann::json to_json() {
+        nlohmann::json j;
+        for (int i = 0; (unsigned)i < cards.size(); i++) {
+            j["cards"][i] = cards[i]->to_json();
+        }
+        // I don't think any of the other attrs are ever useful to serialize
+        // They're used in battle and cleared at end of battle, or can be calculated
+        return j;
+    }
+
+    static Hand from_json(std::string infile) {
+        std::ifstream i(infile);
+        nlohmann::json j;
+        i >> j;
+        return Hand::from_json(j);
+    }
+
+    static Hand from_json(nlohmann::json j) {
+        std::vector<std::shared_ptr<BgBaseCard> > deserialized_cards;
+        for (auto card_json : j["cards"]) {
+            auto card = std::make_shared<BgBaseCard>(BgBaseCard::from_json(card_json));
+            deserialized_cards.push_back(card);
+        }
+        auto res_hand = Hand(deserialized_cards);
+        return res_hand;
+    }     
     
     auto size() const { return cards.size(); }
 

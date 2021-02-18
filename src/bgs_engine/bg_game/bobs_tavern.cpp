@@ -53,15 +53,18 @@ void BobsTavern::buy_minion(std::string minion) {
         card->set_attack(card->get_attack() + nomi_counter);
         card->set_health(card->get_health() + nomi_counter);
     }
-    player->add_card_to_hand(card);
     if (card->get_race() == "PIRATE") {
         player->inc_pirates_bought_this_turn();
     }
-    // TODO: Add special buy mechanics like hogger
-    player->lose_gold(3);
+    player->lose_gold(3);    
     for (auto c : player->get_board()->get_cards()) {
+        // Handles special buy mechanics like hogger
         c->card_bought_trigger(player, card);
+        // Give new cards a unique ID
+        c->set_id(player->get_next_card_id());
+        player->inc_next_card_id();
     }
+    player->add_card_to_hand(card);
 }
 
 bool BobsTavern::can_tavern_up(int turns_at_current_tier) {

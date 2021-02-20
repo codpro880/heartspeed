@@ -7,13 +7,13 @@
 #include "bg_game/player.hpp"
 #include "third_party/json.hpp"
 
-void dump_usage(char* argv[]) {
+void dump_usage() {
     std::cout
         << "This is a stateful CLI tool for simulating bgs games."  << std::endl
         << "Current impl tracks only two players."  << std::endl
         << "Responses are always JSON."  << std::endl
         << std::endl
-        << "Usage: " << argv[0] << " (specify only one arg):" << std::endl
+        << "Usage: " << " (specify only one):" << std::endl
         << std::endl
         << "--all-possible-actions (dumps all actions as JSON)" << std::endl
         << "\t" << "Dumps all actions" << std::endl
@@ -27,6 +27,10 @@ void dump_usage(char* argv[]) {
         << "\t" << "Dumps player2 current state" << std::endl
         << "--p2-state" << std::endl
         << "\t" << "Dumps player2 current state" << std::endl
+        << "--p1-take-action [ACTION]" << std::endl
+        << "\t" << "Have p1 take an action in the available actions list" << std::endl
+        << "--p2-take-action [ACTION]" << std::endl
+        << "\t" << "Have p2 take an action in the available actions list" << std::endl
         << "--reset" << std::endl
         << "\t" << "Resets game" << std::endl
         // TODO:
@@ -59,12 +63,25 @@ void dump_usage(char* argv[]) {
 //     dump_settings(j);
 // }
 
+void validate(int num_args, int argc) {
+    if (num_args != argc) {
+        dump_usage();
+        exit(1);
+    }
+}
+
+void assert_or_die(bool valid_action, std::string msg) {
+    if (valid_action) return;
+    std::cerr << msg << std::endl;
+    exit(1);
+}
+
 int main(int argc, char* argv[]) {
     if (argc == 1
         || std::string(argv[1]) == "-h"
         || std::string(argv[1]) == "--help"
         || argc > 3) {
-        dump_usage(argv);
+        dump_usage();
         exit(1);
     }
 
@@ -112,6 +129,26 @@ int main(int argc, char* argv[]) {
     }
     else if (std::string(argv[1]) == "--p2-state") {
         p2.dump_as_json(4);
+    }
+    else if (std::string(argv[1]) == "--p1-take-action") {
+        validate(3, argc);
+        std::string action = std::string(argv[2]);
+        bool valid_action = p1.take_action(action);
+        assert_or_die(valid_action, "Action " + action + " not in available actions list for p1");
+        
+        auto p1_json = p1.to_json();
+        std::ofstream out_p1(p1_json_filename);
+        out_p1 << p1_json;
+    }
+    else if (std::string(argv[1]) == "--p2-take-action") {
+        validate(3, argc);
+        std::string action = std::string(argv[2]);
+        bool valid_action = p2.take_action(action);
+        assert_or_die(valid_action, "Action " + action + " not in available actions list for p2");
+
+        auto p2_json = p2.to_json();
+        std::ofstream out_p2(p2_json_filename);
+        out_p2 << p2_json;
     }
     else if (std::string(argv[1]) == "--reset") {
         // Handled above

@@ -1112,42 +1112,6 @@ TEST(Battler, MamaBear) {
 // TEST(Battler, MechanoEggDrattle) {
 // }
 
-TEST(Battler, MecharooDrattle) {
-    auto f = BgCardFactory();
-    auto mecharoo = f.get_card("Mecharoo");
-    auto tidehunter = f.get_card("Murloc Tidehunter (Golden)"); // No battlecry
-    auto gambler1 = f.get_card("Freedealing Gambler (Golden)");
-    // These should draw since mecharoo summons a 1/1 token as a drattle
-    std::vector<std::shared_ptr<BgBaseCard> > p1_cards { mecharoo, tidehunter };
-    std::vector<std::shared_ptr<BgBaseCard> > p2_cards { gambler1 };
-    std::shared_ptr<Board> board1(new Board(p1_cards));
-    std::shared_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
-    auto battler = Battler(p1.get(), p2.get());
-    auto res = battler.sim_battle();
-    EXPECT_EQ(res.who_won, "draw");
-    EXPECT_EQ(res.damage_taken, 0);
-}
-
-TEST(Battler, MecharooGoldenDrattle) {
-    auto f = BgCardFactory();
-    auto mecharoo = f.get_card("Mecharoo (Golden)");
-    auto tidehunter = f.get_card("Murloc Tidehunter"); // No battlecry
-    auto gambler1 = f.get_card("Freedealing Gambler (Golden)");
-    // These should draw since mecharoo summons a 2/2 token as a drattle
-    std::vector<std::shared_ptr<BgBaseCard> > p1_cards { mecharoo, tidehunter };
-    std::vector<std::shared_ptr<BgBaseCard> > p2_cards { gambler1 };
-    std::shared_ptr<Board> board1(new Board(p1_cards));
-    std::shared_ptr<Board> board2(new Board(p2_cards));
-    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
-    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
-    auto battler = Battler(p1.get(), p2.get());
-    auto res = battler.sim_battle();
-    EXPECT_EQ(res.who_won, "draw");
-    EXPECT_EQ(res.damage_taken, 0);
-}
-
 TEST(Battler, MonstrousMacaw) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -1922,33 +1886,6 @@ TEST(Battler, Taunt) {
     EXPECT_EQ(p1_res_cards.size(), (unsigned)2);
 }
 
-TEST(Battler, TheBeastDrattle) {
-    auto f = BgCardFactory();
-    auto card = f.get_card("Murloc Tidehunter");
-    card->set_attack(100);
-    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
-        {
-         card
-        };
-    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
-        {
-         f.get_card("The Beast (Golden)")
-        };
-    std::shared_ptr<Board> board1(new Board(p1_cards));
-    std::shared_ptr<Board> board2(new Board(p2_cards));
-    std::shared_ptr<Player> p1(new Player(board1, "p1"));
-    std::shared_ptr<Player> p2(new Player(board2, "p2"));
-    BoardBattler().battle_boards(0, p1, p2);
-
-    auto b1_cards = board1->get_cards();
-    auto b2_cards = board2->get_cards();
-    EXPECT_EQ(b1_cards.size(), (unsigned)1);
-    EXPECT_EQ(b2_cards.size(), (unsigned)0);
-    for (auto c : b1_cards) {
-        EXPECT_EQ(c->get_name(), "Finkle Einhorn");
-    }
-}
-
 TEST(Battler, TheTideRazorDrattle) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
@@ -2036,10 +1973,10 @@ TEST(Battler, UnstableGhoulGoldenDrattle) {
          f.get_card("Murloc Tidehunter"),
          f.get_card("Murloc Tidehunter"),
          f.get_card("Murloc Tidehunter"),
-         f.get_card("Mecharoo"),
-         f.get_card("Mecharoo"),
-         f.get_card("Mecharoo"),
-         f.get_card("Mecharoo")
+         f.get_card("Hyena"),
+         f.get_card("Hyena"),
+         f.get_card("Hyena"),
+         f.get_card("Hyena")
         };
     std::vector<std::shared_ptr<BgBaseCard> > p2_cards
         {
@@ -2051,7 +1988,7 @@ TEST(Battler, UnstableGhoulGoldenDrattle) {
     std::unique_ptr<Player> p2(new Player(board2, "Tess"));
     auto battler = Battler(p1.get(), p2.get());
     auto res = battler.sim_battle();
-    // Ghoul goes off twice, so kills mecharoos, then all jo-e-bots
+    // Ghoul goes off twice, so kills units with two health as well
     EXPECT_EQ(res.who_won, "draw");
     EXPECT_LE(res.damage_taken, 0);
 }

@@ -25,6 +25,7 @@ public:
                std::string rarity,
                int tavern_tier,
                std::string type) : attack(attack),
+                                   _available_in_tavern(true),
                                    base_attack(attack),
                                    card_class(card_class),
                                    cost(cost),
@@ -44,6 +45,7 @@ public:
                                    adapt_count(0) {}
     
     BgBaseCard(const BgBaseCard& other) : attack(other.attack),
+                                          _available_in_tavern(other._available_in_tavern),
                                           base_attack(other.attack),
                                           card_class(other.card_class),
                                           cost(other.cost),
@@ -205,6 +207,10 @@ public:
     friend std::ostream& operator<<(std::ostream& os, const BgBaseCard& card);
     virtual ~BgBaseCard() {}
 
+    virtual bool is_available_in_tavern() const { return _available_in_tavern; }
+    void set_available_in_tavern(bool avail) { _available_in_tavern = avail; }
+    
+
     nlohmann::json to_json() {
         nlohmann::json j;
         for (int i = 0; (unsigned)i < deathrattle_cards.size(); i++) {
@@ -281,6 +287,7 @@ public:
 protected:
     std::vector<std::shared_ptr<BgBaseCard>> deathrattle_cards; // Used for magnetic effects or other deathrattle stacking
     int attack;
+    bool _available_in_tavern;
     int base_attack;
     std::string card_class;
     int cost;

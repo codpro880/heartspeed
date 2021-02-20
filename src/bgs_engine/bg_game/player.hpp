@@ -521,6 +521,15 @@ public:
         std::cout << j.dump(indent);
     }
 
+    void dump_available_actions_json(int indent = -1) {
+        nlohmann::json j;
+        auto available_actions = list_available_actions();
+        for (size_t action_ind = 0; action_ind < available_actions.size(); action_ind++) {
+            j["available_actions"][action_ind] = available_actions[action_ind];
+        }
+        std::cout << j.dump(indent);
+    }
+
     // Dumps to cout
     void dump_as_json(int indent = -1) {
         auto j = to_json();

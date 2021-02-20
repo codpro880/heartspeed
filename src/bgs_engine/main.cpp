@@ -17,8 +17,14 @@ void dump_usage(char* argv[]) {
         << std::endl
         << "--all-possible-actions (dumps all actions as JSON)" << std::endl
         << "\t" << "Dumps all actions" << std::endl
+        << "--p1-available-actions" << std::endl
+        << "\t" << "Dumps player1 available actions" << std::endl
+        << "--p2-available-actions" << std::endl
+        << "\t" << "Dumps player2 available actions" << std::endl
         << "--p1-state" << std::endl
         << "\t" << "Dumps player1 current state" << std::endl
+        << "--p2-state" << std::endl
+        << "\t" << "Dumps player2 current state" << std::endl
         << "--p2-state" << std::endl
         << "\t" << "Dumps player2 current state" << std::endl
         << "--reset" << std::endl
@@ -94,6 +100,12 @@ int main(int argc, char* argv[]) {
         // TODO: serialize player, load state
         p1.dump_all_possible_actions_json(4);
         // TODO: Serialize
+    }
+    else if (std::string(argv[1]) == "--p1-available-actions") {
+        p1.dump_available_actions_json(4);
+    }
+    else if (std::string(argv[1]) == "--p2-available-actions") {
+        p2.dump_available_actions_json(4);
     }
     else if (std::string(argv[1]) == "--p1-state") {
         p1.dump_as_json(4);

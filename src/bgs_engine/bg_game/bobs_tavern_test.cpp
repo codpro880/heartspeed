@@ -301,3 +301,20 @@ TEST(BobsTavern, CanGiveStewardOfTimeBuffAndBuffIsRemovedOnRefresh) {
     EXPECT_EQ(third_card->get_attack(), f.get_card(third_card->get_name())->get_attack());
     EXPECT_EQ(third_card->get_health(), f.get_card(third_card->get_name())->get_health());
 }
+
+// Bugfix when visualizing CLI tooling
+// saw cards in tavern list that shouldn't be there
+TEST(BobsTavern, OnlyShowsCardsThatShouldBeAvailableInTavern) {
+    // Some cards cannot be bought, but are gained through other
+    // interactions. Make sure we don't offer those to the player.
+    auto player = std::make_unique<Player>("Test");
+    player->set_gold(10);
+    BgCardFactory f;
+    while (player->get_gold() > 0) {
+        auto tavern_minions = player->refresh_tavern_minions();
+        EXPECT_EQ(tavern_minions.size(), (unsigned)3);
+        for (auto minion_name : tavern_minions) {
+            EXPECT_TRUE(f.get_card(minion_name)->is_available_in_tavern()) << "Card name : " << minion_name;
+        }
+    }
+}

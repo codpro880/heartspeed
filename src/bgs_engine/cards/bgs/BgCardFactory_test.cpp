@@ -45,7 +45,6 @@ TEST(BgCardFactory, CanListCardsAtEachTier) {
     auto tier3 = tier_to_card_name_map[3];
     EXPECT_TRUE(contains(tier3, "Coldlight Seer"));
     EXPECT_TRUE(contains(tier3, "Felfin Navigator"));
-    EXPECT_TRUE(contains(tier3, "The Beast"));
 
     auto tier4 = tier_to_card_name_map[4];
     EXPECT_TRUE(contains(tier4, "Cave Hydra"));

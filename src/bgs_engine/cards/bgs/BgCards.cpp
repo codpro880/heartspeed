@@ -284,23 +284,6 @@ void CobaltScalebaneGolden::end_turn_mechanic(Player* p1) {
     buff_attack_end_turn(p1, 6, this);
 }
 
-
-int CrowdFavorite::mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) {
-    if (card->has_battlecry()) {
-        set_attack(get_attack() + 1);
-        set_health(get_health() + 1);
-    }
-    return 0;
-}
-
-int CrowdFavoriteGolden::mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) {
-    if (card->has_battlecry()) {
-        set_attack(get_attack() + 2);
-        set_health(get_health() + 2);
-    }
-    return 0;
-}
-
 void Crystalweaver::do_battlecry(Player* p1) {
     for (auto c : p1->get_board()->get_cards()) {
         if (c->get_race() == "DEMON") {
@@ -1093,24 +1076,6 @@ void MechanoEggGolden::do_deathrattle(Player* p1, Player* p2) {
 std::shared_ptr<BgBaseCard> MechanoEggGolden::summon() {
     auto f = BgCardFactory();
     return f.get_card("Robosaur (Golden)");
-}
-
-void Mecharoo::do_deathrattle(Player* p1, Player* p2) {
-    basic_summon(p1);
-}
-
-std::shared_ptr<BgBaseCard> Mecharoo::summon() {
-    auto f = BgCardFactory();
-    return f.get_card("Jo-E Bot");
-}
-
-void MecharooGolden::do_deathrattle(Player* p1, Player*) {
-    basic_summon(p1);
-}
-
-std::shared_ptr<BgBaseCard> MecharooGolden::summon() {
-    auto f = BgCardFactory();
-    return f.get_card("Jo-E Bot (Golden)");
 }
 
 void MenagerieJug::do_battlecry(Player* p1) {
@@ -2008,19 +1973,6 @@ void TavernTempest::do_battlecry(Player* p1) {
 void TavernTempestGolden::do_battlecry(Player* p1) {
     tt.do_battlecry(p1);
     tt.do_battlecry(p1);
-}
-
-void TheBeast::do_deathrattle(Player*, Player* p2) {
-    basic_summon(p2);
-}
-
-std::shared_ptr<BgBaseCard> TheBeast::summon() {
-    auto f = BgCardFactory();
-    return f.get_card("Finkle Einhorn");
-}
-
-void TheBeastGolden::do_deathrattle(Player* p1, Player* p2) {
-    the_beast.do_deathrattle(p1, p2);
 }
 
 void TheTideRazor::do_deathrattle(Player* p1, Player* p2) {

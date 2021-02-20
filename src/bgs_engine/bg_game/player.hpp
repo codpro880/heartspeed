@@ -512,13 +512,19 @@ public:
         return res;
     }
 
-    void dump_all_possible_actions_json() {
+    void dump_all_possible_actions_json(int indent = -1) {
         nlohmann::json j;
         auto all_possible_actions = list_all_possible_actions();
         for (size_t action_ind = 0; action_ind < all_possible_actions.size(); action_ind++) {
             j["all_possible_actions"][action_ind] = all_possible_actions[action_ind];
         }
-        std::cout << j.dump(4);
+        std::cout << j.dump(indent);
+    }
+
+    // Dumps to cout
+    void dump_as_json(int indent = -1) {
+        auto j = to_json();
+        std::cout << j.dump(indent);
     }
 
     std::vector<std::string> list_all_possible_actions() {

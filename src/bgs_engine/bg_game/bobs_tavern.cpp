@@ -2,27 +2,25 @@
 #include "player.hpp"
 #include "../cards/bgs/BgCardFactory.hpp"
 
-BobsTavern::BobsTavern(Player* player) : player(player),
-                                         nomi_counter(0),
+BobsTavern::BobsTavern(Player* player) : nomi_counter(0),    
                                          till_refresh_attack_buff(0),
                                          till_refresh_health_buff(0) {
     init_card_pool();
     init_tav_tier_cost();
-    _refresh_minions();
+    _refresh_minions(player);
 }
 
 std::vector<std::string> BobsTavern::get_current_minions() {
-    // TODO: Make this work on a per-player basis
     return current_minions;
 }
 
-std::vector<std::string> BobsTavern::refresh_minions(bool is_free) {
+std::vector<std::string> BobsTavern::refresh_minions(Player* player, bool is_free) {
     if (player->get_gold() == 0) return current_minions;
     
     if (!is_free) {
         player->lose_gold(1);
     }
-    _refresh_minions();
+    _refresh_minions(player);
     return current_minions;
 }
 
@@ -31,12 +29,12 @@ void BobsTavern::buff_tav_till_refresh(int attack_buff, int health_buff) {
     till_refresh_health_buff += health_buff;
 }
 
-void BobsTavern::buy_minion(int pos) {
+void BobsTavern::buy_minion(Player* player, int pos) {
     auto minion = current_minions[pos];
-    buy_minion(minion);
+    buy_minion(player, minion);
 }
 
-void BobsTavern::buy_minion(std::string minion) {
+void BobsTavern::buy_minion(Player* player, std::string minion) {
     if (player->get_gold() < 3) return;
     auto it = std::find(current_minions.begin(), current_minions.end(), minion);
     if (it != current_minions.end()) {
@@ -56,8 +54,10 @@ void BobsTavern::buy_minion(std::string minion) {
     if (card->get_race() == "PIRATE") {
         player->inc_pirates_bought_this_turn();
     }
-    player->lose_gold(3);    
-    for (auto c : player->get_board()->get_cards()) {
+    player->lose_gold(3);
+    auto board_ = player->get_board();
+    auto board_cards = board_->get_cards();
+    for (auto c : board_cards) {
         // Handles special buy mechanics like hogger
         c->card_bought_trigger(player, card);
         // Give new cards a unique ID
@@ -67,7 +67,7 @@ void BobsTavern::buy_minion(std::string minion) {
     player->add_card_to_hand(card);
 }
 
-bool BobsTavern::can_tavern_up(int turns_at_current_tier) {
+bool BobsTavern::can_tavern_up(Player* player, int turns_at_current_tier) {
     auto current_tier = player->get_tavern_tier();
     if (current_tier == 6) return false;
     int player_gold = player->get_gold();
@@ -75,7 +75,7 @@ bool BobsTavern::can_tavern_up(int turns_at_current_tier) {
     return player_gold >= upgrade_cost;
 }
 
-bool BobsTavern::tavern_up(int turns_at_current_tier) {
+bool BobsTavern::tavern_up(Player* player, int turns_at_current_tier) {
     int current_tier = player->get_tavern_tier();
     if (current_tier < 6) {
         int player_gold = player->get_gold();
@@ -92,13 +92,13 @@ bool BobsTavern::tavern_up(int turns_at_current_tier) {
   }
 }
 
-void BobsTavern::sell_minion(int pos) {
+void BobsTavern::sell_minion(Player* player, int pos) {
     auto card = player->remove_card_from_board(pos);
     card->on_sell(player);
 }
 
 // TODO: Somehow I doubt this is the most efficient way to do this
-void BobsTavern::_refresh_minions() {
+void BobsTavern::_refresh_minions(Player* player) {
     // Return current minions to card pool
     const int MAX_TIER = 6;
     for (int i = 0; i < MAX_TIER; i++) {

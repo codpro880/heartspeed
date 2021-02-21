@@ -88,7 +88,6 @@ public:
         turns_at_current_tier = player->get_turns_at_current_tier();
     }
 
-    // TODO: Impl bobs tav
     int calculate_damage() const { return tavern_tier + board->calculate_damage(); }
     void inc_tavern_tier() { tavern_tier += 1; }
     std::shared_ptr<Board> get_board() const { return board; }
@@ -222,10 +221,10 @@ public:
     std::vector<std::string> refresh_tavern_minions() {
         if (num_free_refreshes > 0) {
             num_free_refreshes -= 1;
-            return tavern->refresh_minions(true);
+            return tavern->refresh_minions(this, true);
         }
         else {
-            return tavern->refresh_minions();
+            return tavern->refresh_minions(this);
         }
     }
 
@@ -238,21 +237,21 @@ public:
     }
 
     void buy_minion(std::string minion) {
-        tavern->buy_minion(minion);
+        tavern->buy_minion(this, minion);
         check_for_triples();
     }
     
     void buy_minion(int pos) {
-        tavern->buy_minion(pos);
+        tavern->buy_minion(this, pos);
         check_for_triples();
     }
     
     void sell_minion(int board_bos) {
-        return tavern->sell_minion(board_bos);
+        return tavern->sell_minion(this, board_bos);
     }
     
     bool tavern_up() {
-        auto res =  tavern->tavern_up(turns_at_current_tier);
+        auto res =  tavern->tavern_up(this, turns_at_current_tier);
         turns_at_current_tier = 0;
         return res;
     }
@@ -290,10 +289,10 @@ public:
         pirates_bought_this_turn = 0;
         elementals_played_this_turn = 0;
         if (!tavern_is_frozen) {
-            tavern->refresh_minions(true); // Free refresh at start of turn, unless frozen
+            tavern->refresh_minions(this, true); // Free refresh at start of turn, unless frozen
         }
         if (frozen_minions.size() != 0 && !tavern_is_frozen) {
-            auto minions = tavern->refresh_minions(true);
+            auto minions = tavern->refresh_minions(this, true);
             minions.insert(minions.end(), frozen_minions.begin(), frozen_minions.end());
             while (minions.size() > (unsigned)7) {
                 minions.erase(minions.begin());
@@ -423,7 +422,7 @@ public:
 
     std::vector<std::string> list_tavern_up_actions() {
         std::vector<std::string> res;
-        if (tavern->can_tavern_up(turns_at_current_tier)) {
+        if (tavern->can_tavern_up(this, turns_at_current_tier)) {
             res.push_back("TAVERN_UP");
         }
         return res;
@@ -596,6 +595,18 @@ public:
         
         return res;
     }
+
+    bool take_action(std::string action) {
+        std::vector<std::string> avail_actions = list_available_actions();
+        bool valid_action = std::find(avail_actions.begin(), avail_actions.end(), action) != avail_actions.end();
+        if (!valid_action) return valid_action;
+        if (action.find("BUY_") != std::string::npos) {
+            auto pos_char = action.back();
+            int pos = pos_char - '0';
+            buy_minion(pos);
+        }
+        return valid_action;
+    }
     
 
     std::shared_ptr<Board> get_opponents_last_board() const { return opponents_last_board; }
@@ -623,7 +634,6 @@ public:
     }
 
     void replace_card_on_original_board_by_id(BgBaseCard* c) {
-        std::cerr << "Replacing!" << std::endl;
         for (int i = 0; (unsigned)i < original_board->get_cards().size(); i++) {
             if (original_board->get_cards()[i]->get_id() == c->get_id()) {
                 // original_board->get_cards()[i] = std::make_shared<BgBaseCard>(*c);

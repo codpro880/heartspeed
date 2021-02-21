@@ -9,6 +9,7 @@
 #include "bobs_buddy.hpp"
 #include "hero_factory.hpp"
 #include "hero.hpp"
+#include "../utils/pyutils.hpp"
 
 std::vector<std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>>> BobsBuddy::parse_full_log() {
     std::vector<std::string> file_contents = get_file_contents();
@@ -48,10 +49,10 @@ std::vector<std::vector<std::string>> BobsBuddy::get_chunks(std::vector<std::str
     std::vector<int> real_starts;
     std::vector<int> ends;
     for (auto line : file_contents) {
-        if (line.find("BLOCK_START") != std::string::npos) {
+        if (pyutils::in("BLOCK_START", line)) {
             starts.push_back(line_count);
         }
-        else if (line.find("BLOCK_END") != std::string::npos) {
+        else if (pyutils::in("BLOCK_END", line)) {
             if (starts.size() > 0) {
                 real_starts.push_back(starts.back());
                 ends.push_back(line_count);
@@ -70,7 +71,7 @@ std::vector<std::vector<std::string>> BobsBuddy::get_chunks(std::vector<std::str
     std::vector<std::vector<std::string>> chunks;
     for (auto possible_chunk : possible_chunks) {
         for (auto line : possible_chunk) {
-            if (line.find("FULL_ENTITY - Updating [entityName=") != std::string::npos) {
+            if (pyutils::in("FULL_ENTITY - Updating [entityName=", line)) {
                 auto card_name = pystr.get_str_between(line, "[entityName=", " id=");
                 try {
                     card_factory.get_card(card_name);
@@ -87,10 +88,10 @@ std::vector<std::vector<std::string>> BobsBuddy::get_chunks(std::vector<std::str
     std::vector<std::vector<std::string>> wo_subspell_chunks;
     auto pred = [](std::vector<std::string> chunk) {
                     for (auto line : chunk) {
-                        if (line.find("SUB_SPELL_START") != std::string::npos) {
+                        if (pyutils::in("SUB_SPELL_START", line)) {
                             return false;
                         }
-                        else if (line.find("SUB_SPELL_END") != std::string::npos) {
+                        else if (pyutils::in("SUB_SPELL_END", line)) {
                             return false;
                         }
                     }
@@ -102,7 +103,7 @@ std::vector<std::vector<std::string>> BobsBuddy::get_chunks(std::vector<std::str
     std::vector<std::vector<std::string>> trigger_blocks;
     auto pred_trig = [](std::vector<std::string> chunk) {
                          auto line = chunk[0];
-                         return line.find("BLOCK_START BlockType=TRIGGER") != std::string::npos;
+                         return pyutils::in("BLOCK_START BlockType=TRIGGER", line);
                 };
     std::copy_if(wo_subspell_chunks.begin(), wo_subspell_chunks.end(), std::back_inserter(trigger_blocks), pred_trig);    
     return trigger_blocks;

@@ -25,3 +25,11 @@ TEST(PyUtils, CanDoVectorContainmentUnorderedSetInt) {
     EXPECT_TRUE(pyutils::in(3, test));
     EXPECT_FALSE(pyutils::in(8, test));
 }
+
+TEST(PyUtils, CanDoStringContainment) {
+    std::string test("SOME LONG STRING");
+    std::string another("LONG");
+    EXPECT_TRUE(pyutils::in("SOME", test));
+    EXPECT_TRUE(pyutils::in(another, test));
+    EXPECT_FALSE(pyutils::in("SOMEWHERE", test));
+}

@@ -34,8 +34,13 @@ TEST(PyUtils, CanDoStringContainment) {
     EXPECT_FALSE(pyutils::in("SOMEWHERE", test));
 }
 
-TEST(PyUtils, CanDoSplitLikeFunctionality) {
+TEST(PyUtils, CanGetStringInBetweenTwoOtherStrings) {
     auto res = pyutils::get_str_between("PLAY_CARD_FROM_HAND_0_TO_BOARD_0", "HAND_", "_TO_BOARD");
+    EXPECT_EQ(res, "0");
+}
+
+TEST(PyUtils, CanGetStringInBetweenWithEmptyStringOnEnd) {
+    auto res = pyutils::get_str_between("PLAY_CARD_FROM_HAND_0_TO_BOARD_0", "TO_BOARD_", "");
     EXPECT_EQ(res, "0");
 }
 

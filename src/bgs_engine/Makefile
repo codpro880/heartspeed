@@ -1,4 +1,4 @@
-.PHONY: all bg_game cards clean clean_cli cli game main premain test test_all
+.PHONY: all bg_game cards clean clean_cli cli main premain test test_all
 
 CPP_FILES = $(shell find . -name "*.cpp" ! -name "*_test.cpp")
 # $(info $$CARD_CPP_FILES is [${CARD_CPP_FILES}]) # DEBUG
@@ -21,12 +21,7 @@ export OPENMP_FLAGS = -fopenmp
 all: ## Builds everything (default rule)
 all: bg_game cards
 
-# premain: all
-
-# main: $(OBJ_TARGETS)
-# 	clang -std=c++17 -O3 -o bb_par $^
-
-bg_game: ## Build game
+bg_game: ## Build bg_game
 	cd bg_game; $(MAKE)
 
 cards:  ## Build cards
@@ -61,9 +56,10 @@ help:  ## Show this help.
 	@fgrep -h "##" $(MAKEFILE_LIST) | fgrep -v fgrep | sed -e 's/\\$$//' | sed -e 's/##//'
 
 test: ## Run unit tests
-test: cards game bg_game
+test: cards bg_game
 	cd test; $(MAKE) $@
 
 test_all: ## Run all tests
-test_all: cards game bg_game
+test_all: cards bg_game
 	cd test; $(MAKE) $@
+

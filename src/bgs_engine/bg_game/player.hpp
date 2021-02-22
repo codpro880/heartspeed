@@ -618,13 +618,15 @@ public:
             }
             else {
                 // Non-targeted play card action
-                // auto splits = pyutils::split(action, "_");
-                // // Look ma, python!
-                // std::string hand_pos_str = splits[-2];
-                // std::string board_pos_str = splits[-1];
-                // int hand_pos = std::stoi(hand_pos);
-                // int board_pos = std::stoi(board_pos);
-                // play_card(hand_pos, board_pos);
+                auto hand_pos_str = pyutils::get_str_between(action,
+                                                             "HAND_",
+                                                             "_TO_BOARD");
+                auto board_pos_str = pyutils::get_str_between(action,
+                                                              "TO_BOARD_",
+                                                              "");
+                int hand_pos = std::stoi(hand_pos_str);
+                int board_pos = std::stoi(board_pos_str);
+                play_card(hand_pos, board_pos);
             }
             return valid_action;
         }

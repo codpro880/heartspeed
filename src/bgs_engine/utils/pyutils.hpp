@@ -26,4 +26,12 @@ namespace pyutils {
     inline bool in(std::string to_find, std::string str) {
         return str.find(to_find) != std::string::npos;
     }
+
+    inline std::string get_str_between(std::string item, std::string start_token, std::string end_token) {
+        auto start = item.find(start_token);
+        auto real_start = start + start_token.size();
+        auto end = item.find(end_token);
+        std::string card_name = item.substr(real_start, end - real_start);
+        return card_name;
+    }
 }

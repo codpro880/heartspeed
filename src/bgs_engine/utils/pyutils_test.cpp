@@ -33,3 +33,19 @@ TEST(PyUtils, CanDoStringContainment) {
     EXPECT_TRUE(pyutils::in(another, test));
     EXPECT_FALSE(pyutils::in("SOMEWHERE", test));
 }
+
+TEST(PyUtils, CanDoSplitLikeFunctionality) {
+    auto res = pyutils::get_str_between("PLAY_CARD_FROM_HAND_0_TO_BOARD_0", "HAND_", "_TO_BOARD");
+    EXPECT_EQ(res, "0");
+}
+
+// TEST(PyUtils, CanDoNegativeIndexingOnArrays) {
+//     std::string test("SOME LONG STRING");
+//     auto test_pystr = pyutils::PyStr(test);
+//     std::string another("LONG");
+//     auto another_pystr = pyutils::PyStr(another);
+//     EXPECT_TRUE(pyutils::in("SOME", test_pystr));
+//     EXPECT_TRUE(pyutils::in(another_pystr, test_pystr));
+//     EXPECT_FALSE(pyutils::in("SOMEWHERE", test_pystr));
+//     EXPECT_EQ(test_pystr[-1], "G");
+// }

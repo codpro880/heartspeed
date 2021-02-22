@@ -10,33 +10,6 @@
 #include "battler.hpp"
 #include "rng_singleton.hpp"
 
-TEST(BobsBuddy, PyLikeStringParsing) {
-    auto pystr = PyString();
-    std::string item = "D 08:11:01.0627100 PowerTaskList.DebugPrintPower() - BLOCK_START BlockType=TRIGGER Entity=[entityName=BaconShop8PlayerEnchant id=71 zone=PLAY zonePos=0 cardId=TB_BaconShop_8P_PlayerE player=8] EffectCardId=System.Collections.Generic.List`1[System.String] EffectIndex=9 Target=0 SubOption=-1 TriggerKeyword=0";
-    std::string start = "id=";
-    std::string end = " zone=";
-    auto id = pystr.get_str_between(item, start, end);
-    EXPECT_EQ(id, "71");
-}
-
-TEST(BobsBuddy, PyLikeStringParsingWorksWithEmptyEndStr) {
-    auto pystr = PyString();
-    std::string item = "D 08:20:54.1034250 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Rockpool Hunter id=3180 zone=SETASIDE zonePos=0 cardId=TB_BaconUps_061 player=8] tag=HEALTH value=10";
-    std::string start = "value=";
-    std::string end = "";
-    auto id = pystr.get_str_between(item, start, end);
-    EXPECT_EQ(id, "10");
-}
-
-TEST(BobsBuddy, PyLikeStringParsingWorksWithWhitespace) {
-    auto pystr = PyString();
-    std::string item = "D 08:20:54.1034250 PowerTaskList.DebugPrintPower() -     TAG_CHANGE Entity=[entityName=Rockpool Hunter id=3180 zone=SETASIDE zonePos=0 cardId=TB_BaconUps_061 player=8] tag=HEALTH value=10 ";
-    std::string start = "value=";
-    std::string end = " ";
-    auto id = pystr.get_str_between(item, start, end);
-    EXPECT_EQ(atoi(id.c_str()), 10);
-}
-
 class BobsReader : public ::testing::Test {
 protected:
     void SetUp() override {

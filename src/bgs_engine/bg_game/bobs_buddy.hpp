@@ -11,18 +11,6 @@
 #include "../cards/bgs/BgCardFactory.hpp"
 #include "hero.hpp"
 
-class PyString {
-public:
-    std::string get_str_between(std::string item, std::string start_token, std::string end_token) {
-        auto start = item.find(start_token);
-        auto real_start = start + start_token.size();
-        auto end = item.find(end_token);
-        std::string card_name = item.substr(real_start, end - real_start);
-        return card_name;
-    }
-};
-
-
 // NOTES:
 // m_chosenEntities == which triple reward was chosen
 // Reborn:
@@ -50,7 +38,6 @@ private:
     std::pair<std::shared_ptr<Board>, std::shared_ptr<Board>> parse_chunk(std::vector<std::string>);
     std::shared_ptr<Hero> get_their_hero(std::vector<std::string> chunk);
     int get_their_hero_power_pos(std::shared_ptr<Hero> h, std::vector<std::string> chunk);
-    PyString pystr;
     BgCardFactory card_factory;
     bool debug;
 };

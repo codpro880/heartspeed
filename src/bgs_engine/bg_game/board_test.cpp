@@ -31,6 +31,22 @@ TEST(Board, CanCalculateDamageWithFullBoard) {
     EXPECT_EQ(board.calculate_damage(), 1+2+3+4+5+6);
 }
 
+TEST(Board, CanSwap) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > cards{
+        f.get_card("Alleycat (Golden)"), // Tier 1
+            f.get_card("Imprisoner (Golden)"), // Tier 2
+            f.get_card("Houndmaster (Golden)"), // Tier 3
+            f.get_card("Goldgrubber (Golden)"), // Tier 4
+            f.get_card("Mal'Ganis (Golden)"), // Tier 5
+            f.get_card("Foe Reaper 4000"), // Tier 6
+        };
+    auto board = Board(cards);
+    board.swap(0, 1);
+    EXPECT_EQ(board.get_cards()[0]->get_name(), "Imprisoner (Golden)");
+    EXPECT_EQ(board.get_cards()[1]->get_name(), "Alleycat (Golden)");
+}
+
 TEST(Board, CanSerializeAndDeserializeBoard) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > cards

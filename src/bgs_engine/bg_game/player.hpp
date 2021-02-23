@@ -29,6 +29,7 @@ public:
                                                               tavern_tier(1),
                                                               tavern(std::make_shared<BobsTavern>(this)),
                                                               tavern_is_frozen(false),
+                                                              turn_ended(false),
                                                               turns_at_current_tier(0) {
         for (int i = 0; (unsigned)i < board->get_cards().size(); i++) {
             auto board_card = board->get_cards()[i];
@@ -54,6 +55,7 @@ public:
                                tavern_tier(1),
                                tavern(std::make_shared<BobsTavern>(this)),
                                tavern_is_frozen(false),
+                               turn_ended(false),
                                turns_at_current_tier(0) { }
 
     Player(Hand hand, std::string name) : board(new Board()),
@@ -72,6 +74,7 @@ public:
                                           tavern_tier(1),
                                           tavern(std::make_shared<BobsTavern>(this)),
                                           tavern_is_frozen(false),
+                                          turn_ended(false),
                                           turns_at_current_tier(0) { }
 
     // Should really only be used by battler parallelized logic,
@@ -86,6 +89,7 @@ public:
         original_board = std::make_shared<Board>(player->get_original_board());
         tavern_tier = player->get_tavern_tier();
         turns_at_current_tier = player->get_turns_at_current_tier();
+        turn_ended = player->get_turn_ended();
     }
 
     int calculate_damage() const { return tavern_tier + board->calculate_damage(); }
@@ -106,6 +110,14 @@ public:
     int get_turns_at_current_tier() const { return turns_at_current_tier; }
     void set_turns_at_current_tier(int t) { turns_at_current_tier = t; }
     void set_free_refreshes(int num_free) { num_free_refreshes = num_free; }
+
+    bool get_turn_ended() const {
+        return turn_ended;
+    }
+
+    void set_turn_ended(bool te) {
+        turn_ended = te;
+    }
 
     // Used by steward of time, syndragosa, etc
     void buff_tav_till_refresh(int attack_buff, int health_buff) {
@@ -273,6 +285,7 @@ public:
     }
 
     void start_turn() {
+        turn_ended = false;
         board = std::make_shared<Board>(restore_board());
         
         for (auto c : board->get_cards()) {
@@ -312,6 +325,7 @@ public:
         if (max_gold < 10) max_gold++;
         _won_last_turn = false;
         original_board = std::make_shared<Board>(board);
+        turn_ended = true;
     }
 
     void inc_pirates_bought_this_turn() {
@@ -406,6 +420,8 @@ public:
         // There are positional actions like SELL<CARDNAME>_BOARD<POSITION> or PLAY<CARDNAME>_HAND<POSITION>_BOARD<POSITION>
         // There are targetted actions like PLAY<CARDNAME>_HAND<POSITION>_BOARD<POSITION>_TARGET<POSITION>
         std::vector<std::string> res;
+        if (turn_ended) return res;
+        
         // One day we'll have "extend" like python...until then...
         for (auto action : list_board_reposition_actions()) res.push_back(action);
         for (auto action : list_buy_actions()) res.push_back(action);
@@ -502,8 +518,17 @@ public:
         return res;
     }
 
+    std::vector<std::string> list_end_turn_actions() {
+        std::vector<std::string> res;
+        if (turn_ended) return res;
+        res.push_back("END_TURN");
+        return res;
+    }
+
+
     std::vector<std::string> list_buy_actions() {
         std::vector<std::string> res;
+        if (gold < 3) return res;
         if (hand.get_cards().size() == (unsigned)10) return res;
         for (int i = 0; (unsigned)i < get_tavern_minions().size(); i++) {
             res.push_back("BUY_" + std::to_string(i));
@@ -598,11 +623,27 @@ public:
 
     bool take_action(std::string action) {
         std::vector<std::string> avail_actions = list_available_actions();
-        bool valid_action = std::find(avail_actions.begin(), avail_actions.end(), action) != avail_actions.end();        
+        bool valid_action = std::find(avail_actions.begin(), avail_actions.end(), action) != avail_actions.end();
         if (!valid_action) return valid_action;
-        
+
+        // Board repos actions
+        auto board_repos_actions = list_board_reposition_actions();
+        auto is_board_repos_action = pyutils::in(action, board_repos_actions);
+        if (is_board_repos_action) {
+            auto pos1_str = pyutils::get_str_between(action,
+                                                     "REPOSITION_FROM_",
+                                                     "_TO");
+            auto pos2_str = pyutils::get_str_between(action,
+                                                     "_TO_",
+                                                     "");
+            int pos1 = std::stoi(pos1_str);
+            int pos2 = std::stoi(pos2_str);
+            board->swap(pos1, pos2);
+        }
+
+        // Buy actions
         auto buy_actions = list_buy_actions();
-        auto is_buy_action = std::find(buy_actions.begin(), buy_actions.end(), action) != buy_actions.end();
+        auto is_buy_action = pyutils::in(action, buy_actions);
         if (is_buy_action) {
             auto pos_char = action.back();
             int pos = pos_char - '0';
@@ -610,11 +651,38 @@ public:
             return valid_action;
         }
 
+        // Freeze actions
+        auto freeze_actions = list_freeze_actions();
+        auto is_freeze_action = pyutils::in(action, freeze_actions);
+        if (is_freeze_action) {
+            if (action == "FREEZE") {
+                freeze_tavern();
+            }
+            else if (action == "UNFREEZE") {
+                unfreeze_tavern();
+            }
+            return valid_action;
+        }
+
+        // Play actions
         auto play_actions = list_play_from_hand_actions();
-        auto is_play_action = std::find(play_actions.begin(), play_actions.end(), action) != play_actions.end();
+        auto is_play_action = pyutils::in(action, play_actions);
         if (is_play_action) {
-            if (action.find("TARGET") != std::string::npos) {
+            if (pyutils::in("TARGET", action)) {
                 // Targeted play card action
+                auto hand_pos_str = pyutils::get_str_between(action,
+                                                             "HAND_",
+                                                             "_TO_BOARD");
+                auto board_pos_str = pyutils::get_str_between(action,
+                                                              "TO_BOARD_",
+                                                              "_TARGET");
+                auto target_pos_str = pyutils::get_str_between(action,
+                                                               "_TARGET_",
+                                                               "");
+                int hand_pos = std::stoi(hand_pos_str);
+                int board_pos = std::stoi(board_pos_str);
+                int target_pos = std::stoi(target_pos_str);
+                play_card(hand_pos, target_pos, board_pos);
             }
             else {
                 // Non-targeted play card action
@@ -630,10 +698,26 @@ public:
             }
             return valid_action;
         }
+
+        // Sell actions
+        auto sell_actions = list_sell_actions();
+        auto is_sell_action = pyutils::in(action, sell_actions);
+        if (is_sell_action) {
+            auto pos_char = action.back();
+            int pos = pos_char - '0';
+            sell_minion(pos);
+            return valid_action;
+        }        
+
+        // End turn action
+        auto end_turn_actions = list_end_turn_actions();
+        auto is_end_turn_action = pyutils::in(action, end_turn_actions);
+        if (is_end_turn_action) {
+            end_turn();
+        }
         
         return valid_action;
     }
-    
 
     std::shared_ptr<Board> get_opponents_last_board() const { return opponents_last_board; }
     void set_opponents_last_board(std::shared_ptr<Board> b) { opponents_last_board = b; }
@@ -706,6 +790,7 @@ public:
         j["tavern_tier"] = tavern_tier;
         j["tavern_minions"] = get_tavern_minions();
         j["tavern_is_frozen"] = tavern_is_frozen;
+        j["turn_ended"] = turn_ended;;
         j["turns_at_current_tier"] = turns_at_current_tier;
         j["_won_last_turn"] = _won_last_turn;
         return j;
@@ -735,6 +820,7 @@ public:
         auto tavern_tier = j["tavern_tier"];
         auto tavern_minions = j["tavern_minions"];
         auto tavern_is_frozen = j["tavern_is_frozen"];
+        auto turn_ended = j["turn_ended"];
         auto turns_at_current_tier = j["turns_at_current_tier"];
         auto _won_last_turn = j["_won_last_turn"];
 
@@ -746,15 +832,16 @@ public:
         player.set_max_gold(max_gold);
         player.set_health(health);
         player.set_max_health(max_health);
+        player.set_next_card_id(next_card_id);
         player.set_num_free_refreshes(num_free_refreshes);
         player.set_opponents_last_board(opponents_last_board);
         player.set_pirates_bought_this_turn(pirates_bought_this_turn);
         player.set_tavern_tier(tavern_tier);
         player.set_tavern_minions(tavern_minions);
         player.set_tavern_frozen(tavern_is_frozen);
+        player.set_turn_ended(turn_ended);
         player.set_turns_at_current_tier(turns_at_current_tier);
         player.set_won_last_turn(_won_last_turn);
-        player.set_next_card_id(next_card_id);
 
         return player;
     }
@@ -778,6 +865,7 @@ private:
     int tavern_tier;
     std::shared_ptr<BobsTavern> tavern;
     bool tavern_is_frozen;
+    bool turn_ended;
     int turns_at_current_tier;
     bool _won_last_turn;
 

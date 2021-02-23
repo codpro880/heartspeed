@@ -4,6 +4,7 @@
 #include "battler.hpp"
 #include "../cards/bgs/BgCardFactory.hpp"
 #include "../cards/bgs/BgCards.hpp"
+#include "../utils/pyutils.hpp"
 
 TEST(Player, CanPlayCardFromHandBasic) {
     auto tidecaller = BgCardFactory().get_card("Murloc Tidecaller");
@@ -1398,15 +1399,9 @@ TEST(Player, MurozondBattlecry) {
                    append_gold);
 
     // First card in hand should be non-golden
-    EXPECT_NE(std::find(valid_cards.begin(),
-                        valid_cards.end(),
-                        p1->get_hand().get_cards()[0]->get_name()),
-              valid_cards.end());
+    EXPECT_TRUE(pyutils::in(p1->get_hand().get_cards()[0]->get_name(), valid_cards));
     // Second card in hand should be golden
-    EXPECT_NE(std::find(valid_cards_gold.begin(),
-                        valid_cards_gold.end(),
-                        p1->get_hand().get_cards()[1]->get_name()),
-              valid_cards_gold.end());    
+    EXPECT_TRUE(pyutils::in(p1->get_hand().get_cards()[1]->get_name(), valid_cards_gold));
     p1->end_turn();
 }
 
@@ -2104,15 +2099,11 @@ TEST(Player, CanListAllPossibleActions) {
     auto player = Player("Test");
     auto all_actions = player.list_all_possible_actions();
     for (auto spot_check : spot_checks) {
-        EXPECT_TRUE(std::find(all_actions.begin(),
-                              all_actions.end(),
-                              spot_check) != all_actions.end());
+        EXPECT_TRUE(pyutils::in(spot_check, all_actions));
     }
 
     for (auto invalid : invalids) {
-        EXPECT_TRUE(std::find(all_actions.begin(),
-                              all_actions.end(),
-                              invalid) == all_actions.end());
+        EXPECT_FALSE(pyutils::in(invalid, all_actions));
     }
 }
 
@@ -2202,10 +2193,7 @@ TEST(Player, CanListSellActionsNominalCase) {
     // All actions should be in the larger pool of possible actions
     auto all_actions = player.list_all_possible_actions();
     for (auto sell_action : sell_actions) {
-        EXPECT_TRUE(std::find(all_actions.begin(),
-                              all_actions.end(),
-                              sell_action) != all_actions.end());
-                              
+        EXPECT_TRUE(pyutils::in(sell_action, sell_actions));
     }
 }
 
@@ -2249,9 +2237,7 @@ TEST(Player, CanListPlayFromHandActionsSingleCard) {
     auto play_actions = player.list_play_from_hand_actions();
     EXPECT_EQ(play_actions.size(), (unsigned)1);
     EXPECT_EQ(play_actions[0], "PLAY_CARD_FROM_HAND_0_TO_BOARD_0");
-    EXPECT_TRUE(std::find(all_actions.begin(),
-                          all_actions.end(),
-                          play_actions[0]) != all_actions.end());
+    EXPECT_TRUE(pyutils::in(play_actions[0], all_actions));
 }
 
 TEST(Player, CanListPlayFromHandActionsFullBoard) {
@@ -2314,9 +2300,7 @@ TEST(Player, CanListPlayActionsAlmostFullBoard) {
     // Four cards, can play them in any slot (e.g. 4 * 7)
     EXPECT_EQ(play_actions.size(), (unsigned)(4*7));
     for (const auto& play_action : play_actions) {
-        EXPECT_TRUE(std::find(all_actions.begin(),
-                              all_actions.end(),
-                              play_action) != all_actions.end());
+        EXPECT_TRUE(pyutils::in(play_action, all_actions));
     }
 }
 
@@ -2354,9 +2338,7 @@ TEST(Player, CanListPlayActionsForTargettedBattlecriesFullBoard) {
     // Mal'Ganis can go in any slot, no target (1 * 7)
     EXPECT_EQ(play_actions.size(), (unsigned)(3*7 + 2*7 + 1*7 + 7));
     for (const auto& play_action : play_actions) {
-        EXPECT_TRUE(std::find(all_actions.begin(),
-                              all_actions.end(),
-                              play_action) != all_actions.end());
+        EXPECT_TRUE(pyutils::in(play_action, all_actions));
     }
 }
 
@@ -2373,9 +2355,7 @@ TEST(Player, CanListBuyActionsTavern1Default) {
     // Assert we can sell any of the minions on our board
     auto all_actions = player.list_all_possible_actions();
     for (auto buy_action : buy_actions) {
-        EXPECT_TRUE(std::find(all_actions.begin(),
-                              all_actions.end(),
-                              buy_action) != all_actions.end());
+        EXPECT_TRUE(pyutils::in(buy_action, all_actions));
     }
 }
 

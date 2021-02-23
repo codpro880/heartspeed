@@ -598,13 +598,39 @@ public:
 
     bool take_action(std::string action) {
         std::vector<std::string> avail_actions = list_available_actions();
-        bool valid_action = std::find(avail_actions.begin(), avail_actions.end(), action) != avail_actions.end();
+        bool valid_action = std::find(avail_actions.begin(), avail_actions.end(), action) != avail_actions.end();        
         if (!valid_action) return valid_action;
-        if (action.find("BUY_") != std::string::npos) {
+        
+        auto buy_actions = list_buy_actions();
+        auto is_buy_action = std::find(buy_actions.begin(), buy_actions.end(), action) != buy_actions.end();
+        if (is_buy_action) {
             auto pos_char = action.back();
             int pos = pos_char - '0';
             buy_minion(pos);
+            return valid_action;
         }
+
+        auto play_actions = list_play_from_hand_actions();
+        auto is_play_action = std::find(play_actions.begin(), play_actions.end(), action) != play_actions.end();
+        if (is_play_action) {
+            if (action.find("TARGET") != std::string::npos) {
+                // Targeted play card action
+            }
+            else {
+                // Non-targeted play card action
+                auto hand_pos_str = pyutils::get_str_between(action,
+                                                             "HAND_",
+                                                             "_TO_BOARD");
+                auto board_pos_str = pyutils::get_str_between(action,
+                                                              "TO_BOARD_",
+                                                              "");
+                int hand_pos = std::stoi(hand_pos_str);
+                int board_pos = std::stoi(board_pos_str);
+                play_card(hand_pos, board_pos);
+            }
+            return valid_action;
+        }
+        
         return valid_action;
     }
     

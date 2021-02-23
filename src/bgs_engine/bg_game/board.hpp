@@ -9,6 +9,7 @@
 #include <unordered_set>
 
 #include "../cards/bgs/BgBaseCard.hpp"
+#include "../utils/pyutils.hpp"
 #include "../third_party/json.hpp"
 
 class Player;
@@ -143,7 +144,7 @@ public:
     
     std::vector<std::shared_ptr<BgBaseCard>> has_died() const { return _has_died; }
     
-    bool contains(std::string card_name) const { return card_names.find(card_name) != card_names.end(); }
+    bool contains(std::string card_name) const { return pyutils::in(card_name, card_names); }
 
     int get_attacker_pos() { return attacker_pos; }
 

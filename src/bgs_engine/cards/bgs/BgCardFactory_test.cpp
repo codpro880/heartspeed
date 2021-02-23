@@ -2,6 +2,7 @@
 #include <fstream>
 
 #include "BgCardFactory.hpp"
+#include "../../utils/pyutils.hpp"
 #include "../../test/googletest/include/gtest/gtest.h"
 
 TEST(BgCardFactory, CanGenerateGoldrinn) {
@@ -23,43 +24,39 @@ TEST(BgCardFactory, CanGenerateParrot) {
     EXPECT_EQ(parrot->get_tavern_tier(), 3);
 }
 
-bool contains(std::vector<std::string> v, std::string item) {
-    return std::find(v.begin(), v.end(), item) != v.end();
-}
-
 TEST(BgCardFactory, CanListCardsAtEachTier) {
     auto f = BgCardFactory();
     auto tier_to_card_name_map = f.get_card_names_by_tier();
 
     // Spot check containment
     auto tier1 = tier_to_card_name_map[1];
-    EXPECT_TRUE(contains(tier1, "Deck Swabbie"));
-    EXPECT_TRUE(contains(tier1, "Sellemental"));
-    EXPECT_TRUE(contains(tier1, "Alleycat"));
+    EXPECT_TRUE(pyutils::in("Deck Swabbie", tier1));
+    EXPECT_TRUE(pyutils::in("Sellemental", tier1));
+    EXPECT_TRUE(pyutils::in("Alleycat", tier1));
 
     auto tier2 = tier_to_card_name_map[2];
-    EXPECT_TRUE(contains(tier2, "Kaboom Bot"));
-    EXPECT_TRUE(contains(tier2, "Unstable Ghoul"));
-    EXPECT_TRUE(contains(tier2, "Steward of Time"));
+    EXPECT_TRUE(pyutils::in("Kaboom Bot", tier2));
+    EXPECT_TRUE(pyutils::in("Unstable Ghoul", tier2));
+    EXPECT_TRUE(pyutils::in("Steward of Time", tier2));
 
     auto tier3 = tier_to_card_name_map[3];
-    EXPECT_TRUE(contains(tier3, "Coldlight Seer"));
-    EXPECT_TRUE(contains(tier3, "Felfin Navigator"));
+    EXPECT_TRUE(pyutils::in("Coldlight Seer", tier3));
+    EXPECT_TRUE(pyutils::in("Felfin Navigator", tier3));
 
     auto tier4 = tier_to_card_name_map[4];
-    EXPECT_TRUE(contains(tier4, "Cave Hydra"));
-    EXPECT_TRUE(contains(tier4, "Toxfin"));
-    EXPECT_TRUE(contains(tier4, "Goldgrubber"));
+    EXPECT_TRUE(pyutils::in("Cave Hydra", tier4));
+    EXPECT_TRUE(pyutils::in("Toxfin", tier4));
+    EXPECT_TRUE(pyutils::in("Goldgrubber", tier4));
 
     auto tier5 = tier_to_card_name_map[5];
-    EXPECT_TRUE(contains(tier5, "Voidlord"));
-    EXPECT_TRUE(contains(tier5, "Murozond"));
-    EXPECT_TRUE(contains(tier5, "Mama Bear"));
+    EXPECT_TRUE(pyutils::in("Voidlord", tier5));
+    EXPECT_TRUE(pyutils::in("Murozond", tier5));
+    EXPECT_TRUE(pyutils::in("Mama Bear", tier5));
 
     auto tier6 = tier_to_card_name_map[6];
-    EXPECT_TRUE(contains(tier6, "Amalgadon"));
-    EXPECT_TRUE(contains(tier6, "Imp Mama"));
-    EXPECT_TRUE(contains(tier6, "The Tide Razor"));
+    EXPECT_TRUE(pyutils::in("Amalgadon", tier6));
+    EXPECT_TRUE(pyutils::in("Imp Mama", tier6));
+    EXPECT_TRUE(pyutils::in("The Tide Razor", tier6));
 }
 
 // This is not an all inclusive test for the edge cases

@@ -92,6 +92,22 @@ public:
         turn_ended = player->get_turn_ended();
     }
 
+    // Only used by CLI main...
+    Player(const Player& player) {
+        // board = std::make_shared<Board>(player.get_original_board());
+        // std::cerr << "Board: " << (*board) << std::endl;
+        board = std::make_shared<Board>(player.get_board());
+        hand = player.get_hand();
+        health = player.get_health();
+        max_health = player.get_max_health();
+        name = player.get_name();
+        next_card_id = player.get_next_card_id();
+        original_board = std::make_shared<Board>(player.get_original_board());
+        tavern_tier = player.get_tavern_tier();
+        turns_at_current_tier = player.get_turns_at_current_tier();
+        turn_ended = player.get_turn_ended();
+    }
+
     int calculate_damage() const { return tavern_tier + board->calculate_damage(); }
     void inc_tavern_tier() { tavern_tier += 1; }
     std::shared_ptr<Board> get_board() const { return board; }
@@ -425,6 +441,7 @@ public:
         // One day we'll have "extend" like python...until then...
         for (auto action : list_board_reposition_actions()) res.push_back(action);
         for (auto action : list_buy_actions()) res.push_back(action);
+        for (auto action : list_end_turn_actions()) res.push_back(action);
         for (auto action : list_freeze_actions()) res.push_back(action);
         for (auto action : list_play_from_hand_actions()) res.push_back(action);
         for (auto action : list_roll_actions()) res.push_back(action);

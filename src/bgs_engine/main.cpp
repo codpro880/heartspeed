@@ -4,6 +4,7 @@
 #include <time.h>
 #include <stdlib.h>
 
+#include "bg_game/battler.hpp"
 #include "bg_game/player.hpp"
 #include "third_party/json.hpp"
 
@@ -31,6 +32,8 @@ void dump_usage() {
         << "\t" << "Have p1 take an action in the available actions list" << std::endl
         << "--p2-take-action [ACTION]" << std::endl
         << "\t" << "Have p2 take an action in the available actions list" << std::endl
+        << "--battle" << std::endl
+        << "\t" << "Have if p1 and p2 have ended turn, they battle and battle frames are returned" << std::endl
         << "--reset" << std::endl
         << "\t" << "Resets game" << std::endl
         // TODO:
@@ -113,10 +116,33 @@ int main(int argc, char* argv[]) {
         p1 = Player::from_json(p1_json_filename);
         p2 = Player::from_json(p2_json_filename);
     }
+    
     if (std::string(argv[1]) == "--all-possible-actions") {
         // TODO: serialize player, load state
         p1.dump_all_possible_actions_json(4);
         // TODO: Serialize
+    }
+    else if (std::string(argv[1]) == "--battle") {
+        if (!p1.get_turn_ended()) {
+            std::cerr << "p1's turn has not ended." << std::endl;
+            return 1;
+        }
+        if (!p2.get_turn_ended()) {
+            std::cerr << "p2's turn has not ended." << std::endl;
+            return 1;
+        }
+        auto battler = Battler(p1, p2);
+        auto res = battler.sim_battle();
+        std::cerr << "Who won: " << res.who_won << std::endl;
+        std::cerr << "Damage taken: " << res.damage_taken << std::endl;
+        if (res.who_won == "Init1") {
+            p2.take_damage(res.damage_taken);
+        }
+        else if (res.who_won == "Init2") {
+            p1.take_damage(res.damage_taken);
+        }
+        p1.start_turn();
+        p2.start_turn();
     }
     else if (std::string(argv[1]) == "--p1-available-actions") {
         p1.dump_available_actions_json(4);
@@ -136,9 +162,9 @@ int main(int argc, char* argv[]) {
         bool valid_action = p1.take_action(action);
         assert_or_die(valid_action, "Action " + action + " not in available actions list for p1");
         
-        auto p1_json = p1.to_json();
-        std::ofstream out_p1(p1_json_filename);
-        out_p1 << p1_json;
+        // auto p1_json = p1.to_json();
+        // std::ofstream out_p1(p1_json_filename);
+        // out_p1 << p1_json;
     }
     else if (std::string(argv[1]) == "--p2-take-action") {
         validate(3, argc);
@@ -146,15 +172,27 @@ int main(int argc, char* argv[]) {
         bool valid_action = p2.take_action(action);
         assert_or_die(valid_action, "Action " + action + " not in available actions list for p2");
 
-        auto p2_json = p2.to_json();
-        std::ofstream out_p2(p2_json_filename);
-        out_p2 << p2_json;
+        // auto p2_json = p2.to_json();
+        // std::ofstream out_p2(p2_json_filename);
+        // out_p2 << p2_json;
     }
     else if (std::string(argv[1]) == "--reset") {
         // Handled above
+        return 0;
     }
     else {
         std::cout << "Unknown arg: " << argv[1] << std::endl;
+        return 1;
     }
+
+    auto p1_json = p1.to_json();
+    std::ofstream out_p1(p1_json_filename);
+    out_p1 << p1_json;
+
+    auto p2_json = p2.to_json();
+    std::ofstream out_p2(p2_json_filename);
+    out_p2 << p2_json;
+
+    return 0;
 }
 

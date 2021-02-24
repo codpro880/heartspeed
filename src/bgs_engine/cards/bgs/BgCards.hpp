@@ -576,7 +576,7 @@ public:
 
 class ImprisonerGolden : public DeathrattleCard {
 public:
-    ImprisonerGolden() : BgBaseCard(6, "NEUTRAL", 3, 6, "ImprisonerGolden",
+    ImprisonerGolden() : BgBaseCard(6, "NEUTRAL", 3, 6, "Imprisoner (Golden)",
                               "['DEATHRATTLE', 'TAUNT']", "DEMON", "RARE", 2, "MINION") {}
     virtual void do_deathrattle(Player* p1, Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ImprisonerGolden>(*this); } // boilerplate that every drattle needs...

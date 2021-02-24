@@ -45,7 +45,14 @@ private:
 // Takes two players. Simulates one attack. Two new players -> recursively battle
 class Battler {
 public:
-    Battler(Player* p1, Player* p2, bool debug=false) : p1(p1), p2(p2), debug(debug) {}
+    Battler(Player* p1, Player* p2, bool debug=false) : p1(p1), p2(p2), debug(debug), owns(false) {}
+    Battler(Player _p1, Player _p2, bool debug=false) : p1(new Player(_p1)), p2(new Player(_p2)), debug(debug), owns(true) {}
+    ~Battler() {
+        if (owns) {
+            delete p1;
+            delete p2;
+        }
+    }
     BattleResult sim_battle(std::string goes_first="null"); // specify "p1" or "p2" for goes_first
     BattleResults sim_battles(int num_battles=1000);
     BattleResults sim_battles_par(int num_battles=1000);
@@ -61,6 +68,7 @@ private:
     Player* p2;
     BoardBattler board_battler;
     bool debug;
+    bool owns; // Whether or not we own the player pointers....
 };
 
 class BattleFrameJsonDump {

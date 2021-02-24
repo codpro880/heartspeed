@@ -42,6 +42,8 @@ public:
     auto length() const { return cards.size(); }
 
     auto size() const { return cards.size(); }
+
+    void swap(int pos1, int pos2) { std::iter_swap(cards.begin() + pos1, cards.begin() + pos2); }
     
     auto operator[](const int& i) { return cards[i]; }
     

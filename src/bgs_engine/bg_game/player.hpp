@@ -95,7 +95,6 @@ public:
     // Only used by CLI main...
     Player(const Player& player) {
         // board = std::make_shared<Board>(player.get_original_board());
-        // std::cerr << "Board: " << (*board) << std::endl;
         board = std::make_shared<Board>(player.get_board());
         hand = player.get_hand();
         health = player.get_health();
@@ -639,6 +638,7 @@ public:
     }
 
     bool take_action(std::string action) {
+        
         std::vector<std::string> avail_actions = list_available_actions();
         bool valid_action = std::find(avail_actions.begin(), avail_actions.end(), action) != avail_actions.end();
         if (!valid_action) return valid_action;
@@ -666,6 +666,13 @@ public:
             int pos = pos_char - '0';
             buy_minion(pos);
             return valid_action;
+        }
+
+        // End turn action
+        auto end_turn_actions = list_end_turn_actions();
+        auto is_end_turn_action = pyutils::in(action, end_turn_actions);
+        if (is_end_turn_action) {
+            end_turn();
         }
 
         // Freeze actions
@@ -716,6 +723,17 @@ public:
             return valid_action;
         }
 
+        // Roll actions
+        auto roll_actions = list_roll_actions();
+        auto is_roll_action = pyutils::in(action, roll_actions);
+        if (is_roll_action) {
+            if (action == "ROLL") {
+                refresh_tavern_minions();
+            }
+            return valid_action;
+        }
+
+
         // Sell actions
         auto sell_actions = list_sell_actions();
         auto is_sell_action = pyutils::in(action, sell_actions);
@@ -724,13 +742,16 @@ public:
             int pos = pos_char - '0';
             sell_minion(pos);
             return valid_action;
-        }        
+        }
 
-        // End turn action
-        auto end_turn_actions = list_end_turn_actions();
-        auto is_end_turn_action = pyutils::in(action, end_turn_actions);
-        if (is_end_turn_action) {
-            end_turn();
+        // Tavern up actions
+        auto tavern_up_actions = list_tavern_up_actions();
+        auto is_tavern_up_action = pyutils::in(action, tavern_up_actions);
+        if (is_tavern_up_action) {
+            if (action == "TAVERN_UP") {
+                tavern_up();
+            }
+            return valid_action;
         }
         
         return valid_action;
@@ -742,6 +763,10 @@ public:
 
     int get_num_free_refreshes() const {
         return num_free_refreshes;
+    }
+
+    bool is_dead() const {
+        return health <= 0;
     }
 
     void set_num_free_refreshes(int n) {

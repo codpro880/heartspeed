@@ -50,7 +50,7 @@ public:
     static Hand from_json(nlohmann::json j) {
         std::vector<std::shared_ptr<BgBaseCard> > deserialized_cards;
         for (auto card_json : j["cards"]) {
-            auto card = std::make_shared<BgBaseCard>(BgBaseCard::from_json(card_json));
+            auto card = BgBaseCard::from_json(card_json);
             deserialized_cards.push_back(card);
         }
         auto res_hand = Hand(deserialized_cards);

@@ -72,7 +72,7 @@ TEST(BgBaseCard, CanBeSerializedToJsonAndDeserializedAgain) {
     std::ofstream out(json_file);
     out << json_to_dump.dump(4);
     out.close();
-    auto desialized = std::make_unique<BgBaseCard>(BgBaseCard::from_json(json_file));
+    auto desialized = BgBaseCard::from_json(json_file);
 
     EXPECT_EQ(original_card->get_attack(), desialized->get_attack());
     EXPECT_EQ(original_card->get_base_attack(), desialized->get_base_attack());

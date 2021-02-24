@@ -18,6 +18,8 @@ void dump_usage() {
         << std::endl
         << "--all-possible-actions (dumps all actions as JSON)" << std::endl
         << "\t" << "Dumps all actions" << std::endl
+        << "--battle" << std::endl
+        << "\t" << "Have if p1 and p2 have ended turn, they battle and battle frames are returned" << std::endl
         << "--p1-available-actions" << std::endl
         << "\t" << "Dumps player1 available actions" << std::endl
         << "--p2-available-actions" << std::endl
@@ -32,8 +34,6 @@ void dump_usage() {
         << "\t" << "Have p1 take an action in the available actions list" << std::endl
         << "--p2-take-action [ACTION]" << std::endl
         << "\t" << "Have p2 take an action in the available actions list" << std::endl
-        << "--battle" << std::endl
-        << "\t" << "Have if p1 and p2 have ended turn, they battle and battle frames are returned" << std::endl
         << "--reset" << std::endl
         << "\t" << "Resets game" << std::endl
         // TODO:
@@ -116,6 +116,13 @@ int main(int argc, char* argv[]) {
         p1 = Player::from_json(p1_json_filename);
         p2 = Player::from_json(p2_json_filename);
     }
+
+    if (p1.is_dead()) {
+        std::cerr << "P1 is dead! P2 wins! Game over. Use --reset to restart." << std::endl;
+    }
+    if (p2.is_dead()) {
+        std::cerr << "P2 is dead! P1 wins! Game over. Use --reset to restart." << std::endl;
+    }
     
     if (std::string(argv[1]) == "--all-possible-actions") {
         // TODO: serialize player, load state
@@ -161,20 +168,12 @@ int main(int argc, char* argv[]) {
         std::string action = std::string(argv[2]);
         bool valid_action = p1.take_action(action);
         assert_or_die(valid_action, "Action " + action + " not in available actions list for p1");
-        
-        // auto p1_json = p1.to_json();
-        // std::ofstream out_p1(p1_json_filename);
-        // out_p1 << p1_json;
     }
     else if (std::string(argv[1]) == "--p2-take-action") {
         validate(3, argc);
         std::string action = std::string(argv[2]);
         bool valid_action = p2.take_action(action);
         assert_or_die(valid_action, "Action " + action + " not in available actions list for p2");
-
-        // auto p2_json = p2.to_json();
-        // std::ofstream out_p2(p2_json_filename);
-        // out_p2 << p2_json;
     }
     else if (std::string(argv[1]) == "--reset") {
         // Handled above

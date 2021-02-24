@@ -68,8 +68,8 @@ public:
 
     void adapt(std::string _test_adapt="None");
 
-    virtual void do_battlecry(Player*) {}
-    virtual void battlecry(Player*) {}
+    virtual void do_battlecry(Player*) { }
+    virtual void battlecry(Player*) { }
     virtual void do_targeted_battlecry(std::shared_ptr<BgBaseCard>) {}
     virtual void targeted_battlecry(std::shared_ptr<BgBaseCard>, Player*) {}
     // Triggered on death
@@ -236,53 +236,8 @@ public:
         return j;
     }
 
-    static BgBaseCard from_json(std::string infile) {
-        std::ifstream i(infile);
-        nlohmann::json j;
-        i >> j;
-        return BgBaseCard::from_json(j);
-    }
-
-    static BgBaseCard from_json(nlohmann::json j) {
-        int attack = j["attack"];
-        std::string card_class(j["card_class"]);
-        int cost = j["cost"];
-        int health = j["health"];
-        std::string name(j["name"]);
-        std::string mechanics(j["mechanics"]);
-        std::string race(j["race"]);
-        std::string rarity(j["rarity"]);
-        int tavern_tier = j["tavern_tier"];
-        std::string type(j["type"]);
-        auto card =  BgBaseCard(attack,
-                                card_class,
-                                cost,
-                                health,
-                                name,
-                                mechanics,
-                                race,
-                                rarity,
-                                tavern_tier,
-                                type);
-        
-        if (j["has_divine_shield"]) {
-            card.set_divine_shield();
-        }
-        if (j["has_poison"]) {
-            card.set_poison();
-        }
-        if (j["has_reborn"]) {
-            card.set_reborn();
-        }
-        if (j["has_taunt"]) {
-            card.set_taunt();
-        }
-        if (j["has_windfury"]) {
-            card.set_windfury();
-        }
-        
-        return card;
-    }
+    static std::shared_ptr<BgBaseCard> from_json(std::string infile);
+    static std::shared_ptr<BgBaseCard> from_json(nlohmann::json j);
     
 protected:
     std::vector<std::shared_ptr<BgBaseCard>> deathrattle_cards; // Used for magnetic effects or other deathrattle stacking

@@ -134,6 +134,8 @@ TEST(Player, AlleycatBattlecryBasic) {
     player.play_card(0, 1);
     EXPECT_EQ(player.get_hand().size(), (unsigned)1); // Triple discover card created
     EXPECT_EQ(player.get_board()->size(), (unsigned)4);
+
+    // TODO: Fix ordering
     EXPECT_EQ(player.get_board()->get_cards()[0]->get_name(), "Alleycat");
     EXPECT_EQ(player.get_board()->get_cards()[1]->get_name(), "Alleycat (Golden)");
     EXPECT_EQ(player.get_board()->get_cards()[2]->get_name(), "Tabbycat (Golden)");

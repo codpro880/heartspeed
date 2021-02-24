@@ -241,3 +241,39 @@ void BgBaseCard::multi_summon(int num_summons, Player* p1, bool from_hand) {
 void BgBaseCard::on_sell(Player* p1) {
     p1->add_gold(1);
 }
+
+std::shared_ptr<BgBaseCard> BgBaseCard::from_json(std::string infile) {
+    std::ifstream i(infile);
+    nlohmann::json j;
+    i >> j;
+    return BgBaseCard::from_json(j);
+}
+
+std::shared_ptr<BgBaseCard> BgBaseCard::from_json(nlohmann::json j) {
+    BgCardFactory f;
+    std::string name(j["name"]);
+    auto card = f.get_card(name);
+        
+    card->set_attack(j["attack"]);
+    card->set_base_attack(j["attack"]);
+    card->set_health(j["health"]);
+    card->set_base_health(j["health"]);
+        
+    if (j["has_divine_shield"]) {
+        card->set_divine_shield();
+    }
+    if (j["has_poison"]) {
+        card->set_poison();
+    }
+    if (j["has_reborn"]) {
+        card->set_reborn();
+    }
+    if (j["has_taunt"]) {
+        card->set_taunt();
+    }
+    if (j["has_windfury"]) {
+        card->set_windfury();
+    }
+        
+    return card;
+}

@@ -24,6 +24,17 @@ TEST(BgCardFactory, CanGenerateParrot) {
     EXPECT_EQ(parrot->get_tavern_tier(), 3);
 }
 
+TEST(BgCardFactory, CanListCardsNames) {
+
+    auto f = BgCardFactory();
+    auto card_name_list = f.get_card_names();
+
+    // Spot check containment
+    EXPECT_TRUE(pyutils::in("Deck Swabbie", card_name_list));
+    EXPECT_TRUE(pyutils::in("Sellemental", card_name_list));
+    EXPECT_TRUE(pyutils::in("Alleycat", card_name_list));
+}
+
 TEST(BgCardFactory, CanListCardsAtEachTier) {
     auto f = BgCardFactory();
     auto tier_to_card_name_map = f.get_card_names_by_tier();

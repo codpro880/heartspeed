@@ -104,6 +104,17 @@ std::unordered_map<int, std::vector<std::string>> BgCardFactory::get_card_names_
     return res;
 }
 
+std::vector<std::string> BgCardFactory::get_card_names() const {
+    std::vector<std::string> card_names;
+    auto it = cards.begin();
+    while (it != cards.end()) {
+        auto card = it->first;
+        card_names.push_back(card);
+        it++;
+    }
+    return card_names;
+}
+
 void BgCardFactory::init_cards() {
     // Vanilla cards are defined inline
     

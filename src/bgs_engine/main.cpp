@@ -18,6 +18,8 @@ void dump_usage() {
         << std::endl
         << "--all-possible-actions (dumps all actions as JSON)" << std::endl
         << "\t" << "Dumps all actions" << std::endl
+        << "--list-cards" << std::endl
+        << "\t" << "Dumps all cards" << std::endl
         << "--battle" << std::endl
         << "\t" << "Have if p1 and p2 have ended turn, they battle and battle frames are returned" << std::endl
         << "--p1-available-actions" << std::endl
@@ -128,6 +130,11 @@ int main(int argc, char* argv[]) {
         // TODO: serialize player, load state
         p1.dump_all_possible_actions_json(4);
         // TODO: Serialize
+    }
+    else if (std::string(argv[1]) == "--list-cards") {
+        BgCardFactory f;
+        nlohmann::json j = f.get_card_names();
+        std::cout << j.dump(4) << std::endl;
     }
     else if (std::string(argv[1]) == "--battle") {
         if (!p1.get_turn_ended()) {

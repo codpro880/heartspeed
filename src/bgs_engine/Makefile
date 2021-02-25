@@ -33,11 +33,13 @@ clean:  ## Clean up object files and other build artifacts
 	cd test; $(MAKE) clean
 
 clean_cli:  ## Cleans up the main object file and executable of bgscli
-	rm bgscli
-	rm main.o
+	rm -f bgscli
+	rm -f p1.json
+	rm -f p2.json
+	rm -f main.o
 
 cli: ## Build the cli executable (bgscli)
-cli: all
+cli: all clean_cli
 	$(CXX) -std=c++17 -O3 main.cpp -c
 	$(CXX) -std=c++17 -O3 -o bgscli $(OBJ_FILES) -L/usr/local/lib $(OPENMP_FLAGS)
 

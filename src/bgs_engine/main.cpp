@@ -81,6 +81,17 @@ void assert_or_die(bool valid_action, std::string msg) {
     exit(1);
 }
 
+void check_if_dead_and_if_so_exit(const Player& p1, const Player& p2) {
+    if (p1.is_dead()) {
+        std::cerr << "P1 is dead! P2 wins! Game over. Use --reset to restart." << std::endl;
+        exit(0);
+    }
+    if (p2.is_dead()) {
+        std::cerr << "P2 is dead! P1 wins! Game over. Use --reset to restart." << std::endl;
+        exit(0);
+    }
+}
+
 int main(int argc, char* argv[]) {
     if (argc == 1
         || std::string(argv[1]) == "-h"
@@ -118,13 +129,6 @@ int main(int argc, char* argv[]) {
         p1 = Player::from_json(p1_json_filename);
         p2 = Player::from_json(p2_json_filename);
     }
-
-    if (p1.is_dead()) {
-        std::cerr << "P1 is dead! P2 wins! Game over. Use --reset to restart." << std::endl;
-    }
-    if (p2.is_dead()) {
-        std::cerr << "P2 is dead! P1 wins! Game over. Use --reset to restart." << std::endl;
-    }
     
     if (std::string(argv[1]) == "--all-possible-actions") {
         // TODO: serialize player, load state
@@ -137,6 +141,7 @@ int main(int argc, char* argv[]) {
         std::cout << j.dump(4) << std::endl;
     }
     else if (std::string(argv[1]) == "--battle") {
+        check_if_dead_and_if_so_exit(p1, p2);
         if (!p1.get_turn_ended()) {
             std::cerr << "p1's turn has not ended." << std::endl;
             return 1;
@@ -171,12 +176,14 @@ int main(int argc, char* argv[]) {
         p2.dump_as_json(4);
     }
     else if (std::string(argv[1]) == "--p1-take-action") {
+        check_if_dead_and_if_so_exit(p1, p2);
         validate(3, argc);
         std::string action = std::string(argv[2]);
         bool valid_action = p1.take_action(action);
         assert_or_die(valid_action, "Action " + action + " not in available actions list for p1");
     }
     else if (std::string(argv[1]) == "--p2-take-action") {
+        check_if_dead_and_if_so_exit(p1, p2);
         validate(3, argc);
         std::string action = std::string(argv[2]);
         bool valid_action = p2.take_action(action);

@@ -2489,6 +2489,14 @@ TEST(Player, CanSerializeAndDeserialize) {
     for (int i = 0; (unsigned)i < b1_cards_again.size(); i++) {
         EXPECT_EQ(b1_cards_again[i]->get_name(), b1_cards_deser[i]->get_name());
     }
+
+    // Assert original board is the same as well
+    auto original_board1_deserialized = player_deserialized.get_original_board();
+    auto b1_original_cards_deser = original_board1_deserialized->get_cards();
+    EXPECT_EQ(b1_cards_again.size(), b1_original_cards_deser.size());
+    for (int i = 0; (unsigned)i < b1_cards_again.size(); i++) {
+        EXPECT_EQ(b1_cards_again[i]->get_name(), b1_original_cards_deser[i]->get_name());
+    }
     
     // Expect hands are the same
     auto hand_deserialized = player_deserialized.get_hand();

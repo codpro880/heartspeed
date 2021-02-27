@@ -125,6 +125,7 @@ public:
     int get_turns_at_current_tier() const { return turns_at_current_tier; }
     void set_turns_at_current_tier(int t) { turns_at_current_tier = t; }
     void set_free_refreshes(int num_free) { num_free_refreshes = num_free; }
+    void set_original_board(std::shared_ptr<Board> b) { original_board = b; }
 
     bool get_turn_ended() const {
         return turn_ended;
@@ -858,6 +859,7 @@ public:
         auto next_card_id = j["next_card_id"];
         auto num_free_refreshes = j["num_free_refreshes"];        
         auto opponents_last_board = std::make_shared<Board>(Board::from_json(j["opponents_last_board"]));
+        auto original_board = std::make_shared<Board>(Board::from_json(j["board"]));
         auto pirates_bought_this_turn = j["pirates_bought_this_turn"];
         auto tavern_tier = j["tavern_tier"];
         auto tavern_minions = j["tavern_minions"];
@@ -877,6 +879,7 @@ public:
         player.set_next_card_id(next_card_id);
         player.set_num_free_refreshes(num_free_refreshes);
         player.set_opponents_last_board(opponents_last_board);
+        player.set_original_board(original_board);
         player.set_pirates_bought_this_turn(pirates_bought_this_turn);
         player.set_tavern_tier(tavern_tier);
         player.set_tavern_minions(tavern_minions);

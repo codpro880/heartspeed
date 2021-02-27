@@ -69,6 +69,7 @@ def select_random_action(player):
 def take_action(player, action):
     if not action:
         return
+    print(f'{player} taking action {action}.')
     execute_cli_cmd(f'--{player}-take-action {action}')
 
 def battle():

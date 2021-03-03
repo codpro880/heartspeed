@@ -728,11 +728,6 @@ void InfestedWolfGolden::do_deathrattle(Player* p1, Player* p2) {
     multi_summon(2, p1);
 }
 
-std::shared_ptr<BgBaseCard> InfestedWolfGolden::summon() {
-    auto f = BgCardFactory();
-    return f.get_card("Spider (Golden)");
-}
-
 void IronhideDirehorn::do_postattack(std::shared_ptr<BgBaseCard> defender,
                                      int def_pos,
                                      Player* p1,
@@ -1548,6 +1543,24 @@ std::shared_ptr<BgBaseCard> ReplicatingMenaceGolden::summon() {
     return f.get_card("Microbot (Golden)");
 }
 
+void RingMatron::do_deathrattle(Player* p1, Player* p2) {
+    multi_summon(2, p1);
+}
+
+std::shared_ptr<BgBaseCard> RingMatron::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Fiery Imp");
+}
+
+void RingMatronGolden::do_deathrattle(Player* p1, Player* p2) {
+    multi_summon(2, p1);
+}
+
+std::shared_ptr<BgBaseCard> RingMatronGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Fiery Imp (Golden)");
+}
+
 void RockpoolHunter::do_targeted_battlecry(std::shared_ptr<BgBaseCard> c) {
     c->set_attack(c->get_attack() + 1);
     c->set_health(c->get_health() + 1);
@@ -2059,7 +2072,7 @@ std::vector<std::string> TripleDiscover::get_discover_choices() {
         BgCardFactory f;
         auto cards_by_tier = f.get_card_names_by_tier();
         auto our_tier = tavern_tier < 6 ? tavern_tier + 1 : tavern_tier;
-        auto choice_cards = cards_by_tier[our_tier];
+        auto choice_cards = cards_by_tier[our_tie];
 
         std::unordered_set<int> inds;
         while (inds.size() < 3) {

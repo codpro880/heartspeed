@@ -1378,6 +1378,24 @@ public:
     std::shared_ptr<BgBaseCard> summon() override;
 };
 
+class RingMatron : public DeathrattleCard {
+public:
+    RingMatron() : BgBaseCard(6, "WARLOCK", 6, 4, "Ring Matron",
+                                "['DEATHRATTLE', 'TAUNT']", "DEMON", "COMMON", 4, "MINION") {}
+    virtual void do_deathrattle(Player* p1, Player* p2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RingMatron>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+};
+
+class RingMatronGolden : public DeathrattleCard {
+public:
+    RingMatron() : BgBaseCard(6, "WARLOCK", 6, 4, "Ring Matron",
+                                "['DEATHRATTLE', 'TAUNT']", "DEMON", "COMMON", 4, "MINION") {}
+    virtual void do_deathrattle(Player* p1, Player* p2) override;
+    virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RingMatronGolden>(*this); } // boilerplate that every drattle needs...
+    std::shared_ptr<BgBaseCard> summon() override;
+};
+
 class RipsnarlCaptain : public PirateCard {
 public:
     RipsnarlCaptain() : BgBaseCard(3, "NEUTRAL", 4, 4, "Ripsnarl Captain",

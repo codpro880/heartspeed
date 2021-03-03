@@ -1445,6 +1445,24 @@ TEST(Battler, RatPackDrattleSummonsCorrectNumOfRats) {
     EXPECT_EQ(razor_count, 2);
 }
 
+TEST(Battler, RingMatronRegular) {
+    auto f = BgCardFactory();
+    murloc = f.get_card("Murloc Tidehunter")
+    auto p1_cards { murloc };
+    auto p2_cards { f.get_card("Ring Matron") };
+    murloc->set_attack(7);
+    murloc->set_health(13);
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::shared_ptr<Player> p1(new Player(board1, "p1"));
+    std::shared_ptr<Player> p2(new Player(board2, "p2"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // Ring Matron deals 6, each imp deals 3, leaving 1
+    EXPECT_EQ(res.who_won, "p2");
+}
+
+
 TEST(Battler, RedWhelpPreBattleCondition) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards

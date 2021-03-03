@@ -728,6 +728,11 @@ void InfestedWolfGolden::do_deathrattle(Player* p1, Player* p2) {
     multi_summon(2, p1);
 }
 
+std::shared_ptr<BgBaseCard> InfestedWolfGolden::summon() {
+    auto f = BgCardFactory();
+    return f.get_card("Spider (Golden)");
+}
+
 void IronhideDirehorn::do_postattack(std::shared_ptr<BgBaseCard> defender,
                                      int def_pos,
                                      Player* p1,
@@ -2072,7 +2077,7 @@ std::vector<std::string> TripleDiscover::get_discover_choices() {
         BgCardFactory f;
         auto cards_by_tier = f.get_card_names_by_tier();
         auto our_tier = tavern_tier < 6 ? tavern_tier + 1 : tavern_tier;
-        auto choice_cards = cards_by_tier[our_tie];
+        auto choice_cards = cards_by_tier[our_tier];
 
         std::unordered_set<int> inds;
         while (inds.size() < 3) {

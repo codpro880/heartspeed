@@ -6,7 +6,7 @@ OBJ_TARGETS = $(CARD_CPP_FILES:.cpp=.o)
 # $(info $$CARD_CPP_FILES is [${CARD_CPP_FILES}]) # DEBUG
 
 %.o: %.cpp %.hpp
-	$(CXX) -std=c++17 -O3 $< -c $(OPENMP_FLAGS)
+	$(CXX) -std=c++17 $(OPTIM_FLAGS) $< -c $(OPENMP_FLAGS)
 
 all: $(OBJ_TARGETS)
 

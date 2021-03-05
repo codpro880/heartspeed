@@ -67,7 +67,9 @@ void BgBaseCard::adapt(std::string _test_adapt) {
 }
 
 void BgBaseCard::do_deathrattle(Player* p1, Player* p2) {
-    if (!has_taunt()) return;
+    const bool contains_harbinger = p1->get_board()->contains("Qiraji Harbinger") || p1->get_board()->contains("Qiraji Harbinger (Golden)");
+    if (!contains_harbinger) return;
+
     auto total_buff = 0;
     for (auto c : p1->get_board()->get_cards()) {
         if (c->get_name() == "Qiraji Harbinger") {

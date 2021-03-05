@@ -10,9 +10,11 @@ OBJ_FILES = $(CPP_FILES:.cpp=.o)
 
 # Matt's local rule for faster builds.
 # I'll work incremental builds in docker when enough people complain...
-# export CXX = /usr/local/opt/llvm/bin/clang++
 export CXX = clang++
+# export CXX = /usr/local/opt/llvm/bin/clang++
 export OPENMP_FLAGS = -fopenmp
+export OPTIM_FLAGS = -O3
+# export OPTIM_FLAGS = -g
 
 ################################################################
 ###### You'll mainly want to build with the docker_* rules. ####
@@ -40,9 +42,8 @@ clean_cli:  ## Cleans up the main object file and executable of bgscli
 
 cli: ## Build the cli executable (bgscli)
 cli: all clean_cli
-	$(CXX) -std=c++17 -O3 main.cpp -c
-	$(CXX) -std=c++17 -O3 -o bgscli $(OBJ_FILES) -L/usr/local/lib $(OPENMP_FLAGS)
-
+	$(CXX) -std=c++17 $(OPTIM_FLAGS) main.cpp -c
+	$(CXX) -std=c++17 $(OPTIM_FLAGS) -o bgscli $(OBJ_FILES) -L/usr/local/lib $(OPENMP_FLAGS)
 
 docker_cli: ## Builds Docker image which runs bgscli executable
 	docker build -t bgs_cli -f Dockerfile.cli .

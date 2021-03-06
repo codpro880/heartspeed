@@ -10,7 +10,7 @@
 
 // Some reusable funcs
 void buff_attack_end_turn(Player* p1, int attack_buff, BgBaseCard* this_) {
-    if (p1->get_board()->get_cards().size() < 1) return;
+    if (p1->get_board()->get_cards().size() <= 1) return;
     auto cards = p1->get_board()->get_cards();
     auto card_to_buff =  cards[RngSingleton::getInstance().get_rand_int() % cards.size()];
     while (card_to_buff.get() == this_) {

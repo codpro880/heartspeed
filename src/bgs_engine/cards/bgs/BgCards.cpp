@@ -10,7 +10,7 @@
 
 // Some reusable funcs
 void buff_attack_end_turn(Player* p1, int attack_buff, BgBaseCard* this_) {
-    if (p1->get_board()->get_cards().size() < 1) return;
+    if (p1->get_board()->get_cards().size() <= 1) return;
     auto cards = p1->get_board()->get_cards();
     auto card_to_buff =  cards[RngSingleton::getInstance().get_rand_int() % cards.size()];
     while (card_to_buff.get() == this_) {
@@ -478,6 +478,7 @@ void FelfinNavigatorGolden::do_battlecry(Player* p1) {
 
 void FiendishServant::do_deathrattle(Player* p1, Player*) {
     auto b1 = p1->get_board().get();
+    if (b1->length() == 0) return;
     auto buffed_pos = RngSingleton::getInstance().get_rand_int() % b1->length();
     auto card = b1->get_cards()[buffed_pos];
     card->set_attack(card->get_attack() + attack);

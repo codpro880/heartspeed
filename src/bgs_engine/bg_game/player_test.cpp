@@ -2528,8 +2528,8 @@ TEST(Player, CanSerializeAndDeserialize) {
     EXPECT_EQ(player.won_last_turn(), player_deserialized.won_last_turn());
 }
 
-// Bugs
-TEST(Player, WontInfiniteLoopWhenSingleEndOfTurnBuffCardOnBoard) {
+// Bug fixes
+TEST(PlayerBugFix, WontInfiniteLoopWhenSingleEndOfTurnBuffCardOnBoard) {
     auto f = BgCardFactory();
     std::vector<std::shared_ptr<BgBaseCard> > b1_cards
         {
@@ -2539,3 +2539,4 @@ TEST(Player, WontInfiniteLoopWhenSingleEndOfTurnBuffCardOnBoard) {
     std::unique_ptr<Player> p1(new Player(board1, "Test"));
     p1->end_turn();
 }
+

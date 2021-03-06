@@ -478,6 +478,7 @@ void FelfinNavigatorGolden::do_battlecry(Player* p1) {
 
 void FiendishServant::do_deathrattle(Player* p1, Player*) {
     auto b1 = p1->get_board().get();
+    if (b1->length() == 0) return;
     auto buffed_pos = RngSingleton::getInstance().get_rand_int() % b1->length();
     auto card = b1->get_cards()[buffed_pos];
     card->set_attack(card->get_attack() + attack);

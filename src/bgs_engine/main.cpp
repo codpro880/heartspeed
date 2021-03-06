@@ -114,8 +114,8 @@ int main(int argc, char* argv[]) {
     
     std::ifstream p1_json_file(p1_json_filename);
     std::ifstream p2_json_file(p2_json_filename);
-    Player p1 = Player("Init1");
-    Player p2 = Player("Init2");
+    Player p1 = Player("p1");
+    Player p2 = Player("p2");
     if (!p1_json_file.good()) {
         // TODO: Pass in names/hero
         auto p1_json = p1.to_json();
@@ -152,12 +152,14 @@ int main(int argc, char* argv[]) {
         }
         auto battler = Battler(p1, p2);
         auto res = battler.sim_battle();
-        std::cerr << "Who won: " << res.who_won << std::endl;
-        std::cerr << "Damage taken: " << res.damage_taken << std::endl;
-        if (res.who_won == "Init1") {
+        // std::cerr << "Who won: " << res.who_won << std::endl;
+        // std::cerr << "Damage taken: " << res.damage_taken << std::endl;
+        nlohmann::json j = res;
+        std::cout << j.dump(4) << std::endl;
+        if (res.who_won == "p1") {
             p2.take_damage(res.damage_taken);
         }
-        else if (res.who_won == "Init2") {
+        else if (res.who_won == "p2") {
             p1.take_damage(res.damage_taken);
         }
         p1.start_turn();

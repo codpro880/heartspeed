@@ -2176,3 +2176,24 @@ TEST(Battler, Zapp) {
     EXPECT_EQ(board2->get_cards().size(), (unsigned)1); // Barons should all be dead
     EXPECT_EQ(res.who_won, "Edwin");
 }
+
+// Bugs
+TEST(Battler, DoesntSegWhenATauntCardIsTheLastToDie) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > p1_cards
+        {
+         f.get_card("Dragonspawn Lieutenant")
+        };
+    std::vector<std::shared_ptr<BgBaseCard> > p2_cards
+        {
+         f.get_card("Vulgar Homunculus")
+        };
+    std::shared_ptr<Board> board1(new Board(p1_cards));
+    std::shared_ptr<Board> board2(new Board(p2_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Tess"));
+    std::unique_ptr<Player> p2(new Player(board2, "Edwin"));
+    auto battler = Battler(p1.get(), p2.get());
+    auto res = battler.sim_battle();
+    // amagadon deals 6, each spore deals 2, draw
+    EXPECT_EQ(res.who_won, "draw");
+}

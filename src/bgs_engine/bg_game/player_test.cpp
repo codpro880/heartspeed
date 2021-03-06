@@ -2527,3 +2527,16 @@ TEST(Player, CanSerializeAndDeserialize) {
     EXPECT_EQ(player.get_turns_at_current_tier(), player_deserialized.get_turns_at_current_tier());
     EXPECT_EQ(player.won_last_turn(), player_deserialized.won_last_turn());
 }
+
+// Bug fixes
+TEST(PlayerBugFix, WontInfiniteLoopWhenSingleEndOfTurnBuffCardOnBoard) {
+    auto f = BgCardFactory();
+    std::vector<std::shared_ptr<BgBaseCard> > b1_cards
+        {
+         f.get_card("Micro Mummy")
+        };
+    std::shared_ptr<Board> board1(new Board(b1_cards));
+    std::unique_ptr<Player> p1(new Player(board1, "Test"));
+    p1->end_turn();
+}
+

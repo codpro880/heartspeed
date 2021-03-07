@@ -52,7 +52,6 @@ def _battle():
     return {'p1': p1_reward, 'p2': p2_reward}
 
 def _take_action(agent_id, action_id):
-    print(f'Take Action: {agent_id}  BUY_{action_id}')
     run_cli(f'--{agent_id}-available-actions')
     run_cli(f'--{agent_id}-take-action BUY_{action_id}')
     run_cli(f'--{agent_id}-available-actions')
@@ -73,7 +72,6 @@ def _get_player_state(agent):
 
 def run_cli(flag):
     exe_name = f'{Path(__file__).parent.parent.parent.absolute()}/bgs_engine/bgscli'
-    print(exe_name)
     try:
         stream = os.popen(f'{exe_name} {flag}')
     except:
@@ -83,7 +81,6 @@ def run_cli(flag):
         exit(1)
     cout = stream.read()
     res = None
-    print(cout)
     if cout:
         no_newlines = cout.replace('\n', '')
         res = json.loads(no_newlines)

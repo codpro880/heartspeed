@@ -5,6 +5,7 @@ export const GQL_ENDPOINT = 'http://localhost:8000/graphql/';
 export const LOGIN_PATH = '/login';
 export const REGISTER_PATH = '/register';
 export const WELCOME_PATH = '/welcome';
+export const ROLLOUT_TOOL_PATH = '/rollout';
 
 export const ME_QUERY = gql`
   query {

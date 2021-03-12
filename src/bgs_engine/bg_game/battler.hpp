@@ -26,6 +26,7 @@ struct BattleResults {
     double p2_win;
 };
 
+void to_json(nlohmann::json& j, const BattleResult& br);
 NLOHMANN_DEFINE_TYPE_NON_INTRUSIVE(BattleResults, p1_win, draw, p2_win)
 
 class BoardBattler {

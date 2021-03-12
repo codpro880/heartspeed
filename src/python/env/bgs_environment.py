@@ -1,6 +1,7 @@
 import json
 import os
 from pathlib import Path
+import tempfile
 from typing import Tuple
 
 import gym
@@ -17,6 +18,9 @@ class BGSEnvironment(MultiAgentEnv):
         self.observation_space = gym.spaces.MultiDiscrete([num_cards] * 3)
         self.action_space = gym.spaces.Discrete(NUM_ACTIONS)
 
+        self.base_dir = os.getcwd()
+        self.temp_dir = None
+
     def step(self, action_dict: MultiAgentDict) -> Tuple[MultiAgentDict, MultiAgentDict, MultiAgentDict, MultiAgentDict]:
         # reward = take_action
         for agent_id, action in action_dict.items():
@@ -31,6 +35,7 @@ class BGSEnvironment(MultiAgentEnv):
         return observation, reward, done, info
 
     def reset(self):
+        self._reset_working_dir()
         run_cli('--reset')
         return self.get_observations()
 
@@ -42,6 +47,13 @@ class BGSEnvironment(MultiAgentEnv):
         player_state = _get_player_state(agent)
         player_cards = player_state['tavern_minions']
         return [self.cards[c] for c in player_cards]
+
+    def _reset_working_dir(self):
+        os.chdir(self.base_dir)
+        if self.temp_dir is not None:
+            self.temp_dir.cleanup()
+        self.temp_dir = tempfile.TemporaryDirectory()
+        os.chdir(self.temp_dir.name)
 
 
 def _battle():

@@ -54,6 +54,6 @@ if __name__ == '__main__':
                     lambda agent_id: {'p1':'p1_policy', 'p2':'p2_random'}[agent_id]),
                 'policies_to_train': ["p1_policy"]
             }, 
-            'num_workers': 0,
+            'num_workers': 3,
         }
     )

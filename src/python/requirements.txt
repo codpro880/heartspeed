@@ -1,2 +1,6 @@
 gym
-ray[rllib]==1.2
+ray[rllib,tune]==1.2
+pandas
+tabulate
+tensorboard
+torch

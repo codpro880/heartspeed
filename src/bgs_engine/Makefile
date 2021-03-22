@@ -10,8 +10,8 @@ OBJ_FILES = $(CPP_FILES:.cpp=.o)
 
 # Matt's local rule for faster builds.
 # I'll work incremental builds in docker when enough people complain...
-# export CXX = clang++
-export CXX = /usr/local/opt/llvm/bin/clang++
+export CXX = clang++
+# export CXX = /usr/local/opt/llvm/bin/clang++
 export OPENMP_FLAGS = -fopenmp
 export OPTIM_FLAGS = -O3
 # export OPTIM_FLAGS = -g

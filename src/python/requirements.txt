@@ -1,0 +1,6 @@
+gym
+ray[rllib,tune]==1.2
+pandas
+tabulate
+tensorboard
+torch

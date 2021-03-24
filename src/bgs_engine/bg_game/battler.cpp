@@ -7,6 +7,11 @@
 #include "battler.hpp"
 #include "rng_singleton.hpp"
 
+
+void to_json(nlohmann::json& j, const BattleResult& br) {
+    j = nlohmann::json{{"who_won", br.who_won}, {"damage_taken", br.damage_taken}};
+}
+
 BattleResult Battler::sim_battle(std::string goes_first) {
     auto res = sim_battle(p1, p2, goes_first);
     // For murozond

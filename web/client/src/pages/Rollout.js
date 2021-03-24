@@ -1,9 +1,7 @@
 import React, { useReducer, useRef } from 'react';
-// import ReactDOM from 'react-dom';
-import { Container, Stage, Sprite, useTick, } 
-from '@inlet/react-pixi';
-import { Sunwell } from "./MinifiedSunwell.js"
 
+import { Container, Stage, Sprite, useTick, } from '@inlet/react-pixi';
+import { Sunwell } from "../sunwell/MinifiedSunwell"
 
 function get_card() {
     // TODO: Remove hardcoding in this function

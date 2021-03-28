@@ -57,15 +57,25 @@ function get_card() {
     return img;
 }
 
+class AnimateButton extends React.Component {
+    
+}
+
 class Rollout extends React.Component {  
 
   constructor(props) {
-    console.log("Constructed.");
     super(props);
-    //this.canvasRef = React.createRef();
     this.state = {
       value: get_card(),
+      toDraw: false,
     };
+
+    // Are you serious, react...?
+    this.toggleAnimation = this.toggleAnimation.bind(this);
+  }
+
+  toggleAnimation() {
+    this.setState({toDraw: !this.state.toDraw});
   }
 
   render() {
@@ -77,17 +87,28 @@ class Rollout extends React.Component {
       const iter = useRef(0);
       useTick(delta => {
         const i = (iter.current += 0.05 * delta);
-        update({
-          type: 'update',
-          data: {
-            // x: 0,
-            // y: 0,
-            x: Math.sin(i) * 100,
-            y: Math.sin(i / 1.5) * 100,
-            rotation: Math.sin(i) * Math.PI,
-            anchor: Math.sin(i / 2),
-          },
-        })
+        if (this.state.toDraw) {
+          update({
+            type: 'update',
+            data: {
+              // x: 0,
+              // y: 0,
+              x: Math.sin(i) * 100,
+              y: Math.sin(i / 1.5) * 100,
+              rotation: Math.sin(i) * Math.PI,
+              anchor: Math.sin(i / 2),
+            },
+          })
+        }
+        else {
+          update({
+            type: 'update',
+            data: {
+              x: 0,
+              y: 0,
+            },
+          })
+        }
       })
 
       return (
@@ -101,11 +122,16 @@ class Rollout extends React.Component {
     }
     
     return (
+      <>
+      <button onClick={this.toggleAnimation}>
+        Toggle Animation
+      </button>
       <Stage width={300} height={300} options={{ transparent: true }}>
-        <Container x={150} y={150}>                 
-         <Bunny />
+        <Container x={150} y={150}>                
+            <Bunny />
         </Container>
       </Stage>
+      </>
     )
   }
 }

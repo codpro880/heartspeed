@@ -3,13 +3,50 @@ import React, { useReducer, useRef } from 'react';
 import { Container, Stage, Sprite, useTick, } from '@inlet/react-pixi';
 import { Sunwell } from "../sunwell/MinifiedSunwell"
 
+function getTestCardJson() {
+    var json = `{
+        "attack": 6,
+        "has_cleave": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": true,
+        "has_taunt": false,
+        "has_windfury": false,
+        "health": 10,
+        "name": "Glyph Guardian (Golden)"
+    }`
+    return JSON.parse(json);
+}
+
+function getCardText(card_json) {
+    // "has_cleave": false,
+    // "has_divine_shield": false,
+    // "has_poison": false,
+    // "has_reborn": false,
+    // "has_taunt": false,
+    // "has_windfury": false,
+    var text = "";
+    if (card_json['has_divine_shield']) {
+        text += "DIVINE ";
+    }
+    if (card_json['has_reborn']) {
+        text += "REBORN ";
+    }
+    if (card_json['has_taunt']) {
+        text += "TAUNT ";
+    }
+    return text;
+}
+
+
+//function get_card(card_json) {
 function get_card() {
-    // TODO: Remove hardcoding in this function
-    
+    var card_json = getTestCardJson(); // TODO: Remove hardcoding in this function, should be arg
     var img = new Image();
+    let asset_folder = process.env.PUBLIC_URL + "/assets/";
     let sunwell = new Sunwell({
       	// assetFolder: '../assets/',
-        assetFolder: process.env.PUBLIC_URL + "/assets/",
+        assetFolder: asset_folder,
       	titleFont: "belwe_fsextrabold",
       	bodyFontRegular: "franklin_gothic_fsMdCn",
       	bodyFontItalic: "franklin_gothic_fsMdCnIt",
@@ -21,8 +58,9 @@ function get_card() {
       	debug: true
     });
 
-    var card_name = "Mecharoo";
-    var card_text = "Mecharoo text";
+    var card_name_raw = card_json['name'];
+    var card_text = getCardText(card_json);
+    var card_name = card_name_raw.replace(" (Golden)", "");
 
     sunwell.createCard({
       	//"id": "EX1_116",
@@ -49,16 +87,13 @@ function get_card() {
       	// "set": "EXPERT1",
       	"type": "MINION",
       	// "texture": "../assets/" + card_name + ".jpg"
-        "texture": process.env.PUBLIC_URL + "/assets/Mecharoo.png"
+        // "texture": process.env.PUBLIC_URL + "/assets/Mecharoo.png"
+        "texture": asset_folder + card_name + ".jpg"
     }, 256, false, img, function() {
       	console.log('done');
     });
 
     return img;
-}
-
-class AnimateButton extends React.Component {
-    
 }
 
 class Rollout extends React.Component {  
@@ -87,16 +122,19 @@ class Rollout extends React.Component {
       const iter = useRef(0);
       useTick(delta => {
         const i = (iter.current += 0.05 * delta);
+        if (i > 50) {
+          this.setState({toDraw: false});          
+        }
         if (this.state.toDraw) {
           update({
             type: 'update',
             data: {
-              // x: 0,
-              // y: 0,
-              x: Math.sin(i) * 100,
-              y: Math.sin(i / 1.5) * 100,
-              rotation: Math.sin(i) * Math.PI,
-              anchor: Math.sin(i / 2),
+              x: i,
+              y: i,
+              // x: Math.sin(i) * 100,
+              // y: Math.sin(i / 1.5) * 100,
+              // rotation: Math.sin(i) * Math.PI,
+              // anchor: Math.sin(i / 2),
             },
           })
         }

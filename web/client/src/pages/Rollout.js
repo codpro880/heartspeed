@@ -103,7 +103,7 @@ class Rollout extends React.Component {
     this.state = {
       value: get_card(),
       toDraw: false,
-    };
+    };    
 
     // Are you serious, react...?
     this.toggleAnimation = this.toggleAnimation.bind(this);
@@ -149,14 +149,39 @@ class Rollout extends React.Component {
         }
       })
 
-      return (
-        <Sprite
-          image={this.state.value}
-          height={90}
-          width={60}
-          {...motion}
-        />
-      )
+      var sprite1 = <Sprite
+                       image={this.state.value}
+                       height={130}
+                       width={86}
+                       {...motion}
+                     />;
+      var sprite2 = <Sprite
+                       image={this.state.value}
+                       height={45}
+                       width={30}
+                       x={50}
+                       y={50}
+                     />;
+      var test_arr = [];
+      test_arr.push(sprite1);
+      test_arr.push(sprite2);
+      //var sprite1 = <Sprite image={this.state.value} height={90} width=60></Sprite>;
+        // <div>
+        //   {sprite1}
+        // </div>
+
+        // <Sprite
+        //   image={this.state.value}
+        //   height={90}
+        //   width={60}
+        //   {...motion}
+        // />
+
+      return test_arr;
+
+      // return (
+      //   {sprite1}
+      // )
     }
     
     return (

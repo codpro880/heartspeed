@@ -2,7 +2,7 @@ import React, { useReducer, useRef } from 'react';
 
 import { Container, Stage, Sprite, useTick, } from '@inlet/react-pixi';
 import { Sunwell } from "../sunwell/MinifiedSunwell"
-
+ 
 function getTestCardJson(attack, health, name) {
     var json = {
         "attack": attack,
@@ -16,24 +16,7 @@ function getTestCardJson(attack, health, name) {
         "name": name
     }
     return json;
-    // return JSON.parse(json);
 }
-
-// function getTestMecharooJson() {
-//     var json = `{
-//         "attack": 10,
-//         "has_cleave": false,
-//         "has_divine_shield": false,
-//         "has_poison": false,
-//         "has_reborn": true,
-//         "has_taunt": false,
-//         "has_windfury": false,
-//         "health": 2,
-//         "name": "Mecharoo"
-//     }`
-//     return JSON.parse(json);
-// }
-
 
 function getCardText(card_json) {
     // "has_cleave": false,
@@ -55,10 +38,7 @@ function getCardText(card_json) {
     return text;
 }
 
-
-//function get_card(card_json) {
-function get_card() {
-    var card_json = getTestCardJson(10, 10, "Mecharoo"); // TODO: Remove hardcoding in this function, should be arg
+function get_card(card_json) {    
     var img = new Image();
     let asset_folder = process.env.PUBLIC_URL + "/assets/";
     let sunwell = new Sunwell({
@@ -140,12 +120,8 @@ class Card extends React.Component {
           update({
             type: 'update',
             data: {
-              x: i,
-              y: i,
-              // x: Math.sin(i) * 100,
-              // y: Math.sin(i / 1.5) * 100,
-              // rotation: Math.sin(i) * Math.PI,
-              // anchor: Math.sin(i / 2),
+              x: this.props.startX + i,
+              y: this.props.startY + i,
             },
           })
         }
@@ -153,8 +129,8 @@ class Card extends React.Component {
           update({
             type: 'update',
             data: {
-              x: 0,
-              y: 0,
+              x: this.props.startX,
+              y: this.props.startY,
             },
           })
         }
@@ -192,10 +168,26 @@ class Rollout extends React.Component {
   }
 
   render() {
-
-    var card = <Card key={"card1"} toDraw={this.state.toDraw} img={get_card()}></Card>;
+    var card1_json = getTestCardJson(10, 10, "Mecharoo");
+    var card1 = <Card key={"card1"}
+                  toDraw={this.state.toDraw}
+                  img={get_card(card1_json)}
+                  startX={0}
+                  startY={0}
+                >
+                </Card>;
+    // TODO: Debug the script that ropes in these assets
+    var card2_json = getTestCardJson(20, 20, "Razorgor");
+    var card2 = <Card key={"card2"}
+                  toDraw={this.state.toDraw}
+                  img={get_card(card2_json)}
+                  startX={40}
+                  startY={40}
+                >
+                </Card>;
     var card_arr = [];
-    card_arr.push(card);
+    card_arr.push(card1);
+    card_arr.push(card2);
     
     return (
       <>

@@ -156,6 +156,7 @@ class Rollout extends React.Component {
     super(props);
     this.state = {
       toDraw: false,
+      backgroundImage: process.env.PUBLIC_URL + "/assets/hearthstone_battle_phase_background.jpeg",
     };
 
     // Are you serious, react...?
@@ -180,8 +181,8 @@ class Rollout extends React.Component {
     var card2 = <Card key={"card2"}
                   toDraw={this.state.toDraw}
                   img={get_card(card2_json)}
-                  startX={40}
-                  startY={40}
+                  startX={0}
+                  startY={100}
                 >
                 </Card>;
     var card_arr = [];
@@ -194,7 +195,12 @@ class Rollout extends React.Component {
         Toggle Animation
       </button>
       <Stage width={300} height={300} options={{ transparent: true }}>
-        <Container x={150} y={150}>      
+        <Container x={0} y={0}>
+            <Sprite
+                image={this.state.backgroundImage}
+                height={300}
+                width={300}
+             />
             {card_arr}
         </Container>
       </Stage>

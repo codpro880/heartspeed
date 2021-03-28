@@ -180,76 +180,9 @@ class Rollout extends React.Component {
 
   render() {
 
-    const reducer = (_, { data }) => data;  
-
-    const Bunny = () => {
-      const [motion, update] = useReducer(reducer);
-      const iter = useRef(0);
-      debugger;
-      useTick(delta => {
-        const i = (iter.current += 0.05 * delta);
-        if (i > 50) {
-          this.setState({toDraw: false});
-        }
-        if (this.state.toDraw) {
-          update({
-            type: 'update',
-            data: {
-              x: i,
-              y: i,
-              // x: Math.sin(i) * 100,
-              // y: Math.sin(i / 1.5) * 100,
-              // rotation: Math.sin(i) * Math.PI,
-              // anchor: Math.sin(i / 2),
-            },
-          })
-        }
-        else {
-          update({
-            type: 'update',
-            data: {
-              x: 0,
-              y: 0,
-            },
-          })
-        }
-      })
-
-      var sprite1 = <Sprite
-                       image={this.state.value}
-                       height={130}
-                       width={86}
-                       {...motion}
-                     />;
-      var sprite2 = <Sprite
-                       image={this.state.value}
-                       height={45}
-                       width={30}
-                       x={50}
-                       y={50}
-                       {...motion}
-                     />;
-      var test_arr = [];
-      test_arr.push(sprite1);
-      test_arr.push(sprite2);
-      //var sprite1 = <Sprite image={this.state.value} height={90} width=60></Sprite>;
-        // <div>
-        //   {sprite1}
-        // </div>
-
-        // <Sprite
-        //   image={this.state.value}
-        //   height={90}
-        //   width={60}
-        //   {...motion}
-        // />
-
-      return test_arr;
-
-      // return (
-      //   {sprite1}
-      // )
-    }
+    var card = <Card key="card1"></Card>;
+    var card_arr = [];
+    card_arr.push(card);
     
     return (
       <>
@@ -258,7 +191,7 @@ class Rollout extends React.Component {
       </button>
       <Stage width={300} height={300} options={{ transparent: true }}>
         <Container x={150} y={150}>                
-            <Card />
+            {card_arr}
         </Container>
       </Stage>
       </>

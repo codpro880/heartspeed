@@ -99,15 +99,10 @@ function get_card() {
 
 class Card extends React.Component {
 
+  // Would be nice if there was an easy way to define required props
+  // Looks like it's sort of possible w/ PropTypes but seems like too much for now
   constructor(props) {
     super(props);
-    this.state = {
-      value: get_card(),
-      toDraw: false,
-    };
-
-    // Are you serious, react...?
-    // this.toggleAnimation = this.toggleAnimation.bind(this);
   }
 
   render() {
@@ -118,10 +113,13 @@ class Card extends React.Component {
       const iter = useRef(0);
       useTick(delta => {
         const i = (iter.current += 0.05 * delta);
-        if (i > 50) {
-          this.setState({toDraw: false});
+        if (i > 20) {
+          // I have the feeling this is wasteful
+          // TODO: Figure out how to stop calling the useTick hook
+          //       after animation ends
+          return;
         }
-        if (this.state.toDraw) {
+        if (this.props.toDraw) {
           update({
             type: 'update',
             data: {
@@ -147,7 +145,7 @@ class Card extends React.Component {
 
       return (
               <Sprite
-                image={this.state.value}
+                image={this.props.img}
                 height={130}
                 width={86}
                 {...motion}
@@ -165,9 +163,7 @@ class Rollout extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: get_card(),
       toDraw: false,
-      ticker: 0,
     };
 
     // Are you serious, react...?
@@ -180,7 +176,7 @@ class Rollout extends React.Component {
 
   render() {
 
-    var card = <Card key="card1"></Card>;
+    var card = <Card key={"card1"} toDraw={this.state.toDraw} img={get_card()}></Card>;
     var card_arr = [];
     card_arr.push(card);
     
@@ -190,7 +186,7 @@ class Rollout extends React.Component {
         Toggle Animation
       </button>
       <Stage width={300} height={300} options={{ transparent: true }}>
-        <Container x={150} y={150}>                
+        <Container x={150} y={150}>      
             {card_arr}
         </Container>
       </Stage>

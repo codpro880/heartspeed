@@ -67,12 +67,13 @@ function get_card() {
       	//"dbfId": 559,
       	"name": card_name,
       	// "text": "<b>Charge</b>. <b>Battlecry:</b> Summon two 1/1 Whelps for your opponent.",
-	"text": card_text,
+	// "text": card_text,
       	// "flavor": "At least he has Angry Chicken.",
       	// "artist": "Gabe from Penny Arcade",
       	// "attack": card_json['attack'],
         "attack": 1,
       	"cardClass": "MURLOC",
+        "cardFrame": null,
       	//"collectible": true,
       	"cost": 1,
       	// "elite": true,
@@ -96,6 +97,69 @@ function get_card() {
     return img;
 }
 
+class Card extends React.Component {
+
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: get_card(),
+      toDraw: false,
+    };
+
+    // Are you serious, react...?
+    // this.toggleAnimation = this.toggleAnimation.bind(this);
+  }
+
+  render() {
+    const reducer = (_, { data }) => data;  
+
+    const DrawCard = () => {
+      const [motion, update] = useReducer(reducer);
+      const iter = useRef(0);
+      useTick(delta => {
+        const i = (iter.current += 0.05 * delta);
+        if (i > 50) {
+          this.setState({toDraw: false});
+        }
+        if (this.state.toDraw) {
+          update({
+            type: 'update',
+            data: {
+              x: i,
+              y: i,
+              // x: Math.sin(i) * 100,
+              // y: Math.sin(i / 1.5) * 100,
+              // rotation: Math.sin(i) * Math.PI,
+              // anchor: Math.sin(i / 2),
+            },
+          })
+        }
+        else {
+          update({
+            type: 'update',
+            data: {
+              x: 0,
+              y: 0,
+            },
+          })
+        }
+      })
+
+      return (
+              <Sprite
+                image={this.state.value}
+                height={130}
+                width={86}
+                {...motion}
+             />
+      )
+    }
+  return (
+    <DrawCard />
+    )
+  }
+}
+
 class Rollout extends React.Component {  
 
   constructor(props) {
@@ -103,7 +167,8 @@ class Rollout extends React.Component {
     this.state = {
       value: get_card(),
       toDraw: false,
-    };    
+      ticker: 0,
+    };
 
     // Are you serious, react...?
     this.toggleAnimation = this.toggleAnimation.bind(this);
@@ -120,10 +185,11 @@ class Rollout extends React.Component {
     const Bunny = () => {
       const [motion, update] = useReducer(reducer);
       const iter = useRef(0);
+      debugger;
       useTick(delta => {
         const i = (iter.current += 0.05 * delta);
         if (i > 50) {
-          this.setState({toDraw: false});          
+          this.setState({toDraw: false});
         }
         if (this.state.toDraw) {
           update({
@@ -161,6 +227,7 @@ class Rollout extends React.Component {
                        width={30}
                        x={50}
                        y={50}
+                       {...motion}
                      />;
       var test_arr = [];
       test_arr.push(sprite1);
@@ -191,7 +258,7 @@ class Rollout extends React.Component {
       </button>
       <Stage width={300} height={300} options={{ transparent: true }}>
         <Container x={150} y={150}>                
-            <Bunny />
+            <Card />
         </Container>
       </Stage>
       </>

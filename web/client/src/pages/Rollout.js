@@ -3,20 +3,37 @@ import React, { useReducer, useRef } from 'react';
 import { Container, Stage, Sprite, useTick, } from '@inlet/react-pixi';
 import { Sunwell } from "../sunwell/MinifiedSunwell"
 
-function getTestCardJson() {
-    var json = `{
-        "attack": 6,
+function getTestCardJson(attack, health, name) {
+    var json = {
+        "attack": attack,
         "has_cleave": false,
         "has_divine_shield": false,
         "has_poison": false,
         "has_reborn": true,
         "has_taunt": false,
         "has_windfury": false,
-        "health": 10,
-        "name": "Glyph Guardian (Golden)"
-    }`
-    return JSON.parse(json);
+        "health": health,
+        "name": name
+    }
+    return json;
+    // return JSON.parse(json);
 }
+
+// function getTestMecharooJson() {
+//     var json = `{
+//         "attack": 10,
+//         "has_cleave": false,
+//         "has_divine_shield": false,
+//         "has_poison": false,
+//         "has_reborn": true,
+//         "has_taunt": false,
+//         "has_windfury": false,
+//         "health": 2,
+//         "name": "Mecharoo"
+//     }`
+//     return JSON.parse(json);
+// }
+
 
 function getCardText(card_json) {
     // "has_cleave": false,
@@ -41,7 +58,7 @@ function getCardText(card_json) {
 
 //function get_card(card_json) {
 function get_card() {
-    var card_json = getTestCardJson(); // TODO: Remove hardcoding in this function, should be arg
+    var card_json = getTestCardJson(10, 10, "Mecharoo"); // TODO: Remove hardcoding in this function, should be arg
     var img = new Image();
     let asset_folder = process.env.PUBLIC_URL + "/assets/";
     let sunwell = new Sunwell({

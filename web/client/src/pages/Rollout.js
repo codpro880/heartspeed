@@ -42,7 +42,6 @@ function get_card(card_json) {
     var img = new Image();
     let asset_folder = process.env.PUBLIC_URL + "/assets/";
     let sunwell = new Sunwell({
-      	// assetFolder: '../assets/',
         assetFolder: asset_folder,
       	titleFont: "belwe_fsextrabold",
       	bodyFontRegular: "franklin_gothic_fsMdCn",
@@ -59,6 +58,8 @@ function get_card(card_json) {
     var card_text = getCardText(card_json);
     var card_name = card_name_raw.replace(" (Golden)", "");
 
+    var is_golden = card_name_raw !== card_name;
+
     sunwell.createCard({
       	//"id": "EX1_116",
       	//"dbfId": 559,
@@ -67,16 +68,14 @@ function get_card(card_json) {
 	// "text": card_text,
       	// "flavor": "At least he has Angry Chicken.",
       	// "artist": "Gabe from Penny Arcade",
-      	// "attack": card_json['attack'],
-        "attack": 1,
+      	"attack": card_json['attack'],
       	"cardClass": "MURLOC",
         "cardFrame": null,
       	//"collectible": true,
       	"cost": 1,
       	// "elite": true,
       	"faction": "ALLIANCE",
-      	// "health": card_json['health'],
-        "health": 1,
+      	"health": card_json['health'],
       	// "mechanics": [
       	// 	"BATTLECRY",
       	// 	"CHARGE"
@@ -87,7 +86,7 @@ function get_card(card_json) {
       	// "texture": "../assets/" + card_name + ".jpg"
         // "texture": process.env.PUBLIC_URL + "/assets/Mecharoo.png"
         "texture": asset_folder + card_name + ".jpg"
-    }, 256, false, img, function() {
+    }, 256, is_golden, img, function() {
       	console.log('done');
     });
 
@@ -177,7 +176,7 @@ class Rollout extends React.Component {
                 >
                 </Card>;
     // TODO: Debug the script that ropes in these assets
-    var card2_json = getTestCardJson(20, 20, "Razorgor");
+    var card2_json = getTestCardJson(20, 20, "Razorgor (Golden)");
     var card2 = <Card key={"card2"}
                   toDraw={this.state.toDraw}
                   img={get_card(card2_json)}

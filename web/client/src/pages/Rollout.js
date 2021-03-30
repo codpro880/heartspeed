@@ -138,8 +138,8 @@ class Card extends React.Component {
       return (
               <Sprite
                 image={this.props.img}
-                height={130}
-                width={86}
+                height={70}
+                width={46}
                 {...motion}
              />
       )
@@ -150,7 +150,13 @@ class Card extends React.Component {
   }
 }
 
-class Rollout extends React.Component {  
+const BOARD_WIDTH = 600;
+const BOARD_HEIGHT = 350;
+const BOARD_WIDTH_FUDGE = -BOARD_WIDTH / 20.0; // -30
+const TOP_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 14; // -25
+const BOTTOM_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 5; // -70
+
+class Rollout extends React.Component {
 
   constructor(props) {
     super(props);
@@ -161,45 +167,51 @@ class Rollout extends React.Component {
 
     // Are you serious, react...?
     this.toggleAnimation = this.toggleAnimation.bind(this);
+    this.createCards = this.createCards.bind(this);
   }
 
   toggleAnimation() {
     this.setState({toDraw: !this.state.toDraw});
   }
 
-  render() {
+  createCards(frame) {
     var card1_json = getTestCardJson(10, 10, "Mecharoo");
     var card1 = <Card key={"card1"}
                   toDraw={this.state.toDraw}
                   img={get_card(card1_json)}
-                  startX={0}
-                  startY={0}
+                  startX={BOARD_WIDTH / 2.0 + BOARD_WIDTH_FUDGE}
+                  startY={BOARD_HEIGHT / 3.0 + TOP_BOARD_HEIGHT_FUDGE}
                 >
                 </Card>;
     // TODO: Debug the script that ropes in these assets
     var card2_json = getTestCardJson(20, 20, "Razorgor (Golden)");
     var card2 = <Card key={"card2"}
                   toDraw={this.state.toDraw}
-                  img={get_card(card2_json)}
-                  startX={0}
-                  startY={100}
+                  img={get_card(card2_json)}               
+                  startX={BOARD_WIDTH / 2.0 + BOARD_WIDTH_FUDGE}
+                  startY={2 * BOARD_HEIGHT / 3.0 + BOTTOM_BOARD_HEIGHT_FUDGE}
                 >
                 </Card>;
     var card_arr = [];
     card_arr.push(card1);
     card_arr.push(card2);
+    return card_arr;
+  }
+
+  render() {
+    const card_arr = this.createCards(null);
     
     return (
       <>
       <button onClick={this.toggleAnimation}>
-        Toggle Animation
+          Toggle Animation
       </button>
-      <Stage width={300} height={300} options={{ transparent: true }}>
+      <Stage width={BOARD_WIDTH} height={BOARD_HEIGHT} options={{ transparent: true }}>
         <Container x={0} y={0}>
             <Sprite
                 image={this.state.backgroundImage}
-                height={300}
-                width={300}
+                width={BOARD_WIDTH}
+                height={BOARD_HEIGHT}
              />
             {card_arr}
         </Container>

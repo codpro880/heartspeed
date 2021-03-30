@@ -18,6 +18,1236 @@ function getTestCardJson(attack, health, name) {
     return json;
 }
 
+// function getTestCardFrames() {
+//   var json = [
+// {
+//   "attacker_pos": 0,
+//   "b1": [
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 10,
+//           "name": "Glyph Guardian (Golden)"
+//       },
+//       {
+//           "attack": 13,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 9,
+//           "name": "Wildfire Elemental"
+//       },
+//       {
+//           "attack": 7,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 3,
+//           "name": "Wildfire Elemental"
+//       },
+//       {
+//           "attack": 4,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 4,
+//           "name": "Lil Rag"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 5,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 4,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 4,
+//           "name": "Nomi, Kitchen Nightmare"
+//       },
+//       {
+//           "attack": 10,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 10,
+//           "name": "Hangry Dragon (Golden)"
+//       }
+//   ],
+//   "b1_turn": 1,
+//   "b2": [
+//       {
+//           "attack": 8,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 11,
+//           "name": "Rockpool Hunter (Golden)"
+//       },
+//       {
+//           "attack": 13,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 10,
+//           "name": "Salty Looter"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 5,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 4,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 9,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 6,
+//           "name": "Salty Looter"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 2,
+//           "name": "Lightfang Enforcer"
+//       },
+//       {
+//           "attack": 7,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": true,
+//           "has_windfury": false,
+//           "health": 9,
+//           "name": "Yo-Ho-Ogre"
+//       }
+//   ],
+//   "defender_pos": 6
+// },
+// {
+//   "attacker_pos": 0,
+//   "b1": [
+//       {
+//           "attack": 18,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 3,
+//           "name": "Glyph Guardian (Golden)"
+//       },
+//       {
+//           "attack": 13,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 9,
+//           "name": "Wildfire Elemental"
+//       },
+//       {
+//           "attack": 7,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 3,
+//           "name": "Wildfire Elemental"
+//       },
+//       {
+//           "attack": 4,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 4,
+//           "name": "Lil Rag"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 5,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 4,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 4,
+//           "name": "Nomi, Kitchen Nightmare"
+//       },
+//       {
+//           "attack": 10,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 10,
+//           "name": "Hangry Dragon (Golden)"
+//       }
+//   ],
+//   "b1_turn": 0,
+//   "b2": [
+//       {
+//           "attack": 8,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 11,
+//           "name": "Rockpool Hunter (Golden)"
+//       },
+//       {
+//           "attack": 13,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 10,
+//           "name": "Salty Looter"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 5,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 4,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 9,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 6,
+//           "name": "Salty Looter"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 2,
+//           "name": "Lightfang Enforcer"
+//       }
+//   ],
+//   "defender_pos": 5
+// },
+// {
+//   "attacker_pos": 1,
+//   "b1": [
+//       {
+//           "attack": 18,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 3,
+//           "name": "Glyph Guardian (Golden)"
+//       },
+//       {
+//           "attack": 13,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 9,
+//           "name": "Wildfire Elemental"
+//       },
+//       {
+//           "attack": 7,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 3,
+//           "name": "Wildfire Elemental"
+//       },
+//       {
+//           "attack": 4,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 4,
+//           "name": "Lil Rag"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 5,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 10,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 10,
+//           "name": "Hangry Dragon (Golden)"
+//       }
+//   ],
+//   "b1_turn": 1,
+//   "b2": [
+//       {
+//           "attack": 8,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 7,
+//           "name": "Rockpool Hunter (Golden)"
+//       },
+//       {
+//           "attack": 13,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 10,
+//           "name": "Salty Looter"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 5,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 4,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 9,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 6,
+//           "name": "Salty Looter"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 2,
+//           "name": "Lightfang Enforcer"
+//       }
+//   ],
+//   "defender_pos": 4
+// },
+// {
+//   "attacker_pos": 1,
+//   "b1": [
+//       {
+//           "attack": 18,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 3,
+//           "name": "Glyph Guardian (Golden)"
+//       },
+//       {
+//           "attack": 7,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 3,
+//           "name": "Wildfire Elemental"
+//       },
+//       {
+//           "attack": 4,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 4,
+//           "name": "Lil Rag"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 5,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 10,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 10,
+//           "name": "Hangry Dragon (Golden)"
+//       }
+//   ],
+//   "b1_turn": 0,
+//   "b2": [
+//       {
+//           "attack": 8,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 7,
+//           "name": "Rockpool Hunter (Golden)"
+//       },
+//       {
+//           "attack": 13,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 10,
+//           "name": "Salty Looter"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 5,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 4,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 2,
+//           "name": "Lightfang Enforcer"
+//       }
+//   ],
+//   "defender_pos": 4
+// },
+// {
+//   "attacker_pos": 1,
+//   "b1": [
+//       {
+//           "attack": 18,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 3,
+//           "name": "Glyph Guardian (Golden)"
+//       },
+//       {
+//           "attack": 7,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 3,
+//           "name": "Wildfire Elemental"
+//       },
+//       {
+//           "attack": 4,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 4,
+//           "name": "Lil Rag"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 5,
+//           "name": "Bronze Warden"
+//       }
+//   ],
+//   "b1_turn": 1,
+//   "b2": [
+//       {
+//           "attack": 8,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 7,
+//           "name": "Rockpool Hunter (Golden)"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 5,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 4,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 2,
+//           "name": "Lightfang Enforcer"
+//       }
+//   ],
+//   "defender_pos": 1
+// },
+// {
+//   "attacker_pos": 1,
+//   "b1": [
+//       {
+//           "attack": 18,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 3,
+//           "name": "Glyph Guardian (Golden)"
+//       },
+//       {
+//           "attack": 4,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 4,
+//           "name": "Lil Rag"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 5,
+//           "name": "Bronze Warden"
+//       }
+//   ],
+//   "b1_turn": 0,
+//   "b2": [
+//       {
+//           "attack": 8,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 7,
+//           "name": "Rockpool Hunter (Golden)"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 5,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 4,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 2,
+//           "name": "Lightfang Enforcer"
+//       }
+//   ],
+//   "defender_pos": 0
+// },
+// {
+//   "attacker_pos": 1,
+//   "b1": [
+//       {
+//           "attack": 4,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Glyph Guardian (Golden)"
+//       },
+//       {
+//           "attack": 4,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 4,
+//           "name": "Lil Rag"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 5,
+//           "name": "Bronze Warden"
+//       }
+//   ],
+//   "b1_turn": 1,
+//   "b2": [
+//       {
+//           "attack": 8,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 7,
+//           "name": "Rockpool Hunter (Golden)"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 4,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 2,
+//           "name": "Lightfang Enforcer"
+//       }
+//   ],
+//   "defender_pos": 2
+// },
+// {
+//   "attacker_pos": 3,
+//   "b1": [
+//       {
+//           "attack": 4,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Glyph Guardian (Golden)"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 5,
+//           "name": "Bronze Warden"
+//       }
+//   ],
+//   "b1_turn": 0,
+//   "b2": [
+//       {
+//           "attack": 8,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 7,
+//           "name": "Rockpool Hunter (Golden)"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 2,
+//           "name": "Lightfang Enforcer"
+//       }
+//   ],
+//   "defender_pos": 1
+// },
+// {
+//   "attacker_pos": 1,
+//   "b1": [
+//       {
+//           "attack": 4,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Glyph Guardian (Golden)"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 5,
+//           "name": "Bronze Warden"
+//       }
+//   ],
+//   "b1_turn": 1,
+//   "b2": [
+//       {
+//           "attack": 8,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 7,
+//           "name": "Rockpool Hunter (Golden)"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Bronze Warden"
+//       }
+//   ],
+//   "defender_pos": 2
+// },
+// {
+//   "attacker_pos": 0,
+//   "b1": [
+//       {
+//           "attack": 4,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Glyph Guardian (Golden)"
+//       },
+//       {
+//           "attack": 6,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": true,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 3,
+//           "name": "Bronze Warden"
+//       }
+//   ],
+//   "b1_turn": 0,
+//   "b2": [
+//       {
+//           "attack": 8,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 7,
+//           "name": "Rockpool Hunter (Golden)"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Bronze Warden"
+//       }
+//   ],
+//   "defender_pos": 1
+// },
+// {
+//   "attacker_pos": 1,
+//   "b1": [
+//       {
+//           "attack": 4,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Glyph Guardian (Golden)"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Bronze Warden"
+//       }
+//   ],
+//   "b1_turn": 1,
+//   "b2": [
+//       {
+//           "attack": 8,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Rockpool Hunter (Golden)"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Bronze Warden"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Bronze Warden"
+//       }
+//   ],
+//   "defender_pos": 2
+// },
+// {
+//   "attacker_pos": 1,
+//   "b1": [
+//       {
+//           "attack": 4,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Glyph Guardian (Golden)"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Bronze Warden"
+//       }
+//   ],
+//   "b1_turn": 0,
+//   "b2": [
+//       {
+//           "attack": 8,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Rockpool Hunter (Golden)"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": true,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Bronze Warden"
+//       }
+//   ],
+//   "defender_pos": 0
+// },
+// {
+//   "attacker_pos": 0,
+//   "b1": [
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Bronze Warden"
+//       }
+//   ],
+//   "b1_turn": 1,
+//   "b2": [
+//       {
+//           "attack": 8,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Rockpool Hunter (Golden)"
+//       },
+//       {
+//           "attack": 2,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Bronze Warden"
+//       }
+//   ],
+//   "defender_pos": 1
+// },
+// {
+//   "attacker_pos": 2,
+//   "b1_turn": 5132105,
+//   "b2": [
+//       {
+//           "attack": 8,
+//           "has_cleave": false,
+//           "has_divine_shield": false,
+//           "has_poison": false,
+//           "has_reborn": false,
+//           "has_taunt": false,
+//           "has_windfury": false,
+//           "health": 1,
+//           "name": "Rockpool Hunter (Golden)"
+//       }
+//   ],
+//   "defender_pos": 5132103
+// }
+// ];
+//   return json;
+// }
+
 function getCardText(card_json) {
     // "has_cleave": false,
     // "has_divine_shield": false,
@@ -153,8 +1383,10 @@ class Card extends React.Component {
 const BOARD_WIDTH = 600;
 const BOARD_HEIGHT = 350;
 const BOARD_WIDTH_FUDGE = -BOARD_WIDTH / 20.0; // -30
-const TOP_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 14; // -25
-const BOTTOM_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 5; // -70
+const TOP_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 14.0; // -25
+const BOTTOM_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 5.0; // -70
+const CARD_WIDTH_DELTA = BOARD_WIDTH / 10.0; // idk if this is right...
+const MAX_NUM_CARDS = 7;
 
 class Rollout extends React.Component {
 
@@ -175,26 +1407,46 @@ class Rollout extends React.Component {
   }
 
   createCards(frame) {
-    var card1_json = getTestCardJson(10, 10, "Mecharoo");
-    var card1 = <Card key={"card1"}
+    // Test w/ evens
+    var mech_jsons = [];
+    for (var i = 0; i < 5; i++) {
+      mech_jsons.push(getTestCardJson(10, 10, "Mecharoo"));
+    }
+
+    var card_arr = [];
+    const WIDTH_COORD_START = -Math.floor(mech_jsons.length / 2) * CARD_WIDTH_DELTA;
+    for (var j = 0; j < mech_jsons.length; j++) {
+      var card1_json = mech_jsons[j];
+      const width_coord_offset = WIDTH_COORD_START + CARD_WIDTH_DELTA * j + BOARD_WIDTH_FUDGE;
+      var card1 = <Card key={"card1"}
                   toDraw={this.state.toDraw}
                   img={get_card(card1_json)}
-                  startX={BOARD_WIDTH / 2.0 + BOARD_WIDTH_FUDGE}
+                  startX={BOARD_WIDTH / 2.0 + width_coord_offset}
                   startY={BOARD_HEIGHT / 3.0 + TOP_BOARD_HEIGHT_FUDGE}
                 >
                 </Card>;
-    // TODO: Debug the script that ropes in these assets
-    var card2_json = getTestCardJson(20, 20, "Razorgor (Golden)");
-    var card2 = <Card key={"card2"}
-                  toDraw={this.state.toDraw}
-                  img={get_card(card2_json)}               
-                  startX={BOARD_WIDTH / 2.0 + BOARD_WIDTH_FUDGE}
-                  startY={2 * BOARD_HEIGHT / 3.0 + BOTTOM_BOARD_HEIGHT_FUDGE}
-                >
-                </Card>;
-    var card_arr = [];
-    card_arr.push(card1);
-    card_arr.push(card2);
+      card_arr.push(card1);
+    }
+    // var card1_json = getTestCardJson(10, 10, "Mecharoo");
+    // var card1 = <Card key={"card1"}
+    //               toDraw={this.state.toDraw}
+    //               img={get_card(card1_json)}
+    //               startX={BOARD_WIDTH / 2.0 + BOARD_WIDTH_FUDGE}
+    //               startY={BOARD_HEIGHT / 3.0 + TOP_BOARD_HEIGHT_FUDGE}
+    //             >
+    //             </Card>;
+    // // TODO: Debug the script that ropes in these assets
+    // var card2_json = getTestCardJson(20, 20, "Razorgor (Golden)");
+    // var card2 = <Card key={"card2"}
+    //               toDraw={this.state.toDraw}
+    //               img={get_card(card2_json)}               
+    //               startX={BOARD_WIDTH / 2.0 + BOARD_WIDTH_FUDGE}
+    //               startY={2 * BOARD_HEIGHT / 3.0 + BOTTOM_BOARD_HEIGHT_FUDGE}
+    //             >
+    //             </Card>;
+    // var card_arr = [];
+    // card_arr.push(card1);
+    // card_arr.push(card2);
     return card_arr;
   }
 

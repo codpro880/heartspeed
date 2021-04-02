@@ -1408,32 +1408,53 @@ class Rollout extends React.Component {
   }
 
   createBoard(frame, top_or_bot, frame_num) {
-    var card_jsons = top_or_bot == "TOP" ? frame[frame_num]["b2"] : frame[frame_num]["b1"];
+    var board_json = top_or_bot == "TOP" ? frame[frame_num]["b2"] : frame[frame_num]["b1"];
     // var mech_jsons = [];
     // for (var i = 0; i < 5; i++) {
     //   mech_jsons.push(getTestCardJson(10, 10, "Mecharoo"));
     // }
 
-    const HEIGHT_OFFSET = top_or_bot == "TOP" ? 1 : 2;
-    const BOARD_HEIGHT_FUDGE = top_or_bot == "TOP" ? TOP_BOARD_HEIGHT_FUDGE : BOTTOM_BOARD_HEIGHT_FUDGE;
-
     var card_arr = [];
-    var width_coord_start = -Math.floor(card_jsons.length / 2) * CARD_WIDTH_DELTA;
-    const WIDTH_COORD_START = (card_jsons.length % 2 === 0) ? (width_coord_start + CARD_WIDTH_DELTA / 2) : (width_coord_start);
-    for (var j = 0; j < card_jsons.length; j++) {
-      var card1_json = card_jsons[j];
-      const width_coord_offset = WIDTH_COORD_START + CARD_WIDTH_DELTA * j + BOARD_WIDTH_FUDGE;
-      // const {endX, endY} = this.getEndXAndEndY(frame, top_or_bot, frame_num);
+    for (var j = 0; j < board_json.length; j++) {
+      var card1_json = board_json[j];
+      const [startX, startY] = this.getAbsoluteXandY(board_json, j, top_or_bot);
+      //const {endX, endY} = this.getEndXAndEndY(frame, top_or_bot, frame_num);
       var card1 = <Card key={"card1"}
                   toDraw={this.state.toDraw}
                   img={get_card(card1_json)}
-                  startX={BOARD_WIDTH / 2.0 + width_coord_offset}
-                  startY={HEIGHT_OFFSET * BOARD_HEIGHT / 3.0 + BOARD_HEIGHT_FUDGE}
+                  startX={startX}
+                  startY={startY}
                 >
                 </Card>;
       card_arr.push(card1);
     }
     return card_arr;
+  }
+
+  // getEndXandEndY(frame, top_or_bot, frame_num) {
+  //   // If it's not the attacker, no animation occurs (for now), so get me outta here
+  //   if (top_or_bot === "TOP" && frame[frame_num]["b1_turn"]) return;
+  //   if (top_or_bot === "BOT" && !frame[frame_num]["b1_turn"]) return;
+
+  //   const def_board_str = frame[frame_num]["b1_turn"] ? "b1" : "b2";
+
+  //   var attacker_pos = frame_list[frame_num]['attacker_pos'];
+  //   var defender_pos = frame_list[frame_num]['defender_pos'];
+  //   var defender_board = frame_list[frame_num][def_board_str];
+  //   const [endX, endY] = this.getAbsoluteXandY(defender_board, defender_pos, top_or_bot);
+  //   return [endX, endY];
+  // }
+
+  getAbsoluteXandY(board_json, pos, top_or_bot) {
+    const HEIGHT_OFFSET = top_or_bot == "TOP" ? 1 : 2;
+    const BOARD_HEIGHT_FUDGE = top_or_bot == "TOP" ? TOP_BOARD_HEIGHT_FUDGE : BOTTOM_BOARD_HEIGHT_FUDGE;
+    var width_coord_start = -Math.floor(board_json.length / 2) * CARD_WIDTH_DELTA;
+    // Adjust start for even/odd # of cards
+    const WIDTH_COORD_START = (board_json.length % 2 === 0) ? (width_coord_start + CARD_WIDTH_DELTA / 2) : (width_coord_start);
+    const width_coord_offset = WIDTH_COORD_START + CARD_WIDTH_DELTA * pos + BOARD_WIDTH_FUDGE;
+    const startX = BOARD_WIDTH / 2.0 + width_coord_offset;
+    const startY = HEIGHT_OFFSET * BOARD_HEIGHT / 3.0 + BOARD_HEIGHT_FUDGE;
+    return [startX, startY];
   }
 
   createCards(frame) {

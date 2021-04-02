@@ -1368,8 +1368,8 @@ class Card extends React.Component {
       return (
               <Sprite
                 image={this.props.img}
-                height={70}
-                width={46}
+                height={75} // 70
+                width={50} // 46
                 {...motion}
              />
       )
@@ -1407,8 +1407,8 @@ class Rollout extends React.Component {
     this.setState({toDraw: !this.state.toDraw});
   }
 
-  createBoard(frame, top_or_bot) {
-    var card_jsons = top_or_bot == "TOP" ? frame[0]["b2"] : frame[0]["b1"];
+  createBoard(frame, top_or_bot, frame_num) {
+    var card_jsons = top_or_bot == "TOP" ? frame[frame_num]["b2"] : frame[frame_num]["b1"];
     // var mech_jsons = [];
     // for (var i = 0; i < 5; i++) {
     //   mech_jsons.push(getTestCardJson(10, 10, "Mecharoo"));
@@ -1423,6 +1423,7 @@ class Rollout extends React.Component {
     for (var j = 0; j < card_jsons.length; j++) {
       var card1_json = card_jsons[j];
       const width_coord_offset = WIDTH_COORD_START + CARD_WIDTH_DELTA * j + BOARD_WIDTH_FUDGE;
+      // const {endX, endY} = this.getEndXAndEndY(frame, top_or_bot, frame_num);
       var card1 = <Card key={"card1"}
                   toDraw={this.state.toDraw}
                   img={get_card(card1_json)}
@@ -1437,8 +1438,8 @@ class Rollout extends React.Component {
 
   createCards(frame) {
     frame = getTestCardFrames();
-    var top_board = this.createBoard(frame, "TOP");
-    var bot_board = this.createBoard(frame, "BOT");
+    var top_board = this.createBoard(frame, "TOP", 0);
+    var bot_board = this.createBoard(frame, "BOT", 0);
     var card_arr = top_board.concat(bot_board);
     return card_arr;
   }

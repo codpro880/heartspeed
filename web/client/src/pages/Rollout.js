@@ -1295,7 +1295,7 @@ function get_card(card_json) {
       	//"dbfId": 559,
       	"name": card_name,
       	// "text": "<b>Charge</b>. <b>Battlecry:</b> Summon two 1/1 Whelps for your opponent.",
-	// "text": card_text,
+	"text": card_text,
       	// "flavor": "At least he has Angry Chicken.",
       	// "artist": "Gabe from Penny Arcade",
       	"attack": card_json['attack'],
@@ -1398,6 +1398,8 @@ class Rollout extends React.Component {
     this.state = {
       toDraw: false,
       backgroundImage: process.env.PUBLIC_URL + "/assets/hearthstone_battle_phase_background.jpeg",
+      frames: getTestCardFrames(), // TODO: Get this dynamically
+      frameNum: 0,
     };
 
     // Are you serious, react...?
@@ -1406,19 +1408,30 @@ class Rollout extends React.Component {
     this.createBoard = this.createBoard.bind(this);
     this.getAbsoluteXandY = this.getAbsoluteXandY.bind(this);
     this.getEndXAndEndY = this.getEndXAndEndY.bind(this);
+    this.getNextFrame = this.getNextFrame.bind(this);
+    this.getPreviousFrame = this.getPreviousFrame.bind(this);
   }
 
   toggleAnimation() {
     this.setState({toDraw: !this.state.toDraw});
   }
 
-  createBoard(frame, top_or_bot, frame_num) {
-    var board_json = top_or_bot == "TOP" ? frame[frame_num]["b2"] : frame[frame_num]["b1"];
+  getNextFrame() {
+    this.setState({frameNum: Math.min(this.state.frameNum + 1, this.state.frames.length - 1)});
+  }
+
+  getPreviousFrame() {
+    this.setState({frameNum: Math.max(this.state.frameNum - 1, 0)});
+  }
+
+  createBoard(frame, top_or_bot) {
+    var board_json = top_or_bot == "TOP" ? frame["b2"] : frame["b1"];
+    if (board_json == null) return [];
     var card_arr = [];
     for (var j = 0; j < board_json.length; j++) {
       var card1_json = board_json[j];
       const [startX, startY] = this.getAbsoluteXandY(board_json, j, top_or_bot);
-      const end_x_and_y = this.getEndXAndEndY(frame[frame_num], top_or_bot, j);
+      const end_x_and_y = this.getEndXAndEndY(frame, top_or_bot, j);
       if (end_x_and_y === null) {
         var [endX, endY] = [startX, startY];
       }
@@ -1467,20 +1480,28 @@ class Rollout extends React.Component {
   }
 
   createCards(frame) {
-    frame = getTestCardFrames();
-    var top_board = this.createBoard(frame, "TOP", 0);
-    var bot_board = this.createBoard(frame, "BOT", 0);
+    var top_board = this.createBoard(frame, "TOP");    
+    var bot_board = this.createBoard(frame, "BOT");
     var card_arr = top_board.concat(bot_board);
     return card_arr;
   }
 
   render() {
-    const card_arr = this.createCards(null);
+    // debugger;
+    const frame = this.state.frames[this.state.frameNum];
+    // const frame = getTestCardFrames()[0];
+    const card_arr = this.createCards(frame);
     
     return (
       <>
       <button onClick={this.toggleAnimation}>
-          Toggle Animation
+          Animate Frame
+      </button>
+      <button onClick={this.getPreviousFrame}>
+          Previous Frame
+      </button>
+      <button onClick={this.getNextFrame}>
+          Next Frame
       </button>
       <Stage width={BOARD_WIDTH} height={BOARD_HEIGHT} options={{ transparent: true }}>
         <Container x={0} y={0}>

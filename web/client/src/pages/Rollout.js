@@ -1339,18 +1339,21 @@ class Card extends React.Component {
       const iter = useRef(0);
       useTick(delta => {
         const i = (iter.current += 0.05 * delta);
-        if (i > 20) {
+        const num_ticks = 20;
+        if (i > num_ticks) {
           // I have the feeling this is wasteful
           // TODO: Figure out how to stop calling the useTick hook
           //       after animation ends
           return;
         }
         if (this.props.toDraw) {
+          var slopeX = (this.props.endX - this.props.startX) / num_ticks;
+          var slopeY = (this.props.endY - this.props.startY) / num_ticks;
           update({
             type: 'update',
             data: {
-              x: this.props.startX + i,
-              y: this.props.startY + i,
+              x: this.props.startX + slopeX * i,
+              y: this.props.startY + slopeY * i,
             },
           })
         }
@@ -1401,6 +1404,8 @@ class Rollout extends React.Component {
     this.toggleAnimation = this.toggleAnimation.bind(this);
     this.createCards = this.createCards.bind(this);
     this.createBoard = this.createBoard.bind(this);
+    this.getAbsoluteXandY = this.getAbsoluteXandY.bind(this);
+    this.getEndXAndEndY = this.getEndXAndEndY.bind(this);
   }
 
   toggleAnimation() {
@@ -1409,21 +1414,24 @@ class Rollout extends React.Component {
 
   createBoard(frame, top_or_bot, frame_num) {
     var board_json = top_or_bot == "TOP" ? frame[frame_num]["b2"] : frame[frame_num]["b1"];
-    // var mech_jsons = [];
-    // for (var i = 0; i < 5; i++) {
-    //   mech_jsons.push(getTestCardJson(10, 10, "Mecharoo"));
-    // }
-
     var card_arr = [];
     for (var j = 0; j < board_json.length; j++) {
       var card1_json = board_json[j];
       const [startX, startY] = this.getAbsoluteXandY(board_json, j, top_or_bot);
-      //const {endX, endY} = this.getEndXAndEndY(frame, top_or_bot, frame_num);
+      const end_x_and_y = this.getEndXAndEndY(frame[frame_num], top_or_bot, j);
+      if (end_x_and_y === null) {
+        var [endX, endY] = [startX, startY];
+      }
+      else {
+        var [endX, endY] = end_x_and_y;
+      }
       var card1 = <Card key={"card1"}
                   toDraw={this.state.toDraw}
                   img={get_card(card1_json)}
                   startX={startX}
                   startY={startY}
+                  endX={endX}
+                  endY={endY}
                 >
                 </Card>;
       card_arr.push(card1);
@@ -1431,19 +1439,20 @@ class Rollout extends React.Component {
     return card_arr;
   }
 
-  // getEndXandEndY(frame, top_or_bot, frame_num) {
-  //   // If it's not the attacker, no animation occurs (for now), so get me outta here
-  //   if (top_or_bot === "TOP" && frame[frame_num]["b1_turn"]) return;
-  //   if (top_or_bot === "BOT" && !frame[frame_num]["b1_turn"]) return;
+  getEndXAndEndY(frame, top_or_bot, card_pos) {
+    // If it's not the attacker, no animation occurs (for now),
+    // so return original position and get out
+    if (frame['attacker_pos'] !== card_pos) return null;
+    if (top_or_bot === "TOP" && frame["b1_turn"]) return null;
+    if (top_or_bot === "BOT" && !frame["b1_turn"]) return null;
 
-  //   const def_board_str = frame[frame_num]["b1_turn"] ? "b1" : "b2";
-
-  //   var attacker_pos = frame_list[frame_num]['attacker_pos'];
-  //   var defender_pos = frame_list[frame_num]['defender_pos'];
-  //   var defender_board = frame_list[frame_num][def_board_str];
-  //   const [endX, endY] = this.getAbsoluteXandY(defender_board, defender_pos, top_or_bot);
-  //   return [endX, endY];
-  // }
+    const def_board_str = frame["b1_turn"] ? "b2" : "b1";
+    var defender_board = frame[def_board_str];
+    const defender_top_or_bot = top_or_bot == "BOT" ? "TOP" : "BOT";
+    const [endX, endY] = this.getAbsoluteXandY(defender_board, frame['defender_pos'], defender_top_or_bot);
+    // debugger;
+    return [endX, endY];
+  }
 
   getAbsoluteXandY(board_json, pos, top_or_bot) {
     const HEIGHT_OFFSET = top_or_bot == "TOP" ? 1 : 2;

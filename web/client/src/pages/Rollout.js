@@ -1,7 +1,9 @@
 import React, { useReducer, useRef } from 'react';
 
 import { Container, Stage, Sprite, useTick, } from '@inlet/react-pixi';
-import { Sunwell } from "../sunwell/MinifiedSunwell"
+// import { Sunwell } from "../sunwell/MinifiedSunwell"
+// import Sunwell from "../sunwell/MinifiedSunwell"
+import Sunwell from "../sunwell/sunwell_full/Sunwell.ts"
  
 function getTestCardJson(attack, health, name) {
     var json = {
@@ -1385,6 +1387,8 @@ class Card extends React.Component {
 
 const BOARD_WIDTH = 600;
 const BOARD_HEIGHT = 350;
+// const BOARD_WIDTH = 800;
+// const BOARD_HEIGHT = 500;
 const BOARD_WIDTH_FUDGE = -BOARD_WIDTH / 20.0; // -30 at 600x350
 const TOP_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 14.0; // -25 at 600x350
 const BOTTOM_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 5.0; // -70 at 600x350
@@ -1438,6 +1442,7 @@ class Rollout extends React.Component {
       else {
         var [endX, endY] = end_x_and_y;
       }
+      // debugger;
       var card1 = <Card key={"card1"}
                   toDraw={this.state.toDraw}
                   img={get_card(card1_json)}
@@ -1480,6 +1485,7 @@ class Rollout extends React.Component {
   }
 
   createCards(frame) {
+    // debugger;    
     var top_board = this.createBoard(frame, "TOP");    
     var bot_board = this.createBoard(frame, "BOT");
     var card_arr = top_board.concat(bot_board);

@@ -1373,8 +1373,8 @@ class Card extends React.Component {
       return (
               <Sprite
                 image={this.props.img}
-                height={75} // 70
-                width={50} // 46
+                height={100} // 70
+                width={75} // 46
                 {...motion}
              />
       )
@@ -1385,8 +1385,8 @@ class Card extends React.Component {
   }
 }
 
-const BOARD_WIDTH = 600;
-const BOARD_HEIGHT = 350;
+const BOARD_WIDTH = 600 * 2;
+const BOARD_HEIGHT = 350 * 2;
 // const BOARD_WIDTH = 800;
 // const BOARD_HEIGHT = 500;
 const BOARD_WIDTH_FUDGE = -BOARD_WIDTH / 20.0; // -30 at 600x350

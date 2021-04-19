@@ -14,15 +14,23 @@ export default class MinionCard extends Card {
 	};
 	public cardFoundationAsset = null;
 	public cardFoundationCoords = null;
-	public baseCardFrameAsset = "frame-minion-";
-	public baseCardFrameCoords = {
+	public baseCardFrameAsset = "inplay_minion";
+        public baseCardFrameCoords = {
 		sWidth: 528,
 		sHeight: 793,
-		dx: 70,
-		dy: 89,
+		dx: 35,
+		dy: 25,
 		dWidth: 528,
 		dHeight: 793,
 	};
+	// public baseCardFrameCoords = {
+	// 	sWidth: 528,
+	// 	sHeight: 793,
+	// 	dx: 70,
+	// 	dy: 89,
+	// 	dWidth: 528,
+	// 	dHeight: 793,
+	// };
 	public baseRarityGemAsset = "rarity-minion-";
 	public eliteDragonAsset = "elite-minion";
 	public eliteDragonCoords = {
@@ -33,7 +41,8 @@ export default class MinionCard extends Card {
 		sWidth: 436,
 		sHeight: 325,
 	};
-	public nameBannerAsset = "name-banner-minion";
+	// public nameBannerAsset = "name-banner-minion";
+        public nameBannerAsset = null;
 	public raceBannerAsset = "race-banner";
 	public rarityGemCoords = {dx: 263, dy: 532};
 	public nameBannerCoords = {

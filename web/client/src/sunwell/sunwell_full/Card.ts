@@ -288,8 +288,9 @@ export default abstract class Card {
 	}
 
 	public getCardFrameAsset(): string {
-		const cardClass = getCardFrameClass(this.cardDef.cardClass);
-		return this.baseCardFrameAsset + CardClass[cardClass].toLowerCase();
+		// const cardClass = getCardFrameClass(this.cardDef.cardClass);
+		// return this.baseCardFrameAsset + CardClass[cardClass].toLowerCase();
+                return "inplay_minion"
 	}
 
 	public getEliteDragonAsset(): string {

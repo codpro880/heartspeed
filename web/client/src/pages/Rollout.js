@@ -1314,7 +1314,7 @@ function get_card(card_json) {
       	// ],
       	"rarity": "COMMON",
       	// "set": "EXPERT1",
-      	"type": "MINION",
+      	"type": "MINION_ON_BOARD",
       	// "texture": "../assets/" + card_name + ".jpg"
         // "texture": process.env.PUBLIC_URL + "/assets/Mecharoo.png"
         "texture": asset_folder + card_name + ".jpg"

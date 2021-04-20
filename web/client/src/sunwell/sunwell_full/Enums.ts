@@ -74,4 +74,5 @@ export enum CardType {
 	SPELL = 5,
 	WEAPON = 7,
 	HERO_POWER = 10,
+        MINION_ON_BOARD = 11,
 }

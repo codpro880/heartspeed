@@ -42,17 +42,21 @@ export default class MinionCardOnBoard extends Card {
 		sHeight: 325,
 	};
 	// public nameBannerAsset = "name-banner-minion";
-        public nameBannerAsset = null;
+        public nameBannerAsset = null; // Remove name banner
+        public nameBannerCoords = null; // Remove name itself
 	public raceBannerAsset = "race-banner";
-	public rarityGemCoords = {dx: 263, dy: 532};
-	public nameBannerCoords = {
-		sWidth: 485,
-		sHeight: 113,
-		dx: 96,
-		dy: 469,
-		dWidth: 485,
-		dHeight: 113,
-	};
+        // public raceBannerAsset = null;
+	// public rarityGemCoords = {dx: 263, dy: 532};
+        public rarityGemCoords = null;
+	// public nameBannerCoords = {
+	// 	sWidth: 485,
+	// 	sHeight: 113,
+	// 	dx: 96,
+	// 	dy: 469,
+	// 	dWidth: 485,
+	// 	dHeight: 113,
+	// };
+        // public nameTextCurve = null;
 	public nameTextCurve = {
 		pathMiddle: 0.55,
 		maxWidth: 450,
@@ -116,7 +120,8 @@ export default class MinionCardOnBoard extends Card {
 	}
 
 	public getHealthTextCoords() {
-		return {dx: 556, dy: 825};
+		// return {dx: 556, dy: 825};
+                return {dx: 556, dy: 600};
 	}
 
 	public getAttackGemAsset() {
@@ -125,6 +130,20 @@ export default class MinionCardOnBoard extends Card {
 
 	public getHealthGemAsset() {
 		return "health";
+	}
+
+        // Overload, removes mana/cost gem
+        public getCostGemAsset(): string {
+                return "";
+        }
+
+        // Overload, removes rarity gem
+        public getRarityGemAsset(): string {
+                return "";
+        }
+
+	public getCostTextCoords() : ICoords {
+		return null;
 	}
 
 	public getWatermarkCoords() {

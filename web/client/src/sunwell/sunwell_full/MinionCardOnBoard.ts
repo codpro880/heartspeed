@@ -44,8 +44,8 @@ export default class MinionCardOnBoard extends Card {
 	// public nameBannerAsset = "name-banner-minion";
         public nameBannerAsset = null; // Remove name banner
         public nameBannerCoords = null; // Remove name itself
-	public raceBannerAsset = "race-banner";
-        // public raceBannerAsset = null;
+	// public raceBannerAsset = "race-banner";
+        public raceBannerAsset = null;
 	// public rarityGemCoords = {dx: 263, dy: 532};
         public rarityGemCoords = null;
 	// public nameBannerCoords = {
@@ -56,12 +56,12 @@ export default class MinionCardOnBoard extends Card {
 	// 	dWidth: 485,
 	// 	dHeight: 113,
 	// };
-        // public nameTextCurve = null;
-	public nameTextCurve = {
-		pathMiddle: 0.55,
-		maxWidth: 450,
-		curve: [{x: 0, y: 88}, {x: 98, y: 112}, {x: 294, y: 13}, {x: 460, y: 80}],
-	};
+        public nameTextCurve = null;
+	// public nameTextCurve = {
+	// 	pathMiddle: 0.55,
+	// 	maxWidth: 450,
+	// 	curve: [{x: 0, y: 88}, {x: 98, y: 112}, {x: 294, y: 13}, {x: 460, y: 80}],
+	// };
 	public artCoords: ICoords = {
 		sWidth: 461,
 		sHeight: 461,

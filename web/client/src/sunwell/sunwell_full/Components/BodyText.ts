@@ -50,6 +50,7 @@ function finishLine(
 
 export default class BodyText extends Component {
 	public render(context: CanvasRenderingContext2D, ratio: number): void {
+                if (this.parent.bodyTextCoords == null) return;
 		this.drawBodyText(context, ratio, false);
 	}
 

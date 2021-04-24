@@ -3,15 +3,17 @@ import {ICoords} from "./interfaces";
 
 export default class MinionCardOnBoard extends Card {
 	public premium = false;
-	public bodyTextColor = "black";
-	public bodyTextCoords = {
-		dx: 130,
-		dy: 622,
-		dWidth: 408,
-		dHeight: 176,
-		sWidth: 408,
-		sHeight: 176,
-	};
+	// public bodyTextColor = "black";
+        public bodyTextColor = null;
+	// public bodyTextCoords = {
+	// 	dx: 130,
+	// 	dy: 622,
+	// 	dWidth: 408,
+	// 	dHeight: 176,
+	// 	sWidth: 408,
+	// 	sHeight: 176,
+	// };
+        public bodyTextCoords = null;
 	public cardFoundationAsset = null;
 	public cardFoundationCoords = null;
 	public baseCardFrameAsset = "inplay_minion";
@@ -125,11 +127,11 @@ export default class MinionCardOnBoard extends Card {
 	}
 
 	public getAttackGemAsset() {
-		return "attack-minion";
+		return "";
 	}
 
 	public getHealthGemAsset() {
-		return "health";
+		return "";
 	}
 
         // Overload, removes mana/cost gem

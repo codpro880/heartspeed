@@ -110,6 +110,10 @@ export default class MinionCardOnBoard extends Card {
 		return {dx: 125, dy: 824};
 	}
 
+        public getGemTextSize() : number {
+               return 80;
+        }
+
 	public getHealthGemCoords() {
 		return {
 			sWidth: 109,
@@ -123,7 +127,7 @@ export default class MinionCardOnBoard extends Card {
 
 	public getHealthTextCoords() {
 		// return {dx: 556, dy: 825};
-                return {dx: 556, dy: 600};
+                return {dx: 455, dy: 515};
 	}
 
 	public getAttackGemAsset() {

@@ -127,6 +127,10 @@ export default abstract class Card {
 		return null;
 	}
 
+        public getGemTextSize(): number {
+               return 124;
+        }
+
 	public getCostGemCoords(): ICoords {
 		if (this.cardDef.costsHealth) {
 			return {dx: 43, dy: 58};

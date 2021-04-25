@@ -107,7 +107,7 @@ export default class MinionCardOnBoard extends Card {
 	}
 
 	public getAttackTextCoords() {
-		return {dx: 125, dy: 824};
+                return {dx: 210, dy: 515};
 	}
 
         public getGemTextSize() : number {

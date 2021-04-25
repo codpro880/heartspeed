@@ -1373,8 +1373,8 @@ class Card extends React.Component {
       return (
               <Sprite
                 image={this.props.img}
-                height={100} // 70
-                width={75} // 46
+                height={225} // 70
+                width={150} // 46
                 {...motion}
              />
       )
@@ -1390,8 +1390,11 @@ const BOARD_HEIGHT = 350 * 2;
 // const BOARD_WIDTH = 800;
 // const BOARD_HEIGHT = 500;
 const BOARD_WIDTH_FUDGE = -BOARD_WIDTH / 20.0; // -30 at 600x350
-const TOP_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 14.0; // -25 at 600x350
-const BOTTOM_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 5.0; // -70 at 600x350
+// const TOP_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 14.0; // -25 at 600x350
+const TOP_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 12.0; // -25 at 600x350
+// const BOTTOM_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 5.0; // -70 at 600x350
+const BOTTOM_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 4.5; // -70 at 600x350
+const CENTERING_FUDGE_FACTOR = -BOARD_WIDTH / 40.0; // Board image is not quite symetric (e.g. hero portrait not quite centered)
 const CARD_WIDTH_DELTA = BOARD_WIDTH / 10.0;
 const MAX_NUM_CARDS = 7;
 
@@ -1475,7 +1478,7 @@ class Rollout extends React.Component {
   getAbsoluteXandY(board_json, pos, top_or_bot) {
     const HEIGHT_OFFSET = top_or_bot == "TOP" ? 1 : 2;
     const BOARD_HEIGHT_FUDGE = top_or_bot == "TOP" ? TOP_BOARD_HEIGHT_FUDGE : BOTTOM_BOARD_HEIGHT_FUDGE;
-    var width_coord_start = -Math.floor(board_json.length / 2) * CARD_WIDTH_DELTA;
+    var width_coord_start = -Math.floor(board_json.length / 2) * CARD_WIDTH_DELTA + CENTERING_FUDGE_FACTOR;
     // Adjust start for even/odd # of cards
     const WIDTH_COORD_START = (board_json.length % 2 === 0) ? (width_coord_start + CARD_WIDTH_DELTA / 2) : (width_coord_start);
     const width_coord_offset = WIDTH_COORD_START + CARD_WIDTH_DELTA * pos + BOARD_WIDTH_FUDGE;

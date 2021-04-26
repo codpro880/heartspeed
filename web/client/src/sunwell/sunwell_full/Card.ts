@@ -127,6 +127,10 @@ export default abstract class Card {
 		return null;
 	}
 
+        public getGemTextSize(): number {
+               return 124;
+        }
+
 	public getCostGemCoords(): ICoords {
 		if (this.cardDef.costsHealth) {
 			return {dx: 43, dy: 58};
@@ -288,8 +292,9 @@ export default abstract class Card {
 	}
 
 	public getCardFrameAsset(): string {
-		const cardClass = getCardFrameClass(this.cardDef.cardClass);
-		return this.baseCardFrameAsset + CardClass[cardClass].toLowerCase();
+		// const cardClass = getCardFrameClass(this.cardDef.cardClass);
+		// return this.baseCardFrameAsset + CardClass[cardClass].toLowerCase();
+                return "inplay_minion"
 	}
 
 	public getEliteDragonAsset(): string {

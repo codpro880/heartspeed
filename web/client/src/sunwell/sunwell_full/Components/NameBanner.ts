@@ -34,6 +34,7 @@ export default class NameBanner extends Component {
 	}
 
 	public render(context: CanvasRenderingContext2D, ratio: number) {
+                if (this.parent.nameTextCurve == null) return;
 		if (this.parent.nameBannerAsset) {
 			const coords = this.parent.nameBannerCoords;
 			coords.ratio = ratio;

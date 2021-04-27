@@ -1,8 +1,6 @@
 import React, { useReducer, useRef } from 'react';
 
 import { Container, Stage, Sprite, useTick, } from '@inlet/react-pixi';
-// import { Sunwell } from "../sunwell/MinifiedSunwell"
-// import Sunwell from "../sunwell/MinifiedSunwell"
 import Sunwell from "../sunwell/sunwell_full/Sunwell.ts"
  
 function getTestCardJson(attack, health, name) {
@@ -1308,6 +1306,7 @@ function get_card(card_json) {
       	// "elite": true,
       	"faction": "ALLIANCE",
       	"health": card_json['health'],
+        "divineShield": card_json['has_divine_shield'],
       	// "mechanics": [
       	// 	"BATTLECRY",
       	// 	"CHARGE"
@@ -1315,6 +1314,7 @@ function get_card(card_json) {
       	"rarity": "COMMON",
       	// "set": "EXPERT1",
       	"type": "MINION_ON_BOARD",
+        // "silenced": true,
       	// "texture": "../assets/" + card_name + ".jpg"
         // "texture": process.env.PUBLIC_URL + "/assets/Mecharoo.png"
         "texture": asset_folder + card_name + ".jpg"

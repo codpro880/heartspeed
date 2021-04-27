@@ -195,6 +195,10 @@ export default abstract class Card {
 		if (this.cardDef.silenced) {
 			assetsToLoad.push("silence-x");
 		}
+                if (this.cardDef.divineShield) {                        
+                        assetsToLoad.push("inplay_minion_divine_shield");
+                }
+                
 
 		return assetsToLoad;
 	}
@@ -268,6 +272,9 @@ export default abstract class Card {
 		if (this.cardDef.silenced) {
 			this.sunwell.drawImage(context, "silence-x", {dx: 166, dy: 584, ratio: ratio});
 		}
+                if (this.cardDef.divineShield) {
+                        this.sunwell.drawImage(context, "inplay_minion_divine_shield", {dx: 30, dy: 20, ratio: ratio});
+                }
 
 		context.restore();
 		clearTimeout(drawTimeout);

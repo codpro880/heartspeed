@@ -9,6 +9,7 @@ export default class CardDef {
 	public collectionText: string;
 	public cost: number;
 	public costsHealth: boolean;
+        public divineShield: boolean;
 	public elite: boolean;
 	public health: number;
 	public hideStats: boolean;
@@ -28,6 +29,7 @@ export default class CardDef {
 		this.cardSet = cleanEnum(props.set, CardSet) as CardSet;
 		this.cost = props.cost || 0;
 		this.costsHealth = props.costsHealth || false;
+                this.divineShield = props.divineShield || false;
 		this.elite = props.elite || false;
 		this.health = props.health || 0;
 		this.hideStats = props.hideStats || false;

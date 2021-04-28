@@ -85,6 +85,7 @@ public:
                              "['BATTLECRY']", "ALL", "", 6, "MINION") {}
     virtual void do_battlecry(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Amalgadon>(*this); } // boilerplate that every drattle needs...
+    bool has_deathrattle() const override;
 };
 
 class AmalgadonGolden : public BattlecryCard {
@@ -93,6 +94,7 @@ public:
                                    "['BATTLECRY']", "ALL", "", 6, "MINION") {}
     virtual void do_battlecry(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<AmalgadonGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_deathrattle() const override;
 private:
     Amalgadon am;
 };

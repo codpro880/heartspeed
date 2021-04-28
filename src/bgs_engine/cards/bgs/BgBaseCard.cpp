@@ -63,7 +63,7 @@ void BgBaseCard::adapt(std::string _test_adapt) {
     else {
         throw std::runtime_error("Unknown adapt");
     }
-    adapt_count++;
+    adapt_list.push_back(adaptation);
 }
 
 void BgBaseCard::do_deathrattle(Player* p1, Player* p2) {

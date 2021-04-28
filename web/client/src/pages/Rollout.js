@@ -1308,7 +1308,7 @@ function get_card(card_json) {
       	"health": card_json['health'],
         "deathrattle": card_json['has_deathrattle'],
         "divineShield": card_json['has_divine_shield'],
-        "hasTriggeredEffect": true,
+        "hasTriggeredEffect": card_json['has_triggered_effect'],
       	// "mechanics": [
       	// 	"BATTLECRY",
       	// 	"CHARGE"

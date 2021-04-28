@@ -10,6 +10,7 @@ export default class CardDef {
 	public cost: number;
 	public costsHealth: boolean;
         public divineShield: boolean;
+        public hasTriggeredEffect: boolean;
 	public elite: boolean;
 	public health: number;
 	public hideStats: boolean;
@@ -30,6 +31,7 @@ export default class CardDef {
 		this.cost = props.cost || 0;
 		this.costsHealth = props.costsHealth || false;
                 this.divineShield = props.divineShield || false;
+                this.hasTriggeredEffect = props.hasTriggeredEffect || false;
 		this.elite = props.elite || false;
 		this.health = props.health || 0;
 		this.hideStats = props.hideStats || false;

@@ -198,6 +198,9 @@ export default abstract class Card {
                 if (this.cardDef.divineShield) {                        
                         assetsToLoad.push("inplay_minion_divine_shield");
                 }
+                if (this.cardDef.hasTriggeredEffect) {                        
+                        assetsToLoad.push("icon_trigger");
+                }
                 
 
 		return assetsToLoad;
@@ -274,6 +277,9 @@ export default abstract class Card {
 		}
                 if (this.cardDef.divineShield) {
                         this.sunwell.drawImage(context, "inplay_minion_divine_shield", {dx: 30, dy: 20, ratio: ratio});
+                }
+                if (this.cardDef.hasTriggeredEffect) {
+                        this.sunwell.drawImage(context, "icon_trigger", {dx: 30, dy: 20, ratio: ratio});
                 }
 
 		context.restore();

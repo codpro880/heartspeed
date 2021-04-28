@@ -1307,6 +1307,7 @@ function get_card(card_json) {
       	"faction": "ALLIANCE",
       	"health": card_json['health'],
         "divineShield": card_json['has_divine_shield'],
+        "hasTriggeredEffect": true,
       	// "mechanics": [
       	// 	"BATTLECRY",
       	// 	"CHARGE"

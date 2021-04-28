@@ -1306,12 +1306,14 @@ function get_card(card_json) {
       	// "elite": true,
       	"faction": "ALLIANCE",
       	"health": card_json['health'],
+        "deathrattle": card_json['has_deathrattle'],
         "divineShield": card_json['has_divine_shield'],
         "hasTriggeredEffect": true,
       	// "mechanics": [
       	// 	"BATTLECRY",
       	// 	"CHARGE"
       	// ],
+        "poisonous": card_json['has_poison'],
       	"rarity": "COMMON",
       	// "set": "EXPERT1",
       	"type": "MINION_ON_BOARD",

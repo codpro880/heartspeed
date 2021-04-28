@@ -9,6 +9,7 @@ export default class CardDef {
 	public collectionText: string;
 	public cost: number;
 	public costsHealth: boolean;
+        public deathrattle: boolean;
         public divineShield: boolean;
         public hasTriggeredEffect: boolean;
 	public elite: boolean;
@@ -17,6 +18,7 @@ export default class CardDef {
 	public id: string;
 	public name: string;
 	public multiClassGroup: MultiClassGroup;
+        public poisonous: boolean;
 	public rarity: Rarity;
 	public race: Race;
 	public silenced: boolean;
@@ -30,6 +32,7 @@ export default class CardDef {
 		this.cardSet = cleanEnum(props.set, CardSet) as CardSet;
 		this.cost = props.cost || 0;
 		this.costsHealth = props.costsHealth || false;
+                this.deathrattle = props.deathrattle || false;
                 this.divineShield = props.divineShield || false;
                 this.hasTriggeredEffect = props.hasTriggeredEffect || false;
 		this.elite = props.elite || false;
@@ -37,6 +40,7 @@ export default class CardDef {
 		this.hideStats = props.hideStats || false;
 		this.multiClassGroup = cleanEnum(props.multiClassGroup, MultiClassGroup) as MultiClassGroup;
 		this.name = props.name || "";
+                this.poisonous = props.poisonous || false;
 		this.race = cleanEnum(props.race, Race) as Race;
 		this.rarity = cleanEnum(props.rarity, Rarity) as Rarity;
 		this.silenced = props.silenced || false;

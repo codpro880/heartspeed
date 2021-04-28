@@ -192,15 +192,21 @@ export default abstract class Card {
 		assetsToLoad.push(...this.watermark.assets());
 		assetsToLoad.push(...this.eliteDragon.assets());
 
-		if (this.cardDef.silenced) {
-			assetsToLoad.push("silence-x");
-		}
+                if (this.cardDef.deathrattle) {                        
+                        assetsToLoad.push("icon_deathrattle");
+                }
                 if (this.cardDef.divineShield) {                        
                         assetsToLoad.push("inplay_minion_divine_shield");
                 }
                 if (this.cardDef.hasTriggeredEffect) {                        
                         assetsToLoad.push("icon_trigger");
                 }
+                if (this.cardDef.poisonous) {                        
+                        assetsToLoad.push("icon_poisonous");
+                }
+                if (this.cardDef.silenced) {
+			assetsToLoad.push("silence-x");
+		}
                 
 
 		return assetsToLoad;
@@ -275,12 +281,19 @@ export default abstract class Card {
 		if (this.cardDef.silenced) {
 			this.sunwell.drawImage(context, "silence-x", {dx: 166, dy: 584, ratio: ratio});
 		}
+                if (this.cardDef.deathrattle) {
+                        this.sunwell.drawImage(context, "icon_deathrattle", {dx: 30, dy: 20, ratio: ratio});
+                }
                 if (this.cardDef.divineShield) {
                         this.sunwell.drawImage(context, "inplay_minion_divine_shield", {dx: 30, dy: 20, ratio: ratio});
                 }
                 if (this.cardDef.hasTriggeredEffect) {
                         this.sunwell.drawImage(context, "icon_trigger", {dx: 30, dy: 20, ratio: ratio});
                 }
+                if (this.cardDef.poisonous) {
+                        this.sunwell.drawImage(context, "icon_poisonous", {dx: 30, dy: 20, ratio: ratio});
+                }
+                
 
 		context.restore();
 		clearTimeout(drawTimeout);

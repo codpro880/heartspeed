@@ -129,6 +129,7 @@ public:
     bool has_divine_shield() const { return divine_shield; }
     virtual bool has_deathrattle() const { return mechanics.find("DEATHRATTLE") != std::string::npos; }
     bool has_poison() const { return is_poison; }
+    virtual bool has_triggered_effect() const { return false; } // Mostly for rendering...
     bool has_taunt() const {
         return _has_taunt || mechanics.find("TAUNT") != std::string::npos;
     }
@@ -232,7 +233,7 @@ public:
         j["has_poison"] = has_poison();
         j["has_reborn"] = has_reborn();
         j["has_taunt"] = has_taunt();
-        // j["has_triggered_effect"] = has_triggered_effect(); // Convenience for rendering
+        j["has_triggered_effect"] = has_triggered_effect(); // Convenience for rendering
         j["has_windfury"] = has_windfury();
 
         return j;

@@ -98,33 +98,13 @@ public:
             j[frame_ind]["attacker_pos"] = bres.attacker_pos[frame_ind];
             j[frame_ind]["defender_pos"] = bres.defender_pos[frame_ind];
             for (auto card : board1.get_cards()) {
-                j[frame_ind]["b1"][card_ind]["name"] = card->get_name();
-                j[frame_ind]["b1"][card_ind]["attack"] = card->get_attack();
-                j[frame_ind]["b1"][card_ind]["health"] = card->get_health();
-                j[frame_ind]["b1"][card_ind]["has_divine_shield"] = card->has_divine_shield();
-                j[frame_ind]["b1"][card_ind]["has_taunt"] = card->has_taunt();
-                // TODO: Add this in
-                // j[frame_ind]["b1"][card_ind]["has_replicating_menace_magnetic"] = card->has_replicating_menace_magnetic();
-                j[frame_ind]["b1"][card_ind]["has_reborn"] = card->has_reborn();
-                j[frame_ind]["b1"][card_ind]["has_cleave"] = card->has_cleave();
-                j[frame_ind]["b1"][card_ind]["has_windfury"] = card->has_windfury();
-                j[frame_ind]["b1"][card_ind]["has_poison"] = card->has_poison();
+                j[frame_ind]["b1"][card_ind] = card->to_json();
                 card_ind++;
             }
             auto board2 = frame.second;
             card_ind = 0;
             for (auto card : board2.get_cards()) {
-                j[frame_ind]["b2"][card_ind]["name"] = card->get_name();
-                j[frame_ind]["b2"][card_ind]["attack"] = card->get_attack();
-                j[frame_ind]["b2"][card_ind]["health"] = card->get_health();
-                j[frame_ind]["b2"][card_ind]["has_divine_shield"] = card->has_divine_shield();
-                j[frame_ind]["b2"][card_ind]["has_taunt"] = card->has_taunt();
-                // TODO: Add this in
-                // j[frame_ind]["b2"][card_ind]["has_replicating_menace_magnetic"] = card->has_replicating_menace_magnetic();
-                j[frame_ind]["b2"][card_ind]["has_reborn"] = card->has_reborn();
-                j[frame_ind]["b2"][card_ind]["has_cleave"] = card->has_cleave();
-                j[frame_ind]["b2"][card_ind]["has_windfury"] = card->has_windfury();
-                j[frame_ind]["b2"][card_ind]["has_poison"] = card->has_poison();
+                j[frame_ind]["b2"][card_ind] = card->to_json();
                 card_ind++;
             }
             frame_ind++;

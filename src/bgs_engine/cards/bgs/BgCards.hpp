@@ -137,6 +137,7 @@ public:
                              "['TRIGGER_VISUAL']", "DEMON", "EPIC", 3, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Bigfernal>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class BigfernalGolden : public PermenantBattleStatsCard {
@@ -145,6 +146,7 @@ public:
                                    "['TRIGGER_VISUAL']", "DEMON", "EPIC", 3, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<BigfernalGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     Bigfernal cf;
 };
@@ -171,6 +173,7 @@ public:
                               "['TRIGGER_VISUAL']", "PIRATE", "", 5, "MINION") {}
     void card_bought_trigger(Player*, std::shared_ptr<BgBaseCard>) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<CapnHoggarr>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class CapnHoggarrGolden : public PirateCard {
@@ -179,6 +182,7 @@ public:
                                     "['TRIGGER_VISUAL']", "PIRATE", "", 5, "MINION") {}
     void card_bought_trigger(Player*, std::shared_ptr<BgBaseCard>) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<CapnHoggarrGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class ChampionOfYshaarj : public PermenantBattleStatsCard {
@@ -186,6 +190,7 @@ public:
     ChampionOfYshaarj() : BgBaseCard(2, "NEUTRAL", 4, 2,  "Champion of Y'Shaarj",
                                      "['TRIGGER_VISUAL']", "NEUTRAL", "", 4, "MINION") {}    
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ChampionOfYshaarj>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class ChampionOfYshaarjGolden : public PermenantBattleStatsCard {
@@ -193,6 +198,7 @@ public:
     ChampionOfYshaarjGolden() : BgBaseCard(4, "NEUTRAL", 4, 4,  "Champion of Y'Shaarj (Golden)",
                                            "['TRIGGER_VISUAL']", "NEUTRAL", "", 4, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ChampionOfYshaarjGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     ChampionOfYshaarj cf;
 };
@@ -203,6 +209,7 @@ public:
                                    "['TRIGGER_VISUAL']", "DRAGON", "COMMON", 4, "MINION") {}
     virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<CobaltScalebane>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class CobaltScalebaneGolden : public BgBaseCard {
@@ -211,6 +218,7 @@ public:
                                          "['TRIGGER_VISUAL']", "DRAGON", "COMMON", 4, "MINION") {}
     virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<CobaltScalebaneGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 
@@ -290,6 +298,7 @@ public:
     DreadAdmiralEliza() : BgBaseCard(6, "NEUTRAL", 6, 7, "Dread Admiral Eliza",
                                      "['TRIGGER_VISUAL']", "PIRATE", "", 6, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<DreadAdmiralEliza>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class DreadAdmiralElizaGolden : public PirateCard {
@@ -297,6 +306,7 @@ public:
     DreadAdmiralElizaGolden() : BgBaseCard(12, "NEUTRAL", 6, 14, "Dread Admiral Eliza (Golden)",
                                            "['TRIGGER_VISUAL']", "PIRATE", "", 6, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<DreadAdmiralElizaGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class FacelessTaverngoer : public TargetedBattlecryCard {
@@ -402,6 +412,7 @@ public:
                               Player* p1,
                               Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<GlyphGuardian>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class GlyphGuardianGolden : public BgBaseCard {
@@ -412,6 +423,7 @@ public:
                               Player* p1,
                               Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<GlyphGuardianGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     GlyphGuardian coiler;
 };
@@ -422,6 +434,7 @@ public:
                                "['TRIGGER_VISUAL']", "PIRATE", "", 4, "MINION") {}
     virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Goldgrubber>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class GoldgrubberGolden : public BgBaseCard {
@@ -430,6 +443,7 @@ public:
                                      "['TRIGGER_VISUAL']", "PIRATE", "", 4, "MINION") {}
     virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<GoldgrubberGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class Goldrinn : public DeathrattleCard {
@@ -475,6 +489,7 @@ public:
                                 "['TRIGGER_VISUAL']", "DRAGON", "", 3, "MINION") {}
     virtual void start_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<HangryDragon>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class HangryDragonGolden : public BgBaseCard {
@@ -483,6 +498,7 @@ public:
                                       "['TRIGGER_VISUAL']", "DRAGON", "", 3, "MINION") {}
     virtual void start_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<HangryDragonGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class HeraldOfFlame : public BgBaseCard {
@@ -494,6 +510,7 @@ public:
                                Player* p1,
                                Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<HeraldOfFlame>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class HeraldOfFlameGolden : public BgBaseCard {
@@ -505,6 +522,7 @@ public:
                                Player* p1,
                                Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<HeraldOfFlameGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class Houndmaster : public TargetedBattlecryCard {
@@ -535,6 +553,7 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ImpGangBoss>(*this); } // boilerplate that every drattle needs...
     std::shared_ptr<BgBaseCard> summon() override;
     void take_damage(int damage, std::string who_from_race, Player* p1, Player* p2) override;
+    bool has_triggered_effect() const override { return true; }
 };
 
 class ImpGangBossGolden : public BgBaseCard {
@@ -544,6 +563,7 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ImpGangBossGolden>(*this); } // boilerplate that every drattle needs...
     std::shared_ptr<BgBaseCard> summon() override;
     void take_damage(int damage, std::string who_from_race, Player* p1, Player* p2) override;
+    bool has_triggered_effect() const override { return true; }
 };
 
 class ImpMama : public BgBaseCard {
@@ -553,6 +573,7 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ImpMama>(*this); } // boilerplate that every drattle needs...
     std::shared_ptr<BgBaseCard> summon() override;
     void take_damage(int damage, std::string who_from_race, Player* p1, Player* p2) override;
+    bool has_triggered_effect() const override { return true; }
 };
 
 class ImpMamaGolden : public BgBaseCard {
@@ -562,6 +583,7 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ImpMamaGolden>(*this); } // boilerplate that every drattle needs...
     std::shared_ptr<BgBaseCard> summon() override;
     void take_damage(int damage, std::string who_from_race, Player* p1, Player* p2) override;
+    bool has_triggered_effect() const override { return true; }
 private:
     ImpMama imp_mama;
 };
@@ -613,6 +635,7 @@ public:
                                Player* p2) override;
     std::shared_ptr<BgBaseCard> summon() override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<IronhideDirehorn>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class IronhideDirehornGolden : public BgBaseCard {
@@ -625,6 +648,7 @@ public:
                                Player* p2) override;
     std::shared_ptr<BgBaseCard> summon() override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<IronhideDirehornGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class IronSensei : public BgBaseCard {
@@ -633,6 +657,7 @@ public:
                               "['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 2, "MINION") {}
     virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<IronSensei>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class IronSenseiGolden : public BgBaseCard {
@@ -641,6 +666,7 @@ public:
                                     "['TRIGGER_VISUAL']", "MECHANICAL", "RARE", 3, "MINION") {}
     virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<IronSenseiGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class Junkbot : public BgBaseCard {
@@ -652,6 +678,7 @@ public:
                                std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
                                std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;    
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Junkbot>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class JunkbotGolden : public BgBaseCard {
@@ -663,6 +690,7 @@ public:
                                std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
                                std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<JunkbotGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     Junkbot junk_bot;
 };
@@ -691,6 +719,7 @@ public:
                             "['TRIGGER_VISUAL']", "DRAGON", "", 6, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Kalecgos>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class KalecgosGolden : public BgBaseCard {
@@ -699,6 +728,7 @@ public:
                                   "['TRIGGER_VISUAL']", "DRAGON", "", 6, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<KalecgosGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     Kalecgos k;
 };
@@ -770,6 +800,7 @@ public:
                                   "", "ELEMENTAL", "", 6, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<LieutenantGarr>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class LieutenantGarrGolden : public BgBaseCard {
@@ -778,6 +809,7 @@ public:
                                         "", "ELEMENTAL", "", 6, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<LieutenantGarrGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     LieutenantGarr lt;
 };
@@ -788,6 +820,7 @@ public:
                                      "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION") {}
     virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<LightfangEnforcer>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class LightfangEnforcerGolden : public BgBaseCard {
@@ -796,6 +829,7 @@ public:
                                            "['TRIGGER_VISUAL']", "", "EPIC", 5, "MINION") {}
     virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<LightfangEnforcerGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class LilRag : public BgBaseCard {
@@ -804,6 +838,7 @@ public:
                           "", "ELEMENTAL", "", 6, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<LilRag>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class LilRagGolden : public BgBaseCard {
@@ -812,6 +847,7 @@ public:
                                 "", "ELEMENTAL", "", 6, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<LilRagGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     LilRag lr;
 };
@@ -834,6 +870,7 @@ public:
                                      "", "", "", 4, "MINION") {}
     virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MajordomoExecutus>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class MajordomoExecutusGolden : public BgBaseCard {
@@ -842,6 +879,7 @@ public:
                                            "", "", "", 4, "MINION") {}
     virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MajordomoExecutusGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     MajordomoExecutus majordomo;
 };
@@ -872,6 +910,7 @@ public:
                             "['TRIGGER_VISUAL']", "BEAST", "EPIC", 5, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MamaBear>(*this); } // boilerplate that every drattle needs...
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
+    bool has_triggered_effect() const override { return true; }
 };
 
 class MamaBearGolden : public BgBaseCard {
@@ -880,6 +919,7 @@ public:
                                   "['TRIGGER_VISUAL']", "BEAST", "EPIC", 6, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MamaBearGolden>(*this); } // boilerplate that every drattle needs...
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
+    bool has_triggered_effect() const override { return true; }
 private:
     MamaBear pl;
 };
@@ -961,6 +1001,7 @@ public:
                                 "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION") {}
     virtual void start_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MicroMachine>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class MicroMachineGolden : public BgBaseCard {
@@ -969,6 +1010,7 @@ public:
                                       "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION") {}
     virtual void start_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MicroMachineGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class MicroMummy : public BgBaseCard {
@@ -977,6 +1019,7 @@ public:
                               "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION") {}
     virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MicroMummy>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class MicroMummyGolden : public BgBaseCard {
@@ -985,6 +1028,7 @@ public:
                                     "['TRIGGER_VISUAL']", "MECHANICAL", "COMMON", 1, "MINION") {}
     virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MicroMummyGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class MoltenRock : public BgBaseCard {
@@ -993,6 +1037,7 @@ public:
                               "['TAUNT']", "ELEMENTAL", "", 2, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MoltenRock>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class MoltenRockGolden : public BgBaseCard {
@@ -1001,6 +1046,7 @@ public:
                                     "['TAUNT']", "ELEMENTAL", "", 2, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MoltenRockGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     MoltenRock cf;
 };
@@ -1013,6 +1059,7 @@ public:
                               Player* p1,
                               Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MonstrousMacaw>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class MonstrousMacawGolden : public BgBaseCard {
@@ -1023,6 +1070,7 @@ public:
                               Player* p1,
                               Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MonstrousMacawGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     MonstrousMacaw macaw;
 };
@@ -1033,6 +1081,7 @@ public:
                                     "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MurlocTidecaller>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class MurlocTidecallerGolden : public BgBaseCard {
@@ -1041,6 +1090,7 @@ public:
                                           "['TRIGGER_VISUAL']", "MURLOC", "RARE", 1, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MurlocTidecallerGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class MurlocTidehunter : public BattlecryCard {
@@ -1104,6 +1154,7 @@ public:
                                      "['TRIGGER_VISUAL']", "", "COMMON", 5, "MINION") {}
     virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MythraxTheUnraveler>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class MythraxTheUnravelerGolden : public BgBaseCard {
@@ -1112,6 +1163,7 @@ public:
                                              "['TRIGGER_VISUAL']", "", "COMMON", 5, "MINION") {}
     virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<MythraxTheUnravelerGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class Nadina : public DeathrattleCard {
@@ -1141,6 +1193,7 @@ public:
                                Player* p1,
                                Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<NatPagle>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class NatPagleGolden : public BgBaseCard {
@@ -1152,6 +1205,7 @@ public:
                                Player* p1,
                                Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<NatPagleGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     NatPagle pagle;
 };
@@ -1182,6 +1236,7 @@ public:
                         "", "", "", 5, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Nomi>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class NomiGolden : public BgBaseCard {
@@ -1190,6 +1245,7 @@ public:
                               "", "", "", 5, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<NomiGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     Nomi nomi;
 };
@@ -1226,6 +1282,7 @@ public:
                               "['TRIGGER_VISUAL']", "", "RARE", 2, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<PackLeader>(*this); } // boilerplate that every drattle needs...
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
+    bool has_triggered_effect() const override { return true; }
 };
 
 class PackLeaderGolden : public BgBaseCard {
@@ -1234,6 +1291,7 @@ public:
                                     "['TRIGGER_VISUAL']", "", "RARE", 2, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<PackLeaderGolden>(*this); } // boilerplate that every drattle needs...
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
+    bool has_triggered_effect() const override { return true; }
 private:
     PackLeader pl;
 };
@@ -1244,6 +1302,7 @@ public:
                                   "", "ELEMENTAL", "", 2, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<PartyElemental>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class PartyElementalGolden : public BgBaseCard {
@@ -1252,6 +1311,7 @@ public:
                                         "", "ELEMENTAL", "", 2, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<PartyElementalGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     PartyElemental cf;
 };
@@ -1318,6 +1378,7 @@ public:
                                    "['TRIGGER_VISUAL']", "DRAGON", "", 5, "MINION") {}
     virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<Razorgore>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class RazorgoreGolden : public BgBaseCard {
@@ -1326,6 +1387,7 @@ public:
                                    "['TRIGGER_VISUAL']", "DRAGON", "", 5, "MINION") {}
     virtual void end_turn_mechanic(Player*) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RazorgoreGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class RedWhelp : public BgBaseCard {
@@ -1334,6 +1396,7 @@ public:
                                "['TRIGGER_VISUAL']", "DRAGON", "", 1, "MINION") {}
     virtual void do_precombat(Player* p1, Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RedWhelp>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class RedWhelpGolden : public BgBaseCard {
@@ -1342,6 +1405,7 @@ public:
                                   "['TRIGGER_VISUAL']", "DRAGON", "", 1, "MINION") {}
     virtual void do_precombat(Player* p1, Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RedWhelpGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     RedWhelp rw;
 };
@@ -1385,6 +1449,7 @@ public:
     RipsnarlCaptain() : BgBaseCard(3, "NEUTRAL", 4, 4, "Ripsnarl Captain",
                                    "['TRIGGER_VISUAL']", "PIRATE", "", 4, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RipsnarlCaptain>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class RipsnarlCaptainGolden : public PirateCard {
@@ -1392,6 +1457,7 @@ public:
     RipsnarlCaptainGolden() : BgBaseCard(6, "NEUTRAL", 4, 8, "Ripsnarl Captain (Golden)",
                                          "['TRIGGER_VISUAL']", "PIRATE", "", 4, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<RipsnarlCaptainGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class RockpoolHunter : public TargetedBattlecryCard {
@@ -1420,6 +1486,7 @@ public:
                                "['TRIGGER_VISUAL']", "PIRATE", "", 3, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SaltyLooter>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class SaltyLooterGolden : public BgBaseCard {
@@ -1428,6 +1495,7 @@ public:
                                      "['TRIGGER_VISUAL']", "PIRATE", "", 3, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SaltyLooterGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class SavannahHighmane : public DeathrattleCard {
@@ -1473,6 +1541,7 @@ public:
                                std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
                                std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;    
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ScavengingHyena>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class ScavengingHyenaGolden : public BgBaseCard {
@@ -1484,6 +1553,7 @@ public:
                                std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
                                std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;    
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<ScavengingHyenaGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     ScavengingHyena sh;
 };
@@ -1517,6 +1587,7 @@ public:
                                Player* p1,
                                Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SeabreakerGoliath>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class SeabreakerGoliathGolden : public BgBaseCard {
@@ -1528,6 +1599,7 @@ public:
                                Player* p1,
                                Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SeabreakerGoliathGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     SeabreakerGoliath sbg;
 };
@@ -1540,6 +1612,7 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SecurityRover>(*this); } // boilerplate that every drattle needs...
     std::shared_ptr<BgBaseCard> summon() override;
     void take_damage(int damage, std::string who_from_race, Player* p1, Player* p2) override;
+    bool has_triggered_effect() const override { return true; }
 };
 
 class SecurityRoverGolden : public BgBaseCard {
@@ -1549,6 +1622,7 @@ public:
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SecurityRoverGolden>(*this); } // boilerplate that every drattle needs...
     std::shared_ptr<BgBaseCard> summon() override;
     void take_damage(int damage, std::string who_from_race, Player* p1, Player* p2) override;
+    bool has_triggered_effect() const override { return true; }
 };
 
 class SelflessHero : public DeathrattleCard {
@@ -1650,6 +1724,7 @@ public:
                                std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
                                std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;    
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SoulJuggler>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class SoulJugglerGolden : public BgBaseCard {
@@ -1661,6 +1736,7 @@ public:
                                std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
                                std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;    
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<SoulJugglerGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     SoulJuggler soul_juggler;
 };
@@ -1817,6 +1893,7 @@ public:
                                       "['TRIGGER_VISUAL', 'TAUNT']", "", "", 2, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<TormentedRitualist>(*this); } // boilerplate that every drattle needs...
     void do_predefense(std::shared_ptr<BgBaseCard> attacker, Player* p1, Player* p2) override;
+    bool has_triggered_effect() const override { return true; }
 };
 
 class TormentedRitualistGolden : public PirateCard {
@@ -1825,6 +1902,7 @@ public:
                                             "['TRIGGER_VISUAL', 'TAUNT']", "", "", 2, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<TormentedRitualistGolden>(*this); } // boilerplate that every drattle needs...
     void do_predefense(std::shared_ptr<BgBaseCard> attacker, Player* p1, Player* p2) override;
+    bool has_triggered_effect() const override { return true; }
 };
 
 class Toxfin : public TargetedBattlecryCard {
@@ -1973,6 +2051,7 @@ public:
                                std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
                                std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<WaxriderTogwaggle>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class WaxriderTogwaggleGolden : public BgBaseCard {
@@ -1984,6 +2063,7 @@ public:
                                std::vector<std::shared_ptr<BgBaseCard> > dead_b1,
                                std::vector<std::shared_ptr<BgBaseCard> > dead_b2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<WaxriderTogwaggleGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 private:
     WaxriderTogwaggle sh;
 };
@@ -1997,6 +2077,7 @@ public:
                                Player* p1,
                                Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<WildfireElemental>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class WildfireElementalGolden : public BgBaseCard {
@@ -2008,6 +2089,7 @@ public:
                                Player* p1,
                                Player* p2) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<WildfireElementalGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class WrathWeaver : public BgBaseCard {
@@ -2016,6 +2098,7 @@ public:
                                "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<WrathWeaver>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class WrathWeaverGolden : public BgBaseCard {
@@ -2024,6 +2107,7 @@ public:
                                      "['TRIGGER_VISUAL']", "", "COMMON", 1, "MINION") {}
     int mod_summoned(std::shared_ptr<BgBaseCard> card, Player*, bool from_hand) override;
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<WrathWeaverGolden>(*this); } // boilerplate that every drattle needs...
+    bool has_triggered_effect() const override { return true; }
 };
 
 class YoHoOgre : public PirateCard {
@@ -2032,6 +2116,7 @@ public:
                             "['TRIGGER_VISUAL', 'TAUNT']", "PIRATE", "", 3, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<YoHoOgre>(*this); } // boilerplate that every drattle needs...
     void do_postdefense(std::shared_ptr<BgBaseCard> attacker, Player* p1, Player* p2) override;
+    bool has_triggered_effect() const override { return true; }
 };
 
 class YoHoOgreGolden : public PirateCard {
@@ -2040,5 +2125,6 @@ public:
                                   "['TRIGGER_VISUAL', 'TAUNT']", "PIRATE", "", 3, "MINION") {}
     virtual std::shared_ptr<BgBaseCard> get_copy() const override { return std::make_shared<YoHoOgreGolden>(*this); } // boilerplate that every drattle needs...
     void do_postdefense(std::shared_ptr<BgBaseCard> attacker, Player* p1, Player* p2) override;
+    bool has_triggered_effect() const override { return true; }
 };
 

@@ -2459,6 +2459,7 @@ function get_card(card_json) {
       	"rarity": "COMMON",
       	// "set": "EXPERT1",
       	"type": "MINION_ON_BOARD",
+        "reborn": card_json['has_reborn'],
         // "silenced": true,
       	// "texture": "../assets/" + card_name + ".jpg"
         // "texture": process.env.PUBLIC_URL + "/assets/Mecharoo.png"

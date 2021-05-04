@@ -204,6 +204,9 @@ export default abstract class Card {
                 if (this.cardDef.poisonous) {                        
                         assetsToLoad.push("icon_poisonous");
                 }
+                if (this.cardDef.reborn) {                        
+                        assetsToLoad.push("RebornMinionGlow");
+                }
                 if (this.cardDef.silenced) {
 			assetsToLoad.push("silence-x");
 		}
@@ -292,6 +295,9 @@ export default abstract class Card {
                 }
                 if (this.cardDef.poisonous) {
                         this.sunwell.drawImage(context, "icon_poisonous", {dx: 30, dy: 20, ratio: ratio});
+                }
+                if (this.cardDef.reborn) {
+                        this.sunwell.drawImage(context, "RebornMinionGlow", {dx: 15, dy: 20, ratio: ratio});
                 }
                 
 

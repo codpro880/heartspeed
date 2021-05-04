@@ -21,6 +21,7 @@ export default class CardDef {
         public poisonous: boolean;
 	public rarity: Rarity;
 	public race: Race;
+        public reborn: boolean;
 	public silenced: boolean;
 	public text: string;
 	public type: CardType;
@@ -43,6 +44,7 @@ export default class CardDef {
                 this.poisonous = props.poisonous || false;
 		this.race = cleanEnum(props.race, Race) as Race;
 		this.rarity = cleanEnum(props.rarity, Rarity) as Rarity;
+                this.reborn = props.reborn || false;
 		this.silenced = props.silenced || false;
 		this.type = cleanEnum(props.type, CardType) as CardType;
 

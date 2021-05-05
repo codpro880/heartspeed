@@ -99,15 +99,15 @@ export default class MinionCardOnBoard extends Card {
 		return {
 			sWidth: 154,
 			sHeight: 173,
-			dx: 36,
-			dy: 721,
+			dx: 135,
+			dy: 420,
 			dWidth: 154,
 			dHeight: 173,
 		};
 	}
 
 	public getAttackTextCoords() {
-                return {dx: 210, dy: 515};
+                return {dx: 215, dy: 515};
 	}
 
         public getGemTextSize() : number {
@@ -118,8 +118,8 @@ export default class MinionCardOnBoard extends Card {
 		return {
 			sWidth: 109,
 			sHeight: 164,
-			dx: 504,
-			dy: 728,
+			dx: 405,
+			dy: 420,
 			dWidth: 109,
 			dHeight: 164,
 		};
@@ -131,11 +131,11 @@ export default class MinionCardOnBoard extends Card {
 	}
 
 	public getAttackGemAsset() {
-		return "";
+		return "attack-minion";
 	}
 
 	public getHealthGemAsset() {
-		return "";
+		return "health";
 	}
 
         // Overload, removes mana/cost gem

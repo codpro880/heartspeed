@@ -266,10 +266,10 @@ export default abstract class Card {
 			this.eliteDragon.render(context, ratio);
 			this.nameBanner.render(context, ratio);
 			this.raceBanner.render(context, ratio);
-			this.attackGem.render(context, ratio);
+			//this.attackGem.render(context, ratio);
 			this.multiClassBanner.render(context, ratio);
 			this.costGem.render(context, ratio);
-			this.healthGem.render(context, ratio);
+			// this.healthGem.render(context, ratio);
 			this.watermark.render(context, ratio);
 
 			if (this.sunwell.options.cacheSkeleton) {
@@ -284,9 +284,11 @@ export default abstract class Card {
 		if (this.cardDef.silenced) {
 			this.sunwell.drawImage(context, "silence-x", {dx: 166, dy: 584, ratio: ratio});
 		}
-                if (this.cardDef.deathrattle) {
-                        this.sunwell.drawImage(context, "icon_deathrattle", {dx: 30, dy: 20, ratio: ratio});
+                if (this.cardDef.reborn) {
+                        this.sunwell.drawImage(context, "RebornMinionGlow", {dx: 15, dy: 20, ratio: ratio});
                 }
+                this.attackGem.render(context, ratio);
+                this.healthGem.render(context, ratio);
                 if (this.cardDef.divineShield) {
                         this.sunwell.drawImage(context, "inplay_minion_divine_shield", {dx: 30, dy: 20, ratio: ratio});
                 }
@@ -296,8 +298,8 @@ export default abstract class Card {
                 if (this.cardDef.poisonous) {
                         this.sunwell.drawImage(context, "icon_poisonous", {dx: 30, dy: 20, ratio: ratio});
                 }
-                if (this.cardDef.reborn) {
-                        this.sunwell.drawImage(context, "RebornMinionGlow", {dx: 15, dy: 20, ratio: ratio});
+                if (this.cardDef.deathrattle) {
+                        this.sunwell.drawImage(context, "icon_deathrattle", {dx: 30, dy: 20, ratio: ratio});
                 }
                 
 

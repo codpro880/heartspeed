@@ -186,8 +186,9 @@ TEST(Battler, CanHandleBasicDeathrattles) {
 
 TEST(Battler, AmalgadonForcedLivingSporeAdapt) {
     auto f = BgCardFactory();
-    auto amalgadon = f.get_card("Amalgadon");
+    auto amalgadon = f.get_card("Amalgadon");    
     amalgadon->adapt("Living Spores");
+    EXPECT_TRUE(amalgadon->has_deathrattle());
     std::vector<std::shared_ptr<BgBaseCard> > p1_cards
         {
          amalgadon

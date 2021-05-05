@@ -41,8 +41,7 @@ public:
                                    race(race),
                                    rarity(rarity),
                                    tavern_tier(tavern_tier),
-                                   type(type),
-                                   adapt_count(0) {}
+                                   type(type) {}
     
     BgBaseCard(const BgBaseCard& other) : attack(other.attack),
                                           _available_in_tavern(other._available_in_tavern),
@@ -63,8 +62,7 @@ public:
                                           race(other.race),
                                           rarity(other.rarity),
                                           tavern_tier(other.tavern_tier),
-                                          type(other.type),
-                                          adapt_count(0) { }
+                                          type(other.type) { }
 
     void adapt(std::string _test_adapt="None");
 
@@ -111,7 +109,8 @@ public:
     
     virtual std::shared_ptr<BgBaseCard> get_copy() const;
 
-    int get_adapt_count() const { return adapt_count; }
+    int get_adapt_count() const { return (int)adapt_list.size(); }
+    std::vector<std::string> get_adapt_list() const { return adapt_list; }
     int get_attack() const { return is_poison ? 999999 : attack; } // Poison is like 'infinite' attack
     int get_base_attack() const { return base_attack; }
     std::string get_card_class() const { return card_class; }
@@ -130,6 +129,7 @@ public:
     bool has_divine_shield() const { return divine_shield; }
     virtual bool has_deathrattle() const { return mechanics.find("DEATHRATTLE") != std::string::npos; }
     bool has_poison() const { return is_poison; }
+    virtual bool has_triggered_effect() const { return false; } // Mostly for rendering...
     bool has_taunt() const {
         return _has_taunt || mechanics.find("TAUNT") != std::string::npos;
     }
@@ -154,6 +154,7 @@ public:
     void reborn_self(Player*);
 
     void set_attack(int att) { attack = att; }
+    void set_adapt_list(std::vector<std::string> adapt_list_) { adapt_list = adapt_list_; }
     // Base stats can't be affected during combat
     void set_base_attack(int att) { base_attack = att; attack = att; }
     void set_card_class(std::string _card_class) { card_class = _card_class; }
@@ -227,10 +228,12 @@ public:
         j["tavern_tier"] = tavern_tier;
         j["type"] = type;
 
+        j["has_deathrattle"] = has_deathrattle(); // Convenience for rendering
         j["has_divine_shield"] = has_divine_shield();
         j["has_poison"] = has_poison();
         j["has_reborn"] = has_reborn();
         j["has_taunt"] = has_taunt();
+        j["has_triggered_effect"] = has_triggered_effect(); // Convenience for rendering
         j["has_windfury"] = has_windfury();
 
         return j;
@@ -263,5 +266,5 @@ protected:
     std::string type;
     int death_pos = -2;
     std::string last_dmg_race;
-    int adapt_count; // Mostly used for testing only
+    std::vector<std::string> adapt_list; // Track adaps by name
 };

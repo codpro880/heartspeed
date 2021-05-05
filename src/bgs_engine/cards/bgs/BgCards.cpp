@@ -196,10 +196,19 @@ void Amalgadon::do_battlecry(Player* p1) {
     }
 }
 
+bool Amalgadon::has_deathrattle() const {
+    auto al = get_adapt_list();
+    return std::find(al.begin(), al.end(), "Living Spores") != al.end();
+}
+
 void AmalgadonGolden::do_battlecry(Player* p1) {
     am.do_battlecry(p1);
     am.do_battlecry(p1);
-    adapt_count += am.get_adapt_count();
+    set_adapt_list(am.get_adapt_list());
+}
+
+bool AmalgadonGolden::has_deathrattle() const {
+    return am.has_deathrattle();
 }
 
 void AnnihilanBattlemaster::do_battlecry(Player* p1) {

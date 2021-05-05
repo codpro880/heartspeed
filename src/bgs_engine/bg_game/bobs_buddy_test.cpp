@@ -470,6 +470,7 @@ TEST_F(BobsReader, CanGetBattleBoardsFromLogTurn8) {
 // TODO: Debug this. Probably need some visualization tooling
 // NOTE: Got this under vis, beat out a few bugs, but there's still discrepancies.
 //       will come back to this...
+// NOTE: Used for testing the UI, uncomment to dump the card frame JSON again if needed
 // TEST_F(BobsReader, CanGetBattleBoardsFromLogTurn10) {
 //     // Turn 10
 //     auto battle_boards = *battle_boards_p;
@@ -547,24 +548,23 @@ TEST_F(BobsReader, CanGetBattleBoardsFromLogTurn8) {
 //     auto battler = Battler(p1.get(), p2.get());
 //     std::cerr << "Battlin..." << std::endl;
     
-//     // auto res = battler.sim_battle();
-//     //res = battler.sim_battle();
-//     // auto bfjd = BattleFrameJsonDump();
-//     // std::string filename = "bob_again.json";
-//     // bfjd.dump_to_json(res, filename);
-//     // std::ifstream ifs(filename);
-//     // EXPECT_TRUE(ifs.good());
+//     auto res = battler.sim_battle();
+//     auto bfjd = BattleFrameJsonDump();
+//     std::string filename = "bob_again.json";
+//     bfjd.dump_to_json(res, filename);
+//     std::ifstream ifs(filename);
+//     EXPECT_TRUE(ifs.good());
 
-//     auto res = battler.sim_battles_par(10000);
-//     std::cerr << "P1 win: " << res.p1_win << std::endl;
-//     EXPECT_GT(res.p1_win, .35);
-//     EXPECT_LT(res.p1_win, .4);
-//     std::cerr << "draw: " << res.draw << std::endl;
-//     EXPECT_GT(res.draw, .15);
-//     EXPECT_LT(res.draw, .2);
-//     std::cerr << "p2 win: " << res.p2_win << std::endl;
-//     EXPECT_GT(res.p2_win, .42);
-//     EXPECT_LT(res.p2_win, .48);
+//     // auto res = battler.sim_battles_par(10000);
+//     // std::cerr << "P1 win: " << res.p1_win << std::endl;
+//     // EXPECT_GT(res.p1_win, .35);
+//     // EXPECT_LT(res.p1_win, .4);
+//     // std::cerr << "draw: " << res.draw << std::endl;
+//     // EXPECT_GT(res.draw, .15);
+//     // EXPECT_LT(res.draw, .2);
+//     // std::cerr << "p2 win: " << res.p2_win << std::endl;
+//     // EXPECT_GT(res.p2_win, .42);
+//     // EXPECT_LT(res.p2_win, .48);
 // }
 
 TEST_F(BobsReader, IsReasonablyThreadSafe) {

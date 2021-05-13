@@ -2390,26 +2390,6 @@ function getTestCardFrames() {
   return json;
 }
 
-function getCardText(card_json) {
-    // "has_cleave": false,
-    // "has_divine_shield": false,
-    // "has_poison": false,
-    // "has_reborn": false,
-    // "has_taunt": false,
-    // "has_windfury": false,
-    var text = "";
-    if (card_json['has_divine_shield']) {
-        text += "DIVINE ";
-    }
-    if (card_json['has_reborn']) {
-        text += "REBORN ";
-    }
-    if (card_json['has_taunt']) {
-        text += "TAUNT ";
-    }
-    return text;
-}
-
 function get_card(card_json) {    
     var img = new Image();
     let asset_folder = process.env.PUBLIC_URL + "/assets/";
@@ -2427,7 +2407,6 @@ function get_card(card_json) {
     });
 
     var card_name_raw = card_json['name'];
-    var card_text = getCardText(card_json);
     var card_name = card_name_raw.replace(" (Golden)", "");
 
     var is_golden = card_name_raw !== card_name;
@@ -2437,7 +2416,6 @@ function get_card(card_json) {
       	//"dbfId": 559,
       	"name": card_name,
       	// "text": "<b>Charge</b>. <b>Battlecry:</b> Summon two 1/1 Whelps for your opponent.",
-	"text": card_text,
       	// "flavor": "At least he has Angry Chicken.",
       	// "artist": "Gabe from Penny Arcade",
       	"attack": card_json['attack'],

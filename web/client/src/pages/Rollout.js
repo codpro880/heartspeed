@@ -2,22 +2,9 @@ import React, { useReducer, useRef } from 'react';
 
 import { Container, Stage, Sprite, useTick, } from '@inlet/react-pixi';
 import Sunwell from "../sunwell/sunwell_full/Sunwell.ts"
- 
-function getTestCardJson(attack, health, name) {
-    var json = {
-        "attack": attack,
-        "has_cleave": false,
-        "has_divine_shield": false,
-        "has_poison": false,
-        "has_reborn": true,
-        "has_taunt": false,
-        "has_windfury": false,
-        "health": health,
-        "name": name
-    }
-    return json;
-}
 
+import './Rollout.css';
+ 
 // Glyph gaurdian reborn from Deathknight hero power
 function getTestCardFrames() {
     var json = [
@@ -2449,6 +2436,40 @@ function get_card(card_json) {
     return img;
 }
 
+class BoardBuilder extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      scale: { x: 1, y: 1}
+    }
+  }
+
+  render(){
+
+    const DrawCard = () => {      
+
+      return (
+              <Sprite                
+                x={250}
+                y={250}
+                anchor={[0.5, 0.5]}
+                interactive={true}
+                scale={this.state.scale}
+                image={process.env.PUBLIC_URL + "/assets/tier-1.png"}
+                pointerdown={() => {
+                  console.log("click");
+                  this.setState({scale: {x: this.state.scale.x * 1.25, y: this.state.scale.y * 1.25}});
+                }}
+             />
+      )
+    }
+
+    return (
+      <DrawCard />
+        )
+    }
+}
+
 class Card extends React.Component {
 
   // Would be nice if there was an easy way to define required props
@@ -2635,7 +2656,7 @@ class Rollout extends React.Component {
       </button>
       <button onClick={this.getNextFrame}>
           Next Frame
-      </button>
+      </button>      
       <Stage width={BOARD_WIDTH} height={BOARD_HEIGHT} options={{ transparent: true }}>
         <Container x={0} y={0}>
             <Sprite
@@ -2644,6 +2665,7 @@ class Rollout extends React.Component {
                 height={BOARD_HEIGHT}
              />
             {card_arr}
+            <BoardBuilder></BoardBuilder>
         </Container>
       </Stage>
       </>

@@ -4,6 +4,20 @@ import { Container, Stage, Sprite, useTick, } from '@inlet/react-pixi';
 import Sunwell from "../sunwell/sunwell_full/Sunwell.ts"
 
 import './Rollout.css';
+
+// I'm thinking theres a better way to do this...
+// TODO: Reactify these constants?
+const BOARD_WIDTH = 600 * 2;
+const BOARD_HEIGHT = 350 * 2;
+const BOARD_WIDTH_FUDGE = -BOARD_WIDTH / 20.0; // -30 at 600x350
+const TOP_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 12.0; // -25 at 600x350
+const BOTTOM_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 4.5; // -70 at 600x350
+const CENTERING_FUDGE_FACTOR = -BOARD_WIDTH / 40.0; // Board image is not quite symetric (e.g. hero portrait not quite centered)
+const CARD_WIDTH_DELTA = BOARD_WIDTH / 10.0;
+const MAX_NUM_CARDS = 7;
+
+const PICKER_WIDTH = 200;
+const PICKER_HEIGHT = BOARD_HEIGHT;
  
 // Glyph gaurdian reborn from Deathknight hero power
 function getTestCardFrames() {
@@ -2436,26 +2450,26 @@ function get_card(card_json) {
     return img;
 }
 
-class BoardBuilder extends React.Component {
+class TavernTier extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      scale: { x: 1, y: 1}
+      scale: { x: .5, y: .5}
     }
   }
 
   render(){
 
-    const DrawCard = () => {      
+    const DrawTavTier = () => {
 
       return (
               <Sprite                
-                x={250}
-                y={250}
-                anchor={[0.5, 0.5]}
+                x={this.props.xStart}
+                y={this.props.yStart}
+                anchor={[0.25, 0.25]}
                 interactive={true}
                 scale={this.state.scale}
-                image={process.env.PUBLIC_URL + "/assets/tier-1.png"}
+                image={process.env.PUBLIC_URL + "/assets/tier-" + this.props.tier + ".png"}
                 pointerdown={() => {
                   console.log("click");
                   this.setState({scale: {x: this.state.scale.x * 1.25, y: this.state.scale.y * 1.25}});
@@ -2465,9 +2479,25 @@ class BoardBuilder extends React.Component {
     }
 
     return (
-      <DrawCard />
+      <DrawTavTier />
         )
     }
+}
+
+class BoardBuilder extends React.Component {
+  constructor(props){
+    super(props);
+  }
+
+  render(){
+    return (
+      [
+        <TavernTier tier={1} xStart={BOARD_WIDTH} yStart={50} />,
+        <TavernTier tier={2} xStart={BOARD_WIDTH + 20} yStart={50} />
+      ]
+        )
+  }
+  
 }
 
 class Card extends React.Component {
@@ -2529,19 +2559,6 @@ class Card extends React.Component {
     )
   }
 }
-
-const BOARD_WIDTH = 600 * 2;
-const BOARD_HEIGHT = 350 * 2;
-// const BOARD_WIDTH = 800;
-// const BOARD_HEIGHT = 500;
-const BOARD_WIDTH_FUDGE = -BOARD_WIDTH / 20.0; // -30 at 600x350
-// const TOP_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 14.0; // -25 at 600x350
-const TOP_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 12.0; // -25 at 600x350
-// const BOTTOM_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 5.0; // -70 at 600x350
-const BOTTOM_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 4.5; // -70 at 600x350
-const CENTERING_FUDGE_FACTOR = -BOARD_WIDTH / 40.0; // Board image is not quite symetric (e.g. hero portrait not quite centered)
-const CARD_WIDTH_DELTA = BOARD_WIDTH / 10.0;
-const MAX_NUM_CARDS = 7;
 
 class Rollout extends React.Component {
 
@@ -2657,7 +2674,7 @@ class Rollout extends React.Component {
       <button onClick={this.getNextFrame}>
           Next Frame
       </button>      
-      <Stage width={BOARD_WIDTH} height={BOARD_HEIGHT} options={{ transparent: true }}>
+      <Stage width={BOARD_WIDTH + PICKER_WIDTH} height={BOARD_HEIGHT + PICKER_HEIGHT} options={{ transparent: true }}>
         <Container x={0} y={0}>
             <Sprite
                 image={this.state.backgroundImage}

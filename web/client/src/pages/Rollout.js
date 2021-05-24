@@ -2454,7 +2454,7 @@ class TavernTier extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      scale: { x: .5, y: .5}
+      scale: { x: .25, y: .25}
     }
   }
 
@@ -2490,10 +2490,16 @@ class BoardBuilder extends React.Component {
   }
 
   render(){
+    let spacing = 30;
+    let start = BOARD_WIDTH + 20;
     return (
       [
-        <TavernTier tier={1} xStart={BOARD_WIDTH} yStart={50} />,
-        <TavernTier tier={2} xStart={BOARD_WIDTH + 20} yStart={50} />
+        <TavernTier tier={1} xStart={start} yStart={50} />,
+        <TavernTier tier={2} xStart={start + spacing} yStart={50} />,
+        <TavernTier tier={3} xStart={start + 2 * spacing} yStart={50} />,
+        <TavernTier tier={4} xStart={start + 3 * spacing} yStart={50} />,
+        <TavernTier tier={5} xStart={start + 4 * spacing} yStart={50} />,
+        <TavernTier tier={6} xStart={start + 5 * spacing} yStart={50} />
       ]
         )
   }

@@ -2472,7 +2472,12 @@ class TavernTier extends React.Component {
                 image={process.env.PUBLIC_URL + "/assets/tier-" + this.props.tier + ".png"}
                 pointerdown={() => {
                   console.log("click");
-                  this.setState({scale: {x: this.state.scale.x * 1.25, y: this.state.scale.y * 1.25}});
+                  if (this.state.scale.x === .25) {
+                      this.setState({scale: {x: this.state.scale.x * 1.25, y: this.state.scale.y * 1.25}});
+                  }
+                  else {
+                      this.setState({scale: {x: .25, y: .25}});
+                  }
                 }}
              />
       )

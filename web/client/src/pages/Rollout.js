@@ -3,7 +3,7 @@ import React, { useReducer, useRef } from 'react';
 import { Container, Stage, Sprite, useTick, } from '@inlet/react-pixi';
 import Sunwell from "../sunwell/sunwell_full/Sunwell.ts"
 
-import './Rollout.css';
+// import './Rollout.css';
 
 // I'm thinking theres a better way to do this...
 // TODO: Reactify these constants?
@@ -2391,6 +2391,61 @@ function getTestCardFrames() {
   return json;
 }
 
+function get_board_picker_card(card_name) {
+    var img = new Image();
+    let asset_folder = process.env.PUBLIC_URL + "/assets/";
+    let sunwell = new Sunwell({
+        assetFolder: asset_folder,
+      	titleFont: "belwe_fsextrabold",
+      	bodyFontRegular: "franklin_gothic_fsMdCn",
+      	bodyFontItalic: "franklin_gothic_fsMdCnIt",
+      	bodyFontBold: "franklin_gothic_fsDemiCn",
+      	bodyFontBoldItalic: "franklin_gothic_fsDemiCn",
+      	bodyFontSize: 38,
+      	bodyLineHeight: 40,
+      	bodyFontOffset: {x: 0, y: 26},
+      	debug: true
+    });
+
+    // var card_name_raw = card_json['name'];
+    // var card_name = card_name_raw.replace(" (Golden)", "");
+
+    // var is_golden = card_name_raw !== card_name;
+    var is_golden = false;
+
+    sunwell.createCard({
+      	"name": card_name,
+      	// "attack": card_json['attack'],
+      	// "cardClass": "MURLOC",
+        // "cardFrame": null,
+      	//"collectible": true,
+      	"cost": 1,
+      	// "elite": true,
+      	// "faction": "ALLIANCE",
+      	// "health": card_json['health'],
+        // "deathrattle": card_json['has_deathrattle'],
+        // "divineShield": card_json['has_divine_shield'],
+        // "hasTriggeredEffect": card_json['has_triggered_effect'],
+      	// "mechanics": [
+      	// 	"BATTLECRY",
+      	// 	"CHARGE"
+      	// ],
+        // "poisonous": card_json['has_poison'],
+      	// "rarity": "COMMON",
+      	// "set": "EXPERT1",
+      	"type": "MINION_FOR_BOARD_PICKER",
+        // "reborn": card_json['has_reborn'],
+        // "silenced": true,
+      	// "texture": "../assets/" + card_name + ".jpg"
+        // "texture": process.env.PUBLIC_URL + "/assets/Mecharoo.png"
+        "texture": asset_folder + card_name.replace("'", "") + ".jpg"
+    }, 256, is_golden, img, function() {
+      	console.log('done');
+    });
+
+    return img;
+}
+
 function get_card(card_json) {    
     var img = new Image();
     let asset_folder = process.env.PUBLIC_URL + "/assets/";
@@ -2489,6 +2544,46 @@ class TavernTier extends React.Component {
     }
 }
 
+class BoardPickerCard extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      scale: { x: .25, y: .25}
+    }
+  }
+
+  render(){
+
+    const DrawTavTier = () => {
+
+      return (
+              <Sprite                
+                x={this.props.xStart}
+                y={this.props.yStart}
+                anchor={[0.25, 0.25]}
+                interactive={true}
+                scale={this.state.scale}
+                image={get_board_picker_card(this.props.name)}
+                pointerdown={() => {
+                  console.log("click");
+                  if (this.state.scale.x === .25) {
+                      this.setState({scale: {x: this.state.scale.x * 1.25, y: this.state.scale.y * 1.25}});
+                  }
+                  else {
+                      this.setState({scale: {x: .25, y: .25}});
+                  }
+                }}
+             />
+      )
+    }
+
+    return (
+      <DrawTavTier />
+        )
+    }
+}
+
+
 class BoardBuilder extends React.Component {
   constructor(props){
     super(props);
@@ -2504,7 +2599,8 @@ class BoardBuilder extends React.Component {
         <TavernTier tier={3} xStart={start + 2 * spacing} yStart={50} />,
         <TavernTier tier={4} xStart={start + 3 * spacing} yStart={50} />,
         <TavernTier tier={5} xStart={start + 4 * spacing} yStart={50} />,
-        <TavernTier tier={6} xStart={start + 5 * spacing} yStart={50} />
+        <TavernTier tier={6} xStart={start + 5 * spacing} yStart={50} />,
+        <BoardPickerCard name={"Sellemental"} xStart={start} yStart={100} />
       ]
         )
   }

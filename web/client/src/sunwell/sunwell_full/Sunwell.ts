@@ -14,6 +14,7 @@ import HeroPowerCardPremium from "./HeroPowerCardPremium";
 import {ICoords} from "./interfaces";
 import MinionCard from "./MinionCard";
 import MinionCardOnBoard from "./MinionCardOnBoard";
+import MinionCardForBoardPicker from "./MinionCardForBoardPicker";
 import MinionCardPremium from "./MinionCardPremium";
 import SpellCard from "./SpellCard";
 import SpellCardPremium from "./SpellCardPremium";
@@ -258,6 +259,7 @@ export default class Sunwell {
 		const ctors: {[type: number]: any} = {};
                 // ctors[CardType.MINION_ON_BOARD] = premium ? MinionCardOnBoardPremium : MinionCardOnBoard;
                 ctors[CardType.MINION_ON_BOARD] = MinionCardOnBoard;
+                ctors[CardType.MINION_FOR_BOARD_PICKER] = MinionCardForBoardPicker;
 		ctors[CardType.HERO] = premium ? HeroCardPremium : HeroCard;
 		ctors[CardType.MINION] = premium ? MinionCardPremium : MinionCard;
 		ctors[CardType.SPELL] = premium ? SpellCardPremium : SpellCard;

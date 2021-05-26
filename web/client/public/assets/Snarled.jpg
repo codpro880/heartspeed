@@ -1,0 +1,20 @@
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<h1>404 Not Found</h1>
+<ul>
+<li>Code: NoSuchKey</li>
+<li>Message: The specified key does not exist.</li>
+<li>Key: v1/256x/TB_BaconUps_139e.jpg</li>
+<li>RequestId: GSAG7NP8ZV4M3DCC</li>
+<li>HostId: 4SWY1/kCpyt/9x+rqRJYYmZBtMiW6USXClKOErjp2Sq5NNRBTrg/mJhqnQHEf5s17+wt3uFHCEc=</li>
+</ul>
+<h3>An Error Occurred While Attempting to Retrieve a Custom Error Document</h3>
+<ul>
+<li>Code: NoSuchKey</li>
+<li>Message: The specified key does not exist.</li>
+<li>Key: error.html</li>
+</ul>
+<hr/>
+</body>
+</html>

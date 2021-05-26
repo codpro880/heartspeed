@@ -1,0 +1,20 @@
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<h1>404 Not Found</h1>
+<ul>
+<li>Code: NoSuchKey</li>
+<li>Message: The specified key does not exist.</li>
+<li>Key: v1/256x/BGS_Treasures_036e.jpg</li>
+<li>RequestId: 2A2GW5XX0KVENZ36</li>
+<li>HostId: hX/TrzMJVm7XlDW43xhp35qycxME1m+y+rj3Ikuph+rapE9PV/MbFv7fRa4e9IEyblE/j13HfzI=</li>
+</ul>
+<h3>An Error Occurred While Attempting to Retrieve a Custom Error Document</h3>
+<ul>
+<li>Code: NoSuchKey</li>
+<li>Message: The specified key does not exist.</li>
+<li>Key: error.html</li>
+</ul>
+<hr/>
+</body>
+</html>

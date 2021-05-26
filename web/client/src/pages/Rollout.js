@@ -18,6 +18,362 @@ const MAX_NUM_CARDS = 7;
 
 const PICKER_WIDTH = 200;
 const PICKER_HEIGHT = BOARD_HEIGHT;
+
+function getBgCardJson() {
+    var json = [
+    {
+        "name": "Razorfen Geomancer",
+        "tier": 1,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Roadboar",
+        "tier": 2,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Tough Tusk",
+        "tier": 2,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Bristleback Brute",
+        "tier": 3,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Bonker",
+        "tier": 4,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Thorncaller",
+        "tier": 3,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Groundshaker",
+        "tier": 4,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Bannerboar",
+        "tier": 3,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Necrolyte",
+        "tier": 3,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Bristleback Knight",
+        "tier": 5,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Agamaggan, the Great Boar",
+        "tier": 5,
+        "race": "BEAST"
+    },
+    {
+        "name": "Captain Flat Tusk",
+        "tier": 6,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Dynamic Duo",
+        "tier": 4,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Sun-Bacon Relaxer",
+        "tier": 1,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Aggem Thorncurse",
+        "tier": 5,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Charlga",
+        "tier": 6,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Nathrezim Overseer",
+        "tier": 2,
+        "race": "DEMON"
+    },
+    {
+        "name": "Sneed's Old Shredder",
+        "tier": 5,
+        "race": "MECHANICAL"
+    },
+    {
+        "name": "Ghastcoiler",
+        "tier": 6,
+        "race": "BEAST"
+    },
+    {
+        "name": "Annihilan Battlemaster",
+        "tier": 5,
+        "race": "DEMON"
+    },
+    {
+        "name": "Imprisoner",
+        "tier": 2,
+        "race": "DEMON"
+    },
+    {
+        "name": "Goldrinn, the Great Wolf",
+        "tier": 6,
+        "race": "BEAST"
+    },
+    {
+        "name": "Red Whelp",
+        "tier": 1,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Primalfin Lookout",
+        "tier": 4,
+        "race": "MURLOC"
+    },
+    {
+        "name": "Mama Bear",
+        "tier": 5,
+        "race": "BEAST"
+    },
+    {
+        "name": "Micro Machine",
+        "tier": 1,
+        "race": "MECHANICAL"
+    },
+    {
+        "name": "King Bagurgle",
+        "tier": 5,
+        "race": "MURLOC"
+    },
+    {
+        "name": "Herald of Flame",
+        "tier": 4,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Hangry Dragon",
+        "tier": 3,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Bronze Warden",
+        "tier": 3,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Razorgore, the Untamed",
+        "tier": 5,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Steward of Time",
+        "tier": 2,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Twilight Emissary",
+        "tier": 3,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Dragonspawn Lieutenant",
+        "tier": 1,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Kalecgos, Arcane Aspect",
+        "tier": 6,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Murozond",
+        "tier": 5,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Imp Mama",
+        "tier": 6,
+        "race": "DEMON"
+    },
+    {
+        "name": "Glyph Guardian",
+        "tier": 2,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Nat Pagle, Extreme Angler",
+        "tier": 5,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Dread Admiral Eliza",
+        "tier": 6,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Southsea Strongarm",
+        "tier": 3,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Freedealing Gambler",
+        "tier": 2,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Bloodsail Cannoneer",
+        "tier": 3,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Deck Swabbie",
+        "tier": 1,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Ripsnarl Captain",
+        "tier": 4,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Soul Devourer",
+        "tier": 3,
+        "race": "DEMON"
+    },
+    {
+        "name": "Yo-Ho-Ogre",
+        "tier": 2,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Scallywag",
+        "tier": 1,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Goldgrubber",
+        "tier": 4,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Drakonid Enforcer",
+        "tier": 4,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Amalgadon",
+        "tier": 6,
+        "race": "ALL"
+    },
+    {
+        "name": "Deflect-o-Bot",
+        "tier": 3,
+        "race": "MECHANICAL"
+    },
+    {
+        "name": "Cap'n Hoggarr",
+        "tier": 5,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Rabid Saurolisk",
+        "tier": 2,
+        "race": "BEAST"
+    },
+    {
+        "name": "Monstrous Macaw",
+        "tier": 3,
+        "race": "BEAST"
+    },
+    {
+        "name": "Seabreaker Goliath",
+        "tier": 5,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Salty Looter",
+        "tier": 3,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Lil' Rag",
+        "tier": 6,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Sellemental",
+        "tier": 1,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Refreshing Anomaly",
+        "tier": 1,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Crackling Cyclone",
+        "tier": 3,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Party Elemental",
+        "tier": 2,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Gentle Djinni",
+        "tier": 6,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Stasis Elemental",
+        "tier": 3,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Tavern Tempest",
+        "tier": 5,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Lieutenant Garr",
+        "tier": 6,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Wildfire Elemental",
+        "tier": 4,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Molten Rock",
+        "tier": 2,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Arcane Assistant",
+        "tier": 3,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Bigfernal",
+        "tier": 4,
+        "race": "DEMON"
+    }
+]
+    return json;
+}
  
 // Glyph gaurdian reborn from Deathknight hero power
 function getTestCardFrames() {
@@ -2548,13 +2904,13 @@ class BoardPickerCard extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      scale: { x: .25, y: .25}
+      scale: { x: .25, y: .2}
     }
   }
 
   render(){
 
-    const DrawTavTier = () => {
+    const DrawBoardPickerCard = () => {
 
       return (
               <Sprite                
@@ -2578,7 +2934,7 @@ class BoardPickerCard extends React.Component {
     }
 
     return (
-      <DrawTavTier />
+      <DrawBoardPickerCard />
         )
     }
 }
@@ -2588,7 +2944,7 @@ class BoardBuilder extends React.Component {
   constructor(props){
     super(props);
     this.createTavernTiers = this.createTavernTiers.bind(this);
-    this.createTier1Cards = this.createTier1Cards.bind(this);
+    this.createCards = this.createCards.bind(this);
   }
 
   createTavernTiers(start) {
@@ -2604,20 +2960,32 @@ class BoardBuilder extends React.Component {
       return res;
   }
 
-  createTier1Cards(start) {
-    let spacing = 20;
-    let res = [
-      <BoardPickerCard name={"Acolyte of CThun"} type={"Neutral"} xStart={start} yStart={100} />,
-      <BoardPickerCard name={"Sellemental"} type={"Elemental"} xStart={start + spacing} yStart={100} />,
-    ]
+  createCards(start) {
+    let spacing = 40;
+    let card_json = getBgCardJson();
+    let cards_per_row = 5;
+    var res = []
+    for (var i = 0; i < card_json.length; i++) {
+        let card = card_json[i];        
+        res.push( <BoardPickerCard
+                  name={card["name"]}
+                  type={card["race"]}
+                  tier={card["tier"]}
+                  xStart={start + spacing * (i % cards_per_row) - 20}
+                  yStart={100 + 50 * Math.floor(i / cards_per_row)} /> );
+    }
+    // let res = [
+    //   <BoardPickerCard name={"Acolyte of CThun"} type={"Neutral"} tier={1} xStart={start} yStart={100} />,
+    //   <BoardPickerCard name={"Sellemental"} type={"Elemental"} xStart={start + spacing} yStart={100} />,
+    // ]
     return res;
   }
 
   render(){
     let start = BOARD_WIDTH + 20;
     let tav_tiers = this.createTavernTiers(start);
-    let t1_cards = this.createTier1Cards(start);
-    let res = tav_tiers.concat(t1_cards);
+    let cards = this.createCards(start);
+    let res = tav_tiers.concat(cards);
     return (
       res
         )

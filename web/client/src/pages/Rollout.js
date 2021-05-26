@@ -2587,21 +2587,39 @@ class BoardPickerCard extends React.Component {
 class BoardBuilder extends React.Component {
   constructor(props){
     super(props);
+    this.createTavernTiers = this.createTavernTiers.bind(this);
+    this.createTier1Cards = this.createTier1Cards.bind(this);
   }
 
-  render(){
-    let spacing = 30;
-    let start = BOARD_WIDTH + 20;
-    return (
-      [
+  createTavernTiers(start) {
+      let spacing = 30;
+      let res = [
         <TavernTier tier={1} xStart={start} yStart={50} />,
         <TavernTier tier={2} xStart={start + spacing} yStart={50} />,
         <TavernTier tier={3} xStart={start + 2 * spacing} yStart={50} />,
         <TavernTier tier={4} xStart={start + 3 * spacing} yStart={50} />,
         <TavernTier tier={5} xStart={start + 4 * spacing} yStart={50} />,
-        <TavernTier tier={6} xStart={start + 5 * spacing} yStart={50} />,
-        <BoardPickerCard name={"Sellemental"} xStart={start} yStart={100} />
+        <TavernTier tier={6} xStart={start + 5 * spacing} yStart={50} />,        
       ]
+      return res;
+  }
+
+  createTier1Cards(start) {
+    let spacing = 20;
+    let res = [
+      <BoardPickerCard name={"Acolyte of CThun"} type={"Neutral"} xStart={start} yStart={100} />,
+      <BoardPickerCard name={"Sellemental"} type={"Elemental"} xStart={start + spacing} yStart={100} />,
+    ]
+    return res;
+  }
+
+  render(){
+    let start = BOARD_WIDTH + 20;
+    let tav_tiers = this.createTavernTiers(start);
+    let t1_cards = this.createTier1Cards(start);
+    let res = tav_tiers.concat(t1_cards);
+    return (
+      res
         )
   }
   

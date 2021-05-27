@@ -287,8 +287,12 @@ export default abstract class Card {
                 if (this.cardDef.reborn) {
                         this.sunwell.drawImage(context, "RebornMinionGlow", {dx: 15, dy: 20, ratio: ratio});
                 }
-                this.attackGem.render(context, ratio);
-                this.healthGem.render(context, ratio);
+                if (this.getAttackGemAsset() != "") {
+                    this.attackGem.render(context, ratio);
+                }
+                if (this.getHealthGemAsset() != "") {
+                    this.healthGem.render(context, ratio);
+                }
                 if (this.cardDef.divineShield) {
                         this.sunwell.drawImage(context, "inplay_minion_divine_shield", {dx: 30, dy: 20, ratio: ratio});
                 }

@@ -1,0 +1,20 @@
+<html>
+<head><title>404 Not Found</title></head>
+<body>
+<h1>404 Not Found</h1>
+<ul>
+<li>Code: NoSuchKey</li>
+<li>Message: The specified key does not exist.</li>
+<li>Key: v1/256x/BG20_GEM_No_Impact.jpg</li>
+<li>RequestId: 7SVAF419N1FS09FS</li>
+<li>HostId: sOXs02HMpH/9d+pnX9IvbM4EmFEx2P8/JMQvQgmo8dZKLx7xASpV8q6ydH1+zMqkFyMryqQjMrU=</li>
+</ul>
+<h3>An Error Occurred While Attempting to Retrieve a Custom Error Document</h3>
+<ul>
+<li>Code: NoSuchKey</li>
+<li>Message: The specified key does not exist.</li>
+<li>Key: error.html</li>
+</ul>
+<hr/>
+</body>
+</html>

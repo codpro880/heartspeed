@@ -2,22 +2,379 @@ import React, { useReducer, useRef } from 'react';
 
 import { Container, Stage, Sprite, useTick, } from '@inlet/react-pixi';
 import Sunwell from "../sunwell/sunwell_full/Sunwell.ts"
- 
-function getTestCardJson(attack, health, name) {
-    var json = {
-        "attack": attack,
-        "has_cleave": false,
-        "has_divine_shield": false,
-        "has_poison": false,
-        "has_reborn": true,
-        "has_taunt": false,
-        "has_windfury": false,
-        "health": health,
-        "name": name
+
+// import './Rollout.css';
+
+// I'm thinking theres a better way to do this...
+// TODO: Reactify these constants?
+const BOARD_WIDTH = 600 * 2;
+const BOARD_HEIGHT = 350 * 2;
+const BOARD_WIDTH_FUDGE = -BOARD_WIDTH / 20.0; // -30 at 600x350
+const TOP_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 12.0; // -25 at 600x350
+const BOTTOM_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 4.5; // -70 at 600x350
+const CENTERING_FUDGE_FACTOR = -BOARD_WIDTH / 40.0; // Board image is not quite symetric (e.g. hero portrait not quite centered)
+const CARD_WIDTH_DELTA = BOARD_WIDTH / 10.0;
+const MAX_NUM_CARDS = 7;
+
+const PICKER_WIDTH = 200;
+const PICKER_HEIGHT = BOARD_HEIGHT;
+
+function getBgCardJson() {
+    var json = [
+    {
+        "name": "Razorfen Geomancer",
+        "tier": 1,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Roadboar",
+        "tier": 2,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Tough Tusk",
+        "tier": 2,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Bristleback Brute",
+        "tier": 3,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Bonker",
+        "tier": 4,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Thorncaller",
+        "tier": 3,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Groundshaker",
+        "tier": 4,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Bannerboar",
+        "tier": 3,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Necrolyte",
+        "tier": 3,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Bristleback Knight",
+        "tier": 5,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Agamaggan, the Great Boar",
+        "tier": 5,
+        "race": "BEAST"
+    },
+    {
+        "name": "Captain Flat Tusk",
+        "tier": 6,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Dynamic Duo",
+        "tier": 4,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Sun-Bacon Relaxer",
+        "tier": 1,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Aggem Thorncurse",
+        "tier": 5,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Charlga",
+        "tier": 6,
+        "race": "QUILBOAR"
+    },
+    {
+        "name": "Nathrezim Overseer",
+        "tier": 2,
+        "race": "DEMON"
+    },
+    {
+        "name": "Sneed's Old Shredder",
+        "tier": 5,
+        "race": "MECHANICAL"
+    },
+    {
+        "name": "Ghastcoiler",
+        "tier": 6,
+        "race": "BEAST"
+    },
+    {
+        "name": "Annihilan Battlemaster",
+        "tier": 5,
+        "race": "DEMON"
+    },
+    {
+        "name": "Imprisoner",
+        "tier": 2,
+        "race": "DEMON"
+    },
+    {
+        "name": "Goldrinn, the Great Wolf",
+        "tier": 6,
+        "race": "BEAST"
+    },
+    {
+        "name": "Red Whelp",
+        "tier": 1,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Primalfin Lookout",
+        "tier": 4,
+        "race": "MURLOC"
+    },
+    {
+        "name": "Mama Bear",
+        "tier": 5,
+        "race": "BEAST"
+    },
+    {
+        "name": "Micro Machine",
+        "tier": 1,
+        "race": "MECHANICAL"
+    },
+    {
+        "name": "King Bagurgle",
+        "tier": 5,
+        "race": "MURLOC"
+    },
+    {
+        "name": "Herald of Flame",
+        "tier": 4,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Hangry Dragon",
+        "tier": 3,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Bronze Warden",
+        "tier": 3,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Razorgore, the Untamed",
+        "tier": 5,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Steward of Time",
+        "tier": 2,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Twilight Emissary",
+        "tier": 3,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Dragonspawn Lieutenant",
+        "tier": 1,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Kalecgos, Arcane Aspect",
+        "tier": 6,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Murozond",
+        "tier": 5,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Imp Mama",
+        "tier": 6,
+        "race": "DEMON"
+    },
+    {
+        "name": "Glyph Guardian",
+        "tier": 2,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Nat Pagle, Extreme Angler",
+        "tier": 5,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Dread Admiral Eliza",
+        "tier": 6,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Southsea Strongarm",
+        "tier": 3,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Freedealing Gambler",
+        "tier": 2,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Bloodsail Cannoneer",
+        "tier": 3,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Deck Swabbie",
+        "tier": 1,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Ripsnarl Captain",
+        "tier": 4,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Soul Devourer",
+        "tier": 3,
+        "race": "DEMON"
+    },
+    {
+        "name": "Yo-Ho-Ogre",
+        "tier": 2,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Scallywag",
+        "tier": 1,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Goldgrubber",
+        "tier": 4,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Drakonid Enforcer",
+        "tier": 4,
+        "race": "DRAGON"
+    },
+    {
+        "name": "Amalgadon",
+        "tier": 6,
+        "race": "ALL"
+    },
+    {
+        "name": "Deflect-o-Bot",
+        "tier": 3,
+        "race": "MECHANICAL"
+    },
+    {
+        "name": "Cap'n Hoggarr",
+        "tier": 5,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Rabid Saurolisk",
+        "tier": 2,
+        "race": "BEAST"
+    },
+    {
+        "name": "Monstrous Macaw",
+        "tier": 3,
+        "race": "BEAST"
+    },
+    {
+        "name": "Seabreaker Goliath",
+        "tier": 5,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Salty Looter",
+        "tier": 3,
+        "race": "PIRATE"
+    },
+    {
+        "name": "Lil' Rag",
+        "tier": 6,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Sellemental",
+        "tier": 1,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Refreshing Anomaly",
+        "tier": 1,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Crackling Cyclone",
+        "tier": 3,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Party Elemental",
+        "tier": 2,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Gentle Djinni",
+        "tier": 6,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Stasis Elemental",
+        "tier": 3,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Tavern Tempest",
+        "tier": 5,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Lieutenant Garr",
+        "tier": 6,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Wildfire Elemental",
+        "tier": 4,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Molten Rock",
+        "tier": 2,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Arcane Assistant",
+        "tier": 3,
+        "race": "ELEMENTAL"
+    },
+    {
+        "name": "Bigfernal",
+        "tier": 4,
+        "race": "DEMON"
     }
+]
     return json;
 }
-
+ 
 // Glyph gaurdian reborn from Deathknight hero power
 function getTestCardFrames() {
     var json = [
@@ -2390,24 +2747,59 @@ function getTestCardFrames() {
   return json;
 }
 
-function getCardText(card_json) {
-    // "has_cleave": false,
-    // "has_divine_shield": false,
-    // "has_poison": false,
-    // "has_reborn": false,
-    // "has_taunt": false,
-    // "has_windfury": false,
-    var text = "";
-    if (card_json['has_divine_shield']) {
-        text += "DIVINE ";
-    }
-    if (card_json['has_reborn']) {
-        text += "REBORN ";
-    }
-    if (card_json['has_taunt']) {
-        text += "TAUNT ";
-    }
-    return text;
+function get_board_picker_card(card_name) {
+    var img = new Image();
+    let asset_folder = process.env.PUBLIC_URL + "/assets/";
+    let sunwell = new Sunwell({
+        assetFolder: asset_folder,
+      	titleFont: "belwe_fsextrabold",
+      	bodyFontRegular: "franklin_gothic_fsMdCn",
+      	bodyFontItalic: "franklin_gothic_fsMdCnIt",
+      	bodyFontBold: "franklin_gothic_fsDemiCn",
+      	bodyFontBoldItalic: "franklin_gothic_fsDemiCn",
+      	bodyFontSize: 38,
+      	bodyLineHeight: 40,
+      	bodyFontOffset: {x: 0, y: 26},
+      	debug: true
+    });
+
+    // var card_name_raw = card_json['name'];
+    // var card_name = card_name_raw.replace(" (Golden)", "");
+
+    // var is_golden = card_name_raw !== card_name;
+    var is_golden = false;
+
+    sunwell.createCard({
+      	"name": card_name,
+      	// "attack": card_json['attack'],
+      	// "cardClass": "MURLOC",
+        // "cardFrame": null,
+      	//"collectible": true,
+      	"cost": 1,
+      	// "elite": true,
+      	// "faction": "ALLIANCE",
+      	// "health": card_json['health'],
+        // "deathrattle": card_json['has_deathrattle'],
+        // "divineShield": card_json['has_divine_shield'],
+        // "hasTriggeredEffect": card_json['has_triggered_effect'],
+      	// "mechanics": [
+      	// 	"BATTLECRY",
+      	// 	"CHARGE"
+      	// ],
+        // "poisonous": card_json['has_poison'],
+      	// "rarity": "COMMON",
+      	// "set": "EXPERT1",
+      	"type": "MINION_FOR_BOARD_PICKER",
+        // "reborn": card_json['has_reborn'],
+        // "silenced": true,
+      	// "texture": "../assets/" + card_name + ".jpg"
+        // "texture": process.env.PUBLIC_URL + "/assets/Mecharoo.png"
+        "texture": asset_folder + card_name.replace("'", "") + ".jpg"
+    }, 256, is_golden, img, function() {
+      	console.log('done');
+    });
+
+    return img;
 }
 
 function get_card(card_json) {    
@@ -2427,7 +2819,6 @@ function get_card(card_json) {
     });
 
     var card_name_raw = card_json['name'];
-    var card_text = getCardText(card_json);
     var card_name = card_name_raw.replace(" (Golden)", "");
 
     var is_golden = card_name_raw !== card_name;
@@ -2437,7 +2828,6 @@ function get_card(card_json) {
       	//"dbfId": 559,
       	"name": card_name,
       	// "text": "<b>Charge</b>. <b>Battlecry:</b> Summon two 1/1 Whelps for your opponent.",
-	"text": card_text,
       	// "flavor": "At least he has Angry Chicken.",
       	// "artist": "Gabe from Penny Arcade",
       	"attack": card_json['attack'],
@@ -2469,6 +2859,138 @@ function get_card(card_json) {
     });
 
     return img;
+}
+
+class TavernTier extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      scale: { x: .25, y: .25}
+    }
+  }
+
+  render(){
+
+    const DrawTavTier = () => {
+
+      return (
+              <Sprite                
+                x={this.props.xStart}
+                y={this.props.yStart}
+                anchor={[0.25, 0.25]}
+                interactive={true}
+                scale={this.state.scale}
+                image={process.env.PUBLIC_URL + "/assets/tier-" + this.props.tier + ".png"}
+                pointerdown={() => {
+                  console.log("click");
+                  if (this.state.scale.x === .25) {
+                      this.setState({scale: {x: this.state.scale.x * 1.25, y: this.state.scale.y * 1.25}});
+                  }
+                  else {
+                      this.setState({scale: {x: .25, y: .25}});
+                  }
+                }}
+             />
+      )
+    }
+
+    return (
+      <DrawTavTier />
+        )
+    }
+}
+
+class BoardPickerCard extends React.Component {
+  constructor(props){
+    super(props);
+    this.state = {
+      scale: { x: .25, y: .2}
+    }
+  }
+
+  render(){
+
+    const DrawBoardPickerCard = () => {
+
+      return (
+              <Sprite                
+                x={this.props.xStart}
+                y={this.props.yStart}
+                anchor={[0.25, 0.25]}
+                interactive={true}
+                scale={this.state.scale}
+                image={get_board_picker_card(this.props.name)}
+                pointerdown={() => {
+                  console.log("click");
+                  if (this.state.scale.x === .25) {
+                      this.setState({scale: {x: this.state.scale.x * 1.25, y: this.state.scale.y * 1.25}});
+                  }
+                  else {
+                      this.setState({scale: {x: .25, y: .25}});
+                  }
+                }}
+             />
+      )
+    }
+
+    return (
+      <DrawBoardPickerCard />
+        )
+    }
+}
+
+
+class BoardBuilder extends React.Component {
+  constructor(props){
+    super(props);
+    this.createTavernTiers = this.createTavernTiers.bind(this);
+    this.createCards = this.createCards.bind(this);
+  }
+
+  createTavernTiers(start) {
+      let spacing = 30;
+      let res = [
+        <TavernTier tier={1} xStart={start} yStart={50} />,
+        <TavernTier tier={2} xStart={start + spacing} yStart={50} />,
+        <TavernTier tier={3} xStart={start + 2 * spacing} yStart={50} />,
+        <TavernTier tier={4} xStart={start + 3 * spacing} yStart={50} />,
+        <TavernTier tier={5} xStart={start + 4 * spacing} yStart={50} />,
+        <TavernTier tier={6} xStart={start + 5 * spacing} yStart={50} />,        
+      ]
+      return res;
+  }
+
+  createCards(start) {
+    let spacing = 40;
+    let card_json = getBgCardJson();
+    let cards_per_row = 5;
+    var res = []
+    for (var i = 0; i < card_json.length; i++) {
+        let card = card_json[i];        
+        res.push( <BoardPickerCard
+                  name={card["name"]}
+                  type={card["race"]}
+                  tier={card["tier"]}
+                  xStart={start + spacing * (i % cards_per_row) - 20}
+                  yStart={100 + 50 * Math.floor(i / cards_per_row)} /> );
+    }
+    // let res = [
+    //   <BoardPickerCard name={"Acolyte of CThun"} type={"Neutral"} tier={1} xStart={start} yStart={100} />,
+    //   <BoardPickerCard name={"Sellemental"} type={"Elemental"} xStart={start + spacing} yStart={100} />,
+    // ]
+    return res;
+  }
+
+  render(){
+    let start = BOARD_WIDTH + 20;
+    let tav_tiers = this.createTavernTiers(start);
+    let cards = this.createCards(start);
+    let res = tav_tiers.concat(cards);
+    return (
+      res
+        )
+  }
+  
 }
 
 class Card extends React.Component {
@@ -2530,19 +3052,6 @@ class Card extends React.Component {
     )
   }
 }
-
-const BOARD_WIDTH = 600 * 2;
-const BOARD_HEIGHT = 350 * 2;
-// const BOARD_WIDTH = 800;
-// const BOARD_HEIGHT = 500;
-const BOARD_WIDTH_FUDGE = -BOARD_WIDTH / 20.0; // -30 at 600x350
-// const TOP_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 14.0; // -25 at 600x350
-const TOP_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 12.0; // -25 at 600x350
-// const BOTTOM_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 5.0; // -70 at 600x350
-const BOTTOM_BOARD_HEIGHT_FUDGE = -BOARD_HEIGHT / 4.5; // -70 at 600x350
-const CENTERING_FUDGE_FACTOR = -BOARD_WIDTH / 40.0; // Board image is not quite symetric (e.g. hero portrait not quite centered)
-const CARD_WIDTH_DELTA = BOARD_WIDTH / 10.0;
-const MAX_NUM_CARDS = 7;
 
 class Rollout extends React.Component {
 
@@ -2657,8 +3166,8 @@ class Rollout extends React.Component {
       </button>
       <button onClick={this.getNextFrame}>
           Next Frame
-      </button>
-      <Stage width={BOARD_WIDTH} height={BOARD_HEIGHT} options={{ transparent: true }}>
+      </button>      
+      <Stage width={BOARD_WIDTH + PICKER_WIDTH} height={BOARD_HEIGHT + PICKER_HEIGHT} options={{ transparent: true }}>
         <Container x={0} y={0}>
             <Sprite
                 image={this.state.backgroundImage}
@@ -2666,6 +3175,7 @@ class Rollout extends React.Component {
                 height={BOARD_HEIGHT}
              />
             {card_arr}
+            <BoardBuilder></BoardBuilder>
         </Container>
       </Stage>
       </>

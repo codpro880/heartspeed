@@ -3262,7 +3262,8 @@ class TavernTier extends React.Component {
                 scale={this.state.scale}
                 image={process.env.PUBLIC_URL + "/assets/tier-" + this.props.tier + ".png"}
                 pointerdown={() => {
-                  console.log("click");
+                  console.log("click...button pushed...?");
+                  this.props.buttonPushed();
                   if (this.state.scale.x === .25) {
                       this.setState({scale: {x: this.state.scale.x * 1.25, y: this.state.scale.y * 1.25}});
                   }
@@ -3323,19 +3324,25 @@ class BoardPickerCard extends React.Component {
 class BoardBuilder extends React.Component {
   constructor(props){
     super(props);
+    this.state = {
+      tier1ButtonPushed: false
+    }
     this.createTavernTiers = this.createTavernTiers.bind(this);
     this.createCards = this.createCards.bind(this);
+    this.tier1ButtonPushed = this.tier1ButtonPushed.bind(this);
   }
+
+  tier1ButtonPushed() { this.setState({tier1Pushed: !this.state.tier1Pushed}); console.log("POOSHED"); }
 
   createTavernTiers(start) {
       let spacing = 30;
       let res = [
-        <TavernTier tier={1} xStart={start} yStart={50} />,
-        <TavernTier tier={2} xStart={start + spacing} yStart={50} />,
-        <TavernTier tier={3} xStart={start + 2 * spacing} yStart={50} />,
-        <TavernTier tier={4} xStart={start + 3 * spacing} yStart={50} />,
-        <TavernTier tier={5} xStart={start + 4 * spacing} yStart={50} />,
-        <TavernTier tier={6} xStart={start + 5 * spacing} yStart={50} />,        
+        <TavernTier tier={1} xStart={start + 0 * spacing} yStart={50} buttonPushed={this.tier1ButtonPushed} />,
+        <TavernTier tier={2} xStart={start + 1 * spacing} yStart={50} buttonPushed={() => true} />,
+        <TavernTier tier={3} xStart={start + 2 * spacing} yStart={50} buttonPushed={() => true} />,
+        <TavernTier tier={4} xStart={start + 3 * spacing} yStart={50} buttonPushed={() => true} />,
+        <TavernTier tier={5} xStart={start + 4 * spacing} yStart={50} buttonPushed={() => true} />,
+        <TavernTier tier={6} xStart={start + 5 * spacing} yStart={50} buttonPushed={() => true} />,
       ]
       return res;
   }
@@ -3345,8 +3352,9 @@ class BoardBuilder extends React.Component {
     let card_json = getBgCardJson();
     let cards_per_row = 5;
     var res = []
-    for (var i = 0; i < card_json.length; i++) {
+    for (var i = 0; i < card_json.length; i++) {        
         let card = card_json[i];        
+        if (this.state.tier1Pushed && card['tier'] == 1) continue;
         res.push( <BoardPickerCard
                   name={card["name"]}
                   type={card["race"]}

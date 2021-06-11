@@ -3461,7 +3461,10 @@ class Rollout extends React.Component {
     this.getEndXAndEndY = this.getEndXAndEndY.bind(this);
     this.getNextFrame = this.getNextFrame.bind(this);
     this.getPreviousFrame = this.getPreviousFrame.bind(this);
+    this.clearBoard = this.clearBoard.bind(this);  
   }
+
+  isBoardEmpty = () => { return this.state.frameNum === -1; }
 
   toggleAnimation() {
     this.setState({toDraw: !this.state.toDraw});
@@ -3472,7 +3475,13 @@ class Rollout extends React.Component {
   }
 
   getPreviousFrame() {
-    this.setState({frameNum: Math.max(this.state.frameNum - 1, 0)});
+    if (this.isBoardEmpty()) {
+        this.setState({frameNum: Math.max(this.state.frameNum - 1, 0)});
+    }
+  }
+
+  clearBoard() {
+    this.setState({frameNum: -1, frames: []});
   }
 
   createBoard(frame, top_or_bot) {
@@ -3541,21 +3550,32 @@ class Rollout extends React.Component {
 
   render() {
     // debugger;
-    const frame = this.state.frames[this.state.frameNum];
+    var frame;
+    if (this.state.frameNum >= 0) {
+        frame = this.state.frames[this.state.frameNum];
+    }
+    else {
+        frame = [];
+    }
     // const frame = getTestCardFrames()[0];
     const card_arr = this.createCards(frame);
+
+      console.log("Rendering...");
     
     return (
       <>
-      <button onClick={this.toggleAnimation}>
+      <button onClick={this.toggleAnimation} disabled={this.isBoardEmpty()}>
           Animate Frame
       </button>
-      <button onClick={this.getPreviousFrame}>
+      <button onClick={this.getPreviousFrame} disabled={this.isBoardEmpty()}>
           Previous Frame
       </button>
-      <button onClick={this.getNextFrame}>
+      <button onClick={this.getNextFrame} disabled={this.isBoardEmpty()}>
           Next Frame
-      </button>      
+      </button>
+      <button onClick={this.clearBoard}>
+          Clear Board
+      </button>
       <Stage width={BOARD_WIDTH + PICKER_WIDTH} height={BOARD_HEIGHT + PICKER_HEIGHT} options={{ transparent: true }}>
         <Container x={0} y={0}>
             <Sprite

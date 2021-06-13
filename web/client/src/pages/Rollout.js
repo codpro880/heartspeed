@@ -3292,29 +3292,56 @@ class BoardPickerCard extends React.Component {
     this.state = {
       scale: { x: .25, y: .2}
     }
+    // this.onStart = this.onStart.bind(this);
   }
+
 
   render(){
 
     const DrawBoardPickerCard = () => {
+        const isDragging = React.useRef(false);
+        const offset = React.useRef({ x: 0, y: 0 });
+        const [position, setPosition] = React.useState({ x: this.props.xStart, y: this.props.yStart })
+        // const [alpha, setAlpha] = React.useState(1);
+        // const [zIndex, setZIndex] = React.useState(index);
+        
+        function onStart(e) {
+            isDragging.current = true;    
+            offset.current = {
+                x: e.data.global.x - position.x,
+                y: e.data.global.y - position.y
+            };
+            
+            // setAlpha(0.5);
+            // setZIndex(index++);
+        }
 
-      return (
+        function onEnd() {
+            isDragging.current = false;
+            // setAlpha(1);
+        }
+
+        function onMove(e) {
+            if (isDragging.current) {
+                setPosition({
+                    x: e.data.global.x - offset.current.x,
+                    y: e.data.global.y - offset.current.y,
+                })
+            }
+        }
+
+        return (
               <Sprite                
-                x={this.props.xStart}
-                y={this.props.yStart}
+                // x={this.props.xStart}
+                // y={this.props.yStart}
+                position={position}
                 anchor={[0.25, 0.25]}
                 interactive={true}
                 scale={this.state.scale}
                 image={get_board_picker_card(this.props.name)}
-                pointerdown={() => {
-                  console.log("click");
-                  if (this.state.scale.x === .25) {
-                      this.setState({scale: {x: this.state.scale.x * 1.25, y: this.state.scale.y * 1.25}});
-                  }
-                  else {
-                      this.setState({scale: {x: .25, y: .25}});
-                  }
-                }}
+                pointerdown={onStart}
+                pointerup={onEnd}
+                pointermove={onMove}                
              />
       )
     }

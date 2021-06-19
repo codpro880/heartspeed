@@ -3293,7 +3293,6 @@ class BoardPickerCard extends React.Component {
       scale: { x: .25, y: .2},
       card_img: get_board_picker_card(this.props.name),
     }
-    // this.onStart = this.onStart.bind(this);
   }
 
 
@@ -3303,8 +3302,9 @@ class BoardPickerCard extends React.Component {
         const isDragging = React.useRef(false);
         const offset = React.useRef({ x: 0, y: 0 });
         const [position, setPosition] = React.useState({ x: this.props.xStart, y: this.props.yStart })
-        // const [alpha, setAlpha] = React.useState(1);
-        // const [zIndex, setZIndex] = React.useState(index);
+        // Looks like closure computed/serialized, can't access 'this' dynamically.
+        // So, bind it up here...
+        const cardDroppedOnBoardCallback = this.props.cardDroppedOnBoard;
         
         function onStart(e) {
             isDragging.current = true;    
@@ -3312,14 +3312,11 @@ class BoardPickerCard extends React.Component {
                 x: e.data.global.x - position.x,
                 y: e.data.global.y - position.y
             };
-            
-            // setAlpha(0.5);
-            // setZIndex(index++);
         }
 
         function onEnd() {
             isDragging.current = false;
-            // setAlpha(1);
+            cardDroppedOnBoardCallback();
         }
 
         function onMove(e) {
@@ -3363,9 +3360,12 @@ class BoardBuilder extends React.Component {
     this.createTavernTiers = this.createTavernTiers.bind(this);
     this.createCards = this.createCards.bind(this);
     this.tierButtonPushed = this.tierButtonPushed.bind(this);
+    this.cardDroppedOnBoard = this.cardDroppedOnBoard.bind(this);
   }
 
   tierButtonPushed(tier) { this.setState({tierToDisplay: tier}); console.log("POOSHED"); }
+
+  cardDroppedOnBoard() { this.props.updateBoardCallback(); console.log("Card dropped on board. Parent!"); }
 
   createTavernTiers(start) {
       let spacing = 30;
@@ -3387,13 +3387,15 @@ class BoardBuilder extends React.Component {
     let cards_per_row = 5;
     var res = []
     for (var i = 0; i < card_json.length; i++) {
-        let card = card_json[i];                
+        let card = card_json[i];
         res.push( <BoardPickerCard
                   name={card["name"]}
                   type={card["race"]}
                   tier={card["tier"]}
                   xStart={start + spacing * (i % cards_per_row) - 20}
-                  yStart={100 + spacing * Math.floor(i / cards_per_row)} /> );
+                  yStart={100 + spacing * Math.floor(i / cards_per_row)} 
+                  cardDroppedOnBoard={this.cardDroppedOnBoard}
+                  /> );
     }
     return res;
   }
@@ -3490,6 +3492,39 @@ class Rollout extends React.Component {
     this.getNextFrame = this.getNextFrame.bind(this);
     this.getPreviousFrame = this.getPreviousFrame.bind(this);
     this.clearBoard = this.clearBoard.bind(this);  
+  }
+
+  updateBoardCallback = () => { 
+      console.log("Updating way up in highest parent...");
+      this.clearBoard();
+      let new_frames = [
+          {
+        "attacker_pos": 0,
+        "b1": [
+            {
+                "attack": 6,
+                "card_class": "MAGE",
+                "cost": 4,
+                "has_deathrattle": false,
+                "has_divine_shield": false,
+                "has_poison": false,
+                "has_reborn": true,
+                "has_taunt": false,
+                "has_triggered_effect": true,
+                "has_windfury": false,
+                "health": 10,
+                "mechanics": "",
+                "name": "Glyph Guardian (Golden)",
+                "race": "DRAGON",
+                "rarity": "",
+                "tavern_tier": 2,
+                "type": "MINION"
+            } 
+        ]
+          }
+      ]
+      this.setState({frames: new_frames});
+      this.getNextFrame();
   }
 
   isBoardEmpty = () => { return this.state.frameNum === -1; }
@@ -3612,7 +3647,9 @@ class Rollout extends React.Component {
                 height={BOARD_HEIGHT}
              />
             {card_arr}
-            <BoardBuilder></BoardBuilder>
+            <BoardBuilder
+                updateBoardCallback={this.updateBoardCallback}
+            />
         </Container>
       </Stage>
       </>

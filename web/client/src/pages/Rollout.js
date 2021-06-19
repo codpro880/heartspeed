@@ -3176,7 +3176,7 @@ function get_board_picker_card(card_name) {
         // "texture": process.env.PUBLIC_URL + "/assets/Mecharoo.png"
         "texture": asset_folder + card_name.replace("'", "") + ".jpg"
     }, 256, is_golden, img, function() {
-      	console.log('done');
+      	// console.log('done');
     });
 
     return img;
@@ -3235,7 +3235,7 @@ function get_card(card_json) {
         // "texture": process.env.PUBLIC_URL + "/assets/Mecharoo.png"
         "texture": asset_folder + card_name.replace("'", "") + ".jpg"
     }, 256, is_golden, img, function() {
-      	console.log('done');
+      	// console.log('done');
     });
 
     return img;
@@ -3290,7 +3290,8 @@ class BoardPickerCard extends React.Component {
   constructor(props){
     super(props);
     this.state = {
-      scale: { x: .25, y: .2}
+      scale: { x: .25, y: .2},
+      card_img: get_board_picker_card(this.props.name),
     }
     // this.onStart = this.onStart.bind(this);
   }
@@ -3338,7 +3339,7 @@ class BoardPickerCard extends React.Component {
                 anchor={[0.25, 0.25]}
                 interactive={true}
                 scale={this.state.scale}
-                image={get_board_picker_card(this.props.name)}
+                image={this.state.card_img}
                 pointerdown={onStart}
                 pointerup={onEnd}
                 pointermove={onMove}                

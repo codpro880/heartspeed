@@ -24,734 +24,1915 @@ function getBgCardJson() {
     {
         "name": "Acolyte of C'Thun",
         "tier": 1,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 2,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": true,
+        "has_taunt": true,
+        "has_windfury": false
     },
     {
         "name": "Alleycat",
         "tier": 1,
-        "race": "BEAST"
+        "race": "BEAST",
+        "attack": 1,
+        "health": 1,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Amalgam",
         "tier": 1,
-        "race": "ALL"
+        "race": "ALL",
+        "attack": 0,
+        "health": 1,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Deck Swabbie",
         "tier": 1,
-        "race": "PIRATE"
+        "race": "PIRATE",
+        "attack": 2,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Dragonspawn Lieutenant",
         "tier": 1,
-        "race": "DRAGON"
+        "race": "DRAGON",
+        "attack": 2,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": true,
+        "has_windfury": false
     },
     {
         "name": "Fiendish Servant",
         "tier": 1,
-        "race": "DEMON"
+        "race": "DEMON",
+        "attack": 2,
+        "health": 1,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Fish of N'Zoth",
         "tier": 1,
-        "race": "BEAST"
+        "race": "BEAST",
+        "attack": 0,
+        "health": 0,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Micro Machine",
         "tier": 1,
-        "race": "MECHANICAL"
+        "race": "MECHANICAL",
+        "attack": 1,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Micro Mummy",
         "tier": 1,
-        "race": "MECHANICAL"
+        "race": "MECHANICAL",
+        "attack": 1,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": true,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Murloc Scout",
         "tier": 1,
-        "race": "MURLOC"
+        "race": "MURLOC",
+        "attack": 1,
+        "health": 1,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Murloc Tidecaller",
         "tier": 1,
-        "race": "MURLOC"
+        "race": "MURLOC",
+        "attack": 1,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Murloc Tidehunter",
         "tier": 1,
-        "race": "MURLOC"
+        "race": "MURLOC",
+        "attack": 2,
+        "health": 1,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Razorfen Geomancer",
         "tier": 1,
-        "race": "QUILBOAR"
+        "race": "QUILBOAR",
+        "attack": 3,
+        "health": 1,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Red Whelp",
         "tier": 1,
-        "race": "DRAGON"
+        "race": "DRAGON",
+        "attack": 1,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Refreshing Anomaly",
         "tier": 1,
-        "race": "ELEMENTAL"
+        "race": "ELEMENTAL",
+        "attack": 1,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Rockpool Hunter",
         "tier": 1,
-        "race": "MURLOC"
+        "race": "MURLOC",
+        "attack": 2,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Scallywag",
         "tier": 1,
-        "race": "PIRATE"
+        "race": "PIRATE",
+        "attack": 2,
+        "health": 1,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Scavenging Hyena",
         "tier": 1,
-        "race": "BEAST"
+        "race": "BEAST",
+        "attack": 2,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Sellemental",
         "tier": 1,
-        "race": "ELEMENTAL"
+        "race": "ELEMENTAL",
+        "attack": 2,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Sun-Bacon Relaxer",
         "tier": 1,
-        "race": "QUILBOAR"
+        "race": "QUILBOAR",
+        "attack": 1,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Vulgar Homunculus",
         "tier": 1,
-        "race": "DEMON"
+        "race": "DEMON",
+        "attack": 2,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": true,
+        "has_windfury": false
     },
     {
         "name": "Wrath Weaver",
         "tier": 1,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 1,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Freedealing Gambler",
         "tier": 2,
-        "race": "PIRATE"
+        "race": "PIRATE",
+        "attack": 3,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Glyph Guardian",
         "tier": 2,
-        "race": "DRAGON"
+        "race": "DRAGON",
+        "attack": 2,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Harvest Golem",
         "tier": 2,
-        "race": "MECHANICAL"
+        "race": "MECHANICAL",
+        "attack": 2,
+        "health": 3,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Imprisoner",
         "tier": 2,
-        "race": "DEMON"
+        "race": "DEMON",
+        "attack": 3,
+        "health": 3,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": true,
+        "has_windfury": false
     },
     {
         "name": "Kaboom Bot",
         "tier": 2,
-        "race": "MECHANICAL"
+        "race": "MECHANICAL",
+        "attack": 2,
+        "health": 2,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Menagerie Mug",
         "tier": 2,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 2,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Metaltooth Leaper",
         "tier": 2,
-        "race": "MECHANICAL"
+        "race": "MECHANICAL",
+        "attack": 3,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Molten Rock",
         "tier": 2,
-        "race": "ELEMENTAL"
+        "race": "ELEMENTAL",
+        "attack": 2,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": true,
+        "has_windfury": false
     },
     {
         "name": "Murloc Warleader",
         "tier": 2,
-        "race": "MURLOC"
+        "race": "MURLOC",
+        "attack": 3,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Nathrezim Overseer",
         "tier": 2,
-        "race": "DEMON"
+        "race": "DEMON",
+        "attack": 2,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Old Murk-Eye",
         "tier": 2,
-        "race": "MURLOC"
+        "race": "MURLOC",
+        "attack": 2,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Pack Leader",
         "tier": 2,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 3,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Party Elemental",
         "tier": 2,
-        "race": "ELEMENTAL"
+        "race": "ELEMENTAL",
+        "attack": 3,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Prophet of the Boar",
         "tier": 2,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 2,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Rabid Saurolisk",
         "tier": 2,
-        "race": "BEAST"
+        "race": "BEAST",
+        "attack": 3,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Roadboar",
         "tier": 2,
-        "race": "QUILBOAR"
+        "race": "QUILBOAR",
+        "attack": 1,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Selfless Hero",
         "tier": 2,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 2,
+        "health": 1,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Southsea Captain",
         "tier": 2,
-        "race": "PIRATE"
+        "race": "PIRATE",
+        "attack": 3,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Spawn of N'Zoth",
         "tier": 2,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 2,
+        "health": 2,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Steward of Time",
         "tier": 2,
-        "race": "DRAGON"
+        "race": "DRAGON",
+        "attack": 3,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Tormented Ritualist",
         "tier": 2,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 2,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": true,
+        "has_windfury": false
     },
     {
         "name": "Tough Tusk",
         "tier": 2,
-        "race": "QUILBOAR"
+        "race": "QUILBOAR",
+        "attack": 4,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Unstable Ghoul",
         "tier": 2,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 1,
+        "health": 3,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": true,
+        "has_windfury": false
     },
     {
         "name": "Waxrider Togwaggle",
         "tier": 2,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 1,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Yo-Ho-Ogre",
         "tier": 2,
-        "race": "PIRATE"
+        "race": "PIRATE",
+        "attack": 2,
+        "health": 6,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Arcane Assistant",
         "tier": 3,
-        "race": "ELEMENTAL"
+        "race": "ELEMENTAL",
+        "attack": 3,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Arm of the Empire",
         "tier": 3,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 4,
+        "health": 5,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Bannerboar",
         "tier": 3,
-        "race": "QUILBOAR"
+        "race": "QUILBOAR",
+        "attack": 1,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Bloodsail Cannoneer",
         "tier": 3,
-        "race": "PIRATE"
+        "race": "PIRATE",
+        "attack": 4,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Bristleback Brute",
         "tier": 3,
-        "race": "QUILBOAR"
+        "race": "QUILBOAR",
+        "attack": 3,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Bronze Warden",
         "tier": 3,
-        "race": "DRAGON"
+        "race": "DRAGON",
+        "attack": 2,
+        "health": 1,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": true,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Coldlight Seer",
         "tier": 3,
-        "race": "MURLOC"
+        "race": "MURLOC",
+        "attack": 2,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Crackling Cyclone",
         "tier": 3,
-        "race": "ELEMENTAL"
+        "race": "ELEMENTAL",
+        "attack": 4,
+        "health": 1,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": true
     },
     {
         "name": "Crystalweaver",
         "tier": 3,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 5,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Deflect-o-Bot",
         "tier": 3,
-        "race": "MECHANICAL"
+        "race": "MECHANICAL",
+        "attack": 3,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Felfin Navigator",
         "tier": 3,
-        "race": "MURLOC"
+        "race": "MURLOC",
+        "attack": 4,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Hangry Dragon",
         "tier": 3,
-        "race": "DRAGON"
+        "race": "DRAGON",
+        "attack": 4,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Houndmaster",
         "tier": 3,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 4,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Imp Gang Boss",
         "tier": 3,
-        "race": "DEMON"
+        "race": "DEMON",
+        "attack": 2,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Infested Wolf",
         "tier": 3,
-        "race": "BEAST"
+        "race": "BEAST",
+        "attack": 3,
+        "health": 3,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Iron Sensei",
         "tier": 3,
-        "race": "MECHANICAL"
+        "race": "MECHANICAL",
+        "attack": 2,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Khadgar",
         "tier": 3,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 2,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Monstrous Macaw",
         "tier": 3,
-        "race": "BEAST"
+        "race": "BEAST",
+        "attack": 5,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Necrolyte",
         "tier": 3,
-        "race": "QUILBOAR"
+        "race": "QUILBOAR",
+        "attack": 3,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Rat Pack",
         "tier": 3,
-        "race": "BEAST"
+        "race": "BEAST",
+        "attack": 2,
+        "health": 2,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Replicating Menace",
         "tier": 3,
-        "race": "MECHANICAL"
+        "race": "MECHANICAL",
+        "attack": 3,
+        "health": 1,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Salty Looter",
         "tier": 3,
-        "race": "PIRATE"
+        "race": "PIRATE",
+        "attack": 4,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Screwjank Clunker",
         "tier": 3,
-        "race": "MECHANICAL"
+        "race": "MECHANICAL",
+        "attack": 2,
+        "health": 5,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Soul Devourer",
         "tier": 3,
-        "race": "DEMON"
+        "race": "DEMON",
+        "attack": 3,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Soul Juggler",
         "tier": 3,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 3,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Southsea Strongarm",
         "tier": 3,
-        "race": "PIRATE"
+        "race": "PIRATE",
+        "attack": 4,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Stasis Elemental",
         "tier": 3,
-        "race": "ELEMENTAL"
+        "race": "ELEMENTAL",
+        "attack": 4,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Thorncaller",
         "tier": 3,
-        "race": "QUILBOAR"
+        "race": "QUILBOAR",
+        "attack": 4,
+        "health": 3,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Twilight Emissary",
         "tier": 3,
-        "race": "DRAGON"
+        "race": "DRAGON",
+        "attack": 4,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": true,
+        "has_windfury": false
     },
     {
         "name": "Warden of Old",
         "tier": 3,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 3,
+        "health": 3,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Annoy-o-Module",
         "tier": 4,
-        "race": "MECHANICAL"
+        "race": "MECHANICAL",
+        "attack": 2,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": true,
+        "has_windfury": false
     },
     {
         "name": "Bigfernal",
         "tier": 4,
-        "race": "DEMON"
+        "race": "DEMON",
+        "attack": 4,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Bolvar, Fireblood",
         "tier": 4,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 1,
+        "health": 7,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Bonker",
         "tier": 4,
-        "race": "QUILBOAR"
+        "race": "QUILBOAR",
+        "attack": 3,
+        "health": 7,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": true
     },
     {
         "name": "Cave Hydra",
         "tier": 4,
-        "race": "BEAST"
+        "race": "BEAST",
+        "attack": 2,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Champion of Y'Shaarj",
         "tier": 4,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 4,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Cobalt Scalebane",
         "tier": 4,
-        "race": "DRAGON"
+        "race": "DRAGON",
+        "attack": 5,
+        "health": 5,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Defender of Argus",
         "tier": 4,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 3,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Drakonid Enforcer",
         "tier": 4,
-        "race": "DRAGON"
+        "race": "DRAGON",
+        "attack": 3,
+        "health": 6,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Dynamic Duo",
         "tier": 4,
-        "race": "QUILBOAR"
+        "race": "QUILBOAR",
+        "attack": 3,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": true,
+        "has_windfury": false
     },
     {
         "name": "Goldgrubber",
         "tier": 4,
-        "race": "PIRATE"
+        "race": "PIRATE",
+        "attack": 2,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Groundshaker",
         "tier": 4,
-        "race": "QUILBOAR"
+        "race": "QUILBOAR",
+        "attack": 2,
+        "health": 6,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Herald of Flame",
         "tier": 4,
-        "race": "DRAGON"
+        "race": "DRAGON",
+        "attack": 6,
+        "health": 6,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
+    },
+    {
+        "name": "Hexruin Marauder",
+        "tier": 4,
+        "race": "DEMON",
+        "attack": 3,
+        "health": 5,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Junkbot",
         "tier": 4,
-        "race": "MECHANICAL"
+        "race": "MECHANICAL",
+        "attack": 1,
+        "health": 5,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Majordomo Executus",
         "tier": 4,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 6,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Mechano-Egg",
         "tier": 4,
-        "race": "MECHANICAL"
+        "race": "MECHANICAL",
+        "attack": 0,
+        "health": 5,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Menagerie Jug",
         "tier": 4,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 3,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Primalfin",
         "tier": 4,
-        "race": "MURLOC"
+        "race": "MURLOC",
+        "attack": 1,
+        "health": 1,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Primalfin Lookout",
         "tier": 4,
-        "race": "MURLOC"
+        "race": "MURLOC",
+        "attack": 3,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Qiraji Harbinger",
         "tier": 4,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 5,
+        "health": 5,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Ring Matron",
         "tier": 4,
-        "race": "DEMON"
+        "race": "DEMON",
+        "attack": 6,
+        "health": 4,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": true,
+        "has_windfury": false
     },
     {
         "name": "Ripsnarl Captain",
         "tier": 4,
-        "race": "PIRATE"
+        "race": "PIRATE",
+        "attack": 4,
+        "health": 5,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Savannah Highmane",
         "tier": 4,
-        "race": "BEAST"
+        "race": "BEAST",
+        "attack": 6,
+        "health": 5,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Security Rover",
         "tier": 4,
-        "race": "MECHANICAL"
+        "race": "MECHANICAL",
+        "attack": 2,
+        "health": 6,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Siegebreaker",
         "tier": 4,
-        "race": "DEMON"
+        "race": "DEMON",
+        "attack": 5,
+        "health": 8,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": true,
+        "has_windfury": false
     },
     {
         "name": "Toxfin",
         "tier": 4,
-        "race": "MURLOC"
+        "race": "MURLOC",
+        "attack": 1,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Virmen Sensei",
         "tier": 4,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 4,
+        "health": 5,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Wildfire Elemental",
         "tier": 4,
-        "race": "ELEMENTAL"
+        "race": "ELEMENTAL",
+        "attack": 7,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Agamaggan, the Great Boar",
         "tier": 5,
-        "race": "BEAST"
+        "race": "BEAST",
+        "attack": 6,
+        "health": 6,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Aggem Thorncurse",
         "tier": 5,
-        "race": "QUILBOAR"
+        "race": "QUILBOAR",
+        "attack": 3,
+        "health": 6,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Annihilan Battlemaster",
         "tier": 5,
-        "race": "DEMON"
+        "race": "DEMON",
+        "attack": 3,
+        "health": 1,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Baron Rivendare",
         "tier": 5,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 1,
+        "health": 7,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Brann Bronzebeard",
         "tier": 5,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 2,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Bristleback Knight",
         "tier": 5,
-        "race": "QUILBOAR"
+        "race": "QUILBOAR",
+        "attack": 4,
+        "health": 8,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": true
     },
     {
         "name": "Cap'n Hoggarr",
         "tier": 5,
-        "race": "PIRATE"
+        "race": "PIRATE",
+        "attack": 6,
+        "health": 6,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Deadly Spore",
         "tier": 5,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 1,
+        "health": 1,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": true,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Faceless Taverngoer",
         "tier": 5,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 4,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Ironhide Direhorn",
         "tier": 5,
-        "race": "BEAST"
+        "race": "BEAST",
+        "attack": 7,
+        "health": 7,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
+    },
+    {
+        "name": "Kangor's Apprentice",
+        "tier": 5,
+        "race": "NEUTRAL",
+        "attack": 3,
+        "health": 6,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "King Bagurgle",
         "tier": 5,
-        "race": "MURLOC"
+        "race": "MURLOC",
+        "attack": 6,
+        "health": 3,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Lightfang Enforcer",
         "tier": 5,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 2,
+        "health": 2,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Mal'Ganis",
         "tier": 5,
-        "race": "DEMON"
+        "race": "DEMON",
+        "attack": 9,
+        "health": 7,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Mama Bear",
         "tier": 5,
-        "race": "BEAST"
+        "race": "BEAST",
+        "attack": 4,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Murozond",
         "tier": 5,
-        "race": "DRAGON"
+        "race": "DRAGON",
+        "attack": 5,
+        "health": 5,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Mythrax the Unraveler",
         "tier": 5,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 4,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Nat Pagle, Extreme Angler",
         "tier": 5,
-        "race": "PIRATE"
+        "race": "PIRATE",
+        "attack": 8,
+        "health": 5,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Nomi, Kitchen Nightmare",
         "tier": 5,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 4,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Razorgore, the Untamed",
         "tier": 5,
-        "race": "DRAGON"
+        "race": "DRAGON",
+        "attack": 2,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Seabreaker Goliath",
         "tier": 5,
-        "race": "PIRATE"
+        "race": "PIRATE",
+        "attack": 6,
+        "health": 7,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Sneed's Old Shredder",
         "tier": 5,
-        "race": "MECHANICAL"
+        "race": "MECHANICAL",
+        "attack": 5,
+        "health": 7,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Strongshell Scavenger",
         "tier": 5,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 2,
+        "health": 3,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Tavern Tempest",
         "tier": 5,
-        "race": "ELEMENTAL"
+        "race": "ELEMENTAL",
+        "attack": 4,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Voidlord",
         "tier": 5,
-        "race": "DEMON"
+        "race": "DEMON",
+        "attack": 3,
+        "health": 9,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": true,
+        "has_windfury": false
     },
     {
         "name": "Amalgadon",
         "tier": 6,
-        "race": "ALL"
+        "race": "ALL",
+        "attack": 6,
+        "health": 6,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Captain Flat Tusk",
         "tier": 6,
-        "race": "QUILBOAR"
+        "race": "QUILBOAR",
+        "attack": 9,
+        "health": 6,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Charlga",
         "tier": 6,
-        "race": "QUILBOAR"
+        "race": "QUILBOAR",
+        "attack": 4,
+        "health": 4,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Dread Admiral Eliza",
         "tier": 6,
-        "race": "PIRATE"
+        "race": "PIRATE",
+        "attack": 6,
+        "health": 7,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Foe Reaper 4000",
         "tier": 6,
-        "race": "MECHANICAL"
+        "race": "MECHANICAL",
+        "attack": 6,
+        "health": 9,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Gentle Djinni",
         "tier": 6,
-        "race": "ELEMENTAL"
+        "race": "ELEMENTAL",
+        "attack": 4,
+        "health": 5,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": true,
+        "has_windfury": false
     },
     {
         "name": "Ghastcoiler",
         "tier": 6,
-        "race": "BEAST"
+        "race": "BEAST",
+        "attack": 7,
+        "health": 7,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Goldrinn, the Great Wolf",
         "tier": 6,
-        "race": "BEAST"
+        "race": "BEAST",
+        "attack": 4,
+        "health": 4,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Imp Mama",
         "tier": 6,
-        "race": "DEMON"
+        "race": "DEMON",
+        "attack": 6,
+        "health": 10,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Kalecgos, Arcane Aspect",
         "tier": 6,
-        "race": "DRAGON"
-    },
-    {
-        "name": "Kangor's Apprentice",
-        "tier": 6,
-        "race": "NEUTRAL"
+        "race": "DRAGON",
+        "attack": 4,
+        "health": 12,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Lieutenant Garr",
         "tier": 6,
-        "race": "ELEMENTAL"
+        "race": "ELEMENTAL",
+        "attack": 8,
+        "health": 1,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": true,
+        "has_windfury": false
     },
     {
         "name": "Lil' Rag",
         "tier": 6,
-        "race": "ELEMENTAL"
+        "race": "ELEMENTAL",
+        "attack": 6,
+        "health": 6,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Maexxna",
         "tier": 6,
-        "race": "BEAST"
+        "race": "BEAST",
+        "attack": 2,
+        "health": 8,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": true,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Nadina the Red",
         "tier": 6,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 7,
+        "health": 4,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "The Tide Razor",
         "tier": 6,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 6,
+        "health": 4,
+        "has_deathrattle": true,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     },
     {
         "name": "Zapp Slywick",
         "tier": 6,
-        "race": "NEUTRAL"
+        "race": "NEUTRAL",
+        "attack": 7,
+        "health": 10,
+        "has_deathrattle": false,
+        "has_divine_shield": false,
+        "has_poison": false,
+        "has_reborn": false,
+        "has_taunt": false,
+        "has_windfury": false
     }
-]
+    ]
     return json;
 }
  
@@ -3291,7 +4472,7 @@ class BoardPickerCard extends React.Component {
     super(props);
     this.state = {
       scale: { x: .25, y: .2},
-      card_img: get_board_picker_card(this.props.name),
+        card_img: get_board_picker_card(this.props.name),
     }
   }
 
@@ -3305,6 +4486,7 @@ class BoardPickerCard extends React.Component {
         // Looks like closure computed/serialized, can't access 'this' dynamically.
         // So, bind it up here...
         const cardDroppedOnBoardCallback = this.props.cardDroppedOnBoard;
+        const card_name = this.props.name;
         
         function onStart(e) {
             isDragging.current = true;    
@@ -3316,7 +4498,7 @@ class BoardPickerCard extends React.Component {
 
         function onEnd() {
             isDragging.current = false;
-            cardDroppedOnBoardCallback();
+            cardDroppedOnBoardCallback(card_name);
         }
 
         function onMove(e) {
@@ -3365,7 +4547,7 @@ class BoardBuilder extends React.Component {
 
   tierButtonPushed(tier) { this.setState({tierToDisplay: tier}); console.log("POOSHED"); }
 
-  cardDroppedOnBoard() { this.props.updateBoardCallback(); console.log("Card dropped on board. Parent!"); }
+  cardDroppedOnBoard(name) { this.props.updateBoardCallback(name); console.log("Card dropped on board. Parent!"); }
 
   createTavernTiers(start) {
       let spacing = 30;
@@ -3494,32 +4676,17 @@ class Rollout extends React.Component {
     this.clearBoard = this.clearBoard.bind(this);  
   }
 
-  updateBoardCallback = () => { 
+  updateBoardCallback = (name) => { 
       console.log("Updating way up in highest parent...");
       this.clearBoard();
+      let all_cards = getBgCardJson();
+      let card = all_cards.filter(c => c['name'] == name)[0];
+      
       let new_frames = [
           {
         "attacker_pos": 0,
         "b1": [
-            {
-                "attack": 6,
-                "card_class": "MAGE",
-                "cost": 4,
-                "has_deathrattle": false,
-                "has_divine_shield": false,
-                "has_poison": false,
-                "has_reborn": true,
-                "has_taunt": false,
-                "has_triggered_effect": true,
-                "has_windfury": false,
-                "health": 10,
-                "mechanics": "",
-                "name": "Glyph Guardian (Golden)",
-                "race": "DRAGON",
-                "rarity": "",
-                "tavern_tier": 2,
-                "type": "MINION"
-            } 
+            card
         ]
           }
       ]

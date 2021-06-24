@@ -4388,6 +4388,7 @@ function get_card(card_json) {
         "poisonous": card_json['has_poison'],
       	"rarity": "COMMON",
       	// "set": "EXPERT1",
+        "taunt": card_json['has_taunt'],
       	"type": "MINION_ON_BOARD",
         "reborn": card_json['has_reborn'],
         // "silenced": true,

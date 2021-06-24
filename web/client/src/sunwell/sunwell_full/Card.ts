@@ -127,9 +127,9 @@ export default abstract class Card {
 		return null;
 	}
 
-        public getGemTextSize(): number {
-               return 124;
-        }
+	public getGemTextSize(): number {
+	       return 124;
+	}
 
 	public getCostGemCoords(): ICoords {
 		if (this.cardDef.costsHealth) {
@@ -192,25 +192,27 @@ export default abstract class Card {
 		assetsToLoad.push(...this.watermark.assets());
 		assetsToLoad.push(...this.eliteDragon.assets());
 
-                if (this.cardDef.deathrattle) {                        
-                        assetsToLoad.push("icon_deathrattle");
-                }
-                if (this.cardDef.divineShield) {                        
-                        assetsToLoad.push("inplay_minion_divine_shield");
-                }
-                if (this.cardDef.hasTriggeredEffect) {                        
-                        assetsToLoad.push("icon_trigger");
-                }
-                if (this.cardDef.poisonous) {                        
-                        assetsToLoad.push("icon_poisonous");
-                }
-                if (this.cardDef.reborn) {                        
-                        assetsToLoad.push("RebornMinionGlow");
-                }
-                if (this.cardDef.silenced) {
+		if (this.cardDef.deathrattle) {			       
+			assetsToLoad.push("icon_deathrattle");
+		}
+		if (this.cardDef.divineShield) {			
+			assetsToLoad.push("inplay_minion_divine_shield");
+		}
+		if (this.cardDef.hasTriggeredEffect) {			      
+			assetsToLoad.push("icon_trigger");
+		}
+		if (this.cardDef.poisonous) {			     
+			assetsToLoad.push("icon_poisonous");
+		}
+		if (this.cardDef.reborn) {			  
+			assetsToLoad.push("RebornMinionGlow");
+		}
+		if (this.cardDef.silenced) {
 			assetsToLoad.push("silence-x");
 		}
-                
+		if (this.cardDef.taunt) {			 
+			assetsToLoad.push("inplay_minion_taunt");
+		}
 
 		return assetsToLoad;
 	}
@@ -252,6 +254,9 @@ export default abstract class Card {
 		context.clearRect(0, 0, canvas.width, canvas.height);
 
 		// >>>>> Begin Skeleton drawing
+		if (this.cardDef.taunt) {
+			this.sunwell.drawImage(context, "inplay_minion_taunt", {dx: 30, dy: 20, ratio: ratio});
+		}
 		if (this.sunwell.renderCache[this.cacheKey]) {
 			this.sunwell.log("Skipping skeleton draw");
 			context.drawImage(this.sunwell.renderCache[this.cacheKey], 0, 0);
@@ -280,32 +285,36 @@ export default abstract class Card {
 		}
 
 		this.bodyText.render(context, ratio);
-
+		
+		// The ordering listed here is the order in which the assets
+		// are rendered. Normally we've been alphebetizing, but that
+		// won't fly here
 		if (this.cardDef.silenced) {
 			this.sunwell.drawImage(context, "silence-x", {dx: 166, dy: 584, ratio: ratio});
 		}
-                if (this.cardDef.reborn) {
-                        this.sunwell.drawImage(context, "RebornMinionGlow", {dx: 15, dy: 20, ratio: ratio});
-                }
-                if (this.getAttackGemAsset() != "") {
-                    this.attackGem.render(context, ratio);
-                }
-                if (this.getHealthGemAsset() != "") {
-                    this.healthGem.render(context, ratio);
-                }
-                if (this.cardDef.divineShield) {
-                        this.sunwell.drawImage(context, "inplay_minion_divine_shield", {dx: 30, dy: 20, ratio: ratio});
-                }
-                if (this.cardDef.hasTriggeredEffect) {
-                        this.sunwell.drawImage(context, "icon_trigger", {dx: 30, dy: 20, ratio: ratio});
-                }
-                if (this.cardDef.poisonous) {
-                        this.sunwell.drawImage(context, "icon_poisonous", {dx: 30, dy: 20, ratio: ratio});
-                }
-                if (this.cardDef.deathrattle) {
-                        this.sunwell.drawImage(context, "icon_deathrattle", {dx: 30, dy: 20, ratio: ratio});
-                }
-                
+		if (this.cardDef.reborn) {
+			this.sunwell.drawImage(context, "RebornMinionGlow", {dx: 15, dy: 20, ratio: ratio});
+		}
+		if (this.getAttackGemAsset() != "") {
+		    this.attackGem.render(context, ratio);
+		}
+		if (this.getHealthGemAsset() != "") {
+		    this.healthGem.render(context, ratio);
+		}
+		if (this.cardDef.divineShield) {
+			this.sunwell.drawImage(context, "inplay_minion_divine_shield", {dx: 30, dy: 20, ratio: ratio});
+		}
+		if (this.cardDef.hasTriggeredEffect) {
+			this.sunwell.drawImage(context, "icon_trigger", {dx: 30, dy: 20, ratio: ratio});
+		}
+		if (this.cardDef.poisonous) {
+			this.sunwell.drawImage(context, "icon_poisonous", {dx: 30, dy: 20, ratio: ratio});
+		}
+		if (this.cardDef.deathrattle) {
+			this.sunwell.drawImage(context, "icon_deathrattle", {dx: 30, dy: 20, ratio: ratio});
+		}
+
+		
 
 		context.restore();
 		clearTimeout(drawTimeout);
@@ -332,7 +341,7 @@ export default abstract class Card {
 	public getCardFrameAsset(): string {
 		// const cardClass = getCardFrameClass(this.cardDef.cardClass);
 		// return this.baseCardFrameAsset + CardClass[cardClass].toLowerCase();
-                return "inplay_minion"
+		return "inplay_minion"
 	}
 
 	public getEliteDragonAsset(): string {

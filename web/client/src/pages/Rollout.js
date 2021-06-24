@@ -4332,29 +4332,8 @@ function get_board_picker_card(card_name) {
 
     sunwell.createCard({
       	"name": card_name,
-      	// "attack": card_json['attack'],
-      	// "cardClass": "MURLOC",
-        // "cardFrame": null,
-      	//"collectible": true,
       	"cost": 1,
-      	// "elite": true,
-      	// "faction": "ALLIANCE",
-      	// "health": card_json['health'],
-        // "deathrattle": card_json['has_deathrattle'],
-        // "divineShield": card_json['has_divine_shield'],
-        // "hasTriggeredEffect": card_json['has_triggered_effect'],
-      	// "mechanics": [
-      	// 	"BATTLECRY",
-      	// 	"CHARGE"
-      	// ],
-        // "poisonous": card_json['has_poison'],
-      	// "rarity": "COMMON",
-      	// "set": "EXPERT1",
       	"type": "MINION_FOR_BOARD_PICKER",
-        // "reborn": card_json['has_reborn'],
-        // "silenced": true,
-      	// "texture": "../assets/" + card_name + ".jpg"
-        // "texture": process.env.PUBLIC_URL + "/assets/Mecharoo.png"
         "texture": asset_folder + card_name.replace("'", "") + ".jpg"
     }, 256, is_golden, img, function() {
       	// console.log('done');
@@ -4454,7 +4433,6 @@ class TavernTier extends React.Component {
                 scale={this.state.scale}
                 image={process.env.PUBLIC_URL + "/assets/tier-" + this.props.tier + ".png"}
                 pointerdown={() => {
-                  console.log("click...button pushed...?");
                   this.props.buttonPushed(this.props.tier);                  
                 }}
              />
@@ -4480,6 +4458,10 @@ class BoardPickerCard extends React.Component {
   render(){
 
     const DrawBoardPickerCard = () => {
+        // TODO: Calclulate these dynamically
+        const CENTER_X = 500;
+        const CENTER_Y = 316;
+          
         const isDragging = React.useRef(false);
         const offset = React.useRef({ x: 0, y: 0 });
         const [position, setPosition] = React.useState({ x: this.props.xStart, y: this.props.yStart })
@@ -4496,9 +4478,16 @@ class BoardPickerCard extends React.Component {
             };
         }
 
-        function onEnd() {
+        function onEnd(e) {
             isDragging.current = false;
-            cardDroppedOnBoardCallback(card_name);
+            var which_board = "";
+            if (position.y >= CENTER_Y) {
+                which_board = "BOT";
+            }
+            else {
+                which_board = "TOP";
+            }
+            cardDroppedOnBoardCallback(card_name, which_board);
         }
 
         function onMove(e) {
@@ -4545,9 +4534,9 @@ class BoardBuilder extends React.Component {
     this.cardDroppedOnBoard = this.cardDroppedOnBoard.bind(this);
   }
 
-  tierButtonPushed(tier) { this.setState({tierToDisplay: tier}); console.log("POOSHED"); }
+  tierButtonPushed(tier) { this.setState({tierToDisplay: tier}); }
 
-  cardDroppedOnBoard(name) { this.props.updateBoardCallback(name); console.log("Card dropped on board. Parent!"); }
+  cardDroppedOnBoard(name, which_board) { this.props.updateBoardCallback(name, which_board); }
 
   createTavernTiers(start) {
       let spacing = 30;
@@ -4676,22 +4665,37 @@ class Rollout extends React.Component {
     this.clearBoard = this.clearBoard.bind(this);  
   }
 
-  updateBoardCallback = (name) => { 
-      console.log("Updating way up in highest parent...");
-      this.clearBoard();
+  updateBoardCallback = (name, which_board) => { 
       let all_cards = getBgCardJson();
       let card = all_cards.filter(c => c['name'] == name)[0];
+
+      var b1_cards = [];
+      if (!this.isBoardEmpty()) {
+          b1_cards = this.state.frames[0]["b1"];
+      }
+
+      var b2_cards = [];
+      if (!this.isBoardEmpty()) {
+          b2_cards = this.state.frames[0]["b2"];
+      }
+
+      if (which_board == "BOT") {
+          b1_cards.push(card);
+      }
+      else {
+          b2_cards.push(card);
+      }
       
       let new_frames = [
           {
-        "attacker_pos": 0,
-        "b1": [
-            card
-        ]
+        "attacker_pos": -1,
+        "defender_pos": -1,
+        "b1": b1_cards,
+        "b2": b2_cards,            
           }
       ]
       this.setState({frames: new_frames});
-      this.getNextFrame();
+      this.setState({frameNum: 0});
   }
 
   isBoardEmpty = () => { return this.state.frameNum === -1; }
@@ -4727,8 +4731,7 @@ class Rollout extends React.Component {
       }
       else {
         var [endX, endY] = end_x_and_y;
-      }
-      // debugger;
+      }      
       var card1 = <Card key={"card1"}
                   toDraw={this.state.toDraw}
                   img={get_card(card1_json)}
@@ -4779,7 +4782,6 @@ class Rollout extends React.Component {
   }
 
   render() {
-    // debugger;
     var frame;
     if (this.state.frameNum >= 0) {
         frame = this.state.frames[this.state.frameNum];
@@ -4787,10 +4789,7 @@ class Rollout extends React.Component {
     else {
         frame = [];
     }
-    // const frame = getTestCardFrames()[0];
     const card_arr = this.createCards(frame);
-
-      console.log("Rendering...");
     
     return (
       <>

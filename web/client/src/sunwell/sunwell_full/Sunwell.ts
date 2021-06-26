@@ -82,7 +82,7 @@ export default class Sunwell {
 	public log(...args: any[]): void {
 		if (this.options.debug) {
                         // @ts-ignore
-			console.log.apply("[INFO]", arguments);
+			// console.log.apply("[INFO]", arguments);
 		}
 	}
 
@@ -173,7 +173,7 @@ export default class Sunwell {
 
 		const context = card.canvas.getContext("2d");
 
-		this.log("Preparing assets for", card.cardDef.name);
+		// this.log("Preparing assets for", card.cardDef.name);
 
 		const texturesToLoad: string[] = [];
 
@@ -191,7 +191,7 @@ export default class Sunwell {
 			}
 		}
 
-		this.log("Preparing to load assets");
+		// this.log("Preparing to load assets");
 		const fetches: Array<Promise<{}>> = [];
 		for (const texture of texturesToLoad) {
 			fetches.push(this.fetchAsset(texture));
@@ -201,7 +201,7 @@ export default class Sunwell {
 			.then(() => {
 				const start = Date.now();
 				card.draw(card.canvas, context);
-				this.log(card, "finished drawing in " + (Date.now() - start) + "ms");
+				// this.log(card, "finished drawing in " + (Date.now() - start) + "ms");
 				// check whether we have more to do
 				this.isRendering = false;
 				if (Object.keys(this.renderQuery).length) {
@@ -277,7 +277,7 @@ export default class Sunwell {
 		card.canvas = canvas;
 		card.initRender(width, target, callback);
 
-		this.log("Queried render:", card.cardDef.name);
+		// this.log("Queried render:", card.cardDef.name);
 		if (this.renderQuery[card.key]) {
 			this.log("Skipping", card.key, "(already queued)");
 		} else {

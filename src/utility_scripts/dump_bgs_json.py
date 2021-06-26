@@ -140,22 +140,62 @@ def dump_cards(card_json):
         if 'techLevel' not in card:
             # For some reason, the normal HS cards dont have a tier/techLevel associated with them...
             if card['name'] in BUGGED_CARDS_TO_TIER and card['name'] not in names_done:
+                mechanics = [] if 'mechanics' not in card else card['mechanics']
                 subbed_card_json = {'name': card['name'],
                                     'tier': BUGGED_CARDS_TO_TIER[card['name']],
-                                    'race': race}
+                                    'race': race,
+                                    'attack': card['attack'] // 2,  # Always golden
+                                    'health': card['health'] // 2,  # Always golden
+                                    'has_deathrattle': 'DEATHRATTLE' in mechanics,
+                                    'has_divine_shield': 'DIVINESHIELD' in mechanics,
+                                    'has_poison': 'POISONOUS' in mechanics,
+                                    'has_reborn': 'REBORN' in mechanics,
+                                    'has_taunt': 'TAUNT' in mechanics,
+                                    'has_windfury': 'WINDFURY' in mechanics,
+                }
             else:
                 print("ERROR! Card " + card['name'] + " ignored, but not in the ignore list!")
                 exit(1)
         else:
             if 'techLevel' not in card:
                 continue
+            mechanics = [] if 'mechanics' not in card else card['mechanics']
             subbed_card_json = {'name': card['name'],
                                 'tier': card['techLevel'],
-                                'race': race}
+                                'race': race,
+                                'attack': card['attack'],
+                                'health': card['health'],
+                                'has_deathrattle': 'DEATHRATTLE' in mechanics,
+                                'has_divine_shield': 'DIVINESHIELD' in mechanics,
+                                'has_poison': 'POISONOUS' in mechanics,
+                                'has_reborn': 'REBORN' in mechanics,
+                                'has_taunt': 'TAUNT' in mechanics,
+                                'has_windfury': 'WINDFURY' in mechanics,
+            }
+
+                # "attack": 6,
+                # "card_class": "MAGE",
+                # "cost": 4,
+                # "has_deathrattle": false,
+                # "has_divine_shield": false,
+                # "has_poison": false,
+                # "has_reborn": true,
+                # "has_taunt": false,
+                # "has_triggered_effect": true,
+                # "has_windfury": false,
+                # "health": 10,
+                # "mechanics": "",
+                # "name": "Glyph Guardian (Golden)",
+                # "race": "DRAGON",
+                # "rarity": "",
+                # "tavern_tier": 2,
+                # "type": "MINION"
         names_done.add(card['name'])
         subbed_json.append(subbed_card_json)
     subbed_json_sorted = sorted(subbed_json, key=lambda card: (card['tier'], card['name']))
     print(json.dumps(subbed_json_sorted, indent=4))
+    with open('card_default.json', 'w') as fp:
+        fp.write(json.dumps(subbed_json_sorted, indent=4))
 
 def main():
     dump_bg_cards_for_rolloutjs()

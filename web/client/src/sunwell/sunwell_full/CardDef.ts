@@ -23,6 +23,7 @@ export default class CardDef {
 	public race: Race;
         public reborn: boolean;
 	public silenced: boolean;
+	public taunt: boolean;
 	public text: string;
 	public type: CardType;
 
@@ -46,6 +47,7 @@ export default class CardDef {
 		this.rarity = cleanEnum(props.rarity, Rarity) as Rarity;
                 this.reborn = props.reborn || false;
 		this.silenced = props.silenced || false;
+		this.taunt = props.taunt || false;
 		this.type = cleanEnum(props.type, CardType) as CardType;
 
 		if (this.type === CardType.WEAPON && props.durability) {
